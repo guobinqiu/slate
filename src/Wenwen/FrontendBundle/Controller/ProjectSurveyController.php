@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +12,7 @@ use Wenwen\AppBundle\WebService\Sop\SopUtil;
 use SOPx\Auth\V1_1\Util;
 
 /**
- * @Route("/project_survey",requirements={"_scheme"="https"})
+ * @Route("/project_survey")
  */
 class ProjectSurveyController extends Controller
 {
@@ -25,7 +24,7 @@ class ProjectSurveyController extends Controller
     public function informationAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -65,26 +64,12 @@ class ProjectSurveyController extends Controller
         $answer_status = $request->get('answer_status');
 
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_project_survey_endlink', array (
-                'survey_id' => $survey_id,
-                'answer_status' => $answer_status
-            )));
+            $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        if (!preg_match('/\A(?:complete|screenout|quotafull)\z/', $answer_status)) {
-
-            $errorMessage = "尊敬的用户，您好！
-编号为 r" . $survey_id . " 的问卷出现了一些小问题，此时无法确认您的回答是否有效。
-请联系我们的客服，告知问卷编号（r" . $survey_id . "）和您的账号，我们的客服会尽最快的速度答复您。
-给您添麻烦了，请继续关注91问问，谢谢！";
-
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (
-                'errorMessage' => $errorMessage
-            ));
-        }
-
         $arr['answer_status'] = $answer_status;
+        $arr['survey_id'] = $survey_id;
         return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', $arr);
     }
 }

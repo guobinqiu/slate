@@ -21,6 +21,7 @@ require(['../../config'], function() {
                 addSuveyItem(view.render().el);
             });
         };
+
         var renderResearchItems = function (items) {
             _.each(items, function (item) {
                 var model = new survey.ResearchItemModel(item);
@@ -48,6 +49,25 @@ require(['../../config'], function() {
             addSuveyItem(view.render().el);
         });
     };
+    var renderCintUserAgreementItems = function (items) {
+        _.chain(items)
+        .filter(function (item) {
+            return item.type == 'Cint';
+        })
+        .each(function (item) {
+            var model = new survey.CintAgreementModel(item);
+            var view = new survey.CintUserAgreementView({"model": model});
+            view.render();
+        });
+    };
+
+    var renderCintResearchItems = function (items) {
+        _.each(items, function (item) {
+            var model = new survey.CintResearchItemModel(item);
+            var view  = new survey.CintResearchItemView({ model: model });
+            addSuveyItem(view.render().el);
+        });
+    };
 
         surveylistCallback = function (res) {
 
@@ -72,8 +92,12 @@ require(['../../config'], function() {
             // load Fulcrum user agreemetns
             renderFulcrumUserAgreementItems(res.data.user_agreement)
 
-        // load Cint research data
-        // load Cint usr agreemetns
+            // load Cint research data
+            renderCintResearchItems(res.data.cint_research)
+
+            // load Cint usr agreemetns
+            renderCintUserAgreementItems(res.data.user_agreement)
+
         };
 
         var $preview = $('#preview').val();

@@ -424,7 +424,7 @@ h1 {
     *display: inline;
     *zoom: 1; }
   .main-personal-profile .con {
-    padding: 10px 10px 30px; }
+    padding: 17px 10px 45px; }
   .main-personal-profile .profile-base {
     border-bottom: 1px solid #f6f6f6; }
     .main-personal-profile .profile-base .face {
@@ -441,21 +441,31 @@ h1 {
         position: absolute;
         z-index: 1000;
         width: 65px;
-        top: 118px;
+        top: 100px;
         left: 72px;
         opacity: 0;
         filter: alpha(opacity=0);
         cursor: pointer; }
     .main-personal-profile .profile-base ul {
-      margin-top: 42px; }
+      margin-top: 15px; }
+    .main-personal-profile .profile-base li.nk {
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555; }
+    .main-personal-profile .profile-base li #points {
+      color: #ff6700;
+      font-size: 18px;
+      vertical-align: -2px; }
     .main-personal-profile .profile-base li.prompt {
       margin-top: 5px; }
       .main-personal-profile .profile-base li.prompt span {
         display: none; }
     .main-personal-profile .profile-base li label {
-      width: 75px;
+      width: 64px;
       line-height: 30px;
-      text-align: left; }
+      text-align: left;
+      color: #a1a1a1; }
     .main-personal-profile .profile-base li input[type='text'], .main-personal-profile .profile-base li input[type='password'] {
       padding: 5px;
       border: 1px solid #ededf0;
@@ -480,8 +490,22 @@ h1 {
       margin-left: 10px;
       color: #0078b6; }
     .main-personal-profile .profile-base .face-wapper img {
-      border: 1px solid #e7e7e7;
-      border-radius: 50%; }
+      border: 2px solid #e3e3e3;
+      border-radius: 50%;
+      padding: 4px; }
+    .main-personal-profile .profile-base .face-wapper form input#profile_attachment {
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      padding: 5px 10px; }
+    .main-personal-profile .profile-base .face-wapper form .errorInfo {
+      position: absolute;
+      width: 170px;
+      right: 6px;
+      bottom: -21px;
+      color: #ff0000; }
     .main-personal-profile .profile-base .picCut {
       margin-bottom: 20px;
       display: none; }
@@ -645,51 +669,21 @@ h1 {
       color: #989898; }
   .footer .footer-con-right {
     position: relative; }
-    .footer .footer-con-right .client, .footer .footer-con-right .goTop {
+    .footer .footer-con-right .goTop {
       width: 60px;
-      height: 40px;
-      line-height: 40px;
-      *line-height: 0;
+      height: 56px;
+      line-height: 56px;
       background: #f5f6f8;
-      border: 1px solid #dfe1e6;
-      position: absolute;
-      right: 0;
       cursor: pointer;
       font-size: 0;
-      color: #949494;
       display: block;
       overflow: hidden;
-      -moz-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
-      -o-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
-      -webkit-transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s;
-      transition: width 0.3s ease-in-out 0.3s, left 0.3s ease-in-out 0.3s, font-size 0.2s ease-in-out 0.3s, color 0.2s ease-in-out 0.3s; }
-      .footer .footer-con-right .client span, .footer .footer-con-right .goTop span {
-        width: 18px;
-        height: 16px;
-        display: inline-block;
-        background: url(../img/common/widget.png) no-repeat;
-        margin: 13px 50px 0 20px;
-        position: absolute; }
-      .footer .footer-con-right .client em, .footer .footer-con-right .goTop em {
-        margin-left: 46px; }
-      .footer .footer-con-right .client:hover, .footer .footer-con-right .goTop:hover {
-        width: 130px;
-        height: 40px;
-        display: inline-block;
-        vertical-align: 20px;
-        font-size: 12px; }
-        .footer .footer-con-right .client:hover em, .footer .footer-con-right .goTop:hover em {
-          display: inline-block;
-          font-style: normal;
-          color: #333; }
-    .footer .footer-con-right .client span {
-      background-position: 0 0; }
-    .footer .footer-con-right .client:hover span {
-      background-position: -19px 0; }
-    .footer .footer-con-right .goTop {
-      top: 41px; }
-      .footer .footer-con-right .goTop span {
-        margin-top: 15px;
-        background-position: 0 -18px; }
-      .footer .footer-con-right .goTop:hover span {
-        background-position: -19px -18px; }
+      background: url(../img/common/icons_common.png) no-repeat 0 -100px; }
+      .footer .footer-con-right .goTop:hover {
+        text-align: center;
+        font-size: 14px;
+        background: #b8bbbf;
+        height: 46px;
+        line-height: 17px;
+        padding-top: 10px;
+        color: #fff; }

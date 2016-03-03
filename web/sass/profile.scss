@@ -70,7 +70,7 @@ $color: #0078b6;
 		@include dib();
 	}
 	.con{
-		padding: 10px 10px 30px;
+		padding: 17px 10px 45px;
 	}
 	.profile-base{
 		border-bottom: $block-inner-border;
@@ -89,7 +89,7 @@ $color: #0078b6;
 				position: absolute;
 				z-index: 1000;
 				width: 65px;
-				top: 118px;
+				top: 100px;
 				left: 72px;
 				opacity: 0;
 				filter:alpha(opacity=0); 
@@ -97,9 +97,20 @@ $color: #0078b6;
 			}
 		}
 		ul{
-			margin-top: 42px;
+			margin-top: 15px;
 		}
 		li{
+			&.nk{
+				font-size: 22px;
+				margin-bottom: 10px;
+				font-weight: bold;
+				color: #555;
+			}
+			#points{
+				color: #ff6700;
+				font-size: 18px;
+				vertical-align: -2px;
+			}
 			&.prompt{
 				margin-top: 5px;
 				span{
@@ -107,9 +118,10 @@ $color: #0078b6;
 				}
 			}
 			label{
-				width: 75px;
+				width: 64px;
 				line-height: 30px;
 				text-align: left;
+				color: #a1a1a1;
 			}
 			input[type='text'], input[type='password']{
 				padding: 5px;
@@ -145,8 +157,22 @@ $color: #0078b6;
 		}
 		.face-wapper{
 			img{
-				border: 1px solid #e7e7e7;
+				border: 2px solid #e3e3e3;
 				border-radius: 50%;
+				padding: 4px;
+			}
+			& form{
+				& input#profile_attachment{
+					@include border-radius(5px);
+					padding: 5px 10px;
+				}
+				.errorInfo{
+				    position: absolute;
+				    width: 170px;
+				    right: 6px;
+				    bottom: -21px;
+				    color: #ff0000;
+				}
 			}
 		}
 		.picCut{

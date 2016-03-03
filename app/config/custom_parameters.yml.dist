@@ -319,6 +319,17 @@ parameters:
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
 
+# this account is copied from wenwen configs:
+# /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
+#  L10 ~ L28
+  
+    webpower.91wenwen_signup.username: '' #  webuser_signup.login.username
+    webpower.91wenwen_signup.password: '' #  webuser_signup.login.password
+    webpower.91wenwen_signup.soap_uri: 'https://91wenwen-signup.dmdelivery.com/x/soap-v4/wsdl.php' #  webuser_signup.login.proxy
+
+    webpower.91wenwen.username: '' # webpower.login.username
+    webpower.91wenwen.password: '' # webpower.login.password
+    webpower.91wenwen.soap_uri: 'https://91wenwen.dmdelivery.com/x/soap-v4/wsdl.php' # webpower.soap.proxy
 
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
@@ -481,6 +492,11 @@ parameters:
         sop_point_type:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
+    cint:
+        user_agreement:
+          inactive: 0
+          active: 1
+          agreed: 10
 
 twig:
     globals:
