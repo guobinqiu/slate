@@ -15,6 +15,7 @@ require(['../../config'],function(){
         $('#changeCode').on('click', function(){
             $('#verificationImg').prop('src', Routing.generate("_user_captcha") + '?r=' + 100000*Math.random());
         });
+        validate.prompt.pwdRepeat.elements.pwd = "#signup_password_first";
         $.extend(validate.func, {
             regValidate : function() {
                 $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName, true);
@@ -25,10 +26,10 @@ require(['../../config'],function(){
                 return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
             }
         });
-
+        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $("#signup_password_first").val()}
         $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
         $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
-        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength; }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
+        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
         $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
         $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {

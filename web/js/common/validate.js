@@ -161,6 +161,10 @@ define(['jquery'],function($){
             }
         },
         pwd: {
+            elements: {
+                regName: "#signup_nickname",
+                pwdStrength: "#pwdStrength"
+             },
             onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
             succeed: "OK!",
             isNull: "请输入密码",
@@ -174,6 +178,9 @@ define(['jquery'],function($){
             }
         },
         pwdRepeat: {
+            elements: {
+                pwd: "#pwd"
+             },
             onFocus: "请再次输入密码",
             succeed: "OK!",
             isNull: "请确认密码",
@@ -286,8 +293,8 @@ define(['jquery'],function($){
         },
         pwd: function(option){
             var str1 = option.value;
-            var regName = $("#signup_nickname").val();
-            var pwdStrength = $("#pwdStrength");
+            var regName = $(option.prompts.elements.regName).val();
+            var pwdStrength = $(option.prompts.elements.pwdStrength);
             if((validateRules.isNull(regName) == false) && (regName != "") && regName ==str1){
                 pwdStrength.hide();
                 validateSettings.error.run(option, "您的密码与昵称重合度太高，有被盗风险，请换一个密码");
@@ -295,7 +302,7 @@ define(['jquery'],function($){
             }
             var format = validateRules.isPwd(option.value);
             var length = validateRules.betweenLength(option.value, 5, 100);
-
+            var pwdStrengthOptions = { pwdStrength: pwdStrength, pwdError: option.errorEle, value: str1};
             pwdStrength.hide();
             if(!length && format){
                 validateSettings.error.run(option, option.prompts.error.badLength);
@@ -305,7 +312,7 @@ define(['jquery'],function($){
                 validateSettings.error.run(option, option.prompts.error.badFormat);
             }else{
                 validateSettings.succeed.run(option);
-                validateFunction.pwdStrength();
+                validateFunction.pwdStrength(pwdStrengthOptions);
 //                if (validateRules.simplePwd(str1)) {
 //                    $("#pwd_error").removeClass().addClass("focus");
 //                    $("#pwd_error").empty().html(option.prompts.error.simplePwd);
@@ -315,7 +322,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $("#signup_password_first").val();
+            var str2 = $(option.prompts.elements.pwd).val();
             var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -356,10 +363,10 @@ define(['jquery'],function($){
                 option.succeedEle.removeClass(validateSettings.succeed.style);
             }
         },
-        pwdStrength: function() {
-            var pwdStrength = $("#pwdStrength"),
-                pwdError = $("#signup_password_first_error");
-            var value = $("#signup_password_first").val();
+        pwdStrength: function(option) {
+            var pwdStrength = option.pwdStrength,
+                pwdError = option.pwdError,
+                value = option.value;
             if (value.length >= 6 && validateRules.isPwd(value)) {
                 pwdError.removeClass('focus');
                 pwdError.empty();
