@@ -33,6 +33,7 @@ require.config({
         'goTop': 'common/backTop',
         'sopSurvey':'common/sopSurvey',
         'alimama':'common/alimama',
+        'scrollTop':'common/scrollTop',
         'feedbackForm':'common/feedbackForm'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
