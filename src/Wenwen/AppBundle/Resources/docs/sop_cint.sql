@@ -1,4 +1,4 @@
-CREATE TABLE `cint_permission` (
+CREATE TABLE IF NOT EXISTS `cint_permission` (
   `user_id` int(11) NOT NULL,
   `permission_flag` tinyint(4) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE `cint_permission` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cint_user_agreement_participation_history` (
+CREATE TABLE IF NOT EXISTS `cint_user_agreement_participation_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `agreement_status` int(11) NOT NULL DEFAULT '0',
@@ -17,7 +17,7 @@ CREATE TABLE `cint_user_agreement_participation_history` (
   UNIQUE KEY `user_id_uniq_key` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cint_research_survey_participation_history` (
+CREATE TABLE IF NOT EXISTS `cint_research_survey_participation_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cint_project_id` int(11) NOT NULL,
   `cint_project_quota_id` int(11) NOT NULL,
