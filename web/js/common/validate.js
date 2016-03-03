@@ -315,7 +315,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $("#pwd").val();
+            var str2 = $("#signup_password_first").val();
             var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);

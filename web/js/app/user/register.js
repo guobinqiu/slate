@@ -28,7 +28,7 @@ require(['../../config'],function(){
 
         $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
         $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
-        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
+        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength; }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
         $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
         $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {
