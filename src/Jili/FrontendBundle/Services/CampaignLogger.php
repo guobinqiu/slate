@@ -47,11 +47,17 @@ class CampaignLogger
 
     public function track(array $message) 
     {
-        if ( empty($message) || ! isset($message['campaign_code'])|| empty(trim($message['campaign_code'])) ) {
+        if ( empty($message) || ! isset($message['campaign_code']) ) { 
             return;
-        }
+        }   
+        $campaign_code = $message['campaign_code'];
+        $campaign_code = trim($campaign_code);
 
-        $this->logger->addInfo( json_encode($message)   );
+        if(  empty($campaign_code) ) { 
+            return;
+        }   
+
+        $this->logger->addInfo( json_encode($message)   );  
     }
    
 }
