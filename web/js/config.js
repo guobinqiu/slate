@@ -32,6 +32,7 @@ require.config({
         'exchange': 'common/exchange',
         'goTop': 'common/backTop',
         'sopSurvey':'common/sopSurvey',
+        'alimama':'common/alimama',
         'feedbackForm':'common/feedbackForm'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
