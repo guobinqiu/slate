@@ -5,33 +5,24 @@ namespace Wenwen\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SsiProject
+ * CintPermission
  *
- * @ORM\Table(name="ssi_project")
+ * @ORM\Table(name="cint_permission")
  * @ORM\Entity
  */
-class SsiProject
+class CintPermission
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="permission_flag", type="boolean", nullable=false)
      */
-    private $statusFlag;
+    private $permissionFlag;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -42,6 +33,15 @@ class SsiProject
      */
     private $createdAt;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userId;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -49,43 +49,33 @@ class SsiProject
     }
 
     /**
-     * Get id
+     * Set permissionFlag
      *
-     * @return integer
+     * @param boolean $permissionFlag
+     * @return CintPermission
      */
-    public function getId()
+    public function setPermissionFlag($permissionFlag)
     {
-        return $this->id;
-    }
-
-    /**
-     * Set statusFlag
-     *
-     * @param boolean $statusFlag
-     * @return SsiProject
-     */
-    public function setStatusFlag($statusFlag)
-    {
-        $this->statusFlag = $statusFlag;
+        $this->permissionFlag = $permissionFlag;
 
         return $this;
     }
 
     /**
-     * Get statusFlag
+     * Get permissionFlag
      *
      * @return boolean
      */
-    public function getStatusFlag()
+    public function getPermissionFlag()
     {
-        return $this->statusFlag;
+        return $this->permissionFlag;
     }
 
     /**
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SsiProject
+     * @return CintPermission
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -108,7 +98,7 @@ class SsiProject
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SsiProject
+     * @return CintPermission
      */
     public function setCreatedAt($createdAt)
     {
@@ -125,5 +115,15 @@ class SsiProject
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }
