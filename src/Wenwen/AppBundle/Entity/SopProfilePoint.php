@@ -1,26 +1,44 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopRespondent
+ * SopProfilePoint
  *
- * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
+ * @ORM\Table(name="sop_profile_point", uniqueConstraints={@ORM\UniqueConstraint(name="hash_uniq", columns={"hash"})}, indexes={@ORM\Index(name="panelist_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"}), @ORM\Index(name="name_user_idx", columns={"name", "user_id"})})
  * @ORM\Entity
  */
-class SopRespondent
+class SopProfilePoint
 {
-    const STATUS_INACTIVE =0;
-    const STATUS_ACTIVE=1;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=16, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="point_value", type="integer", nullable=false)
+     */
+    private $pointValue;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hash", type="string", length=255, nullable=false)
+     */
+    private $hash;
 
     /**
      * @var boolean
@@ -63,15 +81,15 @@ class SopRespondent
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setPointValue(0);
         $this->setStatusFlag(1);
     }
-
 
     /**
      * Set userId
      *
      * @param integer $userId
-     * @return SopRespondent
+     * @return SopProfilePoint
      */
     public function setUserId($userId)
     {
@@ -91,10 +109,79 @@ class SopRespondent
     }
 
     /**
+     * Set name
+     *
+     * @param string $name
+     * @return SopProfilePoint
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set pointValue
+     *
+     * @param integer $pointValue
+     * @return SopProfilePoint
+     */
+    public function setPointValue($pointValue)
+    {
+        $this->pointValue = $pointValue;
+
+        return $this;
+    }
+
+    /**
+     * Get pointValue
+     *
+     * @return integer
+     */
+    public function getPointValue()
+    {
+        return $this->pointValue;
+    }
+
+    /**
+     * Set hash
+     *
+     * @param string $hash
+     * @return SopProfilePoint
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+
+        return $this;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
      * Set statusFlag
      *
      * @param boolean $statusFlag
-     * @return SopRespondent
+     * @return SopProfilePoint
      */
     public function setStatusFlag($statusFlag)
     {
@@ -117,7 +204,7 @@ class SopRespondent
      * Set stashData
      *
      * @param string $stashData
-     * @return SopRespondent
+     * @return SopProfilePoint
      */
     public function setStashData($stashData)
     {
@@ -140,7 +227,7 @@ class SopRespondent
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopRespondent
+     * @return SopProfilePoint
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -163,7 +250,7 @@ class SopRespondent
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopRespondent
+     * @return SopProfilePoint
      */
     public function setCreatedAt($createdAt)
     {

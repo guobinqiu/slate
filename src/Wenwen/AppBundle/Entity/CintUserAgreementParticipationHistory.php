@@ -1,20 +1,17 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopRespondent
+ * CintUserAgreementParticipationHistory
  *
- * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
+ * @ORM\Table(name="cint_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="user_id_uniq_key", columns={"user_id"})})
  * @ORM\Entity
  */
-class SopRespondent
+class CintUserAgreementParticipationHistory
 {
-    const STATUS_INACTIVE =0;
-    const STATUS_ACTIVE=1;
-
     /**
      * @var integer
      *
@@ -23,11 +20,11 @@ class SopRespondent
     private $userId;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="agreement_status", type="integer", nullable=false)
      */
-    private $statusFlag;
+    private $agreementStatus;
 
     /**
      * @var string
@@ -63,15 +60,13 @@ class SopRespondent
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
-        $this->setStatusFlag(1);
     }
-
 
     /**
      * Set userId
      *
      * @param integer $userId
-     * @return SopRespondent
+     * @return CintUserAgreementParticipationHistory
      */
     public function setUserId($userId)
     {
@@ -91,33 +86,33 @@ class SopRespondent
     }
 
     /**
-     * Set statusFlag
+     * Set agreementStatus
      *
-     * @param boolean $statusFlag
-     * @return SopRespondent
+     * @param integer $agreementStatus
+     * @return CintUserAgreementParticipationHistory
      */
-    public function setStatusFlag($statusFlag)
+    public function setAgreementStatus($agreementStatus)
     {
-        $this->statusFlag = $statusFlag;
+        $this->agreementStatus = $agreementStatus;
 
         return $this;
     }
 
     /**
-     * Get statusFlag
+     * Get agreementStatus
      *
-     * @return boolean
+     * @return integer
      */
-    public function getStatusFlag()
+    public function getAgreementStatus()
     {
-        return $this->statusFlag;
+        return $this->agreementStatus;
     }
 
     /**
      * Set stashData
      *
      * @param string $stashData
-     * @return SopRespondent
+     * @return CintUserAgreementParticipationHistory
      */
     public function setStashData($stashData)
     {
@@ -140,7 +135,7 @@ class SopRespondent
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopRespondent
+     * @return CintUserAgreementParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -163,7 +158,7 @@ class SopRespondent
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopRespondent
+     * @return CintUserAgreementParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
