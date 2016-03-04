@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -82,7 +81,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->point($history),
                   $this->type($history), // ad_category_id or point.exec_type
                   $this->task($history), //task_type_id
-                  $this->comment($history));// task_name 
+                  $this->comment($history));// task_name
             }
         } catch (\Exception $e) {
             $dbh->rollBack();
@@ -127,6 +126,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $this->log($content);
 
             // slack notice
+            $content = $content . '        request URL:' . $url;
             $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
 
             //emai notice
@@ -175,7 +175,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 }
             }
         }
-
         return $rtn_array;
     }
 
