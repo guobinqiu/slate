@@ -94,7 +94,7 @@ require(['../../config'],function(){
                     return false;
                 }
             });
-        if($("#pwd").length > 1){
+        if($("#pwd").length >= 1){
             var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#pwd_error"), value: $("#pwd").val().trim()};
             var savePwd = $('#savePwd');
             savePwd.on('click', function(){
