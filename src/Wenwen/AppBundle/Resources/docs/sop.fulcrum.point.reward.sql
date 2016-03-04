@@ -22,4 +22,3 @@ CREATE TABLE IF NOT EXISTS `fulcrum_user_agreement_participation_history` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_member_id_uniq_key` (`app_member_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
