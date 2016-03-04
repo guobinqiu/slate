@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS `fulcrum_user_agreement_participation_history` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_member_id_uniq_key` (`app_member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
