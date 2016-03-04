@@ -15,6 +15,15 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="fulcrum_project_id", type="integer", nullable=false)
      */
     private $fulcrumProjectId;
@@ -68,14 +77,6 @@ class FulcrumResearchSurveyParticipationHistory
      */
     private $createdAt;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
 
     public function __construct()
@@ -192,11 +193,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get type
      *
-<<<<<<< HEAD
      * @return integer 
-=======
-     * @return integer
->>>>>>> origin/dev-merge-ui
      */
     public function getType()
     {
