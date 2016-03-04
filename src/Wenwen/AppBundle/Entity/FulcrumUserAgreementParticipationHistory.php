@@ -8,14 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumUserAgreementParticipationHistory
  *
  * @ORM\Table(name="fulcrum_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})})
- * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumUserAgreementParticipationHistoryRepository")
+ * @ORM\Entity
  */
 class FulcrumUserAgreementParticipationHistory
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -56,16 +56,12 @@ class FulcrumUserAgreementParticipationHistory
      */
     private $createdAt;
 
-    public function __construct()
-    {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
-    }
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -88,7 +84,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string
+     * @return string 
      */
     public function getAppMemberId()
     {
@@ -134,7 +130,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get stashData
      *
-     * @return string
+     * @return string 
      */
     public function getStashData()
     {
@@ -157,7 +153,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getUpdatedAt()
     {
@@ -180,11 +176,16 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 }

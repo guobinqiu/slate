@@ -79,10 +79,14 @@ class FulcrumResearchSurveyParticipationHistory
 
 
 
-    public function __construct()
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
     {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
+        return $this->id;
     }
 
     /**
@@ -269,13 +273,10 @@ class FulcrumResearchSurveyParticipationHistory
         return $this->createdAt;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
+    public function __construct()
     {
-        return $this->id;
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
     }
+
 }
