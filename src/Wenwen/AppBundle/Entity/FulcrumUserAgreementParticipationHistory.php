@@ -66,7 +66,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -89,7 +89,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string
+     * @return string 
      */
     public function getAppMemberId()
     {
@@ -112,7 +112,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get agreementStatus
      *
-     * @return integer
+     * @return integer 
      */
     public function getAgreementStatus()
     {
@@ -135,7 +135,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get stashData
      *
-     * @return string
+     * @return string 
      */
     public function getStashData()
     {
@@ -158,7 +158,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getUpdatedAt()
     {
@@ -181,10 +181,11 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
+
 }
