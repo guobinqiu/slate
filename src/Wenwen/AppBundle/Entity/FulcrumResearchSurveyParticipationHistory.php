@@ -52,7 +52,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer", nullable=false)
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
 
@@ -77,7 +77,12 @@ class FulcrumResearchSurveyParticipationHistory
      */
     private $createdAt;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+        $this->setPoint(0);
+    }
 
     /**
      * Get id
