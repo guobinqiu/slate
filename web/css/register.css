@@ -194,6 +194,10 @@ body {
       .main-register li span li {
         margin-top: 0;
         color: #ff0000; }
+    .main-register li .captcha_reload {
+      background: url(../img/user/change.png) no-repeat 0px 2px;
+      padding-left: 20px;
+      color: #a1a1a1; }
 
 .main-register-btn {
   margin-top: 30px; }
