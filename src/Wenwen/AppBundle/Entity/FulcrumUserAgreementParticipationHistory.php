@@ -188,9 +188,4 @@ class FulcrumUserAgreementParticipationHistory
         return $this->createdAt;
     }
 
-    public function __construct()
-    {
-        $this->setCreatedAt(new \DateTime());
-        $this->setUpdatedAt(new \DateTime());
-    }
 }
