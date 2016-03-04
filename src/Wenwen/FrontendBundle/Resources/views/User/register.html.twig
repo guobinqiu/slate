@@ -41,9 +41,7 @@
 			<li id="vcode">
 				{{ form_label(form.captcha) }}
 				<div>{{ form_widget(form.captcha) }}
-        <!-- <img id="changeCode" src="{{ asset('img/user/change.png') }}" alt="换一张"><b>换一张</b> -->
 				<span id="signup_captcha_succeed" class="succeed"></span><span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span>
-         {{ form_errors(form.captcha) }}    
                 </div>
 			</li>
 			<li>
