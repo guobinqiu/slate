@@ -381,7 +381,7 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+    background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
     font-size: 0; }
   .form span.focus {
     border: 1px solid #e7e7e7;

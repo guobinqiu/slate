@@ -33,10 +33,9 @@ require(['../../config'],function(){
         $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
         $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {
-            var  readme = $("#signup_unsubscribe"),
-                protocolError = $("#signup_agreement");
-            console.log((readme.prop("checked") == "checked") +"------是否阅读用户协议--------"+(readme.prop("checked") == true));
-            if (readme.prop("checked") == "checked" || readme.prop("checked") == true) {
+            var readme = $("#signup_agreement"),
+                protocolError = $("#protocol_error");
+            if(readme.prop("checked") == "checked" || readme.prop("checked") == true) {
                 protocolError.removeClass();
                 return true;
             } else {
@@ -60,62 +59,35 @@ require(['../../config'],function(){
             }
             return true;
         }
-        var isSubmit = false;
         function reg() {
-            if (isSubmit) {
-                return;
-            }
             var agreeProtocol = checkReadMe();
             var regNameOk = validateRegName();
             var passed = false;
 
-            console.log($("#signup_form").serialize());
-            //console.log(agreeProtocol);
             passed = validate.func.regValidate() && regNameOk && agreeProtocol;
-            //console.log(passed);
             if (passed) {
                 $("#submit_button").attr({
                     "disabled" : "disabled"
                 }).removeClass().addClass("btn-img btn-regist wait-btn");
-//            $.ajax({
-//                type : "POST",
-//                url : "../register/regService?r=" + Math.random() + "&"
-//                    + location.search.substring(1),
-//                contentType : "application/x-www-form-urlencoded; charset=utf-8",
-//                data : $("#signup_form").serialize(),
-//                success : function(result) {
-//                    var result = {};
-//                    if (result) {
-//                        var obj = eval(result);
-//                        if (obj.info) {
-//                            //showMessage(obj.info);
-//                            console.log(obj.info);
-//                            verc();
-//                            $("#registsubmit").removeAttr("disabled").removeClass()
-//                                .addClass("btn-img btn-regist");
-//                            isSubmit = false;
-//                            return;
-//                        }
-//                        if (obj.noAuth) {
-//                            verc();
-//                            window.location = obj.noAuth;
-//                            return;
-//                        }
-//                        if (obj.success == true) {
-//                            window.location = obj.dispatchUrl;
-//                        }
-//                    }
-//                }
-//            });
+                return true;
             } else {
                 $("#submit_button").removeAttr("disabled").removeClass().addClass(
                     "btn-img btn-regist");
-                isSubmit = false;
+                
+                return false;
+            }
+        }
+        var signup_form = $('#signup_form');
+        var backError = signup_form.find('li span>ul');
+        if(backError.length >= 1){
+            for(var i = 0; i < backError.length; i++){
+                backError.eq(i).parent().siblings().removeClass();
+                backError.eq(i).parent().removeClass().addClass('error');
             }
         }
         $('#submit_button').on('click', function(){
-            if(validate.func.regValidate()){
-                $('#signup_form').submit();    
+            if(reg()){
+                signup_form.submit(); 
             }
         });
     });

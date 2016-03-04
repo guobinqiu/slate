@@ -396,7 +396,7 @@ h1 {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+    background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
     font-size: 0; }
   .form span.focus {
     border: 1px solid #e7e7e7;
@@ -500,7 +500,8 @@ h1 {
     border-radius: 3px;
     margin-left: 5px;
     padding: 0 5px;
-    line-height: 30px; }
+    line-height: 30px;
+    vertical-align: top; }
     .main-personal-account .form li span#curMobile {
       padding: 0;
       display: inline-block;

@@ -36,7 +36,7 @@
 		&.succeed{
 			color: #3bc570;
 			@include dib();
-			background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+			background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
 			font-size: 0;
 		}
 		&.focus{
