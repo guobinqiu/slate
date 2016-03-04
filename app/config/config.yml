@@ -164,7 +164,7 @@ gregwar_captcha:
     height: 40 
     length: 6
     as_url: true
-    reload: false 
+    reload: true 
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
 

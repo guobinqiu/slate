@@ -22,7 +22,7 @@
 			width: 245px;
 			border: $input-border;
 			border-radius: 2px;
-			&#authcode{
+			&#signup_captcha{
 				width: 70px;
 			}
 		}
@@ -38,6 +38,11 @@
 			line-height: 34px;
 			padding: 0 15px;
 			border-radius: 3px;
+			vertical-align: top;
+			li{
+				margin-top: 0;
+				color: $error-color;
+			}
 		}
 	}
 }

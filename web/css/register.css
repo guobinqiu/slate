@@ -93,7 +93,7 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+    background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
     font-size: 0; }
   .form span.focus {
     border: 1px solid #e7e7e7;
@@ -178,7 +178,7 @@ body {
       width: 245px;
       border: 1px solid #ebedf2;
       border-radius: 2px; }
-      .main-register li input[type='text']#authcode, .main-register li input[type='password']#authcode, .main-register li input[type='email']#authcode {
+      .main-register li input[type='text']#signup_captcha, .main-register li input[type='password']#signup_captcha, .main-register li input[type='email']#signup_captcha {
         width: 70px; }
     .main-register li input[type='checkbox'] {
       vertical-align: middle;
@@ -189,7 +189,11 @@ body {
       margin-left: 5px;
       line-height: 34px;
       padding: 0 15px;
-      border-radius: 3px; }
+      border-radius: 3px;
+      vertical-align: top; }
+      .main-register li span li {
+        margin-top: 0;
+        color: #ff0000; }
 
 .main-register-btn {
   margin-top: 30px; }
