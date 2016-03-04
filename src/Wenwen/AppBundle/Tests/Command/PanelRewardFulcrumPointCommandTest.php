@@ -186,16 +186,16 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
         $this->assertEquals(92, $task_history[0]['category_type'],'ad_cateogry 92');
         $this->assertEquals('f10001 This is a title1', $task_history[0]['task_name'],'task name');
-        $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
-        $this->assertEquals(92, $task_history[0]['category_type'],'ad_cateogry 92');
-        $this->assertEquals('f10001 This is a title1', $task_history[0]['task_name'],'task name');
+        $this->assertEquals(9, $task_history[1]['task_type'],'suvey task9');
+        $this->assertEquals(92, $task_history[1]['category_type'],'ad_cateogry 92');
+        $this->assertEquals('f20001 This is a title2', $task_history[1]['task_name'],'task name');
 
         // points history
         $points_stm =   $em->getConnection()->prepare('select * from point_history0'.( $user_id % 10 ));
         $points_stm->execute();
         $points_history =$points_stm->fetchAll();
-        $this->assertNotEmpty($points_history,'1 point history record');
-        $this->assertCount(2, $points_history,'1 point history record');
+        $this->assertNotEmpty($points_history,'2 point history record');
+        $this->assertCount(2, $points_history,'2 point history record');
         $this->assertEquals(30, $points_history[0]['point_change_num'],'7 points');
         $this->assertEquals(92, $points_history[0]['reason'],'ad_cateogry 92');
 
