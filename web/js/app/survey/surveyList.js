@@ -6,7 +6,6 @@ require(['../../config'], function() {
 
             var surveyList = $('#surveyList');
                 // Insert the item as the 2rd row of the table if table has more than 0 row
-            console.log(surveyList.children().length);
             if (surveyList.children().length) {
                 surveyList.find('li:first').before($(el));
                 return;
@@ -31,29 +30,47 @@ require(['../../config'], function() {
             });
         };
 
-        var renderCintUserAgreementItems = function (items) {
-            _.chain(items)
-            .filter(function (item) {
-                return item.type == 'Cint';
-            })
-            .each(function (item) {
-                var model = new survey.CintAgreementModel(item);
-                var view = new survey.CintUserAgreementView({"model": model});
-                view.render();
-            });
-        };
+    var renderFulcrumUserAgreementItems = function (items) {
+        _.chain(items)
+        .filter(function (item) {
+            return item.type == 'Fulcrum';
+        })
+        .each(function (item) {
+            var model = new survey.FulcrumAgreementModel(item);
+            var view = new survey.FulcrumUserAgreementView({ model: model });
+            view.render();
+        });
+    };
 
-        var renderCintResearchItems = function (items) {
-            _.each(items, function (item) {
-                var model = new survey.CintResearchItemModel(item);
-                var view  = new survey.CintResearchItemView({ model: model });
-                addSuveyItem(view.render().el);
-            });
-        };
+    var renderFulcrumResearchItems = function (items) {
+        _.each(items, function (item) {
+            var model = new survey.FulcrumResearchItemModel(item);
+            var view  = new survey.FulcrumResearchItemView({ model: model });
+            addSuveyItem(view.render().el);
+        });
+    };
+    var renderCintUserAgreementItems = function (items) {
+        _.chain(items)
+        .filter(function (item) {
+            return item.type == 'Cint';
+        })
+        .each(function (item) {
+            var model = new survey.CintAgreementModel(item);
+            var view = new survey.CintUserAgreementView({"model": model});
+            view.render();
+        });
+    };
+
+    var renderCintResearchItems = function (items) {
+        _.each(items, function (item) {
+            var model = new survey.CintResearchItemModel(item);
+            var view  = new survey.CintResearchItemView({ model: model });
+            addSuveyItem(view.render().el);
+        });
+    };
 
         surveylistCallback = function (res) {
 
-            console.log('ajax jsonp returned');
             // return if error code
             if (res.meta.code != '200')  return;
 
@@ -68,6 +85,12 @@ require(['../../config'], function() {
 
             // load profiling data
             renderProfilingItems(res.data.profiling);
+
+            // load Fulcrum research data
+           renderFulcrumResearchItems(res.data.fulcrum_research)
+    
+            // load Fulcrum user agreemetns
+            renderFulcrumUserAgreementItems(res.data.user_agreement)
 
             // load Cint research data
             renderCintResearchItems(res.data.cint_research)
@@ -89,12 +112,10 @@ require(['../../config'], function() {
             jsonp: false,
             cache: true
         });
-
         // preview
         if ($preview){
             function mockResponse() {
                 var callback = surveylistCallback;
-                console.log("mockResponse:2222");
                 surveylistCallback = function(res){
                     dummy_res = { 'meta' : {'code': '200' },
                            'data': {
