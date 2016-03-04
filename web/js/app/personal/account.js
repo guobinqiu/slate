@@ -27,12 +27,19 @@ require(['../../config'],function(){
    	});
     require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
         //修改密码（交互）
+        $.extend(rpaValidate.func, {
+            updatePwd : function() {
+                $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
+                $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
+                return rpaValidate.func.FORM_submit([ "#pwd", "#pwdRepeat"]);
+            }
+        });
         $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
         $('#pwd_save').on('click', function(){
-            $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
-            $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
-            savePwd();
+            if(rpaValidate.func.updatePwd()){
+                savePwd();    
+            }
         });
         var curPwdInput = $('#curPwd'),
             curPwdSucceed = $('#curPwd_succeed'),
