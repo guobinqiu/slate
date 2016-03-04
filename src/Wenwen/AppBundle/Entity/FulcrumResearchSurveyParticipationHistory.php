@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumResearchSurveyParticipationHistory
  *
  * @ORM\Table(name="fulcrum_research_survey_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="fulcrum_project_member_uniq", columns={"fulcrum_project_id", "app_member_id"})})
- * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumResearchSurveyParticipationHistoryRepository")
+ * @ORM\Entity
  */
 class FulcrumResearchSurveyParticipationHistory
 {
@@ -52,7 +52,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer", nullable=false)
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
 
@@ -81,6 +81,7 @@ class FulcrumResearchSurveyParticipationHistory
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setPoint(0);
     }
 
     /**

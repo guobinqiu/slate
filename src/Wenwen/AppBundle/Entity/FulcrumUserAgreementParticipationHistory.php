@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumUserAgreementParticipationHistory
  *
  * @ORM\Table(name="fulcrum_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})})
- * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumUserAgreementParticipationHistoryRepository")
+ * @ORM\Entity
  */
 class FulcrumUserAgreementParticipationHistory
 {
@@ -60,6 +60,7 @@ class FulcrumUserAgreementParticipationHistory
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setAgreementStatus(0);
     }
 
     /**

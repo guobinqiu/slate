@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `cint_user_agreement_participation_history` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_uniq_key` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `cint_research_survey_participation_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,4 +29,5 @@ CREATE TABLE IF NOT EXISTS `cint_research_survey_participation_history` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cint_project_member_uniq` (`cint_project_id`,`app_member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
