@@ -46,7 +46,9 @@
 			<li id="vcode">
 				{{ form_label(form.captcha) }}
 				<div>{{ form_widget(form.captcha) }}
-				<span id="signup_captcha_succeed" class="succeed"></span><span id="signup_captcha_error" class="msg"></span>
+
+          <img id="verificationImg" class="verificationImg" name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
+          <span id="authcode_succeed" class="succeed"></span><span id="authcode_error" class="msg"></span></div>
         <!-- {{ form_errors(form.captcha) }}    -->
                 </div>
 			</li>
