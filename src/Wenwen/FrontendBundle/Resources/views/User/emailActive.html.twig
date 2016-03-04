@@ -15,15 +15,15 @@
 		<div class="con">
 			<div class="text">
 				<div class="title">就差一步了，快去激活您的账户吧！</div>
-				{% if gotoEmial %}
+				{% if gotoEmail %}
 					<p>我们已经向您的邮箱{{ user.email }}发送了一封激活邮件，请点击邮件中的链接完成注册。</p>
-		            <a href="http://{{ gotoEmial }}" target="_blank">立即进入邮箱</a>
+		            <a href="http://{{ gotoEmail }}" target="_blank">立即进入邮箱</a>
 		        {% endif %}
 		        <p><span id="sendAgain">已发送</span><a class="again">没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
-		        <input type='hidden' id='uid' value='{{ user.id }}'/>
-		        <input type='hidden' id='code' value='{{ user.code }}'/>
-		        <input type='hidden' id='nick'  value='{{ user.nick  }}'/>
-		        <input type='hidden' id='email' value='{{ user.email }}'/>
+		        <input type='hidden' id='uid' value='xxx'/>
+		        <input type='hidden' id='code' value='xxx'/>
+		        <input type='hidden' id='nick'  value='yyy'/>
+		        <input type='hidden' id='email' value='www'/>
 		        <input type="hidden" id="secondNum" value="59"/>
 			</div>
 		</div>

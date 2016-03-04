@@ -1391,68 +1391,70 @@ class UserController extends Controller implements CampaignTrackingController
 
             if($form->isValid()) {
 
-                $user_data_inserted = $this->get('signup.form_handler')
-                    ->setForm($form)
-                    ->setClientInfo(array(
-                        'user_agent'=>$request->headers->get('USER_AGENT'),
-                        'remote_address'=>$request->getClientIp()
-                    ))
-                    ->process();
+              $user_data_inserted = $this->get('signup.form_handler')
+                ->setForm($form)
+                ->setClientInfo(array(
+                  'user_agent'=>$request->headers->get('USER_AGENT'),
+                  'remote_address'=>$request->getClientIp()
+                ))
+                ->process();
 
-                if( isset($user_data_inserted['user']) && isset($user_data_inserted['setPasswordCode'])  ) {
-                    $em = $this->getDoctrine()->getManager();
 
-                    $user = $user_data_inserted['user'];
-                    $setPasswordCode = $user_data_inserted['setPasswordCode'];
-                    // send signup confirm email
-                    $args = array( '--campaign_id=1',
-                        '--group_id=81',
-                        '--mailing_id=9',
-                        '--email='. $user->getEmail(),
-                        '--title=',
-                        '--name='. $user->getNick(),
-                        '--register_key='. $setPasswordCode->getCode() ); //check the verification
+              $em = $this->getDoctrine()->getManager();
 
-                    $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
-                    $em->persist($job);
-                    $em->flush($job);
+              $user = $user_data_inserted['user'];
+              $setPasswordCode = $user_data_inserted['setPasswordCode'];
+              // send signup confirm email
+              $args = array( '--campaign_id=1',
+                '--group_id=81',
+                '--mailing_id=9',
+                '--email='. $user->getEmail(),
+                '--title=',
+                '--name='. $user->getNick(),
+                '--register_key='. $setPasswordCode->getCode() ); //check the verification
 
-                    $session=$this->get('session');
+              $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
+              $em->persist($job);
+              $em->flush($job);
 
-                    // check the campaign
-                    if( $session->has('campaign_code') && $session->has('campaign_code_token') ) {
+              $session=$this->get('session');
 
-                        $campagin_code = $session->get('campaign_code');
-                        $campagin_code_token  = $session->get('campaign_code_token');
-                        if(preg_match('/^offer99/',  $campagin_code) ) {
+              // check the campaign
+              if( $session->has('campaign_code') && $session->has('campaign_code_token') ) {
 
-                            $job = new Job('recruit-notification:offer99',
-                                array('--user_id='.$user->getId(), '--txid='.$campagin_code_token) ,
-                                true, 'offer99-recruit');
-                            $em->persist($job);
-                            $em->flush($job);
+                $campagin_code = $session->get('campaign_code');
+                $campagin_code_token  = $session->get('campaign_code_token');
+                if(preg_match('/^offer99/',  $campagin_code) ) {
 
-                        } elseif (preg_match('/^offerwow/',  $campagin_code )) {
-                            $job = new Job('recruit-notification:offerwow',
-                                array('--user_id='.$user->getId() ,'--tid='. $campagin_code_token ),
-                                true, 'offerwow-recruit');
-                            $em->persist($job);
-                            $em->flush($job);
-                        }
+                  $job = new Job('recruit-notification:offer99',
+                    array('--user_id='.$user->getId(), '--txid='.$campagin_code_token) ,
+                    true, 'offer99-recruit');
+                  $em->persist($job);
+                  $em->flush($job);
 
-                    }
-                } 
+                } elseif (preg_match('/^offerwow/',  $campagin_code )) {
+                  $job = new Job('recruit-notification:offerwow',
+                    array('--user_id='.$user->getId() ,'--tid='. $campagin_code_token ),
+                    true, 'offerwow-recruit');
+                  $em->persist($job);
+                  $em->flush($job);
+                }
 
-                // set sucessful message flash
-                $this->get('session')->getFlashBag()->add(
-                    'notice',
-                    '恭喜，注册成功！'
-                );
-                return $this->redirect($this->generateUrl('_user_regSuccess'));
+              }
+
+
+
+              // set sucessful message flash
+              $this->get('session')->getFlashBag()->add(
+                'notice',
+                '恭喜，注册成功！'
+              );
+              $session->set('email',$user->getEmail()  );
+              return $this->redirect($this->generateUrl('_user_regSuccess'));
             } else {
                 $logger->debug('reg error messages'.$form->getErrorsAsString() );
             }
-        }
+        } //eof POST
 
         return $this->render('WenwenFrontendBundle:User:register.html.twig',array(
                 'form' => $form->createView(),
@@ -1583,7 +1585,12 @@ class UserController extends Controller implements CampaignTrackingController
         $session = $this->get('session');
         $session->set('campaign_code','');
         $session->set('campaign_code_token','');
-        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig');
+
+        $email = $session->get('email');
+
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
+           'gotoEmail'=> substr( $email, strpos($email,'@') +1) 
+             ) );
     }
 
 
@@ -1619,6 +1626,7 @@ class UserController extends Controller implements CampaignTrackingController
                     'notice',
                     '恭喜，密码设置成功！'
                 );
+                $this->get('session')->set('email', $user->getEmail() );
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
             }
         }
