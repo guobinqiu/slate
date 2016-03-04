@@ -52,7 +52,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer", nullable=true)
+     * @ORM\Column(name="type", type="integer", nullable=false)
      */
     private $type;
 
