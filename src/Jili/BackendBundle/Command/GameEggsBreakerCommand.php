@@ -47,6 +47,8 @@ $container = $this->getContainer();
         } else if( $input->getOption('refresh-ranking')) {
         } else if( $input->getOption('pool-alarm')) {
             
+            $logger->crit('[command][gameEggBreaker][statReport] ignored :pool-alarm');
+            return;
 
             try {
                 $sql = 'select sum(num_of_common) as "common", sum(num_of_consolation) as  "consolation" from game_eggs_breaker_eggs_info;';

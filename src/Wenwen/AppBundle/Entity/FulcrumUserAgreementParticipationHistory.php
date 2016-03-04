@@ -1,33 +1,39 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopRespondent
+ * FulcrumUserAgreementParticipationHistory
  *
- * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SopRespondentRepository")
+ * @ORM\Table(name="fulcrum_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})})
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumUserAgreementParticipationHistoryRepository")
  */
-class SopRespondent
+class FulcrumUserAgreementParticipationHistory
 {
-    const STATUS_INACTIVE =0;
-    const STATUS_ACTIVE=1;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="app_member_id", type="string", length=255, nullable=false)
+     */
+    private $appMemberId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="agreement_status", type="integer", nullable=false)
      */
-    private $userId;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
-     */
-    private $statusFlag;
+    private $agreementStatus;
 
     /**
      * @var string
@@ -50,74 +56,73 @@ class SopRespondent
      */
     private $createdAt;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
-        $this->setStatusFlag(1);
-    }
-
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return SopRespondent
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
     }
 
     /**
-     * Get userId
+     * Get id
      *
      * @return integer
      */
-    public function getUserId()
+    public function getId()
     {
-        return $this->userId;
+        return $this->id;
     }
 
     /**
-     * Set statusFlag
+     * Set appMemberId
      *
-     * @param boolean $statusFlag
-     * @return SopRespondent
+     * @param string $appMemberId
+     * @return FulcrumUserAgreementParticipationHistory
      */
-    public function setStatusFlag($statusFlag)
+    public function setAppMemberId($appMemberId)
     {
-        $this->statusFlag = $statusFlag;
+        $this->appMemberId = $appMemberId;
 
         return $this;
     }
 
     /**
-     * Get statusFlag
+     * Get appMemberId
      *
-     * @return boolean
+     * @return string
      */
-    public function getStatusFlag()
+    public function getAppMemberId()
     {
-        return $this->statusFlag;
+        return $this->appMemberId;
+    }
+
+    /**
+     * Set agreementStatus
+     *
+     * @param integer $agreementStatus
+     * @return FulcrumUserAgreementParticipationHistory
+     */
+    public function setAgreementStatus($agreementStatus)
+    {
+        $this->agreementStatus = $agreementStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get agreementStatus
+     *
+     * @return integer
+     */
+    public function getAgreementStatus()
+    {
+        return $this->agreementStatus;
     }
 
     /**
      * Set stashData
      *
      * @param string $stashData
-     * @return SopRespondent
+     * @return FulcrumUserAgreementParticipationHistory
      */
     public function setStashData($stashData)
     {
@@ -140,7 +145,7 @@ class SopRespondent
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopRespondent
+     * @return FulcrumUserAgreementParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -163,7 +168,7 @@ class SopRespondent
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopRespondent
+     * @return FulcrumUserAgreementParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
@@ -180,15 +185,5 @@ class SopRespondent
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }
