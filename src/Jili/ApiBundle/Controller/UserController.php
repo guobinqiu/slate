@@ -1589,7 +1589,8 @@ class UserController extends Controller implements CampaignTrackingController
         $email = $session->get('email');
 
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
-           'gotoEmail'=> substr( $email, strpos($email,'@') +1) 
+           'gotoEmail'=> substr( $email, strpos($email,'@') +1), 
+           'email' => $email  
              ) );
     }
 
