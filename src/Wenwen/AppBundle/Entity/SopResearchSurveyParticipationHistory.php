@@ -5,26 +5,26 @@ namespace Wenwen\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FulcrumResearchSurveyParticipationHistory
+ * SopResearchSurveyParticipationHistory
  *
- * @ORM\Table(name="fulcrum_research_survey_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="fulcrum_project_member_uniq", columns={"fulcrum_project_id", "app_member_id"})})
+ * @ORM\Table(name="sop_research_survey_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="project_app_member_uniq", columns={"partner_app_project_id", "app_member_id"})}, indexes={@ORM\Index(name="project_updated_idx", columns={"partner_app_project_id", "updated_at"})})
  * @ORM\Entity
  */
-class FulcrumResearchSurveyParticipationHistory
+class SopResearchSurveyParticipationHistory
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="fulcrum_project_id", type="integer", nullable=false)
+     * @ORM\Column(name="partner_app_project_id", type="integer", nullable=false)
      */
-    private $fulcrumProjectId;
+    private $partnerAppProjectId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="fulcrum_project_quota_id", type="integer", nullable=false)
+     * @ORM\Column(name="partner_app_project_quota_id", type="integer", nullable=false)
      */
-    private $fulcrumProjectQuotaId;
+    private $partnerAppProjectQuotaId;
 
     /**
      * @var string
@@ -77,7 +77,6 @@ class FulcrumResearchSurveyParticipationHistory
      */
     private $id;
 
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -85,56 +84,56 @@ class FulcrumResearchSurveyParticipationHistory
     }
 
     /**
-     * Set fulcrumProjectId
+     * Set partnerAppProjectId
      *
-     * @param integer $fulcrumProjectId
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @param integer $partnerAppProjectId
+     * @return SopResearchSurveyParticipationHistory
      */
-    public function setFulcrumProjectId($fulcrumProjectId)
+    public function setPartnerAppProjectId($partnerAppProjectId)
     {
-        $this->fulcrumProjectId = $fulcrumProjectId;
+        $this->partnerAppProjectId = $partnerAppProjectId;
 
         return $this;
     }
 
     /**
-     * Get fulcrumProjectId
+     * Get partnerAppProjectId
      *
-     * @return integer 
+     * @return integer
      */
-    public function getFulcrumProjectId()
+    public function getPartnerAppProjectId()
     {
-        return $this->fulcrumProjectId;
+        return $this->partnerAppProjectId;
     }
 
     /**
-     * Set fulcrumProjectQuotaId
+     * Set partnerAppProjectQuotaId
      *
-     * @param integer $fulcrumProjectQuotaId
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @param integer $partnerAppProjectQuotaId
+     * @return SopResearchSurveyParticipationHistory
      */
-    public function setFulcrumProjectQuotaId($fulcrumProjectQuotaId)
+    public function setPartnerAppProjectQuotaId($partnerAppProjectQuotaId)
     {
-        $this->fulcrumProjectQuotaId = $fulcrumProjectQuotaId;
+        $this->partnerAppProjectQuotaId = $partnerAppProjectQuotaId;
 
         return $this;
     }
 
     /**
-     * Get fulcrumProjectQuotaId
+     * Get partnerAppProjectQuotaId
      *
-     * @return integer 
+     * @return integer
      */
-    public function getFulcrumProjectQuotaId()
+    public function getPartnerAppProjectQuotaId()
     {
-        return $this->fulcrumProjectQuotaId;
+        return $this->partnerAppProjectQuotaId;
     }
 
     /**
      * Set appMemberId
      *
      * @param string $appMemberId
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setAppMemberId($appMemberId)
     {
@@ -146,7 +145,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string 
+     * @return string
      */
     public function getAppMemberId()
     {
@@ -157,7 +156,7 @@ class FulcrumResearchSurveyParticipationHistory
      * Set point
      *
      * @param integer $point
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setPoint($point)
     {
@@ -169,7 +168,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get point
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoint()
     {
@@ -180,7 +179,7 @@ class FulcrumResearchSurveyParticipationHistory
      * Set type
      *
      * @param integer $type
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setType($type)
     {
@@ -192,11 +191,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get type
      *
-<<<<<<< HEAD
-     * @return integer 
-=======
      * @return integer
->>>>>>> origin/dev-merge-ui
      */
     public function getType()
     {
@@ -207,7 +202,7 @@ class FulcrumResearchSurveyParticipationHistory
      * Set stashData
      *
      * @param string $stashData
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setStashData($stashData)
     {
@@ -219,7 +214,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -230,7 +225,7 @@ class FulcrumResearchSurveyParticipationHistory
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -242,7 +237,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -253,7 +248,7 @@ class FulcrumResearchSurveyParticipationHistory
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return FulcrumResearchSurveyParticipationHistory
+     * @return SopResearchSurveyParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
@@ -265,7 +260,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -275,7 +270,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

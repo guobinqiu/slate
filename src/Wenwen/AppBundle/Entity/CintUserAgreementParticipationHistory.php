@@ -5,12 +5,12 @@ namespace Wenwen\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopProfilePoint
+ * CintUserAgreementParticipationHistory
  *
- * @ORM\Table(name="sop_profile_point", uniqueConstraints={@ORM\UniqueConstraint(name="hash_uniq", columns={"hash"})}, indexes={@ORM\Index(name="panelist_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"}), @ORM\Index(name="name_user_idx", columns={"name", "user_id"})})
+ * @ORM\Table(name="cint_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="user_id_uniq_key", columns={"user_id"})})
  * @ORM\Entity
  */
-class SopProfilePoint
+class CintUserAgreementParticipationHistory
 {
     /**
      * @var integer
@@ -20,32 +20,11 @@ class SopProfilePoint
     private $userId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=16, nullable=true)
-     */
-    private $name;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="point_value", type="integer", nullable=false)
+     * @ORM\Column(name="agreement_status", type="integer", nullable=false)
      */
-    private $pointValue;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="hash", type="string", length=255, nullable=false)
-     */
-    private $hash;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
-     */
-    private $statusFlag;
+    private $agreementStatus;
 
     /**
      * @var string
@@ -81,15 +60,13 @@ class SopProfilePoint
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
-        $this->setPointValue(0);
-        $this->setStatusFlag(1);
     }
 
     /**
      * Set userId
      *
      * @param integer $userId
-     * @return SopProfilePoint
+     * @return CintUserAgreementParticipationHistory
      */
     public function setUserId($userId)
     {
@@ -109,102 +86,33 @@ class SopProfilePoint
     }
 
     /**
-     * Set name
+     * Set agreementStatus
      *
-     * @param string $name
-     * @return SopProfilePoint
+     * @param integer $agreementStatus
+     * @return CintUserAgreementParticipationHistory
      */
-    public function setName($name)
+    public function setAgreementStatus($agreementStatus)
     {
-        $this->name = $name;
+        $this->agreementStatus = $agreementStatus;
 
         return $this;
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set pointValue
-     *
-     * @param integer $pointValue
-     * @return SopProfilePoint
-     */
-    public function setPointValue($pointValue)
-    {
-        $this->pointValue = $pointValue;
-
-        return $this;
-    }
-
-    /**
-     * Get pointValue
+     * Get agreementStatus
      *
      * @return integer
      */
-    public function getPointValue()
+    public function getAgreementStatus()
     {
-        return $this->pointValue;
-    }
-
-    /**
-     * Set hash
-     *
-     * @param string $hash
-     * @return SopProfilePoint
-     */
-    public function setHash($hash)
-    {
-        $this->hash = $hash;
-
-        return $this;
-    }
-
-    /**
-     * Get hash
-     *
-     * @return string
-     */
-    public function getHash()
-    {
-        return $this->hash;
-    }
-
-    /**
-     * Set statusFlag
-     *
-     * @param boolean $statusFlag
-     * @return SopProfilePoint
-     */
-    public function setStatusFlag($statusFlag)
-    {
-        $this->statusFlag = $statusFlag;
-
-        return $this;
-    }
-
-    /**
-     * Get statusFlag
-     *
-     * @return boolean
-     */
-    public function getStatusFlag()
-    {
-        return $this->statusFlag;
+        return $this->agreementStatus;
     }
 
     /**
      * Set stashData
      *
      * @param string $stashData
-     * @return SopProfilePoint
+     * @return CintUserAgreementParticipationHistory
      */
     public function setStashData($stashData)
     {
@@ -227,7 +135,7 @@ class SopProfilePoint
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopProfilePoint
+     * @return CintUserAgreementParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -250,7 +158,7 @@ class SopProfilePoint
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopProfilePoint
+     * @return CintUserAgreementParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {

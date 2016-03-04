@@ -35,7 +35,7 @@
 0 2 * * * /bin/sh /var/www/html/jili/bin/schedule/vote_api.sh
 
 # game egg breaker pool stat report
-0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh
+#0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh
 
 #monitor file perl
 0 ​*/2 *​ * * cd /data/script/perl/ && perl ./file_monitor.pl 2>&1 >> /data/file_monitor/file_monitor_run.log

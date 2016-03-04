@@ -18,7 +18,6 @@ class SopUtil
                                     'time'         => $sop_params['time'],
                                     'sop_callback' => $sop_params['sop_callback'],
                                     ));
-        //$url = 'https://' . sfConfig::get('app_sop_host') . '/api/v1_1/surveys/js?' . $query;
         $url = 'https://' . $app_sop_host . '/api/v1_1/surveys/js?' . $query;
         return $url;
     }

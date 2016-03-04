@@ -5,47 +5,47 @@ namespace Wenwen\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopProfilePoint
+ * CintResearchSurveyParticipationHistory
  *
- * @ORM\Table(name="sop_profile_point", uniqueConstraints={@ORM\UniqueConstraint(name="hash_uniq", columns={"hash"})}, indexes={@ORM\Index(name="panelist_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"}), @ORM\Index(name="name_user_idx", columns={"name", "user_id"})})
+ * @ORM\Table(name="cint_research_survey_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="cint_project_member_uniq", columns={"cint_project_id", "app_member_id"})})
  * @ORM\Entity
  */
-class SopProfilePoint
+class CintResearchSurveyParticipationHistory
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="cint_project_id", type="integer", nullable=false)
      */
-    private $userId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=16, nullable=true)
-     */
-    private $name;
+    private $cintProjectId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="point_value", type="integer", nullable=false)
+     * @ORM\Column(name="cint_project_quota_id", type="integer", nullable=false)
      */
-    private $pointValue;
+    private $cintProjectQuotaId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="hash", type="string", length=255, nullable=false)
+     * @ORM\Column(name="app_member_id", type="string", length=255, nullable=false)
      */
-    private $hash;
+    private $appMemberId;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="point", type="integer", nullable=false)
      */
-    private $statusFlag;
+    private $point;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="type", type="integer", nullable=true)
+     */
+    private $type;
 
     /**
      * @var string
@@ -81,130 +81,128 @@ class SopProfilePoint
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
-        $this->setPointValue(0);
-        $this->setStatusFlag(1);
     }
 
     /**
-     * Set userId
+     * Set cintProjectId
      *
-     * @param integer $userId
-     * @return SopProfilePoint
+     * @param integer $cintProjectId
+     * @return CintResearchSurveyParticipationHistory
      */
-    public function setUserId($userId)
+    public function setCintProjectId($cintProjectId)
     {
-        $this->userId = $userId;
+        $this->cintProjectId = $cintProjectId;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get cintProjectId
      *
      * @return integer
      */
-    public function getUserId()
+    public function getCintProjectId()
     {
-        return $this->userId;
+        return $this->cintProjectId;
     }
 
     /**
-     * Set name
+     * Set cintProjectQuotaId
      *
-     * @param string $name
-     * @return SopProfilePoint
+     * @param integer $cintProjectQuotaId
+     * @return CintResearchSurveyParticipationHistory
      */
-    public function setName($name)
+    public function setCintProjectQuotaId($cintProjectQuotaId)
     {
-        $this->name = $name;
+        $this->cintProjectQuotaId = $cintProjectQuotaId;
 
         return $this;
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set pointValue
-     *
-     * @param integer $pointValue
-     * @return SopProfilePoint
-     */
-    public function setPointValue($pointValue)
-    {
-        $this->pointValue = $pointValue;
-
-        return $this;
-    }
-
-    /**
-     * Get pointValue
+     * Get cintProjectQuotaId
      *
      * @return integer
      */
-    public function getPointValue()
+    public function getCintProjectQuotaId()
     {
-        return $this->pointValue;
+        return $this->cintProjectQuotaId;
     }
 
     /**
-     * Set hash
+     * Set appMemberId
      *
-     * @param string $hash
-     * @return SopProfilePoint
+     * @param string $appMemberId
+     * @return CintResearchSurveyParticipationHistory
      */
-    public function setHash($hash)
+    public function setAppMemberId($appMemberId)
     {
-        $this->hash = $hash;
+        $this->appMemberId = $appMemberId;
 
         return $this;
     }
 
     /**
-     * Get hash
+     * Get appMemberId
      *
      * @return string
      */
-    public function getHash()
+    public function getAppMemberId()
     {
-        return $this->hash;
+        return $this->appMemberId;
     }
 
     /**
-     * Set statusFlag
+     * Set point
      *
-     * @param boolean $statusFlag
-     * @return SopProfilePoint
+     * @param integer $point
+     * @return CintResearchSurveyParticipationHistory
      */
-    public function setStatusFlag($statusFlag)
+    public function setPoint($point)
     {
-        $this->statusFlag = $statusFlag;
+        $this->point = $point;
 
         return $this;
     }
 
     /**
-     * Get statusFlag
+     * Get point
      *
-     * @return boolean
+     * @return integer
      */
-    public function getStatusFlag()
+    public function getPoint()
     {
-        return $this->statusFlag;
+        return $this->point;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     * @return CintResearchSurveyParticipationHistory
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
      * Set stashData
      *
      * @param string $stashData
-     * @return SopProfilePoint
+     * @return CintResearchSurveyParticipationHistory
      */
     public function setStashData($stashData)
     {
@@ -227,7 +225,7 @@ class SopProfilePoint
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopProfilePoint
+     * @return CintResearchSurveyParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -250,7 +248,7 @@ class SopProfilePoint
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopProfilePoint
+     * @return CintResearchSurveyParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {

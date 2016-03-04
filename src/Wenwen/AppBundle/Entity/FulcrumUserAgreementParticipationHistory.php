@@ -8,10 +8,19 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumUserAgreementParticipationHistory
  *
  * @ORM\Table(name="fulcrum_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumUserAgreementParticipationHistoryRepository")
  */
 class FulcrumUserAgreementParticipationHistory
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
     /**
      * @var string
      *
@@ -47,16 +56,21 @@ class FulcrumUserAgreementParticipationHistory
      */
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
     /**
-     * @var integer
+     * Get id
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @return integer
      */
-    private $id;
-
-
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set appMemberId
@@ -74,7 +88,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string 
+     * @return string
      */
     public function getAppMemberId()
     {
@@ -120,7 +134,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -143,7 +157,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -166,20 +180,11 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 }
