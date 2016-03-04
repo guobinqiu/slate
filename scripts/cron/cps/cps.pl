@@ -209,7 +209,7 @@ sub push_emar_advertisement {
         if( $ads_url =~ m/.*https?.*/ ) {
             $ads_url =~ s/^.*(https?:\/\/)/$1/;
         } elsif ( $ads_url =~ m/.*：([a-zA-Z0-9].*)$/ ) {
-            $ads_url =~ s/.*：([a-zA-Z].*)$/$1/;
+            $ads_url =~ s/.*：([a-zA-Z0-9].*)$/$1/;
             $ads_url = 'http://'.$ads_url;
         } else {
             #print "[CPS][EMAR][FILETER][WARN] invalid $ads_url\n";
