@@ -343,7 +343,7 @@ body {
   background: #fff;
   border: 1px solid #ebedf2; }
   .main-slider .mask {
-    width: 764px;
+    width: 520px;
     height: 212px; }
   .main-slider ul {
     position: absolute;
@@ -355,7 +355,6 @@ body {
     float: left;
     position: relative;
     z-index: 3;
-    padding-left: 244px;
     top: 0;
     left: 0; }
   .main-slider .btn-group {
@@ -376,9 +375,7 @@ body {
     top: 0;
     padding: 8px 20px 20px;
     width: 204px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
+    display: block;
     vertical-align: top; }
     .main-slider span h2 {
       height: 45px;
@@ -436,6 +433,12 @@ body {
     vertical-align: top; }
     .main-slider a img {
       width: 520px; }
+
+.main-slider-text {
+  width: 244px;
+  height: 212px;
+  position: relative;
+  z-index: 2; }
 
 .main-con-shop {
   overflow: hidden; }

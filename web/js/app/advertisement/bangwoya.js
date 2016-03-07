@@ -3,7 +3,7 @@ require(['../../config'],function(){
     require(['slider'], function(slider){
         var sliderA = new slider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', config: {
             index: 0,
-            stepWid: 764,
+            stepWid: 520,
             timer: 2000,
             animateTimer: 1000,
             eleLen: 5,
