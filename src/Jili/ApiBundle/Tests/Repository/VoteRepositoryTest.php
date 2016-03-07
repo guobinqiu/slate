@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\ApiBundle\Tests\Repository;
 
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -87,5 +86,17 @@ class VoteRepositoryTest extends KernelTestCase
         $em = $this->em;
         $voteList = $em->getRepository('JiliApiBundle:Vote')->getActiveVoteList();
         $this->assertEquals(1, count($voteList), 'acount of active vote list: ' . count($voteList));
+    }
+
+    /**
+     * @group survey_list_vote
+     */
+    public function testRetrieveUnanswered()
+    {
+        $em = $this->em;
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered();
+        $this->assertEquals(1, count($voteList), 'user_id:null, acount of vote list: ' . count($voteList));
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered(1);
+        $this->assertEquals(0, count($voteList), 'user_id:2, acount of vote list: ' . count($voteList));
     }
 }

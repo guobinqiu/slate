@@ -1,5 +1,4 @@
 <?php
-
 namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -53,6 +52,27 @@ class VoteRepository extends EntityRepository
         $parameters['startTime'] = new \Datetime();
         $query->setParameters($parameters);
         $query = $query->getQuery();
+        return $query->getResult();
+    }
+
+    public function retrieveUnanswered($user_id = null)
+    {
+        $query = $this->createQueryBuilder('v');
+        $query->select('v.id,v.title,v.startTime,v.endTime,v.pointValue');
+
+        if ($user_id) {
+            $query = $query->innerJoin('JiliApiBundle:VoteAnswer', 'va', 'WITH', 'v.id = va.voteId');
+            $query = $query->Where('va.userId != :userId');
+            $parameters['userId'] = $user_id;
+        }
+        $query->andWhere('v.startTime <= :today');
+        $query->andWhere('v.endTime >= :today');
+
+        $query->orderBy('v.endTime', 'ASC');
+        $parameters['today'] = new \Datetime();
+        $query->setParameters($parameters);
+        $query = $query->getQuery();
+
         return $query->getResult();
     }
 }
