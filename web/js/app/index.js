@@ -1,5 +1,5 @@
 require(['../config'],function(){
-    require(['common']);
+    require(['common', 'scrollTop']);
     require(['feedbackForm']);
     require(['numScroll'], function(RPANumScroll){
         new RPANumScroll({ numScrollEle: '.digits b', config: {
