@@ -55,6 +55,11 @@ class VoteRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     * 获取参数指定的用户还没有回答过的，正在进行中的快速问答数据
+     *
+     * @return array votes
+     */
     public function retrieveUnanswered($user_id = null)
     {
         $query = $this->createQueryBuilder('v');

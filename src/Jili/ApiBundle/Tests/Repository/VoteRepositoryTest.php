@@ -94,8 +94,10 @@ class VoteRepositoryTest extends KernelTestCase
     public function testRetrieveUnanswered()
     {
         $em = $this->em;
+        //1. 传参为空，默认取所有的正在进行中的快速问答
         $voteList = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered();
         $this->assertEquals(1, count($voteList), 'user_id:null, acount of vote list: ' . count($voteList));
+        //2. 传参不为空，取该用户还没有回答过的正在进行中的快速问答
         $voteList = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered(1);
         $this->assertEquals(0, count($voteList), 'user_id:2, acount of vote list: ' . count($voteList));
     }
