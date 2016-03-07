@@ -15,6 +15,9 @@ $main-ad-color: #eb7020;
 }
 .main{
 	margin-top: 80px;
+	&.unlogin{
+		margin-top: 80px;
+	}
 }
 .main-ad{
 	height: 549px;
