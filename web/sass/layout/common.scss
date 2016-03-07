@@ -22,6 +22,9 @@ body{
 }
 .main{
     margin-top: 2px;
+    &.unlogin{
+    	margin-top: 0px;
+    }
 }
 .main-con-left>div, .main-con-right>div{
 	margin-top: 20px;
