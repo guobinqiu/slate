@@ -5,11 +5,19 @@
 @import "component/login";
 $main-ad-color: #eb7020;
 .header{
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	right: 0;
 	height: 80px;
-	box-shadow: none;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, .15);
 }
 .main{
 	margin-top: 80px;
+	&.unlogin{
+		margin-top: 80px;
+	}
 }
 .main-ad{
 	height: 549px;
