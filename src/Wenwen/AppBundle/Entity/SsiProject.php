@@ -42,12 +42,16 @@ class SsiProject
      */
     private $createdAt;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -70,7 +74,7 @@ class SsiProject
     /**
      * Get statusFlag
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getStatusFlag()
     {
@@ -93,7 +97,7 @@ class SsiProject
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -116,7 +120,7 @@ class SsiProject
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
