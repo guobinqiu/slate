@@ -1,7 +1,7 @@
 require(['../../config'],function(){
     require(['common']);
     require(['slider'], function(slider){
-        var sliderA = new slider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', config: {
+        var sliderA = new slider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', textEle: '.main-slider-text', config: {
             index: 0,
             stepWid: 520,
             timer: 2000,

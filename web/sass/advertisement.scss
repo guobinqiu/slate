@@ -57,10 +57,11 @@
 	span{
 		left: 0;
 		top: 0;
-		padding: 8px 20px 20px;
-		width: 204px;
+		padding: 8px 18px 20px;
+		width: 212px;
 		display: block;
 		vertical-align: top;
+		display:none;
 		h2{
 			height: 45px;
 			line-height: 45px;
@@ -113,6 +114,7 @@
 	height: 212px;
 	position: relative;
 	z-index: 2;
+	overflow: hidden;
 }
 .main-con-shop{
 	overflow: hidden;

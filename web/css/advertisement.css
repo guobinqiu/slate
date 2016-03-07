@@ -368,10 +368,11 @@ body {
   .main-slider span {
     left: 0;
     top: 0;
-    padding: 8px 20px 20px;
-    width: 204px;
+    padding: 8px 18px 20px;
+    width: 212px;
     display: block;
-    vertical-align: top; }
+    vertical-align: top;
+    display: none; }
     .main-slider span h2 {
       height: 45px;
       line-height: 45px;
@@ -433,7 +434,8 @@ body {
   width: 244px;
   height: 212px;
   position: relative;
-  z-index: 2; }
+  z-index: 2;
+  overflow: hidden; }
 
 .main-con-shop {
   overflow: hidden; }
