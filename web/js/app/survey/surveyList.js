@@ -2,6 +2,14 @@ require(['../../config'], function() {
     require(['common']);
     require(['jquery', 'sopSurvey', 'backbone', 'routing','jqueryCookie'], function($, survey, backbone, routing) {
 
+        var pop_survey_window(element) {
+            window.open(
+                element.getAttribute('href'),
+                'enquete_window',
+                'resizable=yes,scrollbars=yes,toolbar=no'
+            );
+        }
+
         var addSuveyItem = function (el) {
 
             var surveyList = $('#surveyList');
@@ -88,7 +96,7 @@ require(['../../config'], function() {
 
             // load Fulcrum research data
            renderFulcrumResearchItems(res.data.fulcrum_research)
-    
+
             // load Fulcrum user agreemetns
             renderFulcrumUserAgreementItems(res.data.user_agreement)
 
