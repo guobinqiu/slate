@@ -281,6 +281,9 @@ body {
       -webkit-transition: all 0.1s;
       -o-transition: all 0.1s; }
 
+body {
+  background: #f5f5f7; }
+
 .header {
   height: 88px;
   -webkit-box-shadow: 0px 1px 5px #b3b3b3;
@@ -300,19 +303,19 @@ body {
 
 .main {
   margin-top: 0;
-  background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x 0 88px; }
+  background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x 0; }
   .main .qnWrap {
     width: 100%;
-    min-height: 400px;
+    min-height: 333px;
     position: relative;
-    top: 49px;
+    top: 0px;
     z-index: 1;
-    background: url(../img/questionnaire/questionnaireBgtop.png) no-repeat center 39px; }
+    background: url(../img/questionnaire/questionnaireBgtop.png) no-repeat top center; }
     .main .qnWrap .qnConBg {
       width: 100%;
       height: 100%;
       position: absolute;
-      top: 356px;
+      top: 318px;
       z-index: 2;
       background: url(../img/questionnaire/questionnaireBgx.png) repeat-y center; }
       .main .qnWrap .qnConBg .qnConBot {
@@ -335,13 +338,13 @@ body {
     .main .qnWrap .qnCon {
       position: absolute;
       z-index: 3;
-      top: 100px;
+      top: 85px;
       left: 50%;
       width: 940px;
       margin-left: -470px; }
       .main .qnWrap .qnCon .qnTxt {
         width: 796px;
-        margin: 30px auto 0;
+        margin: 0 auto;
         color: #4d4d4d; }
         .main .qnWrap .qnCon .qnTxt h2 {
           font-size: 28px;
@@ -359,7 +362,7 @@ body {
           color: #666;
           line-height: 22px; }
         .main .qnWrap .qnCon .qnTxt .notice {
-          margin: 37px 0 75px;
+          margin: 37px 0 54px;
           line-height: 22px; }
         .main .qnWrap .qnCon .qnTxt .qnBtn {
           text-align: center; }
@@ -392,15 +395,17 @@ body {
         text-align: center;
         margin-top: 50px; }
     .main .qnWrap .qnEnd .qnEndTxt {
-      margin: 180px 0 0 170px; }
+      margin: 150px 0 0 150px; }
       .main .qnWrap .qnEnd .qnEndTxt .txt {
         font-size: 14px;
-        line-height: 30px;
+        line-height: 20px;
         margin-left: 31px;
-        margin-top: 35px; }
+        margin-top: 18px; }
         .main .qnWrap .qnEnd .qnEndTxt .txt h2 {
           font-size: 20px;
-          font-weight: bold; }
+          font-weight: bold;
+          line-height: 30px;
+          padding-bottom: 5px; }
     .main .qnWrap .qnRecoEnd .qnEndTxt {
       margin: 80px 0 0 170px; }
     .main .qnWrap .qnRecoEnd .qnEndRecommend {
