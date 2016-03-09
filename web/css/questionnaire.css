@@ -408,10 +408,14 @@ body {
           font-weight: bold;
           line-height: 30px;
           padding-bottom: 12px; }
+        .main .qnWrap .qnEnd .qnEndTxt .txt.sad {
+          background: url(../img/questionnaire/sadface.png) no-repeat left center; }
+        .main .qnWrap .qnEnd .qnEndTxt .txt b {
+          color: #ff6700; }
     .main .qnWrap .qnRecoEnd .qnEndTxt {
-      margin: 80px 0 0 170px; }
+      padding: 80px 0 0 170px; }
     .main .qnWrap .qnRecoEnd .qnEndRecommend {
-      margin-top: 170px; }
+      margin-top: 110px; }
       .main .qnWrap .qnRecoEnd .qnEndRecommend .tit {
         height: 70px;
         line-height: 40px;
