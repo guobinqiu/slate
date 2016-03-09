@@ -395,17 +395,19 @@ body {
         text-align: center;
         margin-top: 50px; }
     .main .qnWrap .qnEnd .qnEndTxt {
-      margin: 150px 0 0 150px; }
+      padding: 150px 0 0 120px; }
       .main .qnWrap .qnEnd .qnEndTxt .txt {
+        width: 585px;
         font-size: 14px;
-        line-height: 20px;
+        line-height: 24px;
         margin-left: 31px;
-        margin-top: 18px; }
+        padding: 25px 0 25px 130px;
+        background: url(../img/questionnaire/normalface.png) no-repeat left center; }
         .main .qnWrap .qnEnd .qnEndTxt .txt h2 {
           font-size: 20px;
           font-weight: bold;
           line-height: 30px;
-          padding-bottom: 5px; }
+          padding-bottom: 12px; }
     .main .qnWrap .qnRecoEnd .qnEndTxt {
       margin: 80px 0 0 170px; }
     .main .qnWrap .qnRecoEnd .qnEndRecommend {
