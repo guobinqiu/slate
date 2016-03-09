@@ -2,6 +2,9 @@
 
 @import "layout/common";
 @import "layout/header";
+body{
+	background: #f5f5f7;
+}
 .header{
 	height: 88px;
 	@include box-shadow(0px 1px 5px #b3b3b3);
@@ -24,19 +27,19 @@
 }
 .main{
 	margin-top: 0;
-	background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x 0 88px;
+	background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x 0;
 	.qnWrap{
 		width: 100%;
-		min-height: 400px;
+		min-height: 333px;
 		position: relative;
-		top: 49px;
+		top: 0px;
 		z-index: 1;
-		background: url(../img/questionnaire/questionnaireBgtop.png) no-repeat center 39px;	
+		background: url(../img/questionnaire/questionnaireBgtop.png) no-repeat top center;	
 		.qnConBg{
 			width: 100%;
 			height: 100%;
 			position: absolute;
-			top: 356px;
+			top: 318px;
 			z-index: 2;
 			background: url(../img/questionnaire/questionnaireBgx.png) repeat-y center;
 			.qnConBot{
@@ -62,13 +65,13 @@
 		.qnCon{
 			position: absolute;
 			z-index: 3; 
-			top: 100px; 
+			top: 85px; 
 			left: 50%;
 			width: 940px;
 			margin-left: -470px;
 			.qnTxt{
 				width: 796px;
-				margin: 30px auto 0; 
+				margin: 0 auto; 
 				color: #4d4d4d;
 				h2{
 					font-size: 28px;
@@ -90,7 +93,7 @@
 					line-height: 22px;
 				}
 				.notice{
-					margin: 37px 0 75px; 
+					margin: 37px 0 54px; 
 					line-height: 22px;
 				}
 				.qnBtn{
@@ -123,15 +126,19 @@
 		}
 		.qnEnd{
 			.qnEndTxt{
-				margin: 180px 0 0 170px;
+				padding: 150px 0 0 120px;
 				.txt{
+					width: 585px;
 					font-size: 14px;
-					line-height: 30px;
+					line-height: 24px;
 					margin-left: 31px;
-					margin-top: 35px;
+					padding: 25px 0 25px 130px;
+					background: url(../img/questionnaire/normalface.png) no-repeat left center;
 					h2{
 						font-size: 20px;
 						font-weight: bold;
+						line-height: 30px;
+						padding-bottom: 12px;
 					}
 				}
 			}
