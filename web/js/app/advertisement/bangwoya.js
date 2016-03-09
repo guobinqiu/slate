@@ -4,7 +4,7 @@ require(['../../config'],function(){
         var sliderA = new slider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', textEle: '.main-slider-text', config: {
             index: 0,
             stepWid: 520,
-            timer: 2000,
+            timer: 5000,
             animateTimer: 1000,
             eleLen: 5,
             isAuto: true,
