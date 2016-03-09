@@ -1,0 +1,54 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷开始：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
+{% endblock %}
+
+{% block body %}
+
+<input type="hidden" id="survey_id" value="{{ app.request.get('survey_id') }}">
+<input type="hidden" id="url" value="{% autoescape %}{{ url|raw }}{% endautoescape %}">
+<input type="hidden" id="preview" value="{{  ( app.environment != 'prod' and  app.request.get('preview') == 1 ) ? 1 : 0 }}">
+
+
+<div class="qnWrap">
+    <div class="qnCon">
+        <div class="qnTxt" style="display:none;">
+            <h2 id="title"></h2>
+            <div class="subtit">
+                <strong >问卷标题： Fulcrum问卷调查<br></strong>
+                <strong id="no">问卷编号： <span></span><br></strong>
+                <strong id="points">积分数：<span class="point"></span></strong>
+            </div>
+            <div class="prompt" id="note">※ 注意：在回答问卷过程中，请不要中断，避免失去获得积分的机会。</div>
+            <div class="notice">
+                <strong>注意事项：</strong>
+                <p>回答中请不要点击浏览器的返回按钮。<br>
+                    请开启浏览器对JAVA的支持。<br>
+                    推荐浏览器6.0版本以上的Internet Explorer。<br>
+                    根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+                    保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
+            </div>
+            <div class="qnBtn">
+                <a id="survey-link" href="">开始回答问卷</a>
+            </div>
+            <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
+        </div>
+        <div class="error-message" style="display: none;"></div>
+    </div>
+    {% include 'WenwenFrontendBundle:ProjectSurvey:_footer.html.twig' %}
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/projectfulcrum.js')}}"></script>
+{% endblock %}

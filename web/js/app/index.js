@@ -1,9 +1,10 @@
 require(['../config'],function(){
-    require(['common']);
+    require(['common', 'scrollTop']);
+    require(['feedbackForm']);
     require(['numScroll'], function(RPANumScroll){
         new RPANumScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
-            num: 89754,
+            num: 3688002,
             animateTimer: 5000
         }});
     });
@@ -27,19 +28,17 @@ require(['../config'],function(){
                     badLength: "密码长度只能在5-100位字符之间",
                     badFormat: "密码至少包含1位字母和1位数字",
                     simplePwd: "该密码比较简单，建议您更改"
-                },
-                onFocusExpand: function() {
-                    $("#pwdStrength").hide();
-                }
-            },
-            authCode: {
-                onFocus: "请输入验证码",
-                succeed: "OK!",
-                isNull: "请输入验证码",
-                error: {
-                    badMsg: "验证码不正确"
                 }
             }
+            // ,
+            // authCode: {
+            //     onFocus: "请输入验证码",
+            //     succeed: "OK!",
+            //     isNull: "请输入验证码",
+            //     error: {
+            //         badMsg: "验证码不正确"
+            //     }
+            // }
         };
         $.extend(validate.func, {
             loginValidate : function() {
@@ -59,39 +58,37 @@ require(['../config'],function(){
         var submitBtn = $("#submit_button");
         var errors = ['#email_error', '#pwd_error'];
         // var errors = ['#email_error', '#pwd_error', '#authcode_error'];
-        function login() {
-            var passed = false;
-            for(var i = 0; i < errors.length; i++){
-                $(errors[i]).removeClass('fade');
-            }
-            passed = validate.func.loginValidate();
-            if (passed) {
-                isSubmit = true;
-                console.log('不容易呀，验证成功了');
-            }else{
-                isSubmit = false;
-                for(var j = 0; j < errors.length; j++){
-                    $(errors[j]).on('click', function(){
-                        $(this).addClass('fade');
-                    });
-                }
-            }
+        for(var j = 0; j < errors.length; j++){
+            $(errors[j]).on('click', function(){
+                $(this).addClass('fade');
+            });
         }
-        console.log('服务器返回的错误代码：'+$('#error_code').val());
+        // console.log('服务器返回的错误代码：'+$('#error_code').val());
         var errorCode = $('#error_code').val();
-        // var errorCode = 'sssss';
         if(errorCode != undefined){
             $('#email_error').html(errorCode).addClass('error').attr('display', 'block');
         }
         submitBtn.on('click', function(){
-            // login();
-            $('#form1').submit();
+            if(validate.func.loginValidate()){
+               $('#form1').submit(); 
+            }
         });
 
         // 点击登录按钮，呈现输入状态
         var logFoc = $("a[title='登录']");
-        logFoc.click(function(){
+        var surList = $("a[title='问卷列表']");
+        logFoc.add(surList).click(function(){
             $("#email").focus(); 
+        });
+
+        // keyboard获取登录按钮焦点以后，按Enter键触发click事件
+        $('#submit_button').keypress(function(e){
+            var key = e.which;
+            if(key == 13) // the enter key code
+            {
+                $(this).click();
+                return false;
+            }
         });
     });
     require(['jquery'], function($){
@@ -120,7 +117,36 @@ require(['../config'],function(){
                 }
             });
         }
-
         revealOnScroll();
+    });
+    require(['jquery', 'jqueryCookie'], function($){
+        //feedback
+        function shouldShow(){
+            var vp  = $.cookie('ShoudShowDialog92');
+            if (vp == undefined || vp == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
+            closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
+        closeTag.on('click', function(){
+            $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
+            fbCon.hide();
+        });
+        closeBtn.on('click', function(){
+            unfdWrap.animate({right: '-420px'}, 300);
+            fdWrap.animate({right: '0'}, 300);
+        });
+        fdWrap.on('click', function(){
+            fdWrap.animate({right: '-130px'}, 300);
+            unfdWrap.animate({right: '0'}, 300);
+        });
+        if(shouldShow()){
+            fbCon.show();
+        }else{
+            fbCon.hide();
+        }
     });
 });

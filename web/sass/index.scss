@@ -5,11 +5,19 @@
 @import "component/login";
 $main-ad-color: #eb7020;
 .header{
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	right: 0;
 	height: 80px;
-	box-shadow: none;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, .15);
 }
 .main{
 	margin-top: 80px;
+	&.unlogin{
+		margin-top: 80px;
+	}
 }
 .main-ad{
 	height: 549px;
@@ -226,5 +234,149 @@ $main-ad-color: #eb7020;
 }
 .footer{
 	margin-top: 0!important;
+}
+
+// feedback 
+.fbCon{
+	z-index: 9999;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: none;
+}
+.fdWrap{
+	width: 100px;
+    height: 147px;
+	position: absolute;
+	z-index: 1999;
+	right: 0;
+	bottom: 0;
+	background: url(../img/home/feebackF.png) no-repeat;
+	cursor: pointer;
+}
+.fdBox{
+	position: relative;
+	z-index: 1;
+}
+.unfdWrap{
+	width: 311px;
+	position: absolute;
+	z-index: 1999;
+	right: -340px;
+	bottom: 0;
+	background: url(../img/home/feebackUnf.png) no-repeat;
+	ul{
+		padding-right: 40px;
+	    padding-top: 20px;
+	    margin-left: 24px;
+		margin-top: 50px;
+	}
+	li {
+	    line-height: 35px;
+	    label {
+		    vertical-align: top;
+		    display: block;
+		    height: 30px;
+		    line-height: 30px;
+		}
+		textarea, input{
+		    width: 100%;
+		}
+		textarea{
+			width: 100%;
+			height: 100px;
+		    line-height: 20px;
+		    padding: 5px;
+		}
+		em {
+		    color: #ff0000;
+		}
+		.btn{
+			margin-top: 5px;
+			font-size: 16px;
+		    width: 100%;
+		    height: 48px;
+		    text-align: center;
+		    line-height: 48px;
+		    color: #000;
+		    background: #ffdc6b;
+		    border-radius: 3px;
+		    cursor: pointer;
+		    transition: all 0.4s;
+		    -moz-transition: all 0.4s;
+		    -webkit-transition: all 0.4s;
+		    -o-transition: all 0.4s;
+		    display: inline-block;
+		    cursor: pointer;
+		}
+		span{
+			&.error{
+				color: #ff0000;
+			}
+		}
+	}
+	.feedback-con{
+		height: 145px;
+	}
+	.feedback-email{
+		height: 60px;
+	}
+	.feedback-error, #sys_error{
+		height: 24px;
+		line-height: 24px;
+	}
+	#sys_error{
+		margin-top: 5px;
+		color: #ff0000;
+		padding-left: 25px;
+	}
+}
+.unfdBox{
+	position: relative;
+	z-index: 1;
+	padding-top: 3px;
+	height: 438px;
+}
+.submitSucceed{
+	padding: 150px 70px;
+	display: none;
+	.img, p{
+		text-align: center;
+	}
+	p{
+		line-height: 24px;
+	}
+}
+.fdBox .closeTag{
+	width: 28px;
+	height: 27px;
+	right: 0;
+	top: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+.unfdBox .closeTag{
+	width: 98px;
+    height: 67px;
+	right: 0;
+	top: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+.closeBtn{
+	width: 66px;
+	height: 30px;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	z-index: 1999;
+	cursor: pointer;
+}
+#secs{
+	line-height: 30px;
+	text-align: center;
+	color: #ff0000;
 }
 @import "layout/footer";

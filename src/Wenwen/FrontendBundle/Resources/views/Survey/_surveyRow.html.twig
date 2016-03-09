@@ -1,0 +1,36 @@
+<li>
+    <div class="survey-item">
+        <div class="title">{{title}}</div>
+        <ul class="con clearfix">
+            <li class="first">
+                <span>问卷编号</span>
+                <p>{{num}}</p>
+            </li>
+            <li>
+                <span>问卷类型</span>
+                <p title="{% if type_desc is defined %} type_desc {% else %}{% endif %} ">{% if type_label is defined %} {{type_label}} {% else %}其他{% endif %}</p>
+            </li>
+            <li>
+                <span>回答期限</span>
+                <p>{% if end_date is defined %} {{end_date}} {% else %}--{% endif %} </p>
+            </li>
+            <li class="last">
+                <span>积分数</span>
+                <p><strong>{{ point }}</strong></p>
+            </li>
+        </ul>
+    </div>
+    <div class="survey-btn">
+    {% if answered is defined and answered%} 
+    完毕
+    {% elseif on_maintenance is defined and on_maintenance %}
+    正在维护中
+    {% else %}
+        {% if type_class == 'quick' %}
+        <a href="{{ url }}" return false;" >投票</a>
+        {% else %}
+        <a href="{{ url }}" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
+        {% endif %}
+    {% endif %}
+    </div>
+</li>
