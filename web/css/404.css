@@ -336,6 +336,7 @@ body {
         color: #fff; }
 
 .main {
+  margin-top: 0;
   background: #f2f3f5; }
   .main .main-error-con {
     margin: 0 auto;
