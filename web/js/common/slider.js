@@ -4,6 +4,7 @@ define(['jquery'],function($){
         this.prevBtn = options.prevBtn;
         this.nextBtn = options.nextBtn;
         this.groupBtn = options.groupBtn;
+        this.textEle = options.textEle;
         this.config = options.config;
         this.start();
     }
@@ -31,6 +32,7 @@ define(['jquery'],function($){
                 _self.config.index = 0;
             }
             _self.moveEle();
+            _self.textEffect();
         },
         prevEle: function(){
             var _self = this;
@@ -39,6 +41,16 @@ define(['jquery'],function($){
                 _self.config.index = (_self.config.eleLen - 1);
             }
             _self.moveEle();
+            _self.textEffect();
+        },
+        textEffect: function(){
+            var _self = this;
+            if(_self.isNull(_self.textEle)){
+                var items = $(_self.textEle).find('span');
+                if(items.length >= 1){
+                    items.fadeOut(500).eq(_self.config.index).fadeIn(500);
+                }
+            }
         },
         start: function(){
             var _self = this, s, el;
@@ -63,13 +75,20 @@ define(['jquery'],function($){
                 }, function(){
                     s = setInterval(function(){_self.nextEle();}, _self.config.timer);
                 });
+                $(_self.textEle).hover(function(){
+                    clearInterval(s);
+                }, function(){
+                    s = setInterval(function(){_self.nextEle();}, _self.config.timer);
+                });
             }
             _self.moveEle();
+            _self.textEffect();
             $(_self.groupBtn).hover(function(){
                 clearInterval(s);
                 var index = $(this).index();
                 _self.config.index = index;
                 _self.moveEle();
+                _self.textEffect();
             }, function(){
                 s = setInterval(function(){_self.nextEle();}, _self.config.timer);
             });
