@@ -7,7 +7,7 @@ define(['jquery', 'routing'],function($){
             nav.find('a').removeClass('active').eq(0).addClass('active');
             return false;
         }
-        if(href.indexOf(i) != -1){
+        if(href.indexOf('user') == -1 && href.indexOf(i) != -1){
             var navs = nav.find('a');
             var len = navs.length;
             for(var j = 0; j < len; j++){
