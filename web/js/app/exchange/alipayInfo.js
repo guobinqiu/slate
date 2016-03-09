@@ -5,7 +5,6 @@ require(['../../config'],function(){
         var alipaySave = $('#alipay_save'), moneyInput = '#money';
         var alipayInput = '#alipay', alipayRepeatInput = '#alipayRepeat', realNameInput = '#realName';
         var curPoints = $('#curPoints').val();
-        console.log('获取用户当前积分：'+ curPoints);
         var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', points: curPoints, saveBtn: '#alipay_save'};
         var validateAlipay;
         function validateMoney(){
@@ -18,8 +17,8 @@ require(['../../config'],function(){
             }
             return true;
         }
+        //是否验证支付宝账号
         function executeValidate(isValidate){
-            console.log('是否验证支付宝账号：'+isValidate);
             if(isValidate){
                 validateAlipay = new alipay({
                     alipayInput: alipayInput,
@@ -47,7 +46,6 @@ require(['../../config'],function(){
                     if(!validateMoney()){
                         return false;
                     }
-                    console.log('输入支付宝信息后---可以提交了！');
                     //获取当前选择的选项内容
                     var selOption = $('#money').find('.points').text();
                     var selNum = selOption.substr(0, selOption.indexOf('积分'));
@@ -67,7 +65,6 @@ require(['../../config'],function(){
                     if (!validateMoney()) {
                         return false;
                     }
-                    console.log('可以提交了！');
                     //获取当前选择的选项内容
                     var selOption = $('#money').find('.points').text();
                     var selNum = selOption.substr(0, selOption.indexOf('积分'));
@@ -77,16 +74,14 @@ require(['../../config'],function(){
                 });
             }
         }
+        //判断余额
         function validateBalance(isValidate){
             var obj = new exchange(exchangeOptions);
-            console.log('余额是否充足：'+obj.initMoney());
             if(obj.initMoney() == undefined){
-                console.log('没有选取兑换金额！');
                 executeValidate(isValidate);
                 return false;
             }
             if(!obj.initMoney()){
-                console.log('不可以提交，余额不足啊！');
                 alipaySave.unbind('click');
                 return false;
             }
@@ -108,7 +103,6 @@ require(['../../config'],function(){
 
         var curAlipay = $('#curAlipay'), curName = $('#curName');
         var alipayId = curAlipay.text(), alipayName = curName.text();
-        console.log('我的账号'+alipayId);
         if(alipayId != undefined && alipayId != '' && alipayName != undefined && alipayName != ''){
             curVal.show();
             modifyInput.hide();

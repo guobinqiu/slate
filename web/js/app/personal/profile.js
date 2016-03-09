@@ -52,7 +52,6 @@ require(['../../config'],function(){
                 }
             });
         }
-        console.log(curProvince);
         addressProvince.on('change', function(){
             var id = $(this).val();
             if(id == 0){
@@ -64,7 +63,6 @@ require(['../../config'],function(){
 
         var submitBtn = $('#profile_save');
         submitBtn.on('click', function(){
-            console.log($('#profileForm').serialize());
             $('#profileForm').submit();
         });
     });
@@ -95,7 +93,6 @@ require(['../../config'],function(){
         $('#profile_attachment').fileupload({
            dataType: 'json',
            done: function (e, data) {
-                console.log(data.result);
                 if(data.result.substr(0,7)!='uploads'){
                     $(".errorInfo").html(data.result);
                 }else{

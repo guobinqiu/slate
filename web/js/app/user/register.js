@@ -34,7 +34,6 @@ require(['../../config'],function(){
         function checkReadMe() {
             var  readme = $("#readme"),
                 protocolError = $("#protocol_error");
-            console.log((readme.prop("checked") == "checked") +"------是否阅读用户协议--------"+(readme.prop("checked") == true));
             if (readme.prop("checked") == "checked" || readme.prop("checked") == true) {
                 protocolError.removeClass();
                 return true;
@@ -68,44 +67,11 @@ require(['../../config'],function(){
             var regNameOk = validateRegName();
             var passed = false;
 
-            console.log($("#signup_form").serialize());
-            //console.log(agreeProtocol);
             passed = validate.func.regValidate() && regNameOk && agreeProtocol;
-            //console.log(passed);
             if (passed) {
                 $("#submit_button").attr({
                     "disabled" : "disabled"
                 }).removeClass().addClass("btn-img btn-regist wait-btn");
-//            $.ajax({
-//                type : "POST",
-//                url : "../register/regService?r=" + Math.random() + "&"
-//                    + location.search.substring(1),
-//                contentType : "application/x-www-form-urlencoded; charset=utf-8",
-//                data : $("#signup_form").serialize(),
-//                success : function(result) {
-//                    var result = {};
-//                    if (result) {
-//                        var obj = eval(result);
-//                        if (obj.info) {
-//                            //showMessage(obj.info);
-//                            console.log(obj.info);
-//                            verc();
-//                            $("#registsubmit").removeAttr("disabled").removeClass()
-//                                .addClass("btn-img btn-regist");
-//                            isSubmit = false;
-//                            return;
-//                        }
-//                        if (obj.noAuth) {
-//                            verc();
-//                            window.location = obj.noAuth;
-//                            return;
-//                        }
-//                        if (obj.success == true) {
-//                            window.location = obj.dispatchUrl;
-//                        }
-//                    }
-//                }
-//            });
             } else {
                 $("#submit_button").removeAttr("disabled").removeClass().addClass(
                     "btn-img btn-regist");
