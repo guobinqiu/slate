@@ -226,7 +226,6 @@ require(['../../config'], function() {
                                    }
                                  ]
                                }};
-             console.log("mockResponse2");
              callback(dummy_res);
            };
          }

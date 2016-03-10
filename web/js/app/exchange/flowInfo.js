@@ -17,6 +17,7 @@ require(['../../config'],function(){
                 mobileSave.on('click', function(){
                     var mobileNum = $(mobileInput).val().trim(),
                         mobileRepeatNum = $(mobileRepeatInput).val().trim();
+                    //判断手机
                     if (mobileNum == "" || (validateMobile.isPhone(mobileNum) == false)) {
                         validateMobile.eError(mobileInput, '请输入有效的手机号码');
                         return false;
@@ -27,7 +28,6 @@ require(['../../config'],function(){
                         }
                         validateMobile.eSucceed(mobileRepeatInput);
                     }
-                    console.log('输入手机号后---可以提交了！');
                     $("#form1").submit();
                     //ajax
                 });
@@ -40,7 +40,6 @@ require(['../../config'],function(){
                 });
                 mobileSave.unbind('click');
                 mobileSave.on('click', function(){
-                    console.log('可以提交了！');
                     $("#form1").submit();
                     //ajax
                 });
