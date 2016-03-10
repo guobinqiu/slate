@@ -6,9 +6,9 @@ require.config({
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {//设置路径
         'jquery': 'lib/jquery-1.11.1.min',
-        'jqueryCookie': 'lib/jquery.cookie',
         'backbone': 'lib/backbone-1.1.2.min',
         'underscore': 'lib/underscore-min',
+        'jqueryCookie': 'plugin/jquery.cookie',
         'jquery.ui.widget': 'plugin/fileUpload/jquery.ui.widget',
         'fileUpload': 'plugin/fileUpload/jquery.fileupload',
         'transport': 'plugin/fileUpload/jquery.iframe-transport',

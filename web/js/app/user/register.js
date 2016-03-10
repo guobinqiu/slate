@@ -1,16 +1,5 @@
 require(['../../config'],function(){
-    require(['jquery'], function(){
-        var expandBtn = $('.expand-btn'),
-        expandCon = $('.expand-con');
-
-        $.each(expandCon, function(i, e){
-            expandBtn.eq(i).hover(function(){
-                expandCon.eq(i).show();
-            }, function(){
-                expandCon.eq(i).hide();
-            });
-        });
-    });
+    require(['expand']);
     require(['jquery', 'validate', 'routing'], function($, validate){
         $('#changeCode').on('click', function(){
             $('#verificationImg').prop('src', Routing.generate("_user_captcha") + '?r=' + 100000*Math.random());
