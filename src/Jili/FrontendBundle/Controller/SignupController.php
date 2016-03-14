@@ -48,12 +48,26 @@ class SignupController extends Controller
            'type' => AdCategory::ID_SINGUP
        );
 
+       //更新task_history表分数
+       $task_params = array (
+         'userid' => $user->getId(),
+         'orderId' => 0,
+         'taskType' => 0,
+         'categoryType' => AdCategory::ID_SINGUP,//9:完善资料
+         'task_name' => '完获注册',
+         'point' => $points_for_register,
+         'date' => date_create(date('Y-m-d H:i:s')),
+         'status' => 1
+       );
+
        $user->setPoints(intval($user->getPoints()+$points_for_register));
 
        // transaction
        $em->getConnection()->beginTransaction(); // suspend auto-commit
        try {
            $this->get('general_api.point_history')->get($points_params);
+          $taskLister = $this->get('general_api.task_history');
+          $taskLister->init($task_params);
            $em->persist($user);
            $em->persist($passwordToken);
            $em->flush();
