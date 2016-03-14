@@ -1,0 +1,39 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷结束：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="qnWrap">
+    <div class="qnCon qnEnd">
+        <div class="qnEndTxt clearfix">
+            <span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
+            <span class="txt left"><h2>亲爱的用户！您好！</h2>
+            {# ログインしていない場合 #}
+            {% if errors.panelist_is_not_authenticated is defined and errors.panelist_is_not_authenticated %}
+            <p>请您先登陆您的账户再访问此页。</p>
+            {# 既に回答済み・未配信などで 回答権利をもっていない場合  #}
+            {% elseif errors.panelist_has_already_answered is defined and errors.panelist_has_already_answered %}
+            <p>您已经参加过本次调查活动，谢谢您的参加！</p>
+            {# その他 #}
+            {% elseif errors.custom_message is defined %}
+            <p>{{ errors.custom_message }}</p>
+            {% endif %}
+            </span>
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Questionnaire:_footer.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

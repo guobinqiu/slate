@@ -1,0 +1,31 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷结束：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="qnWrap">
+    <div class="qnCon qnEnd">
+        <div class="qnEndTxt clearfix">
+            <span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
+            <span class="txt left"><h2>亲爱的用户！您好！</h2>
+               感谢您参加本次的问卷调查，您已经成功获得了<span style="color:#F25100;">1积分</span>。<br>
+               您可以关闭您的浏览器窗口，稍后在积分获取记录里可以确认积分的累积。
+            </span>
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Questionnaire:_footer.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

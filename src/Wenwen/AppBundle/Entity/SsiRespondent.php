@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SsiRespondent
 {
+    const STATUS_PERMISSION_NO = 0;
+    const STATUS_PERMISSION_YES = 1;
+    const STATUS_PRESCREENED = 10;
+    const STATUS_ACTIVE = 10;
+
+    static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=1156&aff_id=1346&aff_sub5=wwcn-%d';
+
     /**
      * @var integer
      *
@@ -185,5 +192,20 @@ class SsiRespondent
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function isActive()
+    {
+        return $this->getStatusFlag() == self::STATUS_ACTIVE;
+    }
+
+    public function needPrescreening()
+    {
+        return $this->getStatusFlag() == self::STATUS_PERMISSION_YES;
+    }
+
+    public function getPrescreeningSurveyUrl()
+    {
+        return sprintf(self::$base_url,  $this->getId());
     }
 }

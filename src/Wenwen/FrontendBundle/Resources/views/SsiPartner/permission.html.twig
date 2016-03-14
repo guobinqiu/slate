@@ -1,0 +1,70 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷开始：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="qnWrap">
+    <div class="qnCon">
+        <div class="qnTxt">
+           <div class="permission_main">
+  <div class="summary"> 如果您想获得更多的问卷调查的机会，您可以加入<span>SSI市场调查活动</span>。您不仅可以继续保持91问问的会员身份，而且可以获得更多的回答问卷的机会。<br /></div>
+  <!--/.summary-->
+  <div class="clear"></div>
+  <div class="content">
+    <div class="terms">
+      <div class="about" style="font-size:112%; margin:10px 0 0 0;"> <span>【友情提示】</span><br />
+        <br />
+        如果您同意加入SSI市场调查活动，我们需要您提供您的<font style=" font-weight:bold; color: #FC8000;">属性信息。</font>
+        <p style="font-size:86%; color:#999;">(您还是91问问的会员，不需要成为SSI的会员)</p>
+        <br />
+        如果您同意，我们会将您的一部分属性信息分享给<b style="color:#FC8000;">SSI</b>，可能会用于匹配对比其他来源信息，而这些属性信息无法识别您本人，仅用于问卷邀请和数据验证目的。<br />
+        <p style="font-size:86%; color:#666; background:#f2f2f2; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding:10px; margin:10px 0 0 0; line-height:24px;">我们将不会泄露以下任何信息，如：<br />
+          您的姓名,您的电子邮件,您的密码,您的住址,您的电话号码。<br />
+          注册后，您可以随时和我们的客服联系退出SSI市场调查。</p>
+        如果您选择了是，那么您将会被导向SSI属性问卷页面。
+        <form action="{{ path('_ssi_partner_commit') }}" method="post" style="margin:20px 0 0 0;">
+          <div style="width:470px; height:30px; margin:0 auto;">
+            <p style="width:240px; float:left; ">
+              <input type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ok" value="1" />
+              <label for="permission-ok" style="font-size:86%;"> 是，我同意并愿意完成SSI属性问卷 </label>
+            </p>
+            <p style="float:left; margin:0 0 0 10px;">
+              <input type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ng" value="0" />
+              <label for="permission-ng" style="font-size:86%;"> 否，我不愿意加入SSI市场调查活动 </label>
+            </p>
+          </div>
+            <p> {{ form_errors(form.permission_flag) }}</p>
+          <p style="text-align:center;">
+            <input type="image" alt="发送" src="{{ asset('img/questionnaire/send.jpg') }} "  />
+          </p>
+          <div style="display: none;">{{ form_widget(form.token) }}</div>
+        </form>
+      </div>
+      <!--/.about-->
+      <p style="color:#999; padding:15px 35px; text-align:center;">参考信息：SSI是世界领先的样本，数据收集和数据分析供应商之一。如果您还需要获得更多的关于SSI的信息，请您查询他们的网站<a href="http://www.surveysampling.com/" target="_blank">http://www.surveysampling.com/ </a>。</p>
+    </div>
+    <!--/.terms--> 
+  </div>
+</div>
+<!--/.content-->
+</div>
+<!--/.permission_main-->
+
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Questionnaire:_footer.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
