@@ -54,7 +54,7 @@ class SignupController extends Controller
          'orderId' => 0,
          'taskType' => 0,
          'categoryType' => AdCategory::ID_SINGUP,//9:完善资料
-         'task_name' => '完获注册',
+         'task_name' => '完成注册',
          'point' => $points_for_register,
          'date' => date_create(date('Y-m-d H:i:s')),
          'status' => 1
