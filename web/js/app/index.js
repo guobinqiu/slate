@@ -1,5 +1,5 @@
 require(['../config'],function(){
-    require(['common']);
+    require(['common', 'scrollTop']);
     require(['feedbackForm']);
     require(['numScroll'], function(RPANumScroll){
         new RPANumScroll({ numScrollEle: '.digits b', config: {
@@ -67,7 +67,6 @@ require(['../config'],function(){
                 $(this).addClass('fade');
             });
         }
-        // console.log('服务器返回的错误代码：'+$('#error_code').val());
         var errorCode = $('#error_code').val();
         if(errorCode != undefined){
             $('#email_error').html(errorCode).addClass('error').attr('display', 'block');

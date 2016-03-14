@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumResearchSurveyParticipationHistory
  *
  * @ORM\Table(name="fulcrum_research_survey_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="fulcrum_project_member_uniq", columns={"fulcrum_project_id", "app_member_id"})})
- * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\FulcrumResearchSurveyParticipationHistoryRepository")
+ * @ORM\Entity
  */
 class FulcrumResearchSurveyParticipationHistory
 {
@@ -52,7 +52,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer", nullable=false)
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
 
@@ -81,12 +81,13 @@ class FulcrumResearchSurveyParticipationHistory
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+        $this->setPoint(0);
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -109,7 +110,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get fulcrumProjectId
      *
-     * @return integer
+     * @return integer 
      */
     public function getFulcrumProjectId()
     {
@@ -132,7 +133,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get fulcrumProjectQuotaId
      *
-     * @return integer
+     * @return integer 
      */
     public function getFulcrumProjectQuotaId()
     {
@@ -155,7 +156,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get appMemberId
      *
-     * @return string
+     * @return string 
      */
     public function getAppMemberId()
     {
@@ -178,7 +179,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get point
      *
-     * @return integer
+     * @return integer 
      */
     public function getPoint()
     {
@@ -201,7 +202,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get type
      *
-     * @return integer
+     * @return integer 
      */
     public function getType()
     {
@@ -224,7 +225,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get stashData
      *
-     * @return string
+     * @return string 
      */
     public function getStashData()
     {
@@ -247,7 +248,7 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getUpdatedAt()
     {
@@ -270,10 +271,12 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
+
+
 }

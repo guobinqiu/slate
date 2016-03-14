@@ -1083,7 +1083,6 @@ class UserController extends Controller implements CampaignTrackingController
 
         //login
         $code = $this->get('login.listener')->login($request);
-
         if($code == 'ok') {
             $code_redirect = '301';
             $current_url = '';
@@ -1115,6 +1114,7 @@ class UserController extends Controller implements CampaignTrackingController
                 if( $token) {
                     $response->headers->setCookie(new Cookie("jili_rememberme", $token, time() + 3153600, '/'));
                 } else {
+                  $this->get('logger')->info($token);
                     // todo: set the error flash
                 }
 

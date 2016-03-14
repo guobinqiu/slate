@@ -18,9 +18,9 @@ body {
   color: #333; }
 
 .main {
-  margin-top: 111px; }
+  margin-top: 2px; }
   .main.unlogin {
-    margin-top: 81px; }
+    margin-top: 0px; }
 
 .main-con-left > div, .main-con-right > div {
   margin-top: 20px;
@@ -55,11 +55,6 @@ body {
   clear: both; }
 
 .header {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  right: 0;
   height: 110px;
   box-shadow: 0px 1px 5px #d8d8d8; }
   .header li {
@@ -340,35 +335,48 @@ body {
         padding-top: 10px;
         color: #fff; }
 
-.main .main-error-con .errorCon {
-  height: 536px;
-  background: url(../img/404/errorbox.png) no-repeat 0 50px;
-  position: relative; }
-  .main .main-error-con .errorCon .errorText {
-    width: 330px;
-    height: 100px;
-    position: absolute;
-    top: 75px;
-    left: 250px; }
-    .main .main-error-con .errorCon .errorText .txt {
-      font-size: 14px;
-      line-height: 18px; }
-    .main .main-error-con .errorCon .errorText .btn {
-      margin-top: 31px; }
-      .main .main-error-con .errorCon .errorText .btn a {
-        padding: 6px 15px;
-        background: #f5f5f5;
-        border: 1px solid #ccd1d2;
-        margin-right: 10px;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
-        -o-border-radius: 3px; }
-.main .errorBot {
-  height: 152px;
-  margin-top: 20px;
-  background: url(../img/404/wave.png) repeat-x; }
+.main {
+  margin-top: 0;
+  background: #f2f3f5; }
+  .main .main-error-con {
+    margin: 0 auto;
+    background: url(../img/404/errorbox.png) no-repeat center; }
+    .main .main-error-con .errorCon {
+      width: 1000px;
+      height: 436px;
+      margin: 0 auto;
+      position: relative; }
+      .main .main-error-con .errorCon .errorText {
+        width: 480px;
+        position: absolute;
+        top: 178px;
+        left: 455px; }
+        .main .main-error-con .errorCon .errorText .txt {
+          font-size: 14px;
+          line-height: 24px; }
+          .main .main-error-con .errorCon .errorText .txt h2 {
+            font-size: 18px; }
+        .main .main-error-con .errorCon .errorText .btn {
+          margin-top: 31px; }
+          .main .main-error-con .errorCon .errorText .btn a {
+            padding: 6px 15px;
+            background: #f5f5f5;
+            border: 1px solid #ccd1d2;
+            margin-right: 10px;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px; }
+  .main .errorBot {
+    height: 152px;
+    margin-top: 20px;
+    background: url(../img/404/wave.png) repeat-x; }
 
 .footer {
-  margin-top: 0; }
+  background: #4b95d7;
+  margin-top: 0;
+  border: none; }
+
+body {
+  background: #4b95d7; }

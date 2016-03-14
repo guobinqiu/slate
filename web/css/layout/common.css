@@ -18,9 +18,9 @@ body {
   color: #333; }
 
 .main {
-  margin-top: 111px; }
+  margin-top: 2px; }
   .main.unlogin {
-    margin-top: 81px; }
+    margin-top: 0px; }
 
 .main-con-left > div, .main-con-right > div {
   margin-top: 20px;
