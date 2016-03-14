@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+.main-register-active{
+	margin: 50px 80px 100px;
+	color: #a3a3a3;
+	.title{
+		font-size: 20px;
+		font-weight: bold;
+		color: #333;
+		line-height: 40px;
+		b{
+			color: #fe5718;
+		}
+	}
+	p{
+		line-height: 28px;
+	}
+	.con{
+		padding-top: 20px;
+		.text{
+			margin-left: 80px;
+			padding-left: 75px;
+			background: url(../img/common/success_email.png) no-repeat left 10px;
+		}
+		a{
+			margin-top: 10px;
+			width: 118px;
+			height: 27px;
+			line-height: 27px;
+			text-align: center;
+			@include btn();
+			@include dib();
+		}
+	}
+	.finish{
+		.title{
+			line-height: 75px;
+		}
+	}
+	.tips{
+		margin-top: 90px;
+		padding: 30px 0 30px 157px;
+		background: #f5f5f6;
+		border-radius: 8px;
+		dl{
+			margin-bottom: 30px;
+		}
+		dt{
+			font-size: 16px;
+			line-height: 35px;
+			color: #333;
+		}
+		dd{
+			font-size: 12px;
+			line-height: 20px;
+		}
+	}
+}
+@import "layout/footer";
