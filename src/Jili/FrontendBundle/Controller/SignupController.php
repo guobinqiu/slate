@@ -15,6 +15,7 @@ class SignupController extends Controller
 
     /**
      * @Route("/confirmRegister/register_key/{register_key}", name="_signup_confirm_register",requirements={"_scheme"="https"})
+     * @Route("/signup/confirmRegister/register_key/{register_key}", name="_signup_confirm_register_2",requirements={"_scheme"="https"})
      * @Method("GET")
      */
     public function confirmRegisterAction($register_key )
