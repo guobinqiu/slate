@@ -71,7 +71,7 @@ class SignupController extends Controller
            '--group_id=83',# signup-completed-recipients
            '--mailing_id=2411',# 91wenwen-signup
            '--email='. $user->getEmail(),
-           '--title=',
+           '--title=先生/女士',
            '--name='. $user->getNick());
        $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
        $em->persist($job);
@@ -92,7 +92,7 @@ class SignupController extends Controller
        $this->get('login.listener')->initSession($user);
        // The user was insert when regAction
        $this->get('login.listener')->log($user);
-        return new RedirectResponse('_home');
+        return new RedirectResponse($this->generateUrl('_homepage') );
     } 
 }
 

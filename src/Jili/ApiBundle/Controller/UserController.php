@@ -1409,7 +1409,7 @@ class UserController extends Controller implements CampaignTrackingController
                 '--group_id=81',
                 '--mailing_id=9',
                 '--email='. $user->getEmail(),
-                '--title=',
+                '--title=先生/女士',
                 '--name='. $user->getNick(),
                 '--register_key='. $setPasswordCode->getCode() ); //check the verification
 
