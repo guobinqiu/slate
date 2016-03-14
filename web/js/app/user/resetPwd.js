@@ -1,5 +1,5 @@
 require(['../../config'],function(){
-    require(['jquery', 'validate', , 'routing'], function($, rpaValidate, routing){
+    require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
         var emailInput = $('#email'),
             emailSucceed = $('#email_succeed'),
             emailError = $('#email_error');
