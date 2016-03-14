@@ -104,6 +104,7 @@ class SignupController extends Controller
        $this->get('login.listener')->initSession($user);
        // The user was insert when regAction
        $this->get('login.listener')->log($user);
+        $this->get('session')->getFlashBag()->clear();
         return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
     } 
 }
