@@ -16,7 +16,7 @@
 			<em></em>
 			<h1>问卷列表</h1>
             <ul id="surveyList">
-            {% if  votes|length > 10  %}
+            {% if  votes|length < 1  %}
                 <li>现在还没有新的问卷调查。</li>
             {% endif %}
 				<li>
@@ -118,6 +118,24 @@
 			</ul>
 
             {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyList.html.twig', {'sop_params': sop_params, 'preview': preview} ) }}
+            <ul id="surveyList">
+                {% for vote in votes %}
+                    {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                    {
+                        'type_class': 'quick',
+                        'type_desc': '每日参与快速问答，保持帐户活跃，以获得更多高积分问卷的机会',
+                        'type_label': '快速问答',
+                        'end_date': vote.endTime | date('Y-m-d'),
+                        'num': "v%s"|format(vote.id),
+                        'survey_type': 'quick_survey',
+                        'title': vote.title[:10],
+                        'answered': false,
+                        'url': path('jili_frontend_vote_show',{'id':vote.id}),
+                        'answer_status_label': '投票',
+                        'point': vote.pointValue,
+                    } ) }}
+                {% endfor %}
+            </ul>
 		</div>
 	</div>
 	<div class="main-con-right right">

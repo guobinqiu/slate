@@ -31,8 +31,8 @@ class SurveyController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
 
-        // todo: 快速問答
-        $arr['votes'] = array ();
+        // 快速問答
+        $arr['votes']  = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
 
         // todo: CINT
 
