@@ -281,6 +281,13 @@ body {
       -webkit-transition: all 0.1s;
       -o-transition: all 0.1s; }
 
+.main {
+  margin-top: 20px; }
+
+.main-con {
+  background: #fff;
+  border: 1px solid #ebedf2; }
+
 .main-register-active {
   margin: 50px 80px 100px;
   color: #a3a3a3; }

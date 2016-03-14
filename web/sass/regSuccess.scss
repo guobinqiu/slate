@@ -2,6 +2,13 @@
 
 @import "layout/common";
 @import "layout/header";
+.main{
+    margin-top: 20px;
+}
+.main-con{
+    background: $block-bg-color;
+	border: $block-border;
+}
 .main-register-active{
 	margin: 50px 80px 100px;
 	color: #a3a3a3;
