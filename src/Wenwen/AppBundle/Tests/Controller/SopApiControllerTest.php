@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -199,5 +198,210 @@ class SopApiControllerTest extends WebTestCase
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals(101, $user->getPoints());
+    }
+
+    /**
+     * @group dev-merge-ui-delivery-notification
+     */
+    public function testDeliveryNotificationFor91wenwenAction()
+    {
+        //Test delivery notification
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $sop_config = $container->getParameter('sop');
+        $sopRespondent = $this->sopRespondent;
+
+        $url = $container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
+
+        $params = array (
+            'time' => time(),
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => $sopRespondent[0]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'ir' => '50',
+                        'cpi' => '1.50',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'content' => '',
+                            'date' => array (
+                                'start_at' => '1900-01-01',
+                                'end_at' => '2000-01-01'
+                            ),
+                            'point' => array (
+                                'complete' => '1234',
+                                'screenout' => '2345',
+                                'quotafull' => '3456'
+                            )
+                        )
+                    ),
+                    array (
+                        'app_mid' => $sopRespondent[1]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'ir' => '50',
+                        'cpi' => '1.50',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'content' => '',
+                            'date' => array (
+                                'start_at' => '1900-01-01',
+                                'end_at' => '2000-01-01'
+                            ),
+                            'point' => array (
+                                'complete' => '1234',
+                                'screenout' => '2345',
+                                'quotafull' => '3456'
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        {
+            //Invalid signature request to 91wenwen
+            $request_body = json_encode($params);
+            $crawler = $client->request('POST', $url, array (
+                'request_body' => $request_body
+            ), array (), array (
+                'HTTP_X-Sop-Sig' => 'invalid-sig'
+            ));
+
+            $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'Invalid signature request to 91wenwen');
+            $res = json_decode($client->getResponse()->getContent(), true);
+            $this->assertEquals(array (
+                'meta' => array (
+                    'code' => 403,
+                    'message' => 'authentication failed'
+                )
+            ), $res);
+        }
+
+        {
+            //Invalid request to 91wenwen
+            $request_body = '{"invalid":"request","time":' . time() . '}';
+
+            $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
+
+            $crawler = $client->request('POST', $url, array (
+                'request_body' => $request_body
+            ), array (), array (
+                'HTTP_X-Sop-Sig' => $sig
+            ));
+
+            $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'Invalid request to 91wenwen');
+            $res = json_decode($client->getResponse()->getContent(), true);
+            $this->assertEquals(array (
+                'meta' => array (
+                    'code' => 400,
+                    'message' => 'data.respondents not found!'
+                )
+            ), $res);
+        }
+
+        {
+            //Valid request to 91wenwen
+            $request_body = json_encode($params);
+            $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
+
+            $crawler = $client->request('POST', $url, array (
+                'request_body' => $request_body
+            ), array (), array (
+                'HTTP_X-Sop-Sig' => $sig
+            ));
+
+            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
+
+            $res = json_decode($client->getResponse()->getContent(), true);
+            $this->assertEquals(array (
+                'meta' => array (
+                    'code' => 200,
+                    'message' => ''
+                ),
+                'data' => array (
+                    'respondents-not-found' => array (
+                        $sopRespondent[1]->getId()
+                    )
+                )
+            ), $res);
+        }
+    }
+
+    /**
+     * @group dev-merge-ui-delivery-notification
+     */
+    public function testdeliveryFulcrumDeliveryNotificationFor91wenwenAction()
+    {
+        //Test delivery notification
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $em = $this->em;
+        $sop_config = $container->getParameter('sop');
+        $sopRespondent = $this->sopRespondent;
+
+        $url = $container->get('router')->generate('fulcrum_delivery_notification_v1_1_91wenwen');
+
+        $fulcum_params = array (
+            'time' => time(),
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => $sopRespondent[0]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'point' => array (
+                                'complete' => '1234'
+                            )
+                        )
+                    ),
+                    array (
+                        'app_mid' => $sopRespondent[1]->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'point' => array (
+                                'complete' => '1234'
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        //Valid request to Fulcrum 91wenwen
+        $request_body = json_encode($fulcum_params);
+
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
+
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $request_body
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to Fulcrum 91wenwen');
+        $res = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            ),
+            'data' => array (
+                'respondents-not-found' => array (
+                    $sopRespondent[1]->getId()
+                )
+            )
+        ), $res);
     }
 }

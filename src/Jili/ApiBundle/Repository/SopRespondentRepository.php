@@ -33,7 +33,7 @@ class SopRespondentRepository extends EntityRepository
     {
         $sop_respondent = new SopRespondent();
 
-       $query = $this->createQueryBuilder('sp');
+        $query = $this->createQueryBuilder('sp');
         $query = $query->select('sp');
         $query = $query->Where('sp.id = :id');
         $query = $query->andWhere('sp. statusFlag = :statusFlag');
@@ -41,5 +41,31 @@ class SopRespondentRepository extends EntityRepository
         $query = $query->setParameter('statusFlag', $sop_respondent::STATUS_ACTIVE);
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
+    }
+
+    public function retrieve91wenwenRecipientData($id)
+    {
+        $sql = <<<EOT
+            SELECT
+                u.email,
+                IFNULL(u.nick, u.email) AS name1,
+                IFNULL(IF(u.sex = '2', '女士', '先生'), '先生') AS title
+            FROM sop_respondent res
+            INNER JOIN user u
+                ON u.id = res.user_id
+            WHERE
+                res.id = ?
+                AND
+                res.status_flag = ?
+EOT;
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+
+        $sop = new SopRespondent();
+        $sop = $stmt->execute(array (
+            $id,
+            $sop::STATUS_ACTIVE
+        ));
+        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $res;
     }
 }
