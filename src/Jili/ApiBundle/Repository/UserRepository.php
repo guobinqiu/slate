@@ -638,7 +638,7 @@ EOT;
     }
 
     /**
-     * create the user when sign up
+     * create the user when sign up, default use wenwen_login_password
      * @param  array('nick'=> , 'email'=>);
      * @return the User
      */
@@ -649,7 +649,7 @@ EOT;
         $user->setEmail($param['email']);
         $user->setCreatedRemoteAddr($param['remote_address']);
         $user->setCreatedUserAgent($param['user_agent']);
-
+        $user->setPasswordChoice(User::PWD_WENWEN);
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
@@ -765,7 +765,8 @@ EOT;
     public function migrateUserWenwenLogin($password, $user_id)
     {
         $user = new User();
-        $new_pwd = $user->pw_encode($password);
+        $new_pwd= $user->pw_encode($password);
+
         $em = $this->getEntityManager();
         $sql_update = $em->createQuery('UPDATE Jili\ApiBundle\Entity\User u SET u.pwd= :pwd , u.passwordChoice = :passwordChoice WHERE  u.id = :userId');
         $sql_update->setParameters(array (

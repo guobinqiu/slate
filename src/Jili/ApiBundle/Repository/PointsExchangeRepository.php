@@ -7,6 +7,9 @@ use Jili\ApiBundle\Entity\PointsExchange;
 
 class PointsExchangeRepository extends EntityRepository
 {
+    /**
+     *  $uid之外用户的支付宝支付记录
+     */
     public function existTargetAcc($targetAcc,$uid)
     {
         $query = $this->createQueryBuilder('p');
@@ -20,6 +23,9 @@ class PointsExchangeRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     *  $uid之外用户的密码相同的记录
+     */
     public function existPwd($pwd,$uid)
     {
         $query = $this->createQueryBuilder('p');
@@ -33,6 +39,9 @@ class PointsExchangeRepository extends EntityRepository
     }
 
 
+    /**
+     *  其它用户uid使用$ip 兑换过
+     */
     public function existIp($ip,$uid)
     {
         $query = $this->createQueryBuilder('p');

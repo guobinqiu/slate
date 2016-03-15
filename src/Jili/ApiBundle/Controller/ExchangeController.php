@@ -204,7 +204,7 @@ class  ExchangeController extends Controller
             $arr['mobile'] = '';
             $arr['code'] = '';
             $arr['existMobile'] = '';
-            $pointschange  = new PointsExchange();
+            $pointschange  = new PointsExchange(); // 兑换记录表
             $id = $this->get('request')->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
@@ -238,9 +238,9 @@ class  ExchangeController extends Controller
                     $arr['code'] = $code;
                 }else{
                     if($change_point == 2010 || $change_point == 2995 || $change_point == 4960){
-                        if($existMobile || $arr['existMobile']==''){
+                        if($existMobile || $arr['existMobile']==''){ # 如果是已经竞换过，或数据表中没找到兑换历史
                             if($mobile){
-                                    if (!(ValidateUtil::validateMobile($mobile))){
+                                    if (!(ValidateUtil::validateMobile($mobile))){ #验证手机号码
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
@@ -264,8 +264,8 @@ class  ExchangeController extends Controller
                                             $em->flush();
                                             $pointschange->setUserId($id);
                                             $pointschange->setType($this->container->getParameter('init_four'));
-                                            $pointschange->setSourcePoint($points-intval($change_point));
-                                            $pointschange->setTargetPoint(intval($change_point));
+                                            $pointschange->setSourcePoint($points-intval($change_point)); # 兑换后用户的积分数量
+                                            $pointschange->setTargetPoint(intval($change_point)); #变化积分数量
                                             $pointschange->setTargetAccount($mobile);
                                             $pointschange->setExchangeItemNumber($itemNumber);
                                             $pointschange->setIp($this->get('request')->getClientIp());
