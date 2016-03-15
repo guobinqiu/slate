@@ -21,7 +21,7 @@
 	background: $block-bg-color;
 	border: $block-border;
 	.mask{
-		width: 764px;
+		width: 520px;
 		height: 212px;
 	}
 	ul{
@@ -35,7 +35,6 @@
 		float: left;
 		position: relative;
 		z-index: 3;
-		padding-left: 244px;
 		top: 0;
 		left: 0;
 	}
@@ -58,10 +57,11 @@
 	span{
 		left: 0;
 		top: 0;
-		padding: 8px 20px 20px;
-		width: 204px;
-		@include dib();
+		padding: 8px 18px 20px;
+		width: 212px;
+		display: block;
 		vertical-align: top;
+		display:none;
 		h2{
 			height: 45px;
 			line-height: 45px;
@@ -108,6 +108,13 @@
 			width: 520px;
 		}
 	}
+}
+.main-slider-text{
+	width: 244px;
+	height: 212px;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
 }
 .main-con-shop{
 	overflow: hidden;

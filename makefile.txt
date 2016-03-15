@@ -9,6 +9,8 @@ deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
 fix-perms:
+	mkdir -p  app/{cache,logs,sessions,cache_data,logs_data}
+	mkdir -p web/images/actionPic
 	sudo chgrp -R apache app/cache
 	sudo chgrp -R apache app/cache_data
 	sudo chgrp -R apache app/logs

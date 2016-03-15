@@ -5,7 +5,6 @@ require(['../../config'],function(){
             moneySucceed = $('#money_succeed'),
             moneyError = $('#money_error');
         var curPoints = $('#curPoints').val();
-        console.log('获取用户当前积分：'+ curPoints);
         var exchangeOptions = {option: '.option', need: '#need', rest: '#rest', money: '#money', points: curPoints, saveBtn: '#mobile_save'};
         function validateMoney(){
             var moneyInput = $('#money');
@@ -23,9 +22,7 @@ require(['../../config'],function(){
         }
         function validateBalance(){
             var obj = new exchange(exchangeOptions);
-            console.log('余额是否充足：'+obj.initMoney());
             if(obj.initMoney() == undefined){
-                console.log('没有选取兑换金额！');
                 mobileSave.on('click', function(){
                     if(!validateMoney()){
                         mobileSave.unbind('click');
@@ -35,13 +32,11 @@ require(['../../config'],function(){
                 return false;
             }
             if(!obj.initMoney()){
-                console.log('不可以提交，余额不足啊！');
                 mobileSave.unbind('click');
                 return false;
             }
             mobileSave.on('click', function(){
                 if(!validateMoney()){ return false;}
-                console.log('可以提交了！');
                 //获取当前选择的选项内容
                 var selOption = $('#money').attr('value');
                 $('#changes').val(selOption);

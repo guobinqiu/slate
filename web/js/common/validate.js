@@ -339,7 +339,6 @@ define(['jquery'],function($){
                 return false;
             }
             var authCode = option.value;
-            console.log('authCode: '+ authCode);
             //模拟交互数据true：验证码正确，flase：验证码错误
             var flg = true;
             if (flg == false) {
@@ -361,7 +360,6 @@ define(['jquery'],function($){
             var pwdStrength = $("#pwdStrength"),
                 pwdError = $("#pwd_error");
             var value = $("#pwd").val();
-            console.log(value);
             if (value.length >= 6 && validateRules.isPwd(value)) {
                 pwdError.removeClass('focus');
                 pwdError.empty();

@@ -34,7 +34,6 @@ require(['../../config'],function(){
                 if(!validateAlipay()){
                     return false;
                 }
-                console.log('可以提交了！');
                 $("#form1").submit();
                 //ajax
             });

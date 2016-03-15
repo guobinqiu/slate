@@ -21,10 +21,10 @@ body{
 	color: $font-color;
 }
 .main{
-    margin-top: 111px;
+    margin-top: 2px;
     &.unlogin{
-		margin-top: 81px;
-	}
+    	margin-top: 0px;
+    }
 }
 .main-con-left>div, .main-con-right>div{
 	margin-top: 20px;

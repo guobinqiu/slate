@@ -2,7 +2,7 @@
     "name": "symfony/framework-standard-edition",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": ["src/", "lib/"] }
+        "psr-0": { "": ["src/", "lib/"] },
         "psr-4": {
                    "VendorIntegration\\SSI\\": "ssi_api/src/"
                  }
