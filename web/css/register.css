@@ -357,6 +357,8 @@ body {
     .main-register-active .tips dd {
       font-size: 12px;
       line-height: 20px; }
+    .main-register-active .tips b, .main-register-active .tips a {
+      color: #007ec2; }
 
 .footer {
   padding: 20px 0;

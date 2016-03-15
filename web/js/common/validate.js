@@ -72,7 +72,8 @@ define(['jquery'],function($){
         // 手机
         notempty: "^\\S+$",
         // 非空
-        password: "^.*[A-Za-z0-9\\w_-]+.*$",
+        // password: "^.*[A-Za-z0-9\\w_-]+.*$",
+        password: "^.​*(?=.*​?[A-Za-z])(?=.​*?[0-9]).*​$",
         // 密码
         fullNumber: "^[0-9]+$",
         // 数字
@@ -113,7 +114,7 @@ define(['jquery'],function($){
             return new RegExp(validateRegExp.fullNumber).test(str);
         },
         isPwd: function(str){
-            return /^.*([\W_a-zA-z0-9-])+.*$/i.test(str);
+            return /^.*(?=.*?[A-Za-z])(?=.*?[0-9]).*$/i.test(str);
         },
         isPwdRepeat: function(str1, str2) {
             return (str1 == str2);
@@ -304,21 +305,21 @@ define(['jquery'],function($){
             var length = validateRules.betweenLength(option.value, 5, 100);
             var pwdStrengthOptions = { pwdStrength: pwdStrength, pwdError: option.errorEle, value: str1};
             pwdStrength.hide();
-            if(!length && format){
+            if(!length){
                 validateSettings.error.run(option, option.prompts.error.badLength);
-            }else if(!length && !format){
-                validateSettings.error.run(option, option.prompts.error.badFormat);
-            }else if(length && !format){
-                validateSettings.error.run(option, option.prompts.error.badFormat);
             }else{
-                validateSettings.succeed.run(option);
-                validateFunction.pwdStrength(pwdStrengthOptions);
+                if (!format) {
+                    validateSettings.error.run(option, option.prompts.error.badFormat);
+                }else{
+                    validateSettings.succeed.run(option);
+                    validateFunction.pwdStrength(pwdStrengthOptions);
 //                if (validateRules.simplePwd(str1)) {
 //                    $("#pwd_error").removeClass().addClass("focus");
 //                    $("#pwd_error").empty().html(option.prompts.error.simplePwd);
 //                    return;
 //                }
-            }
+                }
+            } 
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
