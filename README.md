@@ -38,11 +38,33 @@ if USER = seki
 1. setup /etc/hosts on your **local**  machine.
 
     ```
-    115.29.208.157 $USER.www.91jili.com.dev.d8aspring.com
+    115.29.208.157 $USER.www.91jili.com.dev.91jili.com
     ```
 
 ## Document root
 
 | site           | URL                                    |
 |----------------|----------------------------------------|
-| 91jili         | $USER.www.91jili.com.dev.d8aspring.com |
+| 91jili         | http://$USER.www.91jili.com.dev.91jili.com/app\_dev.php |
+
+
+## Tips
+
+### When you need 2nd URL for test.
+
+1. set up your directory
+
+    ```bash
+    $ mkdir -p /data/seki-2/
+    $ cd !$
+    $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
+    $ SUBDOMAIN=seki-2 make setup
+    ```
+
+1. configure DB `./app/config/parameters.yml`
+
+1. setup /etc/hosts on your **local**  machine.
+
+    ```
+    115.29.208.157 seki-2.www.91jili.com.dev.91jili.com
+    ```

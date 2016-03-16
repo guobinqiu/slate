@@ -1,5 +1,5 @@
-SUBDOMAIN=${USER}
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
@@ -11,7 +11,13 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: create-dir fix-perms create-config create-symlinks cc-all
+setup: show-setting create-dir fix-perms create-config create-symlinks cc-all
+
+show-setting:
+	@echo "Setting"
+	@echo "-> SRC_DIR=${SRC_DIR}"
+	@echo "-> SUBDOMAIN=${SUBDOMAIN}"
+	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
 	mkdir -p ${WEB_ROOT_DIR}
@@ -38,7 +44,7 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 create-symlinks:
-	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/web
+	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-777:
 	sudo chgrp -R apache app/cache
