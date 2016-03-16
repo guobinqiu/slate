@@ -27,7 +27,7 @@ if USER = seki
 1. setup your directory
 
     ```bash
-    $ mkdir -p /data/$USER/
+    $ mkdir -p /data/src/$USER/
     $ cd !$
     $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
     $ make setup
@@ -55,7 +55,7 @@ if USER = seki
 1. set up your 2nd directory
 
     ```bash
-    $ mkdir -p /data/seki-2/
+    $ mkdir -p /data/src/seki-2/
     $ cd !$
     $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
     $ make setup SUBDOMAIN=seki-2
