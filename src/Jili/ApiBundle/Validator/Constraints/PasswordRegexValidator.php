@@ -2,7 +2,7 @@
 namespace  Jili\ApiBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;;
+use Symfony\Component\Validator\ConstraintValidator;
 
 /**
  * @Annotation

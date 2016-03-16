@@ -67,20 +67,20 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1; }
-.form input[type='text'], .form input[type='password'] {
+.form input[type='text'], .form input[type='password'], .form input[type='email'] {
   padding: 0 5px;
   height: 34px;
   line-height: 34px;
   border: 1px solid #e5e5e5;
   outline: none; }
-  .form input[type='text']:focus, .form input[type='text'].input_focus, .form input[type='password']:focus, .form input[type='password'].input_focus {
+  .form input[type='text']:focus, .form input[type='text'].input_focus, .form input[type='password']:focus, .form input[type='password'].input_focus, .form input[type='email']:focus, .form input[type='email'].input_focus {
     border: 1px solid #3bc570;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     transition: all 0.075s;
     -moz-transition: all 0.075s;
     -webkit-transition: all 0.075s;
     -o-transition: all 0.075s; }
-  .form input[type='text'].input_error, .form input[type='password'].input_error {
+  .form input[type='text'].input_error, .form input[type='password'].input_error, .form input[type='email'].input_error {
     border: 1px solid #ff0000; }
 .form input[type='text'] {
   width: 255px; }
@@ -93,7 +93,7 @@ body {
     display: inline-block;
     *display: inline;
     *zoom: 1;
-    background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+    background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
     font-size: 0; }
   .form span.focus {
     border: 1px solid #e7e7e7;
@@ -174,11 +174,11 @@ body {
       line-height: 30px;
       text-align: left;
       color: #575757; }
-    .main-register li input[type='text'], .main-register li input[type='password'] {
+    .main-register li input[type='text'], .main-register li input[type='password'], .main-register li input[type='email'] {
       width: 245px;
       border: 1px solid #ebedf2;
       border-radius: 2px; }
-      .main-register li input[type='text']#authcode, .main-register li input[type='password']#authcode {
+      .main-register li input[type='text']#signup_captcha, .main-register li input[type='password']#signup_captcha, .main-register li input[type='email']#signup_captcha {
         width: 70px; }
     .main-register li input[type='checkbox'] {
       vertical-align: middle;
@@ -189,7 +189,15 @@ body {
       margin-left: 5px;
       line-height: 34px;
       padding: 0 15px;
-      border-radius: 3px; }
+      border-radius: 3px;
+      vertical-align: top; }
+      .main-register li span li {
+        margin-top: 0;
+        color: #ff0000; }
+    .main-register li .captcha_reload {
+      background: url(../img/user/change.png) no-repeat 0px 2px;
+      padding-left: 20px;
+      color: #a1a1a1; }
 
 .main-register-btn {
   margin-top: 30px; }
@@ -349,6 +357,8 @@ body {
     .main-register-active .tips dd {
       font-size: 12px;
       line-height: 20px; }
+    .main-register-active .tips b, .main-register-active .tips a {
+      color: #007ec2; }
 
 .footer {
   padding: 20px 0;

@@ -18,6 +18,7 @@ class Client
     private $group;
 
     private $logger;
+
     private $resultsEmail;
 
     public function __construct($url , $user, $pass )
@@ -159,24 +160,20 @@ class Client
                 return $rs;
             }
 
-            $addRecipient_result = $client->addRecipients($login,
-                $this->campaignId,
-                array ($group->id), 
-                $this->buildRecipientData( $recipient_arr),
-                true, true);
+            $addRecipient_result = $client->addRecipient($login, $this->campaignId, array (
+                $group->id
+            ), $recipient_arr, true, true);
 
             if ($addRecipient_result->status == "ERROR") {
                 $re = "addRecipient error';";
                 $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re );
                 return $rs;
             }
-            $is_test  =( isset($this->group['test'] ) && true === $this->group['test'] ) ? true: false;
-            $result = $client->sendMailing($login,
-                $this->campaignId,
-                $this->mailingId,
-                $is_test, # is test
-                $this->resultsEmail,
-                array ($group->id), "", "", "", "");
+
+
+            $result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $this->resultsEmail, array (
+                $group->id
+            ), "", "", "", "");
 
             if ($result->status != "ERROR") {
                 $rs = 'Email send success';
@@ -237,10 +234,9 @@ class Client
         $this->logger = $logger;
     }
 
-    public function setResultsEmail($email_address) 
+    public function setResultsEmail ( $email) 
     {
-        $this->resultsEmail = $email_address;
+        $this->resultsEmail = $email; 
     }
 }
-
 

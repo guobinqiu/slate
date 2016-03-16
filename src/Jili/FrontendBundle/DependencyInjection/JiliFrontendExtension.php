@@ -25,5 +25,6 @@ class JiliFrontendExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('forms.yml');
         $loader->load('mailers.yml');
+        $loader->load('services.yml');
     }
 }

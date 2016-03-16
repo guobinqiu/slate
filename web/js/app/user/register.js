@@ -4,26 +4,27 @@ require(['../../config'],function(){
         $('#changeCode').on('click', function(){
             $('#verificationImg').prop('src', Routing.generate("_user_captcha") + '?r=' + 100000*Math.random());
         });
+        validate.prompt.pwdRepeat.elements.pwd = "#signup_password_first";
         $.extend(validate.func, {
             regValidate : function() {
-                $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName, true);
-                $("#email").RPAValidate(validate.prompt.email, validate.func.email, true);
-                $("#pwd").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
-                $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
-                $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
-                return validate.func.FORM_submit([ "#regName", "#email", "#pwd", "#pwdRepeat","#authcode" ]);
+                $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName, true);
+                $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email, true);
+                $("#signup_password_first").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
+                $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
+                $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
+                return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
             }
         });
-
-        $("#regName").RPAValidate(validate.prompt.regName, validate.func.regName);
-        $("#email").RPAValidate(validate.prompt.email, validate.func.email);
-        $("#pwd").bind("keyup", function(){ validate.func.pwdStrength(); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
-        $("#pwdRepeat").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
-        $("#authcode").RPAValidate(validate.prompt.authCode, validate.func.authCode);
+        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $("#signup_password_first").val().trim()}
+        $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
+        $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
+        $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
+        $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
+        $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
         function checkReadMe() {
-            var  readme = $("#readme"),
+            var readme = $("#signup_agreement"),
                 protocolError = $("#protocol_error");
-            if (readme.prop("checked") == "checked" || readme.prop("checked") == true) {
+            if(readme.prop("checked") == "checked" || readme.prop("checked") == true) {
                 protocolError.removeClass();
                 return true;
             } else {
@@ -32,9 +33,9 @@ require(['../../config'],function(){
             }
         }
         function validateRegName() {
-            var regName = $("#regName"),
-                regNameError = $("#regName_error");
-            var loginName = regName.val();
+            var regName = $("#signup_nickname"),
+                regNameError = $("#signup_nickname_error");
+            var loginName = regName.val().trim();
             if (validate.rules.isNull(loginName) || loginName == '') {
                 regName.val("");
                 regName.attr({
@@ -47,11 +48,7 @@ require(['../../config'],function(){
             }
             return true;
         }
-        var isSubmit = false;
         function reg() {
-            if (isSubmit) {
-                return;
-            }
             var agreeProtocol = checkReadMe();
             var regNameOk = validateRegName();
             var passed = false;
@@ -61,15 +58,26 @@ require(['../../config'],function(){
                 $("#submit_button").attr({
                     "disabled" : "disabled"
                 }).removeClass().addClass("btn-img btn-regist wait-btn");
+                return true;
             } else {
                 $("#submit_button").removeAttr("disabled").removeClass().addClass(
                     "btn-img btn-regist");
-                isSubmit = false;
+                
+                return false;
+            }
+        }
+        var signup_form = $('#signup_form');
+        var backError = signup_form.find('li span>ul');
+        if(backError.length >= 1){
+            for(var i = 0; i < backError.length; i++){
+                backError.eq(i).parent().siblings().removeClass();
+                backError.eq(i).parent().removeClass().addClass('error');
             }
         }
         $('#submit_button').on('click', function(){
-            // reg();
-            $('#form1').submit();
+            if(reg()){
+                signup_form.submit(); 
+            }
         });
     });
 });

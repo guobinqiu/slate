@@ -31,7 +31,7 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
         $container = static::$kernel->getContainer();
 
         $tn  = $this->getName();
-        if( in_array($tn, array('testFindOneValidateSignUpToken','testIsAvailableFindOneValidateSignUpToken','testCreateTimeFindOneValidateSignUpToken')) ) {
+        if( in_array($tn, array('testFindOneValidateSignUpToken','testIsAvailableFindOneValidateSignUpToken','testCreateTimeFindOneValidateSignUpToken','testFindOneByValidatedToken')) ) {
 
             // purge tables;
             $purger = new ORMPurger($em);
@@ -67,7 +67,6 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
     public function testFindOneValidateSignUpToken()
     {
         $em = $this->em;
-
         // a validate test
         $params = array(
             'user_id'=> LoadUserSetPasswordCodeData::$USER[0]->getId(),
@@ -79,27 +78,18 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
         $this->assertEquals(LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getId() ,  $result->getId() ) ;
 
 
-        $params = array(
-            'user_id'=> 11111,
-            'token'=>  '71b1b99cfbbb75c363300f051f5c57af',
-        );
-        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
+        $params = array('user_id'=> 11111,'token'=>  '71b1b99cfbbb75c363300f051f5c57af');
+        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')
+->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
 
-        $params = array(
-            'user_id'=> null,
-            'token'=>  '',
-        );
-        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
-
+        $params = array('user_id'=> null,'token'=>  '',);
+        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')
+            ->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
-
-        $params = array(
-            'user_id'=> null,
-            'token'=>  '',
-        );
-
-        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken($params);
+        $params = array('user_id'=> null,'token'=>  '',);
+        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')
+            ->findOneValidateSignUpToken($params);
         $this->assertNull(  $result);
     }
 
@@ -149,7 +139,18 @@ class SetPasswordCodeRepositoryTest extends KernelTestCase
 
         $r = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy($query);
         $this->assertNotNull($r);
+    }
 
+    public function testFindOneByValidatedToken()
+    {
+        $em = $this->em;
+        // a validate test
+        $token=  LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getCode();
+
+        $result = $em->getRepository('JiliApiBundle:SetPasswordCode')
+            ->findOneByValidatedToken($token);
+        $this->assertNotNull( $result);
+        $this->assertEquals(LoadUserSetPasswordCodeData::$SET_PASSWORD_CODE[0]->getId() ,  $result->getId() ) ;
 
     }
 }

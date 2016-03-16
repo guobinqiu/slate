@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,9 +13,10 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
+use Wenwen\AppBundle\WebService\Sop\SopDeliveryNotificationHandler;
 
 /**
- * @Route("/sop/v1_1",requirements={"_scheme"="https"})
+ * @Route("/",requirements={"_scheme"="https"})
  */
 class SopApiController extends Controller
 {
@@ -37,7 +37,7 @@ class SopApiController extends Controller
     }
 
     /**
-     * @Route("/profile_point", name="_sop_profile_point")
+     * @Route("sop/v1_1/profile_point", name="_sop_profile_point")
      */
     public function addPointAction(Request $request)
     {
@@ -108,6 +108,8 @@ class SopApiController extends Controller
 
             $em->getConnection()->rollback();
 
+            $this->get('logger')->crit("Exception: ". $e->getMessage());
+
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
                 return $this->render400Response('point already added');
@@ -118,6 +120,68 @@ class SopApiController extends Controller
 
         // OK
         return $this->render200Response();
+    }
+
+    /**
+     * @Route("sop/v1_1/deliveryNotificationFor91wenwen", name="sop_delivery_notification_v1_1_91wenwen")
+     */
+    public function deliveryNotificationFor91wenwenAction(Request $request)
+    {
+        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_SOP);
+    }
+
+    /**
+     * @Route("fulcrum/v1_1/deliveryNotificationFor91wenwen", name="fulcrum_delivery_notification_v1_1_91wenwen")
+     */
+    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction(Request $request)
+    {
+        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_FULCRUM);
+    }
+
+    public function doHandleDeliveryNotification($type)
+    {
+        $request = $this->get('request');
+
+        $request_body = $this->getRequestBody();
+        $request_data = $request_body ? json_decode($request_body, true) : array ();
+
+        // Verify signature
+        $sop_config = $this->container->getParameter('sop');
+        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
+        $sig = $request->headers->get('X-Sop-Sig');
+
+        if (!$auth->verifySignature($sig, $request_body)) {
+            return $this->render403Response('authentication failed');
+        }
+
+        if (!isset($request_data['data']) || !isset($request_data['data']['respondents'])) {
+            return $this->render400Response('data.respondents not found!');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $handler = new SopDeliveryNotificationHandler($request_data['data']['respondents'], $type, $em, $this->container);
+        $handler->setUpRespondentsToMail();
+        $handler->sendMailingToRespondents();
+
+        $unsubscribed_app_mids = $handler->getUnsubscribedAppMids();
+        $res = array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            )
+        );
+        if (sizeof($unsubscribed_app_mids)) {
+            $res['data'] = array (
+                'respondents-not-found' => $unsubscribed_app_mids
+            );
+        }
+        return $this->renderJsonResponse($res);
+    }
+
+    # To test request body
+    public function getRequestBody()
+    {
+        return $this->get('request')->get('request_body') ? $this->get('request')->get('request_body') : file_get_contents('php://input');
     }
 
     public function render200Response()

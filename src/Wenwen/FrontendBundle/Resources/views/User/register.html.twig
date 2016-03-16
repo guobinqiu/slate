@@ -12,44 +12,49 @@
 {% block body %}
 <div class="main-con w1000">
 	<div class="form main-register">
-		<form action="{{ path('_user_reg') }}" name="form1" id="form1" method="post">
-		<input type="hidden" name="region_id" id="region_id" /><input type="hidden" name="_csrf_token" value="3e820125858940ba4c409723ac2e4a81" id="_csrf_token" /> 
+		<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
 		<ul>
 			<li>
-				<label for="regName">昵称</label>
-				<div><input name="regName" id="regName" type="text" value="{{ nick }}"><span id="regName_succeed" class="succeed"></span><span id="regName_error" class="msg_normal">请输入您的昵称</span></div>
+			   {{ form_label(form.nickname ) }}
+				<div>{{ form_widget(form.nickname ) }}
+                  <span id="signup_nickname_succeed" class="succeed"></span>
+                  <span id="signup_nickname_error" class="msg_normal">{{ form_errors(form.nickname) }}</span>
+                </div>
 			</li>
 			<li>
-				<label for="email">电子邮件</label>
-				<div><input name="email" id="email" type="text" value="{{ email }}"><span id="email_succeed" class="succeed"></span><span id="email_error" class="msg_normal">输入有误</span></div>
+				{{ form_label(form.email) }}
+				<div> {{ form_widget(form.email ) }}
+                    <span id="signup_email_succeed" class="succeed"></span>
+                    <span id="signup_email_error" class="msg_normal">{{ form_errors(form.email) }}</span>
+                </div>
 			</li>
 			<li>
-				<label for="pwd">设置密码</label>
-				<div><input name="pwd" id="pwd" type="password"><span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="pwd_succeed" class="succeed"></span><span id="pwd_error" class="msg"></span></div>
+				{{ form_label(form.password.first) }}
+				<div>{{ form_widget(form.password.first)}}<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="signup_password_first_succeed" class="succeed"></span><span id="signup_password_first_error" class="msg">{{ form_errors(form.password.first) }}</span>
+                </div>
 			</li>
 			<li>
-				<label for="pwdRepeat">重复密码</label>
-				<div><input name="pwdRepeat" id="pwdRepeat" type="password"><span id="pwdRepeat_succeed" class="succeed"></span><span id="pwdRepeat_error" class="msg"></span></div>
+				{{ form_label(form.password.second) }}
+				<div>{{ form_widget(form.password.second )}}<span id="signup_password_second_succeed" class="succeed"></span><span id="signup_password_second_error" class="msg">{{ form_errors(form.password.second) }}</span>
+                </div>
 			</li>
 			<li id="vcode">
-				<label for="authcode">验证码</label>
-				<div><input name="authcode" id="authcode" type="text">
-				<!-- <img id="captcha" src="{{ asset('img/user/captcha.jpg') }}" alt="CAPTCHA Image" /> -->
-				<img id="verificationImg" class="verificationImg" name="captcha" onclick="this.src='{{  path('_user_captcha') }}?r='+100000*Math.random()" src="{{ path('_user_captcha') }}" />
-				<img id="changeCode" src="{{ asset('img/user/change.png') }}" alt="换一张"/>
-				<b>换一张</b>
-				<span id="authcode_succeed" class="succeed"></span><span id="authcode_error" class="msg"></span></div>
+				{{ form_label(form.captcha) }}
+				<div>{{ form_widget(form.captcha) }}
+				<span id="signup_captcha_succeed" class="succeed"></span><span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span>
+                </div>
 			</li>
 			<li>
-				<div class="subscribe"><input type="checkbox" checked>我愿意接收91问问发出的会员邮件<div class="tips expand-btn">
+				<div class="subscribe">{{ form_widget(form.unsubscribe) }}我愿意接收91问问发出的会员邮件<div class="tips expand-btn">
 					<b>?</b>
 					<div class="tips-con expand-con"><p>91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。</p><b class="arrow"></b></div>
 				</div></div>
-				<div><input type="checkbox"  id="readme" checked>我已阅读并接收<a href="" id="protocol">《会员协议》</a></div>
+				<div>{{ form_widget(form.agreement) }}我已阅读并接收<a href="{{ path('_default_about_regulations') }}" id="protocol" title="会员协议">《会员协议》</a></div>
 				<span id="protocol_error"></span>
 			</li>
 		</ul>
-		<div class="main-register-btn"><span id="submit_button">注&nbsp;&nbsp;&nbsp;册</span><img src="{{ asset('img/user/regPoint.png') }}" alt="注册即送10积分"></div>
+		<div class="main-register-btn"><span id="submit_button" tabindex="0">注&nbsp;&nbsp;&nbsp;册</span><img src="{{ asset('img/user/regPoint.png') }}" alt="注册即送10积分"></div>
+        {{ form_rest(form) }}
 		</form>
 		<div class="login-others">
 			<p>用第三方账号登录：</p>

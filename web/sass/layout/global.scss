@@ -131,7 +131,7 @@ $title-h2-span: 2px solid #d4d4d4;
     } @else if $width and $height {
         width: $width;
         height: $height;
-        margin: -($width / 2) #{0 0} -($height / 2);
+        margin: unquote("#{-($width / 2)} #{0 0} -#{$height / 2}")
     } @else if not $height {
         width: $width;
         margin-left: -($width / 2);

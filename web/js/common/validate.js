@@ -72,7 +72,8 @@ define(['jquery'],function($){
         // 手机
         notempty: "^\\S+$",
         // 非空
-        password: "^.*[A-Za-z0-9\\w_-]+.*$",
+        // password: "^.*[A-Za-z0-9\\w_-]+.*$",
+        password: "^.​*(?=.*​?[A-Za-z])(?=.​*?[0-9]).*​$",
         // 密码
         fullNumber: "^[0-9]+$",
         // 数字
@@ -113,7 +114,7 @@ define(['jquery'],function($){
             return new RegExp(validateRegExp.fullNumber).test(str);
         },
         isPwd: function(str){
-            return /^.*([\W_a-zA-z0-9-])+.*$/i.test(str);
+            return /^.*(?=.*?[A-Za-z])(?=.*?[0-9]).*$/i.test(str);
         },
         isPwdRepeat: function(str1, str2) {
             return (str1 == str2);
@@ -161,6 +162,10 @@ define(['jquery'],function($){
             }
         },
         pwd: {
+            elements: {
+                regName: "#signup_nickname",
+                pwdStrength: "#pwdStrength"
+             },
             onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
             succeed: "OK!",
             isNull: "请输入密码",
@@ -174,6 +179,9 @@ define(['jquery'],function($){
             }
         },
         pwdRepeat: {
+            elements: {
+                pwd: "#pwd"
+             },
             onFocus: "请再次输入密码",
             succeed: "OK!",
             isNull: "请确认密码",
@@ -276,7 +284,7 @@ define(['jquery'],function($){
             var regName = option.value;
             if(validateRules.isNull(regName) || regName == ""){
                 option.element.removeClass(validateSettings.INPUT_style2).removeClass(validateSettings.INPUT_style1);
-                $("#regName_error").removeClass().empty();
+                option.errorEle.removeClass().empty();
                 return;
             }
             checkPinF(option);
@@ -286,36 +294,36 @@ define(['jquery'],function($){
         },
         pwd: function(option){
             var str1 = option.value;
-            var regName = $("#regName").val();
-            var pwdStrength = $("#pwdStrength");
-            if((validateRules.isNull(regName) == false) && (regName != "") && regName ==str1){
+            var pwdStrength = $(option.prompts.elements.pwdStrength);
+            var regName = $(option.prompts.elements.regName).val();
+            if((regName != undefined) && (validateRules.isNull(regName) == false) && (regName != "") && (regName.trim()) ==str1){
                 pwdStrength.hide();
                 validateSettings.error.run(option, "您的密码与昵称重合度太高，有被盗风险，请换一个密码");
                 return;
             }
             var format = validateRules.isPwd(option.value);
             var length = validateRules.betweenLength(option.value, 5, 100);
-
+            var pwdStrengthOptions = { pwdStrength: pwdStrength, pwdError: option.errorEle, value: str1};
             pwdStrength.hide();
-            if(!length && format){
+            if(!length){
                 validateSettings.error.run(option, option.prompts.error.badLength);
-            }else if(!length && !format){
-                validateSettings.error.run(option, option.prompts.error.badFormat);
-            }else if(length && !format){
-                validateSettings.error.run(option, option.prompts.error.badFormat);
             }else{
-                validateSettings.succeed.run(option);
-                validateFunction.pwdStrength();
+                if (!format) {
+                    validateSettings.error.run(option, option.prompts.error.badFormat);
+                }else{
+                    validateSettings.succeed.run(option);
+                    validateFunction.pwdStrength(pwdStrengthOptions);
 //                if (validateRules.simplePwd(str1)) {
 //                    $("#pwd_error").removeClass().addClass("focus");
 //                    $("#pwd_error").empty().html(option.prompts.error.simplePwd);
 //                    return;
 //                }
-            }
+                }
+            } 
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $("#pwd").val();
+            var str2 = $(option.prompts.elements.pwd).val().trim();
             var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -356,10 +364,10 @@ define(['jquery'],function($){
                 option.succeedEle.removeClass(validateSettings.succeed.style);
             }
         },
-        pwdStrength: function() {
-            var pwdStrength = $("#pwdStrength"),
-                pwdError = $("#pwd_error");
-            var value = $("#pwd").val();
+        pwdStrength: function(option) {
+            var pwdStrength = option.pwdStrength,
+                pwdError = option.pwdError,
+                value = option.value;
             if (value.length >= 6 && validateRules.isPwd(value)) {
                 pwdError.removeClass('focus');
                 pwdError.empty();
@@ -425,7 +433,7 @@ define(['jquery'],function($){
             var _isNull = $("#" + id + validateSettings.isNull.container);
             var _error = $("#" + id + validateSettings.error.container);
             if (def == true) {
-                var str = ele.val();
+                var str = ele.val().trim();
                 var tag = ele.attr("sta");
 
                 if (str == "" || str == "-1") {
@@ -458,10 +466,11 @@ define(['jquery'],function($){
                 }
                 switch (type) {
                     case "text":
+                    case "email":
                     case "password":
                         ele.bind("focus",
                             function() {
-                                var str = ele.val();
+                                var str = ele.val().trim();
                                 if (str == def) {
                                     ele.val("");
                                 }
@@ -475,7 +484,7 @@ define(['jquery'],function($){
                                     option.onFocus, option.onFocusExpand);
                             }).bind("blur",
                             function() {
-                                var str = ele.val();
+                                var str = ele.val().trim();
                                 if (str == "") {
                                     ele.val(def);
                                 }
@@ -505,7 +514,7 @@ define(['jquery'],function($){
                         if (rel && rel == "select") {
                             ele.bind("change",
                                 function() {
-                                    var str = ele.val();
+                                    var str = ele.val().trim();
                                     callback({
                                         prompts: option,
                                         element: ele,
