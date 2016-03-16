@@ -52,13 +52,13 @@ if USER = seki
 
 ### When you need 2nd URL for test.
 
-1. set up your directory
+1. set up your 2nd directory
 
     ```bash
     $ mkdir -p /data/seki-2/
     $ cd !$
     $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
-    $ SUBDOMAIN=seki-2 make setup
+    $ make setup SUBDOMAIN=seki-2
     ```
 
 1. configure DB `./app/config/parameters.yml`
