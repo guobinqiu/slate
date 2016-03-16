@@ -18,6 +18,8 @@ use Jili\ApiBundle\Entity\PointHistory08;
 use Jili\ApiBundle\Entity\PointHistory09;
 
 /**
+ * reset points to 0 from non-active userso
+ *
  * @Route( requirements={"_scheme" = "http"})
  */
 class DmdeliveryController extends Controller
@@ -202,6 +204,9 @@ class DmdeliveryController extends Controller
         return $rs;
     }
     
+    /**
+     * reset the point to 0 for $userId 
+     */
     public function updatePointZero($userId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -351,6 +356,9 @@ class DmdeliveryController extends Controller
         return $this->password;
     }
 
+    /**
+     * adding point to $userid for reason $type
+     */
     private function getPoint($userid,$point,$type)
     {
       if(strlen($userid)>1){

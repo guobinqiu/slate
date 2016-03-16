@@ -1,0 +1,15 @@
+parameters:
+    campaign_tracking.action_listener.class: Jili\FrontendBundle\EventListener\CampaignTrackingListener
+
+services:
+    campaign_tracking.action_listener:
+        class: %campaign_tracking.action_listener.class%
+        calls:
+            - [ setSession, ["@session"] ] 
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    campaign_code.tracking:
+        class: Jili\FrontendBundle\Services\CampaignLogger 
+        arguments: [ "/data/91jili/logs/sf2" ]
+

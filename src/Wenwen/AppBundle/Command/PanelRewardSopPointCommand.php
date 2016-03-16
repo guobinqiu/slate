@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
-use Wenwen\AppBundle\Entity\FulcrumUserAgreementParticipationHistory;
 use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 
 class PanelRewardSopPointCommand extends PanelRewardCommand

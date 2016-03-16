@@ -395,6 +395,29 @@ parameters:
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
     vote_suggest_mail_to: %wenwen_support_email_address%
 
+    recruit_offer99:
+        callback:
+          url: 
+          ad_key: 
+          return_strings:
+            error_tid: 交易号错误
+            error_1: 交易号重复处理过
+            error_2: Ip完成过
+            error_3: 一天内ip段完成过
+            error_safe_filename: 回调文件与交易号不匹配
+            error_callback_ip: 广告方IP加调不正确
+            error_sign: 签名不正确
+            success: 成功
+
+    recruit_offerwow:
+        api:
+          recruit: 
+          pid: 
+          tier: 
+
+    signup.crypt_method: 
+    signup.salt: 
+            
 #生日错误
     birthday_error: "您选择的生日不正确"
 

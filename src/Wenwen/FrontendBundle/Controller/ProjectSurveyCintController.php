@@ -77,7 +77,7 @@ class ProjectSurveyCintController extends Controller
             $em->getConnection()->commit();
         } catch (\Exception $e) {
 
-            $this->get('logger')->error("Exception: " . $e->getMessage());
+            $this->get('logger')->crit("Exception: " . $e->getMessage());
 
             $em->getConnection()->rollback();
             throw $e;

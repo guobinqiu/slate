@@ -1,6 +1,7 @@
 <?php
 namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
+use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
 
 class UserEdmUnsubscribeRepository extends EntityRepository {
 
@@ -16,5 +17,24 @@ class UserEdmUnsubscribeRepository extends EntityRepository {
         }
         $query = $query->getQuery();
         return $query->getResult();
+    }
+
+    public function insertOne( $user_id) 
+    {
+        if(! is_int($user_id) || $user_id <= 0) {
+            return;
+        }
+
+        $em = $this->getEntityManager();
+        $userEdmUnsubscribe = $this->findOneBy(array('userId'=>$user_id));
+        if( $userEdmUnsubscribe ) {
+            return;
+        }
+
+        $userEdmUnsubscribe = new UserEdmUnsubscribe();
+        $userEdmUnsubscribe->setUserId($user_id);
+        $userEdmUnsubscribe->setCreatedTime(date_create());
+        $em->persist($userEdmUnsubscribe);
+        $em->flush();
     }
 }

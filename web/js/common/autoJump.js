@@ -1,4 +1,4 @@
-define(['jquery'],function($){
+define(['jquery','routing'],function($,routing){
     function AutoJump(options){
         this.ele = options.ele;
         this.secs = options.secs;
@@ -11,7 +11,7 @@ define(['jquery'],function($){
         },
         oper: function(){
             var _self = this, s,
-                url = 'http://www.91wenwen.net/';
+                url = Routing.generate('_homepage');
             s = setInterval(function(){
                 if(_self.secs <= 0){
                     clearInterval(s);

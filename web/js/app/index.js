@@ -21,6 +21,10 @@ require(['../config'],function(){
                 }
             },
             pwd: {
+                elements: {
+                    regName: "",
+                    pwdStrength: "#pwdStrength"
+                 },
                 onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
                 succeed: "OK!",
                 isNull: "请输入密码",
