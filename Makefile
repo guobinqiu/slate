@@ -11,7 +11,18 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting create-dir fix-perms create-config create-symlinks cc-all
+setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks cc-all
+
+setup-submodules:
+	@# No access to "local-git" from vagrant environment
+	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
+		for mod in $$(find ./submodules/ -maxdepth 1 -mindepth 1 | grep -v local-git); do \
+			git submodule update --init $$mod; \
+		done \
+	else \
+		git submodule update --init; \
+	fi;
+
 
 show-setting:
 	@echo "Setting"
