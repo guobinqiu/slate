@@ -17,7 +17,7 @@ class SsiRespondent
     const STATUS_PRESCREENED = 10;
     const STATUS_ACTIVE = 10;
 
-    static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=1156&aff_id=1346&aff_sub5=wwcn-%d';
+    static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=2189&aff_id=1346&aff_sub5=wwcn-%d';
 
     /**
      * @var integer
