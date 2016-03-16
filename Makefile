@@ -1,4 +1,6 @@
-DEVELOPER_DIRECTORY=/data/web/${USER}/1
+SUBDOMAIN=${USER}
+SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
 	/usr/local/bin/phpunit -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
@@ -9,9 +11,10 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: create-dir fix-perms create-config cc-all
+setup: create-dir fix-perms create-config create-symlinks cc-all
 
 create-dir:
+	mkdir -p ${WEB_ROOT_DIR}
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 fix-perms:
@@ -29,10 +32,13 @@ fix-perms:
 	sudo chmod -R g+w  app/logs_data
 
 create-config:
-	cp -n ${DEVELOPER_DIRECTORY}/app/config/custom_parameters.yml.dist ${DEVELOPER_DIRECTORY}/app/config/custom_parameters.yml
-	cp -n ${DEVELOPER_DIRECTORY}/app/config/config_dev.yml.dist        ${DEVELOPER_DIRECTORY}/app/config/config_dev.yml
-	cp -n ${DEVELOPER_DIRECTORY}/app/config/config_test.yml.dist       ${DEVELOPER_DIRECTORY}/app/config/config_test.yml
-	cp -n ${DEVELOPER_DIRECTORY}/app/config/parameters.yml.dist        ${DEVELOPER_DIRECTORY}/app/config/parameters.yml
+	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml
+	cp -n ${SRC_DIR}/app/config/config_dev.yml.dist        ${SRC_DIR}/app/config/config_dev.yml
+	cp -n ${SRC_DIR}/app/config/config_test.yml.dist       ${SRC_DIR}/app/config/config_test.yml
+	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
+
+create-symlinks:
+	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/web
 
 fix-777:
 	sudo chgrp -R apache app/cache
