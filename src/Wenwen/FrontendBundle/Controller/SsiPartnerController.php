@@ -9,8 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SOPx\Auth\V1_1\Util;
-use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 use Wenwen\FrontendBundle\Form\SsiPartnerPermissionType;
 use Wenwen\AppBundle\Entity\SsiRespondent;
 use Jili\ApiBundle\Entity\AdCategory;
@@ -131,14 +129,12 @@ class SsiPartnerController extends Controller
 
             // permission: yes
             if ($ssi_respondent->needPrescreening()) {
-                return $this->forward('WenwenFrontendBundle:SsiPartner:redirect');
+                return $this->redirect($this->generateUrl('_ssi_partner_redirect'));
             } else {
-                // permission: no
-
-
-                // add point
+                // permission no : add point
                 $point_value = 1;
-                $this->givePoint($user_id, $point_value, '申请参与SSI市场调查项目');
+                $service = $this->get('points_manager');
+                $this->givePoint($service, $user_id, $point_value, '申请参与SSI市场调查项目');
 
                 return $this->redirect($this->generateUrl('_ssi_partner_complete'));
             }
@@ -160,6 +156,20 @@ class SsiPartnerController extends Controller
             return $response;
         }
         return $this->render('WenwenFrontendBundle:SsiPartner:complete.html.twig');
+    }
+
+    /**
+     * @Route("/prescreen", name="_ssi_partner_prescreen")
+     * @Template
+     */
+    public function prescreenAction(Request $request)
+    {
+        $response = $this->preExecute();
+        if ($response) {
+            return $response;
+        }
+
+        return $this->render('WenwenFrontendBundle:SsiPartner:prescreen.html.twig');
     }
 
     /**
@@ -185,24 +195,11 @@ class SsiPartnerController extends Controller
             // add point
             $point_value = 1;
             $user_id = $request->getSession()->get('uid');
-            $this->givePoint($user_id, $point_value, '申请参与SSI市场调查项目');
+            $service = $this->get('points_manager');
+            $this->givePoint($service, $user_id, $point_value, '申请参与SSI市场调查项目');
         }
 
         return $this->render('WenwenFrontendBundle:SsiPartner:complete.html.twig');
-    }
-
-    /**
-     * @Route("/prescreen", name="_ssi_partner_prescreen")
-     * @Template
-     */
-    public function prescreenAction(Request $request)
-    {
-        $response = $this->preExecute();
-        if ($response) {
-            return $response;
-        }
-
-        return $this->render('WenwenFrontendBundle:SsiPartner:prescreen.html.twig');
     }
 
     /**
@@ -239,9 +236,8 @@ class SsiPartnerController extends Controller
         ), $response);
     }
 
-    public function givePoint($user_id, $point_value, $comment)
+    public function givePoint($service, $user_id, $point_value, $comment)
     {
-        $service = $this->container->get('points_manager');
         $ad_category_id = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
         $task_type_id = TaskHistory00::TASK_TYPE_SURVEY;
         $service->updatePoints($user_id, $point_value, $ad_category_id, $task_type_id, $comment);

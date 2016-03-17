@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimpleQ.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -29,7 +29,7 @@
           您的姓名,您的电子邮件,您的密码,您的住址,您的电话号码。<br />
           注册后，您可以随时和我们的客服联系退出SSI市场调查。</p>
         如果您选择了是，那么您将会被导向SSI属性问卷页面。
-        <form action="{{ path('_ssi_partner_commit') }}" method="post" style="margin:20px 0 0 0;">
+        <form action="{{ path('_ssi_partner_commit') }}" method="post" style="margin:20px 0 0 0;" id="ssi_permission_form">
           <div style="width:470px; height:30px; margin:0 auto;">
             <p style="width:240px; float:left; ">
               <input type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ok" value="1" />
@@ -50,8 +50,7 @@
       <!--/.about-->
       <p style="color:#999; padding:15px 35px; text-align:center;">参考信息：SSI是世界领先的样本，数据收集和数据分析供应商之一。如果您还需要获得更多的关于SSI的信息，请您查询他们的网站<a href="http://www.surveysampling.com/" target="_blank">http://www.surveysampling.com/ </a>。</p>
     </div>
-    <!--/.terms--> 
-  </div>
+    <!--/.terms-->
 </div>
 <!--/.content-->
 </div>
@@ -61,6 +60,7 @@
     </div>
     {% include 'WenwenFrontendBundle:Questionnaire:_footer.html.twig' %}
 </div>
+
 {% endblock %}
 
 {% block footer %}
