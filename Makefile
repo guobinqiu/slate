@@ -11,7 +11,7 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks cc-all
+setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks cc-all setup-databases
 
 setup-databases:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
