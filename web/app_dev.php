@@ -14,6 +14,8 @@ $office_ip_addresses = [
   '123.1.191.42',      # HK VPN
   '158.199.142.139',   # JP VPN
   '153.121.52.149',    # JP VPN
+
+  '192.168.33.1',      # vagrant
 ];
  if (isset($_SERVER['HTTP_CLIENT_IP'])
      || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
