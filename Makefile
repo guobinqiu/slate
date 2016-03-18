@@ -44,18 +44,8 @@ create-dir:
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 fix-perms:
-	sudo chgrp -R apache app/cache
-	sudo chgrp -R apache app/cache_data
-	sudo chgrp -R apache app/logs
-	sudo chgrp -R apache web/images/actionPic
-	sudo chmod -R g+w  app/cache
-	sudo chmod -R g+w  app/cache_data
-	sudo chmod -R g+w  app/logs
-	sudo chmod -R g+w   web/images/actionPic
-	sudo chgrp -R apache app/sessions
-	sudo chmod -R g+w  app/sessions
-	sudo chgrp -R apache app/logs_data
-	sudo chmod -R g+w  app/logs_data
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 create-config:
 	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml
@@ -67,18 +57,8 @@ create-symlinks:
 	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-777:
-	sudo chgrp -R apache app/cache
-	sudo chgrp -R apache app/cache_data
-	sudo chgrp -R apache app/logs
-	sudo chgrp -R apache web/images/actionPic
-	sudo chmod -R 777  app/cache
-	sudo chmod -R 777  app/cache_data
-	sudo chmod -R 777  app/logs
-	sudo chmod -R 777   web/images/actionPic
-	sudo chgrp -R apache app/sessions
-	sudo chmod -R 777  app/sessions
-	sudo chgrp -R apache app/logs_data
-	sudo chmod -R 777  app/logs_data
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 deploy: deploy-js-routing
 	@echo done
@@ -96,6 +76,6 @@ cc-all:
 
 sass:
 	sass -v
-	sass --trace  -C --sourcemap=none  --style=nested --watch web/sass:web/css 
+	sass --trace  -C --sourcemap=none  --style=nested --watch web/sass:web/css
 
 
