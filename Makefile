@@ -13,6 +13,15 @@ deploy-js-routing: assets-rebuild
 
 setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks cc-all
 
+setup-databases:
+	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
+		if [ `mysql -uroot -e  "SHOW DATABASES" | grep "jili_db"` ] ; then \
+			php app/console doctrine:database:drop --force; \
+		fi; \
+		php app/console doctrine:database:create; \
+		php app/console doctrine:schema:update --force; \
+	fi;
+
 setup-submodules:
 	@# No access to "local-git" from vagrant environment
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
