@@ -46,7 +46,7 @@ class IpListener
         $this->container_ = $c;
     }
     #private function getAdminIp() {
-    #    if($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip') ||
+    #    if(
     #        $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip') ||
     #        $_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
     #        substr( $_SERVER['REMOTE_ADDR'],0,10)  == '192.168.1.' ||

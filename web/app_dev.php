@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
 $office_ip_addresses = [
-  '180.167.8.42',      # China office
-  '112.65.174.206',    # China office backup
+  '180.168.105.42',      # China office
   '123.1.191.42',      # HK VPN
   '158.199.142.139',   # JP VPN
   '153.121.52.149',    # JP VPN

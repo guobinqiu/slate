@@ -158,8 +158,7 @@ parameters:
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
-    admin_ele_ip: 112.65.174.206
-    admin_un_ip: 180.167.8.42 #上海市 RPA-CHN-OFFICE 电信
+    admin_un_ip: 180.168.105.42 #上海市 RPA-CHN-OFFICE 电信
     wenwen_dev_ip: 54.251.246.14
     wenwen_prod_ip: 54.254.98.246
     upload_banner_dir: images/banner/
@@ -321,7 +320,7 @@ parameters:
 # this account is copied from wenwen configs:
 # /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
 #  L10 ~ L28
-  
+
     webpower.91wenwen_signup.username: '' #  webuser_signup.login.username
     webpower.91wenwen_signup.password: '' #  webuser_signup.login.password
     webpower.91wenwen_signup.soap_uri: 'https://91wenwen-signup.dmdelivery.com/x/soap-v4/wsdl.php' #  webuser_signup.login.proxy

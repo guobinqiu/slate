@@ -25,8 +25,8 @@ class WenwenController extends Controller
      */
     public function registerAction()
     {
-        if ( isset($_SERVER['REMOTE_ADDR'] ) && !($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
-            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
+        if ( isset($_SERVER['REMOTE_ADDR'] ) && !(
+            $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
             || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'
             || $_SERVER['REMOTE_ADDR'] == '::1'
             || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
