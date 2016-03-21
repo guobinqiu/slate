@@ -33,7 +33,14 @@ if USER = seki
     $ make setup
     ```
 
-1. configure DB `./app/config/parameters.yml`
+1. configure yml files in `./app/config/`
+
+    * `./app/config/parameters.yml`
+      * DB configuration
+    * `app/config/custom_parameters.yml`
+      * `signup.crypt_method`
+      * `signup.salt`
+
 
 1. setup /etc/hosts on your **local**  machine.
 
