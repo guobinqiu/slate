@@ -37,6 +37,7 @@ if USER = seki
 
     * `./app/config/parameters.yml`
       * DB configuration
+      * for `vagrant` environment, password should be emtpy
     * `app/config/custom_parameters.yml`
       * `signup.crypt_method`
       * `signup.salt`
