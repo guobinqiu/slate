@@ -7,7 +7,7 @@
         </div>
         <div class="nav left">
             {% set router_current = app.request.attributes.get('_route') %}
-            <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="first active"':'class="first"' }}>首页</a>
+            <a href="{% if app.session.has('uid') %}{{ path('_homepage') }}{%else%}{{ path('_user_login') }}{% endif %}" title="首页" {{ router_current == '_homepage' ? 'class="first active"':'class="first"' }}>首页</a>
             {% if app.request.attributes.get('_route') == '_user_login' %}
                 <a href="javascript: void(0)" title="问卷列表">问卷列表</a>
             {% else %}
