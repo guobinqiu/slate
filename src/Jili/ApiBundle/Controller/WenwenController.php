@@ -25,15 +25,18 @@ class WenwenController extends Controller
      */
     public function registerAction()
     {
-        if ( isset($_SERVER['REMOTE_ADDR'] ) && !($_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_ele_ip')
-            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('admin_un_ip')
-            || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'
-            || $_SERVER['REMOTE_ADDR'] == '::1'
-            || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
-            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('wenwen_dev_ip')
-            || $_SERVER['REMOTE_ADDR'] == $this->container->getParameter('wenwen_prod_ip')
-            )) {
+        $addresses = [
+            $this->container->getParameter('admin_un_ip'),
+            '127.0.0.1',
+            '::1',
+            $this->container->getParameter('wenwen_dev_ip'),
+            $this->container->getParameter('wenwen_prod_ip'),
+        ];
 
+        if ( isset($_SERVER['REMOTE_ADDR'] ) && !(
+                in_array($_SERVER['REMOTE_ADDR'], $addresses, true)
+                || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
+        )) {
             $result['status'] = '0';
             $result['message'] = 'Illegal ip access';
 
