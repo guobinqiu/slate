@@ -17,7 +17,7 @@ class SsiRespondent
     const STATUS_PRESCREENED = 10;
     const STATUS_ACTIVE = 10;
 
-    static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=2189&aff_id=1346&aff_sub5=wwcn-%d';
+    public static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=2189&aff_id=1346&aff_sub5=wwcn-%d';
 
     /**
      * @var integer
@@ -82,7 +82,7 @@ class SsiRespondent
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param  integer       $userId
      * @return SsiRespondent
      */
     public function setUserId($userId)
@@ -105,7 +105,7 @@ class SsiRespondent
     /**
      * Set statusFlag
      *
-     * @param integer $statusFlag
+     * @param  integer       $statusFlag
      * @return SsiRespondent
      */
     public function setStatusFlag($statusFlag)
@@ -128,7 +128,7 @@ class SsiRespondent
     /**
      * Set stashData
      *
-     * @param string $stashData
+     * @param  string        $stashData
      * @return SsiRespondent
      */
     public function setStashData($stashData)
@@ -151,7 +151,7 @@ class SsiRespondent
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime     $updatedAt
      * @return SsiRespondent
      */
     public function setUpdatedAt($updatedAt)
@@ -174,7 +174,7 @@ class SsiRespondent
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime     $createdAt
      * @return SsiRespondent
      */
     public function setCreatedAt($createdAt)

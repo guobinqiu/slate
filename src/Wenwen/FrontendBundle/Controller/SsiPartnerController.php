@@ -3,12 +3,10 @@ namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Wenwen\FrontendBundle\Form\SsiPartnerPermissionType;
 use Wenwen\AppBundle\Entity\SsiRespondent;
 use Jili\ApiBundle\Entity\AdCategory;
@@ -61,6 +59,7 @@ class SsiPartnerController extends Controller
                 $this->get('request')->getSession()->set('errors', array (
                     'panelist_has_already_answered' => true
                 ));
+
                 return new RedirectResponse($this->generateUrl('_ssi_partner_error'));
             }
         } elseif (in_array($actionName, array (
@@ -79,6 +78,7 @@ class SsiPartnerController extends Controller
                 return new RedirectResponse($this->generateUrl('_ssi_partner_error'));
             }
         }
+
         return null;
     }
 
@@ -94,6 +94,7 @@ class SsiPartnerController extends Controller
         }
 
         $form = $this->createForm(new SsiPartnerPermissionType());
+
         return $this->render('WenwenFrontendBundle:SsiPartner:permission.html.twig', array (
             'form' => $form->createView()
         ));
@@ -155,6 +156,7 @@ class SsiPartnerController extends Controller
         if ($response) {
             return $response;
         }
+
         return $this->render('WenwenFrontendBundle:SsiPartner:complete.html.twig');
     }
 
