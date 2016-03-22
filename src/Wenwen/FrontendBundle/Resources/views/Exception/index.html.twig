@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-about-con w1000 clearfix">
+<div class="main-error-con clearfix">
 	<div class="errorCon">
 		<div class="errorText">
 			{% if errorMessage is defined and errorMessage is not empty %}
@@ -23,10 +23,6 @@
 	</div>
 </div>
 <div class="errorBot"></div>
-{% endblock %}
-
-{% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

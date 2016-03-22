@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Mailer;
-use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\Callboard;

@@ -7,9 +7,6 @@
 <input type="hidden" id="sop_sig"      value="{{ sop_params.sig }}" />
 <input type="hidden" id="sop_time"     value="{{ sop_params.time }}" />
 
-<!-- <ul id="sop-profiling-item-template"></ul>
-
-<ul id="sop-research-item-template"></ul> -->
 <script type="text/template" id="sop-profiling-item-template">
 	<div class="survey-item">
 		<div class="title"><%- model.get('title') %></div>
@@ -58,4 +55,104 @@
 		</ul>
 	</div>
 	<div class="survey-btn"><% print(model.getAnswerLabel()) %></div>
+</script>
+
+<script type="text/template" id="sop-fulcrum-user-agreement-item-template">
+	<div class="survey-item">
+		<div class="title">申请参与海外市场调查项目(Fulcrum)</div>
+		<ul class="con clearfix">
+			<li class="first">
+				<span>问卷编号</span>
+				<p>--</p>
+			</li>
+			<li>
+				<span>问卷类型</span>
+				<p title="高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答">商业问卷</p>
+			</li>
+			<li>
+				<span>回答期限</span>
+				<p>--</p>
+			</li>
+			<li class="last">
+				<span>积分数</span>
+				<p><strong>1</strong></p>
+			</li>
+		</ul>
+	</div>
+	<div class="survey-btn"><a href="javascript:void(0)" class="open-link">可回答</a></div>
+
+</script>
+
+<script type="text/template" id="sop-fulcrum-research-item-template">
+	<div class="survey-item">
+		<div class="title"><%- model.get('title') %></div>
+		<ul class="con clearfix">
+			<li class="first">
+				<span>问卷编号</span>
+				<p><%- model.getNumLabel() %></p>
+			</li>
+			<li>
+				<span>问卷类型</span>
+				<p title="高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答">商业问卷</p>
+			</li>
+			<li>
+				<span>回答期限</span>
+				<p>--</p>
+			</li>
+			<li class="last">
+				<span>积分数</span>
+				<p><strong><%- model.get('extra_info').point.complete %></strong></p>
+			</li>
+		</ul>
+	</div>
+	<div class="survey-btn"><a href="javascript:void(0)" class="open-link">可回答</a></div>
+</script>
+<script type="text/template" id="sop-cint-user-agreement-item-template">
+    <div class="survey-item">
+        <div class="title">申请参与海外市场调查项目(Cint)</div>
+        <ul class="con clearfix">
+            <li class="first">
+                <span>问卷编号</span>
+                <p>--</p>
+            </li>
+            <li>
+                <span>问卷类型</span>
+                <p>商业问卷</p>
+            </li>
+            <li>
+                <span>回答期限</span>
+                <p>--</p>
+            </li>
+            <li class="last">
+                <span>积分数</span>
+                <p><strong>1</strong></p>
+            </li>
+        </ul>
+    </div>
+    <div class="survey-btn"><a href="javascript:void(0)" class="open-link">可回答</a></div>
+</script>
+
+<script type="text/template" id="sop-cint-research-item-template">
+    <div class="survey-item">
+        <div class="title"><%- model.get('title') %></div>
+        <ul class="con clearfix">
+            <li class="first">
+                <span>问卷编号</span>
+                <p><%- model.getNumLabel() %></p>
+            </li>
+            <li>
+                <span>问卷类型</span>
+                <p title="">商业问卷</p>
+            </li>
+            <li>
+                <span>回答期限</span>
+                <p>--</p>
+            </li>
+            <li class="last">
+                <span>积分数</span>
+                <p><strong><%- model.get('extra_info').point.complete %></strong></p>
+            </li>
+        </ul>
+    </div>
+    <div class="survey-btn"><% print(model.getAnswerLabel()) %></div>
 </script>

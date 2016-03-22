@@ -2,11 +2,11 @@
 {% block title %}{{ parent() }}_资深问卷调查网，在线调查，商业调查，免费，市场调查，调查问卷{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+	{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@
 		<div class="main-ad-con-text">
 			<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
 			<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-			<div class="more-btn"><a href="{{ path('_default_support') }}" title="了解更多">了解更多？</a></div>
+			<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多？</a></div>
 		</div>
 		<div class="login-wrapper">
 			<div class="login">
@@ -33,7 +33,7 @@
 					{% if code %}
             		<input type="hidden" id="error_code" class="error" value="{{ code }}">
        				{% endif %}
-					<div class="login-btn" id="submit_button">登录</div>
+					<div class="login-btn" id="submit_button" tabindex="0">登录</div>
 					</form>
 					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">
@@ -42,54 +42,68 @@
 				</div>
 			</div>
 		</div>
+		<div class="introBg"></div>
 	</div>
 </div>
-<div class="main-con main-con-rewardprocess">
-	<div class="w1000">
-		<h2><img src="{{ asset('img/home/rewardProcess.png') }}" alt="做问卷积分流程" title="做问卷积分流程"></h2>
-		<div class="main-con-detail">
-			<div class="img"><img src="{{ asset('img/home/rewardProcessImg.png') }}" alt="做问卷积分流程示意图" title="做问卷积分流程示意图"></div>
-			<div class="text">
-				<ul class="clearfix">
-					<li class="step1">
-						<div class="title">免费注册会员</div>
-						<p>只需两步就可以免费注册为91问问的会员，开启您的赚钱之旅</p>
-					</li>
-					<li class="step2">
-						<div class="title">做任务，赚积分</div>
-						<p>回答问卷，快速问答投票，做任务，购物都可以赚取积分</p>
-					</li>
-					<li class="step3">
-						<div class="title">兑换奖品</div>
-						<p>奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等</p>
-					</li>
-				</ul>
-			</div>
-		</div>
+<div class="main-con-process">
+	<a class="sLog" href="{{ path('_user_reg') }}"></a>
+</div>
+<div class="main-con-reward">
+	<img src="{{ asset('img/home/adAward.png') }}" alt="奖品展示" title="奖品展示">
+</div>
+<div class="main-con-detail">
+	<div class="party" data-timeout="500">
+		<em class="party-item party01 js-item"></em>
+        <em class="party-item party02 js-item"></em>
+        <em class="party-item party03 js-item"></em>
+        <em class="party-item party04 js-item"></em>
+        <em class="party-item party05 js-item"></em>
+        <em class="party-item party06 js-item"></em>
 	</div>
 </div>
-<div class="main-con main-con-wall">
-	<div class="w1000">
-		<h2><img src="{{ asset('img/home/wall.png') }}" alt="91问问标签墙" title="91问问标签墙"></h2>
-		<div class="main-con-detail">
-			<div id="parkParty" class="party" data-timeout="500">
-       			<em class="party-item party01 js-item"></em>
-                <em class="party-item party02 js-item"></em>
-                <em class="party-item party03 js-item"></em>
-                <em class="party-item party04 js-item"></em>
-                <em class="party-item party05 js-item"></em>
-                <em class="party-item party06 js-item"></em>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="main-con main-con-action">
+<div class="main-con-action">
 	<div class="w1000">
 		<h1>马上开启91问问之旅，加入小伙伴们赚钱的队伍中来吧！</h1>
 		<p>点击以下按钮完成5秒注册</p>
 		<a href="{{ path('_user_reg') }}" class="button">现在注册</a>
 	</div>
 </div>
+{# Feedback Start #}
+<div class="fbCon">
+	<div class="fdWrap">
+		<div class="fdBox">
+			<div class="closeTag" title="不再显示该窗口"></div>
+		</div>
+	</div>
+	<div class="unfdWrap">
+		<div class="unfdBox">
+			<form id="feedback_form">
+			<ul>
+				<li>
+					<div class="feedback-con"><label for="content"><em>*</em>您想咨询的内容：</label><textarea id="content" name="content"></textarea></div>
+					<div class="feedback-error"><span id="content_succeed"></span><span id="content_error"></span></div>
+				</li>
+				<li>
+					<div class="feedback-email"><label for="feedbackEmail"><em>*</em>91问问注册邮箱：</label><input type="text" id="feedbackEmail" name="feedbackEmail"></div>
+					<div class="feedback-error"><span id="feedbackEmail_succeed"></span><span id="feedbackEmail_error"></span></div>
+				</li>
+				<li>
+					<a href="javascript:void(0)" id="feedback_save" class="btn">提交问题</a>
+				</li>
+			</ul>
+			</form>
+			<div id="sys_error"></div>
+			<div class="submitSucceed">
+				<div class="img"><img src="{{ asset('img/common/finished.png') }}" alt="提交成功"></div>
+				<p>您已提交成功，感谢您的意见，我们的客服小问将根据您的问题，尽快联系您。</p>
+				<div id="secs"></div>
+			</div>
+			<div class="closeTag" title="不再显示该窗口"></div>
+			<div class="closeBtn"></div>		
+		</div>
+	</div>
+</div>	
+{# Feedback End #}
 {% endblock %}
 
 {% block footer %}
@@ -97,5 +111,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>	
 {% endblock %}

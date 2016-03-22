@@ -7,16 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
-use Jili\ApiBundle\Entity\PointHistory00;
-use Jili\ApiBundle\Entity\PointHistory01;
-use Jili\ApiBundle\Entity\PointHistory02;
-use Jili\ApiBundle\Entity\PointHistory03;
-use Jili\ApiBundle\Entity\PointHistory04;
-use Jili\ApiBundle\Entity\PointHistory05;
-use Jili\ApiBundle\Entity\PointHistory06;
-use Jili\ApiBundle\Entity\PointHistory07;
-use Jili\ApiBundle\Entity\PointHistory08;
-use Jili\ApiBundle\Entity\PointHistory09;
+
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
@@ -45,6 +36,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $this->username = $this->getContainer()->getParameter('webpower_email_username');
         $this->password = $this->getContainer()->getParameter('webpower_email_password');
         $this->alertTo =  $this->getContainer()->getParameter('cron_alertTo_contacts');
+
         $this->alertSubject = $this->getContainer()->getParameter('alert_subject');
         $output->writeln('start at '.date('Y-m-d H:i:s',time()));
         $batch_name = $input->getArgument('batch_name');

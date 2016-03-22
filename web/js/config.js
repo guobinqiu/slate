@@ -6,11 +6,9 @@ require.config({
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {//设置路径
         'jquery': 'lib/jquery-1.11.1.min',
-        'jqueryCookie': 'lib/jquery.cookie',
-        'installer':'lib/air_installer',
-        'swfobject':'lib/swfobject',
         'backbone': 'lib/backbone-1.1.2.min',
         'underscore': 'lib/underscore-min',
+        'jqueryCookie': 'plugin/jquery.cookie',
         'jquery.ui.widget': 'plugin/fileUpload/jquery.ui.widget',
         'fileUpload': 'plugin/fileUpload/jquery.fileupload',
         'transport': 'plugin/fileUpload/jquery.iframe-transport',
@@ -33,7 +31,10 @@ require.config({
         'layer': 'common/layer',
         'exchange': 'common/exchange',
         'goTop': 'common/backTop',
-        'sopSurvey':'common/sopSurvey'
+        'sopSurvey':'common/sopSurvey',
+        'alimama':'common/alimama',
+        'scrollTop':'common/scrollTop',
+        'feedbackForm':'common/feedbackForm'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
@@ -43,14 +44,6 @@ require.config({
     },
     // shim里面的配置，表示某个js加载前，必须加载指定的js文件
     shim: {
-        installer:{
-            deps:[],
-            exports: 'installer'
-        },
-        swfobject:{
-            deps:[],
-            exports: 'swfobject'
-        },
         fileUpload: {
             deps: ['jquery','jquery.ui.widget', 'transport'],
             exports: 'fileUpload'
@@ -60,7 +53,6 @@ require.config({
             exports: 'jcrop'
         },
         iframeResizer: {
-            deps: [],
             exports: 'iframeResizer'
         },
         routing: {
@@ -77,7 +69,6 @@ require.config({
         jqueryCookie: {
             deps: [ 'jquery'],
         }
-                  
     }
 });
 

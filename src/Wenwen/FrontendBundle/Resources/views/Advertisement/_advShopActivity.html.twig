@@ -1,34 +1,48 @@
 <div class="main-con-shop clearfix">
-	<div class="main-slider left">
-		<div class="mask">
-			<ul class="clearfix">
-				{% for item in market %}
-				<li>
-					<span>
-						<h2>{{ item.businessName}}</h2>
-						<p>{{ item.activityDescription}}</p>
-						<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">去购物，最高返{% if item.incentiveType==1 %}
-                             {{ item.incentive }}积分
-                        {% elseif item.incentiveType==2 %}
-                             {{ item.reward_rate }}%
-                        {% endif %}</a>
-						<div class="relate">
-							<div class="shopName"><em></em>{{ item.title }}</div>
-							<div class="attention"><em></em>{{ item.click}}</div>
-						</div>
-					</span>
-					<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" title="{{ item.businessName}}" target="_blank"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName}}"></a>
-				</li>
-			    {% endfor %}
-			</ul>
+	<div class="advLeft left">
+		<div class="tbSearchWrap">
+			<a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>
 		</div>
-		<div class="btn-group">
-			<b class="active"></b>
-			<b></b>
-			<b></b>
-			<b></b>
-			<b></b>
+		<div class="main-slider left clearfix">
+			<div class="main-slider-text left">
+				{% for item in market %}
+				<span>
+					<h2>{{ item.businessName}}</h2>
+					<p>{{ item.activityDescription}}</p>
+					<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" target="_blank">去购物，最高返{% if item.incentiveType==1 %}
+                         {{ item.incentive }}积分
+                    {% elseif item.incentiveType==2 %}
+                         {{ item.reward_rate }}%
+                    {% endif %}</a>
+					<div class="relate">
+						<div class="shopName"><em></em>{{ item.title }}</div>
+						<div class="attention"><em></em>{{ item.click}}</div>
+					</div>
+				</span>
+				{% endfor %}
+			</div>
+			<div class="mask left">
+				<ul class="clearfix">
+					{% for item in market %}
+					<li>
+						<a href="{{ path('_checkin_location') }}?markid={{ item.id }}&type=2" title="{{ item.businessName}}" target="_blank"><img src="{{ asset(item.activityImage) }}" alt="{{ item.businessName}}"></a>
+					</li>
+				    {% endfor %}
+				</ul>
+			</div>
+			<div class="btn-group">
+				<b class="active"></b>
+				<b></b>
+				<b></b>
+				<b></b>
+				<b></b>
+			</div>
 		</div>
 	</div>
-	{{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 5, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+	
+	{{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 9, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+</div>
+<div class="promptS">
+	<div class="promptSText"></div>
+	<div class="promptSClose"></div>
 </div>

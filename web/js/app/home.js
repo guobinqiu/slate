@@ -27,7 +27,9 @@ require(['../config'],function(){
                 current.next().show();
             });
 
-            $('.ngclose, #newguideWrap div a:last').click(function(){
+            $(document.body).click(function(event){
+                var target = $(event.target);
+                if(target.is('.ngbtn1, .ngbtn2')){ return false; }
                 $('#mask, #newguideWrap').hide();
             });
             //添加cookie

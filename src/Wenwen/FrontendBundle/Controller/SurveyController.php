@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Wenwen\AppBundle\WebService\Sop\SopUtil;
 use SOPx\Auth\V1_1\Util;
 
 /**
@@ -32,8 +31,8 @@ class SurveyController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
 
-        // todo: 快速問答
-        $arr['votes'] = array ();
+        // 快速問答
+        $arr['votes']  = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
 
         // todo: CINT
 

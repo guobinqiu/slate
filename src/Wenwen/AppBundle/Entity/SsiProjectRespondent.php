@@ -90,12 +90,16 @@ class SsiProjectRespondent
      */
     private $ssiRespondent;
 
-
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -118,7 +122,7 @@ class SsiProjectRespondent
     /**
      * Get ssiMailBatchId
      *
-     * @return integer 
+     * @return integer
      */
     public function getSsiMailBatchId()
     {
@@ -141,7 +145,7 @@ class SsiProjectRespondent
     /**
      * Get startUrlId
      *
-     * @return string 
+     * @return string
      */
     public function getStartUrlId()
     {
@@ -164,7 +168,7 @@ class SsiProjectRespondent
     /**
      * Get answerStatus
      *
-     * @return integer 
+     * @return integer
      */
     public function getAnswerStatus()
     {
@@ -187,7 +191,7 @@ class SsiProjectRespondent
     /**
      * Get stashData
      *
-     * @return string 
+     * @return string
      */
     public function getStashData()
     {
@@ -210,7 +214,7 @@ class SsiProjectRespondent
     /**
      * Get completedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCompletedAt()
     {
@@ -233,7 +237,7 @@ class SsiProjectRespondent
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -256,7 +260,7 @@ class SsiProjectRespondent
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -279,7 +283,7 @@ class SsiProjectRespondent
     /**
      * Get ssiProject
      *
-     * @return \Wenwen\AppBundle\Entity\SsiProject 
+     * @return \Wenwen\AppBundle\Entity\SsiProject
      */
     public function getSsiProject()
     {
@@ -302,7 +306,7 @@ class SsiProjectRespondent
     /**
      * Get ssiRespondent
      *
-     * @return \Wenwen\AppBundle\Entity\SsiRespondent 
+     * @return \Wenwen\AppBundle\Entity\SsiRespondent
      */
     public function getSsiRespondent()
     {

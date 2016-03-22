@@ -1,0 +1,12 @@
+jms_job_queue:
+    queue_options_defaults:
+        max_concurrent_jobs: 7 # This limit applies to all queues (including the default queue).
+    queue_options:
+        91wenwen-signup: 
+            max_concurrent_jobs: 1 
+        91wenwen: 
+            max_concurrent_jobs: 1 
+        offerwow-recruit: 
+            max_concurrent_jobs: 1 
+        offer99-recruit: 
+            max_concurrent_jobs: 1 

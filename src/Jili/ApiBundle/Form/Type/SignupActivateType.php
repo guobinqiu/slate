@@ -13,18 +13,19 @@ class SignupActivateType extends AbstractType
     {
         $builder->add('password', 'repeated',array(
             'type'=>'password',
-            'invalid_message' => '2次输入的用户密码不相同',
             'options' => array('attr' => array('class' => 'password')),
             'first_options'=> array(
                 'label' =>'密码：',
                 'required' => true,
                 'error_bubbling'=>false,
+                'invalid_message' => '密码格式错误',
                 'constraints' => array(
                     new PasswordRegex(),
                 )
             ),
             'second_options'=> array(
                 'label' =>'确认密码：',
+                'invalid_message' => '2次输入的用户密码不相同',
                 'required' => true,
                 'error_bubbling'=> false
             ),

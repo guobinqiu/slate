@@ -11,7 +11,7 @@
 			@include dib();
 		}
 	}
-	input[type='text'], input[type='password']{
+	input[type='text'], input[type='password'], input[type='email']{
 		padding: 0 5px;
 		height: 34px;
 		line-height: 34px;
@@ -36,7 +36,7 @@
 		&.succeed{
 			color: #3bc570;
 			@include dib();
-			background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
+			background: url(../img/user/succeedIcon.png) no-repeat 2px 12px;
 			font-size: 0;
 		}
 		&.focus{

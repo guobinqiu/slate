@@ -195,9 +195,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
@@ -223,14 +223,14 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
             window.open(
-                 '/index.php/fulcrum_project_survey/information/' + this.model.get('survey_id')
+                 Routing.generate("wenwen_frontend_fulcrumprojectsurvey_information", {"survey_id": this.model.get('survey_id') })
                 ,'sop_research_window'
                 ,'resizable=yes,scrollbars=yes,toolbar=no'
             );
@@ -251,9 +251,9 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
@@ -279,14 +279,14 @@ define(['backbone'], function(Backbone) {
                 $(this.template).html(), { model: this.model }
             );
             this.$el.html(tmpl);
-            $('#survey-list')
+            $('#surveyList')
                 .find('li:first')
-                .after(this.$el);
+                .before(this.$el);
             return this;
         }
         ,openSurvey: function (e) {
             window.open(
-                 '/index.php/cint_project_survey/information/' + this.model.get('survey_id')
+                Routing.generate("_cint_project_survey_information", {"survey_id": this.model.get('survey_id') })
                 ,'sop_research_window'
                 ,'resizable=yes,scrollbars=yes,toolbar=no'
             );
