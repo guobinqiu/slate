@@ -1014,7 +1014,7 @@ class UserController extends Controller implements CampaignTrackingController
                 $response =   new RedirectResponse($referer_url);
             }
         } else {
-            $url_homepage = $this->generateUrl('_user_login');
+            $url_homepage = $this->generateUrl('_homepage');
             $response = new RedirectResponse($url_homepage);
         }
 
@@ -1589,8 +1589,8 @@ class UserController extends Controller implements CampaignTrackingController
         $email = $session->get('email');
 
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
-           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1),
-           'email' => $email
+           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1), 
+           'email' => $email  
              ) );
     }
 
