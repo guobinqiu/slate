@@ -614,6 +614,9 @@ class MySqlPlatform extends AbstractPlatform
 
                         $sql[] = 'ALTER TABLE ' . $table . ' MODIFY ' .
                             $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
+
+                        // original autoincrement information might be needed later on by other parts of the table alteration
+                        $column->setAutoincrement(true);
                     }
                 }
             }
@@ -643,7 +646,47 @@ class MySqlPlatform extends AbstractPlatform
             }
         }
 
-        $sql = array_merge($sql, parent::getPreAlterTableIndexForeignKeySQL($diff));
+        $sql = array_merge(
+            $sql,
+            $this->getPreAlterTableAlterIndexForeignKeySQL($diff),
+            parent::getPreAlterTableIndexForeignKeySQL($diff)
+        );
+
+        return $sql;
+    }
+
+    /**
+     * @param TableDiff $diff The table diff to gather the SQL for.
+     *
+     * @return array
+     */
+    private function getPreAlterTableAlterIndexForeignKeySQL(TableDiff $diff)
+    {
+        $sql = array();
+        $table = $diff->name;
+
+        foreach ($diff->changedIndexes as $changedIndex) {
+            // Changed primary key
+            if ($changedIndex->isPrimary() && $diff->fromTable instanceof Table) {
+                foreach ($diff->fromTable->getPrimaryKeyColumns() as $columnName) {
+                    $column = $diff->fromTable->getColumn($columnName);
+
+                    // Check if an autoincrement column was dropped from the primary key.
+                    if ($column->getAutoincrement() && ! in_array($columnName, $changedIndex->getColumns())) {
+                        // The autoincrement attribute needs to be removed from the dropped column
+                        // before we can drop and recreate the primary key.
+                        $column->setAutoincrement(false);
+
+                        $sql[] = 'ALTER TABLE ' . $table . ' MODIFY ' .
+                            $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
+
+                        // Restore the autoincrement attribute as it might be needed later on
+                        // by other parts of the table alteration.
+                        $column->setAutoincrement(true);
+                    }
+                }
+            }
+        }
 
         return $sql;
     }
