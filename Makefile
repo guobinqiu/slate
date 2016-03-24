@@ -1,9 +1,10 @@
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
+PHPUNIT=$(shell which phpunit)
 
 test:
-	/usr/local/bin/phpunit -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
 assets-rebuild:
 	php ./app/console assets:install web --symlink --relative
