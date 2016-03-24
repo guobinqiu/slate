@@ -29,7 +29,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
@@ -39,7 +38,6 @@ class SsiPartnerController extends Controller
         //permission page
         if (!$ssi_respondent) {
             $form = $this->createForm(new SsiPartnerPermissionType());
-
             return $this->render('WenwenFrontendBundle:SsiPartner:permission.html.twig', array (
                 'form' => $form->createView()
             ));
@@ -70,7 +68,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
@@ -135,7 +132,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
@@ -153,7 +149,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
@@ -182,7 +177,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
@@ -199,7 +193,6 @@ class SsiPartnerController extends Controller
 
         // 念入り
         if ($ssi_respondent->needPrescreening()) {
-
             try {
                 $em = $this->getDoctrine()->getManager();
                 $db_connection = $em->getConnection();
@@ -237,7 +230,6 @@ class SsiPartnerController extends Controller
             $request->getSession()->set('errors', array (
                 'panelist_is_not_authenticated' => true
             ));
-
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
