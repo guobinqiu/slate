@@ -201,7 +201,7 @@ parameters:
     reg_noal_mail: 邮箱地址未激活，请重新
     reg_al_mail: 邮箱地址已经注册
     reg_en_nick: 请输入用户昵称
-    reg_al_nick: 用户昵称已经注册
+    reg_al_nick: 用户昵称已经存在
     reg_wr_nick: 用户昵称为2-20个字符
     reg_wr_captcha: 请输入正确的验证码
     login_wr: 邮箱地址或密码输入错误
@@ -396,8 +396,8 @@ parameters:
 
     recruit_offer99:
         callback:
-          url: 
-          ad_key: 
+          url:
+          ad_key:
           return_strings:
             error_tid: 交易号错误
             error_1: 交易号重复处理过
@@ -410,13 +410,13 @@ parameters:
 
     recruit_offerwow:
         api:
-          recruit: 
-          pid: 
-          tier: 
+          recruit:
+          pid:
+          tier:
 
-    signup.crypt_method: 
-    signup.salt: 
-            
+    signup.crypt_method:
+    signup.salt:
+
 #生日错误
     birthday_error: "您选择的生日不正确"
 
@@ -523,4 +523,4 @@ parameters:
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
-        app_sop_hosts: %sop_console_host% 
+        app_sop_hosts: %sop_console_host%
