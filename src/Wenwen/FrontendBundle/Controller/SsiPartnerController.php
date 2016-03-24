@@ -16,7 +16,6 @@ use Jili\ApiBundle\Entity\TaskHistory00;
  */
 class SsiPartnerController extends Controller
 {
-    private $ssi_respondent;
 
     /**
      * @Route("/permission", name="_ssi_partner_permission")
@@ -35,7 +34,7 @@ class SsiPartnerController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
-        //permission page
+        //go to permission page
         if (!$ssi_respondent) {
             $form = $this->createForm(new SsiPartnerPermissionType());
             return $this->render('WenwenFrontendBundle:SsiPartner:permission.html.twig', array (
@@ -93,7 +92,6 @@ class SsiPartnerController extends Controller
 
         $values = $form->getData();
 
-        //没有错误
         if ($form->isValid()) {
             $user_id = $request->getSession()->get('uid');
 
