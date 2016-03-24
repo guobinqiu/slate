@@ -32,14 +32,14 @@
                         </div>
                     </div>
                     <ul class="form text left">
-                        <li class="nk">{{ app.session.get('nick')[:12] }}</li>
+                        <li class="nk">{{ user.nick[:12] }}</li>
                         <li>
                             <label for="">登录账号：</label>
                             <span>{{ user.email }}</span>
                         </li>
                         <li>
                             <label for="">当前积分：</label>
-                            <span><strong id="points" name="points">3050</strong></span>
+                            <span><strong id="points" name="points">{{ user.points }}</strong></span>
                         </li>
                     </ul>
                 </div>
