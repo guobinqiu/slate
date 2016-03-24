@@ -58,11 +58,22 @@ class PHPCRExecutor extends AbstractExecutor
     /** @inheritDoc */
     public function execute(array $fixtures, $append = false)
     {
-        if ($append === false) {
-            $this->purge();
-        }
-        foreach ($fixtures as $fixture) {
-            $this->load($this->dm, $fixture);
+        $that = $this;
+
+        $function = function ($dm) use ($append, $that, $fixtures) {
+            if ($append === false) {
+                $that->purge();
+            }
+
+            foreach ($fixtures as $fixture) {
+                $that->load($dm, $fixture);
+            }
+        };
+
+        if (method_exists($this->dm, 'transactional')) {
+            $this->dm->transactional($function);
+        } else {
+            $function($this->dm);
         }
     }
 }

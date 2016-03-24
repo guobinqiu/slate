@@ -3,7 +3,6 @@
 namespace CG\Tests\Core;
 
 use CG\Core\DefaultGeneratorStrategy;
-
 use CG\Generator\PhpProperty;
 use CG\Generator\PhpMethod;
 use CG\Generator\PhpClass;
@@ -44,11 +43,17 @@ class DefaultGeneratorStrategyTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @param string $file
+     */
     private function getContent($file)
     {
         return file_get_contents(__DIR__.'/generated/'.$file);
     }
 
+    /**
+     * @return PhpClass
+     */
     private function getClass()
     {
         $class = PhpClass::create()
