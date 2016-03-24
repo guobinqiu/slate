@@ -82,7 +82,8 @@ class ComponentControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->assertTrue($crawler->filter('html:contains("100")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("bb")')->count() > 0);
+        $this->assertEquals('bb', $crawler->filter('.nickname')->text(), 'user nickname');
+        $this->assertEquals('100', $crawler->filter('#points')->text(), 'user point');
+        $this->assertEquals('/test/test_icon.jpg', $crawler->filter('img')->attr('src'), 'user icon');
     }
 }
