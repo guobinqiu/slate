@@ -1,7 +1,7 @@
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
-PHPUNIT=$(shell which phpunit)
+PHPUNIT=./bin/phpunit
 
 test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
