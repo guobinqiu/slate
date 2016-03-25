@@ -29,6 +29,10 @@ class HomeController extends Controller
         $cookies = $request->cookies;
         $session = $request->getSession();
 
+        if(!$session->has('uid')){
+            return $this->redirect($this->generateUrl('_user_login' ));
+        }
+
         //记住我
         if ($cookies->has('jili_rememberme') && !$session->has('uid')) {
             $token = $cookies->get('jili_rememberme');
@@ -58,7 +62,7 @@ class HomeController extends Controller
             }
         }
 
-        // trace 
+        // trace
         if( $request->query->has('spm') ) {
             $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
         }
@@ -123,7 +127,7 @@ class HomeController extends Controller
 
         //快速问答:从文件中读取
         $filename = $this->container->getParameter('file_path_wenwen_vote');
-        
+
         $votes = FileUtil :: readJosnFile($filename);
         if(! $votes || empty($votes)) {
             return new Response('<!-- 快速问答 -->');
