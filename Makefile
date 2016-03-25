@@ -25,14 +25,7 @@ setup-databases:
 	fi;
 
 setup-submodules:
-	@# No access to "local-git" from vagrant environment
-	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		for mod in $$(find ./submodules/ -maxdepth 1 -mindepth 1 | grep -v local-git); do \
-			git submodule update --init $$mod; \
-		done \
-	else \
-		git submodule update --init; \
-	fi;
+	git submodule update --init;
 
 
 show-setting:
