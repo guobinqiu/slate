@@ -1,8 +1,7 @@
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
-APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
-PHPUNIT=$(shell which phpunit)
+PHPUNIT=./bin/phpunit
 
 test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
@@ -33,15 +32,19 @@ show-setting:
 	@echo "-> SRC_DIR=${SRC_DIR}"
 	@echo "-> SUBDOMAIN=${SUBDOMAIN}"
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
-	@echo "-> APACHEUSER=${APACHEUSER}"
 
 create-dir:
 	mkdir -p ${WEB_ROOT_DIR}
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 fix-perms:
-	sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+	else \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+	fi;
 
 create-config:
 	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml
