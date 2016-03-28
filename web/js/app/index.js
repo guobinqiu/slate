@@ -17,51 +17,22 @@ require(['../config'],function(){
                 error: {
                     beUsed: "该邮箱已被注册,请更换其它邮箱,或使用该<a href=\"signin.php?Email={#Email#}\" name=\"email_login_link\" class=\"more\">邮箱登录</a>",
                     badLength: "邮箱地址长度应在4-50个字符之间",
-                    badFormat: "邮件地址格式不正确"
-                }
-            },
-            pwd: {
-                elements: {
-                    regName: "",
-                    pwdStrength: "#pwdStrength"
-                 },
-                onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
-                succeed: "OK!",
-                isNull: "请输入密码",
-                error: {
-                    badLength: "密码长度只能在5-100位字符之间",
-                    badFormat: "密码至少包含1位字母和1位数字",
-                    simplePwd: "该密码比较简单，建议您更改"
+                    badFormat: "邮箱地址格式不正确"
                 }
             }
-            // ,
-            // authCode: {
-            //     onFocus: "请输入验证码",
-            //     succeed: "OK!",
-            //     isNull: "请输入验证码",
-            //     error: {
-            //         badMsg: "验证码不正确"
-            //     }
-            // }
         };
         $.extend(validate.func, {
             loginValidate : function() {
                 $("#email").RPAValidate(validatePrompt.email, validate.func.email, true);
-                $("#pwd").RPAValidate(validatePrompt.pwd, validate.func.pwd, true);
-                // $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode, true);
-                // return validate.func.FORM_submit([ "#email", "#pwd", "#authcode" ]);
-                return validate.func.FORM_submit([ "#email", "#pwd"]);
+                return validate.func.FORM_submit([ "#email"]);
             }
         });
 
         $("#email").RPAValidate(validatePrompt.email, validate.func.email);
-        $("#pwd").RPAValidate(validatePrompt.pwd, validate.func.pwd);
-        // $("#authcode").RPAValidate(validatePrompt.authCode, validate.func.authCode);
 
         var isSubmit = false;
         var submitBtn = $("#submit_button");
         var errors = ['#email_error', '#pwd_error'];
-        // var errors = ['#email_error', '#pwd_error', '#authcode_error'];
         for(var j = 0; j < errors.length; j++){
             $(errors[j]).on('click', function(){
                 $(this).addClass('fade');
@@ -71,9 +42,18 @@ require(['../config'],function(){
         if(errorCode != undefined){
             $('#email_error').html(errorCode).addClass('error').attr('display', 'block');
         }
+        var pwd = $('#pwd');
+        pwd.on('focus', function(){
+            $('#pwd_error').removeClass('error');
+        })
         submitBtn.on('click', function(){
             if(validate.func.loginValidate()){
-               $('#form1').submit(); 
+                var val = pwd.val();
+                if(val != undefined && val != ''){
+                    $('#form1').submit(); 
+                }else{
+                    $('#pwd_error').html('请输入您的密码').addClass('error');
+                }
             }
         });
 
