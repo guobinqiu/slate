@@ -435,7 +435,7 @@ function getUser($fh)
 
 /**
  * 遍历panel_91wenwen_pointexchange_91jili_account表
- *   
+ *
  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
@@ -766,17 +766,21 @@ function set_default_value($row)
 
     }
 
-
     // is_email_confirmed
-    if(''===$row[3] ) {
-        $row[3] = 'NULL';
+    if ($row[2]) {
+        //user has password, set is_email_confirmed = 1
+        $row[3] = 1;
+    } else {
+        //user password is null, is_email_confirmed = 0
+        $row[3] = 0;
     }
-    // is_from_wenwen 
+
+    // is_from_wenwen
     if(''=== $row[4] ) {
         $row[4] = 'NULL';
     }
 
-    // wenwen_user 
+    // wenwen_user
     if(''=== $row[5] ) {
         $row[5] = 'NULL';
     }
@@ -784,16 +788,16 @@ function set_default_value($row)
     // nick
     $row[7] = addslashes($row[7]);
 
-//personalDes	text	YES		NULL	
+//personalDes	text	YES		NULL
     $row[18] = addslashes($row[18]);
     // agent
     $row[32] = addslashes($row[32]);
-// fav_music	varchar(255)	YES		NULL	
+// fav_music	varchar(255)	YES		NULL
     $row[35] = addslashes($row[35]);
-//monthly_wish	varchar(255)	YES		NULL	
+//monthly_wish	varchar(255)	YES		NULL
     $row[36] = addslashes($row[36]);
 
-    // sex 
+    // sex
     if(''===$row[8] ) {
         $row[8] = 'NULL';
     }
@@ -813,7 +817,7 @@ function set_default_value($row)
         $row[13] = 'NULL';
     }
 
-    //education 
+    //education
     if(''===$row[14] ) {
         $row[14] = 'NULL';
     }
@@ -833,7 +837,7 @@ function set_default_value($row)
     }
 
 
-    // is_tel_confirmed 
+    // is_tel_confirmed
     if(''=== $row[29] ) {
         $row[29] = 'NULL';
     }
@@ -897,15 +901,15 @@ function generate_weibo_user_data($panelist_id, $user_id)
             // different open_id
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id . 
-                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . 
-                        ' user_id: ' . $user_id . 
+                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id .
+                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] .
+                        ' user_id: ' . $user_id .
                         ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
                 //$weibo_user[0] = 'NULL';
             } else {
                 $is_open_id_match =  true;
-            }  
+            }
 
         }  else {
             //$weibo_user_row[0] = 'NULL';
@@ -1087,7 +1091,7 @@ function export_csv_row($data, $file_name )
     return fclose($handle);
 }
 
-function strip_vote_description_links($description) 
+function strip_vote_description_links($description)
 {
     return preg_replace('/<a\s+href="http:\/\/www\.91wenwen\.net\/user\/?\s*[\w\d]+\s*">(.*)<\/a>/s', '\1', $description);
 }
