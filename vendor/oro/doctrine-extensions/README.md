@@ -12,6 +12,7 @@ Table of Contents
         - [Doctrine2](#doctrine2)
         - [Symfony2](#symfony2)
         - [Silex](#silex)
+        - [Zend Framework 2](#zend-framework-2)
     - [Extendability and Database Support](#extendability-and-database-support)
         - [Architecture](#architecture)
         - [Adding new platform](#adding-new-platform)
@@ -43,6 +44,7 @@ Available functions:
 * `POW(expr, power)` - Return the argument raised to the specified power
 * `SIGN(expr)` - Return the sign of the argument
 * `CAST(expr as type)` - Takes an expression of any type and produces a result value of a specified type. Supported types are: "char, string, text, date, datetime, time, int, integer, decimal"
+* `CONCAT_WS` - Concatenate all but the first argument with separators. The first argument is used as the separator string.
 * `GROUP_CONCAT` - Return a concatenated string
 
 GROUP_CONCAT full syntax:
@@ -111,6 +113,7 @@ doctrine:
                 pow:            Oro\ORM\Query\AST\Functions\Numeric\Pow
             string_functions:
                 group_concat:   Oro\ORM\Query\AST\Functions\String\GroupConcat
+                concat_ws:      Oro\ORM\Query\AST\Functions\String\ConcatWs
                 cast:           Oro\ORM\Query\AST\Functions\Cast
 ```
 
@@ -136,7 +139,8 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
         ...
         'orm.custom.functions.string' => [
             'cast'          => 'Oro\ORM\Query\AST\Functions\Cast',
-            'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat'
+            'group_concat'  => 'Oro\ORM\Query\AST\Functions\String\GroupConcat',
+            'concat_ws'     => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
         ],
         'orm.custom.functions.datetime' => [
             'date'          => 'Oro\ORM\Query\AST\Functions\SimpleFunction',
@@ -160,6 +164,47 @@ for [dflydev/dflydev-doctrine-orm-service-provider](https://github.com/dflydev/d
             'pow'           => 'Oro\ORM\Query\AST\Functions\Numeric\Pow',
         ]
     ]);
+```
+### Zend Framework 2
+
+In Zend Framework 2 you can register functions in `config/autoload/doctrine.global.php`
+
+``` php
+return [
+        'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'datetime_functions' => [
+                    'date' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'time' =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'timestamp' =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'convert_tz' =>      'Oro\ORM\Query\AST\Functions\DateTime\ConvertTz',
+                ],
+                'numeric_functions' => [
+                    'timestampdiff'  =>  'Oro\ORM\Query\AST\Functions\Numeric\TimestampDiff',
+                    'dayofyear'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofmonth'  =>     'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'dayofweek'  =>      'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'week'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'day'  =>            'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'hour'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'minute'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'month'  =>          'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'quarter'  =>        'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'second'  =>         'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'year'  =>           'Oro\ORM\Query\AST\Functions\SimpleFunction',
+                    'sign'  =>           'Oro\ORM\Query\AST\Functions\Numeric\Sign',
+                    'pow'  =>            'Oro\ORM\Query\AST\Functions\Numeric\Pow',
+                ],
+                'string_functions' => [
+                    'group_concat' =>   'Oro\ORM\Query\AST\Functions\String\GroupConcat',
+                    'cast' =>           'Oro\ORM\Query\AST\Functions\Cast',
+                    'concat_ws' => 'Oro\ORM\Query\AST\Functions\String\ConcatWs'
+                ]
+            ]
+        ]
+    ]
+];
 ```
 Extendability and Database Support
 ----------------------------------

@@ -3,7 +3,6 @@
 namespace CG\Tests\Generator;
 
 use CG\Generator\PhpParameter;
-
 use CG\Generator\PhpFunction;
 
 class PhpFunctionTest extends \PHPUnit_Framework_TestCase
@@ -18,6 +17,21 @@ class PhpFunctionTest extends \PHPUnit_Framework_TestCase
 
         $func = new PhpFunction('foo');
         $this->assertEquals('foo', $func->getName());
+    }
+
+    public function testSetGetQualifiedName()
+    {
+        $func = new PhpFunction();
+
+        $this->assertSame($func, $func->setQualifiedName('foo\bar'));
+        $this->assertEquals('foo', $func->getNamespace());
+        $this->assertEquals('bar', $func->getName());
+        $this->assertEquals('foo\bar', $func->getQualifiedName());
+
+        $this->assertSame($func, $func->setQualifiedName('foo'));
+        $this->assertNull($func->getNamespace());
+        $this->assertEquals('foo', $func->getName());
+        $this->assertEquals('foo', $func->getQualifiedName());
     }
 
     public function testSetGetNamespace()

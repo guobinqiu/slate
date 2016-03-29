@@ -16,8 +16,9 @@ require(['../../config'],function(){
                     exchangeForm.attr("action", Routing.generate("_exchange_mobileInfo"));
                     exchangeForm.submit(); break;
                 case 'flowBtn':
-                    exchangeForm.attr("action", Routing.generate("_exchange_flowInfo"));
-                    exchangeForm.submit(); break;
+                    return fasle;
+                    // exchangeForm.attr("action", Routing.generate("_exchange_flowInfo"));
+                    // exchangeForm.submit(); break;
                 default: break;
             }
         });
