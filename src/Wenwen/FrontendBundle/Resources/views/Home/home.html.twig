@@ -35,11 +35,42 @@
 		</div>
 	</div>
 </div> -->
+<div class="mainAdTop">
+    <ul>
+    	<h2>任务大厅</h2>
+	    <li class="mAdItem">
+	        <a href="/advertiserment/offer99" _orighref="/advertiserment/offer99" _tkworked="true"><img src="http://www.offer99.com/app//appimg/1422425989.jpg" width="165" height="112" alt="[金融] 借贷宝-借贷无门槛“人脉变钱脉" title="[金融] 借贷宝-借贷无门槛“人脉变钱脉"></a>
+	        <a class="mAdTit" href="/advertiserment/offer99" href="">[金融] 付融宝6期-门槛低，收益高、期限短、风控强</a>
+	        <a href="/advertiserment/offer99"><span class="mPointNum">900</span>积分</a></li>
+	    </li>
+	    <li class="mAdItem">
+	        <a href="/advertiserment/list"><img src="http://www.offer99.com/app//appimg/1458618435.jpg" width="165" height="112" alt="李逵捕鱼-赢取渔币" title="李逵捕鱼-赢取渔币"></a>
+	        <a class="mAdTit" href="/advertiserment/offer99" href="">李逵捕鱼-赢取渔币</a>
+	        <a href="/advertiserment/offer99"><span class="mPointNum">329200</span>积分</a></li></li>
+	    <li class="mAdItem">
+	        <a href="/advertiserment/list"><img src="http://www.offer99.com/app//appimg/1452652339.jpg" width="165" height="112" alt="神兽3期-万元奖励" title="神兽3期-万元奖励"></a>
+	        <a class="mAdTit" href="/advertiserment/offer99" href="">神兽3期-万元奖励</a>
+	        <a href="/advertiserment/offer99"><span class="mPointNum">13800</span>积分</a></li>
+	    <li class="mAdItem">
+	        <a href="/advertiserment/offer99"><img src="http://www.offer99.com/app//appimg/1453103811.jpg" width="165" height="112" alt="[招募] 投吧2期-参与调查，赚取现金！" title="[招募] 投吧2期-参与调查，赚取现金！"></a>
+	        <a class="mAdTit" href="/advertiserment/offer99" href="">[招募] 投吧2期-参与调查，赚取现金！</a>
+	        <a href="/advertiserment/offer99"><span class="mPointNum">240</span>积分</a>
+	    </li>  
+	    <li class="mAdItem">
+	        <a href="/advertiserment/offer99"><img src="http://www.offer99.com/app//appimg/1448938726.jpg" width="165" height="112" alt="[棋牌] 江湖游棋牌3期" title="[棋牌] 江湖游棋牌3期"></a>
+	        <a class="mAdTit" href="/advertiserment/offer99" href="">[棋牌] 江湖游棋牌3期</a>
+	        <a href="/advertiserment/offer99"><span class="mPointNum">75</span>积分</a>
+	    </li> 
+    </ul>
+</div>
 <div class="main-con w1000 clearfix">
 	<div class="main-con-left left">
+		{# 1. 这一块的问卷列表判断登录前不显示，登录以后才显示 #}
+		{# 2. 首页问卷默认显示两条 #}
+		{# 3. 如果这里的问卷没有内容，整个div都隐藏 #}
 		<div class="survey">
-			<h1><em></em>问卷列表</h1>
-			<ul>
+			<h1><em></em>问卷列表<a class="more" href="#">更多>></a></h1>
+			<ul id="surveyList">
 				<li>
 					<div class="survey-item">
 						<div class="title">关于饮用水品牌调查</div>
@@ -62,7 +93,7 @@
 							</li>
 						</ul>
 					</div>
-					<div class="survey-btn">可回答</div>
+					<div class="survey-btn"><a href="">可回答</a></div>
 				</li>
 				<li>
 					<div class="survey-item">
@@ -86,12 +117,13 @@
 							</li>
 						</ul>
 					</div>
-					<div class="survey-btn">可回答</div>
+					<div class="survey-btn"><a href="" style="background: #bbbbbb; border: 1px solid #bbbbbb;">可回答</a></div>
 				</li>
 			</ul>
 		</div>
+		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
-			<h1><em></em>快速问答</h1>
+			<h1><em></em>快速问答<a href="#" class="more">更多>></a></h1>
 			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
 		</div>
 	</div>

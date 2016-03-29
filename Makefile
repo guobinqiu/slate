@@ -35,15 +35,15 @@ show-setting:
 
 create-dir:
 	mkdir -p ${WEB_ROOT_DIR}
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic wev/uploads/tmp ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp ; \
 	else \
-		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp; \
 	fi;
 
 create-config:
