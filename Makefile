@@ -1,9 +1,10 @@
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
+PHPUNIT=./bin/phpunit
 
 test:
-	/usr/local/bin/phpunit -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
 assets-rebuild:
 	php ./app/console assets:install web --symlink --relative
@@ -23,14 +24,7 @@ setup-databases:
 	fi;
 
 setup-submodules:
-	@# No access to "local-git" from vagrant environment
-	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		for mod in $$(find ./submodules/ -maxdepth 1 -mindepth 1 | grep -v local-git); do \
-			git submodule update --init $$mod; \
-		done \
-	else \
-		git submodule update --init; \
-	fi;
+	git submodule update --init;
 
 
 show-setting:
@@ -44,8 +38,13 @@ create-dir:
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
 
 fix-perms:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+	else \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+	fi;
 
 create-config:
 	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml

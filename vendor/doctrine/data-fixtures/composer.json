@@ -10,10 +10,13 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "doctrine/common": ">=2.2,<2.5-dev"
+        "doctrine/common": "~2.2"
     },
     "require-dev": {
-        "doctrine/orm": ">=2.2,<2.5-dev"
+        "doctrine/orm": "~2.4"
+    },
+    "conflict": {
+        "doctrine/orm": "< 2.4"
     },
     "suggest": {
         "doctrine/orm": "For loading ORM fixtures",
@@ -23,9 +26,12 @@
     "autoload": {
         "psr-0": { "Doctrine\\Common\\DataFixtures": "lib/" }
     },
+    "autoload-dev": {
+        "psr-0": { "Doctrine\\Tests": "tests/" }
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.1.x-dev"
         }
     }
 }

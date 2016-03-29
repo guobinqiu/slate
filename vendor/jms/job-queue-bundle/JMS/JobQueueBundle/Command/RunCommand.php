@@ -54,6 +54,9 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
     /** @var array */
     private $runningJobs = array();
 
+    /** @var bool */
+    private $shouldShutdown = false;
+
     protected function configure()
     {
         $this
@@ -62,6 +65,8 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
             ->addOption('max-runtime', 'r', InputOption::VALUE_REQUIRED, 'The maximum runtime in seconds.', 900)
             ->addOption('max-concurrent-jobs', 'j', InputOption::VALUE_REQUIRED, 'The maximum number of concurrent jobs.', 4)
             ->addOption('idle-time', null, InputOption::VALUE_REQUIRED, 'Time to sleep when the queue ran out of jobs.', 2)
+            ->addOption('queue', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Restrict to one or more queues.', array())
+            ->addOption('worker-name', null, InputOption::VALUE_REQUIRED, 'The name that uniquely identifies this worker process.')
         ;
     }
 
@@ -74,6 +79,10 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
             throw new InvalidArgumentException('The maximum runtime must be greater than zero.');
         }
 
+        if ($maxRuntime > 600) {
+            $maxRuntime += mt_rand(-120, 120);
+        }
+
         $maxJobs = (integer) $input->getOption('max-concurrent-jobs');
         if ($maxJobs <= 0) {
             throw new InvalidArgumentException('The maximum number of jobs per queue must be greater than zero.');
@@ -84,6 +93,21 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
             throw new InvalidArgumentException('Time to sleep when idling must be greater than zero.');
         }
 
+        $restrictedQueues = $input->getOption('queue');
+
+        $workerName = $input->getOption('worker-name');
+        if ($workerName === null) {
+            $workerName = gethostname().'-'.getmypid();
+        }
+
+        if (strlen($workerName) > 50) {
+            throw new \RuntimeException(sprintf(
+                '"worker-name" must not be longer than 50 chars, but got "%s" (%d chars).',
+                $workerName,
+                strlen($workerName)
+            ));
+        }
+
         $this->env = $input->getOption('env');
         $this->verbose = $input->getOption('verbose');
         $this->output = $output;
@@ -91,43 +115,91 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
         $this->dispatcher = $this->getContainer()->get('event_dispatcher');
         $this->getEntityManager()->getConnection()->getConfiguration()->setSQLLogger(null);
 
-        $this->cleanUpStaleJobs();
+        if ($this->verbose) {
+            $this->output->writeln('Cleaning up stale jobs');
+        }
+
+        $this->cleanUpStaleJobs($workerName);
 
         $this->runJobs(
+            $workerName,
             $startTime,
             $maxRuntime,
             $idleTime,
             $maxJobs,
+            $restrictedQueues,
             $this->getContainer()->getParameter('jms_job_queue.queue_options_defaults'),
             $this->getContainer()->getParameter('jms_job_queue.queue_options')
         );
     }
 
-    private function runJobs($startTime, $maxRuntime, $idleTime, $maxJobs, array $queueOptionsDefaults, array $queueOptions)
+    private function runJobs($workerName, $startTime, $maxRuntime, $idleTime, $maxJobs, array $restrictedQueues, array $queueOptionsDefaults, array $queueOptions)
     {
-        $waitTime = 1;
-        while (true) {
-            $this->checkRunningJobs();
-            if (time() - $startTime > $maxRuntime) {
-                if (empty($this->runningJobs)) {
-                    return;
-                }
+        $hasPcntl = extension_loaded('pcntl');
 
-                $waitTime = 5;
+        if ($this->verbose) {
+            $this->output->writeln('Running jobs');
+        }
+
+        if ($hasPcntl) {
+            $this->setupSignalHandlers();
+            if ($this->verbose) {
+                $this->output->writeln('Signal Handlers have been installed.');
+            }
+        } elseif ($this->verbose) {
+            $this->output->writeln('PCNTL extension is not available. Signals cannot be processed.');
+        }
+
+        while (true) {
+            if ($hasPcntl) {
+                pcntl_signal_dispatch();
             }
 
-            $this->startJobs($idleTime, $maxJobs, $queueOptionsDefaults, $queueOptions);
-            sleep($waitTime);
+            if ($this->shouldShutdown || time() - $startTime > $maxRuntime) {
+                break;
+            }
+
+            $this->checkRunningJobs();
+            $this->startJobs($workerName, $idleTime, $maxJobs, $restrictedQueues, $queueOptionsDefaults, $queueOptions);
+
+            $waitTimeInMs = mt_rand(500, 1000);
+            usleep($waitTimeInMs * 1E3);
+        }
+
+        if ($this->verbose) {
+            $this->output->writeln('Entering shutdown sequence, waiting for running jobs to terminate...');
+        }
+
+        while ( ! empty($this->runningJobs)) {
+            sleep(5);
+            $this->checkRunningJobs();
+        }
+
+        if ($this->verbose) {
+            $this->output->writeln('All jobs finished, exiting.');
         }
     }
 
-    private function startJobs($idleTime, $maxJobs, $queueOptionsDefaults, $queueOptions)
+    private function setupSignalHandlers()
+    {
+        pcntl_signal(SIGTERM, function() {
+            if ($this->verbose) {
+                $this->output->writeln('Received SIGTERM signal.');
+            }
+
+            $this->shouldShutdown = true;
+        });
+    }
+
+    private function startJobs($workerName, $idleTime, $maxJobs, array $restrictedQueues, array $queueOptionsDefaults, array $queueOptions)
     {
         $excludedIds = array();
         while (count($this->runningJobs) < $maxJobs) {
             $pendingJob = $this->getRepository()->findStartableJob(
+                $workerName,
                 $excludedIds,
-                $this->getExcludedQueues($queueOptionsDefaults, $queueOptions, $maxJobs)
+                $this->getExcludedQueues($queueOptionsDefaults, $queueOptions, $maxJobs),
+                $restrictedQueues
             );
 
             if (null === $pendingJob) {
@@ -309,10 +381,15 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
      *
      * In such an error condition, these jobs are cleaned-up on restart of this command.
      */
-    private function cleanUpStaleJobs()
+    private function cleanUpStaleJobs($workerName)
     {
-        $repo = $this->getRepository();
-        foreach ($repo->findBy(array('state' => Job::STATE_RUNNING)) as $job) {
+        /** @var Job[] $staleJobs */
+        $staleJobs = $this->getEntityManager()->createQuery("SELECT j FROM ".Job::class." j WHERE j.state = :running AND (j.workerName = :worker OR j.workerName IS NULL)")
+            ->setParameter('worker', $workerName)
+            ->setParameter('running', Job::STATE_RUNNING)
+            ->getResult();
+
+        foreach ($staleJobs as $job) {
             // If the original job has retry jobs, then one of them is still in
             // running state. We can skip the original job here as it will be
             // processed automatically once the retry job is processed.
@@ -338,6 +415,9 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
         }
     }
 
+    /**
+     * @return ProcessBuilder
+     */
     private function getCommandProcessBuilder()
     {
         $pb = new ProcessBuilder();
