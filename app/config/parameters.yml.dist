@@ -12,7 +12,7 @@ parameters:
     mailer_password:   91jili
     mailer_return_path: account@91jili.com
 
-    locale:            en
+    locale:            zh_CN
     secret:            ThisTokenIsNotSoSecretChangeIt
     base_url:   ~
 #91wenwen和91jili账号关联secret key
