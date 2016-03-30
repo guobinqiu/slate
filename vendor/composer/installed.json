@@ -66,7 +66,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/annotations/f25c8aab83e0c3e976fd7d19875f198ccf2f7535.zip",
+            "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
             "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
             "shasum": ""
         },
@@ -126,78 +126,6 @@
         ]
     },
     {
-        "name": "doctrine/cache",
-        "version": "v1.6.0",
-        "version_normalized": "1.6.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/doctrine/cache.git",
-            "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/cache/f8af318d14bdb0eff0336795b428b547bd39ccb6.zip",
-            "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6",
-            "shasum": ""
-        },
-        "require": {
-            "php": "~5.5|~7.0"
-        },
-        "conflict": {
-            "doctrine/common": ">2.2,<2.4"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.8|~5.0",
-            "predis/predis": "~1.0",
-            "satooshi/php-coveralls": "~0.6"
-        },
-        "time": "2015-12-31 16:37:02",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.6.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Roman Borschel",
-                "email": "roman@code-factory.org"
-            },
-            {
-                "name": "Benjamin Eberlei",
-                "email": "kontakt@beberlei.de"
-            },
-            {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
-            },
-            {
-                "name": "Jonathan Wage",
-                "email": "jonwage@gmail.com"
-            },
-            {
-                "name": "Johannes Schmitt",
-                "email": "schmittjoh@gmail.com"
-            }
-        ],
-        "description": "Caching library offering an object-oriented API for many cache backends",
-        "homepage": "http://www.doctrine-project.org",
-        "keywords": [
-            "cache",
-            "caching"
-        ]
-    },
-    {
         "name": "doctrine/collections",
         "version": "v1.3.0",
         "version_normalized": "1.3.0.0",
@@ -208,7 +136,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/collections/6c1e4eef75f310ea1b3e30945e9f06e652128b8a.zip",
+            "url": "https://api.github.com/repos/doctrine/collections/zipball/6c1e4eef75f310ea1b3e30945e9f06e652128b8a",
             "reference": "6c1e4eef75f310ea1b3e30945e9f06e652128b8a",
             "shasum": ""
         },
@@ -276,7 +204,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/inflector/90b2128806bfde671b6952ab8bea493942c1fdae.zip",
+            "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
             "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
             "shasum": ""
         },
@@ -335,81 +263,6 @@
         ]
     },
     {
-        "name": "doctrine/common",
-        "version": "v2.6.1",
-        "version_normalized": "2.6.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/doctrine/common.git",
-            "reference": "a579557bc689580c19fee4e27487a67fe60defc0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/common/a579557bc689580c19fee4e27487a67fe60defc0.zip",
-            "reference": "a579557bc689580c19fee4e27487a67fe60defc0",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/annotations": "1.*",
-            "doctrine/cache": "1.*",
-            "doctrine/collections": "1.*",
-            "doctrine/inflector": "1.*",
-            "doctrine/lexer": "1.*",
-            "php": "~5.5|~7.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.8|~5.0"
-        },
-        "time": "2015-12-25 13:18:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Doctrine\\Common\\": "lib/Doctrine/Common"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Roman Borschel",
-                "email": "roman@code-factory.org"
-            },
-            {
-                "name": "Benjamin Eberlei",
-                "email": "kontakt@beberlei.de"
-            },
-            {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
-            },
-            {
-                "name": "Jonathan Wage",
-                "email": "jonwage@gmail.com"
-            },
-            {
-                "name": "Johannes Schmitt",
-                "email": "schmittjoh@gmail.com"
-            }
-        ],
-        "description": "Common Library for Doctrine projects",
-        "homepage": "http://www.doctrine-project.org",
-        "keywords": [
-            "annotations",
-            "collections",
-            "eventmanager",
-            "persistence",
-            "spl"
-        ]
-    },
-    {
         "name": "doctrine/dbal",
         "version": "v2.4.5",
         "version_normalized": "2.4.5.0",
@@ -420,7 +273,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/dbal/5a1f4bf34d61d997ccd9f0539fbc14c7a772aa16.zip",
+            "url": "https://api.github.com/repos/doctrine/dbal/zipball/5a1f4bf34d61d997ccd9f0539fbc14c7a772aa16",
             "reference": "5a1f4bf34d61d997ccd9f0539fbc14c7a772aa16",
             "shasum": ""
         },
@@ -485,7 +338,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/twigphp/Twig/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8.zip",
+            "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
             "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
             "shasum": ""
         },
@@ -817,7 +670,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/data-fixtures/bd44f6b6e40247b6530bc8abe802e4e4d914976a.zip",
+            "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/bd44f6b6e40247b6530bc8abe802e4e4d914976a",
             "reference": "bd44f6b6e40247b6530bc8abe802e4e4d914976a",
             "shasum": ""
         },
@@ -876,7 +729,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/DoctrineFixturesBundle/817c2d233fde0fe85cb7e4d25d43fbfcd028aef8.zip",
+            "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/817c2d233fde0fe85cb7e4d25d43fbfcd028aef8",
             "reference": "817c2d233fde0fe85cb7e4d25d43fbfcd028aef8",
             "shasum": ""
         },
@@ -1037,7 +890,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/Gregwar/Captcha/1240ab993ca713680573b2d4166900da5f758623.zip",
+            "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/1240ab993ca713680573b2d4166900da5f758623",
             "reference": "1240ab993ca713680573b2d4166900da5f758623",
             "shasum": ""
         },
@@ -1087,7 +940,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/Gregwar/CaptchaBundle/c221d9cb4216562a486b966491199e1ed462ab2f.zip",
+            "url": "https://api.github.com/repos/Gregwar/CaptchaBundle/zipball/c221d9cb4216562a486b966491199e1ed462ab2f",
             "reference": "c221d9cb4216562a486b966491199e1ed462ab2f",
             "shasum": ""
         },
@@ -1143,7 +996,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/schmittjoh/cg-library/0af1113c7409b8636c5244bbae10b2e0ff792e9c.zip",
+            "url": "https://api.github.com/repos/schmittjoh/cg-library/zipball/0af1113c7409b8636c5244bbae10b2e0ff792e9c",
             "reference": "0af1113c7409b8636c5244bbae10b2e0ff792e9c",
             "shasum": ""
         },
@@ -1244,7 +1097,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/schmittjoh/JMSAopBundle/66287749c020b4c667c0ff4937b07e66c04bbe71.zip",
+            "url": "https://api.github.com/repos/schmittjoh/JMSAopBundle/zipball/66287749c020b4c667c0ff4937b07e66c04bbe71",
             "reference": "66287749c020b4c667c0ff4937b07e66c04bbe71",
             "shasum": ""
         },
@@ -1351,80 +1204,6 @@
         ]
     },
     {
-        "name": "jms/job-queue-bundle",
-        "version": "1.3.0",
-        "version_normalized": "1.3.0.0",
-        "target-dir": "JMS/JobQueueBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/schmittjoh/JMSJobQueueBundle.git",
-            "reference": "1b5f0ce4acb9ef33febd87967d9d33d2dac22dc8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/schmittjoh/JMSJobQueueBundle/1b5f0ce4acb9ef33febd87967d9d33d2dac22dc8.zip",
-            "reference": "1b5f0ce4acb9ef33febd87967d9d33d2dac22dc8",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/common": ">=2.3,<3.0",
-            "jms/di-extra-bundle": ">=1.1,<2.0",
-            "php": "^5.5.0",
-            "symfony/framework-bundle": ">=2.1,<3.0-dev"
-        },
-        "require-dev": {
-            "doctrine/doctrine-bundle": "*",
-            "doctrine/doctrine-fixtures-bundle": "*",
-            "doctrine/orm": "*",
-            "pagerfanta/pagerfanta": "dev-master",
-            "phpunit/phpunit": "^5.2",
-            "sensio/framework-extra-bundle": "*",
-            "symfony/browser-kit": "*",
-            "symfony/class-loader": "*",
-            "symfony/css-selector": "*",
-            "symfony/finder": "*",
-            "symfony/form": "*",
-            "symfony/process": "*",
-            "symfony/twig-bundle": "*",
-            "symfony/validator": "*",
-            "symfony/yaml": "*"
-        },
-        "suggest": {
-            "pagerfanta/pagerfanta": "Required when using the webinterface.",
-            "sensio/framework-extra-bundle": "Required when using the webinterface.",
-            "symfony/twig-bundle": "Required when using the webinterface."
-        },
-        "time": "2016-03-01 07:40:06",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "JMS\\JobQueueBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache2"
-        ],
-        "authors": [
-            {
-                "name": "Johannes M. Schmitt",
-                "email": "schmittjoh@gmail.com"
-            }
-        ],
-        "description": "Allows to schedule Symfony2 console commands as jobs.",
-        "homepage": "http://jmsyst.com/bundles/JMSJobQueueBundle",
-        "keywords": [
-            "job",
-            "queue"
-        ]
-    },
-    {
         "name": "phpoption/phpoption",
         "version": "1.5.0",
         "version_normalized": "1.5.0.0",
@@ -1435,7 +1214,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/schmittjoh/php-option/94e644f7d2051a5f0fcf77d81605f152eecff0ed.zip",
+            "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/94e644f7d2051a5f0fcf77d81605f152eecff0ed",
             "reference": "94e644f7d2051a5f0fcf77d81605f152eecff0ed",
             "shasum": ""
         },
@@ -1597,7 +1376,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/KnpLabs/knp-components/4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba.zip",
+            "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba",
             "reference": "4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba",
             "shasum": ""
         },
@@ -1667,7 +1446,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/KnpLabs/KnpPaginatorBundle/800eb12f225573869b6f04d77a6e329a6da9110f.zip",
+            "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/800eb12f225573869b6f04d77a6e329a6da9110f",
             "reference": "800eb12f225573869b6f04d77a6e329a6da9110f",
             "shasum": ""
         },
@@ -1782,7 +1561,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/doctrine2/5aedac1e5c5caaeac14798822c70325dc242d467.zip",
+            "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/5aedac1e5c5caaeac14798822c70325dc242d467",
             "reference": "5aedac1e5c5caaeac14798822c70325dc242d467",
             "shasum": ""
         },
@@ -1844,62 +1623,6 @@
         "keywords": [
             "database",
             "orm"
-        ]
-    },
-    {
-        "name": "oro/doctrine-extensions",
-        "version": "1.0.11",
-        "version_normalized": "1.0.11.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/orocrm/doctrine-extensions.git",
-            "reference": "068102e896c8739355b99b794d59d321dff655d7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/orocrm/doctrine-extensions/068102e896c8739355b99b794d59d321dff655d7.zip",
-            "reference": "068102e896c8739355b99b794d59d321dff655d7",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/orm": ">=2.2.3",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "doctrine/data-fixtures": "dev-master",
-            "doctrine/orm": "<2.5.0",
-            "phpunit/phpunit": "4.*",
-            "symfony/yaml": "2.*"
-        },
-        "time": "2016-01-05 20:17:20",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Oro\\DBAL": "src/",
-                "Oro\\ORM": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Oro, Inc",
-                "homepage": "http://www.orocrm.com"
-            }
-        ],
-        "description": "Doctrine Extensions for MySQL and PostgreSQL.",
-        "homepage": "https://github.com/orocrm/doctrine-extensions/",
-        "keywords": [
-            "database",
-            "doctrine",
-            "dql",
-            "function",
-            "mysql",
-            "postgresql",
-            "type"
         ]
     },
     {
@@ -2204,7 +1927,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/Seldaek/monolog/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45.zip",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
             "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
             "shasum": ""
         },
@@ -2507,7 +2230,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/diff/1e091702a5a38e6b4c1ba9ca816e3dd343df2e2d.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/1e091702a5a38e6b4c1ba9ca816e3dd343df2e2d",
             "reference": "1e091702a5a38e6b4c1ba9ca816e3dd343df2e2d",
             "shasum": ""
         },
@@ -2559,7 +2282,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/FriendsOfPHP/PHP-CS-Fixer/29477d018cb78549a3f96656a36b93e99e1edbaf.zip",
+            "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/29477d018cb78549a3f96656a36b93e99e1edbaf",
             "reference": "29477d018cb78549a3f96656a36b93e99e1edbaf",
             "shasum": ""
         },
@@ -2609,7 +2332,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/recursion-context/913401df809e99e4f47b27cdd781f4a258d58791.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/913401df809e99e4f47b27cdd781f4a258d58791",
             "reference": "913401df809e99e4f47b27cdd781f4a258d58791",
             "shasum": ""
         },
@@ -2664,7 +2387,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/exporter/7ae5513327cb536431847bcc0c10edba2701064e.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7ae5513327cb536431847bcc0c10edba2701064e",
             "reference": "7ae5513327cb536431847bcc0c10edba2701064e",
             "shasum": ""
         },
@@ -2732,7 +2455,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/comparator/c484a80f97573ab934e37826dba0135a3301b26a.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/c484a80f97573ab934e37826dba0135a3301b26a",
             "reference": "c484a80f97573ab934e37826dba0135a3301b26a",
             "shasum": ""
         },
@@ -2798,7 +2521,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/mlively/Phake/50d50a01e397e55acc2114c906a46d2aab966a94.zip",
+            "url": "https://api.github.com/repos/mlively/Phake/zipball/50d50a01e397e55acc2114c906a46d2aab966a94",
             "reference": "50d50a01e397e55acc2114c906a46d2aab966a94",
             "shasum": ""
         },
@@ -2858,7 +2581,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/version/58b3a85e7999757d6ad81c787a1fbf5ff6c628c6.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/58b3a85e7999757d6ad81c787a1fbf5ff6c628c6",
             "reference": "58b3a85e7999757d6ad81c787a1fbf5ff6c628c6",
             "shasum": ""
         },
@@ -2895,7 +2618,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/git/a99fbc102e982c1404041ef3e4d431562b29bcba.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/git/zipball/a99fbc102e982c1404041ef3e4d431562b29bcba",
             "reference": "a99fbc102e982c1404041ef3e4d431562b29bcba",
             "shasum": ""
         },
@@ -2943,7 +2666,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/theseer/fDOMDocument/d9ad139d6c2e8edf5e313ffbe37ff13344cf0684.zip",
+            "url": "https://api.github.com/repos/theseer/fDOMDocument/zipball/d9ad139d6c2e8edf5e313ffbe37ff13344cf0684",
             "reference": "d9ad139d6c2e8edf5e313ffbe37ff13344cf0684",
             "shasum": ""
         },
@@ -2985,7 +2708,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/finder-facade/1e396fda3449fce9df032749fa4fa2619e0347e0.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/finder-facade/zipball/1e396fda3449fce9df032749fa4fa2619e0347e0",
             "reference": "1e396fda3449fce9df032749fa4fa2619e0347e0",
             "shasum": ""
         },
@@ -3026,7 +2749,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/phploc/322ad07c112d5c6832abed4269d648cacff5959b.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/322ad07c112d5c6832abed4269d648cacff5959b",
             "reference": "322ad07c112d5c6832abed4269d648cacff5959b",
             "shasum": ""
         },
@@ -3078,7 +2801,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/pdepend/pdepend/dc582a3c0180664a8fbfc5a34efaf4cc13fccc60.zip",
+            "url": "https://api.github.com/repos/pdepend/pdepend/zipball/dc582a3c0180664a8fbfc5a34efaf4cc13fccc60",
             "reference": "dc582a3c0180664a8fbfc5a34efaf4cc13fccc60",
             "shasum": ""
         },
@@ -3119,7 +2842,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/phpmd/phpmd/0a1a12f6867d0e676718fd1ac287e0c34b956fb2.zip",
+            "url": "https://api.github.com/repos/phpmd/phpmd/zipball/0a1a12f6867d0e676718fd1ac287e0c34b956fb2",
             "reference": "0a1a12f6867d0e676718fd1ac287e0c34b956fb2",
             "shasum": ""
         },
@@ -3163,7 +2886,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-token-stream/3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
             "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
             "shasum": ""
         },
@@ -3214,7 +2937,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/environment/dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
             "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
             "shasum": ""
         },
@@ -3266,7 +2989,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-text-template/31f8b717e51d9a2afca6c9f046f5d69fc27c8686.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/31f8b717e51d9a2afca6c9f046f5d69fc27c8686",
             "reference": "31f8b717e51d9a2afca6c9f046f5d69fc27c8686",
             "shasum": ""
         },
@@ -3309,7 +3032,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/doctrine/instantiator/8e884e78f9f0eb1329e445619e04456e64d8051d.zip",
+            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
             "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
             "shasum": ""
         },
@@ -3365,7 +3088,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/phpunit-mock-objects/ac8e7a3db35738d56ee9a76e78a4e03d97628983.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ac8e7a3db35738d56ee9a76e78a4e03d97628983",
             "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983",
             "shasum": ""
         },
@@ -3423,7 +3146,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-timer/3e82f4e9fc92665fafd9157568e4dcb01d014e5b.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
             "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
             "shasum": ""
         },
@@ -3466,7 +3189,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-file-iterator/acd690379117b042d1c8af1fafd61bde001bf6bb.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/acd690379117b042d1c8af1fafd61bde001bf6bb",
             "reference": "acd690379117b042d1c8af1fafd61bde001bf6bb",
             "shasum": ""
         },
@@ -3513,7 +3236,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-code-coverage/eabf68b476ac7d0f73793aada060f1c1a9bf8979.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/eabf68b476ac7d0f73793aada060f1c1a9bf8979",
             "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979",
             "shasum": ""
         },
@@ -3577,7 +3300,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/phpunit/2dab9d593997db4abcf58d0daf798eb4e9cecfe1.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2dab9d593997db4abcf58d0daf798eb4e9cecfe1",
             "reference": "2dab9d593997db4abcf58d0daf798eb4e9cecfe1",
             "shasum": ""
         },
@@ -3653,7 +3376,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/piece/stagehand-componentfactory/d38890fa8a9a813f5f4c39471654a9de3ca0291c.zip",
+            "url": "https://api.github.com/repos/piece/stagehand-componentfactory/zipball/d38890fa8a9a813f5f4c39471654a9de3ca0291c",
             "reference": "d38890fa8a9a813f5f4c39471654a9de3ca0291c",
             "shasum": ""
         },
@@ -3702,7 +3425,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/piece/stagehand-alterationmonitor/a54efc033371766e93e9cec5c7f976bfd44d51fd.zip",
+            "url": "https://api.github.com/repos/piece/stagehand-alterationmonitor/zipball/a54efc033371766e93e9cec5c7f976bfd44d51fd",
             "reference": "a54efc033371766e93e9cec5c7f976bfd44d51fd",
             "shasum": ""
         },
@@ -3744,7 +3467,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/piece/stagehand-testrunner/56aa464d179d40b4cf65007a34aad51d06abb63f.zip",
+            "url": "https://api.github.com/repos/piece/stagehand-testrunner/zipball/56aa464d179d40b4cf65007a34aad51d06abb63f",
             "reference": "56aa464d179d40b4cf65007a34aad51d06abb63f",
             "shasum": ""
         },
@@ -3815,7 +3538,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/phpcpd/d3ad100fdf15805495f6ff19f473f4314c99390c.zip",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/d3ad100fdf15805495f6ff19f473f4314c99390c",
             "reference": "d3ad100fdf15805495f6ff19f473f4314c99390c",
             "shasum": ""
         },
@@ -3868,7 +3591,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/squizlabs/PHP_CodeSniffer/d2a1d4c58fd2bb09ba376d0d19e67c0ab649e401.zip",
+            "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d2a1d4c58fd2bb09ba376d0d19e67c0ab649e401",
             "reference": "d2a1d4c58fd2bb09ba376d0d19e67c0ab649e401",
             "shasum": ""
         },
@@ -3943,7 +3666,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/theseer/fXSL/a9246376c713156e55c080782d4104bb07d4b899.zip",
+            "url": "https://api.github.com/repos/theseer/fXSL/zipball/a9246376c713156e55c080782d4104bb07d4b899",
             "reference": "a9246376c713156e55c080782d4104bb07d4b899",
             "shasum": ""
         },
@@ -3990,7 +3713,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/theseer/DirectoryScanner/b1406a99f5e4b1761c84d9e98127c03871bb7b0e.zip",
+            "url": "https://api.github.com/repos/theseer/DirectoryScanner/zipball/b1406a99f5e4b1761c84d9e98127c03871bb7b0e",
             "reference": "b1406a99f5e4b1761c84d9e98127c03871bb7b0e",
             "shasum": ""
         },
@@ -4034,7 +3757,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/nikic/PHP-Parser/ce5be709d59b32dd8a88c80259028759991a4206.zip",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ce5be709d59b32dd8a88c80259028759991a4206",
             "reference": "ce5be709d59b32dd8a88c80259028759991a4206",
             "shasum": ""
         },
@@ -4087,7 +3810,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/theseer/phpdox/18ca0c645c5980d08edf44f701b2108f241b0425.zip",
+            "url": "https://api.github.com/repos/theseer/phpdox/zipball/18ca0c645c5980d08edf44f701b2108f241b0425",
             "reference": "18ca0c645c5980d08edf44f701b2108f241b0425",
             "shasum": ""
         },
@@ -4133,5 +3856,343 @@
             }
         ],
         "description": "A fast Documentation generator for PHP Code using standard technology (SRC, DOCBLOCK, XML and XSLT) with event based processing"
+    },
+    {
+        "name": "doctrine/cache",
+        "version": "v1.5.4",
+        "version_normalized": "1.5.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/cache.git",
+            "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/cache/zipball/47cdc76ceb95cc591d9c79a36dc3794975b5d136",
+            "reference": "47cdc76ceb95cc591d9c79a36dc3794975b5d136",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "conflict": {
+            "doctrine/common": ">2.2,<2.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=3.7",
+            "predis/predis": "~1.0",
+            "satooshi/php-coveralls": "~0.6"
+        },
+        "time": "2015-12-19 05:03:47",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Caching library offering an object-oriented API for many cache backends",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "cache",
+            "caching"
+        ]
+    },
+    {
+        "name": "doctrine/common",
+        "version": "v2.5.3",
+        "version_normalized": "2.5.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/common.git",
+            "reference": "10f1f19651343f87573129ca970aef1a47a6f29e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/common/zipball/10f1f19651343f87573129ca970aef1a47a6f29e",
+            "reference": "10f1f19651343f87573129ca970aef1a47a6f29e",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/annotations": "1.*",
+            "doctrine/cache": "1.*",
+            "doctrine/collections": "1.*",
+            "doctrine/inflector": "1.*",
+            "doctrine/lexer": "1.*",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7"
+        },
+        "time": "2015-12-25 13:10:16",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\Common\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Common Library for Doctrine projects",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "annotations",
+            "collections",
+            "eventmanager",
+            "persistence",
+            "spl"
+        ]
+    },
+    {
+        "name": "jms/job-queue-bundle",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "target-dir": "JMS/JobQueueBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/JMSJobQueueBundle.git",
+            "reference": "41fd2c839c004ca3e58a615f19181ccac2eafc7a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/schmittjoh/JMSJobQueueBundle/zipball/41fd2c839c004ca3e58a615f19181ccac2eafc7a",
+            "reference": "41fd2c839c004ca3e58a615f19181ccac2eafc7a",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": ">=2.3,<3.0",
+            "jms/di-extra-bundle": ">=1.1,<2.0",
+            "symfony/framework-bundle": ">=2.1,<3.0-dev"
+        },
+        "require-dev": {
+            "doctrine/doctrine-bundle": "*",
+            "doctrine/doctrine-fixtures-bundle": "*",
+            "doctrine/orm": "*",
+            "pagerfanta/pagerfanta": "dev-master",
+            "sensio/framework-extra-bundle": "*",
+            "symfony/browser-kit": "*",
+            "symfony/class-loader": "*",
+            "symfony/css-selector": "*",
+            "symfony/finder": "*",
+            "symfony/form": "*",
+            "symfony/process": "*",
+            "symfony/twig-bundle": "*",
+            "symfony/validator": "*",
+            "symfony/yaml": "*"
+        },
+        "suggest": {
+            "pagerfanta/pagerfanta": "Required when using the webinterface.",
+            "sensio/framework-extra-bundle": "Required when using the webinterface.",
+            "symfony/twig-bundle": "Required when using the webinterface."
+        },
+        "time": "2015-05-05 12:27:04",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "JMS\\JobQueueBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache2"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Allows to schedule Symfony2 console commands as jobs.",
+        "homepage": "http://jmsyst.com/bundles/JMSJobQueueBundle",
+        "keywords": [
+            "job",
+            "queue"
+        ]
+    },
+    {
+        "name": "oro/doctrine-extensions",
+        "version": "1.0.12",
+        "version_normalized": "1.0.12.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/orocrm/doctrine-extensions.git",
+            "reference": "2aab7d5f530d9bc115b6bdb4bf48fe3156453089"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/orocrm/doctrine-extensions/zipball/2aab7d5f530d9bc115b6bdb4bf48fe3156453089",
+            "reference": "2aab7d5f530d9bc115b6bdb4bf48fe3156453089",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/orm": ">=2.2.3",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "doctrine/data-fixtures": "dev-master",
+            "doctrine/orm": "<2.5.0",
+            "phpunit/phpunit": "4.*",
+            "symfony/yaml": "2.*"
+        },
+        "time": "2016-03-29 10:30:36",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Oro\\DBAL": "src/",
+                "Oro\\ORM": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Oro, Inc",
+                "homepage": "http://www.orocrm.com"
+            }
+        ],
+        "description": "Doctrine Extensions for MySQL and PostgreSQL.",
+        "homepage": "https://github.com/orocrm/doctrine-extensions/",
+        "keywords": [
+            "database",
+            "doctrine",
+            "dql",
+            "function",
+            "mysql",
+            "postgresql",
+            "type"
+        ]
+    },
+    {
+        "name": "pear/net_url2",
+        "version": "v2.2.0",
+        "version_normalized": "2.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/pear/Net_URL2.git",
+            "reference": "fa9b1ecb3c3e640d4a54d58d681a4cb7524f209e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/pear/Net_URL2/zipball/fa9b1ecb3c3e640d4a54d58d681a4cb7524f209e",
+            "reference": "fa9b1ecb3c3e640d4a54d58d681a4cb7524f209e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.1.4"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=3.3.0"
+        },
+        "time": "2015-04-18 17:36:57",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "Net/URL2.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "David Coallier",
+                "email": "davidc@php.net"
+            },
+            {
+                "name": "Tom Klingenberg",
+                "email": "tkli@php.net"
+            },
+            {
+                "name": "Christian Schmidt",
+                "email": "chmidt@php.net"
+            }
+        ],
+        "description": "Class for parsing and handling URL. Provides parsing of URLs into their constituent parts (scheme, host, path etc.), URL generation, and resolving of relative URLs.",
+        "homepage": "https://github.com/pear/Net_URL2",
+        "keywords": [
+            "PEAR",
+            "net",
+            "networking",
+            "rfc3986",
+            "uri",
+            "url"
+        ]
     }
 ]
