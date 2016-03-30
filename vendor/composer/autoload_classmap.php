@@ -83,6 +83,7 @@ return array(
     'MySource_Sniffs_PHP_GetRequestDataSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/PHP/GetRequestDataSniff.php',
     'MySource_Sniffs_PHP_ReturnFunctionValueSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/PHP/ReturnFunctionValueSniff.php',
     'MySource_Sniffs_Strings_JoinStringsSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/MySource/Sniffs/Strings/JoinStringsSniff.php',
+    'Net_URL2' => $vendorDir . '/pear/net_url2/Net/URL2.php',
     'NumberFormatter' => $vendorDir . '/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs/NumberFormatter.php',
     'PEAR_Sniffs_Classes_ClassDeclarationSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/Classes/ClassDeclarationSniff.php',
     'PEAR_Sniffs_Commenting_ClassCommentSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PEAR/Sniffs/Commenting/ClassCommentSniff.php',
