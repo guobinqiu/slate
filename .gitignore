@@ -14,8 +14,6 @@ app/config/config_dev.yml
 app/config/config_test.yml
 app/config/custom_parameters.yml
 app/config/parameters.yml
-^bin/
-/bin/
 app/config/parameters.ini
 app/SymfonyRequirements.php
 
