@@ -12,7 +12,7 @@ database:
 
 dependencies:
   override:
-    make circle
+    - make circle
 
 
 test:
