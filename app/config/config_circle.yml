@@ -21,5 +21,8 @@ swiftmailer:
 
 doctrine:
     dbal:
-       dbname:   circle_test
-
+        dbname:               circle_test
+        user:                 ubuntu
+        password:             null
+        driver:               pdo_mysql
+        unix_socket:          /var/run/mysqld/mysqld.sock

@@ -27,7 +27,6 @@ setup-submodules:
 	git submodule update --init;
 
 circle: setup-submodules create-dir create-config deploy-js-routing cc-all
-	cp -f ./app/config/parameters_circle.yml ./app/config/parameters.yml
 	php app/console doctrine:schema:update --force
 
 show-setting:
