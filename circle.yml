@@ -5,6 +5,9 @@ machine:
     Asia/Shanghai
   services:
     - mysql
+  environment:
+    SYMFONY_ENV: circle
+
 
 database:
   override:
@@ -17,5 +20,5 @@ dependencies:
 
 test:
   override:
-    - ./bin/phpunit -c ./app/phpunit.circle.xml -d memory_limit=-1 -v --debug ./src/Wenwen/
+    - ./bin/phpunit -c ./app/phpunit.xml.dist -d memory_limit=-1 -v --debug ./src/Wenwen/
 
