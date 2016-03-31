@@ -32,6 +32,7 @@ setup-submodules:
 		git submodule update --init; \
 	fi;
 
+circle: create-dir create-config
 
 show-setting:
 	@echo "Setting"
