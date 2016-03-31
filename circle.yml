@@ -17,5 +17,5 @@ dependencies:
 
 test:
   override:
-    - exit(0)
+    - echo "skip test"
 
