@@ -26,7 +26,8 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle: create-dir create-config
+circle: setup-submodules create-dir create-config deploy-js-routing cc-all
+	cp -f ./app/config/parameters_circle.yml ./app/config/parameters.yml
 
 show-setting:
 	@echo "Setting"

@@ -1,0 +1,42 @@
+<?php
+// referto http://sgoettschkes.blogspot.com/2012/06/symfony2-test-database-best-pratice.html
+
+require_once __DIR__ . '/bootstrap.php.cache';
+require_once __DIR__ . '/AppTestKernel.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+
+$kernel = new AppTestKernel('circle', true);
+$kernel->boot();
+
+$application = new Application($kernel);
+$application->setAutoExit(false);
+
+#echo $application->getName(),PHP_EOL;
+#echo $application->getVersion(),PHP_EOL;
+
+Phake::setClient(Phake::CLIENT_PHPUNIT);
+
+executeCommand($application, "doctrine:database:drop", array('--force'=>true));
+$connection = $application->getKernel()->getContainer()->get('doctrine')->getConnection();
+
+if ($connection->isConnected()) {
+    $connection->close();
+}
+
+executeCommand($application, "doctrine:database:create"  );
+// executeCommand($application, 'doctrine:schema:update', array('--force'=> true) );
+
+executeCommand($application, 'doctrine:schema:create' );
+// executeCommand($application, 'doctrine:fixtures:load', array('-n'=>true));
+
+function executeCommand($application, $command, Array $options = array()) {
+//    $options["--quiet"] = true;
+    $options['-e'] = 'circle';
+    $options = array_merge($options, array('command' => $command));
+    $application->run(new ArrayInput($options));
+}
+
+
+
