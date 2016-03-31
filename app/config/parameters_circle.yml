@@ -14,5 +14,8 @@ parameters:
     locale:            zh_CN
     secret:            ThisTokenIsNotSoSecretChangeIt
 
+    base_url:          https://www.91jili.com.vag.91jili.com/app_dev.php # dummy for circle ci
+    fos_js_routing.request_context_base_url: /app_dev.php
+
     91wewen_bind_secret_key_dev: 0b0c2b46e396714623dcd1f4c361918a0658e8131d70e3efc237079a0f26625a   #development
 
