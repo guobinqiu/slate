@@ -28,6 +28,7 @@ setup-submodules:
 
 circle: setup-submodules create-dir create-config deploy-js-routing cc-all
 	php app/console doctrine:schema:update --force --env "circle"
+	cp -f app/config/config_circle.yml app/config/config_test.yml
 
 show-setting:
 	@echo "Setting"
