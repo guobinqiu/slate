@@ -221,7 +221,7 @@ parameters:
     exchange_unsame_mobile: 2次输入的手机号码不相同
     exchange_unsame_alipay: 2次输入的支付宝账号不相同
     forget_en_pwd: 请输入用户密码
-    forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    forget_wr_pwd: 用户密码为5-100个字符，密码至少包含1位字母和1位数字
     forget_unsame_pwd: 2次输入的用户密码不相同
     forget_su_pwd: 密码修改成功
     update_password_fail: 密码修改失败，请稍后再试。
