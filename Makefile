@@ -28,7 +28,7 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle: setup-submodules create-dir create-config deploy-js-routing cc-all
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
 	php app/console doctrine:schema:update --force --env "circle"
 	cp -f app/config/config_circle.yml app/config/config_test.yml
 
