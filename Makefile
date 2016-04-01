@@ -35,7 +35,8 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo mkdir -p /data/91jili/logs
 
 setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
