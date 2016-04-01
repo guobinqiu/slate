@@ -57,7 +57,7 @@ class ExperienceAdvertisementRepository extends EntityRepository
                 return  '文件类型为jpg或png或gif';//类型不对
             }
             $size = getimagesize($ea->$fileName);
-            if(($ea->getMissionHall()==1 && $size[0]=='94' && $size[1]=='78') || ($ea->getMissionHall()==2 && $size[0]=='116' && $size[1]=='78')){
+            if(($ea->getMissionHall()==1 && $size[0]=='165' && $size[1]=='112') || ($ea->getMissionHall()==2 && $size[0]=='165' && $size[1]=='112')){
                 $filename_upload = time().'_'.rand(1000,9999).'.'.$ea->$fileName->guessExtension();
                 $ea->$fileName->move($upload_dir, $filename_upload);
                 $ea->$fileName = $upload_dir.$filename_upload;
