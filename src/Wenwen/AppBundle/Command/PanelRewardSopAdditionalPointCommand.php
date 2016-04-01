@@ -55,6 +55,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
     {
         // title is saved in extra_info.title for old history
         $title = isset($history['title']) ? $history['title'] : $history['extra_info']['title'];
+
         return 'r' . $history['survey_id'] . ' ' . $title;
     }
 
@@ -63,9 +64,19 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         return $this->sop_configure['api_v1_1_surveys_research_additional_incentive'];
     }
 
- protected function requiredFields()
+    protected function requiredFields()
     {
-        return array('app_id', 'app_mid', 'survey_id', 'quota_id', 'title', 'incentive_amount', 'hash', 'created_at','extra_info');
+        return array (
+            'app_id',
+            'app_mid',
+            'survey_id',
+            'quota_id',
+            'title',
+            'incentive_amount',
+            'hash',
+            'created_at',
+            'extra_info'
+        );
     }
 
     protected function skipReward($history)
@@ -89,6 +100,8 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function extraInfoKeys()
     {
-        return array('point_type');
+        return array (
+            'point_type'
+        );
     }
 }

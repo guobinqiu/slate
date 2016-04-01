@@ -96,7 +96,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         );
         $rec2 = array (
             "2",
-            "invalid-app-mid",
+            "Invalid-app-mid",
             "1",
             "2",
             "zh_CH title",
