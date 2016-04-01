@@ -12,7 +12,7 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks setup-databases deploy-js-routing cc-all
+setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
 
 setup-databases:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
@@ -26,6 +26,7 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
+circle: create-dir create-config
 
 show-setting:
 	@echo "Setting"
@@ -34,8 +35,16 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
+<<<<<<< HEAD
 	mkdir -p ${WEB_ROOT_DIR}
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp
+=======
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+>>>>>>> aa875de27da0d1505604301329f3d059e71d8598
+
+setup-web-root:
+	mkdir -p ${WEB_ROOT_DIR}
+	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
@@ -51,9 +60,6 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/config_dev.yml.dist        ${SRC_DIR}/app/config/config_dev.yml
 	cp -n ${SRC_DIR}/app/config/config_test.yml.dist       ${SRC_DIR}/app/config/config_test.yml
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
-
-create-symlinks:
-	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-777:
 	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
