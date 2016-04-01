@@ -84,6 +84,11 @@ class SopResearchSurveyAdditionalIncentiveHistory
      */
     private $id;
 
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
 
 
     /**

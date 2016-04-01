@@ -60,9 +60,6 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
-        print_r($this->sop_configure);
-
         return $this->sop_configure['api_v1_1_surveys_research_additional_incentive'];
     }
 
