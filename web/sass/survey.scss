@@ -15,7 +15,7 @@
 .survey-sub{
 	position: relative;
 	z-index: 1;
-	li{
+	&>li{
 		border-top: none;
 		border-bottom: $block-inner-border;
 	}

@@ -504,7 +504,7 @@ body {
 .survey-sub {
   position: relative;
   z-index: 1; }
-  .survey-sub li {
+  .survey-sub > li {
     border-top: none;
     border-bottom: 1px solid #f6f6f6; }
 
