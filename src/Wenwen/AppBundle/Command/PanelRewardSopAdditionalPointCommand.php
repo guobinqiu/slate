@@ -89,4 +89,9 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         $em->persist($history_model);
         $em->flush();
     }
+
+    protected function extraInfoKeys()
+    {
+        return array('point_type');
+    }
 }
