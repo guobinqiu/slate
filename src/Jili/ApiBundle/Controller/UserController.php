@@ -49,6 +49,7 @@ use Jili\ApiBundle\Entity\TaskHistory09;
 use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\FrontendBundle\Controller\CampaignTrackingController;
 use JMS\JobQueueBundle\Entity\Job;
+use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
 class UserController extends Controller implements CampaignTrackingController
 {
@@ -1259,7 +1260,10 @@ class UserController extends Controller implements CampaignTrackingController
                 $newPwd = $request->request->get('pwdRepeat');
                 if ($request->getMethod() == 'POST'){
                     if($pwd){
-                        if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
+                        //用户密码为5-100个字符，密码至少包含1位字母和1位数字
+                        $passwordConstraint = new PasswordRegex();
+                        $errorList = $this->get('validator')->validateValue($pwd, $passwordConstraint);
+                        if (count($errorList) > 0) {
                             $arr['codeflag'] = $this->container->getParameter('init_three');
                             $arr['code'] = $this->container->getParameter('forget_wr_pwd');
                         }else{

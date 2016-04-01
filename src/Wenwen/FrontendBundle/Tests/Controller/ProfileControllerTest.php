@@ -1,9 +1,7 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -241,6 +239,7 @@ class ProfileControllerTest extends WebTestCase
 
     /**
      * @group dev-merge-ui-profile-edit
+     * @group dev-merge-ui-profile-nick
      */
     public function testEditProfile()
     {
@@ -265,6 +264,11 @@ class ProfileControllerTest extends WebTestCase
         $form = $crawler->filter('form[name=profileForm]')->form();
 
         // set some values
+        $form['profile[nick]'] = 'aaaa';
+        $crawler = $client->submit($form);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains("用户昵称已经存在")')->count() > 0);
+
         $form['profile[nick]'] = 'nick';
         $form['profile[tel]'] = '12345678901';
         $form['profile[sex]'] = '1';

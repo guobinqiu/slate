@@ -1,0 +1,32 @@
+
+image_log=/data/91jili/merge/log/image.log
+image_log_bk=/data/91jili/merge/log/image_`date +%Y%m%d-%H`.log
+
+image_chk_log=/data/91jili/merge/log/image_check.log
+image_chk_log_bk=/data/91jili/merge/log/image_check_`date +%Y%m%d-%H`.log
+
+time_fmt=real\t%E\nuser\t%U\nsys\t%S\n
+
+fetch:
+	/usr/bin/time -ao ${image_log}  -f "${time_fmt}" bash wget_user_images.sh 1>>${image_log} 2>&1 
+	/usr/bin/time -ao ${image_log}  -f "${time_fmt}" bash mv_user_images.sh 1>>${image_log} 2>&1 
+
+fetch_v3:
+	bash wget_user_images_v3.sh 1>${image_log} 2>&1
+	cp ${image_log} ${image_log_bk}
+
+# /tmp/log5 is the output of fetch_v3 , the ${image_log}
+check_failed:
+	grep '^LACK:' ${image_log} | cut -c36- > /tmp/lack_images.txt
+	php -f check_download_failed_images.php > check_download_failed_images.sql
+	scp check_download_failed_images.sh check_download_failed_images.sql t-jiang@54.254.98.246:/mnt/tmp/merge/bin/ 
+	ssh t-jiang@54.254.98.246  'cd /mnt/tmp/merge/; bash bin/check_download_failed_images.sh 2>&1 '|sed -n '/s_file/!p' | tee /tmp/lack.user_images.csv
+	php -f get_failed_users_page.php /tmp/lack.user_images.csv > ${image_chk_log}
+	grep "^IMAGES_URL_PATH:"     ${image_chk_log} | cut -c 17- > /tmp/image_checked_urls.txt
+	bash image_checked_urls.sh 1>${image_log} 2>&1
+	grep "^SQL:" ${image_chk_log} | cut -c 5- > /tmp/image_checked.sql
+	bash wget_user_images_v3.sh /tmp/image_checked.sql 1>>${image_chk_log} 2>&1
+
+#update_images_changed( necessary )
+#	scp -P9012 /tmp/image_checked.sql jiangtao@jili-web:/
+#	bash wget_user_images_v3.sh 1>${image_log} 2>&1

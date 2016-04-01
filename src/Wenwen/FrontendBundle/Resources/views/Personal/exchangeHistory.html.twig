@@ -13,7 +13,7 @@
 <div class="main-personal w1000 clearfix">
 	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
 	<div class="main-personal-right right">
-		<h2><div class="filter"><label for="">按时间筛选：</label><input type="text" class="laydate-icon">到<input type="text" class="laydate-icon"><span class="searchBtn">搜索</span></div>兑换历史</h2>
+		<h2>兑换历史</h2>
 		<div class="main-personal-points">
 			<table>
 				<thead>
@@ -52,5 +52,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/point')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
 {% endblock %}

@@ -33,7 +33,21 @@ if USER = seki
     $ make setup
     ```
 
-1. configure DB `./app/config/parameters.yml`
+1. configure yml files in `./app/config/`
+
+    * `./app/config/parameters.yml`
+      * DB configuration
+      * for `vagrant` environment, password should be emtpy
+    * `app/config/custom_parameters.yml`
+      * `webuser_signup.login.username`
+      * `webuser_signup.login.password`
+      * `webpower.login.username`
+      * `webpower.login.password`
+      * `signup.crypt_method`
+      * `signup.salt`
+      * `recruit_offerwow`
+      * `recruit_offer99`
+
 
 1. setup /etc/hosts on your **local**  machine.
 
