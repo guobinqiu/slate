@@ -35,7 +35,7 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
 
 setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
@@ -43,11 +43,11 @@ setup-web-root:
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
 	else \
-		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
 	fi;
 
 create-config:
@@ -57,8 +57,8 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
 
 deploy: deploy-js-routing
 	@echo done
