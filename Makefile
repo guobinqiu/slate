@@ -37,8 +37,8 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo mkdir -p /data/91jili/logs
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user
+	sudo mkdir -p /data/91jili/logs/admin
 
 setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
@@ -46,11 +46,11 @@ setup-web-root:
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
-		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
 	else \
-		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
-		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs ; \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
 	fi;
 
 create-config:
@@ -60,8 +60,8 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
-	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic /data/91jili/logs
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin
 
 deploy: deploy-js-routing
 	@echo done
