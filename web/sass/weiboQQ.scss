@@ -121,4 +121,26 @@
 		color: #007ec2;
 	}
 }
+/* 微博/QQ快捷登录错误返回页面 Start*/
+.mtText{
+	width: 396px;
+	text-align: center;
+	margin: 100px auto 180px;
+	em{
+		width: 77px;
+		height: 77px;
+		background: url(../img/common/ErrorIcon.png) no-repeat;
+		display: inline-block;
+		margin-bottom: 17px;
+	}
+	h2{
+		font-size: 26px;
+		line-height: 53px;
+	}
+	p{
+		line-height: 18px;
+		color: #757575;
+	}
+}
+/* 微博/QQ快捷登录错误返回页面 End*/
 @import "layout/footer-simple";
