@@ -439,6 +439,7 @@ body {
       color: #a3a3a3;
       font-size: 14px;
       background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
+      cursor: pointer;
       display: inline-block;
       *display: inline;
       *zoom: 1;
@@ -792,6 +793,78 @@ body {
   text-align: center;
   color: #ff0000; }
 
+/* weibo login prompt Start*/
+.weiboLogPop {
+  width: 406px;
+  height: 270px;
+  background: rgba(202, 202, 202, 0.4);
+  position: absolute;
+  z-index: 1;
+  top: 480px;
+  right: 450px; }
+
+.wbWrap {
+  height: 248px;
+  margin: 10px;
+  border: 1px solid #bdbdbd;
+  background: #fff;
+  position: absolute;
+  z-index: 2; }
+  .wbWrap .wbTit {
+    height: 40px;
+    line-height: 40px;
+    background: #ebebeb;
+    padding-left: 20px;
+    position: relative;
+    color: #444; }
+    .wbWrap .wbTit .wbIco {
+      width: 23px;
+      height: 18px;
+      background: url(../img/home/sinaUnact.png) no-repeat;
+      display: inline-block;
+      margin-right: 7px;
+      vertical-align: -4px; }
+    .wbWrap .wbTit .closeBtn {
+      width: 30px;
+      height: 30px;
+      background: url(../img/home/closeBtn.png) no-repeat 6px 8px;
+      display: inline-block;
+      position: absolute;
+      top: 4px;
+      right: 10px; }
+  .wbWrap .wbText {
+    padding: 22px 27px 25px; }
+    .wbWrap .wbText .l1 {
+      font-size: 15px;
+      line-height: 22px;
+      color: #666; }
+      .wbWrap .wbText .l1 strong {
+        color: #4ab6db; }
+    .wbWrap .wbText .l2 {
+      color: #999;
+      line-height: 19px;
+      margin-top: 7px; }
+  .wbWrap .wbBtnArea {
+    text-align: center; }
+    .wbWrap .wbBtnArea .cancelBtn, .wbWrap .wbBtnArea .continueBtn {
+      padding: 5px 30px;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px; }
+    .wbWrap .wbBtnArea .cancelBtn {
+      background: #e4e4e4;
+      border: 1px solid #dbdbdb;
+      color: #000;
+      margin-right: 20px;
+      cursor: pointer; }
+    .wbWrap .wbBtnArea .continueBtn {
+      background: #50c5ee;
+      border: 1px solid #49b3d9;
+      color: #fff; }
+
+/* weibo login prompt End*/
 .footer {
   margin-top: 50px;
   border-top: 3px solid #d6d9df;

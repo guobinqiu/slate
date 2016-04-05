@@ -37,12 +37,22 @@
 					</form>
 					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">
-						<span><a href="{{ path('weibo_api_login') }}">微博登录</a><a href="{{ path('qq_api_login') }}" class="qq-login">QQ登录</a></span>
+						<span><a class="weibo-login">微博登录</a><a href="{{ path('qq_api_login') }}" class="qq-login">QQ登录</a></span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="introBg"></div>
+	</div>
+</div>
+<div class="weiboLogPop" style="display: none;">
+	<div class="wbWrap">
+		<div class="wbTit"><span class="wbIco"></span>新浪微博登录提示<span class="closeBtn"></span></div>
+		<div class="wbText">
+			<p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
+			<p class="l2">如果您没有账号，请到当前页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+		</div>
+		<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
 	</div>
 </div>
 <div class="main-con-process">

@@ -93,6 +93,18 @@ require(['../config'],function(){
                 return false;
             }
         });
+
+        //sinaWeibo and QQ quick login prompt
+        var wbLog = $('.weibo-login');
+        var wbClose = $('.wbWrap .closeBtn').add('.wbWrap .cancelBtn');
+        var wbPCon = $('.weiboLogPop');
+        wbLog.on('click', function(){
+            wbPCon.show();
+        });
+        wbClose.on('click', function(){
+            wbPCon.hide();
+        });
+
     });
     require(['jquery'], function($){
         var $window = $(window),
