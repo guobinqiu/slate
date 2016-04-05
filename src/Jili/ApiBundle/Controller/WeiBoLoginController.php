@@ -59,7 +59,7 @@ class WeiBoLoginController extends Controller
                 $request->getSession()->set('weibo_name',$weibo_response_user['name']);
                 $request->getSession()->set('weibo_user_img',$weibo_response_user['profile_image_url']);
                 //跳转到 weibofirstlogin action
-                return $this->redirect($this->generateUrl('weibo_first_login'));
+                return $this->redirect($this->generateUrl('weibo_maintenance'));
             }
         }else{
             // '授权失败';
@@ -182,5 +182,13 @@ class WeiBoLoginController extends Controller
         $form  = $this->createForm(new WeiBoFirstRegist());
         return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$weibo_openid,'nickname'=>$weibo_name, 'weibo_user_img'=>$weibo_user_img, 'form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/maintenance", name="weibo_maintenance")
+     */
+    public function maintenanceAction()
+    {
+        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
     }
 }
