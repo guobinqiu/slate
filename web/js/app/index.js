@@ -96,15 +96,19 @@ require(['../config'],function(){
 
         //sinaWeibo and QQ quick login prompt
         var wbLog = $('.weibo-login');
-        var wbClose = $('.wbWrap .closeBtn').add('.wbWrap .cancelBtn');
-        var wbPCon = $('.weiboLogPop');
+        var qqLog = $('.qq-login');
+        var wqClose = $('.quickLWrap .closeBtn').add('.quickLWrap .cancelBtn');
+        var wbPCon = $('#wbLogCon');
+        var qqPCon = $('#qqLogCon');
         wbLog.on('click', function(){
             wbPCon.show();
         });
-        wbClose.on('click', function(){
-            wbPCon.hide();
+        qqLog.on('click', function(){
+            qqPCon.show();
         });
-
+        wqClose.on('click', function(){
+            wbPCon.add(qqPCon).hide();
+        });
     });
     require(['jquery'], function($){
         var $window = $(window),

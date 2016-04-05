@@ -380,17 +380,18 @@ $main-ad-color: #eb7020;
 	color: #ff0000;
 }
 /* weibo login prompt Start*/
-.weiboLogPop{
+.quickLogPop{
 	width: 406px;
-	height: 270px;
+	height: 253px;
 	background: rgba(202,202,202,.4);
 	position: absolute;
     z-index: 1;
     top: 480px;
     right: 450px;
+    @include border-radius(5px);
 }
-.wbWrap{
-	height: 248px;
+.quickLWrap{
+	height: 230px;
 	margin: 10px;
 	border: 1px solid #bdbdbd;
 	background: #fff;
@@ -403,13 +404,19 @@ $main-ad-color: #eb7020;
 		padding-left: 20px;
 		position: relative;
 		color: #444;
-		.wbIco{
+		.wbIco, .qqIco{
 			width: 23px;
 			height: 18px;
-			background: url(../img/home/sinaUnact.png) no-repeat;
 			display: inline-block;
 			margin-right: 7px;
 			vertical-align: -4px;
+		}
+		.wbIco{
+			background: url(../img/home/sinaUnact.png) no-repeat;
+		}
+		.qqIco{
+			width: 19px;
+			background: url(../img/home/qqUnact.png) no-repeat;
 		}
 		.closeBtn{
 			width: 30px;
@@ -422,7 +429,7 @@ $main-ad-color: #eb7020;
 		}
 	}
 	.wbText{
-		padding: 22px 27px 25px;
+		padding: 22px 27px 28px;
 		.l1{
 			font-size: 15px;
 			line-height: 22px;
