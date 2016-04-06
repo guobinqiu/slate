@@ -143,7 +143,7 @@ require(['../config'],function(){
             fdWrap.animate({right: '0'}, 300);
         });
         fdWrap.on('click', function(){
-            fdWrap.animate({right: '-130px'}, 300);
+            fdWrap.animate({right: '-150px'}, 300);
             unfdWrap.animate({right: '0'}, 300);
         });
         if(shouldShow()){
