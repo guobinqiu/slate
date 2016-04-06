@@ -104,5 +104,13 @@
 			display: inline;
 		}
 	}
+	.backError{
+		margin-top: 10px;
+		padding-left: 165px;
+		text-align: left;
+		height: 30px;
+		line-height: 30px;
+		color: $error-color;
+	}
 }
 @import "layout/footer-simple";
