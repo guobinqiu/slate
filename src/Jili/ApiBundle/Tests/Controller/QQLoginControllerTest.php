@@ -17,6 +17,7 @@ class QQLoginControllerTest extends WebTestCase
      */
     private $em;
     private $has_fixture;
+    private $client;
 
 
     /**
@@ -97,7 +98,8 @@ class QQLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url, array('code'=>''));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+        $this->assertTrue($crawler->filter('html:contains("对不起，QQ用户授权失败，请稍后再试。")')->count() > 0);
+
     }
 
     /**
@@ -139,13 +141,15 @@ class QQLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('对不起，QQ用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text(),'no access_token returned');
+        $this->assertTrue($crawler->filter('html:contains("对不起，QQ用户授权失败，请稍后再试。")')->count() > 0,'no access_token returned');
+
         //var_dump($session->has('qq_token') );
         $this->assertFalse( $session->has('qq_token') );
     }
 
     /**
      * @group issue_474
+     * @group dev-merge-ui-qq_weibo_move_register
      */
     public function testCallBackActionI ()
     {
@@ -190,10 +194,9 @@ class QQLoginControllerTest extends WebTestCase
         $session = $client->getRequest()->getSession();
 
         $this->assertTrue($session->has('open_id') );
-        //        $crawlerNew = $client->followRedirect();
-        //       $this->assertEquals( '/QQLogin/qqFistLogin', $client->getRequest()->getRequestUri());
-        //      $this->assertEquals('973F697E97A60289C8C455B1D65FAAAA', $session->get('open_id'),'open_id session is set' );
-        //
+        $crawlerNew = $client->followRedirect();
+        $this->assertEquals( '/QQLogin/maintenance', $client->getRequest()->getRequestUri());
+        $this->assertEquals('973F697E97A60289C8C455B1D65FAAAA', $session->get('open_id'),'open_id session is set' );
     }
 
     /**
@@ -237,7 +240,7 @@ class QQLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('对不起，找不到该用户，请联系客服。', $crawler->filter('div.errorMessage')->text());
+        $this->assertTrue($crawler->filter('html:contains("对不起，找不到该用户，请联系客服。")')->count() > 0);
         $session = $client->getRequest()->getSession();
         $this->assertTrue( $session->has('qq_token') );
         $this->assertEquals('D8E44D85A05AA374243CFE3911365C51', $session->get('qq_token'),'qq_token session is set');
@@ -593,7 +596,7 @@ EOD;
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-       $this->assertEquals( '对不起，QQ用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+        $this->assertTrue($crawler->filter('html:contains("对不起，QQ用户注册失败，请稍后再试。")')->count() > 0);
     }
 
     /**
@@ -643,9 +646,7 @@ EOD;
 
         // submit that form
         $crawler = $client->submit($form_register);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
-        $this->assertEquals( '/', $client->getRequest()->getRequestUri());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // check the result
         $records = $em->getRepository('JiliApiBundle:User')->findBy(array (
@@ -714,9 +715,9 @@ EOD;
         $user = LoadUserBindData::$USERS[0];
         $form_binding = $crawler->selectButton('binding')->form();
         $form_binding['jili_email'] = $user->getEmail();
-        $form_binding['jili_pwd'] = '111111';
+        $form_binding['jili_pwd'] = '11111q';
         $client->submit($form_binding);
-        $session0 = $client->getRequest()->getSession();
+
         $this->assertTrue($session->has('uid'));
         $this->assertEquals($user->getId(),$session->get('uid'));
 
