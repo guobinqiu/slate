@@ -20,5 +20,5 @@ dependencies:
 
 test:
   override:
-    - ./bin/phpunit -c ./app/phpunit.xml.dist -d memory_limit=-1 -v --debug ./src/Wenwen/
+    - ./bin/phpunit -c ./app/phpunit.xml.dist -d memory_limit=-1 -v --debug --testsuite wenwen
 
