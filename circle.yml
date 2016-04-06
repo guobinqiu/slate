@@ -3,11 +3,6 @@ machine:
     version: 5.4.37
   timezone:
     Asia/Shanghai
-  services:
-    - mysql
-  environment:
-    SYMFONY_ENV: circle
-
 
 database:
   override:
@@ -16,12 +11,11 @@ database:
 dependencies:
   override:
     - make circle
+    - php app/console doctrine:database:drop --force --env "test"
+    - php app/console doctrine:database:create --env "test"
+    - php app/console doctrine:schema:update --force --env "test"
 
 
 test:
   override:
-    - php app/console doctrine:database:drop --force --env "test"
-    - php app/console doctrine:database:create --env "test"
-    - php app/console doctrine:schema:update --force --env "test"
     - ./bin/phpunit -c ./app/phpunit.xml.dist -d memory_limit=-1 -v --debug --testsuite wenwen
-
