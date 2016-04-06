@@ -4,7 +4,7 @@
         <ul class="con clearfix">
             <li class="first">
                 <span>问卷编号</span>
-                <p>{{num}}</p>
+                <p>{% if num is defined %} {{num}} {% else %}--{% endif %}</p>
             </li>
             <li>
                 <span>问卷类型</span>
@@ -12,7 +12,7 @@
             </li>
             <li>
                 <span>回答期限</span>
-                <p>{% if end_date is defined %} {{end_date}} {% else %}--{% endif %} </p>
+                <p>{% if end_date is defined %} {{end_date}} {% else %}--{% endif %}</p>
             </li>
             <li class="last">
                 <span>积分数</span>
@@ -21,13 +21,22 @@
         </ul>
     </div>
     <div class="survey-btn">
-    {% if answered is defined and answered%} 
+    {% if answered is defined and answered%}
     完毕
-    {% elseif on_maintenance is defined and on_maintenance %}
-    正在维护中
     {% else %}
+        {#todo:
+        {% if tip is defined and tip %}
+            <div class="apDiv">
+              {{tip}}
+                <div class="apDiv_close">
+                <a href="#" onclick="$(this).parent().parent().remove();return false;">
+                <img src="/img/common/notification_close.jpg" alt="Close" width="15" height="15" /></a>
+                </div>
+            </div>
+        {% endif %}
+        #}
         {% if type_class == 'quick' %}
-        <a href="{{ url }}" >投票</a>
+        <a href="{{ url }}">投票</a>
         {% else %}
         <a href="{{ url }}" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
         {% endif %}

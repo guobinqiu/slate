@@ -239,7 +239,11 @@ class ProfileController extends Controller
             $user->setNick($params['nick']);
             $user->setBirthday($params['birthday']);
             $user->setTel($params['tel']);
-            $user->setSex($params['sex']);
+            if (isset($params['sex'])) {
+                $user->setSex($params['sex']);
+            } else {
+                $user->setSex(null);
+            }
             $user->setPersonalDes($params['personalDes']);
             $user->setFavMusic($params['favMusic']);
             $user->setMonthlyWish($params['monthlyWish']);
