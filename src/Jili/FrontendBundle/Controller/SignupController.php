@@ -18,6 +18,7 @@ class SignupController extends Controller
      */
     public function confirmRegisterAction($register_key )
     {
+        // 1. Validation
        $em = $this->getDoctrine()->getManager();
        $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByValidatedToken( $register_key );
 
@@ -33,6 +34,7 @@ class SignupController extends Controller
            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
        }
 
+       // 2. Update register and user information
        $user->setLastLoginDate(new \Datetime());
        $user->setLastLoginIp($this->getRequest()->getClientIp());
        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED );
@@ -78,7 +80,7 @@ class SignupController extends Controller
            $this->get('logger')->emerg($e->getMessage()  );
        }
 
-       // send register Success eamil 
+       // 3. Send register success email to user 
        $args = array( '--campaign_id=1',# 91wenwen-signup
            '--group_id=83',# signup-completed-recipients
            '--mailing_id=2411',# 91wenwen-signup
@@ -89,7 +91,7 @@ class SignupController extends Controller
        $em->persist($job);
        $em->flush($job);
 
-        // campaign logging
+        // 4. Record the campaign tracking infomation of recruiting to log file
        $logger = $this->get('campaign_code.tracking');
        $logger->track( array(
            'md5_sessionid' => md5($this->get('session')->getId()),
@@ -100,7 +102,7 @@ class SignupController extends Controller
 
        ));
 
-
+       // 5. Login this user 
        $this->get('login.listener')->initSession($user);
        // The user was insert when regAction
        $this->get('login.listener')->log($user);
