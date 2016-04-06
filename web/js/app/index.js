@@ -97,7 +97,7 @@ require(['../config'],function(){
         //sinaWeibo and QQ quick login prompt
         var wbLog = $('.weibo-login');
         var qqLog = $('.qq-login');
-        var wqClose = $('.quickLWrap .closeBtn').add('.quickLWrap .cancelBtn');
+        var wqClose = $('.quickLCon .closeBtn').add('.quickLCon .cancelBtn');
         var wbPCon = $('#wbLogCon');
         var qqPCon = $('#qqLogCon');
         wbLog.on('click', function(){
