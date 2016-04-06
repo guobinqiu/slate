@@ -115,10 +115,11 @@ any action from this bundle.
 
 Setting Up supervisord
 ======================
-For this bundle to work, make sure that you run at least one instance of the console command ``jms-job-queue:run``
-(you can run as many as needed to process your events or guarantee high availability).
+For this bundle to work, you have to make sure that one (and only one)
+instance of the console command ``jms-job-queue:run`` is running at all
+times. You can easily achieve this by using supervisord_.
 
-Below, is a sample configuration that you can use with supervisord:
+A sample supervisord config might look like this:
 
 .. code-block :: ini
 
@@ -145,3 +146,15 @@ Below, is a sample configuration that you can use with supervisord:
     the ``--max-runtime=seconds`` option).
 
 .. _supervisord: http://supervisord.org/
+
+Queues
+======================
+Multiple queue support is enabled for 4 simultaneous job queues. 
+
+If your database has 5 queues pending the 5th queue will execute when one of the first 4 is out of jobs. 
+
+Queues are loaded based on the queue name you use when you create a job. This way queues can be created using your program easily.
+
+The queues will execute in alphabetical order according to your database DESC operation. 
+
+If you want to run an unlimited number of queues at one time (UNSAFE) pass -1 to the max-concurrent-queues parameter.

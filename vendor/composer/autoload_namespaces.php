@@ -41,6 +41,7 @@ return array(
     'Doctrine\\Common\\DataFixtures' => array($vendorDir . '/doctrine/data-fixtures/lib'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
+    'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/lib'),
     'Doctrine\\Bundle\\DoctrineBundle' => array($vendorDir . '/doctrine/doctrine-bundle'),
     'CG\\' => array($vendorDir . '/jms/cg/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),

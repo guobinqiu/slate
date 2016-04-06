@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/resetPwd.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -34,6 +34,7 @@
 						<div class="prompt"><span id="pwdRepeat_succeed"></span><span id="pwdRepeat_error"></span></div>
 					</li>
 				</ul>
+                <p class=backError><br>{% if code is defined %} {{ code }} {% endif %}</p>
 				<span class="btn" id="savePwd" tabindex="0">下一步</span>
 			</div>
 			</form>
@@ -44,7 +45,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

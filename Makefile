@@ -2,6 +2,8 @@ SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 PHPUNIT=./bin/phpunit
+APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
+
 
 test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
@@ -12,7 +14,7 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks setup-databases deploy-js-routing cc-all
+setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
 
 setup-databases:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
@@ -26,6 +28,7 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
+circle: create-dir create-config
 
 show-setting:
 	@echo "Setting"
@@ -34,16 +37,20 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user
+	sudo mkdir -p /data/91jili/logs/admin
+
+setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
 	else \
-		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
-		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic ; \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin ; \
 	fi;
 
 create-config:
@@ -52,12 +59,9 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/config_test.yml.dist       ${SRC_DIR}/app/config/config_test.yml
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
-create-symlinks:
-	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
-
 fix-777:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/uploads/tmp web/uploads/vote_image web/uploads/user /data/91jili/logs/admin
 
 deploy: deploy-js-routing
 	@echo done
