@@ -53,9 +53,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function comment($history)
     {
-        // title is saved in extra_info.title for old history
-        $title = isset($history['title']) ? $history['title'] : $history['extra_info']['title'];
-
+        $title = $history['title'];
         return 'r' . $history['survey_id'] . ' ' . $title;
     }
 
