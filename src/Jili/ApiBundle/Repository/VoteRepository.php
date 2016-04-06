@@ -62,14 +62,10 @@ class VoteRepository extends EntityRepository
      */
     public function retrieveUnanswered($user_id = null)
     {
+        $em = $this->getEntityManager();
         $query = $this->createQueryBuilder('v');
         $query->select('v.id,v.title,v.startTime,v.endTime,v.pointValue');
 
-        if ($user_id) {
-            $query = $query->innerJoin('JiliApiBundle:VoteAnswer', 'va', 'WITH', 'v.id = va.voteId');
-            $query = $query->Where('va.userId != :userId');
-            $parameters['userId'] = $user_id;
-        }
         $query->andWhere('v.startTime <= :today');
         $query->andWhere('v.endTime >= :today');
 
@@ -77,7 +73,16 @@ class VoteRepository extends EntityRepository
         $parameters['today'] = new \Datetime();
         $query->setParameters($parameters);
         $query = $query->getQuery();
+        $active_votes = $query->getResult();
 
-        return $query->getResult();
+        if ($user_id) {
+            foreach ($active_votes as $key => $value) {
+                $user_answer_count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
+                if ($user_answer_count) {
+                    unset($active_votes[$key]);
+                }
+            }
+        }
+        return $active_votes;
     }
 }

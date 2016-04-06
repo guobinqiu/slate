@@ -3,13 +3,11 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SOPx\Auth\V1_1\Util;
+use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 /**
  * @Route("/survey",requirements={"_scheme"="http"})
@@ -25,6 +23,7 @@ class SurveyController extends Controller
     {
         if (!$request->getSession()->get('uid')) {
             $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -34,8 +33,19 @@ class SurveyController extends Controller
         // 快速問答
         $arr['votes']  = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
 
-        // todo: CINT
-
+        // SSI respondent
+        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+        $ssi_res = array();
+        if ($ssi_respondent) {
+                $ssi_res['needPrescreening']  = $ssi_respondent->needPrescreening();
+                $ssi_res['isActive']  = $ssi_respondent->isActive();
+                if ($ssi_res['isActive']) {
+                    $dbh = $this->getEntityManager()->getConnection();
+                    $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+                }
+        }
+        $arr['ssi_respondent'] = $ssi_respondent;
+        $arr['ssi_res'] = $ssi_res;
 
         // SOP
         $sop_config = $this->container->getParameter('sop');
