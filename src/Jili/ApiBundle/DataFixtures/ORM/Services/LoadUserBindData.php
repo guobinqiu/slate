@@ -30,7 +30,7 @@ class LoadUserBindData extends AbstractFixture implements FixtureInterface {
         $user->setPoints(100);
         $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
-        $user->setPwd('11111q');
+        $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
 

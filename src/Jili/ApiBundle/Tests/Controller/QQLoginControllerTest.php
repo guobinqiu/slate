@@ -715,7 +715,7 @@ EOD;
         $user = LoadUserBindData::$USERS[0];
         $form_binding = $crawler->selectButton('binding')->form();
         $form_binding['jili_email'] = $user->getEmail();
-        $form_binding['jili_pwd'] = '11111q';
+        $form_binding['jili_pwd'] = '111111';
         $client->submit($form_binding);
 
         $this->assertTrue($session->has('uid'));
