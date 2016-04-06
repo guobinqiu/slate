@@ -24,6 +24,10 @@ class SsiProjectSurveyController extends Controller
      */
     public function informationAction(Request $request, $survey_id)
     {
+        if (! $request->getSession()->has('uid')) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
         return array();
     }
 }

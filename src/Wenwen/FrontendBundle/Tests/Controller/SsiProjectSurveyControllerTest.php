@@ -12,11 +12,11 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         static::$kernel->boot();
     }
 
-    public function testCoverPage()
+    public function testCoverPageWithoutLogin()
     {
-
         $client = static::createClient();
         $client->request('GET', '/ssi_project_survey/information/1');
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
     }
 }
