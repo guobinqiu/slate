@@ -137,8 +137,8 @@ class ProfileControllerTest extends WebTestCase
         // csrf is valiad , no error
         $post_data = array ();
         $post_data['curPwd'] = '111111';
-        $post_data['pwd'] = '222222';
-        $post_data['pwdRepeat'] = '222222';
+        $post_data['pwd'] = '22222q';
+        $post_data['pwdRepeat'] = '22222q';
         $post_data['csrf_token'] = $csrf_token;
 
         $crawler = $client->request('POST', $url, $post_data);
@@ -151,7 +151,7 @@ class ProfileControllerTest extends WebTestCase
         //确认密码修改成功
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->find(1);
-        $this->assertTrue($user->isPwdCorrect('222222'));
+        $this->assertTrue($user->isPwdCorrect('22222q'));
     }
 
     /**
