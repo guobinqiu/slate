@@ -138,7 +138,6 @@ class WeiBoLoginControllerTest extends WebTestCase
 
     /**
      * @group issue636
-     * @group dev-merge-ui-qq_weibo_move_register
      */
     public function testCallBackActionI ()
     {
@@ -218,7 +217,47 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertEquals($user->getId(), $session->get('uid'),'');
         $this->assertTrue( $session->has('nick') );
         $this->assertEquals($user->getNick(), $session->get('nick'),'');
+    }
 
+    /**
+     * @group dev-merge-ui-qq_weibo_move_register
+     */
+    public function testCallBackActionForMaintenance ()
+    {
+        $client = $this->client;
+        $container  = $client->getContainer();
+        $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
+        $session->remove('weibo_token');
+        $session->remove('weibo_open_id');
+        $session->save();
+
+        $url = $this->container->get('router')->generate('weibo_api_callback');
+        // has weibouser, no jili user
+        $stubWeiBoAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\WeiBoAuth')
+        ->setMethods(array('access_token','get_user_info'))
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubWeiBoAuth->expects($this->once())
+        ->method('access_token')
+        ->willReturn(array('access_token'=>'D8E44D85A05AA374243CFE3911365C52','uid'=>'973F697E97A60289C8C455B1D65FF5F2'));
+
+        $stubWeiBoAuth->expects($this->once())
+        ->method('get_user_info')
+        ->willReturn(array('name'=>'testname_maintenance','profile_image_url'=>'profile_image_url_test'));
+        $mockWeiBoAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\WeiBoLogin')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $mockWeiBoAuth->expects($this->exactly(2))
+        ->method('getWeiBoAuth')
+        ->willReturn( $stubWeiBoAuth);
+        $container->set('user_weibo_login', $mockWeiBoAuth);
+        $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7766'));
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawlerNew = $client->followRedirect();
+        $this->assertEquals( '/WeiBoLogin/maintenance', $client->getRequest()->getRequestUri());
     }
 
     /**
