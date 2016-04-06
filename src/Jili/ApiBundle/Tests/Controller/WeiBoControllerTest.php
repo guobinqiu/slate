@@ -574,4 +574,18 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\WeiBoUser',$weibo_user_actual,'check insert weibo_user');
    }
 
+   /**
+    * @group dev-merge-ui-qq_weibo_move_register
+    */
+   public function testMaintenanceAction()
+   {
+       $client = static::createClient();
+       $container = $client->getContainer();
+       $em = $this->em;
+
+       $url = $container->get('router')->generate('weibo_maintenance');
+       $crawler = $client->request('GET', $url);
+       $this->assertEquals(200, $client->getResponse()->getStatusCode());
+   }
+
 }

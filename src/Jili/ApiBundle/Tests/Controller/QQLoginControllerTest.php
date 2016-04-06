@@ -777,4 +777,19 @@ EOD;
         $this->assertFalse($session->has('uid'));
         $this->assertEquals('邮箱地址或密码输入错误', trim($crawler->filter('#bind_emailError')->text()));
    }
+
+   /**
+    * @group dev-merge-ui-qq_weibo_move_register
+    */
+   public function testMaintenanceAction()
+   {
+       $client = static::createClient();
+       $container = $client->getContainer();
+       $em = $this->em;
+
+       $url = $container->get('router')->generate('qq_maintenance');
+       $crawler = $client->request('GET', $url);
+       $this->assertEquals(200, $client->getResponse()->getStatusCode());
+   }
+
 }
