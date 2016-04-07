@@ -9,16 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SsiProjectSurveyControllerTest extends WebTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
-    private $container;
 
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
@@ -35,16 +30,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $this->em = $em;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
-        $this->em->close();
+        $em->close();
     }
 
     public function testCoverPageWithoutLogin()
@@ -64,11 +50,13 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
         $client->followRedirect();
 
-        $client->request('GET', '/ssi_project_survey/information/1');
+        $ssi_project = SsiProjectSurveyControllerTestFixture::$SSI_PROJECT[0];
+        $client->request('GET', '/ssi_project_survey/information/' . $ssi_project->getId());
         $this->assertSame(200, $client->getResponse()->getStatusCode());
+
+        $this->assertRegExp(sprintf('/s%d/', $ssi_project->getId()), $client->getResponse()->getContent());
     }
 }
-
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -77,9 +65,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SsiProjectSurveyControllerTestFixture implements FixtureInterface, ContainerAwareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
+    public static $USER = [], $SSI_PROJECT = [];
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -124,5 +110,8 @@ class SsiProjectSurveyControllerTestFixture implements FixtureInterface, Contain
         $ssi_project_respondent->setAnswerStatus(1);
         $manager->persist($ssi_project_respondent);
         $manager->flush();
+
+        self::$USER[] = $user;
+        self::$SSI_PROJECT[] = $ssi_project;
     }
 }
