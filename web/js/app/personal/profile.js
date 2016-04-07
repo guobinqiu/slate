@@ -105,6 +105,7 @@ require(['../../config'],function(){
                     $('#target').Jcrop({
                         aspectRatio: 1,
                         onChange: showPreview,
+                        onSelect: showPreview,
                         onSelect: updateCoords
                     },function(){
                         this.animateTo([0,0,256,256]);
