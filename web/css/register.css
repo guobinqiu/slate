@@ -243,7 +243,8 @@ body {
     background: #fafafa;
     border: 1px solid #ddd;
     border-radius: 3px;
-    display: block; }
+    display: block;
+    cursor: pointer; }
     .login-others a img {
       vertical-align: middle;
       margin-right: 9px; }

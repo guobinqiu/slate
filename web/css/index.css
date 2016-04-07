@@ -435,6 +435,7 @@ body {
       color: #a3a3a3;
       font-size: 14px;
       background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
+      cursor: pointer;
       display: inline-block;
       *display: inline;
       *zoom: 1;
