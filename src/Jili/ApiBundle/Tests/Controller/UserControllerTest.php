@@ -225,64 +225,49 @@ class UserControllerTest extends WebTestCase
 
     /**
      * @group user
+     * @group dev-merge-ui-reset-password
      */
     public function testResetPasswordAction()
     {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-
         $client = static::createClient();
         $container = $client->getContainer();
         $em = $this->em;
         $logger= $container->get('logger');
 
-// reset email
+        // reset email
         $query = array('email'=> 'alice.nima@gmail.com');
         $url = $container->get('router')->generate('_user_reset', $query ) ;
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertEquals('1', $client->getResponse()->getContent());
-$user = LoadUserResetPasswordCodeData::$ROWS[0];
-//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-//        if(! $user) {
-//            echo 'bad email:',$query['email'], PHP_EOL;
-//            return false;
-//        }
+        $user = LoadUserResetPasswordCodeData::$ROWS[0];
 
-// render password reset page
-        print 'Render password reset page'.PHP_EOL;
-//        $passwordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneBy(array('userId'=>$user->getId(), 'isAvailable'=>1));
-//
-//        if(! $passwordCode) {
-//            echo  ' code not found!',PHP_EOL;
-//            return false;
-//        }
-$passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0]; 
+        $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
         $code= $passwordCode->getCode();
-        $url = $container->get('router')->generate('_user_forgetPass',array('code'=>$code,'id'=>$user->getId() ),true);
+        $url = $container->get('router')->generate('_user_resetPass',array('code'=>$code,'id'=>$user->getId() ),true);
 
-        print $url. PHP_EOL;
         $client->request('GET', $url ) ;
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() , 'GET forget pass url status check' );
-        $crawler = $client->followRedirect();
+        $crawler = $client->request('GET', $url ) ;
 
-        $form = $crawler->selectButton('but')->form();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() , 'GET forget pass url status check' );
 
-        // set some values
-        print 'Set some values'.PHP_EOL;
-        #$form['pwd'] = 'aaaaaa';
-        #$form['que_pwd'] = 'aaaaaa';
-        $form['password[first]'] ->setValue( 'aaaaaa');
-        $form['password[second]'] ->setValue( 'aaaaaa');
-        $form['agreement']->tick() ;
-
+        $form = $crawler->filter('form[id=form1]')->form();
+        $form['pwd'] = 1;
+        $form['pwdRepeat'] = 1;
         // submit the form
-        print 'Submit the form'.PHP_EOL;
         $crawler = $client->submit($form);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertContains('用户密码为5-100个字符，密码至少包含1位字母和1位数字', $client->getResponse()->getContent(), 'password error');
+
+        $form = $crawler->filter('form[id=form1]')->form();
+        $form['pwd'] = '111111q';
+        $form['pwdRepeat'] = '111111q';
+        // submit the form
+        $crawler = $client->submit($form);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
+        $this->assertContains('密码修改成功', $client->getResponse()->getContent(), 'password error');
     }
 
 #    public function testFastLoginAction()

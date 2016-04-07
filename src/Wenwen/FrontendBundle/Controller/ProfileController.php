@@ -1,10 +1,8 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,6 +26,7 @@ class ProfileController extends Controller
     {
         if (!$request->getSession()->get('uid')) {
             $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_index'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -35,6 +34,7 @@ class ProfileController extends Controller
         $csrf_token = $csrfProvider->generateCsrfToken('profile');
         $request->getSession()->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
+
         return $this->render('WenwenFrontendBundle:Profile:account.html.twig', $arr);
     }
 
@@ -51,6 +51,7 @@ class ProfileController extends Controller
             $result['message'] = 'Need login';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
+
             return $resp;
         }
 
@@ -64,6 +65,7 @@ class ProfileController extends Controller
             $result['message'] = 'Access Forbidden';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
+
             return $resp;
         }
 
@@ -74,6 +76,7 @@ class ProfileController extends Controller
             $result['message'] = $error_message;
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
+
             return $resp;
         }
 
@@ -95,6 +98,7 @@ class ProfileController extends Controller
 
         $resp = new Response(json_encode($result));
         $resp->headers->set('Content-Type', 'application/json');
+
         return $resp;
     }
 
@@ -141,6 +145,7 @@ class ProfileController extends Controller
                 return $this->container->getParameter('change_wr_oldpwd');
             }
         }
+
         return false;
     }
 
@@ -152,6 +157,7 @@ class ProfileController extends Controller
         //没有登录
         if (!$request->getSession()->get('uid')) {
             $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_edit'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -166,6 +172,7 @@ class ProfileController extends Controller
         $arr = $this->getDefaultValue($user);
         $arr['form'] = $form->createView();
         $arr['completed'] = $completed;
+
         return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', $arr);
     }
 
@@ -178,6 +185,7 @@ class ProfileController extends Controller
         //没有登录
         if (!$request->getSession()->get('uid')) {
             $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_edit'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -185,6 +193,7 @@ class ProfileController extends Controller
         $form->bind($request);
 
         $values = $form->getData();
+        $error_message = '';
 
         $params = $request->request->get('profile');
 
@@ -198,10 +207,15 @@ class ProfileController extends Controller
             return $this->container->getParameter('wenwen_frontend_home_home');
         }
 
+        //check nick unique
+        $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($user->getEmail(), $params['nick']);
+        if ($user_nick) {
+            $error_message['nick_invalid'] = $this->container->getParameter('reg_al_nick');
+        }
+
         //check birthday
-        $birthday_error = '';
         if (!ValidateUtil::validatePeriod($params['birthday'], date('Y-m-d'))) {
-            $birthday_error = $this->container->getParameter('birthday_error');
+            $error_message['birthday_invalid'] = $this->container->getParameter('birthday_error');
         }
 
         // set user value (当页面出错时，需要保留用户已经所选择的属性，其他值跟随form绑定)
@@ -219,13 +233,17 @@ class ProfileController extends Controller
         }
 
         //没有错误
-        if (empty($birthday_error) && $form->isValid()) {
+        if (empty($error_message) && $form->isValid()) {
 
             // set other user value
             $user->setNick($params['nick']);
             $user->setBirthday($params['birthday']);
             $user->setTel($params['tel']);
-            $user->setSex($params['sex']);
+            if (isset($params['sex'])) {
+                $user->setSex($params['sex']);
+            } else {
+                $user->setSex(null);
+            }
             $user->setPersonalDes($params['personalDes']);
             $user->setFavMusic($params['favMusic']);
             $user->setMonthlyWish($params['monthlyWish']);
@@ -243,8 +261,9 @@ class ProfileController extends Controller
 
         //form invalid，有错误
         $arr = $this->getDefaultValue($user);
-        $arr['birthday_error'] = $birthday_error;
+        $arr['error_message'] = $error_message;
         $arr['form'] = $form->createView();
+
         return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', $arr);
     }
 

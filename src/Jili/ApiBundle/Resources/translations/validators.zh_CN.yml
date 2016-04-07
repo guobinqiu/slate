@@ -1,5 +1,5 @@
 user_email_has_not_been_activated: 邮箱已经被使用,需要重新激活
 user_email_has_been_activated: 邮箱已经被使用
-user_nickname_is_unavailable:  用户名已经被使用
+user_nickname_is_unavailable:  用户昵称已经存在
 password_is_invalid: 密码无效
 

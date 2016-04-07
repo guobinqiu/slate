@@ -1,11 +1,11 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Jili\ApiBundle\Validator\Constraints\NickRegex;
 
 class ProfileEditType extends AbstractType
 {
@@ -13,7 +13,8 @@ class ProfileEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nick', 'text', array (
-            'label' => 'nick',
+            'label' => '昵称',
+            'invalid_message' => '只允许1-100个字符',
             'required' => true,
             'constraints' => array (
                 new Assert\NotBlank(array (
@@ -22,9 +23,10 @@ class ProfileEditType extends AbstractType
                 new Assert\Length(array (
                     'min' => 1,
                     'max' => 100,
-                    'minMessage' => '昵称为1-100个字符',
-                    'maxMessage' => '昵称为1-100个字符'
-                ))
+                    'minMessage' => '最少1个字符',
+                    'maxMessage' => '最多100个字符'
+                )),
+                new NickRegex()
             )
         ));
 

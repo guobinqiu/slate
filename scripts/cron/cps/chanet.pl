@@ -54,6 +54,7 @@ sub login
     # todo: check the expire date
     my $cache = LWP::ConnCache->new();
     my $ua = LWP::UserAgent->new(
+        ssl_opts => { verify_hostname => 0 },
         'show_progress' => 1,
         'agent'=>'Mozilla/4.73 [en] (X11; U; Linux 2.2.15 i686)',
         'timeout'=> 240,
@@ -148,6 +149,7 @@ sub fetch_comms_html
     );
     my $cache = LWP::ConnCache->new();
     my $ua = LWP::UserAgent->new(
+        ssl_opts => { verify_hostname => 0 },
         'show_progress' => 1,
         'conn_cache'=> $cache,
     );

@@ -18,7 +18,6 @@ app/config/parameters.yml
 /bin/
 app/config/parameters.ini
 app/SymfonyRequirements.php
-composer.lock
 
 dwsync.xml
 .DS_Store

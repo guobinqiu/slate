@@ -206,7 +206,14 @@ sub push_emar_advertisement {
         # 取domain/host
         my $ads_url = $hash_ref->{ads_url};
         chomp($ads_url);
-        $ads_url =~ s/^.*(https?:\/\/)/$1/;
+        if( $ads_url =~ m/.*https?.*/ ) {
+            $ads_url =~ s/^.*(https?:\/\/)/$1/;
+        } elsif ( $ads_url =~ m/.*：([a-zA-Z0-9].*)$/ ) {
+            $ads_url =~ s/.*：([a-zA-Z0-9].*)$/$1/;
+            $ads_url = 'http://'.$ads_url;
+        } else {
+            #print "[CPS][EMAR][FILETER][WARN] invalid $ads_url\n";
+        }
         my $uri = URI->new( $ads_url);
         my $web_domain = $uri->host;
 

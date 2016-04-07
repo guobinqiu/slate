@@ -8,13 +8,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
-//  if (isset($_SERVER['HTTP_CLIENT_IP'])
-//      || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-//      || !in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1',/* 'fe80::1',*/ '::1','112.65.174.206', '180.169.71.34'))
-//  ) {
-//      header('HTTP/1.0 403 Forbidden');
-//      exit('你无权访问此页面.');
-//  }
+$office_ip_addresses = [
+  '180.168.105.42',      # China office
+  '123.1.191.42',      # HK VPN
+  '158.199.142.139',   # JP VPN
+  '153.121.52.149',    # JP VPN
+
+  '192.168.33.1',      # vagrant
+];
+ if (isset($_SERVER['HTTP_CLIENT_IP'])
+     || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+     || !in_array(@$_SERVER['REMOTE_ADDR'], array_merge($office_ip_addresses, array('127.0.0.1',/* 'fe80::1',*/ '::1',)))
+ ) {
+     header('HTTP/1.0 403 Forbidden');
+     exit('你无权访问此页面.');
+ }
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 require_once __DIR__.'/../app/AppKernel.php';

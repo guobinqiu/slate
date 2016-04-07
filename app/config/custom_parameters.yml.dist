@@ -158,8 +158,7 @@ parameters:
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
-    admin_ele_ip: 112.65.174.206
-    admin_un_ip: 180.167.8.42 #上海市 RPA-CHN-OFFICE 电信
+    admin_un_ip: 180.168.105.42 #上海市 RPA-CHN-OFFICE 电信
     wenwen_dev_ip: 54.251.246.14
     wenwen_prod_ip: 54.254.98.246
     upload_banner_dir: images/banner/
@@ -202,7 +201,7 @@ parameters:
     reg_noal_mail: 邮箱地址未激活，请重新
     reg_al_mail: 邮箱地址已经注册
     reg_en_nick: 请输入用户昵称
-    reg_al_nick: 用户昵称已经注册
+    reg_al_nick: 用户昵称已经存在
     reg_wr_nick: 用户昵称为2-20个字符
     reg_wr_captcha: 请输入正确的验证码
     login_wr: 邮箱地址或密码输入错误
@@ -222,7 +221,7 @@ parameters:
     exchange_unsame_mobile: 2次输入的手机号码不相同
     exchange_unsame_alipay: 2次输入的支付宝账号不相同
     forget_en_pwd: 请输入用户密码
-    forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    forget_wr_pwd: 用户密码为5-100个字符，密码至少包含1位字母和1位数字
     forget_unsame_pwd: 2次输入的用户密码不相同
     forget_su_pwd: 密码修改成功
     update_password_fail: 密码修改失败，请稍后再试。
@@ -322,7 +321,7 @@ parameters:
 # this account is copied from wenwen configs:
 # /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
 #  L10 ~ L28
-  
+
     webpower.91wenwen_signup.username: '' #  webuser_signup.login.username
     webpower.91wenwen_signup.password: '' #  webuser_signup.login.password
     webpower.91wenwen_signup.soap_uri: 'https://91wenwen-signup.dmdelivery.com/x/soap-v4/wsdl.php' #  webuser_signup.login.proxy
@@ -397,8 +396,8 @@ parameters:
 
     recruit_offer99:
         callback:
-          url: 
-          ad_key: 
+          url:
+          ad_key:
           return_strings:
             error_tid: 交易号错误
             error_1: 交易号重复处理过
@@ -411,13 +410,13 @@ parameters:
 
     recruit_offerwow:
         api:
-          recruit: 
-          pid: 
-          tier: 
+          recruit:
+          pid:
+          tier:
 
-    signup.crypt_method: 
-    signup.salt: 
-            
+    signup.crypt_method:
+    signup.salt:
+
 #生日错误
     birthday_error: "您选择的生日不正确"
 
@@ -524,4 +523,4 @@ parameters:
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
-        app_sop_hosts: %sop_console_host% 
+        app_sop_hosts: %sop_console_host%
