@@ -8,7 +8,7 @@ require(['../../config'], function() {
                 'enquete_window',
                 'resizable=yes,scrollbars=yes,toolbar=no'
             );
-        }
+        };
 
         var addSuveyItem = function (el) {
 
@@ -38,44 +38,44 @@ require(['../../config'], function() {
             });
         };
 
-    var renderFulcrumUserAgreementItems = function (items) {
-        _.chain(items)
-        .filter(function (item) {
-            return item.type == 'Fulcrum';
-        })
-        .each(function (item) {
-            var model = new survey.FulcrumAgreementModel(item);
-            var view = new survey.FulcrumUserAgreementView({ model: model });
-            view.render();
-        });
-    };
+        var renderFulcrumUserAgreementItems = function (items) {
+            _.chain(items)
+            .filter(function (item) {
+                return item.type == 'Fulcrum';
+            })
+            .each(function (item) {
+                var model = new survey.FulcrumAgreementModel(item);
+                var view = new survey.FulcrumUserAgreementView({ model: model });
+                view.render();
+            });
+        };
 
-    var renderFulcrumResearchItems = function (items) {
-        _.each(items, function (item) {
-            var model = new survey.FulcrumResearchItemModel(item);
-            var view  = new survey.FulcrumResearchItemView({ model: model });
-            addSuveyItem(view.render().el);
-        });
-    };
-    var renderCintUserAgreementItems = function (items) {
-        _.chain(items)
-        .filter(function (item) {
-            return item.type == 'Cint';
-        })
-        .each(function (item) {
-            var model = new survey.CintAgreementModel(item);
-            var view = new survey.CintUserAgreementView({"model": model});
-            view.render();
-        });
-    };
+        var renderFulcrumResearchItems = function (items) {
+            _.each(items, function (item) {
+                var model = new survey.FulcrumResearchItemModel(item);
+                var view  = new survey.FulcrumResearchItemView({ model: model });
+                addSuveyItem(view.render().el);
+            });
+        };
+        var renderCintUserAgreementItems = function (items) {
+            _.chain(items)
+            .filter(function (item) {
+                return item.type == 'Cint';
+            })
+            .each(function (item) {
+                var model = new survey.CintAgreementModel(item);
+                var view = new survey.CintUserAgreementView({"model": model});
+                view.render();
+            });
+        };
 
-    var renderCintResearchItems = function (items) {
-        _.each(items, function (item) {
-            var model = new survey.CintResearchItemModel(item);
-            var view  = new survey.CintResearchItemView({ model: model });
-            addSuveyItem(view.render().el);
-        });
-    };
+        var renderCintResearchItems = function (items) {
+            _.each(items, function (item) {
+                var model = new survey.CintResearchItemModel(item);
+                var view  = new survey.CintResearchItemView({ model: model });
+                addSuveyItem(view.render().el);
+            });
+        };
 
         surveylistCallback = function (res) {
 
@@ -95,23 +95,18 @@ require(['../../config'], function() {
             renderProfilingItems(res.data.profiling);
 
             // load Fulcrum research data
-           renderFulcrumResearchItems(res.data.fulcrum_research)
+           renderFulcrumResearchItems(res.data.fulcrum_research);
 
             // load Fulcrum user agreemetns
-            renderFulcrumUserAgreementItems(res.data.user_agreement)
+            renderFulcrumUserAgreementItems(res.data.user_agreement);
 
             // load Cint research data
-            renderCintResearchItems(res.data.cint_research)
+            renderCintResearchItems(res.data.cint_research);
 
             // load Cint usr agreemetns
-            renderCintUserAgreementItems(res.data.user_agreement)
+            renderCintUserAgreementItems(res.data.user_agreement);
 
         };
-
-        var $preview = $('#preview').val();
-        if ($preview){
-            mockResponse();
-        }
 
         $.ajax({
             type: 'GET',
@@ -120,9 +115,8 @@ require(['../../config'], function() {
             jsonp: false,
             cache: true
         });
-        // preview
-        if ($preview){
-            function mockResponse() {
+
+        function mockResponse() {
                 var callback = surveylistCallback;
                 surveylistCallback = function(res){
                     dummy_res = { 'meta' : {'code': '200' },
@@ -224,12 +218,17 @@ require(['../../config'], function() {
                                        }
                                      }
                                    }
-                                 ]
+                                ]
                                }};
              callback(dummy_res);
            };
-         }
+        
+        // preview
+        var $preview = $('#preview').val();
+        if ($preview){
+            mockResponse();
         }
+      }
 
     });
 });

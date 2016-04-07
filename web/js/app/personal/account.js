@@ -91,21 +91,7 @@ require(['../../config'],function(){
                 }
             });
         }
-        //绑定、退订、注销
-        var weiboSave = $('#weibo_save');
-        weiboSave.on('click', function(){
-            saveWeibo();
-        });
-        function saveWeibo(){
-            var isBding = true;
-            if(isBding){
-                weiboSave.hide();
-                $('#weibo_state').text('目前状态：已绑定');
-            }else{
-                $('#weibo_state').text('目前状态：未绑定');
-            }
-        }
-
+        //注销
         var reasons = $('.reason-options'),
             withdrawSave = $('#withdraw_save');
         withdrawSave.on('click', function(){
