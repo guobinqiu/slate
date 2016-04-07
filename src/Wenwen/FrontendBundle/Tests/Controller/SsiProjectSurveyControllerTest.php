@@ -56,6 +56,34 @@ class SsiProjectSurveyControllerTest extends WebTestCase
 
         $this->assertRegExp(sprintf('/s%d/', $ssi_project->getId()), $client->getResponse()->getContent());
     }
+
+    public function testCoverPageForUnavailableProject()
+    {
+        $client = static::createClient();
+
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_login', array(), true);
+        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
+        $client->followRedirect();
+
+        $client->request('GET', '/ssi_project_survey/information/999');
+        $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
+
+    }
+
+    public function testCoverPageForUnavailable()
+    {
+        $client = static::createClient();
+
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_login', array(), true);
+        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
+        $client->followRedirect();
+
+        $client->request('GET', '/ssi_project_survey/information/999');
+        $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
+
+    }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;

@@ -26,7 +26,17 @@ class SsiProjectSurveyController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
+
+        # SSI Respondent is not active
+        if(!$ssi_respondent || !$ssi_respondent->isActive()) {
+            throw $this->createNotFoundException('Respondent is not active');
+        }
+
+        # Project is not available
         $ssi_project = SsiProjectRespondentQuery::retrieveSurveyBySsiRespondentIdAndSsiProjectId($em->getConnection(), $ssi_respondent->getId(), $survey_id);
+        if(!$ssi_project || !$ssi_project->isOpen()) {
+            throw $this->createNotFoundException('Project is not available');
+        }
 
         return array(
           'ssi_project' => $ssi_project,
