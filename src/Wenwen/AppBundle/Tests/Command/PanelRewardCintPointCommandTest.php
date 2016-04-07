@@ -18,7 +18,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_responednt;
+    private $sop_respondent;
 
     /**
      * {@inheritDoc}
@@ -47,7 +47,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_responednt = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
+        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -62,6 +62,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-cint_point
+     * @group fix-test-static
      */
     public function testExecuteInvalidAppMid()
     {
@@ -70,7 +71,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         // data
         $header = array (
@@ -169,6 +170,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-cint_point
+     * @group fix-test-static
      */
     public function testUpdateTable()
     {
@@ -176,8 +178,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $sop_respondents = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         // data
         $header = array (

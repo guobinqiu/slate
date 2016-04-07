@@ -13,9 +13,6 @@ use Jili\ApiBundle\Entity\SopRespondent;
 
 class LoadPanelRewardSopPointCommandData extends AbstractFixture implements FixtureInterface
 {
-    static $USER = array ();
-    static $SOP_RESPONEDNT = array ();
-
     /**
      * {@inheritDoc}
      */
@@ -30,14 +27,12 @@ class LoadPanelRewardSopPointCommandData extends AbstractFixture implements Fixt
         $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
-        self::$USER[0] = $user;
 
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
         $manager->persist($r);
         $manager->flush();
-        self::$SOP_RESPONEDNT[0] = $r;
 
         $user = new User();
         $user->setNick('cc');
@@ -48,13 +43,11 @@ class LoadPanelRewardSopPointCommandData extends AbstractFixture implements Fixt
         $user->setPwd('111111');
         $manager->persist($user);
         $manager->flush();
-        self::$USER[1] = $user;
 
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
         $manager->persist($r);
         $manager->flush();
-        self::$SOP_RESPONEDNT[1] = $r;
     }
 }

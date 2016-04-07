@@ -17,7 +17,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_responednt;
+    private $sop_respondent;
 
     /**
      * {@inheritDoc}
@@ -46,7 +46,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_responednt = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
+        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -61,6 +61,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-sop_additional_point
+     * @group fix-test-static
      */
     public function testExecuteInvalidAppMid()
     {
@@ -69,7 +70,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         // data
         $header = array (
@@ -149,6 +150,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-sop_additional_point
+     * @group fix-test-static
      */
     public function testUpdateTable()
     {
@@ -156,8 +158,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $sop_respondents = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         $header = array (
             "app_id",
