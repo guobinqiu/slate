@@ -21,8 +21,7 @@ require(['../../config'], function() {
             // get research
             var research;
             $.each(res.data.research, function( index, value ) {
-                if(value.survey_id == survey_id
-                        && value.is_answered == '0'){
+                if(value.survey_id == survey_id && value.is_answered == '0'){
                     research = value;
                     return ;
                 }

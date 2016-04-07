@@ -32,12 +32,12 @@ require(['../config'],function(){
 
         var isSubmit = false;
         var submitBtn = $("#submit_button");
-        var errors = ['#email_error', '#pwd_error'];
-        for(var j = 0; j < errors.length; j++){
-            $(errors[j]).on('click', function(){
-                $(this).addClass('fade');
-            });
-        }
+        $('#email_error').on('click', function(){
+            $(this).addClass('fade');
+        });
+        $('#pwd_error').on('click', function(){
+            $(this).addClass('fade');
+        });
         var errorCode = $('#error_code').val();
         if(errorCode != undefined){
             $('#email_error').html(errorCode).addClass('error').attr('display', 'block');

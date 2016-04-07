@@ -36,11 +36,11 @@ require(['../../config'],function(){
 				  success : function(data) { 
 				    if(cid){ $('#showContent'+cid).hide(); }
 				    var obj = eval(data);
-				    var str = obj[0]['content'];
+				    var str = obj[0].content;
 				    $(isRead).removeClass("new");
 				    $(show).html(str).show();
 				    cid = id;
-				    if(obj[0]['isRead'] == 1){
+				    if(obj[0].isRead == 1){
 				        var html = parseInt($("#countMessage").text()-1);
 				        $("#countMessage").html(html).hide();
 				    }      
@@ -62,11 +62,11 @@ require(['../../config'],function(){
 		        success : function(data) {
 					if(oid){ $('#showContent'+oid).hide();  }
 					var obj = eval(data);
-					var str = obj[0]['content'];
+					var str = obj[0].content;
 					$(isRead).removeClass("new");
 					$(show).html(str).show();
 					oid = id;
-					if(obj[0]['isRead'] == 1){
+					if(obj[0].isRead == 1){
 					  var html = parseInt($("#countMessage").text()-1);
 					  $("#countMessage").html(html).hide();
 					}   
