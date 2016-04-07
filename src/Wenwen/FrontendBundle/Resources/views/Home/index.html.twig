@@ -27,7 +27,6 @@
 					<ul>
 						<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
 						<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-						<li class="remember"><input id="remember_me" name="remember_me" type="checkbox" value="1" checked>记住我</li>
 					</ul>
 					{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
 					<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
