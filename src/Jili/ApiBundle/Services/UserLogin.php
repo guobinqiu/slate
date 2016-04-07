@@ -29,7 +29,7 @@ class UserLogin
     public function login(Request $request)
     {
         $request_params =  array( 
-            'email'=>$request->request->get('email'),
+            'email'=>trim($request->request->get('email')),
             'pwd'=>$request->request->get('pwd'),
             'client_ip'=>$request->getClientIp(),
             'method'=>$request->getMethod(),
