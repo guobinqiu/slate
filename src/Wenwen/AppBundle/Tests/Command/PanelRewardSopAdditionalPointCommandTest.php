@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\DataFixtures\ORM\LoadPanelRewardSopAdditionalPointCommandData;
 use Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand;
 
 class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
@@ -39,7 +38,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $executor->purge();
 
         // load fixtures
-        $fixture = new LoadPanelRewardSopAdditionalPointCommandData();
+        $fixture = new PanelRewardSopAdditionalPointCommandTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -70,7 +69,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[0]->getId();
 
         // data
         $header = array (
@@ -158,7 +157,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[0]->getId();
 
         $header = array (
             "app_id",
@@ -264,5 +263,42 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals('400', $user->getPoints());
+    }
+}
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterface, ContainerAwareInterface
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick(__CLASS__);
+        $user->setEmail('test@d8aspring.com');
+        $user->setPoints(200);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $r = new \Jili\ApiBundle\Entity\SopRespondent();
+        $r->setUserId($user->getId());
+        $r->setStatusFlag(\Jili\ApiBundle\Entity\SopRespondent::STATUS_ACTIVE);
+        $manager->persist($r);
+        $manager->flush();
     }
 }
