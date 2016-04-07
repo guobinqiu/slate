@@ -581,7 +581,6 @@ class WeiBoLoginControllerTest extends WebTestCase
    {
        $client = static::createClient();
        $container = $client->getContainer();
-       $em = $this->em;
 
        $url = $container->get('router')->generate('weibo_maintenance');
        $crawler = $client->request('GET', $url);

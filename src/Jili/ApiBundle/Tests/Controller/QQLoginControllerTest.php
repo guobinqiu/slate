@@ -785,7 +785,6 @@ EOD;
    {
        $client = static::createClient();
        $container = $client->getContainer();
-       $em = $this->em;
 
        $url = $container->get('router')->generate('qq_maintenance');
        $crawler = $client->request('GET', $url);
