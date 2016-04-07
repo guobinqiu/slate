@@ -70,9 +70,11 @@ class SignupController extends Controller
             // Todo This is a system error which need log or throw exception
             return $user;
         }
-        $user->setLastLoginDate(new \Datetime());
+        $datetime = new \DateTime();
+        $user->setLastLoginDate($datetime);
         $user->setLastLoginIp($this->getRequest()->getClientIp());
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED );
+        $user->setRegisterCompleteDate($datetime);
 
         $passwordToken->setToUnavailable();
 
