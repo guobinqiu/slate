@@ -102,7 +102,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         try {
             $data = $commandTester->execute($commandParam);
         } catch (\Exception $e) {
-            $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
+            $this->assertContains('No SopRespondent for', $e->getMessage());
         }
 
         // assert rollbacked
