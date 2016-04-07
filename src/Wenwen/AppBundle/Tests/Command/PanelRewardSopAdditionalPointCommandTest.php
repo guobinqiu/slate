@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\DataFixtures\ORM\LoadPanelRewardSopPointCommandData;
+use Wenwen\AppBundle\DataFixtures\ORM\LoadPanelRewardSopAdditionalPointCommandData;
 use Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand;
 
 class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
@@ -39,7 +39,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $executor->purge();
 
         // load fixtures
-        $fixture = new LoadPanelRewardSopPointCommandData();
+        $fixture = new LoadPanelRewardSopAdditionalPointCommandData();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
