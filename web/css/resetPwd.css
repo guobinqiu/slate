@@ -245,6 +245,13 @@ body {
       font-size: 12px;
       color: #0078b6;
       display: inline; }
+  .main-resetPwd-con .backError {
+    margin-top: 10px;
+    padding-left: 165px;
+    text-align: left;
+    height: 30px;
+    line-height: 30px;
+    color: #ff0000; }
 
 .footer {
   padding: 20px 0;
