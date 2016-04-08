@@ -9,10 +9,10 @@ WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
-test-data:
+test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
 
-test-branch:
+test-branch: cc-all
 	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
 assets-rebuild:

@@ -15,7 +15,7 @@ class SsiProjectSurveyController extends Controller
 {
     const POINT = 700;
     /**
-     * @Route("/information/{survey_id}")
+     * @Route("/information/{survey_id}", name="_ssi_project_survey_cover")
      * @Template("WenwenFrontendBundle:SsiProjectSurvey:information.html.twig")
      */
     public function informationAction(Request $request, $survey_id)

@@ -140,8 +140,19 @@
                         } ) }}
                 </ul>
                 {% set has_tip_displayed = 1 %}
-            {% elseif ssi_res.isActive %}
-            {# SSI surveys #}
+            {% elseif ssi_res.isActive and ssi_surveys %}
+                {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                      {
+                            'type_class': 'trade',
+                            'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
+                            'type_label': '商业问卷',
+                            'end_date': '--',
+                            'num': 's' + ssi_surveys[0].id,
+                            'title':'dummy-title',
+                            'answered': false,
+                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].id}),
+                            'point': 700,
+                      } ) }}
 
             {% endif %}
 
