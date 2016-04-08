@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .w100 {
   width: 100%; }
 
@@ -262,6 +263,25 @@ body {
     margin-left: 20px;
     color: #007ec2; }
 
+/* 微博/QQ快捷登录错误返回页面 Start*/
+.mtText {
+  width: 396px;
+  text-align: center;
+  margin: 100px auto 180px; }
+  .mtText em {
+    width: 77px;
+    height: 77px;
+    background: url(../img/common/ErrorIcon.png) no-repeat;
+    display: inline-block;
+    margin-bottom: 17px; }
+  .mtText h2 {
+    font-size: 26px;
+    line-height: 53px; }
+  .mtText p {
+    line-height: 20px;
+    color: #757575; }
+
+/* 微博/QQ快捷登录错误返回页面 End*/
 .footer {
   padding: 20px 0;
   line-height: 24px;
