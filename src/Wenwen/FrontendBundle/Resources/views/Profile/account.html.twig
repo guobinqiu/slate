@@ -68,12 +68,12 @@
                             <p>请确认您要注销会员。请在完成简单的问卷调查后，点击 《注销》 完成会员的注销手续。</p>
                             <div>用户注销以及问卷调查</div>
                             <ul class="reason">
-                                <li><label for="email">邮件地址：</label><span id="email">wangxiaozu@163.com</span></li>
+                                <li><label for="email">邮件地址：</label><span id="email">{{ user.email }}</span></li>
                                 <li><label for="reasons">注销用户的理由：</label><span id="reasons"><ul class="reason-options">
-                                    <li><span><input type="checkbox" value="1">问卷调查活动的数量太少了</span><span><input type="checkbox" value="2">每个问卷的奖励太少了</span></li>
-                                    <li><span><input type="checkbox" value="3">问卷所要的时间太长了</span><span><input type="checkbox" value="4">相对于问题来说，积分报酬太少了</span></li>
-                                    <li><span><input type="checkbox" value="5">问卷的内容太难了</span><span><input type="checkbox" value="6">工作生活太忙，没时间参加</span></li>
-                                    <li><span><input type="checkbox" value="7">失去兴趣了</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷调查活动的数量太少了">问卷调查活动的数量太少了</span><span><input type="checkbox" name="reason[]" value="每个问卷的奖励太少了">每个问卷的奖励太少了</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷所要的时间太长了">问卷所要的时间太长了</span><span><input type="checkbox" name="reason[]" value="相对于问题来说，积分报酬太少了">相对于问题来说，积分报酬太少了</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷的内容太难了">问卷的内容太难了</span><span><input type="checkbox" name="reason[]" value="工作生活太忙，没时间参加">工作生活太忙，没时间参加</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="失去兴趣了">失去兴趣了</span></li>
                                 </ul></span></li>
                             </ul>
                             <div class="btn"><span id="withdraw_save">注销用户</span></div>
