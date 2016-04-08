@@ -6,8 +6,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadWeiBoUserCallbackData;
-use Jili\ApiBundle\DataFixtures\ORM\Services\LoadUserBindData;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\WeiBoUser;
+
 class WeiBoLoginControllerTest extends WebTestCase
 {
 
@@ -94,7 +95,7 @@ class WeiBoLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url, array('code'=>''));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('对不起，微博用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+        $this->assertTrue($crawler->filter('html:contains("对不起，微博用户授权失败，请稍后再试。")')->count() > 0);
     }
 
     /**
@@ -132,7 +133,7 @@ class WeiBoLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7765'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('对不起，微博用户授权失败，请稍后再试。', $crawler->filter('div.errorMessage')->text(),'no access_token returned');
+        $this->assertTrue($crawler->filter('html:contains("对不起，微博用户授权失败，请稍后再试。")')->count() > 0, 'no access_token returned');
         $this->assertFalse( $session->has('weibo_token') );
     }
 
@@ -213,11 +214,54 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertEquals('D8E44D85A05AA374243CFE3911365C51', $session->get('weibo_token'),'weibo_token session is set');
 
         $this->assertTrue( $session->has('uid') );
-        $user = LoadWeiBoUserCallbackData::$USERS[0];
-        $this->assertEquals($user->getId(), $session->get('uid'),'');
+
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user = $users[0];
+
+       $this->assertEquals($user->getId(), $session->get('uid'),'');
         $this->assertTrue( $session->has('nick') );
         $this->assertEquals($user->getNick(), $session->get('nick'),'');
+    }
 
+    /**
+     * @group dev-merge-ui-qq_weibo_move_register
+     */
+    public function testCallBackActionForMaintenance ()
+    {
+        $client = $this->client;
+        $container  = $client->getContainer();
+        $kernel = $container->get('kernel');
+        $session = $container->get('session');
+        $em = $this->em;
+        $session->remove('weibo_token');
+        $session->remove('weibo_open_id');
+        $session->save();
+
+        $url = $this->container->get('router')->generate('weibo_api_callback');
+        // has weibouser, no jili user
+        $stubWeiBoAuth = $this->getMockBuilder('Jili\\ApiBundle\\OAuths\\WeiBoAuth')
+        ->setMethods(array('access_token','get_user_info'))
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubWeiBoAuth->expects($this->once())
+        ->method('access_token')
+        ->willReturn(array('access_token'=>'D8E44D85A05AA374243CFE3911365C52','uid'=>'973F697E97A60289C8C455B1D65FF5F2'));
+
+        $stubWeiBoAuth->expects($this->once())
+        ->method('get_user_info')
+        ->willReturn(array('name'=>'testname_maintenance','profile_image_url'=>'profile_image_url_test'));
+        $mockWeiBoAuth = $this->getMockBuilder('Jili\\ApiBundle\\Services\\WeiBoLogin')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $mockWeiBoAuth->expects($this->exactly(2))
+        ->method('getWeiBoAuth')
+        ->willReturn( $stubWeiBoAuth);
+        $container->set('user_weibo_login', $mockWeiBoAuth);
+        $crawler =  $client->request('GET', $url, array('code'=>'0A188F5A7881938E405DA8D1E01D7766'));
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawlerNew = $client->followRedirect();
+        $this->assertEquals( '/WeiBoLogin/maintenance', $client->getRequest()->getRequestUri());
     }
 
     /**
@@ -244,9 +288,9 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertTrue( $session_request->has('weibo_token') );
         $this->assertTrue( $session_request->has('weibo_name') );
 
-        $form_register  = $crawler->selectButton('register')->form();
+        $form_register = $crawler->filter('form[name=form1]')->form();
         $this->assertEquals('test11',$form_register['weibonickname']->getValue());
-        $form_binding  = $crawler->selectButton('binding')->form();
+        $form_binding = $crawler->filter('form[name=form2]')->form();
 
         $client = static::createClient();
         $session = $client->getContainer()->get('session');
@@ -258,8 +302,7 @@ class WeiBoLoginControllerTest extends WebTestCase
 
         $crawler =  $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '对不起，非法操作，请在微博完成授权后再试。', $crawler->filter('div.errorMessage')->text());
-
+        $this->assertTrue($crawler->filter('html:contains("对不起，非法操作，请在微博完成授权后再试。")')->count() > 0);
     }
 
     /**
@@ -360,7 +403,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $url_first_login = $container->get('router')->generate('weibo_first_login');
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $form_register  = $crawler->selectButton('register')->form();
+        $form_register = $crawler->filter('form[name=form1]')->form();
 
         $form_register['weibo_user_regist[email]'] = '';
         $form_register['pwd'] = '123123';
@@ -426,7 +469,7 @@ class WeiBoLoginControllerTest extends WebTestCase
         $url_first_login = $container->get('router')->generate('weibo_first_login');
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $form_register  = $crawler->selectButton('register')->form();
+        $form_register = $crawler->filter('form[name=form1]')->form();
         $form_register['weibo_user_regist[email]'] = 'alice32@11.com';
         $form_register['pwd'] = '123123';
         $session->remove('weibo_open_id');
@@ -435,13 +478,13 @@ class WeiBoLoginControllerTest extends WebTestCase
         // submit that form
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '对不起，微博用户注册失败，请稍后再试。', $crawler->filter('div.errorMessage')->text());
+        $this->assertTrue($crawler->filter('html:contains("对不起，微博用户注册失败，请稍后再试。")')->count() > 0);
 
         $form_register['weibo_user_regist[email]'] = 'alice32@gmail.com';
         $form_register['pwd'] = '123123';
         $crawler = $client->submit($form_register);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals( '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text()));
+        $this->assertEquals('此账号已存在，请点击下方【已有91问问账号】按钮进行绑定!', trim($crawler->filter('#regist_emailError')->text()));
     }
 
     /**
@@ -469,16 +512,15 @@ class WeiBoLoginControllerTest extends WebTestCase
         $url_first_login = $container->get('router')->generate('weibo_first_login');
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $form_register  = $crawler->selectButton('register')->form();
+        $form_register = $crawler->filter('form[name=form1]')->form();
         $form_register['weibo_user_regist[email]'] = 'alice32@aa.com';
         $form_register['pwd'] = '123123';
         $form_register['weibonickname'] = 'test';
 
         // submit that form
         $crawler = $client->submit($form_register);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawlerNew = $client->followRedirect();
-        $this->assertEquals( '/', $client->getRequest()->getRequestUri());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         // check the result
         $records_user = $em->getRepository('JiliApiBundle:User')->findBy(array (
@@ -522,8 +564,10 @@ class WeiBoLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $user = LoadUserBindData::$USERS[0];
-        $form_binding = $crawler->selectButton('binding')->form();
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user = $users[0];
+
+        $form_binding = $crawler->filter('form[name=form2]')->form();
         $form_binding['jili_email'] = $user->getEmail();
         $form_binding['jili_pwd'] = '111111';
         $client->submit($form_binding);
@@ -536,4 +580,88 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertInstanceOf('Jili\\ApiBundle\\Entity\\WeiBoUser',$weibo_user_actual,'check insert weibo_user');
    }
 
+   /**
+    * @group dev-merge-ui-qq_weibo_move_register
+    */
+   public function testMaintenanceAction()
+   {
+       $client = static::createClient();
+       $container = $client->getContainer();
+
+       $url = $container->get('router')->generate('weibo_maintenance');
+       $crawler = $client->request('GET', $url);
+       $this->assertEquals(200, $client->getResponse()->getStatusCode());
+   }
+}
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class LoadWeiBoUserCallbackData implements FixtureInterface, ContainerAwareInterface
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        //load data for testing .
+        $user = new User();
+        $user->setNick('alice32');
+        $user->setEmail('alice32@gmail.com');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $weiboUser = new WeiBoUser();
+        $weiboUser->setUserId($user->getId());
+        $weiboUser->setOpenId('973F697E97A60289C8C455B1D65FF5F0');
+        $manager->persist($weiboUser);
+        $manager->flush();
+
+        // weibo_user  without jili_user
+        $weiboUser = new WeiBoUser();
+        $weiboUser->setUserId(99);
+        $weiboUser->setOpenId('973E697D97F60289B8B455A1C65CC5E1');
+        $manager->persist($weiboUser);
+        $manager->flush();
+    }
+}
+
+class LoadUserBindData implements FixtureInterface, ContainerAwareInterface
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setNick('alic32');
+        $user->setEmail('alice.nima@voyagegroup.com.cn');
+        $user->setIsEmailConfirmed(1);
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+    }
 }
