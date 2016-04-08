@@ -327,6 +327,12 @@ services:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setSession, [ @session ] ]
 
+    user_logout:
+        class: Jili\ApiBundle\Services\UserLogout
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setContainer, [ @service_container ] ]
+
     user_qq_login:
         class: %user_qq_login.class%
         
