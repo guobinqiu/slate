@@ -51,6 +51,9 @@ class LoadDummyData implements FixtureInterface, ContainerAwareInterface
         $ssi_project_respondent->setSsiMailBatchId(1);
         $ssi_project_respondent->setStartUrlId('hoge');
         $ssi_project_respondent->setAnswerStatus(1);
+        $ssi_project_respondent->setStashData(array(
+            'startUrlHead' => 'http://www.d8aspring.com/?dummy=ssi-survey&id=',
+          ));
         $manager->persist($ssi_project_respondent);
         $manager->flush();
     }

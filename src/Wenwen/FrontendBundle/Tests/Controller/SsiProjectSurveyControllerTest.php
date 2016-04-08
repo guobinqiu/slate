@@ -70,20 +70,6 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
 
     }
-
-    public function testCoverPageForUnavailable()
-    {
-        $client = static::createClient();
-
-        $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array(), true);
-        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
-        $client->followRedirect();
-
-        $client->request('GET', '/ssi_project_survey/information/999');
-        $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
-
-    }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -136,6 +122,9 @@ class SsiProjectSurveyControllerTestFixture implements FixtureInterface, Contain
         $ssi_project_respondent->setSsiMailBatchId(1);
         $ssi_project_respondent->setStartUrlId('hoge');
         $ssi_project_respondent->setAnswerStatus(1);
+        $ssi_project_respondent->setStashData(array(
+            'startUrlHead' => 'http://www.d8aspring.com/?dummy=ssi-survey&id=',
+          ));
         $manager->persist($ssi_project_respondent);
         $manager->flush();
 
