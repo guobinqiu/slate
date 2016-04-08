@@ -84,7 +84,7 @@ class SsiApiControllerTest extends WebTestCase
     /**
      * @dataProvider respondentListProvider
      */
-    public function testRequestWithValidRespondentList($respondentList, $expected)
+    public function testRequestWithInvalidRespondentList($respondentList, $expected)
     {
         $client = static::createClient();
         $crawler = $client->request(
@@ -108,6 +108,43 @@ class SsiApiControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
     }
+
+    public function testRequestWithValidRespondentList()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(
+            'POST',
+            '/ssi_pc1_protocol/request_api',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode(
+                [
+                'requestHeader' => [
+                'contactMethodId' => 1,
+                'projectId' => 2,
+                'mailBatchId' => 3,
+                ],
+                'startUrlHead' => 'http://www.d8aspring.com/?test=',
+                'respondentList' => [
+               ['respondentId' => 'wwcn-' . SsiApiControllerTestFixture::$SSI_RESPONDENT->getId(), 'startUrlId' => 'sur1'],
+               ['respondentId' => 'wwcn-9998', 'startUrlId' => ''],
+               ['respondentId' => 'wwcn-9999', 'startUrlId' => 'sur3'],
+           ],
+                ]
+            )
+        );
+        $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
+        $this->assertEquals(
+           [
+             'generalResponseCode' => '201',
+             'additionalResponseCodes' => [
+               '202' => ['wwcn-9998'],
+               '203' => ['wwcn-9999'],
+               ],
+           ], json_decode($client->getResponse()->getContent(), true));
+    }
+
     public function respondentListProvider()
     {
         return [
