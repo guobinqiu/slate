@@ -445,48 +445,6 @@ body {
       *display: inline;
       *zoom: 1; }
 
-.survey-recomend h2 {
-  line-height: 75px;
-  color: #333;
-  font-size: 14px;
-  font-weight: bold; }
-  .survey-recomend h2 span {
-    padding-bottom: 6px;
-    font-size: 30px;
-    font-weight: normal;
-    color: #757575;
-    margin-top: 30px; }
-.survey-recomend table {
-  width: 100%; }
-.survey-recomend td {
-  color: #a1a1a1;
-  height: 40px;
-  line-height: 40px; }
-  .survey-recomend td p {
-    width: 290px;
-    color: #333;
-    font-size: 14px;
-    overflow: hidden;
-    -ms-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    white-space: nowrap; }
-  .survey-recomend td a {
-    width: 67px;
-    text-align: center;
-    height: 24px;
-    line-height: 24px;
-    color: #495361;
-    background: #edeff2;
-    border: 1px solid #dde0e6;
-    border-radius: 3px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1; }
-  .survey-recomend td.first {
-    width: 45%; }
-  .survey-recomend td.last {
-    text-align: right; }
-
 .exchange-dynamics {
   padding: 10px 20px;
   line-height: 24px; }

@@ -412,33 +412,44 @@ body {
           background: url(../img/questionnaire/sadface.png) no-repeat left center; }
         .main .qnWrap .qnEnd .qnEndTxt .txt b {
           color: #ff6700; }
-    .main .qnWrap .qnRecoEnd .qnEndTxt {
-      padding: 80px 0 0 170px; }
-    .main .qnWrap .qnRecoEnd .qnEndRecommend {
-      margin-top: 110px; }
-      .main .qnWrap .qnRecoEnd .qnEndRecommend .tit {
-        height: 70px;
-        line-height: 40px;
-        font-size: 30px;
-        font-weight: normal;
-        color: #757575;
-        margin-top: 30px; }
-      .main .qnWrap .qnRecoEnd .qnEndRecommend .list table {
-        width: 100%; }
-        .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr {
-          border-bottom: 1px solid #f6f6f6; }
-          .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr td {
-            height: 48px;
-            line-height: 48px;
-            font-size: 14px;
-            color: #333; }
-            .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr td a {
-              color: #0078b6; }
-            .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr td:nth-child(1) {
-              padding-left: 10px; }
-            .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr td:nth-child(4) {
-              text-align: right;
-              padding-right: 10px; }
+    .main .qnWrap .qnRecoEnd {
+      			/*.qnEndRecommend{
+      				margin-top: 110px;
+      				.tit{
+      					    height: 70px;
+        						line-height: 40px;
+      						font-size: 30px;
+      						font-weight: normal;
+      						color: #757575;
+      						margin-top: 30px;	
+      				}
+      				.list{
+      					table{
+      						width: 100%;
+      						tr{
+      							border-bottom: 1px solid #f6f6f6;
+      							td{
+      								  height: 48px;
+      								  line-height: 48px;
+      								  font-size: 14px;
+      								  color: #333;
+      								a{
+      									color: $main-title-color;
+      								}
+      								&:nth-child(1){
+      									padding-left: 10px;
+      								}
+      								&:nth-child(4){
+      									text-align: right;
+      									padding-right: 10px;
+      								}
+      							}
+      						}
+      					}
+      				}
+      			}*/ }
+      .main .qnWrap .qnRecoEnd .qnEndTxt {
+        padding: 80px 0 0 170px; }
 
 /* permisson page Start */
 .permissionMain {
