@@ -191,3 +191,67 @@ body{
 		}
     }
 }
+/* permisson page Start */
+.permissionMain{
+	margin-top: 14px;
+}
+.prmTit{
+	height: 90px;
+	border-bottom: 1px dashed #d7d8d9;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	h1{
+		font-size: 40px;
+		height: 60px;
+		line-height: 60px;
+		span{
+			color: $main-color;
+		}
+	}
+	p{
+		font-size: 20px;
+	}
+}
+.prmIco{
+	width: 77px;
+	height: 73px;
+	background: url(../img/questionnaire/prmIco.png) no-repeat left center;
+	margin-top: 6px;
+}
+.prmState{
+	font-size: 13px;
+	line-height: 27px;
+	.SSILink{
+		color: #fff;
+		padding: 2px 5px;
+		background: #000;
+		@include border-radius(10px);
+	}
+}
+.prmPrompt{
+	background: #ebeced;
+	padding: 20px 28px;
+	margin: 20px 0;
+	line-height: 22px;
+	color: #858585;
+}
+.prmBtn{
+	text-align: center;
+	margin-top: 20px;
+	input[type="text"]{
+		font-size: 20px;
+		padding: 15px 65px;
+		background: #ffa10d;
+		@include border-radius(3px);
+		color: #fff;
+		border: none;
+	}
+}
+.prmError{
+	li{
+		text-align: center;
+		color: $error-color;
+		margin-top: 10px;
+	}
+}
+/* permisson page End */
