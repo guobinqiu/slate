@@ -50,7 +50,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
         $client->followRedirect();
 
-        $ssi_project = SsiProjectSurveyControllerTestFixture::$SSI_PROJECT[0];
+        $ssi_project = SsiProjectSurveyControllerTestFixture::$SSI_PROJECT;
         $client->request('GET', '/ssi_project_survey/information/' . $ssi_project->getId());
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
@@ -70,6 +70,34 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
 
     }
+
+    public function testCompletePage()
+    {
+        $client = static::createClient();
+
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_login', array(), true);
+        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
+        $client->followRedirect();
+
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $ssi_surveys = \VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery::retrieveSurveysForRespondent(
+            $em->getConnection(),
+            SsiProjectSurveyControllerTestFixture::$SSI_RESPONDENT->getId()
+        );
+        $this->assertCount(1, $ssi_surveys, '1 SSI survey is available');
+
+        $client->request('GET', '/ssi_project_survey/complete');
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+
+        $ssi_surveys = \VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery::retrieveSurveysForRespondent(
+            $em->getConnection(),
+            SsiProjectSurveyControllerTestFixture::$SSI_RESPONDENT->getId()
+        );
+        $this->assertCount(0, $ssi_surveys, 'SSI survey is closed');
+
+        $em->close();
+    }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -79,7 +107,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SsiProjectSurveyControllerTestFixture implements FixtureInterface, ContainerAwareInterface
 {
-    public static $USER = [], $SSI_PROJECT = [];
+    public static $USER, $SSI_PROJECT, $SSI_RESPONDENT;
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -128,7 +156,8 @@ class SsiProjectSurveyControllerTestFixture implements FixtureInterface, Contain
         $manager->persist($ssi_project_respondent);
         $manager->flush();
 
-        self::$USER[] = $user;
-        self::$SSI_PROJECT[] = $ssi_project;
+        self::$USER = $user;
+        self::$SSI_RESPONDENT = $ssi_respondent;
+        self::$SSI_PROJECT = $ssi_project;
     }
 }

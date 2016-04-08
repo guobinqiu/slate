@@ -13,7 +13,6 @@ use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
  */
 class SsiProjectSurveyController extends Controller
 {
-    const POINT = 700;
     /**
      * @Route("/information/{survey_id}", name="_ssi_project_survey_cover")
      * @Template("WenwenFrontendBundle:SsiProjectSurvey:information.html.twig")
@@ -42,5 +41,31 @@ class SsiProjectSurveyController extends Controller
           'ssi_project' => $ssi_project,
           'ssi_config' => $this->container->getParameter('ssi_project_survey'),
         );
+    }
+
+    /**
+     * @Route("/complete", name="_ssi_project_survey_complete")
+     * @Template("WenwenFrontendBundle:SsiProjectSurvey:complete.html.twig")
+     */
+    public function completeAction(Request $request)
+    {
+        if (!$request->getSession()->has('uid')) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
+
+        # SSI Respondent is not active
+        if(!$ssi_respondent || !$ssi_respondent->isActive()) {
+            throw $this->createNotFoundException('Respondent is not active');
+        }
+
+        \VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery::completeSurveysForRespondent(
+            $em->getConnection(),
+            $ssi_respondent->getId()
+        );
+
+        return array();
     }
 }
