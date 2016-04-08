@@ -66,6 +66,27 @@ class UserLoginTest extends KernelTestCase
         $this->assertInstanceOf('Jili\\ApiBundle\\Services\\UserLogin',$login_service, 'login listener is instance of  Jili\\ApiBundle\\Services\\UserLogin');
     }
 
+    public function testGetRequestParamsOK()
+    {
+        // Test data
+        $test_email = '   xxx.xxx@xxx.xxx';
+        $test_pwd = 'xxx';
+        
+        // Prepare Request for test
+        $request = Request::createFromGlobals();
+        $request->request->set('email', $test_email);
+        $request->request->set('pwd', $test_pwd);
+        
+        // Call getRequestParams
+        $container = $this->container;
+        $request_params = $container->get('login.listener')
+            ->getRequestParams($request);
+        
+        // Assertion
+        $this->assertEquals(trim($test_email), $request_params['email'],  '"request_params->email is OK.');
+        $this->assertEquals($test_pwd, $request_params['pwd'],  '"request_params->pwd is OK.');
+    }
+    
     public function testDoLogin() 
     {
         $container = $this->container;
@@ -76,7 +97,7 @@ class UserLoginTest extends KernelTestCase
                 'method'=> 'POST',
                 'client_ip'=> '127.0.0.1'
             ));
-        print "What1[result=$result]";
+
         $this->assertEquals('ok', $result,  '"ok" for alice login successuflly');
 
         $result = $container->get('login.listener')
@@ -87,7 +108,7 @@ class UserLoginTest extends KernelTestCase
                 'client_ip'=> '127.0.0.1'
             ));
 
-            print "What2";
+
         $this->assertEquals('ok', $result,  '"ok" for bob login successuflly');
 
         $user  = UserLoginTestFixture::$USERS[1];
