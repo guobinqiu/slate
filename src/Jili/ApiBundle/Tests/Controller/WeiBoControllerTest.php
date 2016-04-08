@@ -6,8 +6,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadWeiBoUserCallbackData;
-use Jili\ApiBundle\DataFixtures\ORM\Services\LoadUserBindData;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\WeiBoUser;
+
 class WeiBoLoginControllerTest extends WebTestCase
 {
 
@@ -213,8 +214,11 @@ class WeiBoLoginControllerTest extends WebTestCase
         $this->assertEquals('D8E44D85A05AA374243CFE3911365C51', $session->get('weibo_token'),'weibo_token session is set');
 
         $this->assertTrue( $session->has('uid') );
-        $user = LoadWeiBoUserCallbackData::$USERS[0];
-        $this->assertEquals($user->getId(), $session->get('uid'),'');
+
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user = $users[0];
+
+       $this->assertEquals($user->getId(), $session->get('uid'),'');
         $this->assertTrue( $session->has('nick') );
         $this->assertEquals($user->getNick(), $session->get('nick'),'');
     }
@@ -560,7 +564,9 @@ class WeiBoLoginControllerTest extends WebTestCase
         $crawler =  $client->request('GET', $url_first_login );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $user = LoadUserBindData::$USERS[0];
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user = $users[0];
+
         $form_binding = $crawler->filter('form[name=form2]')->form();
         $form_binding['jili_email'] = $user->getEmail();
         $form_binding['jili_pwd'] = '111111';
@@ -586,5 +592,76 @@ class WeiBoLoginControllerTest extends WebTestCase
        $crawler = $client->request('GET', $url);
        $this->assertEquals(200, $client->getResponse()->getStatusCode());
    }
+}
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class LoadWeiBoUserCallbackData implements FixtureInterface, ContainerAwareInterface
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        //load data for testing .
+        $user = new User();
+        $user->setNick('alice32');
+        $user->setEmail('alice32@gmail.com');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $weiboUser = new WeiBoUser();
+        $weiboUser->setUserId($user->getId());
+        $weiboUser->setOpenId('973F697E97A60289C8C455B1D65FF5F0');
+        $manager->persist($weiboUser);
+        $manager->flush();
+
+        // weibo_user  without jili_user
+        $weiboUser = new WeiBoUser();
+        $weiboUser->setUserId(99);
+        $weiboUser->setOpenId('973E697D97F60289B8B455A1C65CC5E1');
+        $manager->persist($weiboUser);
+        $manager->flush();
+    }
+}
+
+class LoadUserBindData implements FixtureInterface, ContainerAwareInterface
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setNick('alic32');
+        $user->setEmail('alice.nima@voyagegroup.com.cn');
+        $user->setIsEmailConfirmed(1);
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+    }
 }
