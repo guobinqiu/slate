@@ -329,29 +329,6 @@ class VoteController extends Controller
     }
 
     /**
-     * @Route("/recommend")
-     */
-    public function recommendAction(Request $request)
-    {
-        $user_id = $this->get('session')->get('uid');
-        if (!$user_id) {
-            return $this->render('WenwenFrontendBundle:Vote:_recommend.html.twig', array ());
-        }
-        $em = $this->getDoctrine()->getManager();
-
-        $votes = $em->getRepository('JiliApiBundle:Vote')->getActiveVoteList();
-        foreach ($votes as $key => $vote) {
-            $user_answer_count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $vote['id']);
-            if ($user_answer_count > 0) {
-                unset($votes[$key]);
-            }
-        }
-        $arr['votes'] = $votes;
-        
-        return $this->render('WenwenFrontendBundle:Vote:_recommend.html.twig', $arr);
-    }
-
-    /**
      * @Route("/suggest")
      */
     public function suggestAction(Request $request)
