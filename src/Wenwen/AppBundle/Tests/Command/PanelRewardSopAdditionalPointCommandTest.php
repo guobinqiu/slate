@@ -8,10 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\Command\PanelRewardCintPointCommand;
-use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
+use Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand;
 
-class PanelRewardCintPointCommandTest extends KernelTestCase
+class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -39,7 +38,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $executor->purge();
 
         // load fixtures
-        $fixture = new PanelRewardCintPointCommandTestFixture();
+        $fixture = new PanelRewardSopAdditionalPointCommandTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -60,7 +59,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
     }
 
     /**
-     * @group dev-merge-ui-cint_point
+     * @group dev-merge-ui-sop_additional_point
      * @group fix-test-static
      */
     public function testExecuteInvalidAppMid()
@@ -70,56 +69,41 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[0]->getId();
 
         // data
         $header = array (
-            'response_id',
-            'yyyymm',
-            'app_id',
-            'app_mid',
-            'survey_id',
-            'quota_id',
-            'title',
-            'loi',
-            'ir',
-            'cpi',
-            'answer_status',
-            'approval_status',
-            'approved_at',
-            'extra_info'
+            "app_id",
+            "app_mid",
+            "survey_id",
+            "quota_id",
+            "title",
+            "incentive_amount",
+            "hash",
+            "created_at",
+            "extra_info"
         );
         $rec1 = array (
-            '15',
-            '201502',
-            '2',
+            "2",
             $app_mid,
-            '30001',
-            '30002',
-            'This is a title1',
-            '10',
-            '',
-            '1.500',
-            'SCREENOUT',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"30","point_type":"11"}'
+            "1",
+            "2",
+            "zh_CH title",
+            "100.00",
+            "uniq6",
+            "2014-12-01 10:00:00",
+            '{"point_type":"11"}'
         );
         $rec2 = array (
-            '16',
-            '201502',
-            '3',
-            'Invalid-app-mid',
-            '2',
-            '3',
-            'This is a title 2',
-            '11',
-            '',
-            '1.600',
-            'COMPLETE',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"100","point_type":"61"}'
+            "2",
+            "Invalid-app-mid",
+            "1",
+            "2",
+            "zh_CH title",
+            "100.00",
+            "uniq7",
+            "2014-12-01 10:00:00",
+            '{"point_type":"61"}'
         );
         $footer = array (
             'EOF',
@@ -139,36 +123,32 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $application = new Application(static::$kernel);
 
-        $application->add(new PanelRewardCintPointCommand());
-
-        $command = $application->find('panel:reward-cint-point');
-
+        $application->add(new PanelRewardSopAdditionalPointCommand());
+        $command = $application->find('panel:reward-sop-additional-point');
         $command->setContainer($container);
 
-        $this->assertInstanceOf('Wenwen\AppBundle\Command\PanelRewardCintPointCommand', $command);
+        $this->assertInstanceOf('Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand', $command);
 
         $commandTester = new CommandTester($command);
-
         $commandParam = array (
             'command' => $command->getName(),
             'date' => '2016-01-26',
             '--definitive' => true
         );
-
         // execute
         try {
+
             $data = $commandTester->execute($commandParam);
         } catch (\Exception $e) {
             $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
         }
 
-        // assert rollbacked
-        $history = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
-        $this->assertEmpty($history);
+        $history_list = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findByAppMemberId($app_mid);
+        $this->assertEmpty($history_list);
     }
 
     /**
-     * @group dev-merge-ui-cint_point
+     * @group dev-merge-ui-sop_additional_point
      * @group fix-test-static
      */
     public function testUpdateTable()
@@ -177,62 +157,45 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[0]->getId();
 
-        // data
         $header = array (
-            'response_id',
-            'yyyymm',
-            'app_id',
-            'app_mid',
-            'survey_id',
-            'quota_id',
-            'title',
-            'loi',
-            'ir',
-            'cpi',
-            'answer_status',
-            'approval_status',
-            'approved_at',
-            'extra_info'
+            "app_id",
+            "app_mid",
+            "survey_id",
+            "quota_id",
+            "title",
+            "incentive_amount",
+            "hash",
+            "created_at",
+            "extra_info"
         );
         $rec1 = array (
-            '800001',
-            '201502',
-            '12',
+            "2",
             $app_mid,
-            '10001',
-            '10002',
-            'This is a title1',
-            '10',
-            '',
-            '0.00',
-            'SCREENOUT',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"30","point_type":"11"}'
+            "1",
+            "2",
+            "zh_CN title",
+            "100.00",
+            "uniq6",
+            "2014-12-01 10:00:00",
+            '{"point_type":"11"}'
         );
         $rec2 = array (
-            '800001',
-            '201502',
-            '12',
+            "2",
             $app_mid,
-            '20001',
-            '20002',
-            'This is a title2',
-            '11',
-            '',
-            '0',
-            'COMPLETE',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"100","point_type":"61"}'
+            "1",
+            "2",
+            "zh_CN title",
+            "100.00",
+            "uniq7",
+            "2014-12-01 10:00:00",
+            '{"point_type":"61"}'
         );
         $footer = array (
             'EOF',
             'Total 2 Records'
         );
-
         $response = new \stdClass();
         $response->body = array (
             $header,
@@ -245,39 +208,38 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         Phake::when($client)->get(Phake::anyParameters())->thenReturn($response);
 
         $application = new Application(static::$kernel);
-
-        $application->add(new PanelRewardCintPointCommand());
-        $command = $application->find('panel:reward-cint-point');
+        $application->add(new PanelRewardSopAdditionalPointCommand());
+        $command = $application->find('panel:reward-sop-additional-point');
         $command->setContainer($container);
-        $this->assertInstanceOf('Wenwen\AppBundle\Command\PanelRewardCintPointCommand', $command);
+        $this->assertInstanceOf('Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand', $command);
         $commandTester = new CommandTester($command);
         $commandParam = array (
             'command' => $command->getName(),
             'date' => '2016-01-26',
             '--definitive' => true
         );
-
         // execute
         $data = $commandTester->execute($commandParam);
 
-        $history_list = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
-
+        $history_list = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findByAppMemberId($app_mid);
         $this->assertNotEmpty($history_list);
         $this->assertCount(2, $history_list);
 
-        $this->assertEquals('10001', $history_list[0]->getCintProjectID());
-        $this->assertEquals('10002', $history_list[0]->getCintProjectQuotaID());
-        $this->assertEquals($app_mid, $history_list[0]->getAppMemberID());
-        $this->assertEquals('30', $history_list[0]->getPoint());
+        $this->assertEquals('1', $history_list[0]->getSurveyId());
+        $this->assertEquals('2', $history_list[0]->getQuotaId());
+        $this->assertEquals($app_mid, $history_list[0]->getAppMemberId());
+        $this->assertEquals('100', $history_list[0]->getPoint());
         $this->assertEquals('92', $history_list[0]->getType());
+        $this->assertEquals('uniq6', $history_list[0]->getHash());
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getUpdatedAt()->format('Y-m-d'));
 
-        $this->assertEquals('20001', $history_list[1]->getCintProjectID());
-        $this->assertEquals('20002', $history_list[1]->getCintProjectQuotaID());
-        $this->assertEquals($app_mid, $history_list[1]->getAppMemberID());
+        $this->assertEquals('1', $history_list[1]->getSurveyId());
+        $this->assertEquals('2', $history_list[1]->getQuotaId());
+        $this->assertEquals($app_mid, $history_list[1]->getAppMemberId());
         $this->assertEquals('100', $history_list[1]->getPoint());
         $this->assertEquals('93', $history_list[1]->getType());
+        $this->assertEquals('uniq7', $history_list[1]->getHash());
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
@@ -285,57 +247,36 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $user_id = $sop_respondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals(30, $task[0]->getPoint());
-        $this->assertEquals('c10001 This is a title1', $task[0]->getTaskName());
+        $this->assertEquals('100', $task[0]->getPoint());
+        $this->assertEquals('r1 zh_CN title', $task[0]->getTaskName());
         $this->assertEquals('92', $task[0]->getCategoryType());
 
-        $this->assertEquals(100, $task[1]->getPoint());
-        $this->assertEquals('c20001 This is a title2', $task[1]->getTaskName());
+        $this->assertEquals('100', $task[1]->getPoint());
+        $this->assertEquals('r1 zh_CN title', $task[1]->getTaskName());
         $this->assertEquals('93', $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals(30, $point[0]->getPointChangeNum());
-        $this->assertEquals(92, $point[0]->getReason());
-        $this->assertEquals(100, $point[1]->getPointChangeNum());
-        $this->assertEquals(93, $point[1]->getReason());
+        $this->assertEquals('100', $point[0]->getPointChangeNum());
+        $this->assertEquals('92', $point[0]->getReason());
+        $this->assertEquals('100', $point[1]->getPointChangeNum());
+        $this->assertEquals('93', $point[1]->getReason());
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $this->assertEquals(330, $user->getPoints());
+        $this->assertEquals('400', $user->getPoints());
     }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\SopRespondent;
 
-class PanelRewardCintPointCommandTestFixture implements FixtureInterface
+class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterface
 {
 
-    /**
-     * {@inheritDoc}
-     */
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setNick('bb');
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
-        $user->setPoints(100);
-        $user->setIsInfoSet(0);
-        $user->setRewardMultiple(1);
-        $user->setPwd('111111');
-        $manager->persist($user);
-        $manager->flush();
-
-        $r = new SopRespondent();
-        $r->setUserId($user->getId());
-        $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
-        $manager->persist($r);
-        $manager->flush();
-
-        $user = new User();
-        $user->setNick('cc');
-        $user->setEmail('test2@d8aspring.com');
         $user->setPoints(200);
         $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
@@ -343,9 +284,9 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $manager->persist($user);
         $manager->flush();
 
-        $r = new SopRespondent();
+        $r = new \Jili\ApiBundle\Entity\SopRespondent();
         $r->setUserId($user->getId());
-        $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setStatusFlag(\Jili\ApiBundle\Entity\SopRespondent::STATUS_ACTIVE);
         $manager->persist($r);
         $manager->flush();
     }
