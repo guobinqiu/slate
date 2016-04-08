@@ -439,3 +439,69 @@ body {
             .main .qnWrap .qnRecoEnd .qnEndRecommend .list table tr td:nth-child(4) {
               text-align: right;
               padding-right: 10px; }
+
+/* permisson page Start */
+.permissionMain {
+  margin-top: 14px; }
+
+.prmTit {
+  height: 90px;
+  border-bottom: 1px dashed #d7d8d9;
+  margin-bottom: 20px;
+  padding-bottom: 10px; }
+  .prmTit h1 {
+    font-size: 40px;
+    height: 60px;
+    line-height: 60px; }
+    .prmTit h1 span {
+      color: #ff6700; }
+  .prmTit p {
+    font-size: 20px; }
+
+.prmIco {
+  width: 77px;
+  height: 73px;
+  background: url(../img/questionnaire/prmIco.png) no-repeat left center;
+  margin-top: 6px; }
+
+.prmState {
+  font-size: 13px;
+  line-height: 27px; }
+  .prmState .SSILink {
+    color: #fff;
+    padding: 2px 5px;
+    background: #000;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px; }
+
+.prmPrompt {
+  background: #ebeced;
+  padding: 20px 28px;
+  margin: 20px 0;
+  line-height: 22px;
+  color: #858585; }
+
+.prmBtn {
+  text-align: center;
+  margin-top: 20px; }
+  .prmBtn input[type="text"] {
+    font-size: 20px;
+    padding: 15px 65px;
+    background: #ffa10d;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    color: #fff;
+    border: none; }
+
+.prmError li {
+  text-align: center;
+  color: #ff0000;
+  margin-top: 10px; }
+
+/* permisson page End */
