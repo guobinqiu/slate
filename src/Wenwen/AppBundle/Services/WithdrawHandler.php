@@ -27,15 +27,11 @@ class WithdrawHandler
         $this->em->getConnection()->beginTransaction();
 
         try {
-
-            $user_arr = $this->em->getRepository('JiliApiBundle:User')->getUserInfoArray($user_id);
-            $user_info = json_encode($user_arr );
-
             // insert user_deleted
             $user_deleted = new UserDeleted();
             $user_deleted->setUserId($user_id);
             $user_deleted->setReason($reason);
-            $user_deleted->setUserInfo($user_info);
+            $user_deleted->setUserInfo(serialize($user));
             $this->em->persist($user_deleted);
             $this->em->flush();
 
@@ -54,10 +50,6 @@ class WithdrawHandler
 
             return false;
         }
-    }
-
-    public function getUserJson($user){
-        return json_encode($user);
     }
 
     public function setEntityManager(EntityManager $em)

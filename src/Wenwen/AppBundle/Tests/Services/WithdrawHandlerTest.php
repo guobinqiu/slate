@@ -76,9 +76,8 @@ class WithdrawHandlerTest extends KernelTestCase
         $this->assertNotEmpty($user_deleted);
         $this->assertEquals('withdraw reason', $user_deleted->getReason());
         $this->assertNotEmpty($user_deleted->getCreatedAt());
-        $user_info = $user_deleted->getUserInfo();
-        $user_arr = json_decode($user_info, true);
-        $this->assertEquals('test@d8aspring.com', $user_arr['email']);
+        $user = unserialize($user_deleted->getUserInfo());
+        $this->assertEquals('test@d8aspring.com', $user->getEmail());
     }
 }
 
