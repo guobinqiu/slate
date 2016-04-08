@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\DataFixtures\ORM\LoadRewardFulcrumCommandData;
 
 use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 use Wenwen\AppBundle\Command\PanelRewardFulcrumPointCommand;
@@ -39,7 +38,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         // load fixtures
-        $fixture = new LoadRewardFulcrumCommandData();
+        $fixture = new PanelRewardFulcrumPointCommandTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -74,7 +73,8 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $sop_respondent = LoadRewardFulcrumCommandData::$SOP_RESPONDENT[0];
+        $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $sop_respondent = $respondents[0];
         $app_mid = $sop_respondent->getId();
 
         // data
@@ -127,9 +127,11 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
+        $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $app_mid =  $respondents[0]->getId();
 
-        $app_mid =  LoadRewardFulcrumCommandData::$SOP_RESPONDENT[0]->getId();
-        $user_id =  LoadRewardFulcrumCommandData::$USERS[0]->getId();
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user_id =  $users[0]->getId();
 
         // data
         $header = array('response_id', 'yyyymm', 'app_id', 'app_mid', 'survey_id', 'quota_id', 'title',
@@ -214,4 +216,54 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
     }
 
 }
-?>
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\SopRespondent;
+
+class PanelRewardFulcrumPointCommandTestFixture implements FixtureInterface
+{
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setNick('aaa');
+        $user->setEmail('rpa-sys+aaa@d8aspring.com');
+        $user->setPoints(11);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterDate(new \DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
+        $sop_respondent = new SopRespondent();
+        $sop_respondent->setUserId($user->getId());
+        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
+        $manager->persist($sop_respondent);
+        $manager->flush();
+
+        //load data for testing .
+        $user = new User();
+        $user->setNick('bbb');
+        $user->setEmail('rpa-sys+aaab@d8aspring.com');
+        $user->setPoints(23);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterDate(new \DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
+        //inactive
+        $sop_respondent = new SopRespondent();
+        $sop_respondent->setUserId($user->getId());
+        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
+        $manager->persist($sop_respondent);
+        $manager->flush();
+    }
+}
