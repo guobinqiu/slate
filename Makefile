@@ -10,7 +10,7 @@ test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
 test-data:
-	$(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
+	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
 
 test-branch:
 	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
