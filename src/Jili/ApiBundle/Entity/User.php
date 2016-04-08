@@ -209,6 +209,13 @@ class User
     private $registerDate;
 
     /**
+     * @var datetime $registerCompleteDate
+     *
+     * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
+     */
+    private $registerCompleteDate;
+
+    /**
      *@var datetime $lastLoginDate
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
@@ -1023,6 +1030,29 @@ class User
     public function getRegisterDate()
     {
         return $this->registerDate;
+    }
+
+    /**
+     * Set registerCompleteDate
+     *
+     * @param \DateTime $registerCompleteDate
+     * @return User
+     */
+    public function setRegisterCompleteDate($registerCompleteDate)
+    {
+        $this->registerCompleteDate = $registerCompleteDate;
+
+        return $this;
+    }
+
+    /**
+     * Get registerCompleteDate
+     *
+     * @return \DateTime
+     */
+    public function getRegisterCompleteDate()
+    {
+        return $this->registerCompleteDate;
     }
 
     /**
