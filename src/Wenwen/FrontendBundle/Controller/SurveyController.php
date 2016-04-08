@@ -41,6 +41,7 @@ class SurveyController extends Controller
             if ($ssi_res['isActive']) {
                 $dbh = $em->getConnection();
                 $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+                $arr['ssi_project_config'] = $this->container->getParameter('ssi_project_survey');
             }
         }
         $arr['ssi_respondent'] = $ssi_respondent;

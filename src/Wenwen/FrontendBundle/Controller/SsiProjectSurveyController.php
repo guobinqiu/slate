@@ -40,7 +40,7 @@ class SsiProjectSurveyController extends Controller
 
         return array(
           'ssi_project' => $ssi_project,
-          'point' => self::POINT,
+          'ssi_config' => $this->container->getParameter('ssi_project_survey'),
         );
     }
 }
