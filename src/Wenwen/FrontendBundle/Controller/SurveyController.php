@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -31,18 +30,18 @@ class SurveyController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // 快速問答
-        $arr['votes']  = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
+        $arr['votes'] = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
 
         // SSI respondent
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
-        $ssi_res = array();
+        $ssi_res = array ();
         if ($ssi_respondent) {
-                $ssi_res['needPrescreening']  = $ssi_respondent->needPrescreening();
-                $ssi_res['isActive']  = $ssi_respondent->isActive();
-                if ($ssi_res['isActive']) {
-                    $dbh = $this->getEntityManager()->getConnection();
-                    $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
-                }
+            $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
+            $ssi_res['isActive'] = $ssi_respondent->isActive();
+            if ($ssi_res['isActive']) {
+                $dbh = $this->getEntityManager()->getConnection();
+                $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+            }
         }
         $arr['ssi_respondent'] = $ssi_respondent;
         $arr['ssi_res'] = $ssi_res;
@@ -53,9 +52,42 @@ class SurveyController extends Controller
         //sop_respondent 如果不存在就创建
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
 
+        $arr = array_merge($arr, $this->getSopParams($sop_config, $sop_respondent->getId()));
+
+        // for preview mode
+        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
+
+        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/top", name="_survey_top")
+     * @Template
+     */
+    public function topAction(Request $request)
+    {
+        if (!$request->getSession()->get('uid')) {
+            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $user_id = $request->getSession()->get('uid');
+
+        $em = $this->getDoctrine()->getManager();
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
+
+        $sop_config = $this->container->getParameter('sop');
+
+        $arr = $this->getSopParams($sop_config, $sop_respondent->getId());
+
+        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', $arr);
+    }
+
+    public function getSopParams($sop_config, $app_mid)
+    {
         $sop_params = array (
             'app_id' => $sop_config['auth']['app_id'],
-            'app_mid' => $sop_respondent->getId(),
+            'app_mid' => $app_mid,
             'time' => time()
         );
         $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
@@ -72,9 +104,6 @@ class SurveyController extends Controller
 
         $arr['sop_point'] = $sop_config['point']['profile'];
 
-        // for preview mode
-        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
-
-        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', $arr);
+        return $arr;
     }
 }

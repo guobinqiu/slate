@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -42,7 +42,7 @@
 		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
 		<div class="survey">
 			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
-			{# {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', {'sop_params': sop_params, 'preview': preview} ) }} #}
+			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 			<ul id="surveyList">
 				<li>
 					<div class="survey-item">
@@ -130,7 +130,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
