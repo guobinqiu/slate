@@ -496,8 +496,11 @@ parameters:
         '5': "研究生，博士毕业"
 
     ssi_project_survey:
-      title: "SSI海外调查"
-      point: 180
+        title: "SSI海外调查"
+        point: 180
+
+    ssi_project_survey_code:
+        api_key: dummy
 
 #SOP
     sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com

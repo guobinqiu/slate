@@ -2,14 +2,15 @@
 
 namespace Wenwen\AppBundle\Command;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use VendorIntegration\SSI\PC1\WebService\StatClient;
 
 class SsiPointRewardCommand extends ContainerAwareCommand
 {
@@ -30,8 +31,50 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $env = $this->getContainer()->get('kernel')->getEnvironment();
         $date = $input->getOption('date');
         $definitive = $input->hasOption('definitive');
-
         $this->setLogger($this->getName());
+
+        $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code'));
+        $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
+        $iterator->initialize($client, $date);
+
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $dbh = $em->getConnection();
+        $dbh->beginTransaction();
+
+        $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
+        try {
+            while ($row = $iterator->nextConversion()) {
+                $ssiRespondentId = self::parseSsiRespondentId($row['sub_id_5']);
+                $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
+                if (!$ssiRespondent) {
+                    $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
+                    continue;
+                }
+
+                $userId = $ssiRespondent->getUserId();
+                $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
+                if (!$ssiRespondent) {
+                    $this->logger->info("User (Id: $userId) not found.");
+                    continue;
+                }
+                $this->getContainer()->get('points_manager')->updatePoints(
+                    $user->getId(),
+                    $ssiProjectConfig['point'],
+                    \Jili\ApiBundle\Entity\AdCategory::ID_QUESTIONNAIRE_COST,
+                    \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_SURVEY,
+                    sprintf('%s (%s)', $ssiProjectConfig['title'], $date)
+                );
+            }
+        } catch (\Exception $e) {
+            $dbh->rollBack();
+            throw $e;
+        }
+
+        if ($definitive) {
+            $dbh->commit();
+        } else {
+            $dbh->rollBack();
+        }
     }
 
     protected function setLogger($domain)
@@ -48,5 +91,14 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $logger = new Logger('command');
         $logger->pushHandler($stream, Logger::INFO);
         $this->logger = $logger;
+    }
+
+    public static function parseSsiRespondentId($sub_id_5)
+    {
+        if (preg_match('/\Awwcn-(\d+)\z/', $sub_id_5, $matches)) {
+            return $matches[1];
+        }
+
+        return;
     }
 }

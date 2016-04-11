@@ -1,3 +1,5 @@
 services:
     sop_api.client:
         class: Wenwen\AppBundle\Services\SopHttpfulClient
+    ssi_api.conversion_report_iterator:
+        class: Wenwen\AppBundle\Services\SsiConversionReportIterator
