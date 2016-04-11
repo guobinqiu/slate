@@ -397,6 +397,78 @@ class ProfileControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
     }
+
+    public function testWithdrawAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_profile_withdraw');
+
+        $session = $container->get('session');
+        $session->remove('uid');
+        $session->save();
+
+        //don't login
+        $post_data = array ();
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
+
+        //set login id
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_withdraw@d8aspring.com');
+        $id = $user->getId();
+        $session = $container->get('session');
+        $session->set('uid', $id);
+        $session->save();
+
+        // csrf not valiad
+        $post_data = array ();
+        $post_data['csrf_token'] = 123;
+
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
+
+        //set csrf token
+        $csrfProvider = new DefaultCsrfProvider('SECRET');
+        $csrf_token = $csrfProvider->generateCsrfToken('profile');
+        $session = $container->get('session');
+        $session->set('csrf_token', $csrf_token);
+        $session->save();
+        $this->assertTrue($session->has('csrf_token'));
+
+        $post_data = array ();
+        $post_data['reason'] = array (
+            '问卷的内容太难了',
+            '问卷调查活动的数量太少了'
+        );
+        $post_data['csrf_token'] = $csrf_token;
+
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $return = $client->getResponse()->getContent();
+        $return = json_decode($return, true);
+
+        var_dump($return);
+        $this->assertEquals(1, $return['status']);
+
+        //check db
+        $em = $this->em;
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_withdraw@d8aspring.com');
+        $this->assertEmpty($user);
+        $em = $this->em;
+        $user_delete = $this->em->getRepository('WenwenAppBundle:UserDeleted')->findOneByUserId($id);
+        $this->assertNotEmpty($user_delete);
+    }
+
+    public function testWithdrawFinishAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_profile_withdraw_finish');
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
 }
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -436,6 +508,14 @@ class ProfileControllerTestFixture extends AbstractFixture implements ContainerA
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick('test');
         $user->setEmail('test_edit@d8aspring.com');
+        $user->setIsEmailConfirmed(1);
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test');
+        $user->setEmail('test_withdraw@d8aspring.com');
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
         $manager->persist($user);

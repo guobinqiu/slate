@@ -87,7 +87,7 @@ class ProfileController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            $user->setPasswordChoice( \Jili\ApiBundle\Entity\User::PWD_JILI);
+            $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
             $user->setPwd($pwd);
             $em->flush();
 
@@ -384,6 +384,12 @@ class ProfileController extends Controller
             $logout_service = $this->get('user_logout');
             $logout_service->logout($request);
             $result['status'] = 1;
+        } else {
+            //todo
+            $result['message'] = '注销失败';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
         }
 
         $resp = new Response(json_encode($result));
@@ -394,10 +400,9 @@ class ProfileController extends Controller
 
     /**
      * @Route("/withdrawFinish", name="_profile_withdraw_finish", options={"expose"=true})
-     * @Method("POST")
      */
     public function withdrawFinishAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
     }
 }

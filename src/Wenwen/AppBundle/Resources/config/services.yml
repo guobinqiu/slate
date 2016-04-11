@@ -2,7 +2,7 @@ services:
     sop_api.client:
         class: Wenwen\AppBundle\Services\SopHttpfulClient
     withdraw_handler:
-        class: WenWen\AppBundle\Services\WithdrawHandler
+        class: Wenwen\AppBundle\Services\WithdrawHandler
         calls:
             - [ setLogger, [ @logger ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
