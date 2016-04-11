@@ -158,52 +158,6 @@
  		}
  	}
 }
-.survey-recomend{
-	h2{
-		line-height: 75px;
-		color: #333;
-		font-size: 14px;
-		font-weight: bold;
-		span{
-			padding-bottom: 6px;
-			font-size: 30px;
-		    font-weight: normal;
-		    color: #757575;
-		    margin-top: 30px;
-		}
-	}
-	table{
-		width: 100%;
-	}
-	td{
-		color: #a1a1a1;
-		height: 40px;
-		line-height: 40px;
-		p{
-			width: 290px;
-			color: #333;
-			font-size: 14px;
-			@include ell();
-		}
-		a{
-			width: 67px;
-			text-align: center;
-			height: 24px;
-			line-height: 24px;
-			color: #495361;
-			background: #edeff2;
-			border: 1px solid #dde0e6;
-			border-radius: 3px;
-			@include dib();
-		}
-		&.first{
-			width: 45%;
-		}
-		&.last{
-			text-align: right;
-		}
-	}
-}
 .exchange-dynamics{
 	padding: 10px 20px;
 	line-height: 24px;
