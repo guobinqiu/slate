@@ -21,5 +21,7 @@ class DateUtilTest extends\PHPUnit_Framework_TestCase
     public function testConvertTimeZone()
     {
         $this->assertEquals('2016-01-15 11:00:00', DateUtil::convertTimeZone('2016-01-15 12:00:00', 'Asia/Tokyo', 'Asia/Shanghai'));
+        $this->assertEquals('2016-01-15 12:00:00', DateUtil::convertTimeZone('2016-01-15 12:00:00', 'Asia/Tokyo', 'Asia/Tokyo'));
+        $this->assertEquals('2016-01-15 13:00:00', DateUtil::convertTimeZone('2016-01-15 12:00:00', 'Asia/Shanghai', 'Asia/Tokyo'));
     }
 }
