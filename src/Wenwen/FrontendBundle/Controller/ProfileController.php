@@ -87,6 +87,7 @@ class ProfileController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user->setOriginFlag(\Jili\ApiBundle\Entity\User::ORIGIN_FLAG_NEW);
             $user->setPwd($pwd);
             $em->flush();
 
@@ -159,8 +160,7 @@ class ProfileController extends Controller
     {
         //没有登录
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_edit'));
-
+            $request->getSession()->set('referer', $this->generateUrl('_profile_edit'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -247,7 +247,11 @@ class ProfileController extends Controller
             } else {
                 $user->setSex(null);
             }
-            $user->setPersonalDes($params['personalDes']);
+            if (isset($params['personalDes'])) {
+                $user->setPersonalDes($params['personalDes']);
+            } else {
+                $user->setPersonalDes(null);
+            }
             $user->setFavMusic($params['favMusic']);
             $user->setMonthlyWish($params['monthlyWish']);
 

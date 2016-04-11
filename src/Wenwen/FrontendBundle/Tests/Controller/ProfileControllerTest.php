@@ -165,7 +165,8 @@ class ProfileControllerTest extends WebTestCase
         $controller = new ProfileController();
         $controller->setContainer($container);
 
-        $id = 1;
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_1@d8aspring.com');
+        $id = $user->getId();
 
         $curPwd = '';
         $pwd = '';
@@ -212,7 +213,8 @@ class ProfileControllerTest extends WebTestCase
         $this->assertFalse($return);
 
         // 旧密码不正确, UserWenwenLogin不存在, wenwen密码
-        $id = 3;
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_3@d8aspring.com');
+        $id = $user->getId();
         $curPwd = '123456';
         $pwd = '22222a';
         $pwdRepeat = '22222a';
@@ -220,7 +222,8 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('旧密码不正确', $return);
 
         // 旧密码不正确, UserWenwenLogin存在, wenwen密码不正确
-        $id = 2;
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_2@d8aspring.com');
+        $id = $user->getId();
         $curPwd = '123456';
         $pwd = '22222a';
         $pwdRepeat = '22222a';
@@ -245,13 +248,9 @@ class ProfileControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $url_logout = $container->get('router')->generate('_user_logout' , array(), true);
-        $crawler = $client->request('GET', $url_logout ) ;
 
-        echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
-        print_r( $container->get('session')->get('uid'));
-
-        $client->request('GET', '/profile/edit');
+        $url = $container->get('router')->generate('_profile_edit', array (), true);
+        $client->request('GET', $url);
         $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
     }
 
@@ -268,16 +267,14 @@ class ProfileControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_login', array (), true);
         $client->request('POST', $url, array (
-            'email' => 'test@ec-navi.com.cn',
-            'pwd' => '111111',
+            'email' => 'test_edit@d8aspring.com',
+            'pwd' => '123qwe',
             'remember_me' => '1'
         ));
         $client->followRedirect();
 
-        $url = $container->get('router')->generate('_profile_edit');
+        $url = $container->get('router')->generate('_profile_edit', array (), true);
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $form = $crawler->filter('form[name=profileForm]')->form();
@@ -294,7 +291,7 @@ class ProfileControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->em->clear();
-        $user = $this->em->getRepository('JiliApiBundle:User')->find(1);
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_edit@d8aspring.com');
         $this->assertEquals('nick', $user->getNick());
         $this->assertEquals(null, $user->getSex(), 'if user don\'t choose sex,will be set null');
 
@@ -330,7 +327,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $this->em->clear();
-        $user = $this->em->getRepository('JiliApiBundle:User')->find(1);
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_edit@d8aspring.com');
 
         $value = $form->getValues();
 
@@ -435,5 +432,13 @@ class ProfileControllerTestFixture extends AbstractFixture implements ContainerA
         $file = $fixture_dir . DIRECTORY_SEPARATOR . 'profile.sql';
         $r = $manager->getConnection()->query(file_get_contents($file));
         $r->closeCursor();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test');
+        $user->setEmail('test_edit@d8aspring.com');
+        $user->setIsEmailConfirmed(1);
+        $user->setPwd('123qwe');
+        $manager->persist($user);
+        $manager->flush();
     }
 }
