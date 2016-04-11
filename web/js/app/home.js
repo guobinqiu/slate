@@ -13,33 +13,6 @@ require(['../config'],function(){
     //});
     require(['countdown']);
     require(['jquery', 'jqueryCookie'], function($){
-        // //读取cookie
-        // var res = document.cookie.substring(5,10);
-        // //如果没有cookie执行以下操作
-        // //新手引导部分
-        // if(res!="guide"){
-        //     var omar = $('.main-con').height() + 385;
-        //     $('#newguideWrap').css('margin-top','-'+ omar +'px')
-        //     $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
-        //     $('#newguideWrap a.ngbtn').click(function(){
-        //         var current = $(this).parent().parent();
-        //         current.hide();
-        //         current.next().show();
-        //     });
-
-        //     $(document.body).click(function(event){
-        //         var target = $(event.target);
-        //         if(target.is('.ngbtn1, .ngbtn2')){ return false; }
-        //         $('#mask, #newguideWrap').hide();
-        //     });
-        //     //添加cookie
-        //     var oDate = new Date();
-        //     oDate.setDate(oDate.getDate() + 10000);
-        //     document.cookie="name=guide;expires=" + oDate;
-        // }
-
-
-
         //新手引导部分
         function shouldShow(){
             var vp  = $.cookie('ShoudShowDialog92');
@@ -100,12 +73,20 @@ require(['../config'],function(){
             });
         };
 
-        var renderResearchItems = function (items) {
-            _.each(items, function (item) {
-                var model = new survey.ResearchItemModel(item);
-                var view  = new survey.ResearchItemView({ model: model });
+        var renderResearchItems = function (items, num) {
+            if(num == 1){
+                var model = new survey.FulcrumResearchItemModel(items[0]);
+                var view  = new survey.FulcrumResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
-            });
+            }else{
+                _.each(items, function (item, index) {
+                    if(index <= 1){
+                        var model = new survey.ResearchItemModel(item);
+                        var view  = new survey.ResearchItemView({ model: model });
+                        addSuveyItem(view.render().el);
+                    }
+                });
+            }
         };
 
         var renderFulcrumUserAgreementItems = function (items) {
@@ -120,12 +101,18 @@ require(['../config'],function(){
             });
         };
 
-        var renderFulcrumResearchItems = function (items) {
-            _.each(items, function (item) {
-                var model = new survey.FulcrumResearchItemModel(item);
+        var renderFulcrumResearchItems = function (items, num) {
+            if(num == 1){
+                var model = new survey.FulcrumResearchItemModel(items[0]);
                 var view  = new survey.FulcrumResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
-            });
+            }else{
+                _.each(items, function (item) {
+                    var model = new survey.FulcrumResearchItemModel(item);
+                    var view  = new survey.FulcrumResearchItemView({ model: model });
+                    addSuveyItem(view.render().el);
+                });
+            }
         };
 
         var renderCintUserAgreementItems = function (items) {
@@ -140,42 +127,136 @@ require(['../config'],function(){
             });
         };
 
-        var renderCintResearchItems = function (items) {
-            _.each(items, function (item) {
-                var model = new survey.CintResearchItemModel(item);
+        var renderCintResearchItems = function (items, num) {
+            if(num == 1){
+                var model = new survey.CintResearchItemModel(items[0]);
                 var view  = new survey.CintResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
-            });
+            }else{
+                _.each(items, function (item) {
+                    var model = new survey.CintResearchItemModel(item);
+                    var view  = new survey.CintResearchItemView({ model: model });
+                    addSuveyItem(view.render().el);
+                });
+            }
         };
+        var showSurveyOther1 = function(res){
+            if(res.data.cint_research.length != 0){
+                renderCintResearchItems(res.data.cint_research, 1);
+            }else if(res.data.fulcrum_research.length != 0){
+                renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+            }else if(parseInt(ssiSurveyLen) != 0){
+                console.log('显示ssi问卷');
+            }else{
+                $('#surveyHome').hide();
+            }
+        }
+
+        var showSurveyOther2 = function(res){
+            if(res.data.cint_research.length >= 2){
+                renderCintResearchItems(res.data.cint_research, 2);
+                return;
+            }else if(res.data.cint_research.length == 1){
+                renderCintResearchItems(res.data.cint_research, 1);
+                if(res.data.fulcrum_research.length != 0){
+                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                }else if(parseInt(ssiSurveyLen) != 0){
+                    console.log('显示一条ssi问卷');
+                }
+                return;
+            }else{
+                if(res.data.fulcrum_research.length >= 2){
+                    renderFulcrumResearchItems(res.data.fulcrum_research, 2);
+                }else if(res.data.fulcrum_research.length == 1){
+                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                    if(parseInt(ssiSurveyLen) != 0){
+                        console.log('显示一条ssi问卷');
+                    }
+                }else{
+                    if(parseInt(ssiSurveyLen) >= 2){
+                        console.log('显示两条ssi问卷');
+                    }else{
+                        console.log('木有问卷！');
+                    }
+                }
+            } 
+        }
+
+        var showSurvey = function(res, curNum){
+            switch(res.data.user_agreement.length){
+                case 0: 
+                    var ssiAgreeLen = $('#UserAgreementSSILen').val();
+                    if(parseInt(ssiAgreeLen) == 1){
+                        console.log('显示ssi同意问卷');
+                        if(res.data.cint_research.length != 0){
+                            renderCintResearchItems(res.data.cint_research, 1);
+                        }else if(res.data.fulcrum_research.length != 0){
+                            renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                        }
+                    }else{
+                        var ssiSurveyLen = $('#SurveySSILen').val();
+                        if(curNum == 1){
+                            showSurveyOther1(res);    
+                        }else if(curNum == 0){
+                            showSurveyOther2(res);    
+                        }                        
+                    }
+                    break;
+                case 1: 
+                    if(res.data.user_agreement[0].type == 'Cint'){
+                        renderCintUserAgreementItems(res.data.user_agreement);
+                        if(curNum == 0){
+                            renderFulcrumResearchItems(res.data.fulcrum_research, 1);   
+                        }  
+                    }else if(res.data.user_agreement[0].type == 'Fulcrum'){
+                        renderFulcrumUserAgreementItems(res.data.user_agreement);
+                        if(curNum == 0){
+                            renderCintResearchItems(res.data.cint_research, 1);  
+                        }
+                    }
+                    break;
+                case 2: 
+                    renderCintUserAgreementItems(res.data.user_agreement);
+                    break;
+                default: break;
+            }
+        }
 
         surveylistCallback = function (res) {
 
             // return if error code
-            if (res.meta.code != '200')  return;
+            if (res.meta.code != '200'){
+                if($('#surveyList').children().length == 0) $('#surveyHome').hide();
+                return;
+            }  
 
             // return if no data
-            if( res.data.profiling.length == 0 && res.data.research.length == 0 ) return;
+            if( res.data.profiling.length == 0 && res.data.research.length == 0 ) {
+                if($('#surveyList').children().length == 0) $('#surveyHome').hide();
+                return;
+            }
 
-            // remove no survey label
-            $('#surveyList li.no-survey-available').remove();
-
-            // load research data
-            renderResearchItems(res.data.research.reverse());
-
-            // load profiling data
-            renderProfilingItems(res.data.profiling);
-
-            // load Fulcrum research data
-            renderFulcrumResearchItems(res.data.fulcrum_research);
-
-            // load Fulcrum user agreemetns
-            renderFulcrumUserAgreementItems(res.data.user_agreement);
-
-            // load Cint research data
-            renderCintResearchItems(res.data.cint_research);
-
-            // load Cint usr agreemetns
-            renderCintUserAgreementItems(res.data.user_agreement);
+            if( res.data.research.length >= 2 ){
+                renderResearchItems(res.data.research.reverse(), 2);
+            }else{
+                if( res.data.research.length == 1){
+                    if(res.data.profiling.length == 1){
+                        renderResearchItems(res.data.research.reverse(), 1);
+                        renderProfilingItems(res.data.profiling);
+                        return;
+                    }else{
+                        renderResearchItems(res.data.research.reverse(), 1);
+                        showSurvey(res, 1);
+                    }
+                }else{
+                    if(res.data.profiling.length == 1){
+                        renderProfilingItems(res.data.profiling);
+                        showSurvey(res, 1);
+                    }else{
+                        showSurvey(res, 0);
+                    }
+                }
+            }
         };
 
         $.ajax({
@@ -193,11 +274,11 @@ require(['../config'],function(){
                         'meta' : {'code': '200' },
                         'data' : {
                            "profiling": [
-                               {
-                                   "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-                                   "name": "q004",
-                                   "title": "profiling"
-                               }
+                                   {
+                                       "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                                       "name": "q004",
+                                       "title": "profiling"
+                                   }
                             ],
                            "research": [
                                {
@@ -226,14 +307,6 @@ require(['../config'],function(){
                                }
                             ],
                            'user_agreement':[
-                                {
-                                   "type": "Fulcrum",
-                                   "url": "http://researchpanelasia.com"
-                                },
-                                {
-                                   "type": "Cint",
-                                   "url": "http://www.d8aspring.com"
-                                }
                             ],
                            'fulcrum_research':[
                                 {
@@ -297,7 +370,7 @@ require(['../config'],function(){
         }
         // preview
         var $preview = $('#preview').val();
-        if ($preview){
+        if (1){
             mockResponse();
         }
     });  

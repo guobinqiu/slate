@@ -15,38 +15,18 @@
 		<img src="{{ asset('img/home/sliderImg0.jpg') }}" alt="">
 	</div>
 </div>
-<!-- <div class="main-slider-wrapper color0">
-	<div class="main-slider w1000">
-		<div class="mask">
-			<ul>
-				<li><a href=""><img src="{{ asset('img/temp/sliderImg01.jpg') }}" alt=""></a></li>
-				<li><a href=""><img src="{{ asset('img/temp/sliderImg02.jpg') }}" alt=""></a></li>
-				<li><a href=""><img src="{{ asset('img/temp/sliderImg03.jpg') }}" alt=""></a></li>
-				<li><a href=""><img src="{{ asset('img/temp/sliderImg04.jpg') }}" alt=""></a></li>
-			</ul>
-		</div>
-		<span class="arrowL"></span>
-		<span class="arrowR"></span>
-		<div class="btn-group">
-			<b class="active"></b>
-			<b></b>
-			<b></b>
-			<b></b>
-		</div>
-	</div>
-</div> -->
 {{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}
 <div class="main-con w1000 clearfix">
 	<div class="main-con-left left">
 		{# 1. 首页问卷默认显示两条 #}
 		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
-		<div class="survey">
+		<div class="survey" id="surveyHome">
 			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
 			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<ul id="surveyList">
-			
+			<ul id="surveyList">	
 			</ul>
-			
+			<input type="hidden" id="UserAgreementSSILen" value="0">
+			<input type="hidden" id="SurveySSILen" value="1">
 		</div>
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
