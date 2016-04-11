@@ -57,7 +57,6 @@ class UserRepositoryTest extends KernelTestCase
             $loader = new Loader();
             $loader->addFixture($fixture);
             $executor->execute($loader->getFixtures());
-
         }
 
         $this->container = $container;
