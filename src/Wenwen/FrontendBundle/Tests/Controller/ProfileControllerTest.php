@@ -283,7 +283,7 @@ class ProfileControllerTest extends WebTestCase
         $form['profile[nick]'] = 'aaaa';
         $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        //$this->assertTrue($crawler->filter('html:contains("用户昵称已经存在")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("用户昵称已经存在")')->count() > 0);
 
         $form['profile[nick]'] = 'nick';
         $crawler = $client->submit($form);
