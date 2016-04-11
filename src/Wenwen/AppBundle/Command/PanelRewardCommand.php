@@ -203,8 +203,9 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
         $log_dir .= '/' . $domain . '/' . date('Ym/');
+
         $fs = new Filesystem();
-        if (true !== $fs->exists($log_dir)) {
+        if (!$fs->exists($log_dir)) {
             $fs->mkdir($log_dir);
         }
         $log_path = $log_dir . date('d') . '.log';
