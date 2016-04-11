@@ -36,8 +36,8 @@ body {
 .main-con-right {
   width: 23%; }
   .main-con-right h2 {
-    padding: 13px 15px 0;
-    line-height: 50px;
+    padding: 0 15px;
+    line-height: 35px;
     color: #000;
     font-size: 14px;
     font-weight: bold;
@@ -288,9 +288,9 @@ body {
     height: 12px;
     vertical-align: -2px;
     display: inline-block;
-    background: url(/img/common/icons_common.png) no-repeat 0 -69px; }
+    background: url(../img/common/icons_common.png) no-repeat 0 -69px; }
     .crumbs .home:hover {
-      background: url(/img/common/icons_common.png) no-repeat 0 -85px; }
+      background: url(../img/common/icons_common.png) no-repeat 0 -85px; }
   .crumbs em {
     font-family: simsun; }
   .crumbs, .crumbs a {

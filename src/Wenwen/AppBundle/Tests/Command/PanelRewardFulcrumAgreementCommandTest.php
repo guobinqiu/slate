@@ -9,9 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-
-use Wenwen\AppBundle\DataFixtures\ORM\LoadRewardFulcrumCommandData;
-
 use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 use Wenwen\AppBundle\Command\PanelRewardFulcrumAgreementCommand;
 
@@ -41,7 +38,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
         // load fixtures
-        $fixture = new LoadRewardFulcrumCommandData();
+        $fixture = new PanelRewardFulcrumAgreementCommandTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
@@ -76,7 +73,8 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $sop_respondent = LoadRewardFulcrumCommandData::$SOP_RESPONDENT[0];
+        $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $sop_respondent = $respondents[0];
         $app_mid = $sop_respondent->getId();
 
         // data
@@ -102,7 +100,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         try {
             $data = $commandTester->execute($commandParam);
         } catch (\Exception $e) {
-            $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
+            $this->assertContains('No SopRespondent for', $e->getMessage());
         }
 
         // assert rollbacked
@@ -126,12 +124,14 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
+        $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $app0_mid = $respondents[0]->getId();
+        $app1_mid = $respondents[1]->getId();
 
-        $app0_mid =  LoadRewardFulcrumCommandData::$SOP_RESPONDENT[0]->getId();
-        $app1_mid =  LoadRewardFulcrumCommandData::$SOP_RESPONDENT[1]->getId();
+        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $user0_id = $users[0]->getId();
+        $user1_id = $users[1]->getId();
 
-        $user0_id =  LoadRewardFulcrumCommandData::$USERS[0]->getId();
-        $user1_id =  LoadRewardFulcrumCommandData::$USERS[1]->getId();
         // data
         $header = array('app_id', 'app_mid', 'agreement_status', 'answered_at');
         $rec1   = array('1',$app0_mid,'ACTIVE','2015-09-20 00:00:00');
@@ -211,8 +211,55 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $this->assertEquals(12, $user_updated[0]['points'], '1+ 11');
         $this->assertEquals(24, $user_updated[1]['points'], '0 + 23, 拒绝了也会加1分的');
     }
-
-
 }
 
-?>
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\SopRespondent;
+
+class PanelRewardFulcrumAgreementCommandTestFixture implements FixtureInterface
+{
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setNick('aaa');
+        $user->setEmail('rpa-sys+aaa@d8aspring.com');
+        $user->setPoints(11);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterDate(new \DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
+        $sop_respondent = new SopRespondent();
+        $sop_respondent->setUserId($user->getId());
+        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
+        $manager->persist($sop_respondent);
+        $manager->flush();
+
+        //load data for testing .
+        $user = new User();
+        $user->setNick('bbb');
+        $user->setEmail('rpa-sys+aaab@d8aspring.com');
+        $user->setPoints(23);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterDate(new \DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
+        //inactive
+        $sop_respondent = new SopRespondent();
+        $sop_respondent->setUserId($user->getId());
+        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
+        $manager->persist($sop_respondent);
+        $manager->flush();
+    }
+}

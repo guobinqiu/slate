@@ -390,7 +390,7 @@ parameters:
             SUCCESS_DUPLICATED: 0 #0 表示推送成功 但订单已存在。
             FAILED: -1            #-1 表示推送失败
 
-    jili_app.logs_dir: /data/91jili/logs
+    jili_app.logs_dir: %kernel.logs_dir%/data/91jili/logs
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
     vote_suggest_mail_to: %wenwen_support_email_address%
 
@@ -495,6 +495,10 @@ parameters:
         '4': "大学本科毕业"
         '5': "研究生，博士毕业"
 
+    ssi_project_survey:
+      title: "SSI海外调查"
+      point: 180
+
 #SOP
     sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com
     sop:
@@ -511,6 +515,7 @@ parameters:
         api_v1_1_fulcrum_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/research/participation_history
         api_v1_1_fulcrum_user_agreement_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/user_agreement/participation_history
         api_v1_1_cint_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/cint/surveys/research/participation_history
+        api_v1_1_surveys_research_additional_incentive: https://%sop_console_host%/api/v1_1/surveys/research/additional_incentive
         sop_point_type:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)

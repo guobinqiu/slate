@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\DataFixtures\ORM\LoadPanelRewardSopPointCommandData;
 use Wenwen\AppBundle\Command\PanelRewardCintPointCommand;
 use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 
@@ -18,7 +17,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_responednt;
+    private $sop_respondent;
 
     /**
      * {@inheritDoc}
@@ -40,14 +39,14 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $executor->purge();
 
         // load fixtures
-        $fixture = new LoadPanelRewardSopPointCommandData();
+        $fixture = new PanelRewardCintPointCommandTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_responednt = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
+        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -62,6 +61,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-cint_point
+     * @group fix-test-static
      */
     public function testExecuteInvalidAppMid()
     {
@@ -70,7 +70,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         // data
         $header = array (
@@ -169,6 +169,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
     /**
      * @group dev-merge-ui-cint_point
+     * @group fix-test-static
      */
     public function testUpdateTable()
     {
@@ -176,8 +177,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $sop_respondents = LoadPanelRewardSopPointCommandData::$SOP_RESPONEDNT;
-        $app_mid = $this->sop_responednt[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getId();
 
         // data
         $header = array (
@@ -301,5 +301,52 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
+    }
+}
+
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\SopRespondent;
+
+class PanelRewardCintPointCommandTestFixture implements FixtureInterface
+{
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        $user = new User();
+        $user->setNick('bb');
+        $user->setEmail('test@d8aspring.com');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $r = new SopRespondent();
+        $r->setUserId($user->getId());
+        $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $manager->persist($r);
+        $manager->flush();
+
+        $user = new User();
+        $user->setNick('cc');
+        $user->setEmail('test2@d8aspring.com');
+        $user->setPoints(200);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $r = new SopRespondent();
+        $r->setUserId($user->getId());
+        $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $manager->persist($r);
+        $manager->flush();
     }
 }

@@ -169,8 +169,10 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     throw new \Exception($key . ' not exist', 1);
                 }
                 if ($key == 'extra_info') {
-                    if (!isset($rec[$key]['point']) || !isset($rec[$key]['point_type'])) {
-                        throw new \Exception('extra_info elements not exist', 1);
+                    foreach ($this->extraInfoKeys() as $extra_info_key) {
+                        if (!isset($rec['extra_info'][$extra_info_key])) {
+                            throw new Exception("extra_info.$extra_info_key not exist", 1);
+                        }
                     }
                 }
             }
@@ -179,6 +181,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     }
 
     abstract protected function point($history);
+
+    protected function extraInfoKeys()
+    {
+        return array (
+            'point',
+            'point_type'
+        );
+    }
 
     abstract protected function type($history);
 
@@ -203,8 +213,9 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
         $log_dir .= '/' . $domain . '/' . date('Ym/');
+
         $fs = new Filesystem();
-        if (true !== $fs->exists($log_dir)) {
+        if (!$fs->exists($log_dir)) {
             $fs->mkdir($log_dir);
         }
         $log_path = $log_dir . date('d') . '.log';

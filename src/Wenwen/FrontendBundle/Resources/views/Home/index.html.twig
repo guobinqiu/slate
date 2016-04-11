@@ -3,6 +3,8 @@
 
 {% block stylesheet %}
 	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/component/quickLog.css') }} " rel="stylesheet" type="text/css">
+
 {% endblock %}
 
 {% block header %}
@@ -25,7 +27,6 @@
 					<ul>
 						<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
 						<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-						<li class="remember"><input id="remember_me" name="remember_me" type="checkbox" value="1" checked>记住我</li>
 					</ul>
 					{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
 					<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
@@ -33,16 +34,40 @@
 					{% if code %}
             		<input type="hidden" id="error_code" class="error" value="{{ code }}">
        				{% endif %}
-					<div class="login-btn" id="submit_button" tabindex="0">登录</div>
+					<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
 					</form>
 					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
 					<div class="login-btn-others">
-						<span><a href="{{ path('weibo_api_login') }}">微博登录</a><a href="{{ path('qq_api_login') }}" class="qq-login">QQ登录</a></span>
+						<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="introBg"></div>
+	</div>
+</div>
+<div class="quickLogWrap w1000">
+	<div class="quickLogPop" id="wbLogCon" style="display: none;">
+		<div class="quickLCon">
+			<div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
+			<div class="wbText">
+				<p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
+				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+			</div>
+			<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
+		</div>
+	</div>
+</div>
+<div class="quickLogWrap w1000">
+	<div class="quickLogPop" id="qqLogCon" style="display: none;">
+		<div class="quickLCon">
+			<div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
+			<div class="wbText">
+				<p class="l1">QQ登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用QQ快捷登录，您将无法正常登录哟！</p>
+				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+			</div>
+			<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('qq_api_login') }}" class="continueBtn">继续</a></div>
+		</div>
 	</div>
 </div>
 <div class="main-con-process">

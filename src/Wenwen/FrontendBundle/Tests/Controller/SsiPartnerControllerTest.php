@@ -78,7 +78,7 @@ class SsiPartnerControllerTest extends WebTestCase
 
         //login
         $this->login($client);
-        $this->assertEquals(1, $client->getContainer()->get('session')->get('uid'));
+        $this->assertEquals($user_id, $client->getContainer()->get('session')->get('uid'));
 
         //status: login, will show permission page
         $crawler = $client->request('GET', $url);

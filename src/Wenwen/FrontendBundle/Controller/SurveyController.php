@@ -13,7 +13,6 @@ use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
  */
 class SurveyController extends Controller
 {
-
     /**
      * @Route("/index", name="_survey_index")
      * @Template
@@ -94,12 +93,12 @@ class SurveyController extends Controller
 
         $arr['sop_params'] = $sop_params;
 
-        $arr['sop_api_url'] = 'https://' . $sop_config['host'] . '/api/v1_1/surveys/js?' . http_build_query(array (
+        $arr['sop_api_url'] = 'https://'.$sop_config['host'].'/api/v1_1/surveys/js?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
             'time' => $sop_params['time'],
-            'sop_callback' => 'surveylistCallback'
+            'sop_callback' => 'surveylistCallback',
         ));
 
         $arr['sop_point'] = $sop_config['point']['profile'];

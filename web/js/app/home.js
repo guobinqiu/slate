@@ -14,6 +14,14 @@ require(['../config'],function(){
     require(['countdown']);
     require(['jquery', 'jqueryCookie'], function($){
         //新手引导部分
+        if(res!="guide"){
+            var omar = $('.main-con').height() + 385;
+            $('#newguideWrap').css('margin-top','-'+ omar +'px');
+            $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
+            $('#newguideWrap a.ngbtn').click(function(){
+                var current = $(this).parent().parent();
+                current.hide();
+                current.next().show();
         function shouldShow(){
             var vp  = $.cookie('ShoudShowDialog92');
             if (vp == undefined || vp == 1) {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .w1000 {
   width: 1000px;
   margin: 0 auto; }
@@ -36,8 +37,8 @@ body {
 .main-con-right {
   width: 23%; }
   .main-con-right h2 {
-    padding: 13px 15px 0;
-    line-height: 50px;
+    padding: 0 15px;
+    line-height: 35px;
     color: #000;
     font-size: 14px;
     font-weight: bold;
@@ -312,10 +313,6 @@ body {
     margin-bottom: 20px;
     position: relative;
     z-index: 1; }
-    .login li.remember {
-      font-size: 14px;
-      height: 24px;
-      line-height: 24px; }
     .login li img {
       vertical-align: middle; }
     .login li span {
@@ -355,8 +352,8 @@ body {
         color: #c80000;
         background: #fff;
         font-size: 12px;
-        height: 32px;
-        line-height: 32px;
+        height: 35px;
+        line-height: 35px;
         padding: 0 10px;
         border: 1px solid #c80000;
         border-radius: 3px;
@@ -376,8 +373,8 @@ body {
       vertical-align: middle; }
     .login li input[type="text"], .login li input[type="password"] {
       width: 252px;
-      height: 32px;
-      line-height: 30px;
+      height: 36px;
+      line-height: 34px;
       padding: 0 5px;
       color: #555;
       font-size: 14px;
@@ -399,16 +396,17 @@ body {
     .login li input[type="checkbox"] {
       vertical-align: middle; }
   .login .login-btn {
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
-    height: 40px;
     line-height: 40px;
     color: #fff;
-    font-size: 21px;
+    font-size: 20px;
+    font-family: "微软雅黑";
     background: #1566d6;
     border: 1px solid #1566d6;
     border-radius: 5px;
     text-align: center;
+    display: block;
     cursor: pointer;
     transition: all 0.4s;
     -moz-transition: all 0.4s;
@@ -426,7 +424,7 @@ body {
       .login p a.spec {
         color: #757982; }
   .login .login-btn-others {
-    margin-top: 20px; }
+    margin-top: 40px; }
     .login .login-btn-others span {
       margin-left: -10px; }
     .login .login-btn-others a {
@@ -439,6 +437,7 @@ body {
       color: #a3a3a3;
       font-size: 14px;
       background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
+      cursor: pointer;
       display: inline-block;
       *display: inline;
       *zoom: 1;
@@ -674,8 +673,8 @@ body {
   display: none; }
 
 .fdWrap {
-  width: 100px;
-  height: 147px;
+  width: 130px;
+  height: 115px;
   position: absolute;
   z-index: 1999;
   right: 0;

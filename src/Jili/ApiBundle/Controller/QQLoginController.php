@@ -55,7 +55,7 @@ class QQLoginController extends Controller
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
         }
         //跳转到 qqlogin action
-        return $this->redirect($this->generateUrl('qq_fist_login'));
+        return $this->redirect($this->generateUrl('qq_maintenance'));
     }
 
     /**
@@ -196,4 +196,13 @@ class QQLoginController extends Controller
         $form  = $this->createForm(new QQFirstRegist());
         return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
     }
+
+    /**
+     * @Route("/maintenance", name="qq_maintenance")
+     */
+    public function maintenanceAction()
+    {
+        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
+    }
+
 }
