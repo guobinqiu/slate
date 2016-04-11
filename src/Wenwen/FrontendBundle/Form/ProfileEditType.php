@@ -99,42 +99,14 @@ class ProfileEditType extends AbstractType
             )
         ));
 
-        $builder->add('province', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('city', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('income', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('profession', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('industry_code', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('work_section_code', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('education', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('hobby', 'text', array (
-            'mapped' => false
-        ));
-
-        $builder->add('user_city', 'text', array (
-            'mapped' => false
-        ));
-
+        $builder->add('province', 'text');
+        $builder->add('city', 'text');
+        $builder->add('income', 'text');
+        $builder->add('profession', 'text');
+        $builder->add('industry_code', 'text');
+        $builder->add('work_section_code', 'text');
+        $builder->add('education', 'text');
+        $builder->add('hobby', 'text');
         $builder->add('attachment', 'file', array (
             'required' => false,
             'error_bubbling' => true

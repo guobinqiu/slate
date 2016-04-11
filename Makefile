@@ -28,7 +28,7 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle: create-dir create-config
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
 
 show-setting:
 	@echo "Setting"
