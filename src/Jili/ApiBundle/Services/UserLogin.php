@@ -28,14 +28,22 @@ class UserLogin
      */
     public function login(Request $request)
     {
+        $request_params = $this->getRequestParams($request);
+        return $this->doLogin( $request_params );
+    }
+    
+    /**
+     * @param Request $request
+     * @return array $request_params
+     */
+    public function getRequestParams(Request $request){
         $request_params =  array( 
-            'email'=>$request->request->get('email'),
+            'email'=>trim($request->request->get('email')),
             'pwd'=>$request->request->get('pwd'),
             'client_ip'=>$request->getClientIp(),
             'method'=>$request->getMethod(),
         );
-
-        return $this->doLogin( $request_params );
+        return $request_params;
     }
 
     /**

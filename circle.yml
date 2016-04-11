@@ -3,19 +3,11 @@ machine:
     version: 5.4.37
   timezone:
     Asia/Shanghai
-  services:
-    - mysql
-
-database:
-  override:
-    - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -uubuntu mysql
 
 dependencies:
   override:
     - make circle
 
-
 test:
   override:
-    - echo "skip test"
-
+    - make test

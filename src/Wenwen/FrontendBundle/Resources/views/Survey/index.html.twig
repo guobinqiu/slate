@@ -19,102 +19,6 @@
             {% if  votes|length < 1  %}
                 <li>现在还没有新的问卷调查。</li>
             {% endif %}
-				<li>
-					<div class="survey-item">
-						<div class="title">关于饮用水品牌调查</div>
-						<ul class="con clearfix">
-							<li class="first">
-								<span>问卷编号</span>
-								<p>p168460</p>
-							</li>
-							<li>
-								<span>问卷类型</span>
-								<p>商业问卷</p>
-							</li>
-							<li>
-								<span>回答期限</span>
-								<p>2015-7-12</p>
-							</li>
-							<li class="last">
-								<span>积分数</span>
-								<p><strong>1</strong></p>
-							</li>
-						</ul>
-					</div>
-					<div class="survey-btn"><a href="">可回答</a></div>
-				</li>
-				<li>
-					<div class="survey-item">
-						<div class="title">关于饮用水品牌调查</div>
-						<ul class="con clearfix">
-							<li class="first">
-								<span>问卷编号</span>
-								<p>p168460</p>
-							</li>
-							<li>
-								<span>问卷类型</span>
-								<p>商业问卷</p>
-							</li>
-							<li>
-								<span>回答期限</span>
-								<p>2015-7-12</p>
-							</li>
-							<li class="last">
-								<span>积分数</span>
-								<p><strong>1</strong></p>
-							</li>
-						</ul>
-					</div>
-					<div class="survey-btn"><a href="">可回答</a></div>
-				</li>
-				<li>
-					<div class="survey-item">
-						<div class="title">关于饮用水品牌调查</div>
-						<ul class="con clearfix">
-							<li class="first">
-								<span>问卷编号</span>
-								<p>p168460</p>
-							</li>
-							<li>
-								<span>问卷类型</span>
-								<p>商业问卷</p>
-							</li>
-							<li>
-								<span>回答期限</span>
-								<p>2015-7-12</p>
-							</li>
-							<li class="last">
-								<span>积分数</span>
-								<p><strong>1</strong></p>
-							</li>
-						</ul>
-					</div>
-					<div class="survey-btn"><a href="">可回答</a></div>
-				</li>
-				<li>
-					<div class="survey-item">
-						<div class="title">关于饮用水品牌调查</div>
-						<ul class="con clearfix">
-							<li class="first">
-								<span>问卷编号</span>
-								<p>p168460</p>
-							</li>
-							<li>
-								<span>问卷类型</span>
-								<p>商业问卷</p>
-							</li>
-							<li>
-								<span>回答期限</span>
-								<p>2015-7-12</p>
-							</li>
-							<li class="last">
-								<span>积分数</span>
-								<p><strong>1</strong></p>
-							</li>
-						</ul>
-					</div>
-					<div class="survey-btn"><a href="">可回答</a></div>
-				</li>
 			</ul>
 
             {% set has_tip_displayed = 0 %}
@@ -147,10 +51,10 @@
                             'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
                             'type_label': '商业问卷',
                             'end_date': '--',
-                            'num': 's' + ssi_surveys[0].id,
+                            'num': 's' + ssi_surveys[0].ssiProjectId,
                             'title': ssi_project_config.title,
                             'answered': false,
-                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].id}),
+                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
                             'point': ssi_project_config.point,
                       } ) }}
 
@@ -166,7 +70,7 @@
                         'end_date': vote.endTime | date('Y-m-d'),
                         'num': "v%s"|format(vote.id),
                         'survey_type': 'quick_survey',
-                        'title': vote.title[:10],
+                        'title': vote.title[:35],
                         'answered': false,
                         'url': path('jili_frontend_vote_show',{'id':vote.id}),
                         'answer_status_label': '投票',

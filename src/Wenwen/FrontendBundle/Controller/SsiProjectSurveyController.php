@@ -23,22 +23,22 @@ class SsiProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
         # SSI Respondent is not active
-        if(!$ssi_respondent || !$ssi_respondent->isActive()) {
+        if (!$ssi_respondent || !$ssi_respondent->isActive()) {
             throw $this->createNotFoundException('Respondent is not active');
         }
 
         # Project is not available
-        $ssi_project = SsiProjectRespondentQuery::retrieveSurveyBySsiRespondentIdAndSsiProjectId($em->getConnection(), $ssi_respondent->getId(), $survey_id);
-        if(!$ssi_project || !$ssi_project->isOpen()) {
+        $ssi_survey = SsiProjectRespondentQuery::retrieveSurveyBySsiRespondentIdAndSsiProjectId($em->getConnection(), $ssi_respondent->getId(), $survey_id);
+        if (!$ssi_survey || !$ssi_survey->isOpen()) {
             throw $this->createNotFoundException('Project is not available');
         }
 
         return array(
-          'ssi_project' => $ssi_project,
+          'ssi_survey' => $ssi_survey,
           'ssi_config' => $this->container->getParameter('ssi_project_survey'),
         );
     }
@@ -53,11 +53,11 @@ class SsiProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
         # SSI Respondent is not active
-        if(!$ssi_respondent || !$ssi_respondent->isActive()) {
+        if (!$ssi_respondent || !$ssi_respondent->isActive()) {
             throw $this->createNotFoundException('Respondent is not active');
         }
 

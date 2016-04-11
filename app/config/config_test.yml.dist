@@ -1,7 +1,6 @@
 imports:
     - { resource: config_dev.yml }
 
-
 framework:
     test: ~
     session:
@@ -15,10 +14,9 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
-    spool:
-        type: file
-        path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
 
 doctrine:
     dbal:
-       dbname:   jili_test
+        dbname: jili_test
+        user: root
+        password: null
