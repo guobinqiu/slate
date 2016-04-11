@@ -87,7 +87,7 @@ class ProfileController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            $user->setOriginFlag(\Jili\ApiBundle\Entity\User::ORIGIN_FLAG_NEW);
+            $user->setPasswordChoice( \Jili\ApiBundle\Entity\User::PWD_JILI);
             $user->setPwd($pwd);
             $em->flush();
 
