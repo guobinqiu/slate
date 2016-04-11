@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\Services\LoadUserLoginData;
 
 class UserLoginTest extends KernelTestCase
 {
@@ -40,7 +39,7 @@ class UserLoginTest extends KernelTestCase
         if( $tn=='testDoLogin' ) {
 
             // load fixtures
-            $fixture = new LoadUserLoginData();
+            $fixture = new UserLoginTestFixture();
 
             $loader = new Loader();
             $loader->addFixture($fixture);
@@ -67,6 +66,27 @@ class UserLoginTest extends KernelTestCase
         $this->assertInstanceOf('Jili\\ApiBundle\\Services\\UserLogin',$login_service, 'login listener is instance of  Jili\\ApiBundle\\Services\\UserLogin');
     }
 
+    public function testGetRequestParamsOK()
+    {
+        // Test data
+        $test_email = '   xxx.xxx@xxx.xxx';
+        $test_pwd = 'xxx';
+        
+        // Prepare Request for test
+        $request = Request::createFromGlobals();
+        $request->request->set('email', $test_email);
+        $request->request->set('pwd', $test_pwd);
+        
+        // Call getRequestParams
+        $container = $this->container;
+        $request_params = $container->get('login.listener')
+            ->getRequestParams($request);
+        
+        // Assertion
+        $this->assertEquals(trim($test_email), $request_params['email'],  '"request_params->email is OK.');
+        $this->assertEquals($test_pwd, $request_params['pwd'],  '"request_params->pwd is OK.');
+    }
+    
     public function testDoLogin() 
     {
         $container = $this->container;
@@ -88,9 +108,10 @@ class UserLoginTest extends KernelTestCase
                 'client_ip'=> '127.0.0.1'
             ));
 
+
         $this->assertEquals('ok', $result,  '"ok" for bob login successuflly');
 
-        $user  = LoadUserLoginData::$USERS[1];
+        $user  = UserLoginTestFixture::$USERS[1];
         $em = $this->em;
 
         $user_updated = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=>$user->getId()));
@@ -104,3 +125,78 @@ class UserLoginTest extends KernelTestCase
 
     }
 }
+
+
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserWenwenLogin;
+
+
+class UserLoginTestFixture extends AbstractFixture implements FixtureInterface 
+{
+
+   
+    public static $USERS;
+    public static $USER_LOGIN;
+
+    public function __construct() 
+    {
+        self::$USERS = array();
+        self::$USER_LOGIN = array();
+
+    }
+
+
+    /**
+    * {@inheritDoc}
+    */
+    public function load(ObjectManager $manager) 
+    {
+        //load data for testing .
+        $user = new User();
+        $user->setNick('alic32');
+        $user->setEmail('alice.nima@voyagegroup.com.cn');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
+
+        $manager->persist($user);
+        $manager->flush();
+        self::$USERS[] = $user;
+
+        //load data for testing .
+        $user = new User();
+        $user->setNick('bob32');
+        $user->setEmail('bob.inch@voyagegroup.com.cn');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setOriginFlag(User::ORIGIN_FLAG_WENWEN);
+        $user->setPasswordChoice(User::PWD_WENWEN);
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
+
+        $manager->persist($user);
+        $manager->flush();
+
+        self::$USERS[] = $user;
+        $login = new UserWenwenLogin();
+        $login->setUser($user)
+            ->setLoginPassword('aPaR9Ucsu4U=') // 123123 dZcCU45B0rk=
+            ->setLoginPasswordCryptType('blowfish')
+            ->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
+        $manager->persist($login);
+        $manager->flush();
+        self::$USER_LOGIN[] =  $login;
+    }
+
+
+}
+
+
+
+

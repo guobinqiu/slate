@@ -36,6 +36,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
         $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
 
         $manager->persist($user);
         $manager->flush();
@@ -51,6 +52,7 @@ class LoadUserLoginData extends AbstractFixture implements FixtureInterface
         $user->setPwd('111111');
         $user->setOriginFlag(User::ORIGIN_FLAG_WENWEN);
         $user->setPasswordChoice(User::PWD_WENWEN);
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
 
         $manager->persist($user);
         $manager->flush();
