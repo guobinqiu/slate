@@ -240,6 +240,6 @@ class SsiRespondent
 
     public function getPrescreeningSurveyUrl()
     {
-        return sprintf(self::$base_url,  $this->getId());
+        return sprintf(self::$base_url,  $this->getUserId());
     }
 }

@@ -44,7 +44,7 @@ class WeiBoLoginControllerTest extends WebTestCase
             $loader->addFixture($fixture);
         } elseif(in_array($tn ,array('testweiboRegisteActionValidation', 'testweiboBindActionWithUser')))   {
             $this->has_fixture = true;
-            $fixture  = new LoadUserBindData();
+            $fixture  = new LoadWeiboUserBindData();
             $loader = new Loader();
             $loader->addFixture($fixture);
         }elseif(in_array($tn, array('testweiboRegisteActionSuccess', ))) {
@@ -639,7 +639,7 @@ class LoadWeiBoUserCallbackData implements FixtureInterface, ContainerAwareInter
     }
 }
 
-class LoadUserBindData implements FixtureInterface, ContainerAwareInterface
+class LoadWeiboUserBindData implements FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface

@@ -315,29 +315,6 @@ class VoteControllerTest extends WebTestCase
     /**
      * @group user_vote
      */
-    public function testRecommendAction()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $url = '/vote/recommend';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('', $client->getResponse()->getContent());
-
-        $session = $client->getRequest()->getSession();
-        $session->set('uid', 1);
-        $session->save();
-
-        $url = '/vote/recommend';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('为您推荐的快速问答', $client->getResponse()->getContent());
-    }
-
-    /**
-     * @group user_vote
-     */
     public function testSuggestAction()
     {
         $client = static::createClient();
