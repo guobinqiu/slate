@@ -36,6 +36,16 @@ class SsiRespondent
     private $userId;
 
     /**
+     * @var \Jili\ApiBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="status_flag", type="smallint", nullable=true)
@@ -101,6 +111,30 @@ class SsiRespondent
     {
         return $this->userId;
     }
+
+    /**
+     * Set user
+     *
+     * @param \Jili\ApiBundle\Entity\User $user
+     * @return UserWenwenLogin
+     */
+    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Jili\ApiBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
 
     /**
      * Set statusFlag
@@ -206,6 +240,6 @@ class SsiRespondent
 
     public function getPrescreeningSurveyUrl()
     {
-        return sprintf(self::$base_url,  $this->getId());
+        return sprintf(self::$base_url,  $this->getUserId());
     }
 }

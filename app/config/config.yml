@@ -110,6 +110,10 @@ swiftmailer:
     host:       %mailer_host%
     username:   %mailer_user%
     password:   %mailer_password%
+# Guobin: for what reason we dont enable a mail queue for sending your emails asynchronously?
+#    spool:
+#        type: file
+#        path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control

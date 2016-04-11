@@ -169,13 +169,13 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->assertCount(2, $history,'1 point history record');
         $this->assertEquals('10001',  $history[0]['fulcrum_project_id'] );
         $this->assertEquals('10002', $history[0]['fulcrum_project_quota_id'] );
-        $this->assertEquals($user_id,  $history[0]['app_member_id'] );
+        $this->assertEquals($app_mid,  $history[0]['app_member_id'] );
         $this->assertEquals(30,  $history[0]['point'] );
         $this->assertEquals(92,  $history[0]['type'] );
 
         $this->assertEquals('20001',  $history[1]['fulcrum_project_id'] );
         $this->assertEquals('20002', $history[1]['fulcrum_project_quota_id'] );
-        $this->assertEquals($user_id,  $history[1]['app_member_id'] );
+        $this->assertEquals($app_mid,  $history[1]['app_member_id'] );
         $this->assertEquals(100,  $history[1]['point'] );
         $this->assertEquals(92,  $history[1]['type'] );
 

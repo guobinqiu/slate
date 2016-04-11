@@ -390,7 +390,7 @@ parameters:
             SUCCESS_DUPLICATED: 0 #0 表示推送成功 但订单已存在。
             FAILED: -1            #-1 表示推送失败
 
-    jili_app.logs_dir: /data/91jili/logs
+    jili_app.logs_dir: %kernel.logs_dir%/data/91jili/logs
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
     vote_suggest_mail_to: %wenwen_support_email_address%
 
@@ -494,6 +494,10 @@ parameters:
         '3': "大专毕业"
         '4': "大学本科毕业"
         '5': "研究生，博士毕业"
+
+    ssi_project_survey:
+      title: "SSI海外调查"
+      point: 180
 
 #SOP
     sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com
