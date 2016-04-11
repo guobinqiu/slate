@@ -377,7 +377,7 @@ require(['../config'],function(){
         }
         // preview
         var $preview = $('#preview').val();
-        if (1){
+        if ($preview){
             mockResponse();
         }
     });
