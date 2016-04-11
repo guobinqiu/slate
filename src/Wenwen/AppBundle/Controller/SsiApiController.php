@@ -35,7 +35,7 @@ class SsiApiController extends Controller
 
             return $response;
         }
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $handler = new SsiRequestHandler($em->getConnection());
         $handler->setUpProject($ssiRequest);
         $handler->setUpProjectRespondents($ssiRequest);
