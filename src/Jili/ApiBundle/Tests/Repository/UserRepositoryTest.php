@@ -56,7 +56,8 @@ class UserRepositoryTest extends KernelTestCase
             $fixture->setContainer($container);
             $loader = new Loader();
             $loader->addFixture($fixture);
-            $executor->execute($loader->getFixtures());
+            $result = $executor->execute($loader->getFixtures());
+
         }
 
         $this->container = $container;
@@ -93,7 +94,9 @@ class UserRepositoryTest extends KernelTestCase
         $em = $this->em;
         $param = array (
             'email' => 'chiangtor@gmail.com',
-            'nick' => 'chiangtor'
+            'nick' => 'chiangtor',
+            'createdRemoteAddr' => '1.1.1.1',
+            'createdUserAgent' => 'testAgent'
         );
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
         $this->assertNull($r);
@@ -347,7 +350,7 @@ class UserRepositoryTest extends KernelTestCase
         $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserCount(array (), "registered");
         $this->assertEquals(8, $result, "registered user count : " . $result);
         $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserCount(array (), "withdrawal");
-        $this->assertEquals(6, $result, "withdrawal user count : " . $result);
+        $this->assertEquals(5, $result, "withdrawal user count : " . $result);
     }
 
     /**
@@ -370,7 +373,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertEquals(2, $result[0]['sex']);
         $this->assertEquals('atg', $result[0]['nick']);
         $this->assertEquals('', $result[0]['tel']);
-        $this->assertEquals('2014-08-26 17:59:05', $result[0]['registerDate']->format('Y-m-d H:i:s'));
+        $this->assertEquals('2014-08-26 17:59:05', $result[0]['registerCompleteDate']->format('Y-m-d H:i:s'));
         $this->assertEquals('2015-02-13 10:09:18', $result[0]['lastLoginDate']->format('Y-m-d H:i:s'));
         $this->assertEquals(null, $result[0]['createdRemoteAddr']);
         $this->assertEquals(null, $result[0]['campaignCode']);
@@ -438,6 +441,6 @@ class UserRepositoryTest extends KernelTestCase
         $values['registered_from'] = '2015-09-08 10:00:00';
         $values['registered_to'] = '2015-09-08 10:00:00';
         $query = $this->em->getRepository('JiliApiBundle:User')->getSearchUserSqlQuery($query, $values, $type);
-        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ INNER JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND s1_.id = ? AND u0_.id = ? AND u0_.email = ? AND u0_.nick LIKE ? AND u0_.tel = ? AND u0_.birthday = ? AND u0_.register_date >= ? AND u0_.register_date <= ? AND (u0_.delete_flag IS NULL OR u0_.delete_flag = 0) ORDER BY u0_.id DESC', $query->getSql());
+        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ INNER JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND s1_.id = ? AND u0_.id = ? AND u0_.email = ? AND u0_.nick LIKE ? AND u0_.tel = ? AND u0_.birthday = ? AND u0_.register_complete_date >= ? AND u0_.register_complete_date <= ? AND (u0_.delete_flag IS NULL OR u0_.delete_flag = 0) ORDER BY u0_.id DESC', $query->getSql());
     }
 }
