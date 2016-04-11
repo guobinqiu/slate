@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Form\ProfileEditType;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
 /**
- * @Route("/profile", requirements={"_scheme"="http"})
+ * @Route("/profile", requirements={"_scheme"="https"})
  */
 class ProfileController extends Controller
 {

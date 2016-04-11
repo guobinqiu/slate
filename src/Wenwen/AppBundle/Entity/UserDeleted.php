@@ -7,11 +7,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserDeleted
  *
- * @ORM\Table(name="user_deleted")
+ * @ORM\Table(name="user_deleted", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
 class UserDeleted
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     */
+    private $userId;
+
     /**
      * @var string
      *
@@ -36,15 +43,38 @@ class UserDeleted
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $userId;
+    private $id;
 
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return UserDeleted
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**
@@ -117,25 +147,12 @@ class UserDeleted
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return UserDeleted
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
+     * Get id
      *
      * @return integer
      */
-    public function getUserId()
+    public function getId()
     {
-        return $this->userId;
+        return $this->id;
     }
 }

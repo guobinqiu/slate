@@ -5,7 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadProfileData;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Wenwen\FrontendBundle\Controller\ProfileController;
 
@@ -31,7 +30,7 @@ class ProfileControllerTest extends WebTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
-        $fixture = new LoadProfileData();
+        $fixture = new ProfileControllerTestFixture();
         $fixture->setContainer($container);
         $loader = new Loader();
         $loader->addFixture($fixture);
@@ -242,24 +241,43 @@ class ProfileControllerTest extends WebTestCase
      * @group dev-merge-ui-profile-nick
      * @group dev-merge-ui-profile-sex
      */
-    public function testEditProfile()
+    public function testEditProfileWithoutLogin()
     {
         $client = static::createClient();
+        $container = $client->getContainer();
+        $url_logout = $container->get('router')->generate('_user_logout' , array(), true);
+        $crawler = $client->request('GET', $url_logout ) ;
 
-        $url = '/profile/edit';
+        echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
+        print_r( $container->get('session')->get('uid'));
 
-        //没有登录
+        $client->request('GET', '/profile/edit');
+        $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
+    }
+
+    /**
+     * @group dev-merge-ui-profile-edit
+     * @group dev-merge-ui-profile-nick
+     * @group dev-merge-ui-profile-sex
+     * @group mmzhang
+     */
+    public function testEditProfileWithLogin()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test@ec-navi.com.cn',
+            'pwd' => '111111',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
+
+        $url = $container->get('router')->generate('_profile_edit');
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
-        //login, 用户 存在
-        $session = $client->getRequest()->getSession();
-        $session->set('uid', 1);
-        $session->save();
-
-        $crawler = $client->request('GET', $url);
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $form = $crawler->filter('form[name=profileForm]')->form();
@@ -381,5 +399,41 @@ class ProfileControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_profile_edit_commit');
         $crawler = $client->request('GET', $url);
         $this->assertEquals(405, $client->getResponse()->getStatusCode());
+    }
+}
+
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+class ProfileControllerTestFixture extends AbstractFixture implements ContainerAwareInterface, FixtureInterface
+{
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function load(ObjectManager $manager)
+    {
+        //load data for testing .
+        $root_dir = $this->container->get('kernel')->getRootDir();
+        $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
+        $file = $fixture_dir . DIRECTORY_SEPARATOR . 'profile.sql';
+        $r = $manager->getConnection()->query(file_get_contents($file));
+        $r->closeCursor();
     }
 }
