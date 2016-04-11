@@ -804,7 +804,7 @@ EOT;
     public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
         $query = $this->getSearchUserSqlQuery($query, $values, $type);
 
         if ($currentPage < 1) {
@@ -861,13 +861,13 @@ EOT;
         }
 
         if (isset($values['registered_from'])) {
-            $query = $query->andWhere('u.registerDate >= :registerDate');
-            $param['registerDate'] = $values['registered_from'] . ' 00:00:00';
+            $query = $query->andWhere('u.registerCompleteDate >= :registerCompleteDateFrom');
+            $param['registerCompleteDateFrom'] = $values['registered_from'] . ' 00:00:00';
         }
 
         if (isset($values['registered_to'])) {
-            $query = $query->andWhere('u.registerDate <= :registerDate');
-            $param['registerDate'] = $values['registered_to'] . ' 23:59:59';
+            $query = $query->andWhere('u.registerCompleteDate <= :registerCompleteDateTo');
+            $param['registerCompleteDateTo'] = $values['registered_to'] . ' 23:59:59';
         }
 
         if ($type == 'registered') {
