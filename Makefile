@@ -7,7 +7,7 @@ SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
-	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+	$(PHPUNIT) -c ./app/ -d memory_limit=-1 --testsuite wenwen
 
 test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
@@ -36,6 +36,8 @@ setup-submodules:
 	git submodule update --init;
 
 circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
+	sed -ie "s/root/ubuntu/g" ${SRC_DIR}/app/config/config_test.yml
+	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
 show-setting:
 	@echo "Setting"
