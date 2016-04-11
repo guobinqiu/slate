@@ -2,8 +2,9 @@
 
 namespace Wenwen\AppBundle\Command;
 
-use Monolog\Logger;
+use Jili\ApiBundle\Utility\DateUtil;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -57,12 +58,16 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     $this->logger->info("User (Id: $userId) not found.");
                     continue;
                 }
+
+                $dt = new \DateTime(
+                  DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai')
+                );
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
                     \Jili\ApiBundle\Entity\AdCategory::ID_QUESTIONNAIRE_COST,
                     \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_SURVEY,
-                    sprintf('%s (%s)', $ssiProjectConfig['title'], $date)
+                    sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );
             }
         } catch (\Exception $e) {
