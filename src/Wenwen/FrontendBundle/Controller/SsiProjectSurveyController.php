@@ -23,7 +23,7 @@ class SsiProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
         # SSI Respondent is not active
@@ -53,7 +53,7 @@ class SsiProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
         # SSI Respondent is not active
