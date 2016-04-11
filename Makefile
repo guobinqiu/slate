@@ -1,12 +1,19 @@
+APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
+BRANCH=origin/master
+PHP=$(shell which php)
+PHPUNIT=./bin/phpunit
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
-PHPUNIT=./bin/phpunit
-APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
-
 
 test:
 	$(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+
+test-data: cc-all
+	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
+
+test-branch: cc-all
+	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
 
 assets-rebuild:
 	php ./app/console assets:install web --symlink --relative
