@@ -107,7 +107,6 @@ class ProfileEditType extends AbstractType
         $builder->add('work_section_code', 'text');
         $builder->add('education', 'text');
         $builder->add('hobby', 'text');
-        $builder->add('user_city', 'text');
         $builder->add('attachment', 'file', array (
             'required' => false,
             'error_bubbling' => true

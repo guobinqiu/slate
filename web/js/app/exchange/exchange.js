@@ -8,8 +8,8 @@ require(['../../config'],function(){
             switch(str) {
                 case 'amazonBtn':
                     return false;
-                    exchangeForm.attr("action", Routing.generate("_exchange_amazonInfo")); 
-                    exchangeForm.submit(); break;
+                    // exchangeForm.attr("action", Routing.generate("_exchange_amazonInfo")); 
+                    // exchangeForm.submit(); break;
                 case 'alipayBtn':
                     alipayClick(); break;
                 case 'mobileBtn':

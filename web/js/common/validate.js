@@ -72,8 +72,7 @@ define(['jquery'],function($){
         // 手机
         notempty: "^\\S+$",
         // 非空
-        // password: "^.*[A-Za-z0-9\\w_-]+.*$",
-        password: "^.​*(?=.*​?[A-Za-z])(?=.​*?[0-9]).*​$",
+        password: "^.*(?=.*?[A-Za-z])(?=.*?[0-9]).*$",
         // 密码
         fullNumber: "^[0-9]+$",
         // 数字
@@ -87,7 +86,7 @@ define(['jquery'],function($){
         // 电话号码的函数(包括验证国内区号,国际区号,分机号)
         url: "^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$",
         // url
-        username: "^[A-Za-z0-9_\\-\\u4e00-\\u9fa5]+$",
+        username: "^[A-Za-z0-9_\\-\\@\\&\\,\\.\\|\\u4e00-\\u9fa5]+$",
         // 用户名
         deptname: "^[A-Za-z0-9_()（）\\-\\u4e00-\\u9fa5]+$",
         // 单位名
@@ -114,7 +113,7 @@ define(['jquery'],function($){
             return new RegExp(validateRegExp.fullNumber).test(str);
         },
         isPwd: function(str){
-            return /^.*(?=.*?[A-Za-z])(?=.*?[0-9]).*$/i.test(str);
+            return new RegExp(validateRegExp.password, "i").test(str);
         },
         isPwdRepeat: function(str1, str2) {
             return (str1 == str2);
@@ -135,13 +134,13 @@ define(['jquery'],function($){
     //验证文本
     var validatePrompt = {
         regName: {
-            onFocus:"1-100位字符,支持汉字、字母、数字及\"-\"、\"_\"组合",
+            onFocus:"1-100位字符",
             succeed: "OK!",
             isNull: "请输入用户名",
             error: {
                 beUsed: "该昵称已被使用，请重新输入。",
                 badLength: "用户名长度只能在1-100位字符之间",
-                badFormat: "用户名只能由中文、英文、数字及\"-\"、\"_\"组成",
+                badFormat: "用户名不能含特殊字符",
                 fullNumberName: "用户名不能是纯数字，请重新输入"
             },
             onFocusExpand: function() {
@@ -555,10 +554,10 @@ define(['jquery'],function($){
             validateSettings.error.run(option, option.prompts.error.badFormat);
             return;
         }
-        if (validateRules.fullNumberName(pin)) {
-            validateSettings.error.run(option, option.prompts.error.fullNumberName);
-            return;
-        }
+        // if (validateRules.fullNumberName(pin)) {
+        //     validateSettings.error.run(option, option.prompts.error.fullNumberName);
+        //     return;
+        // }
         if (!nameState || nameOld != pin) {
             if (nameOld != pin) {
                 nameOld = pin;
