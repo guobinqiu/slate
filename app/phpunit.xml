@@ -19,6 +19,10 @@
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
         </testsuite>
+
+        <testsuite name="wenwen">
+            <directory>../src/Wenwen/*Bundle/Tests</directory>
+        </testsuite>
     </testsuites>
 
     <!--

@@ -9,28 +9,29 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SsiProjectSurveyControllerTest extends WebTestCase
 {
-
     /**
      * {@inheritdoc}
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $container = static::$kernel->getContainer();
 
         // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
 
         $fixture = new SsiProjectSurveyControllerTestFixture();
         $loader = new Loader();
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
-
-        $em->close();
+    }
+    public function tearDown()
+    {
+        $this->em->close();
     }
 
     public function testCoverPageWithoutLogin()
@@ -51,7 +52,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $client->followRedirect();
 
         $ssi_project = SsiProjectSurveyControllerTestFixture::$SSI_PROJECT;
-        $client->request('GET', '/ssi_project_survey/information/' . $ssi_project->getId());
+        $client->request('GET', '/ssi_project_survey/information/'.$ssi_project->getId());
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
         $this->assertRegExp(sprintf('/s%d/', $ssi_project->getId()), $client->getResponse()->getContent());
@@ -68,7 +69,6 @@ class SsiProjectSurveyControllerTest extends WebTestCase
 
         $client->request('GET', '/ssi_project_survey/information/999');
         $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
-
     }
 
     public function testCompletePage()
