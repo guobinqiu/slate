@@ -60,19 +60,22 @@ class ProfileControllerTest extends WebTestCase
         $container = $client->getContainer();
         $url = $container->get('router')->generate('_profile_index');
         $crawler = $client->request('GET', $url);
+        $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        //login
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test_1@d8aspring.com',
+            'pwd' => '123qwe',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
 
-        $session = $container->get('session');
-
-        //login 后
-        $session->set('uid', 1);
-        $session->save();
+        $url = $container->get('router')->generate('_profile_index');
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
+        $session = $client->getRequest()->getSession();
         $this->assertContains($session->get('csrf_token'), $client->getResponse()->getContent());
     }
 
