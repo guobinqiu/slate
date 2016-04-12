@@ -95,9 +95,12 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
 
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_1@d8aspring.com');
+        $user_id = $user->getId();
+
         //set login id
         $session = $container->get('session');
-        $session->set('uid', 1);
+        $session->set('uid', $user_id);
         $session->save();
 
         // csrf not valiad
@@ -136,8 +139,8 @@ class ProfileControllerTest extends WebTestCase
         // csrf is valiad , no error
         $post_data = array ();
         $post_data['curPwd'] = '111111';
-        $post_data['pwd'] = '22222q';
-        $post_data['pwdRepeat'] = '22222q';
+        $post_data['pwd'] = '123qwe';
+        $post_data['pwdRepeat'] = '123qwe';
         $post_data['csrf_token'] = $csrf_token;
 
         $crawler = $client->request('POST', $url, $post_data);
@@ -146,11 +149,23 @@ class ProfileControllerTest extends WebTestCase
         $return = json_decode($return, true);
         $this->assertEquals(1, $return['status']);
         $this->assertEquals('密码修改成功', $return['message']);
+        $this->em->clear();
 
         //确认密码修改成功
         $em = $this->em;
-        $user = $em->getRepository('JiliApiBundle:User')->find(1);
-        $this->assertTrue($user->isPwdCorrect('22222q'));
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $this->assertTrue($user->isPwdCorrect('123qwe'));
+
+        //check can login
+        $client = static::createClient();
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test_1@d8aspring.com',
+            'pwd' => '123qwe',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
     }
 
     /**
@@ -479,7 +494,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProfileControllerTestFixture extends AbstractFixture implements ContainerAwareInterface, FixtureInterface
 {
-
     /**
      * @var ContainerInterface
      */
