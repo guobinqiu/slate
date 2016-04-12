@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common']);
-    //require(['jquery','slider'], function($, slider){
+    // require(['jquery','slider'], function($, slider){
     //    var sliderA = new slider({sliderEle: '.main-slider ul', prevBtn: '.arrowL', nextBtn: '.arrowR', groupBtn: '.btn-group b', config: {
     //        index: 0,
     //        stepWid: 1000,
@@ -10,7 +10,7 @@ require(['../config'],function(){
     //        isAuto: true,
     //        effect: 'fade'
     //    }});
-    //});
+    // });
     require(['countdown']);
     require(['jquery', 'jqueryCookie'], function($){
         //读取cookie
@@ -103,9 +103,11 @@ require(['../config'],function(){
                 addSuveyItem(view.render().el);
             }else{
                 _.each(items, function (item) {
-                    var model = new survey.FulcrumResearchItemModel(item);
-                    var view  = new survey.FulcrumResearchItemView({ model: model });
-                    addSuveyItem(view.render().el);
+                    if(index <= 1){
+                        var model = new survey.FulcrumResearchItemModel(item);
+                        var view  = new survey.FulcrumResearchItemView({ model: model });
+                        addSuveyItem(view.render().el);
+                    }
                 });
             }
         };
@@ -128,133 +130,195 @@ require(['../config'],function(){
                 var view  = new survey.CintResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             }else{
-                _.each(items, function (item) {
-                    var model = new survey.CintResearchItemModel(item);
-                    var view  = new survey.CintResearchItemView({ model: model });
-                    addSuveyItem(view.render().el);
+                _.each(items, function (item, index) {
+                    if(index <= 1){
+                        var model = new survey.CintResearchItemModel(item);
+                        var view  = new survey.CintResearchItemView({ model: model });
+                        addSuveyItem(view.render().el);
+                    }
                 });
             }
         };
-        
-        var showSurveyOther1 = function(res){
-            var ssiSurveyLen = $('#SurveySSILen').val();
-            if(res.data.cint_research.length != 0){
+
+        var fillOtherSurvey = function(res, num, type){
+            if(res.data.cint_research.length != 0 && type == 'Cint'){
                 renderCintResearchItems(res.data.cint_research, 1);
-            }else if(res.data.fulcrum_research.length != 0){
+                return true;
+            }else if(res.data.fulcrum_research.length != 0 && type == 'Fulcrum'){
                 renderFulcrumResearchItems(res.data.fulcrum_research, 1);
-            }else if(parseInt(ssiSurveyLen) != 0){
-                // console.log('show one ssi survey.');
+                return true;
+            }else if(res.data.profiling.length != 0 && type == 'Profiling'){
+                renderProfilingItems(res.data.profiling);
+                return true;
+            }else if(res.data.research.length != 0 && type == 'Research'){
+                renderResearchItems(res.data.research.reverse(), 1);
+                return true;
+            }
+            return false;
+        };
+
+        var fillSurvey = function(res, num){
+            if(num == 1){
+                if(res.data.cint_research.length != 0){
+                    renderCintResearchItems(res.data.cint_research, 1);
+                }else if(res.data.fulcrum_research.length != 0){
+                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                }else if(res.data.profiling.length != 0){
+                    renderProfilingItems(res.data.profiling);
+                }else if(res.data.research.length != 0){
+                    renderResearchItems(res.data.research.reverse(), 1);
+                }
             }else{
-                // console.log('no survey!');
-                $('#surveyHome').hide();
+                var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research);
+                if(lackNum == 0){
+                    return;
+                }else if(lackNum == 1){
+                    if(!fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                        return;
+                    }
+                }else{
+                    lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research);
+                    if(lackNum == 0){
+                        return;
+                    }else if(lackNum == 1){
+                        if(!fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                            return;
+                        }
+                    }else{
+                        if(res.data.profiling.length != 0){
+                            renderProfilingItems(res.data.profiling);
+                            if(!fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                                return;
+                            }
+                        }else{
+                            lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
+                            if(lackNum == 0){
+                                return;
+                            }else if(lackNum == 1){
+                                if(!showSsiSurvey(1)){
+                                    return;
+                                }
+                            }else{
+                                showSsiSurvey(2);
+                            }
+                        }
+                    }
+                }
             }
         };
 
-        var showSurveyOther2 = function(res){
-            var ssiSurveyLen = $('#SurveySSILen').val();
-            if(res.data.cint_research.length >= 2){
-                renderCintResearchItems(res.data.cint_research, 2);
-                return;
-            }else if(res.data.cint_research.length == 1){
-                renderCintResearchItems(res.data.cint_research, 1);
-                if(res.data.fulcrum_research.length != 0){
-                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
-                }else if(parseInt(ssiSurveyLen) != 0){
-                    // console.log('show one ssi survey.');
-                }
-                return;
+        var hideSurvey = function(){
+            if($('#surveyList').children().length == 0){
+                $('#surveyHome').hide();  
             }else{
-                if(res.data.fulcrum_research.length >= 2){
-                    renderFulcrumResearchItems(res.data.fulcrum_research, 2);
-                }else if(res.data.fulcrum_research.length == 1){
-                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
-                    if(parseInt(ssiSurveyLen) != 0){
-                        // console.log('show one ssi survey.');
-                    }
-                }else{
-                    if(parseInt(ssiSurveyLen) >= 2){
-                        // console.log('show two ssi survey.');
-                    }else{
-                        // console.log('no survey!');
-                        $('#surveyHome').hide();
-                    }
-                }
-            } 
+                showSsiSurvey(2);
+            }
         };
 
-        var showSurvey = function(res, curNum){
+        var hideSsiSurvey = function(){
+            if($('#surveyList').children().length != 0){
+                var ssiPermission = $('.ssiPermission'), ssiSurvey = $('.ssiSurvey');
+                if(ssiPermission.length != 0){
+                    ssiPermission.hide();
+                    return;
+                } 
+                if(ssiSurvey.length != 0){
+                    ssiSurvey.hide();
+                    return;
+                }
+            }
+        };
+
+        var showSsiSurvey = function(num){
+            if($('#surveyList').children().length != 0){
+                var ssiPermission = $('.ssiPermission'), ssiSurvey = $('.ssiSurvey');
+                if(ssiPermission.length != 0){
+                    ssiPermission.show();
+                    return true;
+                } 
+                if(ssiSurvey.length != 0){
+                    if(num == 1){
+                        ssiSurvey.eq(0).show();
+                        return true;    
+                    }else{
+                        ssiSurvey.hide();
+                        for(var i = 0; i < 2; i++){
+                            ssiSurvey.eq(i).show();
+                        }    
+                        return true;
+                    }
+                }
+            }
+        };
+
+        var showSopTypeSurvey = function(func, resData){
+            var lackNum;
+            if( resData.length >= 2 ){
+                func(resData, 2);
+                lackNum = 0;
+                return lackNum;
+            }else if( resData.length == 1){
+                func(resData, 1);
+                lackNum = 1;
+                return lackNum;
+            }
+        };
+
+        var showSopSurvey = function(res, num){
             switch(res.data.user_agreement.length){
                 case 0: 
-                    var ssiAgreeLen = $('#UserAgreementSSILen').val();
-                    if(parseInt(ssiAgreeLen) == 1){
-                        console.log('show ssi user agreement survey.');
-                        if(res.data.cint_research.length != 0){
-                            renderCintResearchItems(res.data.cint_research, 1);
-                        }else if(res.data.fulcrum_research.length != 0){
-                            renderFulcrumResearchItems(res.data.fulcrum_research, 1);
-                        }
+                    if(num == 1){
+                        fillSurvey(res, 1);    
                     }else{
-                        if(curNum == 1){
-                            showSurveyOther1(res);    
-                        }else if(curNum == 0){
-                            showSurveyOther2(res);    
-                        }                        
+                        fillSurvey(res, 2);    
                     }
                     break;
                 case 1: 
                     if(res.data.user_agreement[0].type == 'Cint'){
                         renderCintUserAgreementItems(res.data.user_agreement);
-                        if(curNum == 0){
-                            renderFulcrumResearchItems(res.data.fulcrum_research, 1);   
-                        }  
                     }else if(res.data.user_agreement[0].type == 'Fulcrum'){
                         renderFulcrumUserAgreementItems(res.data.user_agreement);
-                        if(curNum == 0){
-                            renderCintResearchItems(res.data.cint_research, 1);  
-                        }
+                    }
+                    if(num != 1){
+                        fillSurvey(res, 1);
                     }
                     break;
                 case 2: 
-                    renderCintUserAgreementItems(res.data.user_agreement);
+                    if(num == 1){
+                        renderCintUserAgreementItems(res.data.user_agreement);    
+                    }else{
+                        renderFulcrumUserAgreementItems(res.data.user_agreement);
+                        renderCintUserAgreementItems(res.data.user_agreement);
+                    }
                     break;
                 default: break;
             }
-        }
+        };
 
         surveylistCallback = function (res) {
 
             // return if error code
             if (res.meta.code != '200'){
-                if($('#surveyList').children().length == 0) $('#surveyHome').hide();
+                hideSurvey();
                 return;
             }  
 
             // return if no data
-            if( res.data.profiling.length == 0 && res.data.research.length == 0 ) {
-                if($('#surveyList').children().length == 0) $('#surveyHome').hide();
+            var surveySopLen = res.data.profiling.length + res.data.research.length + res.data.user_agreement.length
+                            + res.data.cint_research.length + res.data.fulcrum_research.length;
+            if(surveySopLen == 0){
+                hideSurvey(); 
                 return;
-            }
-
-            if( res.data.research.length >= 2 ){
-                renderResearchItems(res.data.research.reverse(), 2);
+            }else if(surveySopLen == 1){
+                //sop
+                showSopSurvey(res, 1);
+                //ssi
+                showSsiSurvey(1);
             }else{
-                if( res.data.research.length == 1){
-                    if(res.data.profiling.length == 1){
-                        renderResearchItems(res.data.research.reverse(), 1);
-                        renderProfilingItems(res.data.profiling);
-                        return;
-                    }else{
-                        renderResearchItems(res.data.research.reverse(), 1);
-                        showSurvey(res, 1);
-                    }
-                }else{
-                    if(res.data.profiling.length == 1){
-                        renderProfilingItems(res.data.profiling);
-                        showSurvey(res, 1);
-                    }else{
-                        showSurvey(res, 0);
-                    }
-                }
+                //ssi
+                hideSsiSurvey();
+                //sop
+                showSopSurvey(res, 2);
             }
         };
 
@@ -273,11 +337,11 @@ require(['../config'],function(){
                     'meta' : {'code': '200' },
                     'data' : {
                        "profiling": [
-                               {
-                                   "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-                                   "name": "q004",
-                                   "title": "profiling"
-                               }
+                           {
+                               "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                               "name": "q004",
+                               "title": "profiling"
+                           }
                         ],
                        "research": [
                            {
@@ -306,14 +370,14 @@ require(['../config'],function(){
                            }
                         ],
                        'user_agreement':[
-                            {
+                           {
                                "type": "Fulcrum",
                                "url": "http://researchpanelasia.com"
                              },
                              {
                                "type": "Cint",
                                "url": "http://www.d8aspring.com"
-                             }
+                             } 
                         ],
                        'fulcrum_research':[
                             {
@@ -331,7 +395,7 @@ require(['../config'],function(){
                             }
                         ],
                        "cint_research": [
-                            {
+                           {
                                 "survey_id": "10000",
                                 "quota_id": "20000",
                                 "cpi": "0.00",

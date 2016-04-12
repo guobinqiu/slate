@@ -23,10 +23,114 @@
 		<div class="survey" id="surveyHome">
 			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
 			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<ul id="surveyList">	
+			<ul id="surveyList">
+				{# SSI permission #}
+				<!-- <li class="ssiPermission">
+				    <div class="survey-item">
+				        <div class="title">ssi同意问卷</div>
+				        <ul class="con clearfix">
+				            <li class="first">
+				                <span>问卷编号</span>
+				                <p>--</p>
+				            </li>
+				            <li>
+				                <span>问卷类型</span>
+				                <p title="商业问卷">商业问卷</p>
+				            </li>
+				            <li>
+				                <span>回答期限</span>
+				                <p>--</p>
+				            </li>
+				            <li class="last">
+				                <span>积分数</span>
+				                <p><strong>1</strong></p>
+				            </li>
+				        </ul>
+				    </div>
+				    <div class="survey-btn">
+				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
+				    </div>
+				</li> -->
+				{# SSI survey #}
+				<li class="ssiSurvey">
+				    <div class="survey-item">
+				        <div class="title">ssi</div>
+				        <ul class="con clearfix">
+				            <li class="first">
+				                <span>问卷编号</span>
+				                <p>s001</p>
+				            </li>
+				            <li>
+				                <span>问卷类型</span>
+				                <p title="商业问卷">商业问卷</p>
+				            </li>
+				            <li>
+				                <span>回答期限</span>
+				                <p>2018-01-02</p>
+				            </li>
+				            <li class="last">
+				                <span>积分数</span>
+				                <p><strong>15630</strong></p>
+				            </li>
+				        </ul>
+				    </div>
+				    <div class="survey-btn">
+				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
+				    </div>
+				</li>
+				<li class="ssiSurvey">
+				    <div class="survey-item">
+				        <div class="title">ssi</div>
+				        <ul class="con clearfix">
+				            <li class="first">
+				                <span>问卷编号</span>
+				                <p>s001</p>
+				            </li>
+				            <li>
+				                <span>问卷类型</span>
+				                <p title="商业问卷">商业问卷</p>
+				            </li>
+				            <li>
+				                <span>回答期限</span>
+				                <p>2018-01-02</p>
+				            </li>
+				            <li class="last">
+				                <span>积分数</span>
+				                <p><strong>15630</strong></p>
+				            </li>
+				        </ul>
+				    </div>
+				    <div class="survey-btn">
+				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
+				    </div>
+				</li>
+				<li class="ssiSurvey">
+				    <div class="survey-item">
+				        <div class="title">ssi</div>
+				        <ul class="con clearfix">
+				            <li class="first">
+				                <span>问卷编号</span>
+				                <p>s001</p>
+				            </li>
+				            <li>
+				                <span>问卷类型</span>
+				                <p title="商业问卷">商业问卷</p>
+				            </li>
+				            <li>
+				                <span>回答期限</span>
+				                <p>2018-01-02</p>
+				            </li>
+				            <li class="last">
+				                <span>积分数</span>
+				                <p><strong>15630</strong></p>
+				            </li>
+				        </ul>
+				    </div>
+				    <div class="survey-btn">
+				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
+				    </div>
+				</li>	
 			</ul>
-			<input type="hidden" id="UserAgreementSSILen" value="0">
-			<input type="hidden" id="SurveySSILen" value="1">
 		</div>
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
