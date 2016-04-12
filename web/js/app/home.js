@@ -141,17 +141,17 @@ require(['../config'],function(){
         };
 
         var fillOtherSurvey = function(res, num, type){
-            if(res.data.cint_research.length != 0 && type == 'Cint'){
-                renderCintResearchItems(res.data.cint_research, 1);
-                return true;
-            }else if(res.data.fulcrum_research.length != 0 && type == 'Fulcrum'){
-                renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+            if(res.data.research.length != 0 && type == 'Research'){
+                renderResearchItems(res.data.research.reverse(), 1);
                 return true;
             }else if(res.data.profiling.length != 0 && type == 'Profiling'){
                 renderProfilingItems(res.data.profiling);
                 return true;
-            }else if(res.data.research.length != 0 && type == 'Research'){
-                renderResearchItems(res.data.research.reverse(), 1);
+            }else if(res.data.fulcrum_research.length != 0 && type == 'Fulcrum'){
+                renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                return true;
+            }else if(res.data.cint_research.length != 0 && type == 'Cint'){
+                renderCintResearchItems(res.data.cint_research, 1);
                 return true;
             }
             return false;
@@ -159,39 +159,39 @@ require(['../config'],function(){
 
         var fillSurvey = function(res, num){
             if(num == 1){
-                if(res.data.cint_research.length != 0){
-                    renderCintResearchItems(res.data.cint_research, 1);
-                }else if(res.data.fulcrum_research.length != 0){
-                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                if(res.data.research.length != 0){
+                    renderResearchItems(res.data.research.reverse(), 1);
                 }else if(res.data.profiling.length != 0){
                     renderProfilingItems(res.data.profiling);
-                }else if(res.data.research.length != 0){
-                    renderResearchItems(res.data.research.reverse(), 1);
+                }else if(res.data.fulcrum_research.length != 0){
+                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
+                }else if(res.data.cint_research.length != 0){
+                    renderCintResearchItems(res.data.cint_research, 1);
                 }
             }else{
-                var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research);
+                var lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
                 if(lackNum == 0){
                     return;
                 }else if(lackNum == 1){
-                    if(!fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                    if(!fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                         return;
                     }
                 }else{
-                    lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research);
-                    if(lackNum == 0){
-                        return;
-                    }else if(lackNum == 1){
-                        if(!fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                    if(res.data.profiling.length != 0){
+                        renderProfilingItems(res.data.profiling);
+                        if(!fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                             return;
                         }
                     }else{
-                        if(res.data.profiling.length != 0){
-                            renderProfilingItems(res.data.profiling);
-                            if(!fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){
+                        lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research);
+                        if(lackNum == 0){
+                            return;
+                        }else if(lackNum == 1){
+                            if(!fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                                 return;
                             }
                         }else{
-                            lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
+                            lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research);
                             if(lackNum == 0){
                                 return;
                             }else if(lackNum == 1){
