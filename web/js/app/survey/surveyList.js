@@ -77,24 +77,29 @@ require(['../../config'], function() {
             });
         };
 
+        var hideSurvey = function(){
+            var surveyList = $('#surveyList'), noSurvey = $('#noSurvey');
+            if (surveyList.children().length == 0) {
+              surveyList.hide();
+              noSurvey.show();
+              return;
+            }
+        };
+
         surveylistCallback = function (res) {
 
             // return if error code
-            if (res.meta.code != '200')  return;
+            if (res.meta.code != '200'){
+              hideSurvey();
+              return;
+            } 
 
-            // return if no data
-            if( res.data.profiling.length == 0 && res.data.research.length == 0 ) return;
-
-            
-            var surveyLen = res.data.profiling.length + res.data.research.length + res.data.user_agreement.length
+            // return if no data            
+            var surveySopLen = res.data.profiling.length + res.data.research.length + res.data.user_agreement.length
                             + res.data.fulcrum_research.length + res.data.cint_research.length;
-            if(surveyLen == 0){
-                var surveyList = $('#surveyList'), noSurvey = $('#noSurvey');
-                if (surveyList.children().length == 1) {
-                  surveyList.hide();
-                  noSurvey.show();
-                  return;
-                }
+            if(surveySopLen == 0){
+              hideSurvey();
+              return;
             }
 
             // remove no survey label
@@ -106,17 +111,17 @@ require(['../../config'], function() {
             // load profiling data
             renderProfilingItems(res.data.profiling);
 
-            // load Fulcrum research data
-           renderFulcrumResearchItems(res.data.fulcrum_research);
-
             // load Fulcrum user agreemetns
             renderFulcrumUserAgreementItems(res.data.user_agreement);
 
-            // load Cint research data
-            renderCintResearchItems(res.data.cint_research);
-
             // load Cint usr agreemetns
             renderCintUserAgreementItems(res.data.user_agreement);
+
+            // load Fulcrum research data
+            renderFulcrumResearchItems(res.data.fulcrum_research);
+
+            // load Cint research data
+            renderCintResearchItems(res.data.cint_research);
 
         };
 
