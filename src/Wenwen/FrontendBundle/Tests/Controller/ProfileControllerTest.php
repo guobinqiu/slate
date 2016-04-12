@@ -83,14 +83,10 @@ class ProfileControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $url = $container->get('router')->generate('_profile_changepwd');
-
-        $session = $container->get('session');
-        $session->remove('uid');
-        $session->save();
 
         //don't login
         $post_data = array ();
+        $url = $container->get('router')->generate('_profile_changepwd');
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
@@ -98,16 +94,23 @@ class ProfileControllerTest extends WebTestCase
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_1@d8aspring.com');
         $user_id = $user->getId();
 
-        //set login id
-        $session = $container->get('session');
-        $session->set('uid', $user_id);
-        $session->save();
+        //login
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test_1@d8aspring.com',
+            'pwd' => '111111',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
 
         // csrf not valiad
         $post_data = array ();
         $post_data['csrf_token'] = 123;
 
+        $url = $container->get('router')->generate('_profile_changepwd');
         $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
 
@@ -417,9 +420,6 @@ class ProfileControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $session = $container->get('session');
-        $session->remove('uid');
-        $session->save();
 
         //don't login
         $post_data = array ();
