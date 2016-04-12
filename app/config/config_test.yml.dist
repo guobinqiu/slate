@@ -17,6 +17,6 @@ swiftmailer:
 
 doctrine:
     dbal:
-        dbname: circle_test
-        user: ubuntu
+        dbname: jili_test
+        user: root
         password: null

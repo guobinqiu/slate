@@ -93,10 +93,10 @@ class SsiPartnerController extends Controller
         $values = $form->getData();
 
         if ($form->isValid()) {
-            $user_id = $request->getSession()->get('uid');
+            $user = $em->getRepository('JiliApiBundle:User')->findOneById($request->getSession()->get('uid'));
 
             $ssi_respondent = new SsiRespondent();
-            $ssi_respondent->setUserId($user_id);
+            $ssi_respondent->setUser($user);
             $ssi_respondent->setStatusFlag($values['permission_flag']);
             $em->persist($ssi_respondent);
             $em->flush();
@@ -108,7 +108,7 @@ class SsiPartnerController extends Controller
                 // permission no : add point
                 $point_value = 1;
                 $service = $this->get('points_manager');
-                $this->givePoint($service, $user_id, $point_value, '申请参与SSI市场调查项目');
+                $this->givePoint($service, $user->getId(), $point_value, '申请参与SSI市场调查项目');
 
                 return $this->redirect($this->generateUrl('_ssi_partner_complete'));
             }
