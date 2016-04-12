@@ -1,0 +1,86 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent() }} - SSI Respondent Summary
+{% endblock %}
+
+{% block stylesheets %}
+{{parent() }}
+<link href="{{ asset('css/pageNav.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+{% block body%}
+<div class="panelist">
+<h1>SSI Respondent Summary</h1>
+
+{% if ssi_respondent is null %}
+<h2>No such ssi_respondent</h2>
+{% else %}
+
+<h2>Panelist Info</h2>
+<div class="panelist_info autoCenter">
+  <table class="stripe">
+    <tr>
+      <th class="left">PID</th>
+      <td class="left">{{ ssi_respondent.userId }}</td>
+    </tr>
+    <tr>
+      <th class="left">SSI respondent ID</th>
+      <td class="left">wwcn-{{ ssi_respondent.id }}</td>
+    </tr>
+    <tr>
+      <th class="left">Status</th>
+      <td class="left">{{ ssi_respondent_status }}</td>
+    </tr>
+    <tr>
+      <th class="left">Last Updated At</th>
+      <td class="left">{{ ssi_respondent.updatedAt|date("Y-m-d H:i:s") }}</td>
+    </tr>
+  </table>
+</div><!-- SSI respondent info -->
+
+<h2>SSI Survey Delivery History</h2>
+<div class="panelist_point_history autoCenter">
+  <table class="stripe" style="width:580px;">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>SSI Project ID</th>
+      <th>Answer Status</th>
+      <th>Updated At</th>
+      <th>Created At</th>
+      <th>completed At</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if ssi_surveys|length > 0 %}
+    {% for item in ssi_surveys %}
+    <tr>
+        <td class="center">{{item.id}}</td>
+        <td class="right">{{item.ssiProject.id}}</td>
+        <td class="right">{{item.answerStatus}}</td>
+        <td class="left">{{item.updatedAt|date("Y-m-d H:i:s")}}</td>
+        <td class="left">{{item.createdAt|date("Y-m-d H:i:s")}}</td>
+        <td class="left">{{item.completedAt|date("Y-m-d H:i:s")}}</td>
+      </tr>
+       {% endfor %}
+     {% else %}
+    <tr class="odd">
+      <td colspan="5" class="center">No survey delivery history found.</td>
+    </tr>
+     {% endif %}
+    </tbody>
+  </table>
+
+  <div style="display: inline-block; width: 100%;">
+    {% include '::pagination.html.twig' %}
+  </div>
+</div><!-- /.panelist_point_history -->
+
+{% endif %} {# if $user #}
+</div>
+{% endblock %}
