@@ -50,10 +50,10 @@
                             'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
                             'type_label': '商业问卷',
                             'end_date': '--',
-                            'num': 's' + ssi_surveys[0].id,
+                            'num': 's' + ssi_surveys[0].ssiProjectId,
                             'title': ssi_project_config.title,
                             'answered': false,
-                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].id}),
+                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
                             'point': ssi_project_config.point,
                       } ) }}
 
