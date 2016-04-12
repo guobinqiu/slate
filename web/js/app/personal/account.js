@@ -93,7 +93,7 @@ require(['../../config'],function(){
         }
         //注销
         var reasons = $('.reason-options'),
-            withdrawSave = $('#withdraw_save');
+        withdrawSave = $('#withdraw_save');
         withdrawSave.on('click', function(){
             saveWithdraw();
         });
@@ -110,11 +110,8 @@ require(['../../config'],function(){
                 data: {reason: checked, csrf_token: $("#csrf_token").val().trim()},
                 success : function(data) {
                     var msg = data.message;
-                    alert(data.status);
-                    alert(data.message);
                     if(data.status == 1){
                         window.location.href = Routing.generate('_profile_withdraw_finish');
-                        //closeSlider();
                     }else{
                         if(msg != null && msg.trim() != ''){
                             if(msg == 'Need login'){
@@ -124,7 +121,7 @@ require(['../../config'],function(){
                                 // 跳转到账户设置首页画面
                                 window.location.href = Routing.generate('_profile_index');
                             }else{
-                                $('.backError').html(msg);
+                                $('.backError').html('对不起，您的注销失败了，请稍后再试');
                             }
                         }
                     }

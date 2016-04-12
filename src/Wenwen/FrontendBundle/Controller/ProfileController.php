@@ -385,8 +385,6 @@ class ProfileController extends Controller
             $logout_service->logout($request);
             $result['status'] = 1;
         } else {
-            //todo
-            $result['message'] = '注销失败';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
