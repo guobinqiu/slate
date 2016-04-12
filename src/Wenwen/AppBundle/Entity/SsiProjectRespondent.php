@@ -38,7 +38,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="answer_status", type="smallint", nullable=false)
+     * @ORM\Column(name="answer_status", type="smallint", nullable=false, options={"default" = 1})
      */
     private $answerStatus;
 
