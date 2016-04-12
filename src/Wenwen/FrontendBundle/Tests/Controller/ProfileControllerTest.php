@@ -417,30 +417,36 @@ class ProfileControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $url = $container->get('router')->generate('_profile_withdraw');
-
         $session = $container->get('session');
         $session->remove('uid');
         $session->save();
 
         //don't login
         $post_data = array ();
+        $url = $container->get('router')->generate('_profile_withdraw');
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
 
-        //set login id
-        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_withdraw@d8aspring.com');
-        $id = $user->getId();
-        $session = $container->get('session');
-        $session->set('uid', $id);
-        $session->save();
+        //login
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test_withdraw@d8aspring.com',
+            'pwd' => '123qwe',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
+        $session = $client->getRequest()->getSession();
+        $user_id = $session->get('uid');
 
         // csrf not valiad
         $post_data = array ();
         $post_data['csrf_token'] = 123;
 
+        $url = $container->get('router')->generate('_profile_withdraw');
         $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
 
@@ -463,8 +469,6 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
         $return = json_decode($return, true);
-
-        var_dump($return);
         $this->assertEquals(1, $return['status']);
 
         //check db
@@ -472,8 +476,9 @@ class ProfileControllerTest extends WebTestCase
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_withdraw@d8aspring.com');
         $this->assertEmpty($user);
         $em = $this->em;
-        $user_delete = $this->em->getRepository('WenwenAppBundle:UserDeleted')->findOneByUserId($id);
+        $user_delete = $this->em->getRepository('WenwenAppBundle:UserDeleted')->findOneByUserId($user_id);
         $this->assertNotEmpty($user_delete);
+        $this->assertEquals('问卷的内容太难了,问卷调查活动的数量太少了', $user_delete->getReason());
     }
 
     public function testWithdrawFinishAction()

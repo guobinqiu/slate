@@ -59,12 +59,12 @@ class UserLogoutTest extends WebTestCase
         ));
         $client->followRedirect();
 
-        $session = $container->get('session');
+        $session = $client->getRequest()->getSession();
         $this->assertTrue($session->has('uid'));
         $this->assertTrue($session->has('nick'));
-        $session->clear();
 
-        $logout_service = $container->get('user_logout');
+        $container = static::$kernel->getContainer();
+        $logout_service = $container->get('logout_service');
         $logout_service->logout($client->getRequest());
 
         $this->assertFalse($session->has('uid'));
@@ -74,6 +74,9 @@ class UserLogoutTest extends WebTestCase
         $cookies = $client->getCookieJar();
         $this->assertEmpty($cookies->get('jili_uid', '/'));
         $this->assertEmpty($cookies->get('jili_nick', '/'));
+
+        $client->request('GET', $container->get('router')->generate('_homepage'));
+        $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
     }
 }
 

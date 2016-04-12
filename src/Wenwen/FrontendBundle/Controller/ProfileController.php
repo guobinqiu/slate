@@ -359,7 +359,6 @@ class ProfileController extends Controller
             $result['message'] = 'Need login';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
-
             return $resp;
         }
 
@@ -381,7 +380,7 @@ class ProfileController extends Controller
 
         $return = $withdraw->doWithdraw($user_id, $reason_text);
         if ($return) {
-            $logout_service = $this->get('user_logout');
+            $logout_service = $this->get('logout_service');
             $logout_service->logout($request);
             $result['status'] = 1;
         } else {
