@@ -98,7 +98,7 @@ class ProfileControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_login', array (), true);
         $client->request('POST', $url, array (
             'email' => 'test_1@d8aspring.com',
-            'pwd' => '111111',
+            'pwd' => '123qwe',
             'remember_me' => '1'
         ));
         $client->followRedirect();
@@ -141,7 +141,7 @@ class ProfileControllerTest extends WebTestCase
 
         // csrf is valiad , no error
         $post_data = array ();
-        $post_data['curPwd'] = '111111';
+        $post_data['curPwd'] = '123qwe';
         $post_data['pwd'] = '123qwe';
         $post_data['pwdRepeat'] = '123qwe';
         $post_data['csrf_token'] = $csrf_token;
@@ -224,7 +224,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals('旧密码不正确', $return);
 
         // 旧密码正确, jili密码
-        $curPwd = '111111';
+        $curPwd = '123qwe';
         $pwd = '22222a';
         $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
@@ -250,7 +250,7 @@ class ProfileControllerTest extends WebTestCase
 
         // 旧密码正确, wenwen密码
         $id = 2;
-        $curPwd = '111111';
+        $curPwd = '123qwe';
         $pwd = '22222a';
         $pwdRepeat = '22222a';
         $return = $controller->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
@@ -298,7 +298,7 @@ class ProfileControllerTest extends WebTestCase
         $form = $crawler->filter('form[name=profileForm]')->form();
 
         // set some values
-        $form['profile[nick]'] = 'aaaa';
+        $form['profile[nick]'] = 'test3';
         $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("用户昵称已经存在")')->count() > 0);
@@ -317,13 +317,15 @@ class ProfileControllerTest extends WebTestCase
         $form['profile[tel]'] = '12345678901';
         $form['profile[sex]'] = '1';
         $form['profile[birthday]'] = '1900-01-01';
-        $form['profile[province]'] = '2';
+        $provinces = $this->em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $form['profile[province]'] = $provinces[0]->getId();
 
         /*
          * *note: Symfony functional tests exercise your code by directly calling the Symfony kernel. They're not run through a web browser and therefore don't support javascript (which is simply not executed).
          */
         //$form['city'] = '8';  //城市js动态加载的
-        $form['profile[income]'] = '102';
+        $monthincomes = $this->em->getRepository('JiliApiBundle:MonthIncome')->findAll();
+        $form['profile[income]'] = $monthincomes[4]->getId();
         $form['profile[profession]'] = '1';
         $form['profile[industry_code]'] = '1';
         $form['profile[work_section_code]'] = '1';
@@ -333,7 +335,7 @@ class ProfileControllerTest extends WebTestCase
         $form['profile[hobby]'][0]->untick();
         $form['profile[hobby]'][1]->untick();
         //选择
-        $form['profile[hobby]'][5]->tick();
+        $form['profile[hobby]'][3]->tick();
 
         $form['profile[personalDes]'] = 'personalDes';
         $form['profile[favMusic]'] = 'favMusic';
@@ -381,17 +383,18 @@ class ProfileControllerTest extends WebTestCase
         $controller = new ProfileController();
         $controller->setContainer($container);
 
-        $user = $this->em->getRepository('JiliApiBundle:User')->find(1);
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_1@d8aspring.com');
         $return = $controller->getDefaultValue($user);
 
         $this->assertNotNull($return['user']);
-        $this->assertEquals(1, $return['province'][0]->getId());
+
+        $this->assertNotEmpty($return['province'][0]->getId());
         $this->assertEquals('直辖市', $return['province'][0]->getProvinceName());
 
-        $this->assertEquals(100, $return['income'][4]->getId());
+        $this->assertNotEmpty($return['income'][4]->getId());
         $this->assertEquals('1000元以下', $return['income'][4]->getIncome());
 
-        $this->assertEquals(1, $return['hobbyList'][0]->getId());
+        $this->assertNotEmpty($return['hobbyList'][0]->getId());
         $this->assertEquals('上网', $return['hobbyList'][0]->getHobbyName());
 
         $this->assertEquals(1, $return['userProHobby'][0]);
@@ -518,11 +521,40 @@ class ProfileControllerTestFixture extends AbstractFixture implements ContainerA
     public function load(ObjectManager $manager)
     {
         //load data for testing .
-        $root_dir = $this->container->get('kernel')->getRootDir();
-        $fixture_dir = $root_dir . DIRECTORY_SEPARATOR . 'fixtures';
-        $file = $fixture_dir . DIRECTORY_SEPARATOR . 'profile.sql';
-        $r = $manager->getConnection()->query(file_get_contents($file));
-        $r->closeCursor();
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test1');
+        $user->setEmail('test_1@d8aspring.com');
+        $user->setIsEmailConfirmed(1);
+        $user->setPwd('123qwe');
+        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
+        $user->setHobby('1,2');
+        $user->setCity(2);
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test2');
+        $user->setEmail('test_2@d8aspring.com');
+        $user->setIsEmailConfirmed(1);
+        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
+        $manager->persist($user);
+        $manager->flush();
+
+        $user_wenwen_login = new \Jili\ApiBundle\Entity\UserWenwenLogin();
+        $user_wenwen_login->setUser($user);
+        $user_wenwen_login->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
+        $user_wenwen_login->setLoginPasswordCryptType('blowfish');
+        $user_wenwen_login->setLoginPassword('123qwe');
+        $manager->persist($user_wenwen_login);
+        $manager->flush();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test3');
+        $user->setEmail('test_3@d8aspring.com');
+        $user->setIsEmailConfirmed(1);
+        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
+        $manager->persist($user);
+        $manager->flush();
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick('test');
@@ -538,6 +570,80 @@ class ProfileControllerTestFixture extends AbstractFixture implements ContainerA
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
         $manager->persist($user);
+        $manager->flush();
+
+        $provincelist = new \Jili\ApiBundle\Entity\ProvinceList();
+        $provincelist->setProvinceName('直辖市');
+        $manager->persist($provincelist);
+        $manager->flush();
+
+        $citylist = new \Jili\ApiBundle\Entity\CityList();
+        $citylist->setCityName('上海市');
+        $citylist->setProvinceId($provincelist->getId());
+        $manager->persist($citylist);
+        $manager->flush();
+
+        $citylist = new \Jili\ApiBundle\Entity\CityList();
+        $citylist->setCityName('北京市');
+        $citylist->setProvinceId($provincelist->getId());
+        $manager->persist($citylist);
+        $manager->flush();
+
+        $provincelist = new \Jili\ApiBundle\Entity\ProvinceList();
+        $provincelist->setProvinceName('江苏省');
+        $manager->persist($provincelist);
+        $manager->flush();
+
+        $citylist = new \Jili\ApiBundle\Entity\CityList();
+        $citylist->setCityName('南京市');
+        $citylist->setProvinceId($provincelist->getId());
+        $manager->persist($citylist);
+        $manager->flush();
+
+        $citylist = new \Jili\ApiBundle\Entity\CityList();
+        $citylist->setCityName('苏州市');
+        $citylist->setProvinceId($provincelist->getId());
+        $manager->persist($citylist);
+        $manager->flush();
+
+        $hobby = new \Jili\ApiBundle\Entity\HobbyList();
+        $hobby->setHobbyName('上网');
+        $manager->persist($hobby);
+        $manager->flush();
+
+        $hobby = new \Jili\ApiBundle\Entity\HobbyList();
+        $hobby->setHobbyName('音乐');
+        $manager->persist($hobby);
+        $manager->flush();
+
+        $hobby = new \Jili\ApiBundle\Entity\HobbyList();
+        $hobby->setHobbyName('游戏');
+        $manager->persist($hobby);
+        $manager->flush();
+
+        $monthincome = new \Jili\ApiBundle\Entity\MonthIncome();
+        $monthincome->setIncome('3000元以下');
+        $manager->persist($monthincome);
+        $manager->flush();
+
+        $monthincome = new \Jili\ApiBundle\Entity\MonthIncome();
+        $monthincome->setIncome('3000元-5000元');
+        $manager->persist($monthincome);
+        $manager->flush();
+
+        $monthincome = new \Jili\ApiBundle\Entity\MonthIncome();
+        $monthincome->setIncome('5000元-10000元');
+        $manager->persist($monthincome);
+        $manager->flush();
+
+        $monthincome = new \Jili\ApiBundle\Entity\MonthIncome();
+        $monthincome->setIncome('10000元以上');
+        $manager->persist($monthincome);
+        $manager->flush();
+
+        $monthincome = new \Jili\ApiBundle\Entity\MonthIncome();
+        $monthincome->setIncome('1000元以下');
+        $manager->persist($monthincome);
         $manager->flush();
     }
 }

@@ -134,7 +134,7 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
 
-        if ($user->isPasswordWenwen()) {
+        if ($user && $user->isPasswordWenwen()) {
             // check wenwen password
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if (!$wenwenLogin || !$wenwenLogin->getLoginPasswordCryptType()) {
@@ -145,7 +145,7 @@ class ProfileController extends Controller
             }
         } else {
             // check jili password
-            if (!$user->isPwdCorrect($curPwd)) {
+            if ($user && !$user->isPwdCorrect($curPwd)) {
                 return $this->container->getParameter('change_wr_oldpwd');
             }
         }
@@ -298,7 +298,7 @@ class ProfileController extends Controller
         $data['hobbyList'] = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
 
         //用户爱好
-        if ($user->getHobby()) {
+        if ($user && $user->getHobby()) {
             $data['userProHobby'] = explode(",", $user->getHobby());
         } else {
             $data['userProHobby'] = null;
