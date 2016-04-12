@@ -147,6 +147,17 @@ require(['../config'],function(){
             }else if(res.data.profiling.length != 0 && type == 'Profiling'){
                 renderProfilingItems(res.data.profiling);
                 return true;
+            }else if(res.data.user_agreement.length != 0 && type == 'UserAgreement'){
+                if(res.data.user_agreement.length == 1){
+                    if(res.data.user_agreement[0].type == 'Fulcrum'){
+                        renderFulcrumUserAgreementItems(res.data.user_agreement);
+                    }else if(res.data.user_agreement[0].type == 'Cint'){
+                        renderCintUserAgreementItems(res.data.user_agreement);
+                    }
+                }else{
+                    renderFulcrumUserAgreementItems(res.data.user_agreement);
+                }
+                return true;
             }else if(res.data.fulcrum_research.length != 0 && type == 'Fulcrum'){
                 renderFulcrumResearchItems(res.data.fulcrum_research, 1);
                 return true;
@@ -157,12 +168,22 @@ require(['../config'],function(){
             return false;
         };
 
-        var fillSurvey = function(res, num){
+        var showSopSurvey = function(res, num){
             if(num == 1){
                 if(res.data.research.length != 0){
                     renderResearchItems(res.data.research.reverse(), 1);
                 }else if(res.data.profiling.length != 0){
                     renderProfilingItems(res.data.profiling);
+                }else if(res.data.user_agreement.length != 0){
+                    if(res.data.user_agreement.length == 1){
+                        if(res.data.user_agreement[0].type == 'Fulcrum'){
+                            renderFulcrumUserAgreementItems(res.data.user_agreement);
+                        }else if(res.data.user_agreement[0].type == 'Cint'){
+                            renderCintUserAgreementItems(res.data.user_agreement);
+                        }
+                    }else{
+                        renderFulcrumUserAgreementItems(res.data.user_agreement);
+                    }
                 }else if(res.data.fulcrum_research.length != 0){
                     renderFulcrumResearchItems(res.data.fulcrum_research, 1);
                 }else if(res.data.cint_research.length != 0){
@@ -173,33 +194,42 @@ require(['../config'],function(){
                 if(lackNum == 0){
                     return;
                 }else if(lackNum == 1){
-                    if(!fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
+                    if(!fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'UserAgreement') && !fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                         return;
                     }
                 }else{
                     if(res.data.profiling.length != 0){
                         renderProfilingItems(res.data.profiling);
-                        if(!fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
+                        if(!fillOtherSurvey(res, 1, 'UserAgreement') && !fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                             return;
                         }
                     }else{
-                        lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research);
+                        lackNum = showUserAgreementSurvey(res, 2);
                         if(lackNum == 0){
                             return;
                         }else if(lackNum == 1){
-                            if(!fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
+                            if( !fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                                 return;
                             }
                         }else{
-                            lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research);
+                            lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research);
                             if(lackNum == 0){
                                 return;
                             }else if(lackNum == 1){
-                                if(!showSsiSurvey(1)){
+                                if(!fillOtherSurvey(res, 1, 'Cint') && !showSsiSurvey(1)){
                                     return;
                                 }
                             }else{
-                                showSsiSurvey(2);
+                                lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research);
+                                if(lackNum == 0){
+                                    return;
+                                }else if(lackNum == 1){
+                                    if(!showSsiSurvey(1)){
+                                        return;
+                                    }
+                                }else{
+                                    showSsiSurvey(2);
+                                }
                             }
                         }
                     }
@@ -264,34 +294,26 @@ require(['../config'],function(){
             }
         };
 
-        var showSopSurvey = function(res, num){
-            switch(res.data.user_agreement.length){
-                case 0: 
-                    if(num == 1){
-                        fillSurvey(res, 1);    
-                    }else{
-                        fillSurvey(res, 2);    
-                    }
-                    break;
-                case 1: 
+        var showUserAgreementSurvey = function(res, num){
+            var lackNum;
+            if(num == 1){
+                if(res.data.user_agreement.length == 1){
                     if(res.data.user_agreement[0].type == 'Cint'){
                         renderCintUserAgreementItems(res.data.user_agreement);
                     }else if(res.data.user_agreement[0].type == 'Fulcrum'){
                         renderFulcrumUserAgreementItems(res.data.user_agreement);
                     }
-                    if(num != 1){
-                        fillSurvey(res, 1);
-                    }
-                    break;
-                case 2: 
-                    if(num == 1){
-                        renderCintUserAgreementItems(res.data.user_agreement);    
-                    }else{
-                        renderFulcrumUserAgreementItems(res.data.user_agreement);
-                        renderCintUserAgreementItems(res.data.user_agreement);
-                    }
-                    break;
-                default: break;
+                    lackNum = 0;
+                    return lackNum;
+                }else{
+                    lackNum = 1;
+                    return lackNum;
+                }
+            }else{
+                renderFulcrumUserAgreementItems(res.data.user_agreement);
+                renderCintUserAgreementItems(res.data.user_agreement);
+                lackNum = 0;
+                return lackNum;
             }
         };
 
