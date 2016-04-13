@@ -15,6 +15,9 @@ use VendorIntegration\SSI\PC1\WebService\StatClient;
 
 class SsiPointRewardCommand extends ContainerAwareCommand
 {
+    const REPORT_TIME_ZONE = 'EST';
+    const REWARD_TIME_ZONE = 'Asia/Shanghai';
+
     protected $logger;
 
     protected function configure()
@@ -60,7 +63,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 }
 
                 $dt = new \DateTime(
-                  DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai')
+                  DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
                 );
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
