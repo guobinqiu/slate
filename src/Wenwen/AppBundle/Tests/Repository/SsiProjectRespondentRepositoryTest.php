@@ -70,7 +70,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SsiProjectRespondentRepositoryTestFixture implements ContainerAwareInterface, FixtureInterface
 {
-    public static $USER;
     public static $SSI_RESPONDENT;
 
     /**
@@ -105,7 +104,6 @@ class SsiProjectRespondentRepositoryTestFixture implements ContainerAwareInterfa
         $user->setCity(2);
         $manager->persist($user);
         $manager->flush();
-        self::$USER = $user;
 
         $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
         $ssi_respondent->setUser($user);
