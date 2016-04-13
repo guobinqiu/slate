@@ -64,15 +64,15 @@ $(document).ready(function(){
     </tr>
     <tr>
         <th>register date</th>
-        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ member.registerDate is empty ? "": member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>register complete date</th>
-        <td>{{ member.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ member.registerCompleteDate is empty ? "": member.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>last login date</th>
-        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ member.lastLoginDate is empty ? "": member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>points</th>
@@ -85,6 +85,10 @@ $(document).ready(function(){
     <tr>
         <th>delete flag</th>
         <td>{{ member.deleteFlag }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>delete_date</th>
+        <td>{{ member.deleteDate is empty ? "": member.deleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
 </table>
 <input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;"/>
