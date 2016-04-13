@@ -1272,11 +1272,22 @@ class UserController extends Controller implements CampaignTrackingController
 #								$this->get('request')->getSession()->set('nick',$user->getNick());
                                 $this->get('login.listener')->initSession( $user );
 
-                                $user->setPwd($pwd);
+                                $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
                                 $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
                                 $em->persist($user);
                                 $em->persist($setPasswordCode);
                                 $em->flush();
+
+                                $password_crypt_type = $this->container->getParameter('signup.crypt_method');
+                                $password_salt = $this->container->getParameter('signup.salt');
+                                $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
+                                $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
+                                    'user_id' => $id,
+                                    'password' => $pwd,
+                                    'crypt_type' => $password_crypt_type,
+                                    'salt' => $password_salt
+                                ));
+
                                 $arr['codeflag'] = $this->container->getParameter('init_one');
                                 $arr['code'] = $this->container->getParameter('forget_su_pwd');
                             }else{
