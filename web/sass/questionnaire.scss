@@ -222,9 +222,10 @@ body{
 .withdrawQ{
 	background: #F2F2F2;
 	padding: 25px;
-	margin: 20px 213px 0 163px;
+	margin: 20px 201px 0 163px;
 	@include border-radius(5px);
 	p{
+		font-size: 13px;
 		line-height: 30px;
 		a{
 			color: #24C4D2;
