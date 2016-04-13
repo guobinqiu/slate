@@ -27,6 +27,28 @@ require(['../../config'], function() {
                 var model = new survey.ProfilingItemModel(item);
                 var view  = new survey.ProfilingItemView({ model: model });
                 addSuveyItem(view.render().el);
+
+                //profile survey prompt popup
+                var surveyList = $('#surveyList');
+                var prop = $.cookie('prop');
+                var proCon = $('.proSurPop');
+                function shouldShow(){
+                   var pp  = $.cookie('prop');
+                   if (pp == undefined || pp == 1) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+                }
+                surveyList.delegate('.proClose','click', function(){
+                   $.cookie('prop', 0, { expires: 10000, path: '/' }); 
+                   surveyList.find(proCon).hide();    
+                });
+                if(shouldShow()){
+                   surveyList.find(proCon).show();
+                }else{
+                   surveyList.find(proCon).hide();
+                }
             });
         };
 
@@ -229,6 +251,6 @@ require(['../../config'], function() {
             mockResponse();
         }
       }
-
     });
+ 
 });
