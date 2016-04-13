@@ -290,7 +290,7 @@ parameters:
     callback_url: http://www.91jili.com/QQLogin/qqcallback
     scope: get_user_info
 
-    upload_experience_advertisement_dir: images/experience_advertisement/
+    upload_experience_advertisement_dir: uploads/experience_advertisement/
     upload_experience_advertisement_dir_old: images/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
