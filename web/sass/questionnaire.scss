@@ -217,3 +217,19 @@ body{
 	}
 }
 /* permisson page End */
+
+/* withdraw finish page Start */
+.withdrawQ{
+	background: #F2F2F2;
+	padding: 25px;
+	margin: 20px 213px 0 163px;
+	@include border-radius(5px);
+	p{
+		line-height: 30px;
+		a{
+			color: #24C4D2;
+			margin: 0 8px 0 5px;
+		}
+	}
+}
+/* withdraw finish page End */

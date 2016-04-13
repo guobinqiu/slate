@@ -12,9 +12,15 @@
 <div class="qnWrap">
     <div class="qnCon qnEnd">
         <div class="qnEndTxt">
-            <div class="txt"><h2>注销成功！</h2>
-            <div class="cor666">主人，你真的不喜欢我了吗？&nbsp;;( 不管怎样，我会一直在这里等你回来的！</div>
-        </div>
+            <div class="txt">
+            	<h2>注销成功！</h2>
+            	<div class="cor666">主人，你真的不喜欢我了吗？&nbsp;;( 不管怎样，我会一直在这里等你回来的！</div>
+        	</div>
+        	<div class="withdrawQ">
+        		<p>现在，您可以尝试：<a href="{{ path('_user_login') }}" title="登录">登录&raquo;</a> <a href="{{ path('_user_reg') }}" title="注册">注册&raquo;</a> <a href="{{ path('_homepage') }}">回到首页&raquo;</a></p>
+        		<p>如果您有任何问题：<a href="{{ path('_default_feedback') }}" title="联系客服">联系客服&raquo;</a></p>
+        	</div>
+
         </div>
     </div>
     {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
