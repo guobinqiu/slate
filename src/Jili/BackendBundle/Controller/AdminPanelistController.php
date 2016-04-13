@@ -294,28 +294,22 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
             return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
         }
 
-        if ($ssi_respondent->isActive()) {
-            $ssi_respondent_status = 'ACTIVE';
-        } elseif ($ssi_respondent->needPrescreening()) {
-            $ssi_respondent_status = 'PRE-SCREENING';
-        } else {
-            $ssi_respondent_status = 'INACTIVE';
-        }
+        //ssi respondent status
+        $ssi_respondent_status = $this->getSsiRespondentStatus($ssi_respondent);
 
         try {
-            //total count
-            $ssi_survey_total = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondentCount($ssi_respondent->getId());
+            //ssi project respondent total count
+            $ssi_survey_total = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondentCount($ssi_respondent);
 
-            //list
-            $ssi_surveys = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondent($ssi_respondent->getId(), $pageSize, $page);
+            //ssi project respondent list
+            $ssi_surveys = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondent($ssi_respondent, $pageSize, $page);
 
             foreach ($ssi_surveys as $key => $value) {
                 $ssi_surveys[$key]->setAnswerStatus($this->getAnswerStatusInfo($value->getAnswerStatus()));
             }
         } catch (Exception $e) {
 
-            $logger = $this->get('logger');
-            $logger->info($e);
+            $this->get('logger')->info($e->getMessage());
 
             $ssi_surveys = array ();
         }
@@ -328,6 +322,23 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $arr['ssi_surveys'] = $ssi_surveys;
 
         return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
+    }
+
+    public function getSsiRespondentStatus($ssi_respondent)
+    {
+        if (!$ssi_respondent) {
+            return null;
+        }
+
+        if ($ssi_respondent->isActive()) {
+            $ssi_respondent_status = 'ACTIVE';
+        } elseif ($ssi_respondent->needPrescreening()) {
+            $ssi_respondent_status = 'PRE-SCREENING';
+        } else {
+            $ssi_respondent_status = 'INACTIVE';
+        }
+
+        return $ssi_respondent_status;
     }
 
     public function getAnswerStatusInfo($answer_status)
