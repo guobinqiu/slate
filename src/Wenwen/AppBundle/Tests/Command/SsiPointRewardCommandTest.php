@@ -119,13 +119,6 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->assertCount(3, $rows);
     }
 
-    public function testParseSsiRespondentId()
-    {
-        $this->assertSame('10', \Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('wwcn-10'));
-        $this->assertNull(\Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('pnkr-10'));
-        $this->assertNull(\Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('10'));
-    }
-
     public function testRecordParticipationHistory()
     {
         $kernel = self::$kernel;
