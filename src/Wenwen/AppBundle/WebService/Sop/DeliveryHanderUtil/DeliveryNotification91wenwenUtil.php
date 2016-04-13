@@ -10,7 +10,7 @@ class DeliveryNotification91wenwenUtil
 
     public static function retrieveValidRecipientData($app_mid, $em)
     {
-        return $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientDataBySopRespondentId($app_mid);
+        return $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
     }
 
     public static function sendMailing($container, $respondents, $em)

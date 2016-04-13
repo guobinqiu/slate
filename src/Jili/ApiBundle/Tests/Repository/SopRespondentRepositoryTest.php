@@ -102,7 +102,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em = $this->em;
 
         //测试不存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientDataBySopRespondentId(99);
+        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
         $this->assertEmpty($recipient_data);
 
         $user = new User();
@@ -119,7 +119,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($user->getId());
 
         //测试已经存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientDataBySopRespondentId($sop_respondent->getId());
+        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sop_respondent->getId());
 
         $this->assertNotEmpty($recipient_data);
 

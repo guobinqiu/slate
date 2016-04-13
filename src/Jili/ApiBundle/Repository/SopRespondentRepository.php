@@ -43,7 +43,7 @@ class SopRespondentRepository extends EntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function retrieve91wenwenRecipientDataBySopRespondentId($id)
+    public function retrieve91wenwenRecipientData($id)
     {
         $sql = <<<EOT
             SELECT
