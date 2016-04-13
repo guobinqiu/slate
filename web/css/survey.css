@@ -546,6 +546,9 @@ body {
       .survey-sub .survey-btn a:hover {
         background: #f25807;
         border: 1px solid #f25807; }
+  .survey-sub #noSurvey {
+    text-align: center;
+    display: none; }
 
 .page-wrapper {
   padding: 30px;
