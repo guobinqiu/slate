@@ -55,6 +55,7 @@ class AdminPanelistControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
+        $user = AdminPanelistControllerTestFixture::$USER;
 
         //检索默认页面
         $url = 'admin/panelist/search';
@@ -66,9 +67,10 @@ class AdminPanelistControllerTest extends WebTestCase
 
         //click serach
         $form = $crawler->selectButton('s')->form();
-        $form['panelistSerach[user_id]'] = 31;
+        $form['panelistSerach[user_id]'] = $user->getId();
         $crawler = $client->submit($form);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('zhangmm@ec-navi.com.cn', $client->getResponse()->getContent());
     }
 
     /**
@@ -135,6 +137,9 @@ class AdminPanelistControllerTest extends WebTestCase
         ));
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains('zhangmm@ec-navi.com.cn', $client->getResponse()->getContent());
+        $this->assertContains('100', $client->getResponse()->getContent());
+        $this->assertContains('广告体验', $client->getResponse()->getContent());
     }
 }
 
@@ -182,7 +187,7 @@ class AdminPanelistControllerTestFixture implements ContainerAwareInterface, Fix
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick('test1');
-        $user->setEmail('test_1@d8aspring.com');
+        $user->setEmail('zhangmm@ec-navi.com.cn');
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
         $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
