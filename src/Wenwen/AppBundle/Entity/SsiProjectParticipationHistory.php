@@ -5,15 +5,16 @@ namespace Wenwen\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SsiProjectParticipationHistory
+ * SsiProjectParticipationHistory.
  *
  * @ORM\Table(name="ssi_project_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="completed_at_transaction_id_unique", columns={"completed_at", "transaction_id"})}, indexes={@ORM\Index(name="ssi_respondent_idx", columns={"ssi_respondent_id"}), @ORM\Index(name="ssi_respondent_created_at_idx", columns={"created_at"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class SsiProjectParticipationHistory
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="ssi_respondent_id", type="integer", nullable=false)
      */
@@ -48,7 +49,7 @@ class SsiProjectParticipationHistory
     private $createdAt;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -56,12 +57,11 @@ class SsiProjectParticipationHistory
      */
     private $id;
 
-
-
     /**
-     * Set ssiRespondentId
+     * Set ssiRespondentId.
      *
-     * @param integer $ssiRespondentId
+     * @param int $ssiRespondentId
+     *
      * @return SsiProjectParticipationHistory
      */
     public function setSsiRespondentId($ssiRespondentId)
@@ -72,9 +72,9 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get ssiRespondentId
+     * Get ssiRespondentId.
      *
-     * @return integer 
+     * @return int
      */
     public function getSsiRespondentId()
     {
@@ -82,9 +82,10 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Set transactionId
+     * Set transactionId.
      *
      * @param string $transactionId
+     *
      * @return SsiProjectParticipationHistory
      */
     public function setTransactionId($transactionId)
@@ -95,9 +96,9 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get transactionId
+     * Get transactionId.
      *
-     * @return string 
+     * @return string
      */
     public function getTransactionId()
     {
@@ -105,9 +106,10 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Set completedAt
+     * Set completedAt.
      *
      * @param \DateTime $completedAt
+     *
      * @return SsiProjectParticipationHistory
      */
     public function setCompletedAt($completedAt)
@@ -118,9 +120,9 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get completedAt
+     * Get completedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCompletedAt()
     {
@@ -128,9 +130,10 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return SsiProjectParticipationHistory
      */
     public function setUpdatedAt($updatedAt)
@@ -141,9 +144,9 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -151,9 +154,10 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return SsiProjectParticipationHistory
      */
     public function setCreatedAt($createdAt)
@@ -164,9 +168,9 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -174,12 +178,25 @@ class SsiProjectParticipationHistory
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
     }
 }

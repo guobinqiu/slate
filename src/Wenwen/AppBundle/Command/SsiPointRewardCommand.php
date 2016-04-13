@@ -31,7 +31,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     {
         $env = $this->getContainer()->get('kernel')->getEnvironment();
         $date = $input->getOption('date');
-        $definitive = $input->hasOption('definitive');
+        $definitive = $input->getOption('definitive');
         $this->setLogger($this->getName());
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code'));
@@ -39,6 +39,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $iterator->initialize($client, $date);
 
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $pointManager = 
         $dbh = $em->getConnection();
         $dbh->beginTransaction();
 
@@ -69,6 +70,14 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_SURVEY,
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );
+
+                $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai'));
+                $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
+                $history->setSsiRespondentId($ssiRespondent->getId());
+                $history->setTransactionId($row['transaction_id']);
+                $history->setCompletedAt($dt);
+                $em->persist($history);
+                $em->flush();
             }
         } catch (\Exception $e) {
             $dbh->rollBack();
@@ -105,5 +114,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         }
 
         return;
+    }
+
+    public function recordParticipationHistory($row)
+    {
     }
 }

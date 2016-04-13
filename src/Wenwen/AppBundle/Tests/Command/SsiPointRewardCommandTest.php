@@ -13,7 +13,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
 {
     protected static $kernel;
 
-    public static function setUpBeforeClass()
+    public function setUp()
     {
         static::$kernel = static::createKernel(array(
             'environment' => 'test',
@@ -34,17 +34,6 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $em->close();
-    }
-
-    public function setUp()
-    {
-        static::$kernel = static::createKernel(array(
-            'environment' => 'test',
-            'debug' => false,
-        ));
-        static::$kernel->boot();
-
         $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
     }
 
@@ -53,7 +42,47 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->em->close();
     }
 
-    public function testExecute()
+    public function testExecuteInNonDefinitiveMode()
+    {
+        $kernel = self::$kernel;
+        $container = $kernel->getContainer();
+
+        // mock the Kernel or create one depending on your needs
+        $application = new Application($kernel);
+        $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
+        $command = $application->find('panel:reward-ssi-point');
+        $command->setContainer($container);
+
+        $iterator = \Phake::partialMock('\Wenwen\AppBundle\Services\SsiConversionReportIterator');
+        \Phake::when($iterator)->getConversionReport(1)->thenReturn([
+            'success' => true,
+            'totalNumRows' => 1001,
+            'data' => [self::getConversionRowSample(), self::getConversionRowSample()],
+        ]);
+        \Phake::when($iterator)->getConversionReport(2)->thenReturn([
+            'success' => true,
+            'totalNumRows' => 1001,
+            'data' => [self::getConversionRowSample()],
+        ]);
+        $container->set('ssi_api.conversion_report_iterator', $iterator);
+
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
+        $this->assertSame(100, $user->getPoints());
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array('command' => $command->getName()));
+
+        $this->em->clear();
+        $user = $this->em->getRepository('JiliApiBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
+        $this->assertSame(100, $user->getPoints());
+
+        $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
+            SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId()
+        );
+        $this->assertCount(0, $rows);
+    }
+
+    public function testExecuteInDefinitiveMode()
     {
         $kernel = self::$kernel;
         $container = $kernel->getContainer();
@@ -78,10 +107,15 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $container->set('ssi_api.conversion_report_iterator', $iterator);
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName()));
+        $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
 
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
         $this->assertSame(640, $user->getPoints(), '180 * 3 point are rewarded');
+
+        $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
+            SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId()
+        );
+        $this->assertCount(3, $rows);
     }
 
     public function testParseSsiRespondentId()
@@ -95,7 +129,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
     {
         return array(
          'offer' => '1346 API_USD',
-         'date_time' => '2016-02-08 02:44:25',
+         'date_time' => date('Y-m-d H:i:s'),
          'source' => '',
          'sub_id' => '',
          'sub_id_1' => '',
