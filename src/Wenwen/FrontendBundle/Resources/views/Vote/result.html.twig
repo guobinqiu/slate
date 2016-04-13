@@ -19,7 +19,7 @@
                 {% if vote_image_path %}
                 <img src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                 {% else %}
-                <img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">
+                <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
                 <div class="relate-text">
                     <div>时间：{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
