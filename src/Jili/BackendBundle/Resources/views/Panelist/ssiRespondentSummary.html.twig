@@ -53,7 +53,6 @@
       <th>Answer Status</th>
       <th>Updated At</th>
       <th>Created At</th>
-      <th>completed At</th>
     </tr>
     </thead>
     <tbody>
@@ -65,7 +64,6 @@
         <td class="right">{{item.answerStatus}}</td>
         <td class="left">{{item.updatedAt|date("Y-m-d H:i:s")}}</td>
         <td class="left">{{item.createdAt|date("Y-m-d H:i:s")}}</td>
-        <td class="left">{{item.completedAt|date("Y-m-d H:i:s")}}</td>
       </tr>
        {% endfor %}
      {% else %}

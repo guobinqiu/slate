@@ -291,7 +291,6 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
         if (!$ssi_respondent) {
             $arr['ssi_respondent'] = null;
-
             return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
         }
 
@@ -304,17 +303,13 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         }
 
         try {
-
-            //total
+            //total count
             $ssi_survey_total = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondentCount($ssi_respondent->getId());
 
             //list
             $ssi_surveys = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondent($ssi_respondent->getId(), $pageSize, $page);
-            // echo "<br>line_".__LINE__."_aaaaaaaaaa<pre>";
-            // print_r($ssi_surveys);
-            $ssi_survey_infos = array ();
+
             foreach ($ssi_surveys as $key => $value) {
-                //                 $ssi_survey_infos[$key]['answer_status'] = $this->getAnswerStatusInfo($value->getAnswerStatus());
                 $ssi_surveys[$key]->setAnswerStatus($this->getAnswerStatusInfo($value->getAnswerStatus()));
             }
         } catch (Exception $e) {
