@@ -404,14 +404,15 @@ body {
         padding: 25px 0 25px 130px;
         background: url(../img/questionnaire/normalface.png) no-repeat left center; }
         .main .qnWrap .qnEnd .qnEndTxt .txt h2 {
-          font-size: 20px;
-          font-weight: bold;
+          font-size: 26px;
           line-height: 30px;
           padding-bottom: 12px; }
         .main .qnWrap .qnEnd .qnEndTxt .txt.sad {
           background: url(../img/questionnaire/sadface.png) no-repeat left center; }
         .main .qnWrap .qnEnd .qnEndTxt .txt b {
           color: #ff6700; }
+        .main .qnWrap .qnEnd .qnEndTxt .txt .cor666 {
+          color: #666; }
 
 /* permisson page Start */
 .permissionMain {
