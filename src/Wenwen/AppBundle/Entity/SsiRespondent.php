@@ -243,4 +243,16 @@ class SsiRespondent
     {
         return sprintf(self::$base_url,  $this->getId());
     }
+
+    /**
+     * @param $respondentId shared with SSI. format: wwcn-12345
+     */
+    public static function parseRespondentId($respondentId)
+    {
+        if (preg_match('/\Awwcn-(\d+)\z/', $respondentId, $matches)) {
+            return $matches[1];
+        }
+
+        return;
+    }
 }
