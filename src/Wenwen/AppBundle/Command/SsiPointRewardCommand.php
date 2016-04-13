@@ -39,7 +39,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $iterator->initialize($client, $date);
 
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $pointManager = 
         $dbh = $em->getConnection();
         $dbh->beginTransaction();
 
