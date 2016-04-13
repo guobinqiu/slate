@@ -291,7 +291,7 @@ parameters:
     scope: get_user_info
 
     upload_experience_advertisement_dir: uploads/experience_advertisement/
-    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    upload_experience_advertisement_dir_old: uploads/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
     game_seeker_config_path:
