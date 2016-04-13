@@ -65,6 +65,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $dt = new \DateTime(
                   DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
                 );
+
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
@@ -73,13 +74,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );
 
-                $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai'));
-                $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
-                $history->setSsiRespondentId($ssiRespondent->getId());
-                $history->setTransactionId($row['transaction_id']);
-                $history->setCompletedAt($dt);
-                $em->persist($history);
-                $em->flush();
+                $this->recordParticipationHistory($ssiRespondent, $row);
             }
         } catch (\Exception $e) {
             $dbh->rollBack();
@@ -118,7 +113,17 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         return;
     }
 
-    public function recordParticipationHistory($row)
+    public function recordParticipationHistory($ssiRespondent, $row)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
+        $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE));
+        $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
+        $history->setSsiRespondentId($ssiRespondent->getId());
+        $history->setTransactionId($row['transaction_id']);
+        $history->setCompletedAt($dt);
+
+        $em->persist($history);
+        $em->flush();
     }
 }

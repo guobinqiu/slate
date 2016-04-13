@@ -5,6 +5,7 @@ namespace Wenwen\AppBundle\Tests\Command;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Jili\ApiBundle\Utility\DateUtil;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -123,6 +124,32 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->assertSame('10', \Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('wwcn-10'));
         $this->assertNull(\Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('pnkr-10'));
         $this->assertNull(\Wenwen\AppBundle\Command\SsiPointRewardCommand::parseSsiRespondentId('10'));
+    }
+
+    public function testRecordParticipationHistory()
+    {
+        $kernel = self::$kernel;
+        $container = $kernel->getContainer();
+
+        // mock the Kernel or create one depending on your needs
+        $application = new Application($kernel);
+        $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
+        $command = $application->find('panel:reward-ssi-point');
+        $command->setContainer($container);
+
+        $ssiRespondent = SsiPointRewardCommandTestFixture::$SSI_RESPONDENT;
+        $row = self::getConversionRowSample();
+        $command->recordParticipationHistory($ssiRespondent, $row);
+        $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai'));
+
+        $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
+          $ssiRespondent->getId()
+        );
+        $this->assertCount(1, $rows);
+        $this->assertSame($ssiRespondent->getId(), $rows[0]->getSsiRespondentId());
+        $this->assertSame($ssiRespondent->getId(), $rows[0]->getSsiRespondentId());
+        $this->assertSame($row['transaction_id'], $rows[0]->getTransactionId());
+        $this->assertSame($dt->format('U'), $rows[0]->getCompletedAt()->format('U'));
     }
 
     private static function getConversionRowSample()
