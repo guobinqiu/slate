@@ -83,7 +83,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         set_time_limit(0);
         $failTime = 180;
         $companyId = 10;
-        $mailingId = 90019;
+        $mailingId = 90021;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailure');
     }
     public function pointFailureForWeek($em)
@@ -91,7 +91,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         set_time_limit(0);
         $failTime = 173;
         $companyId = 10;
-        $mailingId = 90018;
+        $mailingId = 90022;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForWeek');
     }
     
@@ -100,7 +100,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         set_time_limit(0);
         $failTime = 150;
         $companyId = 10;
-        $mailingId = 90017;
+        $mailingId = 90023;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForMonth');
     }
     
