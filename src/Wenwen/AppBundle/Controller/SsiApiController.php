@@ -21,31 +21,49 @@ class SsiApiController extends Controller
      */
     public function handleRequestAction(Request $request)
     {
-        $response = new JsonResponse();
         $ssiRequest = new SsiRequest();
         $ssiRequest->loadJson($request->getContent());
+
+        # validation
         $validator = new SsiRequestValidator($ssiRequest);
         $validator->validate();
         if (!$validator->isValid()) {
-            $response->setData(
-                [
-                'generalResponseCode' => self::ERROR_STATUS_CODE,
-                ]
-            );
+            $response = new JsonResponse();
+            $response->setData(['generalResponseCode' => self::ERROR_STATUS_CODE]);
 
             return $response;
         }
         $em = $this->getDoctrine()->getManager();
+
+        # Save DB
         $handler = new SsiRequestHandler($em->getConnection());
         $handler->setUpProject($ssiRequest);
         $handler->setUpProjectRespondents($ssiRequest);
-        $succeededRespondentIds = $handler->getSucceededRespondentIds();
-        $failedRespondentIds = $handler->getFailedRespondentIds();
-        $unsubscribedRespondentIds = $handler->getUnsubscribedRespondentIds();
+
+        # send mail
+        if (sizeof($handler->getSucceededRespondentIds())) {
+            $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
+                $handler->getSucceededRespondentIds(),
+                $em,
+                $this->container
+            );
+            $recipients = $notification->retrieveRecipientsToMail();
+            $notification->sendMailing(100, $recipients);
+        }
+
+        return $this->createResponse(
+            $handler->getSucceededRespondentIds(),
+            $handler->getFailedRespondentIds(),
+            $handler->getUnsubscribedRespondentIds()
+        );
+    }
+
+    private function createResponse($succeededRespondentIds, $failedRespondentIds, $unsubscribedRespondentIds)
+    {
+        $response = new JsonResponse();
+
         if (sizeof($succeededRespondentIds)) {
-            $res = [
-            'generalResponseCode' => self::SUCCESS_STATUS_CODE,
-            ];
+            $res = ['generalResponseCode' => self::SUCCESS_STATUS_CODE];
             if (sizeof($failedRespondentIds)) {
                 $res['additionalResponseCodes'][self::ERROR_STATUS_CODE] = $failedRespondentIds;
             }
@@ -56,10 +74,9 @@ class SsiApiController extends Controller
 
             return $response;
         }
+
         if (sizeof($failedRespondentIds) >= sizeof($unsubscribedRespondentIds)) {
-            $res = [
-            'generalResponseCode' => self::ERROR_STATUS_CODE,
-            ];
+            $res = ['generalResponseCode' => self::ERROR_STATUS_CODE];
             if (sizeof($unsubscribedRespondentIds)) {
                 $res['additionalResponseCodes'][self::UNSUBSCRIBDED_STATUS_CODE] = $unsubscribedRespondentIds;
             }
@@ -67,9 +84,8 @@ class SsiApiController extends Controller
 
             return $response;
         }
-        $res = [
-        'generalResponseCode' => self::UNSUBSCRIBDED_STATUS_CODE,
-        ];
+
+        $res = ['generalResponseCode' => self::UNSUBSCRIBDED_STATUS_CODE];
         if (sizeof($failedRespondentIds)) {
             $res['additionalResponseCodes'][self::ERROR_STATUS_CODE] = $failedRespondentIds;
         }
