@@ -11,7 +11,7 @@ use Jili\ApiBundle\Entity\SendPointFail;
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
-    private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
+    private $soap;
     private $username;
     private $password;
     private $alertTo;
@@ -33,8 +33,9 @@ class DmdeliveryCommand extends ContainerAwareCommand
             xhprof_enable(XHPROF_FLAGS_MEMORY);
         }
 
-        $this->username = $this->getContainer()->getParameter('webpower_email_username');
-        $this->password = $this->getContainer()->getParameter('webpower_email_password');
+        $this->soap = $this->getContainer()->getParameter('webpower.91wenwen.soap_uri');
+        $this->username = $this->getContainer()->getParameter('webpower.91wenwen.username');
+        $this->password = $this->getContainer()->getParameter('webpower.91wenwen.password');
         $this->alertTo =  $this->getContainer()->getParameter('cron_alertTo_contacts');
 
         $this->alertSubject = $this->getContainer()->getParameter('alert_subject');
@@ -81,16 +82,16 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 180;
-        $companyId = 4;
-        $mailingId = 28;
+        $companyId = 10;
+        $mailingId = 90019;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailure');
     }
     public function pointFailureForWeek($em)
     {
         set_time_limit(0);
         $failTime = 173;
-        $companyId = 4;
-        $mailingId = 31;
+        $companyId = 10;
+        $mailingId = 90018;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForWeek');
     }
     
@@ -98,8 +99,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 150;
-        $companyId = 4;
-        $mailingId = 30;
+        $companyId = 10;
+        $mailingId = 90017;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForMonth');
     }
     

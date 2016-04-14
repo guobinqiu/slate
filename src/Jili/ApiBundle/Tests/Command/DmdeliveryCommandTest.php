@@ -101,12 +101,8 @@ class DmdeliveryCommandTest extends KernelTestCase
      */
     public function testConfigs() 
     {
-
         $container = $this->container;
         $contacts = $container->getParameter('cron_alertTo_contacts');
-        $this->assertCount(3,$contacts);
-        $this->assertContains( "tao_jiang@voyagegroup.com", $contacts );
-        $this->assertContains( "xiaoyi_chai@voyagegroup.com", $contacts );
-        $this->assertContains( "miaomiao_zhang@voyagegroup.com", $contacts );
+        $this->assertNotEmpty($contacts);
     }
 }
