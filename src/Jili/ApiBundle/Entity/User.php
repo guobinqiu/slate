@@ -249,7 +249,7 @@ class User
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
     private $deleteDate;
-    
+
     /**
      * @var integer
      *
@@ -372,9 +372,10 @@ class User
 
         $fileNames = array('attachment');
         $types = array('jpg','jpeg');
+
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777);
+            mkdir($upload_dir,0777,true);
         }
         $upload_dir.='/';
         foreach ($fileNames as $key=>$fileName){
@@ -1472,7 +1473,7 @@ class User
         return $this->workSectionCode;
     }
 
-    public function emailIsConfirmed () 
+    public function emailIsConfirmed ()
     {
         return  (bool) $this->getIsEmailConfirmed();
     }
