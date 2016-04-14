@@ -518,7 +518,7 @@ h1 {
     .main-personal-account .form li span.succeed, .main-personal-account .form li span strong {
       border: none;
       background: transparent; }
-  .main-personal-account .form .backError {
+  .main-personal-account .backError {
     padding-left: 120px;
     color: #ff0000; }
   .main-personal-account .con {
@@ -543,6 +543,7 @@ h1 {
     .main-personal-account .con .btn {
       padding: 20px 0 0 120px; }
       .main-personal-account .con .btn span {
+        margin-right: 10px;
         width: 74px;
         text-align: center;
         height: 36px;
@@ -563,6 +564,13 @@ h1 {
         .main-personal-account .con .btn span:hover {
           background: #f25807;
           border: 1px solid #f25807; }
+        .main-personal-account .con .btn span.backStep {
+          background: #c7c7c7;
+          border: 1px solid #c7c7c7;
+          cursor: pointer; }
+          .main-personal-account .con .btn span.backStep:hover {
+            background: #a7a7a7;
+            border: 1px solid #a7a7a7; }
     .main-personal-account .con.bding ul {
       margin-top: 20px;
       padding: 0;
@@ -594,6 +602,8 @@ h1 {
     .main-personal-account .con.withdraw ul.reason {
       padding: 10px 0;
       border: 1px solid #f6f6f6; }
+      .main-personal-account .con.withdraw ul.reason #email {
+        padding-left: 5px; }
     .main-personal-account .con.withdraw ul.reason-options span {
       width: 210px; }
     .main-personal-account .con.withdraw ul label {
@@ -605,6 +615,8 @@ h1 {
       padding: 10px 0 0 0; }
       .main-personal-account .con.withdraw .btn span {
         width: 110px; }
+    .main-personal-account .con.withdraw .backError {
+      padding-left: 0px; }
 
 .footer {
   margin-top: 50px;
