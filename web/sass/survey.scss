@@ -56,6 +56,10 @@
 			@include dib();
 		}
 	}
+	#noSurvey{
+		text-align: center;
+		display: none;
+	}
 }
 @import "component/page";
 @import "layout/footer";
