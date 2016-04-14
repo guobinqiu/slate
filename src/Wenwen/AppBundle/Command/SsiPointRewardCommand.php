@@ -57,7 +57,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
                 $userId = $ssiRespondent->getUserId();
                 $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
-                if (!$ssiRespondent) {
+                if (!$user) {
                     $this->logger->info("User (Id: $userId) not found.");
                     continue;
                 }
