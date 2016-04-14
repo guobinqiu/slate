@@ -38,8 +38,9 @@ class SurveyController extends Controller
             $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
             $ssi_res['isActive'] = $ssi_respondent->isActive();
             if ($ssi_res['isActive']) {
-                $dbh = $this->getEntityManager()->getConnection();
+                $dbh = $em->getConnection();
                 $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+                $arr['ssi_project_config'] = $this->container->getParameter('ssi_project_survey');
             }
         }
         $arr['ssi_respondent'] = $ssi_respondent;
