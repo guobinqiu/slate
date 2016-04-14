@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\BackendBundle\Controller\AdminPanelistController;
+use \VendorIntegration\SSI\PC1\Constants;
 
 class AdminPanelistControllerTest extends WebTestCase
 {
@@ -190,16 +191,16 @@ class AdminPanelistControllerTest extends WebTestCase
         $controller = new AdminPanelistController();
         $controller->setContainer($container);
 
-        $return = $controller->getAnswerStatusInfo(0);
+        $return = $controller->getAnswerStatusInfo(Constants::SSI_PROJECT_RESPONDENT_STATUS_INIT);
         $this->assertEquals('INIT', $return);
 
-        $return = $controller->getAnswerStatusInfo(2);
+        $return = $controller->getAnswerStatusInfo(Constants::SSI_PROJECT_RESPONDENT_STATUS_REOPENED);
         $this->assertEquals('RE-OPENED', $return);
 
-        $return = $controller->getAnswerStatusInfo(5);
+        $return = $controller->getAnswerStatusInfo(Constants::SSI_PROJECT_RESPONDENT_STATUS_FORWARDED);
         $this->assertEquals('FORWARDED', $return);
 
-        $return = $controller->getAnswerStatusInfo(11);
+        $return = $controller->getAnswerStatusInfo(Constants::SSI_PROJECT_RESPONDENT_STATUS_COMPLETE );
         $this->assertEquals('DONE', $return);
 
         $return = $controller->getAnswerStatusInfo(20);

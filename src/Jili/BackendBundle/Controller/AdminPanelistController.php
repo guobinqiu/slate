@@ -288,16 +288,17 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $pageSize = $this->container->getParameter('page_size_50');
         $em = $this->getDoctrine()->getManager();
 
-        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
-        if (!$ssi_respondent) {
-            $arr['ssi_respondent'] = null;
-            return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
-        }
-
-        //ssi respondent status
-        $ssi_respondent_status = $this->getSsiRespondentStatus($ssi_respondent);
-
         try {
+
+            $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+            if (!$ssi_respondent) {
+                $arr['ssi_respondent'] = null;
+                return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
+            }
+
+            //ssi respondent status
+            $ssi_respondent_status = $this->getSsiRespondentStatus($ssi_respondent);
+
             //ssi project respondent total count
             $ssi_survey_total = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondentCount($ssi_respondent);
 
