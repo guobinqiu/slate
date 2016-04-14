@@ -18,12 +18,16 @@ require(['../../config'],function(){
             }
        	});
 
-        var withdrawContinue = $('#withdraw_continue');
+        var withdrawContinue = $('#withdraw_continue'), backStep = $('.backStep'),
+                step1 = $('.step1'), step2 = $('.step2');
         withdrawContinue.on('click', function(){
-            $('.step1').hide();
-            $('.step2').show();
+            step1.hide();
+            step2.show();
         });
-
+        backStep.on('click', function(){
+            step1.show();
+            step2.hide();
+        });
    	});
     require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
         //修改密码（交互）

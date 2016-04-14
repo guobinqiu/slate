@@ -36,8 +36,8 @@ body {
 .main-con-right {
   width: 23%; }
   .main-con-right h2 {
-    padding: 0 15px;
-    line-height: 35px;
+    padding: 13px 15px 0;
+    line-height: 50px;
     color: #000;
     font-size: 14px;
     font-weight: bold;
@@ -284,17 +284,28 @@ body {
 .main-con-left h1 {
   height: 55px;
   line-height: 55px;
-  font-size: 20px;
-  padding-left: 20px;
-  border-bottom: 1px solid #f6f6f6;
-  font-weight: bold; }
+  font-size: 24px;
+  color: #666;
+  padding: 10px 0 0 6px;
+  border-bottom: 1px solid #f6f6f6; }
+.main-con-left em {
+  width: 24px;
+  height: 26px;
+  margin-right: 11px;
+  background: url(../img/common/titIco.png) no-repeat 0 -1px;
+  vertical-align: middle;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
 .main-con-left .title {
-  color: #0078b6;
+  color: #575757;
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 600;
   line-height: 35px; }
   .main-con-left .title a {
-    color: #0078b6; }
+    color: #575757; }
+    .main-con-left .title a:hover {
+      color: #914b11; }
 .main-con-left ul {
   width: 100%; }
 .main-con-left li {
@@ -303,8 +314,8 @@ body {
   position: relative;
   z-index: 1; }
   .main-con-left li:hover .survey-item, .main-con-left li.active .survey-item {
-    width: 80%; }
-  .main-con-left li:hover .survey-btn, .main-con-left li.active .survey-btn {
+    width: 86%; }
+  .main-con-left li:hover .vote-btn, .main-con-left li.active .vote-btn {
     width: 15%; }
   .main-con-left li:hover .vote-txt, .main-con-left li.active .vote-txt {
     width: 68%; }
@@ -315,28 +326,21 @@ body {
     *zoom: 1; }
 
 .survey-item {
-  width: 100%;
-  padding: 0 0 15px 0;
-  transition: width 300ms;
-  -moz-transition: width 300ms;
-  -webkit-transition: width 300ms;
-  -o-transition: width 300ms; }
-  .survey-item ul {
-    margin-left: -10px;
-    width: 100%; }
+  width: 86%;
+  padding: 0 0 15px 0; }
   .survey-item li {
     float: left;
-    width: 27%;
+    width: 22%;
     text-align: left;
     padding: 5px 0 0 10px;
     border-top: none;
     border-left: 1px solid #f6f6f6; }
     .survey-item li span {
       line-height: 22px;
-      color: #646d7a; }
+      color: #9c9c9c; }
     .survey-item li p {
       line-height: 28px;
-      color: #646d7a; }
+      color: #9c9c9c; }
       .survey-item li p strong {
         color: #ff6700;
         font-size: 16px; }
@@ -345,13 +349,45 @@ body {
     .survey-item li.last {
       width: 10%; }
 
-.survey-btn {
+.survey .survey-btn {
+  color: #666;
+  background: transparent;
+  width: 24%;
+  line-height: 170px;
+  cursor: default;
+  position: absolute;
+  right: -13px;
+  top: 0px; }
+  .survey .survey-btn a {
+    color: #fff;
+    background: #ff7733;
+    width: 141px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    color: #fff;
+    background: #ff6700;
+    border: 1px solid #ff6700;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
+    .survey .survey-btn a:hover {
+      background: #f25807;
+      border: 1px solid #f25807; }
+
+.vote .vote-btn {
   width: 0%;
-  height: 100%;
-  line-height: 1000%;
+  height: 65%;
+  line-height: 700%;
   position: absolute;
   z-index: 1000;
-  top: 0;
+  top: 27px;
   right: 0;
   text-align: center;
   color: #fff;
@@ -368,12 +404,12 @@ body {
   -moz-transition: all 0.4s;
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s; }
-  .survey-btn:hover, .survey-btn:active {
+  .vote .vote-btn:hover, .vote .vote-btn:active {
     background: #f25807; }
 
-.vote a.survey-btn {
+.vote a.vote-btn {
   color: #fff;
-  line-height: 900%; }
+  line-height: 700%; }
 .vote li {
   padding: 30px 20px; }
   .vote li.vote-new .vote-img {
@@ -424,7 +460,7 @@ body {
 
 .vote-txt {
   width: 84%;
-  color: #646d7a;
+  color: #9c9c9c;
   line-height: 22px;
   transition: width 300ms;
   -moz-transition: width 300ms;
@@ -437,7 +473,7 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap; }
   .vote-txt .relate {
-    color: #646d7a; }
+    color: #9c9c9c; }
     .vote-txt .relate span {
       padding: 0 3px; }
       .vote-txt .relate span strong {
@@ -489,63 +525,14 @@ body {
   cursor: pointer; }
 
 .main-con-left li:hover .survey-btn, .main-con-left li.active .survey-btn {
-  width: 30%; }
+  width: 24%; }
 
 .survey-sub {
   position: relative;
   z-index: 1; }
-  .survey-sub em {
-    position: absolute;
-    z-index: 1000;
-    left: 0;
-    top: 28px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    width: 6px;
-    height: 20px;
-    background: #ff6700; }
-  .survey-sub li {
+  .survey-sub > li {
     border-top: none;
     border-bottom: 1px solid #f6f6f6; }
-  .survey-sub .survey-item {
-    width: 80%; }
-    .survey-sub .survey-item li {
-      width: 22%;
-      border-bottom: none; }
-  .survey-sub .survey-btn {
-    color: #666;
-    background: transparent;
-    width: 30%;
-    line-height: 170px;
-    cursor: default;
-    transition: width 0;
-    -moz-transition: width 0;
-    -webkit-transition: width 0;
-    -o-transition: width 0; }
-    .survey-sub .survey-btn a {
-      margin: 66px auto 45px;
-      color: #fff;
-      background: #ff7733;
-      width: 150px;
-      height: 33px;
-      line-height: 33px;
-      text-align: center;
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.4s;
-      -moz-transition: all 0.4s;
-      -webkit-transition: all 0.4s;
-      -o-transition: all 0.4s;
-      display: inline-block;
-      *display: inline;
-      *zoom: 1; }
-      .survey-sub .survey-btn a:hover {
-        background: #f25807;
-        border: 1px solid #f25807; }
   .survey-sub #noSurvey {
     text-align: center;
     display: none; }

@@ -13,8 +13,7 @@
 <div class="main-con w1000 clearfix">
 	<div class="main-con-left left">
 		<div class="vote vote-sub">
-			<em></em>
-			<h1>快速问答</h1>
+			<h1><em></em>快速问答</h1>
             {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
 			<div class="page-wrapper">
 			{% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}

@@ -113,7 +113,7 @@ class HomeController extends Controller
         }
 
         $arr['ad_experience'] = $adExperience;
-        return $this->render('JiliFrontendBundle:Home:adExperience.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Advertisement:_hallHome.html.twig', $arr);
     }
 
     /**
