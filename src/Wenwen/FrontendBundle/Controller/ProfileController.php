@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Form\ProfileEditType;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
 /**
- * @Route("/profile",requirements={"_scheme"="https"})
+ * @Route("/profile", requirements={"_scheme"="http"})
  */
 class ProfileController extends Controller
 {
@@ -34,6 +34,9 @@ class ProfileController extends Controller
         $csrf_token = $csrfProvider->generateCsrfToken('profile');
         $request->getSession()->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
+
+        $em = $this->getDoctrine()->getManager();
+        $arr['user'] = $em->getRepository('JiliApiBundle:User')->find($request->getSession()->get('uid'));
 
         return $this->render('WenwenFrontendBundle:Profile:account.html.twig', $arr);
     }
@@ -84,6 +87,7 @@ class ProfileController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
             $user->setPwd($pwd);
             $em->flush();
 
@@ -130,7 +134,7 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
 
-        if ($user->isPasswordWenwen()) {
+        if ($user && $user->isPasswordWenwen()) {
             // check wenwen password
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if (!$wenwenLogin || !$wenwenLogin->getLoginPasswordCryptType()) {
@@ -141,7 +145,7 @@ class ProfileController extends Controller
             }
         } else {
             // check jili password
-            if (!$user->isPwdCorrect($curPwd)) {
+            if ($user && !$user->isPwdCorrect($curPwd)) {
                 return $this->container->getParameter('change_wr_oldpwd');
             }
         }
@@ -156,8 +160,7 @@ class ProfileController extends Controller
     {
         //没有登录
         if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_edit'));
-
+            $request->getSession()->set('referer', $this->generateUrl('_profile_edit'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -244,7 +247,11 @@ class ProfileController extends Controller
             } else {
                 $user->setSex(null);
             }
-            $user->setPersonalDes($params['personalDes']);
+            if (isset($params['personalDes'])) {
+                $user->setPersonalDes($params['personalDes']);
+            } else {
+                $user->setPersonalDes(null);
+            }
             $user->setFavMusic($params['favMusic']);
             $user->setMonthlyWish($params['monthlyWish']);
 
@@ -291,7 +298,7 @@ class ProfileController extends Controller
         $data['hobbyList'] = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
 
         //用户爱好
-        if ($user->getHobby()) {
+        if ($user && $user->getHobby()) {
             $data['userProHobby'] = explode(",", $user->getHobby());
         } else {
             $data['userProHobby'] = null;
@@ -337,5 +344,63 @@ class ProfileController extends Controller
         $this->get('login.listener')->updateInfoSession($user);
 
         return new Response(json_encode($code));
+    }
+
+    /**
+     * @Route("/withdraw", name="_profile_withdraw", options={"expose"=true})
+     * @Method("POST")
+     */
+    public function withdrawAction(Request $request)
+    {
+        $result['status'] = 0;
+
+        if (!$request->getSession()->get('uid')) {
+            $result['message'] = 'Need login';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
+        }
+
+        $reasons = $request->get('reason', array ());
+        $reason_text = implode(',', $reasons);
+        $csrf_token = $request->get('csrf_token');
+
+        //check csrf_token
+        if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
+            $result['message'] = 'Access Forbidden';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
+        }
+
+        //doWithdraw
+        $withdraw = $this->get('withdraw_handler');
+        $user_id = $request->getSession()->get('uid');
+
+        $return = $withdraw->doWithdraw($user_id, $reason_text);
+        if ($return) {
+            $logout_service = $this->get('logout_service');
+            $logout_service->logout($request);
+            $result['status'] = 1;
+        } else {
+            $result['message'] = 'fail';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
+        }
+
+        $result['message'] = 'success';
+        $resp = new Response(json_encode($result));
+        $resp->headers->set('Content-Type', 'application/json');
+
+        return $resp;
+    }
+
+    /**
+     * @Route("/withdrawFinish", name="_profile_withdraw_finish", options={"expose"=true})
+     */
+    public function withdrawFinishAction(Request $request)
+    {
+        return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
     }
 }

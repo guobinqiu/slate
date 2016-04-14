@@ -1,6 +1,7 @@
 parameters:
 # user related
     login.listener.class: Jili\ApiBundle\Services\UserLogin
+    logout.service.class: Jili\ApiBundle\Services\UserLogout
 
     soap.mail.listener.class: Jili\ApiBundle\Services\Dmdelivery\Client
     webpower.91wenwen_signup.mailer.class: Jili\ApiBundle\Services\Dmdelivery\Client
@@ -77,6 +78,12 @@ services:
             - [setContainer, ["@service_container"]]
             - [setTaskList, [ @session.task_list ]]
             - [setUserConfig, [ @session.user_configs]]
+
+    logout_service:
+        class: %logout.service.class%
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setContainer, [ @service_container ] ]
 
     soap.mail.listener:
         class: %soap.mail.listener.class%
