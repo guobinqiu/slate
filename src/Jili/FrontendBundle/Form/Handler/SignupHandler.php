@@ -31,7 +31,7 @@ class SignupHandler
     private $password_salt;
     private $password_encrypt_type;
 
-    public function __construct( $crypt_method,$salt) 
+    public function __construct( $crypt_method,$salt)
     {
         $this->password_crypt_type = $crypt_method;
         $this->password_salt = $salt;
@@ -53,18 +53,18 @@ class SignupHandler
         $em = $this->em;
 
         // create user
-        $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array( 
+        $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
             'nick'=> $data['nickname'],
             'email'=>$data['email'],
-            'user_agent' => $this->userAgent,
-            'remote_address' => $this->remoteAddress,
+            'createdUserAgent' => $this->userAgent,
+            'createdRemoteAddr' => $this->remoteAddress,
         ));
- 
+
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
             'user_id' => $user->getId()
         ));
 
-        $password = PasswordEncoder::encode($this->password_crypt_type,$data['password'] , $this->password_salt);; 
+        $password = PasswordEncoder::encode($this->password_crypt_type,$data['password'] , $this->password_salt);;
 
 
         $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array('user_id'=> $user->getId() ,
@@ -87,7 +87,7 @@ class SignupHandler
      *  'remote_address'=>$request->getClientIp()
      *   ))
      */
-    public function setClientInfo(array $info) 
+    public function setClientInfo(array $info)
     {
        $this->userAgent = $info['user_agent'];
        $this->remoteAddress = $info['remote_address'];
