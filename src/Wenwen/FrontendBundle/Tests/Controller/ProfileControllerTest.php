@@ -73,6 +73,8 @@ class ProfileControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_profile_index');
         $crawler = $client->request('GET', $url);
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $session = $client->getRequest()->getSession();
@@ -112,8 +114,6 @@ class ProfileControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_profile_changepwd');
         $crawler = $client->request('POST', $url, $post_data);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
 
@@ -451,8 +451,6 @@ class ProfileControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_profile_withdraw');
         $crawler = $client->request('POST', $url, $post_data);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
 
