@@ -482,7 +482,7 @@ class ProfileControllerTest extends WebTestCase
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneByEmail('test_withdraw@d8aspring.com');
         $this->assertEmpty($user);
         $em = $this->em;
-        $user_delete = $this->em->getRepository('WenwenAppBundle:UserDeleted')->findOneByUserId($user_id);
+        $user_delete = $this->em->getRepository('WenwenAppBundle:UserWithdraw')->findOneByUserId($user_id);
         $this->assertNotEmpty($user_delete);
         $this->assertEquals('问卷的内容太难了,问卷调查活动的数量太少了', $user_delete->getReason());
     }
