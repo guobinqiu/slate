@@ -1138,7 +1138,7 @@ class UserController extends Controller implements CampaignTrackingController
             return $this->redirect($this->generateUrl('_default_error'));
         $arr['gotoEmial'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
-        return $this->render('WenwenFrontendBundle:User:active.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
     }
 
     /**
@@ -1315,7 +1315,8 @@ class UserController extends Controller implements CampaignTrackingController
         $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
         $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
         }else{
-            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
             $send_email = $this->sendMail($url, $email,$nick);
         }
 
@@ -1344,7 +1345,8 @@ class UserController extends Controller implements CampaignTrackingController
         $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
         $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
         }else{
-            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
             $send_email = $this->sendMail($url,$email,$user[0]->getNick());
         }
         if($send_email){
@@ -1897,7 +1899,8 @@ class UserController extends Controller implements CampaignTrackingController
 // 		$request = $this->get('request');
         $email = '278583642@qq.com';
         $nick = '';
-        $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+        //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+        $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
         if($this->sendMail($url, $email,$nick)){
