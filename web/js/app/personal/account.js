@@ -38,7 +38,7 @@ require(['../../config'],function(){
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
         $('#pwd_save').on('click', function(){
             if(rpaValidate.func.updatePwd()){
-                savePwd();    
+                savePwd();
             }
         });
         var curPwdInput = $('#curPwd'),
@@ -93,7 +93,7 @@ require(['../../config'],function(){
         }
         //注销
         var reasons = $('.reason-options'),
-            withdrawSave = $('#withdraw_save');
+        withdrawSave = $('#withdraw_save');
         withdrawSave.on('click', function(){
             saveWithdraw();
         });
@@ -102,6 +102,31 @@ require(['../../config'],function(){
             for(var i = 0; i < len; i++){
                 checked[i] = reasons.find('input:checked').eq(i).val().trim();
             }
+
+            $.ajax({
+                type: "POST",
+                url: Routing.generate('_profile_withdraw'),
+                contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                data: {reason: checked, csrf_token: $("#csrf_token").val().trim()},
+                success : function(data) {
+                    var msg = data.message;
+                    if(data.status == 1){
+                        window.location.href = Routing.generate('_profile_withdraw_finish');
+                    }else{
+                        if(msg != null && msg.trim() != ''){
+                            if(msg == 'Need login'){
+                                // 跳转到登录画面
+                                window.location.href = Routing.generate('_user_login');
+                            }else if(msg == 'Access Forbidden'){
+                                // 跳转到账户设置首页画面
+                                window.location.href = Routing.generate('_profile_index');
+                            }else{
+                                $('.backError').html('对不起，您的注销失败了，请稍后再试');
+                            }
+                        }
+                    }
+                }
+            });
         }
     });
 });

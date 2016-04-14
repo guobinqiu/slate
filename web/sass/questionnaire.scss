@@ -135,8 +135,7 @@ body{
 					padding: 25px 0 25px 130px;
 					background: url(../img/questionnaire/normalface.png) no-repeat left center;
 					h2{
-						font-size: 20px;
-						font-weight: bold;
+						font-size: 26px;
 						line-height: 30px;
 						padding-bottom: 12px;
 					}
@@ -145,6 +144,9 @@ body{
 					}
 					b{
 						color: #ff6700;
+					}
+					.cor666{
+						color: #666;
 					}
 				}
 			}
@@ -215,3 +217,20 @@ body{
 	}
 }
 /* permisson page End */
+
+/* withdraw finish page Start */
+.withdrawQ{
+	background: #F2F2F2;
+	padding: 25px;
+	margin: 20px 201px 0 163px;
+	@include border-radius(5px);
+	p{
+		font-size: 13px;
+		line-height: 30px;
+		a{
+			color: #24C4D2;
+			margin: 0 8px 0 5px;
+		}
+	}
+}
+/* withdraw finish page End */
