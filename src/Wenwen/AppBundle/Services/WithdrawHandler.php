@@ -42,7 +42,7 @@ class WithdrawHandler
             $wenwenLogin = $this->em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
             if ($wenwenLogin) {
                 // insert user_wenwen_login_deleted
-                $sth = $db_connection->prepare('INSERT INTO `user_wenwen_login_deleted` SELECT * FROM `user_wenwen_login` WHERE user_id =' . $user->getId() . " LIMIT 1");
+                $sth = $db_connection->prepare('INSERT INTO `user_wenwen_login_deleted` SELECT * FROM `user_wenwen_login` WHERE user_id =' . $user->getId());
                 $sth->execute();
 
                 //delete user_wenwen_login
