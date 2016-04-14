@@ -80,7 +80,7 @@ class UserLogin
         }
 
         $id = $user->getId();
-        if ($user->getDeleteFlag() == 1 || ! $user->emailIsConfirmed()) {
+        if ($user->getDeleteFlag() == 1 || $user->emailIsConfirmed() == 0) {
             $code = $this->getParameter('login_wr');
             return $code;
         }

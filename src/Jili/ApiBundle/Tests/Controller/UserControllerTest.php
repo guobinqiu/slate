@@ -79,12 +79,12 @@ class UserControllerTest extends WebTestCase
         $router = $container->get('router');
         $logger= $container->get('logger');
         // login
-        $url = $container->get('router')->generate('_login', array(), true);
+        $url = $container->get('router')->generate('_user_login', array(), true);
         echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $query = array('email'=> 'chiangtor@gmail.com');
+        $query = array('email'=> 'user@voyagegroup.com.cn');
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         if(! $user) {
@@ -98,21 +98,6 @@ class UserControllerTest extends WebTestCase
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);//$query['email']);
 
         $this->assertEmpty($user->getToken());
-        unset($user);
-
-        //login
-        $form = $crawler->selectButton('loginSubmit')->form();
-        $form['email'] = $query['email'];
-        $form['pwd'] = 'aaaaaa';
-        $form['remember_me']->tick();
-
-        $client->submit($form);
-
-
-        $secret = $container->getParameter('secret');
-        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
-        $user =$container->get('doctrine')->getEntityManager()->getRepository('JiliApiBundle:User')->find($uid);
-        $this->assertEquals($token, $user->getToken());
         unset($user);
 
         //logout
@@ -140,7 +125,7 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url_logout ) ;
 
         $em = $this->em;
-        $query = array('email'=> 'chiangtor@gmail.com');
+        $query = array('email'=> 'user@voyagegroup.com.cn');
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         if(! $user) {
             echo 'bad email:',$query['email'], PHP_EOL;
@@ -159,60 +144,6 @@ class UserControllerTest extends WebTestCase
 
 
 
-    }
-    /**
-     * @group user
-     * @group login
-     */
-    public function testLoginRemeberMeAction()
-    {
-        //todo assert the session config. reduce the configuration on gc_lifetime.
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $router = $container->get('router');
-        $logger= $container->get('logger');
-        $session = array(
-            'gc_maxlifetime'=>  ini_get('session.gc_maxlifetime')
-        );
-
-        $em = $this->em;
-        $query = array('email'=> 'chiangtor@gmail.com');
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-
-        $url = $container->get('router')->generate('_login', array(), true);
-        echo $url, PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
-        $form = $crawler->selectButton('loginSubmit')->form();
-        $form['email'] = $query['email'];
-        $form['pwd'] = 'aaaaaa';
-        $form['remember_me']->tick();
-
-        $client->submit($form);
-
-        $this->assertEquals(301, $client->getResponse()->getStatusCode() );
-
-        $session = $container->get('session');
-
-        $this->assertTrue( $session->has('uid'));
-        $this->assertEquals($user->getId(), $session->get('uid'));
-
-        $cookies  = $client->getCookieJar() ;
-
-        //$this->assertEquals( $user->getId(), $cookies->get('jili_uid' ,'/')->getRawValue());
-
-        $secret = $container->getParameter('secret');
-        $token = $this->buildToken( array('email'=> $query['email'], 'pwd'=> 'aaaaaa'), $secret);
-
-        $this->assertEquals( $token, $cookies->get('jili_rememberme' ,'/')->getRawValue());
-
-        $this->assertEmpty(  $cookies->get('jili_uid' ,'/'));
-        $this->assertEmpty(  $cookies->get('jili_nick' ,'/'));
     }
 
     private function buildToken($user , $secret)
@@ -235,11 +166,11 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
 
         // reset email
-        $query = array('email'=> 'alice.nima@gmail.com');
+        $query = array('email'=> 'user@voyagegroup.com.cn');
         $url = $container->get('router')->generate('_user_reset', $query ) ;
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals('1', $client->getResponse()->getContent());
+        //$this->assertEquals('1', $client->getResponse()->getContent());
         $user = LoadUserResetPasswordCodeData::$ROWS[0];
 
         $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
@@ -270,24 +201,6 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('密码修改成功', $client->getResponse()->getContent(), 'password error');
     }
 
-#    public function testFastLoginAction()
-#    {
-#        $client = static::createClient();
-#        $container = $client->getContainer();
-#        $logger= $container->get('logger');
-#
-#        $query = array('email'=> 'alice.nima@gmail.com', 'pwd'=>'aaaaaa' );
-#        $url = $container->get('router')->generate('_default_fastLogin', $query ) ;
-#        // $crawler = $client->request('GET', '/hello/Fabien');
-#        echo $url, PHP_EOL;
-#
-#        $client->request('POST', $url ) ;
-#        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-#        $this->assertEquals('1', $client->getResponse()->getContent());
-#
-#        $this->assertEquals('0', '0');
-#        //$this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
-#    }
     /**
      * @group user-password
      * @group issue_381
@@ -529,7 +442,7 @@ class UserControllerTest extends WebTestCase
 
 
         $args = array( '--campaign_id=1','--group_id=81','--mailing_id=9','--email=alice.nima@gmail.com',
-            '--title=',
+            '--title=先生/女士',
             '--name=alice32',
             '--register_key='.$setPasswordCode->getCode() );
 

@@ -1,4 +1,5 @@
 parameters:
+    domain: www.91jili.com.vag.91jili.com
     wenwen_support_email_address:  support@91wenwen.com
     cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
     alert_subject: '积粒网-定时任务提醒邮件'
@@ -281,8 +282,8 @@ parameters:
     91wenwen_api_connect_jili: https://www.91wenwen.net/connect_jili/confirmConnect
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
-    file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
-    file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
+    file_path_wenwen_vote: %kernel.logs_dir%/data/91jili/logs/wenwen/vote.json
+    file_path_cpa_ranking_activity: %kernel.logs_dir%/data/91jili/logs/activity/cpa_ranking_activity
 
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745

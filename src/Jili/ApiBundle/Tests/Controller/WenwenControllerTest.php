@@ -389,7 +389,6 @@ class WenwenControllerTest extends WebTestCase {
         $this->assertEquals('/api/91wenwen/bindApi', $client->getRequest()->getRequestUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $time = time();
         $params = array (
             'cross_id' => $cross->getId(),
             'time' => $time

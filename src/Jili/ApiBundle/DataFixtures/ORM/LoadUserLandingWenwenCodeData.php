@@ -43,6 +43,7 @@ class LoadUserLandingWenwenCodeData  extends AbstractFixture implements Containe
         $user->setPoints($this->container->getParameter('init'));
         $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
+        $user->setIsEmailConfirmed(1);
 
         $user->setPwd('aaaaaa');
         $manager->persist($user);

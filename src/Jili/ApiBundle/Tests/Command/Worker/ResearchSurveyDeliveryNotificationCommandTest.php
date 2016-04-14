@@ -50,25 +50,17 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
 
         $command = $application->find('research_survey:delivery_notification');
         $commandTester = new CommandTester($command);
-
         $commandParam = array ('command' => $command->getName(),
             '--campaign_id' => '23', # 91wenwen-survey-mailing2
             '--mailing_id'  => '90004', # survey-mail-fulcrum
             '--group_name'  => 'test_by_jarod',
-            'recipients'=>  array(
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMEBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8wIiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMUBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8xIiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMkBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8yIiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrM0BnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8zIiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrNEBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF80Iiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrNUBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF81Iiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrNkBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF82Iiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrN0BnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF83Iiwic3VydmV5X3BvaW50IjoxMDF9',
-                'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrOEBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF84Iiwic3VydmV5X3BvaW50IjoxMDF9',
+            'recipients'=> array(
+                base64_encode("{'name':'Guobin','value':'guobin.qiu@d8aspring.com'}"),
+                base64_encode("{'name':'Guobin','value':'guobin.qiu@d8aspring.com'}"),
+                base64_encode("{'name':'Chai','value':'xiaoyi.chai@d8aspring.com'}"),
             )
-
         );
-
+        
         $commandTester->execute($commandParam);
 
     }
