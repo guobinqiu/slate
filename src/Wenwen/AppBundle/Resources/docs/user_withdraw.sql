@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `user_deleted` (
   `last_login_ip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `points` int(11) NOT NULL,
   `delete_flag` int(11) DEFAULT NULL,
+  `delete_date` datetime DEFAULT NULL,
   `is_info_set` int(11) NOT NULL,
   `icon_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `uniqkey` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,

@@ -352,7 +352,6 @@ class ProfileController extends Controller
      */
     public function withdrawAction(Request $request)
     {
-        $request = $this->get('request');
         $result['status'] = 0;
 
         if (!$request->getSession()->get('uid')) {
@@ -384,11 +383,13 @@ class ProfileController extends Controller
             $logout_service->logout($request);
             $result['status'] = 1;
         } else {
+            $result['message'] = 'fail';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
         }
 
+        $result['message'] = 'success';
         $resp = new Response(json_encode($result));
         $resp->headers->set('Content-Type', 'application/json');
 
