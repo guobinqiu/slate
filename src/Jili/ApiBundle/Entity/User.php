@@ -244,6 +244,13 @@ class User
     private $deleteFlag;
 
     /**
+     * @var datetime $deleteDate
+     *
+     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     */
+    private $deleteDate;
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="is_info_set", type="integer")
@@ -1147,6 +1154,28 @@ class User
         return $this->deleteFlag;
     }
 
+    /**
+     * Set deleteDate
+     *
+     * @param \DateTime $deleteFlag
+     * @return User
+     */
+    public function setDeleteDate($deleteDate)
+    {
+        $this->deleteDate = $deleteDate;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteDate
+     *
+     * @return \DateTime
+     */
+    public function getDeleteDate()
+    {
+        return $this->deleteDate;
+    }
 
     /**
      * Set isInfoSet
