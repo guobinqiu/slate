@@ -5,7 +5,6 @@ use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\AppBundle\Entity\UserDeleted;
 
 class WithdrawHandlerTest extends KernelTestCase
 {
@@ -72,13 +71,16 @@ class WithdrawHandlerTest extends KernelTestCase
         $this->assertEmpty($user);
 
         //check data
-        $user_deleted = $em->getRepository('WenwenAppBundle:UserDeleted')->findOneByUserId($user_id);
+        $user_withdraw = $em->getRepository('WenwenAppBundle:UserWithdraw')->findOneByUserId($user_id);
+        $this->assertNotEmpty($user_withdraw);
+        $this->assertEquals('withdraw reason', $user_withdraw->getReason());
+        $this->assertNotEmpty($user_withdraw->getCreatedAt());
+
+        $user_deleted = $em->getRepository('WenwenAppBundle:UserDeleted')->find($user_id);
         $this->assertNotEmpty($user_deleted);
-        $this->assertEquals('withdraw reason', $user_deleted->getReason());
-        $this->assertNotEmpty($user_deleted->getCreatedAt());
-        $user = unserialize($user_deleted->getUserInfo());
-        $this->assertEquals('test@d8aspring.com', $user->getEmail());
-        $this->assertEquals($user_id, $user->getId());
+
+        $user_wenwen_login_deleted = $em->getRepository('WenwenAppBundle:UserWenwenLoginDeleted')->findOneByUserId($user_id);
+        $this->assertNotEmpty($user_wenwen_login_deleted);
     }
 }
 
@@ -103,6 +105,14 @@ class WithdrawHandlerTestFixture implements FixtureInterface
         $user->setIsEmailConfirmed(1);
         $user->setPwd('111111');
         $manager->persist($user);
+        $manager->flush();
+
+        $login = new \Jili\ApiBundle\Entity\UserWenwenLogin();
+        $login->setUser($user);
+        $login->setLoginPassword('aPaR9Ucsu4U=');
+        $login->setLoginPasswordCryptType('blowfish');
+        $login->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
+        $manager->persist($login);
         $manager->flush();
     }
 }

@@ -2,9 +2,8 @@
 namespace Wenwen\AppBundle\Services;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
-use Wenwen\AppBundle\Entity\UserDeleted;
+use Wenwen\AppBundle\Entity\UserWithdraw;
 
 class WithdrawHandler
 {
@@ -21,29 +20,48 @@ class WithdrawHandler
 
         if (!$user) {
             $this->logger->warn('user withdraw: user is not defined');
+
             return false;
         }
 
-        $this->em->getConnection()->beginTransaction();
+        $db_connection = $this->em->getConnection();
+        $db_connection->beginTransaction();
 
         try {
-            // insert user_deleted
-            $user_deleted = new UserDeleted();
-            $user_deleted->setUserId($user_id);
-            $user_deleted->setReason($reason);
-            $user_deleted->setUserInfo(serialize($user));
-            $this->em->persist($user_deleted);
+            // insert user_withdraw
+            $user_withdraw = new UserWithdraw();
+            $user_withdraw->setUserId($user_id);
+            $user_withdraw->setReason($reason);
+            $this->em->persist($user_withdraw);
             $this->em->flush();
+
+            // insert user_deleted
+            $sth = $db_connection->prepare('INSERT INTO `user_deleted` SELECT * FROM `user` WHERE id =' . $user->getId());
+            $sth->execute();
+
+            $wenwenLogin = $this->em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
+            if ($wenwenLogin) {
+                // insert user_wenwen_login_deleted
+                $sth = $db_connection->prepare('INSERT INTO `user_wenwen_login_deleted` SELECT * FROM `user_wenwen_login` WHERE user_id =' . $user->getId() . " LIMIT 1");
+                $sth->execute();
+
+                //delete user_wenwen_login
+                $wenwenLogin = $this->em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
+                if ($wenwenLogin) {
+                    $this->em->remove($wenwenLogin);
+                    $this->em->flush();
+                }
+            }
 
             //delete user
             $this->em->remove($user);
             $this->em->flush();
 
-            $this->em->getConnection()->commit();
+            $db_connection->commit();
 
             return true;
         } catch (\Exception $e) {
-            $this->em->getConnection()->rollBack();
+            $db_connection->rollback();
             $this->em->close();
 
             $this->logger->crit('user withdraw fail:' . $e->getMessage());
@@ -60,6 +78,7 @@ class WithdrawHandler
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+
         return $this;
     }
 }
