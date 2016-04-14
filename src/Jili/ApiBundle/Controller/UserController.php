@@ -1919,7 +1919,7 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-帐号密码重置')
-        ->setFrom(array('support@91wenwen.com'=>'91问问'))
+        ->setFrom(array('account@91jili.com'=>'91问问'))
         ->setTo($email)
         ->setBody(
                 '<html>' .
@@ -1948,7 +1948,7 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-注册激活邮件')
-        ->setFrom(array('support@91wenwen.com'=>'91问问'))
+        ->setFrom(array('account@91jili.com'=>'91问问'))
         ->setTo($email)
         ->setBody(
                         '<html>' .
