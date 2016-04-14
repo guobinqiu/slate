@@ -17,10 +17,10 @@
 40 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingYear
 
 #mail:七天未登陆提醒
-0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
+#0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
 
 #1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
-30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
+#30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
 
 #91wenwen
 #30 4 * * * /bin/sh /var/www/html/jili/cron/91wenwen.sh

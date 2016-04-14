@@ -3146,13 +3146,19 @@ class AdminController extends Controller implements IpAuthenticatedController
             $nick = $request->get('nick');
             $tel = $request->get('tel');
             $delete_flag = $request->get('delete_flag');
-
+            $datetime = new \DateTime();
+            
             $errorMessage = $this->memberCheck($member->getEmail(),$nick, $tel, $delete_flag);
             if(!$errorMessage){
                 $member->setNick($nick);//验证是否存在 ，是否排除已删除的用户
                 $member->setTel($tel);//用户自己也可以修改
                 $member->setDeleteFlag($delete_flag);
-
+                // Todo need constant for the value of delete_flag
+                if($delete_flag == 1){
+                    $member->setDeleteDate($datetime);
+                } else {
+                    $member->setDeleteDate(NULL);
+                }
                 $em->persist($member);
                 $em->flush();
                 return $this->redirect($this->generateUrl('_admin_member'));
