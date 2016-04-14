@@ -1,71 +1,21 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * User
+ * UserDeleted
  *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
+ * @ORM\Table(name="user_deleted", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+ * @ORM\Entity
  */
-class User
+class UserDeleted
 {
-    public $attachment;
-    const POINT_SIGNUP=1;
-    const POINT_EMPTY =0;
-
-    const INFO_IS_SET=1;
-    const INFO_NOT_SET=0;
-
-    const DEFAULT_REWARD_MULTIPE=1;
-
-    const IS_NOT_FROM_WENWEN = 1;
-    const IS_FROM_WENWEN = 2;
-
-    const FROM_QQ_PREFIX = "QQ";
-    const FROM_WEIBO_PREFIX = "WeiBo_";
-
- // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen
-    const ORIGIN_FLAG_NEW = 0 ;
-    const ORIGIN_FLAG_JILI = 1;
-    const ORIGIN_FLAG_WENWEN = 2;
-    const ORIGIN_FLAG_WENWEN_JILI = 3;
-
-   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
-   # == PWD_JILI or NULL , verify by user.password
-    const PWD_WENWEN = 1;
-    const PWD_JILI = 2;
-
-    const EMAIL_NOT_CONFIRMED = 0;
-    const EMAIL_CONFIRMED = 1;
-
-    public function __construct()
-    {
-        $this->setRegisterDate ( new \DateTime())
-            ->setLastLoginDate ( new \DateTime())
-            ->setPoints( self::POINT_SIGNUP)
-            ->setIsInfoSet( self::INFO_IS_SET)
-            ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
-            ->setToken( '')
-            ->setIsEmailConfirmed(self::EMAIL_NOT_CONFIRMED);
-    }
-
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_from_wenwen",  type="integer", nullable=true)
+     * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
      */
     private $isFromWenwen;
 
@@ -78,7 +28,8 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(name="token", type="string",length=32, nullable=false)
+     *
+     * @ORM\Column(name="token", type="string", length=32, nullable=false)
      */
     private $token;
 
@@ -104,9 +55,9 @@ class User
     private $sex;
 
     /**
-     * @var date
+     * @var string
      *
-     * @ORM\Column(name="birthday", type="string",length=50, nullable=true)
+     * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      */
     private $birthday;
 
@@ -120,7 +71,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_email_confirmed", type="integer",nullable=true)
+     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
      */
     private $isEmailConfirmed;
 
@@ -134,7 +85,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_tel_confirmed", type="integer" , nullable=true)
+     * @ORM\Column(name="is_tel_confirmed", type="integer", nullable=true)
      */
     private $isTelConfirmed;
 
@@ -174,18 +125,18 @@ class User
     private $income;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="hobby", type="string", length=250, nullable=true)
      */
     private $hobby;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="personalDes", type="text", nullable=true)
      */
-    private $personalDes;
+    private $personaldes;
 
     /**
      * @var string
@@ -197,26 +148,26 @@ class User
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_multiple", type="float")
+     * @ORM\Column(name="reward_multiple", type="float", precision=10, scale=0, nullable=false)
      */
     private $rewardMultiple;
 
     /**
-     * @var datetime $registerDate
+     * @var \DateTime
      *
      * @ORM\Column(name="register_date", type="datetime", nullable=true)
      */
     private $registerDate;
 
     /**
-     * @var datetime $registerCompleteDate
+     * @var \DateTime
      *
      * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
      */
     private $registerCompleteDate;
 
     /**
-     *@var datetime $lastLoginDate
+     * @var \DateTime
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
@@ -253,26 +204,27 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_info_set", type="integer")
+     * @ORM\Column(name="is_info_set", type="integer", nullable=false)
      */
     private $isInfoSet;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
+     * @ORM\Column(name="icon_path", type="string", length=255, nullable=true)
      */
     private $iconPath;
 
-     /**
+    /**
      * @var string
      *
-     * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
+     * @ORM\Column(name="uniqkey", type="string", length=250, nullable=true)
      */
     private $uniqkey;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(name="token_created_at", type="datetime", nullable=true)
      */
     private $tokenCreatedAt;
@@ -341,215 +293,67 @@ class User
     private $workSectionCode;
 
     /**
-     * upload resizeimage to temp dir
-     */
-    public function resizeUpload($path,$x,$y,$x1,$y1)
-    {
-        $size = getimagesize($path);
-        // $width = $size[0];
-        // $height = $size[1];
-        // $max = 512;
-        // $width = $max;
-        // $height = $height * ($max/$size[0]);
-        $src = imagecreatefromjpeg($path);
-        if(!$x1)
-            $x1 = 256;
-         if(!$y1)
-            $y1 = 256;
-        $dst = imagecreatetruecolor($x1, $y1); //新建一个真彩色图像
-        imagecopyresampled($dst,$src,0,0,$x,$y,$size[0],$size[1],$size[0],$size[1]);        //重采样拷贝部分图像并调整大小
-        header('Content-Type: image/jpeg');
-        imagejpeg($dst,$path,100);
-        imagedestroy($src);
-        imagedestroy($dst);
-
-    }
-    /**
-     * upload image to temp dir
-     */
-    public function upload($upload_dir)
-    {
-
-        $fileNames = array('attachment');
-        $types = array('jpg','jpeg');
-
-        $upload_dir .= $this->getId()%100;
-        if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777,true);
-        }
-        $upload_dir.='/';
-        foreach ($fileNames as $key=>$fileName){
-            $filename_upload = '';
-            if (null === $this->$fileName) {
-                unset($fileNames[$key]);
-                continue ;
-            }
-            $field = 'iconPath';
-            switch ($fileName){
-                case 'attachment':$field = 'iconPath';break;
-            }
-            if($this->$fileName->getError()==1){
-                return  '1';//'文件类型为jpg或png';
-            }else{
-                if(!in_array($this->$fileName->guessExtension(),$types)){
-                    return  '1';//'文件类型为jpg或png';
-                }else{
-                    if($this->$fileName->getClientSize() > 2048000){
-                        return  '2';//'图片大小为2M以内';
-                    }else{
-                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                        //$this->$fileName->move($upload_dir, $filename_upload);
-                        $size = getimagesize($this->$fileName);
-                        $width = $size[0];
-                        $height = $size[1];
-
-                        $max = 512;
-                        $width = $max;
-                        $height = $height * ($max/$size[0]);
-                        $src = imagecreatefromjpeg($this->$fileName);
-                        $dst = imagecreatetruecolor($width, $height); //新建一个真彩色图像
-                        imagecopyresampled($dst, $src, 0, 0, 0, 0,
-                        $width, $height,$size[0], $size[1]);        //重采样拷贝部分图像并调整大小
-                        header('Content-Type: image/jpeg');
-                        imagejpeg($dst,$upload_dir.$filename_upload,100);
-                        imagedestroy($src);
-                        imagedestroy($dst);
-                        $this->$field = $upload_dir.$filename_upload;
-                        $this->$fileName = null;
-    //                      return '';
-                        return  $this->$field;
-
-                    }
-                }
-            }
-
-        }
-    }
-
-    /**
-     * go to email url
-     */
-    public function gotomail($mail)
-    {
-        $t=explode('@',$mail);
-        $t=strtolower($t[1]);
-        if($t=='163.com'){
-            return 'mail.163.com';
-        }else if($t=='vip.163.com'){
-            return 'vip.163.com';
-        }else if($t=='126.com'){
-            return 'mail.126.com';
-        }else if($t=='qq.com'||$t=='vip.qq.com'||$t=='foxmail.com'){
-            return 'mail.qq.com';
-        }else if($t=='gmail.com'){
-            return 'mail.google.com';
-        }else if($t=='me.com' || $t=='icloud.com' || $t=='mac.com'){
-            return 'www.icloud.com';
-        }else if($t=='263.com' || $t=='263.net' || $t=='263.net.cn' || $t=='x263.net'){
-            return 'mail.263.net';
-        }else if($t=='sohu.com'){
-            return 'mail.sohu.com';
-        }else if($t=='vip.sina.com'){
-            return 'vip.sina.com';
-        }else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
-            return 'mail.sina.com.cn';
-        }else if($t=='tom.com'){
-            return 'mail.tom.com';
-        }else if($t=='aliyun.com'){
-            return 'mail.aliyun.com';
-        }else if($t=='yahoo.com.cn'||$t=='yahoo.cn'){
-            return 'mail.cn.yahoo.com';
-        }else if($t=='hotmail.com' || $t=='outlook.com' || $t=='live.cn' ||  $t=='live.com' || $t=='msn.com'){
-            return 'www.hotmail.com';
-        }else if($t=='yeah.net'){
-            return 'www.yeah.net';
-        }else if($t=='21cn.com'){
-            return 'mail.21cn.com';
-        }else if($t=='sogou.com'){
-            return 'mail.sogou.com';
-        }else if($t=='189.cn'){
-            return 'webmail15.189.cn/webmail';
-        }else if($t=='wo.com.cn'){
-            return 'mail.wo.com.cn/smsmail';
-        }else if($t=='139.com'){
-            return 'mail.10086.cn';
-        }else if($t=='188.com'){
-            return 'www.188.com';
-        }else if($t=='xinhuanet.com'){
-            return 'mail.xinhuanet.com';
-        }else if($t=='eyou.com'){
-            return 'www.eyou.com';
-        }else if($t=='chinaren.com'){
-            return 'mail.chinaren.com';
-        }else {
-            return '';
-        }
-
-    }
-
-
-
-    /**
-     * Get iconPath
+     * @var integer
      *
-     * @return string
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    public function getIconPath()
-    {
-        return $this->iconPath;
-    }
-
-
-     /**
-     * Set iconPath
-     *
-     * @param string $iconPath
-     * @return User
-     */
-    public function setIconPath($iconPath)
-    {
-        $this->iconPath = $iconPath;
-    }
+    private $id;
 
 
 
     /**
-     * Get id
+     * Set isFromWenwen
      *
-     * @return integer
+     * @param integer $isFromWenwen
+     * @return UserDeleted
      */
-    public function getId()
+    public function setIsFromWenwen($isFromWenwen)
     {
-        return $this->id;
+        $this->isFromWenwen = $isFromWenwen;
+
+        return $this;
+    }
+
+    /**
+     * Get isFromWenwen
+     *
+     * @return integer 
+     */
+    public function getIsFromWenwen()
+    {
+        return $this->isFromWenwen;
+    }
+
+    /**
+     * Set wenwenUser
+     *
+     * @param string $wenwenUser
+     * @return UserDeleted
+     */
+    public function setWenwenUser($wenwenUser)
+    {
+        $this->wenwenUser = $wenwenUser;
+
+        return $this;
     }
 
     /**
      * Get wenwenUser
      *
-     * @return string
+     * @return string 
      */
     public function getWenwenUser()
     {
         return $this->wenwenUser;
     }
 
-
-    /**
-     * Set wenwenUser
-     *
-     * @param string $wenwenUser
-     * @return User
-     */
-    public function setWenwenUser($wenwenUser)
-    {
-        $this->wenwenUser = $wenwenUser;
-    }
-
     /**
      * Set token
      *
      * @param string $token
-     * @return User
+     * @return UserDeleted
      */
     public function setToken($token)
     {
@@ -561,46 +365,18 @@ class User
     /**
      * Get token
      *
-     * @return string
+     * @return string 
      */
     public function getToken()
     {
         return $this->token;
     }
 
-
-    /**
-     * Set isFromWenwen
-     *
-     * @param integer $isFromWenwen
-     * @return User
-     */
-    public function setIsFromWenwen($isFromWenwen)
-    {
-        $this->isFromWenwen = $isFromWenwen;
-
-        return $this;
-    }
-
-
-
-    /**
-     * Get isFromWenwen
-     *
-     * @return integer
-     */
-    public function getIsFromWenwen()
-    {
-        return $this->isFromWenwen;
-    }
-
-
-
     /**
      * Set nick
      *
      * @param string $nick
-     * @return User
+     * @return UserDeleted
      */
     public function setNick($nick)
     {
@@ -612,7 +388,7 @@ class User
     /**
      * Get nick
      *
-     * @return string
+     * @return string 
      */
     public function getNick()
     {
@@ -623,11 +399,11 @@ class User
      * Set pwd
      *
      * @param string $pwd
-     * @return User
+     * @return UserDeleted
      */
     public function setPwd($pwd)
     {
-        $this->pwd = $this->pw_encode($pwd);
+        $this->pwd = $pwd;
 
         return $this;
     }
@@ -635,7 +411,7 @@ class User
     /**
      * Get pwd
      *
-     * @return string
+     * @return string 
      */
     public function getPwd()
     {
@@ -643,28 +419,10 @@ class User
     }
 
     /**
-     * sha1 pwd
-     *
-     * @return string
-     */
-    public function pw_encode($pwd)
-    {
-        $seed = '';
-        for ($i = 1; $i <= 9; $i++)
-            $seed .= sha1($pwd.'0123456789abcdef');
-            for ($i = 1; $i <= 11; $i++)
-            $seed .= sha1($seed);
-            return sha1($seed);
-    }
-
-
-
-
-    /**
      * Set sex
      *
      * @param integer $sex
-     * @return User
+     * @return UserDeleted
      */
     public function setSex($sex)
     {
@@ -673,12 +431,10 @@ class User
         return $this;
     }
 
-
-
     /**
      * Get sex
      *
-     * @return integer
+     * @return integer 
      */
     public function getSex()
     {
@@ -689,7 +445,7 @@ class User
      * Set birthday
      *
      * @param string $birthday
-     * @return User
+     * @return UserDeleted
      */
     public function setBirthday($birthday)
     {
@@ -701,7 +457,7 @@ class User
     /**
      * Get birthday
      *
-     * @return string
+     * @return string 
      */
     public function getBirthday()
     {
@@ -712,7 +468,7 @@ class User
      * Set email
      *
      * @param string $email
-     * @return User
+     * @return UserDeleted
      */
     public function setEmail($email)
     {
@@ -724,7 +480,7 @@ class User
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -735,7 +491,7 @@ class User
      * Set isEmailConfirmed
      *
      * @param integer $isEmailConfirmed
-     * @return User
+     * @return UserDeleted
      */
     public function setIsEmailConfirmed($isEmailConfirmed)
     {
@@ -747,7 +503,7 @@ class User
     /**
      * Get isEmailConfirmed
      *
-     * @return integer
+     * @return integer 
      */
     public function getIsEmailConfirmed()
     {
@@ -758,7 +514,7 @@ class User
      * Set tel
      *
      * @param string $tel
-     * @return User
+     * @return UserDeleted
      */
     public function setTel($tel)
     {
@@ -770,7 +526,7 @@ class User
     /**
      * Get tel
      *
-     * @return string
+     * @return string 
      */
     public function getTel()
     {
@@ -781,7 +537,7 @@ class User
      * Set isTelConfirmed
      *
      * @param integer $isTelConfirmed
-     * @return User
+     * @return UserDeleted
      */
     public function setIsTelConfirmed($isTelConfirmed)
     {
@@ -793,18 +549,18 @@ class User
     /**
      * Get isTelConfirmed
      *
-     * @return integer
+     * @return integer 
      */
     public function getIsTelConfirmed()
     {
         return $this->isTelConfirmed;
     }
 
-     /**
+    /**
      * Set province
      *
      * @param integer $province
-     * @return User
+     * @return UserDeleted
      */
     public function setProvince($province)
     {
@@ -816,7 +572,7 @@ class User
     /**
      * Get province
      *
-     * @return integer
+     * @return integer 
      */
     public function getProvince()
     {
@@ -827,7 +583,7 @@ class User
      * Set city
      *
      * @param integer $city
-     * @return User
+     * @return UserDeleted
      */
     public function setCity($city)
     {
@@ -839,19 +595,18 @@ class User
     /**
      * Get city
      *
-     * @return integer
+     * @return integer 
      */
     public function getCity()
     {
         return $this->city;
     }
 
-
     /**
      * Set education
      *
      * @param integer $education
-     * @return User
+     * @return UserDeleted
      */
     public function setEducation($education)
     {
@@ -863,19 +618,18 @@ class User
     /**
      * Get education
      *
-     * @return integer
+     * @return integer 
      */
     public function getEducation()
     {
         return $this->education;
     }
 
-
     /**
      * Set profession
      *
      * @param integer $profession
-     * @return User
+     * @return UserDeleted
      */
     public function setProfession($profession)
     {
@@ -887,19 +641,18 @@ class User
     /**
      * Get profession
      *
-     * @return integer
+     * @return integer 
      */
     public function getProfession()
     {
         return $this->profession;
     }
 
-
-     /**
+    /**
      * Set income
      *
      * @param integer $income
-     * @return User
+     * @return UserDeleted
      */
     public function setIncome($income)
     {
@@ -908,25 +661,21 @@ class User
         return $this;
     }
 
-
-
     /**
      * Get income
      *
-     * @return integer
+     * @return integer 
      */
     public function getIncome()
     {
         return $this->income;
     }
 
-
-
     /**
      * Set hobby
      *
      * @param string $hobby
-     * @return User
+     * @return UserDeleted
      */
     public function setHobby($hobby)
     {
@@ -938,44 +687,41 @@ class User
     /**
      * Get hobby
      *
-     * @return string
+     * @return string 
      */
     public function getHobby()
     {
         return $this->hobby;
     }
 
-
     /**
-     * Set personalDes
+     * Set personaldes
      *
-     * @param string $personalDes
-     * @return User
+     * @param string $personaldes
+     * @return UserDeleted
      */
-    public function setPersonalDes($personalDes)
+    public function setPersonaldes($personaldes)
     {
-        $this->personalDes = $personalDes;
+        $this->personaldes = $personaldes;
 
         return $this;
     }
 
     /**
-     * Get personalDes
+     * Get personaldes
      *
-     * @return string
+     * @return string 
      */
-    public function getPersonalDes()
+    public function getPersonaldes()
     {
-        return $this->personalDes;
+        return $this->personaldes;
     }
-
-
 
     /**
      * Set identityNum
      *
      * @param string $identityNum
-     * @return User
+     * @return UserDeleted
      */
     public function setIdentityNum($identityNum)
     {
@@ -987,18 +733,18 @@ class User
     /**
      * Get identityNum
      *
-     * @return string
+     * @return string 
      */
     public function getIdentityNum()
     {
         return $this->identityNum;
     }
 
- /**
+    /**
      * Set rewardMultiple
      *
      * @param float $rewardMultiple
-     * @return User
+     * @return UserDeleted
      */
     public function setRewardMultiple($rewardMultiple)
     {
@@ -1010,7 +756,7 @@ class User
     /**
      * Get rewardMultiple
      *
-     * @return float
+     * @return float 
      */
     public function getRewardMultiple()
     {
@@ -1021,7 +767,7 @@ class User
      * Set registerDate
      *
      * @param \DateTime $registerDate
-     * @return User
+     * @return UserDeleted
      */
     public function setRegisterDate($registerDate)
     {
@@ -1033,7 +779,7 @@ class User
     /**
      * Get registerDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getRegisterDate()
     {
@@ -1044,7 +790,7 @@ class User
      * Set registerCompleteDate
      *
      * @param \DateTime $registerCompleteDate
-     * @return User
+     * @return UserDeleted
      */
     public function setRegisterCompleteDate($registerCompleteDate)
     {
@@ -1056,7 +802,7 @@ class User
     /**
      * Get registerCompleteDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getRegisterCompleteDate()
     {
@@ -1067,7 +813,7 @@ class User
      * Set lastLoginDate
      *
      * @param \DateTime $lastLoginDate
-     * @return User
+     * @return UserDeleted
      */
     public function setLastLoginDate($lastLoginDate)
     {
@@ -1079,7 +825,7 @@ class User
     /**
      * Get lastLoginDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getLastLoginDate()
     {
@@ -1090,7 +836,7 @@ class User
      * Set lastLoginIp
      *
      * @param string $lastLoginIp
-     * @return User
+     * @return UserDeleted
      */
     public function setLastLoginIp($lastLoginIp)
     {
@@ -1102,7 +848,7 @@ class User
     /**
      * Get lastLoginIp
      *
-     * @return string
+     * @return string 
      */
     public function getLastLoginIp()
     {
@@ -1113,7 +859,7 @@ class User
      * Set points
      *
      * @param integer $points
-     * @return User
+     * @return UserDeleted
      */
     public function setPoints($points)
     {
@@ -1125,7 +871,7 @@ class User
     /**
      * Get points
      *
-     * @return integer
+     * @return integer 
      */
     public function getPoints()
     {
@@ -1136,7 +882,7 @@ class User
      * Set deleteFlag
      *
      * @param integer $deleteFlag
-     * @return User
+     * @return UserDeleted
      */
     public function setDeleteFlag($deleteFlag)
     {
@@ -1148,7 +894,7 @@ class User
     /**
      * Get deleteFlag
      *
-     * @return integer
+     * @return integer 
      */
     public function getDeleteFlag()
     {
@@ -1182,7 +928,7 @@ class User
      * Set isInfoSet
      *
      * @param integer $isInfoSet
-     * @return User
+     * @return UserDeleted
      */
     public function setIsInfoSet($isInfoSet)
     {
@@ -1194,18 +940,41 @@ class User
     /**
      * Get isInfoSet
      *
-     * @return integer
+     * @return integer 
      */
     public function getIsInfoSet()
     {
         return $this->isInfoSet;
     }
 
-     /**
+    /**
+     * Set iconPath
+     *
+     * @param string $iconPath
+     * @return UserDeleted
+     */
+    public function setIconPath($iconPath)
+    {
+        $this->iconPath = $iconPath;
+
+        return $this;
+    }
+
+    /**
+     * Get iconPath
+     *
+     * @return string 
+     */
+    public function getIconPath()
+    {
+        return $this->iconPath;
+    }
+
+    /**
      * Set uniqkey
      *
      * @param string $uniqkey
-     * @return User
+     * @return UserDeleted
      */
     public function setUniqkey($uniqkey)
     {
@@ -1217,7 +986,7 @@ class User
     /**
      * Get uniqkey
      *
-     * @return string
+     * @return string 
      */
     public function getUniqkey()
     {
@@ -1228,7 +997,7 @@ class User
      * Set tokenCreatedAt
      *
      * @param \DateTime $tokenCreatedAt
-     * @return User
+     * @return UserDeleted
      */
     public function setTokenCreatedAt($tokenCreatedAt)
     {
@@ -1240,7 +1009,7 @@ class User
     /**
      * Get tokenCreatedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getTokenCreatedAt()
     {
@@ -1251,7 +1020,7 @@ class User
      * Set originFlag
      *
      * @param integer $originFlag
-     * @return User
+     * @return UserDeleted
      */
     public function setOriginFlag($originFlag)
     {
@@ -1263,7 +1032,7 @@ class User
     /**
      * Get originFlag
      *
-     * @return integer
+     * @return integer 
      */
     public function getOriginFlag()
     {
@@ -1274,7 +1043,7 @@ class User
      * Set createdRemoteAddr
      *
      * @param string $createdRemoteAddr
-     * @return User
+     * @return UserDeleted
      */
     public function setCreatedRemoteAddr($createdRemoteAddr)
     {
@@ -1286,7 +1055,7 @@ class User
     /**
      * Get createdRemoteAddr
      *
-     * @return string
+     * @return string 
      */
     public function getCreatedRemoteAddr()
     {
@@ -1297,7 +1066,7 @@ class User
      * Set createdUserAgent
      *
      * @param string $createdUserAgent
-     * @return User
+     * @return UserDeleted
      */
     public function setCreatedUserAgent($createdUserAgent)
     {
@@ -1309,7 +1078,7 @@ class User
     /**
      * Get createdUserAgent
      *
-     * @return string
+     * @return string 
      */
     public function getCreatedUserAgent()
     {
@@ -1320,7 +1089,7 @@ class User
      * Set campaignCode
      *
      * @param string $campaignCode
-     * @return User
+     * @return UserDeleted
      */
     public function setCampaignCode($campaignCode)
     {
@@ -1332,31 +1101,18 @@ class User
     /**
      * Get campaignCode
      *
-     * @return string
+     * @return string 
      */
     public function getCampaignCode()
     {
         return $this->campaignCode;
     }
 
-
-    public function isOriginFlagWenwen()
-    {
-        $origin_flag =  $this->getOriginFlag();
-        return  !(is_null($origin_flag) ) &&
-            intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
-    }
-
-    public function isPwdCorrect($pwd)
-    {
-        return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
-    }
-
     /**
      * Set passwordChoice
      *
      * @param integer $passwordChoice
-     * @return User
+     * @return UserDeleted
      */
     public function setPasswordChoice($passwordChoice)
     {
@@ -1368,24 +1124,18 @@ class User
     /**
      * Get passwordChoice
      *
-     * @return integer
+     * @return integer 
      */
     public function getPasswordChoice()
     {
         return $this->passwordChoice;
     }
 
-    public function isPasswordWenwen()
-    {
-       $selected = $this->getPasswordChoice();
-      return !is_null($selected ) && $selected  === self::PWD_WENWEN;
-    }
-
     /**
      * Set favMusic
      *
      * @param string $favMusic
-     * @return User
+     * @return UserDeleted
      */
     public function setFavMusic($favMusic)
     {
@@ -1397,7 +1147,7 @@ class User
     /**
      * Get favMusic
      *
-     * @return string
+     * @return string 
      */
     public function getFavMusic()
     {
@@ -1408,7 +1158,7 @@ class User
      * Set monthlyWish
      *
      * @param string $monthlyWish
-     * @return User
+     * @return UserDeleted
      */
     public function setMonthlyWish($monthlyWish)
     {
@@ -1420,7 +1170,7 @@ class User
     /**
      * Get monthlyWish
      *
-     * @return string
+     * @return string 
      */
     public function getMonthlyWish()
     {
@@ -1431,7 +1181,7 @@ class User
      * Set industryCode
      *
      * @param integer $industryCode
-     * @return User
+     * @return UserDeleted
      */
     public function setIndustryCode($industryCode)
     {
@@ -1443,7 +1193,7 @@ class User
     /**
      * Get industryCode
      *
-     * @return integer
+     * @return integer 
      */
     public function getIndustryCode()
     {
@@ -1454,7 +1204,7 @@ class User
      * Set workSectionCode
      *
      * @param integer $workSectionCode
-     * @return User
+     * @return UserDeleted
      */
     public function setWorkSectionCode($workSectionCode)
     {
@@ -1466,15 +1216,20 @@ class User
     /**
      * Get workSectionCode
      *
-     * @return integer
+     * @return integer 
      */
     public function getWorkSectionCode()
     {
         return $this->workSectionCode;
     }
 
-    public function emailIsConfirmed ()
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
     {
-        return  (bool) $this->getIsEmailConfirmed();
+        return $this->id;
     }
 }

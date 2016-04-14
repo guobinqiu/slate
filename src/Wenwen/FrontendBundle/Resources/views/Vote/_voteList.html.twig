@@ -6,7 +6,7 @@
                 {% if (item.sqPath) %}
                 <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
                 {% else %}
-                <img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">
+                <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
             </span>
             <span class="vote-txt">

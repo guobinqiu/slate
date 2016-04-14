@@ -2,7 +2,7 @@
 {% if pagination is defined %}
     {% for item in pagination %}
 	<li {% if item.timelimit is defined %} class="vote-new" {% endif %}>
-		<span class="vote-img">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('images/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</span>
+		<span class="vote-img">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</span>
 		<span class="vote-txt">
 			<div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
 			<p>{% autoescape false %}{{ item.description }}{% endautoescape %}</p>
