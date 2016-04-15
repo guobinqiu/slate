@@ -14,7 +14,6 @@ class SsiRespondentRepositoryTest extends KernelTestCase
      */
     private $em;
     private $container;
-    private $user;
 
     /**
      * {@inheritdoc}
@@ -58,8 +57,6 @@ class SsiRespondentRepositoryTest extends KernelTestCase
     }
     public function testRetrieveRecipientDataToSendMailById()
     {
-        $em = $this->em;
-
         $recipient_data = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById(99);
         $this->assertEmpty($recipient_data);
 

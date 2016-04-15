@@ -23,7 +23,6 @@ class SsiPointRewardCommandTest extends KernelTestCase
         static::$kernel->boot();
 
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
 
         // purge tables
         $purger = new ORMPurger($em);
@@ -35,24 +34,25 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em = $em;
+        $this->container = static::$kernel->getContainer();
     }
 
     public function tearDown()
     {
+        parent::tearDown();
         $this->em->close();
     }
 
     public function testExecuteInNonDefinitiveMode()
     {
         $kernel = self::$kernel;
-        $container = $kernel->getContainer();
 
         // mock the Kernel or create one depending on your needs
         $application = new Application($kernel);
         $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
         $command = $application->find('panel:reward-ssi-point');
-        $command->setContainer($container);
+        $command->setContainer($this->container);
 
         $iterator = \Phake::partialMock('\Wenwen\AppBundle\Services\SsiConversionReportIterator');
         \Phake::when($iterator)->getConversionReport(1)->thenReturn([
@@ -65,7 +65,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
             'totalNumRows' => 1001,
             'data' => [self::getConversionRowSample()],
         ]);
-        $container->set('ssi_api.conversion_report_iterator', $iterator);
+        $this->container->set('ssi_api.conversion_report_iterator', $iterator);
 
         $user = $this->em->getRepository('JiliApiBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
         $this->assertSame(100, $user->getPoints());
@@ -86,13 +86,12 @@ class SsiPointRewardCommandTest extends KernelTestCase
     public function testExecuteInDefinitiveMode()
     {
         $kernel = self::$kernel;
-        $container = $kernel->getContainer();
 
         // mock the Kernel or create one depending on your needs
         $application = new Application($kernel);
         $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
         $command = $application->find('panel:reward-ssi-point');
-        $command->setContainer($container);
+        $command->setContainer($this->container);
 
         $iterator = \Phake::partialMock('\Wenwen\AppBundle\Services\SsiConversionReportIterator');
         \Phake::when($iterator)->getConversionReport(1)->thenReturn([
@@ -105,7 +104,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
             'totalNumRows' => 1001,
             'data' => [self::getConversionRowSample()],
         ]);
-        $container->set('ssi_api.conversion_report_iterator', $iterator);
+        $this->container->set('ssi_api.conversion_report_iterator', $iterator);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
@@ -122,13 +121,12 @@ class SsiPointRewardCommandTest extends KernelTestCase
     public function testRecordParticipationHistory()
     {
         $kernel = self::$kernel;
-        $container = $kernel->getContainer();
 
         // mock the Kernel or create one depending on your needs
         $application = new Application($kernel);
         $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
         $command = $application->find('panel:reward-ssi-point');
-        $command->setContainer($container);
+        $command->setContainer($this->container);
 
         $ssiRespondent = SsiPointRewardCommandTestFixture::$SSI_RESPONDENT;
         $row = self::getConversionRowSample();

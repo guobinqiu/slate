@@ -32,7 +32,8 @@ class SsiProjectTest extends KernelTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em = $em;
+        $this->container = $container;
     }
 
     public function tearDown()
@@ -43,14 +44,11 @@ class SsiProjectTest extends KernelTestCase
 
     public function testCreateInstance()
     {
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
-        $container->getParameter('ssi_project_survey');
         $respondentIds = array('wwcn-'.SsiProjectTestFixture::$SSI_RESPONDENT->getId(), 'wwcn-999');
         $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
             $respondentIds,
-            $em,
-            $container
+            $this->em,
+            $this->container
           );
 
         $this->assertEquals($respondentIds, $notification->getRespondentIds());
@@ -58,13 +56,11 @@ class SsiProjectTest extends KernelTestCase
 
     public function testSetupRespondentsToMail()
     {
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
         $respondentIds = array('wwcn-'.SsiProjectTestFixture::$SSI_RESPONDENT->getId(), 'wwcn-999');
         $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
             $respondentIds,
-            $em,
-            $container
+            $this->em,
+            $this->container
         );
 
         $recipients = $notification->retrieveRecipientsToMail();
@@ -80,13 +76,11 @@ class SsiProjectTest extends KernelTestCase
 
     public function testGetMailTemplateParams()
     {
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
         $respondentIds = array('wwcn-'.SsiProjectTestFixture::$SSI_RESPONDENT->getId(), 'wwcn-999');
         $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
             $respondentIds,
-            $em,
-            $container
+            $this->em,
+            $this->container
         );
         $params = $notification->getMailTemplateParams('1234', array(
             'email' => 'test@d8aspring.com',
@@ -105,13 +99,11 @@ class SsiProjectTest extends KernelTestCase
 
     public function testSendMail()
     {
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
         $respondentIds = array('wwcn-'.SsiProjectTestFixture::$SSI_RESPONDENT->getId(), 'wwcn-999');
         $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
             $respondentIds,
-            $em,
-            $container
+            $this->em,
+            $this->container
         );
 
         $recipients = $notification->retrieveRecipientsToMail();
@@ -131,7 +123,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SsiProjectTestFixture implements FixtureInterface, ContainerAwareInterface
 {
-    public static $USER, $SSI_PROJECT, $SSI_RESPONDENT;
+    public static $SSI_RESPONDENT;
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -157,19 +149,12 @@ class SsiProjectTestFixture implements FixtureInterface, ContainerAwareInterface
         $manager->persist($user_wenwen_login);
         $manager->flush();
 
-        $ssi_project = new \Wenwen\AppBundle\Entity\SsiProject();
-        $ssi_project->setStatusFlag(1);
-        $manager->persist($ssi_project);
-        $manager->flush();
-
         $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
         $ssi_respondent->setUser($user);
         $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
         $manager->persist($ssi_respondent);
         $manager->flush();
 
-        self::$USER = $user;
         self::$SSI_RESPONDENT = $ssi_respondent;
-        self::$SSI_PROJECT = $ssi_project;
     }
 }
