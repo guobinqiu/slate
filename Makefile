@@ -13,7 +13,7 @@ test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
 
 test-branch: cc-all
-	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1 | tee /tmp/report
+	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1
 
 assets-rebuild:
 	php ./app/console assets:install web --symlink --relative
