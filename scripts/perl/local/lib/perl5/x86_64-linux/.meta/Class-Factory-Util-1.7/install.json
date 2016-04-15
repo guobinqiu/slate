@@ -1,1 +1,1 @@
-{"name":"Class::Factory::Util","dist":"Class-Factory-Util-1.7","provides":{"Class::Factory::Util":{"version":"1.7","file":"lib/Class/Factory/Util.pm"}},"target":"Class::Factory::Util","version":"1.7","pathname":"D/DR/DROLSKY/Class-Factory-Util-1.7.tar.gz"}
+{"provides":{"Class::Factory::Util":{"file":"lib/Class/Factory/Util.pm","version":"1.7"}},"dist":"Class-Factory-Util-1.7","name":"Class::Factory::Util","target":"Class::Factory::Util","pathname":"D/DR/DROLSKY/Class-Factory-Util-1.7.tar.gz","version":"1.7"}
