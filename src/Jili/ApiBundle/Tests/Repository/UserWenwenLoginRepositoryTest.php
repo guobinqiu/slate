@@ -72,7 +72,7 @@ class UserWenwenLoginTest extends KernelTestCase
 
         $this->assertNotNull( $passwords);
         $this->assertCount(1,  $passwords);
-        $this->assertEquals(1,  $passwords[0]['user_id']);
+        $this->assertEquals($user->getId(),  $passwords[0]['user_id']);
         $this->assertEquals('md5',  $passwords[0]['login_password_crypt_type']);
         $this->assertEquals('abc',  $passwords[0]['login_password_salt']);
         $this->assertEquals('123456',  $passwords[0]['login_password']);

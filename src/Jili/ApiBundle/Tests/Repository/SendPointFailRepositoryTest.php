@@ -29,6 +29,13 @@ class SendPointFailRepositoryTest extends KernelTestCase
 
         $this->em  = $em;
     }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        $this->em->close();
+    }
+
      /**
      * @group issue619
      */
