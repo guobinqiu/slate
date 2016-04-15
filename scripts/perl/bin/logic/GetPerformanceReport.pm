@@ -14,7 +14,7 @@ use lib "$Bin/../Lib";
 
 use logic::ActiveRatio;
 use Wenwen::Model;
-use Wenwen::Model::PanelKPI;
+use Wenwen::Model::Service::PanelKPI;
 
 has base_date => (
   is => 'ro',
@@ -60,14 +60,14 @@ sub get_recent_30_day_active_ratio {
     my @array_active_ratio = $self->prepare_container_recent_30_day_active_ratio();
     foreach ( @array_active_ratio ) {
         my $active_ratio = $_;
-        my $reward_number = Wenwen::Model::PanelKPI->count_active_number(
+        my $reward_number = Wenwen::Model::Service::PanelKPI->count_active_number(
                                                                         $handle, 
                                                                         $active_ratio->start_register_date,
                                                                         $active_ratio->end_register_date,
                                                                         $active_ratio->start_reward_date,
                                                                         $active_ratio->end_reward_date
                                                                         );
-        my $register_number = Wenwen::Model::PanelKPI->count_register_number(
+        my $register_number = Wenwen::Model::Service::PanelKPI->count_register_number(
                                                                             $handle,
                                                                             $active_ratio->start_register_date,
                                                                             $active_ratio->end_register_date
@@ -89,7 +89,7 @@ sub get_numbers_of_6au_eom {
  
     my $number_6au_eom = $self->prepare_container_6au_eom();
     
-    my $reward_number = Wenwen::Model::PanelKPI->count_active_number(
+    my $reward_number = Wenwen::Model::Service::PanelKPI->count_active_number(
                                                                     $handle, 
                                                                     $number_6au_eom->start_register_date,
                                                                     $number_6au_eom->end_register_date,
@@ -110,7 +110,7 @@ sub get_numbers_of_6au_bom {
     
     my $number_6au_bom = $self->prepare_container_6au_bom();  
     
-    my $reward_number = Wenwen::Model::PanelKPI->count_active_number(
+    my $reward_number = Wenwen::Model::Service::PanelKPI->count_active_number(
                                                                     $handle, 
                                                                     $number_6au_bom->start_register_date,
                                                                     $number_6au_bom->end_register_date,
@@ -134,7 +134,7 @@ sub get_newly_registered_user {
     my $self = shift;
     my $newly_registered_user = $self->prepare_container_newly_registered_user();
     
-    my $registered_user = Wenwen::Model::PanelKPI->count_register_number(
+    my $registered_user = Wenwen::Model::Service::PanelKPI->count_register_number(
                                                                          $handle, 
                                                                          $newly_registered_user->start_register_date,
                                                                          $newly_registered_user->end_register_date
@@ -156,7 +156,7 @@ sub get_inactivated_in_recent_30_day {
     my $active_to = $inactive_from->clone()->add(days => -150);
     my $active_from = $active_to->clone()->add(days => -30);
     
-    my $registered_number = Wenwen::Model::PanelKPI->count_recent_30_day_inactivated(
+    my $registered_number = Wenwen::Model::Service::PanelKPI->count_recent_30_day_inactivated(
                                                                          $handle, 
                                                                          $active_from,
                                                                          $active_to,
@@ -177,7 +177,7 @@ sub get_dead_dogs {
     my $register_from = $register_to->clone()->add(days => -30);
     my $active_to = $register_to->clone();
     my $active_from = $register_from->clone();
-    my $inactive_number = Wenwen::Model::PanelKPI->count_inactive_register(
+    my $inactive_number = Wenwen::Model::Service::PanelKPI->count_inactive_register(
                                                                            $handle,
                                                                            $register_from,
                                                                            $register_to,
@@ -197,7 +197,7 @@ sub get_withdraw_in_30_days {
     
     my $withdraw_to = $self->base_date;
     my $withdraw_from = $withdraw_to->clone()->add(days => -30);
-    my $withdraw_number = Wenwen::Model::PanelKPI->count_withdraw(
+    my $withdraw_number = Wenwen::Model::Service::PanelKPI->count_withdraw(
                                                                     $handle,
                                                                     $withdraw_from,
                                                                     $withdraw_to
@@ -215,7 +215,7 @@ sub get_blacklist_in_30_days {
     
     my $delete_to = $self->base_date;
     my $delete_from = $delete_to->clone()->add(days => -30);
-    my $delete_number = Wenwen::Model::PanelKPI->count_blacklist(
+    my $delete_number = Wenwen::Model::Service::PanelKPI->count_blacklist(
                                                                     $handle,
                                                                     $delete_from,
                                                                     $delete_to
@@ -237,7 +237,7 @@ sub get_late_active_in_30_days {
     my $register_to = $self->base_date->clone()->add(days => -31);
     my $register_from = $register_to->clone()->set(year => 2000, month => 1, day => 1);
     
-    my $late_active_number = Wenwen::Model::PanelKPI->count_late_active(
+    my $late_active_number = Wenwen::Model::Service::PanelKPI->count_late_active(
                                                                     $handle,
                                                                     $active_from,
                                                                     $active_to,
@@ -258,14 +258,14 @@ sub get_recent_daily_active_ratio {
     my @array_active_ratio = $self->prepare_container_daily_active_ratio();
     foreach ( @array_active_ratio ) {
         my $active_ratio = $_;
-        my $reward_number = Wenwen::Model::PanelKPI->count_active_number(
+        my $reward_number = Wenwen::Model::Service::PanelKPI->count_active_number(
                                                                         $handle, 
                                                                         $active_ratio->start_register_date,
                                                                         $active_ratio->end_register_date,
                                                                         $active_ratio->start_reward_date,
                                                                         $active_ratio->end_reward_date
                                                                         );
-        my $register_number = Wenwen::Model::PanelKPI->count_register_number(
+        my $register_number = Wenwen::Model::Service::PanelKPI->count_register_number(
                                                                             $handle,
                                                                             $active_ratio->start_register_date,
                                                                             $active_ratio->end_register_date

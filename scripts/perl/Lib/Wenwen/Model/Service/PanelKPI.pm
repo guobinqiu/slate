@@ -1,4 +1,4 @@
-package Wenwen::Model::PanelKPI;
+package Wenwen::Model::Service::PanelKPI;
 use common::sense;
 
 
