@@ -94,7 +94,14 @@ class FileUtil {
         return $name;
     }
 
-    public static function writeContents($filename, $content) {
+    public static function writeContents($filename, $content)
+    {
+        $directory = dirname($filename);
+        $fs = new Filesystem();
+        if( ! $fs->exists($directory) ) {
+            $fs->mkdir( $directory);
+        }
+
         $log_handle = fopen($filename, "a");
         fwrite($log_handle, date("Y-m-d H:i:s") . "  " . $content . "\r\n");
         fclose($log_handle);
