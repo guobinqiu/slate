@@ -140,7 +140,6 @@ class SsiPointRewardCommandTest extends KernelTestCase
         );
         $this->assertCount(1, $rows);
         $this->assertSame($ssiRespondent->getId(), $rows[0]->getSsiRespondentId());
-        $this->assertSame($ssiRespondent->getId(), $rows[0]->getSsiRespondentId());
         $this->assertSame($row['transaction_id'], $rows[0]->getTransactionId());
         $this->assertSame($dt->format('U'), $rows[0]->getCompletedAt()->format('U'));
     }

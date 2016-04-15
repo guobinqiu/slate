@@ -6,22 +6,6 @@
 .vote-sub{
  	position: relative;
 	z-index: 1;
-	em{
-		position: absolute;
-		z-index: 1000;
-		left: 0;
-		top: 28px;
-		@include dib();
-		width: 6px;
-		height: 20px;
-		background: $main-color;
-	}
-	h1{
-		font-weight: bold;
-		font-size: 20px;
-		padding-left: 20px;
-		border-bottom: $block-inner-border;
-	}
 	li{
 		border-top: none;
 		border-bottom: $block-inner-border;
@@ -51,7 +35,7 @@
 			margin-top: 13px;
 			padding-left: 3px;
 			line-height: 20px;
-			color: #979ca6;
+			color: #9c9c9c;
 		}
 		.relate{
 			margin-top: 4px;	
@@ -62,6 +46,9 @@
 		width: 15%;
 		cursor: default;
 		@include transition(width, 0);
+		position: absolute;
+		right: 0;
+		top: 9px;
 		a{
 			margin: 58px auto auto;
 			width: 90px;
