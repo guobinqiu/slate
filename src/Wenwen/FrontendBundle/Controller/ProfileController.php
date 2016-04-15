@@ -95,7 +95,7 @@ class ProfileController extends Controller
             $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
             $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
                 'user_id' => $id,
-                'password' => $pwd,
+                'password' => $password,
                 'crypt_type' => $password_crypt_type,
                 'salt' => $password_salt
             ));

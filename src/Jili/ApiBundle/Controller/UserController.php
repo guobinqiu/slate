@@ -1273,8 +1273,9 @@ class UserController extends Controller implements CampaignTrackingController
                                 $this->get('login.listener')->initSession( $user );
 
                                 $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
-                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
                                 $em->persist($user);
+
+                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
                                 $em->persist($setPasswordCode);
                                 $em->flush();
 
@@ -1283,7 +1284,7 @@ class UserController extends Controller implements CampaignTrackingController
                                 $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
                                 $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
                                     'user_id' => $id,
-                                    'password' => $pwd,
+                                    'password' => $password,
                                     'crypt_type' => $password_crypt_type,
                                     'salt' => $password_salt
                                 ));

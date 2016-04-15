@@ -268,6 +268,22 @@ class UserControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         $this->assertContains('密码修改成功', $client->getResponse()->getContent(), 'password error');
+
+        //check data
+        $user = $em->getRepository('JiliApiBundle:User')->find($user->getId());
+        $this->assertEquals(\Jili\ApiBundle\Entity\User::PWD_WENWEN, $user->getPasswordChoice());
+        $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
+        $this->assertNotNull($wenwenLogin);
+        $this->assertTrue($wenwenLogin->isPwdCorrect('123qwe'));
+
+        //check can login
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test_1@d8aspring.com',
+            'pwd' => '123qwe',
+            'remember_me' => '1'
+        ));
+        $client->followRedirect();
     }
 
 #    public function testFastLoginAction()
