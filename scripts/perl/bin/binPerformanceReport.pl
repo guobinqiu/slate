@@ -50,6 +50,9 @@ my $inactive_number = $logic->get_dead_dogs();
 print "Newly registered users who have NOT earned any active points. = ", $inactive_number;
 print "\n";
 
+
+
+
 =begin comment
 my $number_6au_eom = $logic->numbers_of_6au_eom();
 

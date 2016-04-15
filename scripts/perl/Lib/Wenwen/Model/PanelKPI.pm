@@ -101,7 +101,7 @@ sub count_inactive_register {
     my $total_count = 0;
     my $sql = "
                 SELECT 
-                    distinct u.id, u.email, u.register_complete_date
+                    count(distinct u.id, u.email, u.register_complete_date)
                 FROM user u 
                 WHERE 
                     u.register_complete_date >= ? 
@@ -122,18 +122,16 @@ sub count_inactive_register {
                             )";
         $counter ++;
     }
-    say "count_inactive_register $sql";
     my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
     $sth->bind_param(1, $register_from);
     $sth->bind_param(2, $register_to);
     
     $counter = 0;
     while ($counter < 5) {
-        my $tmp = 
-        say "count_inactive_register binding ".$counter*2+3;
-        $sth->bind_param($counter*2+3, $reward_from);
-        say "count_inactive_register binding ".$counter*2+4;
-        $sth->bind_param($counter*2+4, $reward_to);
+        my $bind_counter1 = $counter*2+3;
+        my $bind_counter2 = $counter*2+4;
+        $sth->bind_param($bind_counter1, $reward_from);
+        $sth->bind_param($bind_counter2, $reward_to);
         $counter++;
     }
 

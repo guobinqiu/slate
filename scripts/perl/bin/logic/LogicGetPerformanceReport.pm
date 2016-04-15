@@ -12,7 +12,6 @@ use FindBin qw($Bin);
 use lib "$Bin/logic";
 use lib "$Bin/../Lib";
 
-use logic::DBIGetPerformanceReport;
 use logic::ActiveRatio;
 use Wenwen::Model;
 use Wenwen::Model::PanelKPI;
@@ -31,8 +30,6 @@ sub BUILDARGS {
     my $base_date = $args{base_date};
     
     $args{base_date} = $self->init_base_date($base_date);
-    
-    $DBIGetPerformanceReport = logic::DBIGetPerformanceReport->new();
     
     $handle = Wenwen::Model->create_handle();
     
