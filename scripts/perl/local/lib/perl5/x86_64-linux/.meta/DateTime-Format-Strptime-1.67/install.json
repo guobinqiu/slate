@@ -1,0 +1,1 @@
+{"target":"DateTime::Format::Strptime","pathname":"D/DR/DROLSKY/DateTime-Format-Strptime-1.67.tar.gz","version":"1.67","dist":"DateTime-Format-Strptime-1.67","provides":{"DateTime::Format::Strptime":{"version":"1.67","file":"lib/DateTime/Format/Strptime.pm"}},"name":"DateTime::Format::Strptime"}
