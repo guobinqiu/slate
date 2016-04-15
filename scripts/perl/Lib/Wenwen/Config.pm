@@ -13,14 +13,14 @@ BEGIN {
 
 common + { load(Wenwen::Util::path_to('config/deployment.pl')), };
 
-config development => +{ load(Wenwen::Util::path_to('config/development.pl')), };
-
-config 'development-vagrant' => +{ parent('development'), };
-config 'development-circle' => +{ parent('development'), };
-
 sub is_deployment {
     get_environment_name() eq 'deployment';
 }
 sub get_environment_name { $ENV{WENWEN_ENV} }
+
+config development => +{ load(Wenwen::Util::path_to('config/development.pl')), };
+config 'development-vagrant' => +{ parent('development'), };
+config 'development-circle' => +{ parent('development'), };
+
 
 1;
