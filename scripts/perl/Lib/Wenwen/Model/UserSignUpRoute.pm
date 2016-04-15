@@ -20,17 +20,19 @@ sub retrieve_route_summary {
         SELECT
             COUNT(*) as `count`
             ,IFNULL(user_sign_up_route.source_route, 'NULL') as source_route
+            ,DATE_FORMAT(user.register_complete_date, '%Y-%m-%d') as register_complete_date
         FROM user
         LEFT JOIN user_sign_up_route
           ON ( user_sign_up_route.user_id = user.id )
         WHERE
             @{[$cond->as_sql]}
-        GROUP BY source_route
+        GROUP BY source_route, register_complete_date
+        ORDER BY register_complete_date
         |
     );
     $sth->execute($cond->bind);
 
-    my $res = $sth->fetchall_hashref('source_route');
+    my $res = $sth->fetchall_arrayref({});
     $sth->finish;
 
     $res;
