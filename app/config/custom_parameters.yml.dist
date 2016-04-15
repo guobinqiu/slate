@@ -414,7 +414,7 @@ parameters:
           pid:
           tier:
 
-    signup.crypt_method: dummy
+    signup.crypt_method: blowfish
     signup.salt: dummy
 
 #生日错误
