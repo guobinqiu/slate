@@ -1027,7 +1027,7 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-     * @Route("/resetPwd", name="_user_resetPwd", options={"expose"=true})
+     * @Route("/resetPwd", name="_user_resetPwd", requirements={"_scheme"="http"}, options={"expose"=true})
      */
     public function resetPwdAction()
     {
@@ -1136,7 +1136,7 @@ class UserController extends Controller implements CampaignTrackingController
             $info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
         else
             return $this->redirect($this->generateUrl('_default_error'));
-        $arr['gotoEmial'] = $user->gotomail($info[0]['email']);
+        $arr['gotoEmail'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
     }

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User
 {
     public $attachment;
-    const POINT_SIGNUP=1;
+    const POINT_SIGNUP=10;
     const POINT_EMPTY =0;
 
     const INFO_IS_SET=1;
@@ -46,7 +46,7 @@ class User
     {
         $this->setRegisterDate ( new \DateTime())
             ->setLastLoginDate ( new \DateTime())
-            ->setPoints( self::POINT_SIGNUP)
+            ->setPoints( self::POINT_EMPTY)
             ->setIsInfoSet( self::INFO_IS_SET)
             ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
             ->setToken( '')
