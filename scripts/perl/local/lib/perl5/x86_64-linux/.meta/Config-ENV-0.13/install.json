@@ -1,1 +1,1 @@
-{"dist":"Config-ENV-0.13","name":"Config::ENV","version":"0.13","pathname":"S/SA/SATOH/Config-ENV-0.13.tar.gz","provides":{"Config::ENV":{"file":"lib/Config/ENV.pm","version":"0.13"}},"target":"Config::ENV"}
+{"version":"0.13","pathname":"S/SA/SATOH/Config-ENV-0.13.tar.gz","provides":{"Config::ENV":{"file":"lib/Config/ENV.pm","version":"0.13"}},"target":"Config::ENV","name":"Config::ENV","dist":"Config-ENV-0.13"}

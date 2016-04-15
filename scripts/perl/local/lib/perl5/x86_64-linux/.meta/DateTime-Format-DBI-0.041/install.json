@@ -1,1 +1,1 @@
-{"pathname":"C/CF/CFAERBER/DateTime-Format-DBI-0.041.tar.gz","provides":{"DateTime::Format::DBI":{"version":"0.041","file":"lib/DateTime/Format/DBI.pm"}},"target":"DateTime::Format::DBI","version":"0.041","name":"DateTime::Format::DBI","dist":"DateTime-Format-DBI-0.041"}
+{"target":"DateTime::Format::DBI","provides":{"DateTime::Format::DBI":{"file":"lib/DateTime/Format/DBI.pm","version":"0.041"}},"pathname":"C/CF/CFAERBER/DateTime-Format-DBI-0.041.tar.gz","version":"0.041","dist":"DateTime-Format-DBI-0.041","name":"DateTime::Format::DBI"}
