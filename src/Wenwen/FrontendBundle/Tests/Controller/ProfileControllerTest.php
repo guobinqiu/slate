@@ -160,11 +160,12 @@ class ProfileControllerTest extends WebTestCase
         //确认密码修改成功
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $this->assertTrue($user->isPwdCorrect('123qwe'));
+        $this->assertEquals(\Jili\ApiBundle\Entity\User::PWD_WENWEN, $user->getPasswordChoice());
+        $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
+        $this->assertNotNull($wenwenLogin);
+        $this->assertTrue($wenwenLogin->isPwdCorrect('123qwe'));
 
         //check can login
-        $client = static::createClient();
-        $container = $client->getContainer();
         $url = $container->get('router')->generate('_login', array (), true);
         $client->request('POST', $url, array (
             'email' => 'test_1@d8aspring.com',
@@ -279,7 +280,6 @@ class ProfileControllerTest extends WebTestCase
      * @group dev-merge-ui-profile-edit
      * @group dev-merge-ui-profile-nick
      * @group dev-merge-ui-profile-sex
-     * @group mmzhang
      */
     public function testEditProfileWithLogin()
     {

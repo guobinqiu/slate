@@ -107,6 +107,10 @@ class SsiApiControllerTest extends WebTestCase
         );
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
+
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $jobs = $em->getRepository('JMSJobQueueBundle:Job')->findAll();
+        $this->assertCount(0, $jobs);
     }
 
     public function testRequestWithValidRespondentList()
@@ -143,6 +147,11 @@ class SsiApiControllerTest extends WebTestCase
                '203' => ['wwcn-9999'],
                ],
            ], json_decode($client->getResponse()->getContent(), true));
+
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $jobs = $em->getRepository('JMSJobQueueBundle:Job')->findAll();
+        $this->assertCount(1, $jobs);
+        $this->assertInstanceOf('JMS\JobQueueBundle\Entity\Job', $jobs[0]);
     }
 
     public function respondentListProvider()

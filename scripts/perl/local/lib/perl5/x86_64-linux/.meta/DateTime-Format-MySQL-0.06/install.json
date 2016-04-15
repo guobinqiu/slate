@@ -1,1 +1,1 @@
-{"dist":"DateTime-Format-MySQL-0.06","name":"DateTime::Format::MySQL","provides":{"DateTime::Format::MySQL":{"file":"lib/DateTime/Format/MySQL.pm","version":"0.06"}},"pathname":"X/XM/XMIKEW/DateTime-Format-MySQL-0.06.tar.gz","version":"0.06","target":"DateTime::Format::MySQL"}
+{"pathname":"X/XM/XMIKEW/DateTime-Format-MySQL-0.06.tar.gz","version":"0.06","name":"DateTime::Format::MySQL","dist":"DateTime-Format-MySQL-0.06","target":"DateTime::Format::MySQL","provides":{"DateTime::Format::MySQL":{"file":"lib/DateTime/Format/MySQL.pm","version":"0.06"}}}

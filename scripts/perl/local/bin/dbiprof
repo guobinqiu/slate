@@ -1,4 +1,4 @@
-#!/usr/local/anyenv/envs/plenv/versions/5.22.0/bin/perl5.22.0
+#!/home/vagrant/.anyenv/envs/plenv/versions/5.22.0/bin/perl5.22.0
 
 use strict;
 
