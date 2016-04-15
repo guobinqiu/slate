@@ -1,9 +1,0 @@
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Condition.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Plugin/InsertMulti.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Plugin/InsertOnDuplicate.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/SQLType.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Select.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Select/Oracle.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/SelectSet.pm
-/srv/work/PointMedia/scripts/perl/local/lib/perl5/SQL/Maker/Util.pm
