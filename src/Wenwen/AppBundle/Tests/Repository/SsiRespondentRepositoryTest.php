@@ -38,7 +38,6 @@ class SsiRespondentRepositoryTest extends KernelTestCase
         $executor->execute($loader->getFixtures());
 
         $this->em = $em;
-        $this->container = $container;
     }
 
     /**
