@@ -1,11 +1,9 @@
 package Wenwen::Model::Service::PanelKPI;
 use common::sense;
 
-
-
 sub count_register_number {
     my ($class, $handle, $register_from, $register_to) = @_;
-    
+
     my $sql = "
         SELECT
             count(*)
@@ -16,20 +14,18 @@ sub count_register_number {
     ";
     my $dbh = $handle->dbh;
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->bind_param(1, $register_from);
-    $sth->bind_param(2, $register_to);
-    $sth->execute() or die $dbh->errstr;
+    $sth->execute($register_from, $register_to) or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
     return $count;
 }
 
 sub count_active_number {
     my ($class, $handle, $register_from, $register_to, $reward_from, $reward_to) = @_;
-    
-    my $dbh = $handle->dbh;
+
+    my $dbh         = $handle->dbh;
     my $total_count = 0;
-    my $counter = 0;
-    while ( $counter < 10 ) {
+    my $counter     = 0;
+    while ($counter < 10) {
         my $sql = "
             SELECT
                 count(distinct u.id)
@@ -44,12 +40,8 @@ sub count_active_number {
                 AND p.create_time < ?
         ";
 
-        my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
-        $sth->bind_param(1, $register_from);
-        $sth->bind_param(2, $register_to);
-        $sth->bind_param(3, $reward_from);
-        $sth->bind_param(4, $reward_to);
-        $sth->execute() or die $dbh->errstr;
+        my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+        $sth->execute($register_from, $register_to, $reward_from, $reward_to) or die $dbh->errstr;
         my $count = $sth->fetchall_arrayref()->[0][0];
         $total_count += $count;
         $counter++;
@@ -57,10 +49,9 @@ sub count_active_number {
     return $total_count;
 }
 
-
 sub count_recent_30_day_inactivated {
     my ($class, $handle, $active_from, $active_to, $inactive_from, $inactive_to) = @_;
-    
+
     my $dbh = $handle->dbh;
     my $sql = "
         SELECT count(distinct p.user_id)
@@ -85,21 +76,17 @@ sub count_recent_30_day_inactivated {
     ";
     my $dbh = $handle->dbh;
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->bind_param(1, $active_from);
-    $sth->bind_param(2, $active_to);
-    $sth->bind_param(3, $inactive_from);
-    $sth->bind_param(4, $inactive_to);
-    $sth->execute() or die $dbh->errstr;
+    $sth->execute($active_from, $active_to, $inactive_from, $inactive_to) or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
     return $count;
 }
 
 sub count_inactive_register {
     my ($class, $handle, $register_from, $register_to, $reward_from, $reward_to) = @_;
-    
-    my $dbh = $handle->dbh;
+
+    my $dbh         = $handle->dbh;
     my $total_count = 0;
-    my $sql = "
+    my $sql         = "
                 SELECT 
                     count(distinct u.id, u.email, u.register_complete_date)
                 FROM user u 
@@ -108,8 +95,8 @@ sub count_inactive_register {
                 AND 
                     u.register_complete_date < ? ";
     my $counter = 0;
-    while ( $counter < 10 ) {
-        $sql = $sql."
+    while ($counter < 10) {
+        $sql = $sql . "
                     AND 
                         u.id not in(
                             SELECT
@@ -120,31 +107,31 @@ sub count_inactive_register {
                                 AND p.create_time >= ? 
                                 AND p.create_time < ? 
                             )";
-        $counter ++;
+        $counter++;
     }
-    my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
     $sth->bind_param(1, $register_from);
     $sth->bind_param(2, $register_to);
-    
+
     $counter = 0;
     while ($counter < 5) {
-        my $bind_counter1 = $counter*2+3;
-        my $bind_counter2 = $counter*2+4;
+        my $bind_counter1 = $counter * 2 + 3;
+        my $bind_counter2 = $counter * 2 + 4;
         $sth->bind_param($bind_counter1, $reward_from);
         $sth->bind_param($bind_counter2, $reward_to);
         $counter++;
     }
-    
+
     $sth->execute() or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
-    
-    return $count;    
+
+    return $count;
 }
 
 sub count_withdraw {
     my ($class, $handle, $withdraw_from, $withdraw_to) = @_;
     my $dbh = $handle->dbh;
-    
+
     my $sql = "
                 SELECT count(uw.id)
                     FROM user_withdraw uw
@@ -153,19 +140,17 @@ sub count_withdraw {
                     AND
                     uw.created_at < ?
                 ";
-    my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
-    $sth->bind_param(1, $withdraw_from);
-    $sth->bind_param(2, $withdraw_to);
-    $sth->execute() or die $dbh->errstr;
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+    $sth->execute($withdraw_from, $withdraw_to) or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
-    
-    return $count; 
+
+    return $count;
 }
 
 sub count_blacklist {
     my ($class, $handle, $delete_from, $delete_to) = @_;
     my $dbh = $handle->dbh;
-    
+
     my $sql = "
                 SELECT count(u.id)
                     FROM user u
@@ -174,21 +159,19 @@ sub count_blacklist {
                     AND
                     u.delete_date < ?
                 ";
-    my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
-    $sth->bind_param(1, $delete_from);
-    $sth->bind_param(2, $delete_to);
-    $sth->execute() or die $dbh->errstr;
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+    $sth->execute($delete_from, $delete_to) or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
-    
-    return $count;     
+
+    return $count;
 }
 
 sub count_late_active {
     my ($class, $handle, $active_from, $active_to, $inactive_from, $inactive_to) = @_;
     my $dbh = $handle->dbh;
-    
+
     my $total_count = 0;
-    my $counter = 0;
+    my $counter     = 0;
     while ($counter < 10) {
         my $sql = "
                 SELECT count(distinct p.user_id) 
@@ -225,11 +208,9 @@ sub count_late_active {
         $sth->execute() or die $dbh->errstr;
         my $count = $sth->fetchall_arrayref()->[0][0];
         $total_count += $count;
-        $counter++
+        $counter++;
     }
     return $total_count;
 }
-
-
 
 1;

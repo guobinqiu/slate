@@ -3,19 +3,19 @@ package logic::Email;
 use strict;
 use warnings;
 use v5.10;
+
 #use diagnostics -verbose;
 
 use Email::MIME;
 use Email::Sender::Simple qw(sendmail);
 
-
-
 sub new {
     my $class = shift;
-    my $self = {};
-    if (bless( $self, $class)->init( @_ )) {
+    my $self  = {};
+    if (bless($self, $class)->init(@_)) {
         return $self;
-    } else {
+    }
+    else {
         # throw some sort of error
     }
 }
@@ -26,13 +26,14 @@ sub init {
 }
 
 sub send {
+
     # Todo isolate dsn etc. from here
     my ($self, $to, $subject, $body) = @_;
-    
+
     say "To: $to";
     say "Subject: $subject";
     say "body: $body";
-    
+
     my $message = Email::MIME->create(
         header_str => [
             From    => 'ds-sys-china@d8aspring.com',
@@ -47,6 +48,5 @@ sub send {
     );
     sendmail($message);
 }
-
 
 1;
