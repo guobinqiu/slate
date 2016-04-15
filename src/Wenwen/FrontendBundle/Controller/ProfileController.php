@@ -87,9 +87,18 @@ class ProfileController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
-            $user->setPwd($pwd);
+            $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
             $em->flush();
+
+            $password_crypt_type = $this->container->getParameter('signup.crypt_method');
+            $password_salt = $this->container->getParameter('signup.salt');
+            $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
+            $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
+                'user_id' => $id,
+                'password' => $password,
+                'crypt_type' => $password_crypt_type,
+                'salt' => $password_salt
+            ));
 
             $result['status'] = 1;
             $result['message'] = $this->container->getParameter('forget_su_pwd');

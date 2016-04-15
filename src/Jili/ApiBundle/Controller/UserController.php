@@ -1136,7 +1136,7 @@ class UserController extends Controller implements CampaignTrackingController
             $info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
         else
             return $this->redirect($this->generateUrl('_default_error'));
-        $arr['gotoEmial'] = $user->gotomail($info[0]['email']);
+        $arr['gotoEmail'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
     }
@@ -1272,11 +1272,23 @@ class UserController extends Controller implements CampaignTrackingController
 #								$this->get('request')->getSession()->set('nick',$user->getNick());
                                 $this->get('login.listener')->initSession( $user );
 
-                                $user->setPwd($pwd);
-                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+                                $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
                                 $em->persist($user);
+
+                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
                                 $em->persist($setPasswordCode);
                                 $em->flush();
+
+                                $password_crypt_type = $this->container->getParameter('signup.crypt_method');
+                                $password_salt = $this->container->getParameter('signup.salt');
+                                $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
+                                $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
+                                    'user_id' => $id,
+                                    'password' => $password,
+                                    'crypt_type' => $password_crypt_type,
+                                    'salt' => $password_salt
+                                ));
+
                                 $arr['codeflag'] = $this->container->getParameter('init_one');
                                 $arr['code'] = $this->container->getParameter('forget_su_pwd');
                             }else{

@@ -9,7 +9,10 @@ class UserWenwenLoginRepository extends EntityRepository
     public function createOne($params ) 
     {
         $em = $this->getEntityManager();
-        $userWenwenLogin = new UserWenwenLogin();
+        $userWenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($params['user_id']);
+        if (!$userWenwenLogin) {
+            $userWenwenLogin = new UserWenwenLogin();
+        }
 
         $userWenwenLogin->setUser( $em->getReference('Jili\\ApiBundle\\Entity\\User', $params['user_id'] ))
             ->setLoginPassword($params['password'])
