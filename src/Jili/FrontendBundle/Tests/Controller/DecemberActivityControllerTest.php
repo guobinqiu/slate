@@ -95,13 +95,9 @@ class DecemberActivityControllerTest extends WebTestCase
                 unlink($file_consolation_strategy);
             }
             $dir = dirname($file_strategy);
-            if( ! file_exists($dir)) {
-                mkdir(  $dir , 0700, true) ;
-            }
+            \Jili\ApiBundle\Utility\FileUtil::mkdir($dir);
             $dir = dirname($file_consolation_strategy);
-            if( ! file_exists($dir)) {
-                mkdir(  $dir , 0700, true) ;
-            }
+            \Jili\ApiBundle\Utility\FileUtil::mkdir($dir);
 
             if( $tn === 'testBreakEggActionConsolationOneMoreChance') {
                 file_put_contents( $file_consolation_strategy, json_encode(array(array(1,-1))));

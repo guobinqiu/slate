@@ -94,13 +94,23 @@ class FileUtilTest extends \PHPUnit_Framework_TestCase {
     /**
     * @group issue_578
     */
-    public function testWriteContents() {
-        $file_name = dirname(__FILE__) .'/test/create_dir/'. "/test.log";
+    public function testWriteContents()
+    {
+        $file_name = dirname(__FILE__) . "/test.log";
         $content = "testWriteContents";
-        FileUtil :: writeContents($file_name, $content);
-
-        $this->assertFileExists(dirname($file_name));
+        FileUtil::writeContents($file_name, $content);
         $this->assertContains("testWriteContents\r\n", file_get_contents($file_name));
-        $aa = unlink($file_name);
+        unlink($file_name);
+    }
+
+    public function testMkdir()
+    {
+        $directory = dirname(__FILE__) . '/test/dir/';
+        FileUtil::mkdir($directory);
+        $this->assertFileExists($directory);
+        unlink(dirname(__FILE__) . '/test/dir/');
+        $this->assertFileNotExists($dirname(__FILE__) . '/test/dir/');
+        unlink(dirname(__FILE__) . '/test/');
+        $this->assertFileNotExists($directory);
     }
 }

@@ -191,9 +191,7 @@ class Advertiserment
 
         $fileNames = array('large','small');
         $types = array('jpg','jpeg','png','gif');
-        if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777);
-        }
+        \Jili\ApiBundle\Utility\FileUtil::mkdir($upload_dir);
         foreach ($fileNames as $key=>$fileName){
             $filename_upload = '';
             if (null === $this->$fileName) {
