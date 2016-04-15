@@ -2222,4 +2222,24 @@ table {
     );
 };
 
+table {
+    name 'user_withdraw';
+    pk 'id';
+    columns (
+        {name => 'id', type => 4},
+        {name => 'user_id', type => 4},
+        {name => 'reason', type => 12},
+        {name => 'created_at', type => 11},
+    );
+        inflate created_at => sub {
+        my ($col_value) = @_;
+        DateTime->from_epoch($col_value);
+    };
+    deflate created_at => sub {
+        my ($col_value) = @_;
+        $col_value->epoch;
+    };
+};
+
+
 1;

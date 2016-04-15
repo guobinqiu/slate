@@ -134,14 +134,102 @@ sub count_inactive_register {
         $sth->bind_param($bind_counter2, $reward_to);
         $counter++;
     }
-
-    $dbh->trace('SQL');
     
     $sth->execute() or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
     
     return $count;    
 }
+
+sub count_withdraw {
+    my ($class, $handle, $withdraw_from, $withdraw_to) = @_;
+    my $dbh = $handle->dbh;
+    
+    my $sql = "
+                SELECT count(uw.id)
+                    FROM user_withdraw uw
+                WHERE
+                    uw.created_at >= ?
+                    AND
+                    uw.created_at < ?
+                ";
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
+    $sth->bind_param(1, $withdraw_from);
+    $sth->bind_param(2, $withdraw_to);
+    $sth->execute() or die $dbh->errstr;
+    my $count = $sth->fetchall_arrayref()->[0][0];
+    
+    return $count; 
+}
+
+sub count_blacklist {
+    my ($class, $handle, $delete_from, $delete_to) = @_;
+    my $dbh = $handle->dbh;
+    
+    my $sql = "
+                SELECT count(u.id)
+                    FROM user u
+                WHERE
+                    u.delete_date >= ?
+                    AND
+                    u.delete_date < ?
+                ";
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr; 
+    $sth->bind_param(1, $delete_from);
+    $sth->bind_param(2, $delete_to);
+    $sth->execute() or die $dbh->errstr;
+    my $count = $sth->fetchall_arrayref()->[0][0];
+    
+    return $count;     
+}
+
+sub count_late_active {
+    my ($class, $handle, $active_from, $active_to, $inactive_from, $inactive_to) = @_;
+    my $dbh = $handle->dbh;
+    
+    my $total_count = 0;
+    my $counter = 0;
+    while ($counter < 10) {
+        my $sql = "
+                SELECT count(distinct p.user_id) 
+                    FROM point_history0${counter} p 
+                WHERE 
+                    (p.reason = 92 or p.reason = 93) 
+                    AND p.create_time >= ? 
+                    AND p.create_time < ? 
+                    AND p.user_id IN (
+                        SELECT distinct p.user_id
+                        FROM point_history0${counter} p
+                            LEFT JOIN user u
+                            ON p.user_id = u.id
+                        WHERE
+                            u.register_complete_date >= ?
+                            AND u.register_complete_date < ?
+                            AND p.id NOT IN(
+                                SELECT distinct p.id
+                                FROM point_history0${counter} p
+                                WHERE
+                                    p.create_time >= ?
+                                    AND p.create_time < ?
+                                    AND (p.reason = 92 OR p.reason = 93)
+                                )
+                        )
+                ";
+        my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+        $sth->bind_param(1, $active_from);
+        $sth->bind_param(2, $active_to);
+        $sth->bind_param(3, $inactive_from);
+        $sth->bind_param(4, $inactive_to);
+        $sth->bind_param(5, $inactive_from);
+        $sth->bind_param(6, $inactive_to);
+        $sth->execute() or die $dbh->errstr;
+        my $count = $sth->fetchall_arrayref()->[0][0];
+        $total_count += $count;
+        $counter++
+    }
+    return $total_count;
+}
+
 
 
 1;
