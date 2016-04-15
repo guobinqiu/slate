@@ -2,6 +2,7 @@
 
 namespace Jili\ApiBundle\Tests\Controller;
 
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Jili\ApiBundle\Controller\UserController;
 
@@ -32,29 +33,29 @@ class UserControllerTest extends WebTestCase
             ->getManager();
         $container  = static::$kernel->getContainer();
 
+        // purge tables;
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
 
+        // load fixtures
+        $loader = new Loader();
         $tn = $this->getName();
-        if (in_array( $tn, array('testResetPasswordAction','testReSend'))) {
-            // purge tables;
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-
-            // load fixtures
-            if (in_array( $tn, array('testResetPasswordAction'))) {
-                $fixture = new LoadUserResetPasswordCodeData();
-                $fixture->setContainer($container);
-                $loader = new Loader();
-                $loader->addFixture($fixture);
-                $executor->execute($loader->getFixtures());
-            } else if (in_array( $tn, array('testReSend'))) {
-                $fixture = new LoadUserReSendCodeData();
-                $fixture->setContainer($container);
-                $loader = new Loader();
-                $loader->addFixture($fixture);
-                $executor->execute($loader->getFixtures());
-            }
+        if ($tn == 'testResetPasswordAction') {
+            $fixture = new LoadUserResetPasswordCodeData();
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
+        } else if ($tn == 'testReSend') {
+            $fixture = new LoadUserReSendCodeData();
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
+        } else {
+            $fixture = new LoadUserInfoCodeData();
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
         }
+        $executor->execute($loader->getFixtures());
+
         $this->container = $container;
         $this->em  = $em;
     }
@@ -80,11 +81,11 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
         // login
         $url = $container->get('router')->generate('_user_login', array(), true);
-        echo $url, PHP_EOL;
+        //echo $url, PHP_EOL;
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
-        $query = array('email'=> 'user@voyagegroup.com.cn');
+        $query = array('email'=> 'alice.nima@gmail.com');
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         if(! $user) {
@@ -102,7 +103,7 @@ class UserControllerTest extends WebTestCase
 
         //logout
         $url_logout = $router->generate('_user_logout' , array(), true);
-        echo $url_logout,PHP_EOL;
+        //echo $url_logout,PHP_EOL;
         $crawler = $client->request('GET', $url_logout ) ;
 
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
@@ -121,11 +122,11 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
         // logout
         $url_logout = $router->generate('_user_logout' , array(), true);
-        echo $url_logout,PHP_EOL;
+        //echo $url_logout,PHP_EOL;
         $crawler = $client->request('GET', $url_logout ) ;
 
         $em = $this->em;
-        $query = array('email'=> 'user@voyagegroup.com.cn');
+        $query = array('email'=> 'alice.nima@gmail.com');
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
         if(! $user) {
             echo 'bad email:',$query['email'], PHP_EOL;
