@@ -1136,9 +1136,9 @@ class UserController extends Controller implements CampaignTrackingController
             $info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
         else
             return $this->redirect($this->generateUrl('_default_error'));
-        $arr['gotoEmial'] = $user->gotomail($info[0]['email']);
+        $arr['gotoEmail'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
-        return $this->render('WenwenFrontendBundle:User:active.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
     }
 
     /**
@@ -1272,11 +1272,23 @@ class UserController extends Controller implements CampaignTrackingController
 #								$this->get('request')->getSession()->set('nick',$user->getNick());
                                 $this->get('login.listener')->initSession( $user );
 
-                                $user->setPwd($pwd);
-                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
+                                $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
                                 $em->persist($user);
+
+                                $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
                                 $em->persist($setPasswordCode);
                                 $em->flush();
+
+                                $password_crypt_type = $this->container->getParameter('signup.crypt_method');
+                                $password_salt = $this->container->getParameter('signup.salt');
+                                $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
+                                $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
+                                    'user_id' => $id,
+                                    'password' => $password,
+                                    'crypt_type' => $password_crypt_type,
+                                    'salt' => $password_salt
+                                ));
+
                                 $arr['codeflag'] = $this->container->getParameter('init_one');
                                 $arr['code'] = $this->container->getParameter('forget_su_pwd');
                             }else{
@@ -1315,7 +1327,8 @@ class UserController extends Controller implements CampaignTrackingController
         $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
         $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
         }else{
-            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
             $send_email = $this->sendMail($url, $email,$nick);
         }
 
@@ -1344,7 +1357,8 @@ class UserController extends Controller implements CampaignTrackingController
         $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
         $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
         }else{
-            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
             $send_email = $this->sendMail($url,$email,$user[0]->getNick());
         }
         if($send_email){
@@ -1897,7 +1911,8 @@ class UserController extends Controller implements CampaignTrackingController
 // 		$request = $this->get('request');
         $email = '278583642@qq.com';
         $nick = '';
-        $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+        //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+        $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
         if($this->sendMail($url, $email,$nick)){
@@ -1918,8 +1933,8 @@ class UserController extends Controller implements CampaignTrackingController
     public function sendMail_reset($url,$email,$nick)
     {
         $message = \Swift_Message::newInstance()
-        ->setSubject('积粒网-帐号密码重置')
-        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setSubject('91问问-帐号密码重置')
+        ->setFrom(array('account@91jili.com'=>'91问问'))
         ->setTo($email)
         ->setBody(
                 '<html>' .
@@ -1927,8 +1942,8 @@ class UserController extends Controller implements CampaignTrackingController
                 ' <body>' .
                 '亲爱的'.$nick.'<br/>'.
                 '<br/>'.
-                '  我们收到您因为忘记密码，要求重置积粒网帐号密码的申请，请点击<a href='.$url.' target="_blank" style="color: #0000ee;">这里</a>重置您的密码。<br/><br/>' .
-                '  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>积粒网运营中心' .
+                '  我们收到您因为忘记密码，要求重置91问问帐号密码的申请，请点击<a href='.$url.' target="_blank" style="color: #0000ee;">这里</a>重置您的密码。<br/><br/>' .
+                '  如果您并未提交重置密码的申请，请忽略本邮件，并关注您的账号安全，因为可能有其他人试图登录您的账户。<br/><br/>91问问运营中心' .
                 ' </body>' .
                 '</html>',
                 'text/html'
@@ -1947,8 +1962,8 @@ class UserController extends Controller implements CampaignTrackingController
     public function sendMail($url,$email,$nick)
     {
         $message = \Swift_Message::newInstance()
-        ->setSubject('积粒网-注册激活邮件')
-        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setSubject('91问问-注册激活邮件')
+        ->setFrom(array('account@91jili.com'=>'91问问'))
         ->setTo($email)
         ->setBody(
                         '<html>' .
@@ -1956,10 +1971,8 @@ class UserController extends Controller implements CampaignTrackingController
                         ' <body>' .
                         '亲爱的'.$nick.'<br/>'.
                         '<br/>'.
-                        '  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank" style="color: #0000ee;">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
+                        '  感谢您注册成为“91问问”会员！请点击<a href='.$url.' target="_blank" style="color: #0000ee;">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
                         '  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
-                        '  ++++++++++++++++++++++++++++++++++<br/>' .
-                        '  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
                         ' </body>' .
                         '</html>',
                         'text/html'

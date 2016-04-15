@@ -85,7 +85,7 @@ $(function() {
                 <td>{{ form_widget(form.type_withdrawal) }}</td>
             </tr>
         </table>
-    
+
     <div class="clear_both">
         <input type="submit" name="s" value="search">
     </div>
@@ -108,7 +108,7 @@ $(function() {
         <th>gender</th>
         <th>nickname</th>
         <th>mobile number</th>
-        <th>register date</th>
+        <th>register complete date</th>
         <th>last-login date</th>
         <th>ip</th>
         <th>route</th>
@@ -128,11 +128,15 @@ $(function() {
         <td align="left">{{ item.sex == '1' ? 'male' : (item.sex == '2' ? 'female' : '') }}</td>
         <td align="left">{{ item.nick}}</td>
         <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
-        <td align="left">{{ item.registerDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
         <td align="left">{{ item.campaignCode}}</td>
-        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a></td>
+        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
+        {% if item.ssi_respondent_exist %}
+        <a href="{{ path('_admin_panelist_ssirespondentsummary',{'id':item.id}) }}">SSI Partnership</a>
+        {% endif %}
+        </td>
         <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
    </tr>
     {% endfor %}

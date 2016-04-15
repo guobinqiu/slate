@@ -13,21 +13,11 @@
 <div class="main-con w1000 clearfix">
 	<div class="main-con-left left">
 		<div class="survey survey-sub">
-			<em></em>
-			<h1>问卷列表</h1>
+			<h1><em></em>问卷列表</h1>
             <ul id="surveyList">
-            {% if  votes|length < 1  %}
-                <li>现在还没有新的问卷调查。</li>
-            {% endif %}
-			</ul>
-
             {% set has_tip_displayed = 0 %}
-
-            {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyList.html.twig', {'sop_params': sop_params, 'preview': preview} ) }}
-
-            {# SSI permission #}
+                {# SSI permission #}
             {%  if (ssi_respondent is null or ssi_res.needPrescreening) %}
-                <ul id="surveyList">
                 {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
                         {
                             'type_class': 'trade',
@@ -42,7 +32,6 @@
                             'answer_status_label': '投票',
                             'tip': has_tip_displayed ? null : '赶快加入SSI海外项目，可获更多高分问卷！'
                         } ) }}
-                </ul>
                 {% set has_tip_displayed = 1 %}
             {% elseif ssi_res.isActive and ssi_surveys %}
                 {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
@@ -51,33 +40,19 @@
                             'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
                             'type_label': '商业问卷',
                             'end_date': '--',
-                            'num': 's' + ssi_surveys[0].id,
+                            'num': 's' + ssi_surveys[0].ssiProjectId,
                             'title': ssi_project_config.title,
                             'answered': false,
-                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].id}),
+                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
                             'point': ssi_project_config.point,
                       } ) }}
 
             {% endif %}
-
-            <ul id="surveyList">
-                {% for vote in votes %}
-                    {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
-                    {
-                        'type_class': 'quick',
-                        'type_desc': '每日参与快速问答，保持帐户活跃，以获得更多高积分问卷的机会',
-                        'type_label': '快速问答',
-                        'end_date': vote.endTime | date('Y-m-d'),
-                        'num': "v%s"|format(vote.id),
-                        'survey_type': 'quick_survey',
-                        'title': vote.title[:35],
-                        'answered': false,
-                        'url': path('jili_frontend_vote_show',{'id':vote.id}),
-                        'answer_status_label': '投票',
-                        'point': vote.pointValue,
-                    } ) }}
-                {% endfor %}
-            </ul>
+			</ul>
+            {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyList.html.twig', {'sop_params': sop_params, 'preview': preview} ) }} 
+            <div id="noSurvey">
+                <img src="{{asset('img/common/noSurvey.png')}}" alt="您没有新的问卷">
+            </div>           
 		</div>
 	</div>
 	<div class="main-con-right right">

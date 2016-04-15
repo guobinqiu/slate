@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User
 {
     public $attachment;
-    const POINT_SIGNUP=1;
+    const POINT_SIGNUP=10;
     const POINT_EMPTY =0;
 
     const INFO_IS_SET=1;
@@ -46,7 +46,7 @@ class User
     {
         $this->setRegisterDate ( new \DateTime())
             ->setLastLoginDate ( new \DateTime())
-            ->setPoints( self::POINT_SIGNUP)
+            ->setPoints( self::POINT_EMPTY)
             ->setIsInfoSet( self::INFO_IS_SET)
             ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
             ->setToken( '')
@@ -244,6 +244,13 @@ class User
     private $deleteFlag;
 
     /**
+     * @var datetime $deleteDate
+     *
+     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     */
+    private $deleteDate;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="is_info_set", type="integer")
@@ -365,9 +372,10 @@ class User
 
         $fileNames = array('attachment');
         $types = array('jpg','jpeg');
+
         $upload_dir .= $this->getId()%100;
         if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777);
+            mkdir($upload_dir,0777,true);
         }
         $upload_dir.='/';
         foreach ($fileNames as $key=>$fileName){
@@ -1147,6 +1155,28 @@ class User
         return $this->deleteFlag;
     }
 
+    /**
+     * Set deleteDate
+     *
+     * @param \DateTime $deleteFlag
+     * @return User
+     */
+    public function setDeleteDate($deleteDate)
+    {
+        $this->deleteDate = $deleteDate;
+
+        return $this;
+    }
+
+    /**
+     * Get deleteDate
+     *
+     * @return \DateTime
+     */
+    public function getDeleteDate()
+    {
+        return $this->deleteDate;
+    }
 
     /**
      * Set isInfoSet
@@ -1443,7 +1473,7 @@ class User
         return $this->workSectionCode;
     }
 
-    public function emailIsConfirmed () 
+    public function emailIsConfirmed ()
     {
         return  (bool) $this->getIsEmailConfirmed();
     }

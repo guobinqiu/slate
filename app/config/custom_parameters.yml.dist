@@ -143,7 +143,7 @@ parameters:
             - '成人用品'
             - '鲜花礼品'
 
-    cache_data_path: "%kernel.root_dir%/cache_data/%kernel.environment%"
+    cache_data_path: "%kernel.root_dir%/cache/%kernel.environment%"
     cps_default_rebate: 70  #返利给用户百分比
     cps_rebate_type:
         'point': 1  #XX元
@@ -291,8 +291,8 @@ parameters:
     callback_url: http://www.91jili.com/QQLogin/qqcallback
     scope: get_user_info
 
-    upload_experience_advertisement_dir: images/experience_advertisement/
-    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    upload_experience_advertisement_dir: uploads/experience_advertisement/
+    upload_experience_advertisement_dir_old: uploads/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
     game_seeker_config_path:
@@ -497,8 +497,11 @@ parameters:
         '5': "研究生，博士毕业"
 
     ssi_project_survey:
-      title: "SSI海外调查"
-      point: 180
+        title: "SSI海外调查"
+        point: 180
+
+    ssi_project_survey_code:
+        api_key: dummy
 
 #SOP
     sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com

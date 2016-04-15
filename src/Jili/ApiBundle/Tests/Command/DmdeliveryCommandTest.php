@@ -104,6 +104,6 @@ class DmdeliveryCommandTest extends KernelTestCase
 
         $container = $this->container;
         $contacts = $container->getParameter('cron_alertTo_contacts');
-        $this->assertEquals('rpa-sys-china@d8aspring.com', $contacts);
+        $this->assertNotEmpty($contacts);
     }
 }
