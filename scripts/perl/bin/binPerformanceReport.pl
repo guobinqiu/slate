@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
-use strict;
-use warnings;
-use v5.10;
+
+use common::sense;
 use FindBin qw($Bin);
 use lib "$Bin/logic";
 use lib "$Bin/../Lib";

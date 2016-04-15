@@ -1,8 +1,6 @@
 package logic::GetPerformanceReport;
 
-use strict;
-use warnings;
-use v5.22;
+use common::sense;
 
 #use diagnostics -verbose;
 
