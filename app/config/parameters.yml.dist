@@ -15,7 +15,10 @@ parameters:
     locale:            zh_CN
     secret:            ThisTokenIsNotSoSecretChangeIt
     base_url:   ~
-    fos_js_routing.request_context_base_url: http://www.91jili.com.vag.91jili.com/app_dev.php
+
+    router.request_context.host: www.91jili.com.vag.91jili.com
+    router.request_context.scheme: https
+    router.request_context.base_url: ~
 
 #91wenwen和91jili账号关联secret key
     91wewen_bind_secret_key_dev: 0b0c2b46e396714623dcd1f4c361918a0658e8131d70e3efc237079a0f26625a   #development

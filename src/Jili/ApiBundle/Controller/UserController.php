@@ -1027,7 +1027,7 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-     * @Route("/resetPwd", name="_user_resetPwd", requirements={"_scheme"="http"}, options={"expose"=true})
+     * @Route("/resetPwd", name="_user_resetPwd", options={"expose"=true})
      */
     public function resetPwdAction()
     {
