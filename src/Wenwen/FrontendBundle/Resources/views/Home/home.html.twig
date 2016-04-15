@@ -25,6 +25,7 @@
 			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 			<ul id="surveyList">
 				{# SSI permission #}
+        {%  if (ssi_respondent is null or ssi_respondent.needPrescreening) %}
 				<!-- <li class="ssiPermission">
 				    <div class="survey-item">
 				        <div class="title">ssi同意问卷</div>
@@ -52,84 +53,34 @@
 				    </div>
 				</li> -->
 				{# SSI survey #}
-				<li class="ssiSurvey" style="display: none">
-				    <div class="survey-item">
-				        <div class="title">ssi</div>
-				        <ul class="con clearfix">
-				            <li class="first">
-				                <span>问卷编号</span>
-				                <p>s001</p>
-				            </li>
-				            <li>
-				                <span>问卷类型</span>
-				                <p title="商业问卷">商业问卷</p>
-				            </li>
-				            <li>
-				                <span>回答期限</span>
-				                <p>2018-01-02</p>
-				            </li>
-				            <li class="last">
-				                <span>积分数</span>
-				                <p><strong>15630</strong></p>
-				            </li>
-				        </ul>
-				    </div>
-				    <div class="survey-btn">
-				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
-				    </div>
-				</li>
-				<li class="ssiSurvey" style="display: none">
-				    <div class="survey-item">
-				        <div class="title">ssi</div>
-				        <ul class="con clearfix">
-				            <li class="first">
-				                <span>问卷编号</span>
-				                <p>s001</p>
-				            </li>
-				            <li>
-				                <span>问卷类型</span>
-				                <p title="商业问卷">商业问卷</p>
-				            </li>
-				            <li>
-				                <span>回答期限</span>
-				                <p>2018-01-02</p>
-				            </li>
-				            <li class="last">
-				                <span>积分数</span>
-				                <p><strong>15630</strong></p>
-				            </li>
-				        </ul>
-				    </div>
-				    <div class="survey-btn">
-				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
-				    </div>
-				</li>
-				<li class="ssiSurvey" style="display: none">
-				    <div class="survey-item">
-				        <div class="title">ssi</div>
-				        <ul class="con clearfix">
-				            <li class="first">
-				                <span>问卷编号</span>
-				                <p>s001</p>
-				            </li>
-				            <li>
-				                <span>问卷类型</span>
-				                <p title="商业问卷">商业问卷</p>
-				            </li>
-				            <li>
-				                <span>回答期限</span>
-				                <p>2018-01-02</p>
-				            </li>
-				            <li class="last">
-				                <span>积分数</span>
-				                <p><strong>15630</strong></p>
-				            </li>
-				        </ul>
-				    </div>
-				    <div class="survey-btn">
-				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
-				    </div>
-				</li>	
+        {% elseif ssi_respondent.isActive and ssi_surveys %}
+				    <li class="ssiSurvey" style="display: block;">
+				        <div class="survey-item">
+				            <div class="title">ssi</div>
+				            <ul class="con clearfix">
+				                <li class="first">
+				                    <span>问卷编号</span>
+                            <p>s{{ ssi_surveys[0].ssiProjectId }} {{ssi_project_config.title }}</p>
+				                </li>
+				                <li>
+				                    <span>问卷类型</span>
+                            <p title="商业问卷">商业问卷</p>
+				                </li>
+				                <li>
+				                    <span>回答期限</span>
+				                    <p>---</p>
+				                </li>
+				                <li class="last">
+				                    <span>积分数</span>
+                            <p><strong>{{ ssi_project_config.point }}</strong></p>
+				                </li>
+				            </ul>
+				        </div>
+				        <div class="survey-btn">
+				            <a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" >可回答</a>
+				        </div>
+				    </li>
+        {% endif %}
 			</ul>
 		</div>
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}

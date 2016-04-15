@@ -1,11 +1,12 @@
 <?php
 namespace Jili\FrontendBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Jili\ApiBundle\Utility\FileUtil;
@@ -68,7 +69,22 @@ class HomeController extends Controller
         }
         $this->get('user_sign_up_route.listener')->log();
 
-        return $this->render('WenwenFrontendBundle:Home:home.html.twig', array ());
+        # SSI Survey
+
+        $em = $this->getDoctrine()->getManager();
+        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($session->get('uid'));
+        $ssi_surveys = array();
+        if ($ssi_respondent) {
+            $dbh = $em->getConnection();
+            $ssi_surveys = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+        }
+
+        return $this->render('WenwenFrontendBundle:Home:home.html.twig',
+          array (
+            'ssi_respondent' => $ssi_respondent,
+            'ssi_surveys' => $ssi_surveys,
+            'ssi_project_config' => $this->container->getParameter('ssi_project_survey'),
+        ));
     }
 
     /**
