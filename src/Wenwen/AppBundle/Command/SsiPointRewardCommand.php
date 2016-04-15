@@ -48,7 +48,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         try {
             while ($row = $iterator->nextConversion()) {
-                $ssiRespondentId = self::parseSsiRespondentId($row['sub_id_5']);
+                $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
                 $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
                 if (!$ssiRespondent) {
                     $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
@@ -102,15 +102,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $logger = new Logger('command');
         $logger->pushHandler($stream, Logger::INFO);
         $this->logger = $logger;
-    }
-
-    public static function parseSsiRespondentId($sub_id_5)
-    {
-        if (preg_match('/\Awwcn-(\d+)\z/', $sub_id_5, $matches)) {
-            return $matches[1];
-        }
-
-        return;
     }
 
     public function recordParticipationHistory($ssiRespondent, $row)
