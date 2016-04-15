@@ -53,12 +53,17 @@ sub count_recent_30_day_inactivated {
     my ($class, $handle, $active_from, $active_to, $inactive_from, $inactive_to) = @_;
 
     my $dbh = $handle->dbh;
-    my $sql = "
+
+    my $total_count = 0;
+    my $counter     = 0;
+
+    while ($counter < 10) {
+        my $sql = "
         SELECT count(distinct p.user_id)
-        FROM point_history09 p
+        FROM point_history0${counter} p
         WHERE p.user_id in(
             SELECT distinct p.user_id 
-            FROM point_history09 p 
+            FROM point_history0${counter} p 
             WHERE 
             (p.reason = 92 or p.reason = 93) 
             AND p.create_time >= ? 
@@ -67,18 +72,21 @@ sub count_recent_30_day_inactivated {
         AND 
         p.user_id not in(
             SELECT distinct p.user_id 
-            FROM point_history09 p 
+            FROM point_history0${counter} p 
             WHERE 
             (p.reason = 92 or p.reason = 93) 
             AND p.create_time >= ? 
             AND p.create_time < ? 
             )
     ";
-    my $dbh = $handle->dbh;
-    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->execute($active_from, $active_to, $inactive_from, $inactive_to) or die $dbh->errstr;
-    my $count = $sth->fetchall_arrayref()->[0][0];
-    return $count;
+        my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+        $sth->execute($active_from, $active_to, $inactive_from, $inactive_to) or die $dbh->errstr;
+        my $count = $sth->fetchall_arrayref()->[0][0];
+        $total_count += $count;
+        $counter++;
+    }
+
+    return $total_count;
 }
 
 sub count_inactive_register {
