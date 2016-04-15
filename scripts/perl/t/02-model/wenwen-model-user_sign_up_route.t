@@ -1,3 +1,5 @@
+BEGIN { do 't/test-env.pl' }
+
 use common::sense;
 
 use Test::More;
