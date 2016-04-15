@@ -75,7 +75,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SsiRespondentRepositoryTestFixture implements FixtureInterface, ContainerAwareInterface
 {
-    public static $USER, $SSI_RESPONDENT;
+    public static $SSI_RESPONDENT;
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -99,7 +99,6 @@ class SsiRespondentRepositoryTestFixture implements FixtureInterface, ContainerA
         $manager->persist($ssi_respondent);
         $manager->flush();
 
-        self::$USER = $user;
         self::$SSI_RESPONDENT = $ssi_respondent;
     }
 }
