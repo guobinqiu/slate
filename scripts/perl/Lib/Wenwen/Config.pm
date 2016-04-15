@@ -18,9 +18,11 @@ sub is_deployment {
 }
 sub get_environment_name { $ENV{WENWEN_ENV} }
 
-config development => +{ load(Wenwen::Util::path_to('config/development.pl')), };
-config 'development-vagrant' => +{ parent('development'), };
-config 'development-circle' => +{ parent('development'), };
+config 'development'         => +{ load(Wenwen::Util::path_to('config/development.pl')), };
 
+config 'development-vagrant' => +{ parent('development'), };
+config 'development-circle'  => +{ parent('development'), };
+
+config 'test'                => +{ parent('development'), };
 
 1;
