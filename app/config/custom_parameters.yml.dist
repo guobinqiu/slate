@@ -290,8 +290,8 @@ parameters:
     callback_url: http://www.91jili.com/QQLogin/qqcallback
     scope: get_user_info
 
-    upload_experience_advertisement_dir: images/experience_advertisement/
-    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    upload_experience_advertisement_dir: uploads/experience_advertisement/
+    upload_experience_advertisement_dir_old: uploads/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
     game_seeker_config_path:
@@ -496,8 +496,11 @@ parameters:
         '5': "研究生，博士毕业"
 
     ssi_project_survey:
-      title: "SSI海外调查"
-      point: 180
+        title: "SSI海外调查"
+        point: 180
+
+    ssi_project_survey_code:
+        api_key: dummy
 
 #SOP
     sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com

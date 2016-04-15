@@ -85,7 +85,7 @@ $(function() {
                 <td>{{ form_widget(form.type_withdrawal) }}</td>
             </tr>
         </table>
-    
+
     <div class="clear_both">
         <input type="submit" name="s" value="search">
     </div>
@@ -132,7 +132,11 @@ $(function() {
         <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
         <td align="left">{{ item.campaignCode}}</td>
-        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a></td>
+        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
+        {% if item.ssi_respondent_exist %}
+        <a href="{{ path('_admin_panelist_ssirespondentsummary',{'id':item.id}) }}">SSI Partnership</a>
+        {% endif %}
+        </td>
         <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
    </tr>
     {% endfor %}

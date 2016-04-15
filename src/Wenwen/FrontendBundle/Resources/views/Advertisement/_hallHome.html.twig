@@ -1,0 +1,18 @@
+<div class="mainAdTop">
+    <ul>
+    	<h2>任务大厅</h2>
+    	{% for item in ad_experience %}
+
+	    {% if item.missionHall == 1 %}
+	    {% set link = path('_advertiserment_list') %}
+	    {% else %}
+	    {% set link = path('_advertiserment_offer99') %}
+	    {% endif %}
+	    <li class="mAdItem">
+	        <a href="{{link}}" _orighref="/advertiserment/offer99" _tkworked="true"><img src="{{ asset(item.missionImgUrl) }}" width="165" height="112" alt="{{ item.missionTitle }}" title="{{ item.missionTitle }}"></a>
+	        <a class="mAdTit" href="{{link}}">{{ item.missionTitle }}</a>
+	        <a href="{{link}}"><span class="mPointNum">{{ item.point }}</span>积分</a></li>
+	    </li>
+	    {% endfor %}
+    </ul>
+</div>

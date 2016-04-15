@@ -7,7 +7,7 @@
 	li{
 		&:hover, &.active{
 			.survey-btn{
-				width: 30%;
+				width: 24%;
 			}
 		}
 	}
@@ -15,46 +15,9 @@
 .survey-sub{
 	position: relative;
 	z-index: 1;
-	em{
-		position: absolute;
-		z-index: 1000;
-		left: 0;
-		top: 28px;
-		@include dib();
-		width: 6px;
-		height: 20px;
-		background: $main-color;
-	}
-	
-	li{
+	&>li{
 		border-top: none;
 		border-bottom: $block-inner-border;
-	}
-	.survey-item{
-		width: 80%;
-		li{
-			width: 22%;
-			border-bottom: none;
-		}
-	}
-	.survey-btn{
-		color: #666;
-		background: transparent;
-		width: 30%;
-		line-height: 170px;
-		cursor: default;
-		@include transition(width, 0);
-		a{
-			margin: 66px auto 45px;
-			color: #fff;
-			background: #ff7733;
-			width: 150px;
-			height: 33px;
-			line-height: 33px;
-			text-align: center;
-			@include btn();			
-			@include dib();
-		}
 	}
 	#noSurvey{
 		text-align: center;
