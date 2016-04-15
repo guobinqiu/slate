@@ -288,6 +288,7 @@ sub prepare_container_recent_30_day_active_ratio {
             end_reward_date     => $end_reward_date->clone(),
         );
         push(@array_day_active_ratio, $active_ratio);
+        $counter++;
         if ($counter == $total_period) {
             $end_register_date->add(days => -$duration_days);
             $start_register_date->set(year  => 2000);
@@ -298,7 +299,7 @@ sub prepare_container_recent_30_day_active_ratio {
             $end_register_date->add(days => -$duration_days);
             $start_register_date->add(days => -$duration_days);
         }
-        $counter++;
+        
     }
     return @array_day_active_ratio;
 

@@ -62,7 +62,7 @@ foreach (@recent_30_day_active_ratio) {
 }
 $buff = $buff . sprintf "\n";
 $buff = $buff . sprintf "-------------------------- \n";
-$buff = $buff . sprintf "recent daily active ratio \n";
+$buff = $buff . sprintf "recent daily active ratio  \n";
 $buff = $buff . sprintf "-------------------------- \n";
 foreach (@recent_daily_active_ratio) {
     my $active_ratio = $_;
