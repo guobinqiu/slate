@@ -60,7 +60,7 @@ class PointHistoryRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        //$this->em->close();
+        $this->em->close();
     }
 
     /**
