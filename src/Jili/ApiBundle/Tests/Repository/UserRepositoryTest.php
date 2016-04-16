@@ -105,7 +105,7 @@ class UserRepositoryTest extends KernelTestCase
         $user = $em->getRepository('JiliApiBundle:User')->createOnSignup($param2);
         $this->assertEquals($param['email'], $user->getEmail());
         $this->assertEquals($param['nick'], $user->getNick());
-        $param['points'] = 1;
+        //$param['points'] = 1;
         $param['isInfoSet'] = 1;
         $param['rewardMultiple'] = 1;
         $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
@@ -133,7 +133,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertEmpty($user->getUniqkey());
 
         // check the create user
-        $param['points'] = 1;
+        //$param['points'] = 1;
         $param['isInfoSet'] = 1;
         $param['rewardMultiple'] = 1;
         unset($param['pwd']);
@@ -157,7 +157,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertEquals($param['uniqkey'], $user->getUniqkey());
 
         // the the result
-        $param['points'] = 1;
+        //$param['points'] = 1;
         $param['isInfoSet'] = 1;
         $param['rewardMultiple'] = 1;
         unset($param['pwd']);
