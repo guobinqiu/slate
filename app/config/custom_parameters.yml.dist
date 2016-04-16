@@ -415,8 +415,8 @@ parameters:
           pid:
           tier:
 
-    signup.crypt_method:
-    signup.salt:
+    signup.crypt_method: blowfish
+    signup.salt: dummy
 
 #生日错误
     birthday_error: "您选择的生日不正确"
