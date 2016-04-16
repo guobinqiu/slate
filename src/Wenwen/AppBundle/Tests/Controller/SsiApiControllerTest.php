@@ -39,7 +39,7 @@ class SsiApiControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json']
         );
         $this->assertTrue(
-            $client->getResponse()->getHeaders()->contains(
+            $client->getResponse()->headers->contains(
                 'Content-Type',
                 'application/json'
             )
@@ -66,7 +66,7 @@ class SsiApiControllerTest extends WebTestCase
             '{"requestHeader":{}}'
         );
         $this->assertTrue(
-            $client->getResponse()->getHeaders()->contains(
+            $client->getResponse()->headers->contains(
                 'Content-Type',
                 'application/json'
             )
@@ -105,7 +105,7 @@ class SsiApiControllerTest extends WebTestCase
                 ]
             )
         );
-        $this->assertTrue($client->getResponse()->getHeaders()->contains('Content-Type', 'application/json'));
+        $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
         $this->assertEquals($expected, json_decode($client->getResponse()->getContent(), true));
 
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
@@ -138,7 +138,7 @@ class SsiApiControllerTest extends WebTestCase
                 ]
             )
         );
-        $this->assertTrue($client->getResponse()->getHeaders()->contains('Content-Type', 'application/json'));
+        $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'));
         $this->assertEquals(
            [
              'generalResponseCode' => '201',
