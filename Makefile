@@ -36,7 +36,6 @@ setup-submodules:
 	git submodule update --init;
 
 circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
-	sed -ie "s/root/ubuntu/g" ${SRC_DIR}/app/config/config_test.yml
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
 show-setting:
