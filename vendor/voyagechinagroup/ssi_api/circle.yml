@@ -1,0 +1,24 @@
+machine:
+  php:
+    version: 5.4.37
+  timezone:
+    Asia/Tokyo
+  services:
+    - mysql
+  environment:
+    WW_DB_ENV: circle
+
+database:
+  override:
+    - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -uubuntu mysql
+    - cat ./etc/schema/schema.sql | mysql -uubuntu circle_test
+
+dependencies:
+  pre:
+    - echo "date.timezone = Asia/Tokyo" >> ~/.phpenv/versions/$(phpenv global)/etc/php.ini
+
+
+test:
+  override:
+    - make test
+

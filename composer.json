@@ -28,7 +28,8 @@
         "oro/doctrine-extensions": "^1.0",
         "nategood/httpful": "^0.2.20",
         "jms/job-queue-bundle": "^1.2",
-        "pear/net_url2": "^2.2"
+        "pear/net_url2": "^2.2",
+        "voyagechinagroup/ssi_api": "1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",
@@ -42,6 +43,12 @@
         "piece/stagehand-testrunner": "4.1.*",
         "phake/phake": "^2.2"
     },
+    "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:voyagechinagroup/ssi_api.git"
+    }
+    ],
     "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
