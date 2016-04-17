@@ -323,12 +323,12 @@ parameters:
 # /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
 #  L10 ~ L28
 
-    webpower.91wenwen_signup.username: '' #  webuser_signup.login.username
-    webpower.91wenwen_signup.password: '' #  webuser_signup.login.password
+    webpower.91wenwen_signup.username: '91wenwen' #  webuser_signup.login.username
+    webpower.91wenwen_signup.password: 'R4pMJ6FM' #  webuser_signup.login.password
     webpower.91wenwen_signup.soap_uri: 'https://91wenwen-signup.dmdelivery.com/x/soap-v4/wsdl.php' #  webuser_signup.login.proxy
 
-    webpower.91wenwen.username: '' # webpower.login.username
-    webpower.91wenwen.password: '' # webpower.login.password
+    webpower.91wenwen.username: '91wenwen' # webpower.login.username
+    webpower.91wenwen.password: 'Ewocofg8,' # webpower.login.password
     webpower.91wenwen.soap_uri: 'https://91wenwen.dmdelivery.com/x/soap-v4/wsdl.php' # webpower.soap.proxy
 
     # the uri relative to web/
