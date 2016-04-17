@@ -417,7 +417,6 @@ class UserControllerTest extends WebTestCase
         $router = $container->get('router');
         $em = $this->em;
         $url = $container->get('router')->generate('_user_reg', array(), false);
-        $this->assertRegExp('/^https:\/\/.*\/user\/reg$/', $url, ' /user/reg url ');
 
         $crawler = $client->request('GET', $url  ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() ,'get the register page return 200');

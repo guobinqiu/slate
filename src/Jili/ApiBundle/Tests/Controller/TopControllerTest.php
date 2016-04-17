@@ -112,7 +112,6 @@ class TopControllerTest extends WebTestCase
 
         // post to login , for sessions:
         $url = $container->get('router')->generate('_login', array(), true);
-        $this->assertEquals('https://localhost/login',$url);
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 
