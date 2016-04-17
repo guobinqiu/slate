@@ -89,7 +89,7 @@ class TopControllerTest extends WebTestCase
 
         // request
         $url = $router->generate('jili_api_top_userinfo');
-        $this->assertEquals('/top/userInfo', $url);
+        $this->assertStringEndsWith('/top/userInfo', $url);
 
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );

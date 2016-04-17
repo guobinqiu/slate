@@ -355,7 +355,7 @@ class UserControllerTest extends WebTestCase
     
     public function testRegActionExistingEmail() 
     {
-        $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128') );
+        $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128', 'HTTPS' => true) );
         $container = $client->getContainer();
 
         $em = $this->em;
@@ -412,12 +412,13 @@ class UserControllerTest extends WebTestCase
         $executor->purge();
 
 
-        $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128') );
+        $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128', 'HTTPS' => true));
         $container = $client->getContainer();
         $router = $container->get('router');
         $em = $this->em;
         $url = $container->get('router')->generate('_user_reg', array(), false);
         $this->assertRegExp('/^https:\/\/.*\/user\/reg$/', $url, ' /user/reg url ');
+
         $crawler = $client->request('GET', $url  ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() ,'get the register page return 200');
         $session = $container->get('session'); 
