@@ -15,4 +15,5 @@ requires 'Teng::Plugin::SearchJoined';
 requires 'Test::More';
 requires 'Test::Pretty';
 requires 'Text::Xslate';
+requires 'Time::Piece::Plus';
 requires 'YAML';

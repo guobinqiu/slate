@@ -1,17 +1,13 @@
-package logic::GetPerformanceReport;
+package Wenwen::Task::GetPerformanceReport;
 
 use common::sense;
 
-#use diagnostics -verbose;
-
 use Moo;
-use DateTime;
+use Time::Piece ();
+use Time::Seconds;
+use Time::Piece::Plus;
 
-use FindBin qw($Bin);
-use lib "$Bin/logic";
-use lib "$Bin/../Lib";
-
-use logic::ActiveRatio;
+use Wenwen::Task::ActiveRatio;
 use Wenwen::Model;
 use Wenwen::Model::Service::PanelKPI;
 
@@ -36,17 +32,83 @@ sub BUILDARGS {
 sub init_base_date {
     my ($self, $base_date) = @_;
 
-    if (defined($base_date) && ref $base_date eq 'DateTime') {
+    if (defined($base_date) && ref $base_date eq 'Time::Piece') {
         return $base_date;
     }
     else {
-
-        my $start_of_today = DateTime->now();
-        $start_of_today->set(hour   => 0);
-        $start_of_today->set(minute => 0);
-        $start_of_today->set(second => 0);
-        return $start_of_today;
+        return Time::Piece::Plus->today;
     }
+}
+
+sub do_task {
+    my $self = shift;
+    my $buff = "\n";
+
+    my $number_6au_bom             = $self->get_numbers_of_6au_bom();
+    my $registered_number          = $self->get_inactivated_in_recent_30_day();
+    my $newly_registered_user      = $self->get_newly_registered_user();
+    my $inactive_number            = $self->get_dead_dogs();
+    my $withdraw_number            = $self->get_withdraw_in_30_days();
+    my $delete_number              = $self->get_blacklist_in_30_days();
+    my $late_active_number         = $self->get_late_active_in_30_days();
+    my $number_6au_eom             = $self->get_numbers_of_6au_eom();
+    my @recent_30_day_active_ratio = $self->get_recent_30_day_active_ratio();
+    my @recent_daily_active_ratio  = $self->get_recent_daily_active_ratio();
+
+    $buff = $buff . sprintf "-------------------------- \n";
+    $buff = $buff . sprintf "KPI \n";
+    $buff = $buff . sprintf "-------------------------- \n";
+    $buff = $buff . sprintf "6AU BOM: Number of 6AU as of 31 days ago (Base). \n=> %d\n",
+        $number_6au_bom->reward_number;
+    $buff = $buff . sprintf "Inactive: Inactiated in recent 30 days (-). \n=> %d\n",
+        $registered_number;
+    $buff
+        = $buff
+        . sprintf
+        "New: Newly registered users (including not active) within 30 days (+). \n=> %d\n",
+        $newly_registered_user->register_number;
+    $buff
+        = $buff
+        . sprintf
+        "Dead Dog: Newly registered users who have NOT earned any activation points (-). \n=> %d\n",
+        $inactive_number;
+    $buff = $buff . sprintf "WIthdraw: Withdrawn within 30 days (-). \n=> %d\n", $withdraw_number;
+    $buff = $buff . sprintf "Forced to black List (-) \n=> %d\n", $delete_number;
+    $buff
+        = $buff
+        . sprintf
+        "Late Active: Those who had registered 31 days ago but earned some points within 30 days (+) \n=> %d\n",
+        $late_active_number;
+    $buff = $buff . sprintf "6AU EOM: 6AU End of Month. \n=> %d\n", $number_6au_eom->reward_number;
+    $buff = $buff . sprintf "-------------------------- \n";
+    $buff = $buff . sprintf "recent 30 day active ratio \n";
+    $buff = $buff . sprintf "-------------------------- \n";
+
+    foreach (@recent_30_day_active_ratio) {
+        my $active_ratio = $_;
+        $buff = $buff . sprintf "%s -> %s\n=> %8d/%8d (%s) \n",
+            $active_ratio->start_register_date->strftime('%Y-%m-%d'),
+            $active_ratio->end_register_date->strftime('%Y-%m-%d'),
+            $active_ratio->reward_number,
+            $active_ratio->register_number,
+            $active_ratio->active_ratio;
+    }
+    $buff = $buff . sprintf "\n";
+    $buff = $buff . sprintf "-------------------------- \n";
+    $buff = $buff . sprintf "recent daily active ratio  \n";
+    $buff = $buff . sprintf "-------------------------- \n";
+    foreach (@recent_daily_active_ratio) {
+        my $active_ratio = $_;
+        $buff = $buff . sprintf "%s -> %s\n=> %8d/%8d (%s) \n",
+            $active_ratio->start_register_date->strftime('%Y-%m-%d'),
+            $active_ratio->end_register_date->strftime('%Y-%m-%d'),
+            $active_ratio->reward_number,
+            $active_ratio->register_number,
+            $active_ratio->active_ratio;
+    }
+    $buff = $buff . sprintf "\n";
+
+    return $buff;
 }
 
 ##
@@ -143,9 +205,9 @@ sub get_inactivated_in_recent_30_day {
     my $self = shift;
 
     my $inactive_to   = $self->base_date;
-    my $inactive_from = $inactive_to->clone()->add(days => -30);
-    my $active_to     = $inactive_from->clone()->add(days => -150);
-    my $active_from   = $active_to->clone()->add(days => -30);
+    my $inactive_from = $inactive_to - 30 * ONE_DAY;
+    my $active_to     = $inactive_from - 150 * ONE_DAY;
+    my $active_from   = $active_to - 30 * ONE_DAY;
 
     my $registered_number
         = Wenwen::Model::Service::PanelKPI->count_recent_30_day_inactivated($handle, $active_from,
@@ -161,9 +223,9 @@ sub get_dead_dogs {
     my $self = shift;
 
     my $register_to   = $self->base_date;
-    my $register_from = $register_to->clone()->add(days => -30);
-    my $active_to     = $register_to->clone();
-    my $active_from   = $register_from->clone();
+    my $register_from = $register_to - 30 * ONE_DAY;
+    my $active_to     = $register_to;
+    my $active_from   = $register_from;
     my $inactive_number
         = Wenwen::Model::Service::PanelKPI->count_inactive_register($handle, $register_from,
         $register_to, $active_from, $active_to);
@@ -178,8 +240,8 @@ sub get_dead_dogs {
 sub get_withdraw_in_30_days {
     my $self = shift;
 
-    my $withdraw_to = $self->base_date;
-    my $withdraw_from = $withdraw_to->clone()->add(days => -30);
+    my $withdraw_to   = $self->base_date;
+    my $withdraw_from = $withdraw_to - 30 * ONE_DAY;
     my $withdraw_number
         = Wenwen::Model::Service::PanelKPI->count_withdraw($handle, $withdraw_from, $withdraw_to);
 
@@ -193,8 +255,8 @@ sub get_withdraw_in_30_days {
 sub get_blacklist_in_30_days {
     my $self = shift;
 
-    my $delete_to = $self->base_date;
-    my $delete_from = $delete_to->clone()->add(days => -30);
+    my $delete_to   = $self->base_date;
+    my $delete_from = $delete_to - 30 * ONE_DAY;
     my $delete_number
         = Wenwen::Model::Service::PanelKPI->count_blacklist($handle, $delete_from, $delete_to);
 
@@ -207,11 +269,11 @@ sub get_blacklist_in_30_days {
 sub get_late_active_in_30_days {
     my $self = shift;
 
-    my $active_to = $self->base_date;
-    my $active_from = $active_to->clone()->add(days => -30);
+    my $active_to   = $self->base_date;
+    my $active_from = $active_to - 30 * ONE_DAY;
 
-    my $register_to = $self->base_date->clone()->add(days => -31);
-    my $register_from = $register_to->clone()->set(year => 2000, month => 1, day => 1);
+    my $register_to = $self - 31 * ONE_DAY;
+    my $register_from = Time::Piece->strptime('2000-01-01', '%Y-%m-%d');
 
     my $late_active_number = Wenwen::Model::Service::PanelKPI->count_late_active(
         $handle,
@@ -269,35 +331,32 @@ sub prepare_container_recent_30_day_active_ratio {
     my $total_period = 6;
     my $counter      = 0;
 
-    my $base_end_date = $self->base_date->clone();
-    my $base_start_date = $base_end_date->clone()->add(days => -$duration_days);
+    my $base_end_date   = $self->base_date;
+    my $base_start_date = $base_end_date - $duration_days * ONE_DAY;
 
-    my $end_reward_date   = $base_end_date->clone();
-    my $start_reward_date = $base_start_date->clone();
+    my $end_reward_date   = $base_end_date;
+    my $start_reward_date = $base_start_date;
 
-    my $end_register_date   = $base_end_date->clone();
-    my $start_register_date = $base_start_date->clone();
+    my $end_register_date   = $base_end_date;
+    my $start_register_date = $base_start_date;
 
     while ($counter <= $total_period) {
-        my $active_ratio = logic::ActiveRatio->new(
-            start_register_date => $start_register_date->clone(),
-            end_register_date   => $end_register_date->clone(),
-            start_reward_date   => $start_reward_date->clone(),
-            end_reward_date     => $end_reward_date->clone(),
+        my $active_ratio = Wenwen::Task::ActiveRatio->new(
+            start_register_date => $start_register_date,
+            end_register_date   => $end_register_date,
+            start_reward_date   => $start_reward_date,
+            end_reward_date     => $end_reward_date,
         );
         push(@array_day_active_ratio, $active_ratio);
         $counter++;
+        $end_register_date -= $duration_days * ONE_DAY;
         if ($counter == $total_period) {
-            $end_register_date->add(days => -$duration_days);
-            $start_register_date->set(year  => 2000);
-            $start_register_date->set(month => 1);
-            $start_register_date->set(day   => 1);
+            $start_register_date = Time::Piece->strptime('2000-01-01', '%Y-%m-%d');
         }
         else {
-            $end_register_date->add(days => -$duration_days);
-            $start_register_date->add(days => -$duration_days);
+            $start_register_date -= $duration_days * ONE_DAY;
         }
-        
+
     }
     return @array_day_active_ratio;
 
@@ -309,11 +368,11 @@ sub prepare_container_recent_30_day_active_ratio {
 sub prepare_container_6au_eom {
     my $self = shift;
 
-    my $end_reward_date     = $self->base_date->clone();
-    my $end_register_date   = $self->base_date->clone();
-    my $start_reward_date   = $end_reward_date->clone()->add(days => -180);
-    my $start_register_date = $end_register_date->clone()->set(year => 2000, month => 1, day => 1);
-    my $number_6au_eom      = logic::ActiveRatio->new(
+    my $end_reward_date     = $self->base_date;
+    my $end_register_date   = $self->base_date;
+    my $start_reward_date   = $end_reward_date - 180 * ONE_DAY;
+    my $start_register_date = Time::Piece->strptime('2000-01-01', '%Y-%m-%d');
+    my $number_6au_eom      = Wenwen::Task::ActiveRatio->new(
         start_register_date => $start_register_date,
         end_register_date   => $end_register_date,
         start_reward_date   => $start_reward_date,
@@ -328,11 +387,11 @@ sub prepare_container_6au_eom {
 sub prepare_container_6au_bom {
     my $self = shift;
 
-    my $end_reward_date     = $self->base_date->clone()->add(days => -31);
-    my $end_register_date   = $end_reward_date->clone();
-    my $start_reward_date   = $end_reward_date->clone()->add(days => -180);
-    my $start_register_date = $end_register_date->clone()->set(year => 2000, month => 1, day => 1);
-    my $number_6au_bom      = logic::ActiveRatio->new(
+    my $end_reward_date     = $self->base_date - 31 * ONE_DAY;
+    my $end_register_date   = $end_reward_date;
+    my $start_reward_date   = $end_reward_date - 180 * ONE_DAY;
+    my $start_register_date = Time::Piece->strptime('2000-01-01', '%Y-%m-%d');
+    my $number_6au_bom      = Wenwen::Task::ActiveRatio->new(
         start_register_date => $start_register_date,
         end_register_date   => $end_register_date,
         start_reward_date   => $start_reward_date,
@@ -347,9 +406,9 @@ sub prepare_container_6au_bom {
 sub prepare_container_newly_registered_user {
     my $self = shift;
 
-    my $end_register_date     = $self->base_date->clone();
-    my $start_register_date   = $end_register_date->clone()->add(days => -30);
-    my $newly_registered_user = logic::ActiveRatio->new(
+    my $end_register_date     = $self->base_date;
+    my $start_register_date   = $end_register_date - 30 * ONE_DAY;
+    my $newly_registered_user = Wenwen::Task::ActiveRatio->new(
         start_register_date => $start_register_date,
         end_register_date   => $end_register_date,
     );
@@ -372,25 +431,25 @@ sub prepare_container_daily_active_ratio {
     my $total_period = 6;
     my $counter      = 0;
 
-    my $base_end_date = $self->base_date->clone();
-    my $base_start_date = $base_end_date->clone()->add(days => -$duration_days);
+    my $base_end_date   = $self->base_date;
+    my $base_start_date = $base_end_date - $duration_days * ONE_DAY;
 
-    my $end_reward_date   = $base_end_date->clone();
-    my $start_reward_date = $base_start_date->clone();
+    my $end_reward_date   = $base_end_date;
+    my $start_reward_date = $base_start_date;
 
-    my $end_register_date   = $base_end_date->clone();
-    my $start_register_date = $base_start_date->clone();
+    my $end_register_date   = $base_end_date;
+    my $start_register_date = $base_start_date;
 
     while ($counter <= $total_period) {
-        my $active_ratio = logic::ActiveRatio->new(
-            start_register_date => $start_register_date->clone(),
-            end_register_date   => $end_register_date->clone(),
-            start_reward_date   => $start_reward_date->clone(),
-            end_reward_date     => $end_reward_date->clone(),
+        my $active_ratio = Wenwen::Task::ActiveRatio->new(
+            start_register_date => $start_register_date,
+            end_register_date   => $end_register_date,
+            start_reward_date   => $start_reward_date,
+            end_reward_date     => $end_reward_date,
         );
         push(@array_day_active_ratio, $active_ratio);
-        $end_register_date->add(days => -$duration_days);
-        $start_register_date->add(days => -$duration_days);
+        $end_register_date   -= $duration_days * ONE_DAY;
+        $start_register_date -= $duration_days * ONE_DAY;
         $counter++;
     }
     return @array_day_active_ratio;

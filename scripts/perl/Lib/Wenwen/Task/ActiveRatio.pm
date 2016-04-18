@@ -1,4 +1,4 @@
-package logic::ActiveRatio;
+package Wenwen::Task::ActiveRatio;
 
 use common::sense;
 
