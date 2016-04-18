@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3c1efea12d8de5964d364aa716ae4572",
-    "content-hash": "708f119bd994d57238563756c9f42354",
+    "hash": "1d523e29ccdebb30aba845b2b31b0b70",
+    "content-hash": "a2b557102371f8d17f5c68b41e51923d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2440,6 +2440,49 @@
                 "templating"
             ],
             "time": "2016-01-25 21:22:18"
+        },
+        {
+            "name": "voyagechinagroup/ssi_api",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:voyagechinagroup/ssi_api.git",
+                "reference": "d4d0961ee18edf8929e5da4a67d42bab5aa25ada"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/d4d0961ee18edf8929e5da4a67d42bab5aa25ada",
+                "reference": "d4d0961ee18edf8929e5da4a67d42bab5aa25ada",
+                "shasum": ""
+            },
+            "require": {
+                "nategood/httpful": "^0.2.20",
+                "pear/net_url2": "^2.2",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phake/phake": "^2.2",
+                "phpunit/phpunit": "4.*",
+                "piece/stagehand-testrunner": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VendorIntegration\\SSI\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "takafumi sekiguchi",
+                    "email": "takafumi.sekiguchi@d8aspring.com"
+                }
+            ],
+            "description": "ssi api integration",
+            "support": {
+                "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.0",
+                "issues": "https://github.com/voyagechinagroup/ssi_api/issues"
+            },
+            "time": "2016-04-16 00:55:06"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

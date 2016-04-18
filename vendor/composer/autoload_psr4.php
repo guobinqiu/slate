@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'VendorIntegration\\SSI\\' => array($baseDir . '/ssi_api/src'),
+    'VendorIntegration\\SSI\\' => array($vendorDir . '/voyagechinagroup/ssi_api/src'),
     'Stagehand\\TestRunner\\' => array($vendorDir . '/piece/stagehand-testrunner/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
