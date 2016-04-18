@@ -23,6 +23,9 @@ deploy-js-routing: assets-rebuild
 
 setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
 
+setup-perl:
+	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
+
 setup-databases:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
 		if [ `mysql -uroot -e  "SHOW DATABASES" | grep "jili_db"` ] ; then \
