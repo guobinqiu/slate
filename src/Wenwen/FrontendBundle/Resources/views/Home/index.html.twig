@@ -13,37 +13,48 @@
 
 {% block body %}
 <div class="main-ad">
-	<div class="main-ad-con w1000">
-		<div class="main-ad-con-text">
-			<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
-			<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-			<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多？</a></div>
-		</div>
-		<div class="login-wrapper">
-			<div class="login">
-				<h2>用户登录</h2>
-				<div class="login-con">
-					<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
-					<ul>
-						<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
-						<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-					</ul>
-					{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
-					<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
-					{% endif %}
-					{% if code %}
-            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
-       				{% endif %}
-					<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
-					</form>
-					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
-					<div class="login-btn-others">
-						<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
+	<div class="coinBg">
+		<div class="coinBack">
+					<div class="main-ad-con w1000">
+						<div class="main-ad-con-text">
+							<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
+							<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
+							<div class="moreText">
+								<p><em></em>完成问卷最高可获得人民币<span class="corYellow">￥100</span></p>
+								<p><em></em>国内最活跃的调查社区之一</p>
+								<p><em></em>用您的声音改变我们的世界</p> 
+							</div>
+							<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多</a></div>
+						</div>
+						<div class="login-wrapper">
+							<div class="login">
+								<h2>用户登录</h2>
+								<div class="login-con">
+									<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
+									<ul>
+										<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
+										<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+									</ul>
+									{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
+									<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
+									{% endif %}
+									{% if code %}
+				            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
+				       				{% endif %}
+									<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
+									</form>
+									<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
+									<div class="login-btn-others">
+										<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="arrowScroll">
+							
+						</div>
 					</div>
-				</div>
-			</div>
 		</div>
-		<div class="introBg"></div>
 	</div>
 </div>
 <div class="quickLogWrap w1000">
