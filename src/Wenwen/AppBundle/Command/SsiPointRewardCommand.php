@@ -37,7 +37,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $definitive = $input->getOption('definitive');
         $this->setLogger($this->getName());
 
-        $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code'));
+        $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
         $iterator->initialize($client, $date);
 
