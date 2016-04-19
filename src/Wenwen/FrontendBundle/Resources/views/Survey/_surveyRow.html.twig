@@ -1,4 +1,5 @@
-<li>
+{% set router_current = app.request.attributes.get('_route') %}
+<li {{ router_current == '_homepage' ? 'class="ssi"':'' }}>
     <div class="survey-item">
         <div class="title">{{title}}</div>
         <ul class="con clearfix">
