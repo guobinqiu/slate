@@ -118,7 +118,7 @@ $top-bg-color: #36363c;
 		right: 0;
 		border: $block-border;
 		background: $block-bg-color;
-		width: 186px;
+		width: 194px;
 		display: none;
 		li{
 			float: none;
@@ -126,6 +126,7 @@ $top-bg-color: #36363c;
 			line-height: 35px;
 			padding: 0 20px;
 			a{
+				width: 100%;
 				border-right: none;
 				color: #4d4d4d;
 				@include dib();
@@ -137,7 +138,7 @@ $top-bg-color: #36363c;
 		
 	}
 	.personal-con{
-		padding: 15px 20px;
+		padding: 15px;
 		span{
 			padding: 0;
 			@include dib();

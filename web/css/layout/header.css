@@ -117,7 +117,7 @@
   right: 0;
   border: 1px solid #ebedf2;
   background: #fff;
-  width: 186px;
+  width: 194px;
   display: none; }
   .header-top-con .personal li {
     float: none;
@@ -125,6 +125,7 @@
     line-height: 35px;
     padding: 0 20px; }
     .header-top-con .personal li a {
+      width: 100%;
       border-right: none;
       color: #4d4d4d;
       display: inline-block;
@@ -133,7 +134,7 @@
     .header-top-con .personal li:hover {
       background: #fafafa; }
 .header-top-con .personal-con {
-  padding: 15px 20px; }
+  padding: 15px; }
   .header-top-con .personal-con span {
     padding: 0;
     display: inline-block;
