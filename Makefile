@@ -23,6 +23,9 @@ deploy-js-routing: assets-rebuild
 
 setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
 
+setup-perl:
+	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
+
 setup-databases:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
 		if [ `mysql -uroot -e  "SHOW DATABASES" | grep "jili_db"` ] ; then \
@@ -36,7 +39,6 @@ setup-submodules:
 	git submodule update --init;
 
 circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
-	sed -ie "s/root/ubuntu/g" ${SRC_DIR}/app/config/config_test.yml
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
 show-setting:
@@ -47,7 +49,7 @@ show-setting:
 
 create-dir:
 	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads
-	sudo mkdir -p /data/91jili/logs/admin
+	sudo mkdir -p /data/91jili/logs
 
 setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
@@ -55,11 +57,11 @@ setup-web-root:
 
 fix-perms:
 	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin ; \
-		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin ; \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
 	else \
-		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin ; \
-		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin ; \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
 	fi;
 
 create-config:
@@ -69,8 +71,8 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin
-	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs/admin
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs
 
 deploy: deploy-js-routing
 	@echo done

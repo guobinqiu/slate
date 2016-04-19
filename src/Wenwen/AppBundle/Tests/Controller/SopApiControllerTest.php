@@ -72,6 +72,8 @@ class SopApiControllerTest extends WebTestCase
             'sig' => '1234abc'
         ));
 
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
         $this->assertEquals(405, $client->getResponse()->getStatusCode(), 'API /sop/v1_1/profile_point: GET Request is forbidden');
         $this->assertContains('{"meta":{"code":405,"message":"method not allowed"}}', $client->getResponse()->getContent());
 
@@ -273,6 +275,8 @@ class SopApiControllerTest extends WebTestCase
                 'HTTP_X-Sop-Sig' => 'invalid-sig'
             ));
 
+            $this->assertEquals(301, $client->getResponse()->getStatusCode());
+            $crawler = $client->followRedirect();
             $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'Invalid signature request to 91wenwen');
             $res = json_decode($client->getResponse()->getContent(), true);
             $this->assertEquals(array (
@@ -390,6 +394,8 @@ class SopApiControllerTest extends WebTestCase
             'HTTP_X-Sop-Sig' => $sig
         ));
 
+        $this->assertEquals(301, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to Fulcrum 91wenwen');
         $res = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals(array (

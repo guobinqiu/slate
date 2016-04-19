@@ -45,6 +45,7 @@ class LoadUserInfoCodeData extends AbstractFixture implements ContainerAwareInte
         $user->setRewardMultiple(1);
         $user->setPwd('aaaaaa');
         $user->setIconPath('uploads/user/5/1392030971_6586.jpeg');
+        $user->setIsEmailConfirmed(1);
         $manager->persist($user);
         $manager->flush();
 

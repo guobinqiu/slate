@@ -79,7 +79,7 @@ class SignupController extends Controller
         $passwordToken->setToUnavailable();
 
         // send out register  points, insert point_history
-        $points_for_register = 10;
+        $points_for_register = \Jili\ApiBundle\Entity\User::POINT_SIGNUP;
 
         $points_params = array (
             'userid' => $user->getId(),

@@ -95,6 +95,10 @@ class FileUtil {
     }
 
     public static function writeContents($filename, $content) {
+        $dirname = dirname($filename);
+        if (!is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
         $log_handle = fopen($filename, "a");
         fwrite($log_handle, date("Y-m-d H:i:s") . "  " . $content . "\r\n");
         fclose($log_handle);
