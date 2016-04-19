@@ -18,7 +18,7 @@ require(['../config'],function(){
         //如果没有cookie执行以下操作
         //新手引导部分
         if(res!="guide"){
-            var omar = $('.main-con').height() + 385;
+            var omar = $('.main-con').height() + $('.mainAdTop').height() + 385;
             $('#newguideWrap').css('margin-top','-'+ omar +'px');
             $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
             $('#newguideWrap a.ngbtn').click(function(){
