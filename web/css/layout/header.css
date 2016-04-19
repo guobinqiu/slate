@@ -125,6 +125,7 @@
     line-height: 35px;
     padding: 0 20px; }
     .header-top-con .personal li a {
+      width: 100%;
       border-right: none;
       color: #4d4d4d;
       display: inline-block;
