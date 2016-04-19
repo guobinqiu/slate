@@ -527,6 +527,7 @@ body {
       *zoom: 1;
       vertical-align: middle;
       background-color: rgba(0, 0, 0, 0.5);
+      background: #21566c \0;
       border-radius: 5px;
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
@@ -697,7 +698,7 @@ body {
     color: #fff;
     font-size: 14px;
     background: url(../img/home/indexMess.png) no-repeat -632px -2px; }
-.rewardlist li:last-child {
+.rewardlist li.last {
   margin-right: 0; }
 
 .main-con-detail {

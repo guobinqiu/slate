@@ -78,6 +78,7 @@ $main-ad-color: #eb7020;
 			@include dib();
 			vertical-align: middle;
 			background-color: rgba(0,0,0,0.5);
+			background: #21566c\0;
 			@include border-radius(5px);
 			@include box-shadow(0 1px 2px #4489A6);
 		}
@@ -268,7 +269,7 @@ $main-ad-color: #eb7020;
 
 		}
 	}
-	li:last-child{
+	li.last{
 		margin-right: 0;
 	}
 }
