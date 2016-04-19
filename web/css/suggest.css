@@ -269,18 +269,14 @@ body {
         color: #ff6700; }
   .header-nav .login-btn a {
     margin-left: 5px;
-    padding: 5px 10px;
-    color: #88878e;
-    border: 1px solid #dedfe3;
-    border-radius: 3px; }
+    padding: 0 10px;
+    color: #888; }
     .header-nav .login-btn a:hover {
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
+      color: #ff652b; }
+  .header-nav .login-btn a.sign {
+    color: #ff652b;
+    border-left: 1px solid #d0d1d1;
+    padding-left: 40px; }
 
 .form li {
   margin-top: 10px; }
@@ -350,8 +346,8 @@ body {
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #ff6700;
-  border: 1px solid #ff6700;
+  background: #ff652b;
+  border: 1px solid #ff652b;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.4s;
@@ -363,8 +359,8 @@ body {
   *zoom: 1;
   vertical-align: middle; }
   .form .btn span:hover {
-    background: #f25807;
-    border: 1px solid #f25807; }
+    background: #f05218;
+    border: 1px solid #f05218; }
 
 #pwdStrength {
   padding: 0;

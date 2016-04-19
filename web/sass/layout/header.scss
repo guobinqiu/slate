@@ -227,24 +227,22 @@ $header-nav-height: 80px;
 			&:hover, &.active{
 				color: $main-color;
 			}
-			// &.first{
-			// 	width: 85px;
-			// }
 		}
 	}
 	.login-btn{
 		a{
 			margin-left: 5px;
-			padding: 5px 10px;
-			color: #88878e;
-			border: 1px solid #dedfe3;
-			border-radius: 3px;
+			padding: 0 10px;
+			color: #888;
 			&:hover{
-				color: #fff;
-				background: $main-color;
-				border: 1px solid $main-color;
-				@include transition(all, .1s);
+				color: #ff652b;
 			}
 		}
+		a.sign{
+			color: #ff652b;
+			border-left: 1px solid #d0d1d1;
+			padding-left: 40px;
+		}
+
 	}
 }

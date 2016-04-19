@@ -144,14 +144,14 @@ $title-h2-span: 2px solid #d4d4d4;
 }
 @mixin btn(){
     color: #fff;
-    background: #ff6700;
-    border: 1px solid #ff6700;
+    background: #ff652b;
+    border: 1px solid #ff652b;
     border-radius: 3px;
     cursor: pointer;
     @include transition(all, 0.4s);
     &:hover{
-        background:#f25807;
-        border: 1px solid #f25807;
+        background:#f05218;
+        border: 1px solid #f05218;
     }
 }
 @mixin tips(){
