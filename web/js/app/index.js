@@ -117,6 +117,14 @@ require(['../config'],function(){
             });
         }
         revealOnScroll();
+
+        //scroll down to certain position while click
+        $('.arrowScroll').on('click', function(e){
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $($(this).attr('href')).offset().top
+            }, 800);
+         });
     });
     require(['jquery', 'jqueryCookie'], function($){
         //feedback

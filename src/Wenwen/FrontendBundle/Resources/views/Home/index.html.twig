@@ -17,8 +17,8 @@
 		<div class="coinBack">
 					<div class="main-ad-con w1000">
 						<div class="main-ad-con-text">
-							<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
-							<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
+							<h1>动动手指就能<strong>赚钱</strong></h1>
+							<p class="digits"><em class="pst">当前已发放人民币</em><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
 							<div class="moreText">
 								<p><em></em>完成问卷最高可获得人民币<span class="corYellow">￥100</span></p>
 								<p><em></em>国内最活跃的调查社区之一</p>
@@ -50,9 +50,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="arrowScroll">
-							
-						</div>
+						<div class="arrowScroll" href="#process"></div>
 					</div>
 		</div>
 	</div>
@@ -81,13 +79,50 @@
 		</div>
 	</div>
 </div>
-<div class="main-con-process">
-	<a class="sLog" href="{{ path('_user_reg') }}"></a>
+<div class="main-con-process" id="process">
+	<div class="w1000">
+		<div class="topTit"><h1>只需三步</h1><span>轻松玩转91问问</span></div>
+		<ul class="procDisc">
+			<li class="first"><p class="pdt">免费注册会员</p><p class="pdc">只需两步就可以完成注册，注册即送10积分哦！</p></li>
+			<li class="second"><p class="pdt">做任务赚积分</p><p class="pdc">回答问卷，快速问答投票，做任务，购物都可以赚取积分</p></li>
+			<li class="third"><p class="pdt">兑换奖品</p><p class="pdc">奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等</p></li>
+		</ul>
+	</div>
 </div>
 <div class="main-con-reward">
-	<img src="{{ asset('img/home/adAward.png') }}" alt="奖品展示" title="奖品展示">
+	<div class="w1000">
+		<div class="topTit"><h1>奖励礼品</h1><a href="{{ path('_exchange_index') }}" title="兑换中心" target="_blank"><span>查看详情>></span></a></div>
+		<ul class="rewardlist">
+			<li>
+				<div class="rMes">
+					<p class="rPic1"></p>
+					<p class="rTit">手机话费</p>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2010积分<br>起兑</div>
+			</li>
+			<li>
+				<div class="rMes">
+					<span class="rPic2"></span>
+					<span class="rTit">支付宝现金</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2050积分<br>起兑</div>
+			</li>
+			<li>
+				<div class="rMes">
+					<span class="rPic3"></span>
+					<span class="rTit">上网流量包</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">1590积分<br>起兑</div>
+			</li>
+		</ul>
+	</div>
 </div>
 <div class="main-con-detail">
+
+	<div class="topTit"><h1>大家在</h1><span>91问问做什么...</span></div>
 	<div class="party" data-timeout="500">
 		<em class="party-item party01 js-item"></em>
         <em class="party-item party02 js-item"></em>

@@ -212,15 +212,11 @@
         color: #ff6700; }
   .header-nav .login-btn a {
     margin-left: 5px;
-    padding: 5px 10px;
-    color: #88878e;
-    border: 1px solid #dedfe3;
-    border-radius: 3px; }
+    padding: 0 10px;
+    color: #888; }
     .header-nav .login-btn a:hover {
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
+      color: #ff652b; }
+  .header-nav .login-btn a.sign {
+    color: #ff652b;
+    border-left: 1px solid #d0d1d1;
+    padding-left: 40px; }

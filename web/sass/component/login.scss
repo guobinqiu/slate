@@ -135,8 +135,8 @@
 		display: block;
 		cursor: pointer;
 		&:hover{
-			background:#145dc4;
-			border: 1px solid #145dc4;
+			background:#f05218;
+			border: 1px solid #f05218;
 		}
 		@include transition(all, 0.4s);
 		a{
@@ -146,7 +146,7 @@
 	p{
 		line-height: 55px;
 		a{
-			color: #FF652B;
+			color: #1ca3db;
 			&.spec{
 				color: #757982;
 			}

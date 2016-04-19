@@ -126,8 +126,8 @@ body {
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #ff6700;
-  border: 1px solid #ff6700;
+  background: #ff652b;
+  border: 1px solid #ff652b;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.4s;
@@ -139,8 +139,8 @@ body {
   *zoom: 1;
   vertical-align: middle; }
   .form .btn span:hover {
-    background: #f25807;
-    border: 1px solid #f25807; }
+    background: #f05218;
+    border: 1px solid #f05218; }
 
 #pwdStrength {
   padding: 0;
@@ -212,8 +212,8 @@ body {
     *display: inline;
     *zoom: 1;
     color: #fff;
-    background: #ff6700;
-    border: 1px solid #ff6700;
+    background: #ff652b;
+    border: 1px solid #ff652b;
     border-radius: 3px;
     cursor: pointer;
     transition: all 0.4s;
@@ -222,8 +222,8 @@ body {
     -o-transition: all 0.4s;
     cursor: pointer; }
     .main-register-btn span:hover {
-      background: #f25807;
-      border: 1px solid #f25807; }
+      background: #f05218;
+      border: 1px solid #f05218; }
   .main-register-btn img {
     vertical-align: middle; }
 
@@ -328,8 +328,8 @@ body {
       line-height: 27px;
       text-align: center;
       color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
+      background: #ff652b;
+      border: 1px solid #ff652b;
       border-radius: 3px;
       cursor: pointer;
       transition: all 0.4s;
@@ -340,8 +340,8 @@ body {
       *display: inline;
       *zoom: 1; }
       .main-register-active .con a:hover {
-        background: #f25807;
-        border: 1px solid #f25807; }
+        background: #f05218;
+        border: 1px solid #f05218; }
   .main-register-active .finish .title {
     line-height: 75px; }
   .main-register-active .tips {

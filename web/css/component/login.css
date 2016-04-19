@@ -130,14 +130,14 @@
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s; }
     .login .login-btn:hover {
-      background: #145dc4;
-      border: 1px solid #145dc4; }
+      background: #f05218;
+      border: 1px solid #f05218; }
     .login .login-btn a {
       color: #fff; }
   .login p {
     line-height: 55px; }
     .login p a {
-      color: #FF652B; }
+      color: #1ca3db; }
       .login p a.spec {
         color: #757982; }
   .login .login-btn-others {
