@@ -173,7 +173,7 @@ body {
   right: 0;
   border: 1px solid #ebedf2;
   background: #fff;
-  width: 186px;
+  width: 194px;
   display: none; }
   .header-top-con .personal li {
     float: none;
@@ -189,7 +189,7 @@ body {
     .header-top-con .personal li:hover {
       background: #fafafa; }
 .header-top-con .personal-con {
-  padding: 15px 20px; }
+  padding: 15px; }
   .header-top-con .personal-con span {
     padding: 0;
     display: inline-block;
@@ -527,22 +527,6 @@ body {
 .vote-sub {
   position: relative;
   z-index: 1; }
-  .vote-sub em {
-    position: absolute;
-    z-index: 1000;
-    left: 0;
-    top: 28px;
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-    width: 6px;
-    height: 20px;
-    background: #ff6700; }
-  .vote-sub h1 {
-    font-weight: bold;
-    font-size: 20px;
-    padding-left: 20px;
-    border-bottom: 1px solid #f6f6f6; }
   .vote-sub li {
     border-top: none;
     border-bottom: 1px solid #f6f6f6; }
