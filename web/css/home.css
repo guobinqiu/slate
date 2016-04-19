@@ -661,12 +661,12 @@ body {
   margin: 0 auto;
   z-index: 10000; }
   #newguideWrap .newguide1 {
-    width: 881px;
-    height: 407px;
+    width: 455px;
+    height: 222px;
     position: absolute;
     background: url(../img/home/guide1.png) no-repeat 0 0;
-    left: 32px;
-    top: 433px; }
+    left: 292px;
+    top: 303px; }
   #newguideWrap .newguide2 {
     width: 520px;
     height: 379px;
@@ -692,7 +692,7 @@ body {
     cursor: pointer; }
   #newguideWrap .ngbtn1 {
     right: 69px;
-    bottom: 71px; }
+    bottom: 11px; }
   #newguideWrap .ngbtn2 {
     right: 69px;
     bottom: -3px; }
@@ -705,8 +705,8 @@ body {
     height: 34px;
     cursor: pointer; }
   #newguideWrap .ngclose1 {
-    right: 0;
-    bottom: 78px; }
+    right: -7px;
+    bottom: 18px; }
   #newguideWrap .ngclose2 {
     right: 0;
     bottom: -1px; }
