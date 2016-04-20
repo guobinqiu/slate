@@ -297,8 +297,7 @@ body {
   line-height: 55px;
   font-size: 24px;
   color: #757575;
-  padding: 10px 0 0 6px;
-  border-bottom: 1px solid #f6f6f6; }
+  padding: 10px 0 0 6px; }
 .main-con-left em {
   width: 24px;
   height: 26px;
@@ -318,7 +317,6 @@ body {
   width: 100%; }
 .main-con-left li {
   padding: 20px;
-  border-top: 1px solid #f6f6f6;
   position: relative;
   z-index: 1; }
   .main-con-left li:hover .survey-item, .main-con-left li.active .survey-item {

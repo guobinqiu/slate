@@ -419,7 +419,8 @@ h1 {
     .main-personal-profile h3 b {
       margin-left: 10px;
       font-size: 12px;
-      color: #a1a1a1; }
+      color: #a1a1a1;
+      font-weight: normal; }
     .main-personal-profile h3 a {
       float: right;
       font-size: 12px;
@@ -481,17 +482,15 @@ h1 {
         border: 1px solid #3bc570; }
       .main-personal-profile .profile-base li input[type='text'].input_error, .main-personal-profile .profile-base li input[type='password'].input_error {
         border: 1px solid #ff0000; }
-    .main-personal-profile .profile-base li span {
-      color: #a1a1a1; }
-      .main-personal-profile .profile-base li span.succeed {
-        color: #3bc570;
-        display: inline; }
-      .main-personal-profile .profile-base li span.focus {
-        color: #a1a1a1;
-        display: inline; }
-      .main-personal-profile .profile-base li span.error {
-        color: #ff0000;
-        display: inline; }
+    .main-personal-profile .profile-base li span.succeed {
+      color: #3bc570;
+      display: inline; }
+    .main-personal-profile .profile-base li span.focus {
+      color: #a1a1a1;
+      display: inline; }
+    .main-personal-profile .profile-base li span.error {
+      color: #ff0000;
+      display: inline; }
     .main-personal-profile .profile-base li a {
       margin-left: 10px;
       color: #0078b6; }
@@ -567,10 +566,12 @@ h1 {
       margin-right: 30px;
       width: 115px;
       line-height: 36px;
-      text-align: right; }
+      text-align: right;
+      color: #a1a1a1; }
     .main-personal-profile .profile-detail li #profile_sex label {
       margin-right: 5px;
-      width: 15px; }
+      width: 15px;
+      color: #333; }
     .main-personal-profile .profile-detail li input[type='text'] {
       padding: 0 5px;
       width: 395px;
@@ -598,7 +599,6 @@ h1 {
       text-align: center;
       font-family: '微软雅黑';
       font-size: 12px;
-      color: #a1a1a1;
       border: 1px solid #ededf0;
       outline: none; }
       .main-personal-profile .profile-detail li select:focus {
