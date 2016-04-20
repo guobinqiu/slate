@@ -12,7 +12,7 @@ $survey-border-color: #f6f6f6;
 		height: 55px;
 		line-height: 55px;
 		font-size: 24px;
-		color: #666;
+		color: #757575;
 		padding: 10px 0 0 6px;
 		border-bottom: $block-inner-border;
 	}
@@ -25,12 +25,10 @@ $survey-border-color: #f6f6f6;
 		@include dib();
 	}
 	.title{
-		color: #575757;
 		font-size: 15px;
 		font-weight: 600;
 		line-height: 35px;
 		a{
-			color: #575757;
 			&:hover{
 				color: #914b11;
 			}

@@ -2,7 +2,7 @@
   height: 55px;
   line-height: 55px;
   font-size: 24px;
-  color: #666;
+  color: #757575;
   padding: 10px 0 0 6px;
   border-bottom: 1px solid #f6f6f6; }
 .main-con-left em {
@@ -15,14 +15,11 @@
   *display: inline;
   *zoom: 1; }
 .main-con-left .title {
-  color: #575757;
   font-size: 15px;
   font-weight: 600;
   line-height: 35px; }
-  .main-con-left .title a {
-    color: #575757; }
-    .main-con-left .title a:hover {
-      color: #914b11; }
+  .main-con-left .title a:hover {
+    color: #914b11; }
 .main-con-left ul {
   width: 100%; }
 .main-con-left li {

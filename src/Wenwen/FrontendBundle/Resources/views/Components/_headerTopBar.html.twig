@@ -10,7 +10,7 @@
             <li><em class="guide"></em><a href="{{ path('_default_support_newGuide') }}" title="新手上路">新手上路</a></li>
             <li><a href="{{ path('_user_message',{'sid': 1}) }}" class="last"><em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em></a><span class="special expand-btn"><div class="expand-title"><label for="personal_links">个人中心</label><b></b></div><div id="personal_links" class="personal expand-con">
             <div class="personal-con">
-                <span>
+                <span class="faceTop">
                 {% if user.iconPath %}
                     <img src="{{ asset(user.iconPath) }}" alt="头像" width="60" height="60">
                 {% else %}

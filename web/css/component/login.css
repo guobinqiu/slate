@@ -119,8 +119,8 @@
     color: #fff;
     font-size: 20px;
     font-family: "微软雅黑";
-    background: #FF652B;
-    border: 1px solid #FF652B;
+    background: #e85015;
+    border: 1px solid #e85015;
     border-radius: 5px;
     text-align: center;
     display: block;
@@ -130,8 +130,8 @@
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s; }
     .login .login-btn:hover {
-      background: #f05218;
-      border: 1px solid #f05218; }
+      background: #d34216;
+      border: 1px solid #d34216; }
     .login .login-btn a {
       color: #fff; }
   .login p {

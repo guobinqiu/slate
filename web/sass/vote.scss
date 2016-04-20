@@ -6,6 +6,10 @@
 .vote-sub{
  	position: relative;
 	z-index: 1;
+	h1{
+		font-size: 30px;
+		margin: 10px 0 15px 14px;
+	}
 	li{
 		border-top: none;
 		border-bottom: $block-inner-border;
