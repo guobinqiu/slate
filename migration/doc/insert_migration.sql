@@ -42,6 +42,7 @@ INSERT INTO `month_income` (`id` ,`income`) VALUES
 ('118', '32000元-35999元'),
 ('119', '36000元以上');
 
+ALTER TABLE vote DROP delete_flag;
 
 /* 如果已经发布，则不需要在db中执行
 INSERT INTO `ad_category` (`id`, `category_name`, `asp`, `display_name`) VALUES
