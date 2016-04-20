@@ -45,6 +45,7 @@ class LoadUserSetPasswordCodeData  extends AbstractFixture implements ContainerA
         $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPasswordChoice(User::PWD_WENWEN);
+        $user->setCampaignCode('offerwow');
 
         $user->setPwd('123qwe');
         $manager->persist($user);

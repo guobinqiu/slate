@@ -1,0 +1,19 @@
+.crumbs {
+  margin: 10px 0 20px 11px; }
+  .crumbs .home {
+    width: 14px;
+    height: 12px;
+    vertical-align: -2px;
+    display: inline-block;
+    background: url(../img/common/icons_common.png) no-repeat 0 -69px; }
+    .crumbs .home:hover {
+      background: url(../img/common/icons_common.png) no-repeat 0 -85px; }
+  .crumbs em {
+    font-family: simsun; }
+  .crumbs, .crumbs a {
+    color: #9197a1;
+    font-size: 12px;
+    font-family: "Microsoft YaHei", Tohoma, Arial; }
+  .crumbs a:hover {
+    color: #0078b6;
+    text-decoration: underline; }

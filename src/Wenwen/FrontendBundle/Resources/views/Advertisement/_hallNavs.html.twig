@@ -1,0 +1,5 @@
+<div class="tabBtns">
+	{% set router_current = app.request.attributes.get('_route') %}
+	<a href="{{ path('_advertiserment_list') }}" {{ router_current == '_advertiserment_list' ? 'class="first active"':'class="first"' }}>任务大厅一</a>
+	<a href="{{ path('_advertiserment_offer99') }}" {{ router_current == '_advertiserment_offer99' ? 'class="active"':'' }}>任务大厅二</a>
+</div>

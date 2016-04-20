@@ -1,0 +1,186 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Panel Search
+{% endblock %}
+
+{% block stylesheets %}
+{{parent() }}
+<link href="{{ asset('css/pageNav.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body%}
+
+<script language="JavaScript">
+$(function() {
+    $('ul.pageNav li a').click(function(e) {
+        var page
+        var href = $(this).attr('href');
+        var matches = href.match(/\?page=([^&]+)/);
+        if (matches) {
+            var page = matches[1];
+        } else {
+            page = 1;
+        }
+
+        var tmp_page = $('input#panelsearch_pager_page').attr('value');
+
+        $('input#panelsearch_pager_page').attr('value', Number(page));
+        $('form#panelsearch').submit();
+
+        $('input#panelsearch_pager_page').attr('value', Number(tmp_page));
+        return false;
+    });
+});
+</script>
+<div class="panelist">
+<div>
+<h1>panel search</h1>
+<form id="panelsearch" method="post" action="{{ path('_admin_panelist_index') }}" >
+    <input type="hidden" name="page" id="panelsearch_pager_page" value="">
+        <table align='center' class="inputForm">
+            <tr>
+                <th>{{ form_label(form.user_id) }}</th>
+                <td>{{ form_widget(form.user_id) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.app_mid) }}</th>
+                <td>{{ form_widget(form.app_mid) }}</td>
+            </tr>
+            <tr>
+                  <th>{{ form_label(form.email) }}</th>
+                  <td>{{ form_widget(form.email) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.nickname) }}</th>
+                <td>{{ form_widget(form.nickname) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.mobile_number) }}</th>
+                <td>{{ form_widget(form.mobile_number) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.birthday) }}</th>
+                <td>{{ form_widget(form.birthday, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.registered_from) }}</th>
+                <td>{{ form_widget(form.registered_from, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.registered_to) }}</th>
+                <td>{{ form_widget(form.registered_to, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.type_registered) }}</th>
+                <td>{{ form_widget(form.type_registered) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.type_withdrawal) }}</th>
+                <td>{{ form_widget(form.type_withdrawal) }}</td>
+            </tr>
+        </table>
+
+    <div class="clear_both">
+        <input type="submit" name="s" value="search">
+    </div>
+</form>
+</div>
+
+<div>
+{% if pagination_registered is defined or pagination_withdrawal is defined %}
+<h2>result</h2>
+{% endif %}
+
+{% if registeredUserList is defined %}
+ <h3>registered user {{registeredCount}}</h3>
+<table class="list">
+    <tr>
+        <th>PID</th>
+        <th>App MID</th>
+        <th>email</th>
+        <th>birthday</th>
+        <th>gender</th>
+        <th>nickname</th>
+        <th>mobile number</th>
+        <th>register complete date</th>
+        <th>last-login date</th>
+        <th>ip</th>
+        <th>route</th>
+        <th>activity detail</th>
+        <th>PID</th>
+    </tr>
+        {% for item in registeredUserList %}
+    <tr>
+        <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
+        <td align="left">
+        {% if item.app_mid is defined %}
+        <a href={{ "https://%s/sop/partners/p/%d/a/%d/app_member?app_mid=%d"|format(sop.admin_host, sop.partner_id,sop.auth.app_id,item.app_mid) }} target="_blank">{{ item.app_mid}}</a>
+        {% endif %}
+        </td>
+        <td align="left">{{ item.email}}</td>
+        <td align="left">{{ item.birthday}}</td>
+        <td align="left">{{ item.sex == '1' ? 'male' : (item.sex == '2' ? 'female' : '') }}</td>
+        <td align="left">{{ item.nick}}</td>
+        <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
+        <td align="left">{{ item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.createdRemoteAddr}}</td>
+        <td align="left">{{ item.campaignCode}}</td>
+        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
+        {% if item.ssi_respondent_exist %}
+        <a href="{{ path('_admin_panelist_ssirespondentsummary',{'id':item.id}) }}">SSI Partnership</a>
+        {% endif %}
+        </td>
+        <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
+   </tr>
+    {% endfor %}
+</table>
+ {% endif %}
+ </div>
+<div>
+ {% if withdrawalUserList is defined %}
+  <h3>withdrawal user {{withdrawalCount}}</h3>
+<table class="list">
+    <tr>
+        <th>PID</th>
+        <th>email</th>
+        <th>birthday</th>
+        <th>gender</th>
+        <th>nickname</th>
+        <th>mobile number</th>
+        <th>register date</th>
+        <th>last-login date</th>
+        <th>ip</th>
+        <th>route</th>
+        <th>PID</th>
+    </tr>
+    {% for item in withdrawalUserList %}
+    <tr>
+        <td align="left">{{ item.id}}</td>
+        <td align="left">{{ item.email}}</td>
+        <td align="left">{{ item.birthday}}</td>
+        <td align="left">{{ item.sex}}</td>
+        <td align="left">{{ item.nick}}</td>
+        <td align="left">{{ item.tel}}</td>
+        <td align="left">{{ item.registerDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.createdRemoteAddr}}</td>
+        <td align="left">{{ item.campaignCode}}</td>
+        <td align="left">{{ item.id}}</td>
+   </tr>
+    {% endfor %}
+</table>
+{% endif %}
+</div>
+<div style="display: inline-block; width: 100%;">
+  {% include '::pagination.html.twig' %}
+</div>
+</div>
+
+{% endblock %}

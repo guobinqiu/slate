@@ -1,4 +1,5 @@
-<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -61,6 +62,7 @@ function loadKeyword(categoryId){
 </script>
 
 <form method="get" name="componentForm" id="componentForm" action="{{ path('_admin_taobao_component') }}">
+<div class="tips">
 组件类别:
 <select name="componentId" id="componentId">
     <option value="-1">&nbsp;</option>
@@ -83,9 +85,10 @@ function loadKeyword(categoryId){
 <input type="button" value="追加组件" name="addComponentBtn" id="addComponentBtn">
 &nbsp;&nbsp;
 <input type="button" value="保存排序" name="sortComponentBtn" id="sortComponentBtn">
+    </div>
 </form>
 <form method=post name="sortForm" id="sortForm" action="{{ path('_admin_taobao_sortComponent') }}">
-<table>
+<table class="list">
     <tr>
         <th width="3%">id</th>
         <th width="7%">keyword</th>

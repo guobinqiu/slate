@@ -14,9 +14,37 @@
     bootstrap                   = "bootstrap.php.cache" >
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="all">
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
+        </testsuite>
+
+        <testsuite name="wenwen">
+            <directory>../src/Wenwen/*Bundle/Tests</directory>
+        </testsuite>
+
+        <testsuite name="jili">
+            <directory>../src/Jili/*Bundle/Tests</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_command">
+            <directory>../src/Jili/ApiBundle/Tests/Command</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_controller">
+            <directory>../src/Jili/ApiBundle/Tests/Controller</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_entity">
+            <directory>../src/Jili/ApiBundle/Tests/Entity</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_form">
+            <directory>../src/Jili/ApiBundle/Tests/Form</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_repo">
+            <directory>../src/Jili/ApiBundle/Tests/Repository</directory>
         </testsuite>
     </testsuites>
 

@@ -1,0 +1,158 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/crumbs";
+.main-con-shopDetail{
+	padding: 5px 0;
+	@extend .clearfix;
+	h2{
+		line-height: 35px;
+		color: #333;
+		font-size: 14px;
+		font-weight: bold;
+		border-bottom: $title-h2;
+		span{
+			padding-bottom: 8px;
+			border-bottom: $title-h2-span;
+		}
+	}
+	table{
+		margin-top: 20px;
+		width: 100%;
+	}
+	th, td{
+		padding-left: 10px;
+		line-height: 30px;
+		text-align: left;
+		border: 1px solid #e7e7e7;
+	}
+	th{
+		background: #f7f7f7;
+	}
+}
+.main-con-left{
+	float: left;
+	width: 718px;
+	&>div{
+		padding: 10px 25px 20px;
+	}
+}
+.main-con-right{
+	float: right;
+	width: 268px;
+}
+.main-con-shop{
+	span{
+		@include dib();
+		&.text{
+			margin-left: 30px;
+			width: 450px;
+			vertical-align: top;
+		}
+	}
+	.img{
+		width: 178px;
+		height: 88px;
+		line-height: 30px;
+		text-align: center;
+		border: 1px solid #f2f2f2;
+		display: table-cell;
+ 		vertical-align:middle;
+ 		*display: inline-block;
+	}
+	img{
+		width: 120px;
+	}
+	b{
+		color: $main-color;
+	}
+	.btn{
+		margin-top: 10px;
+		a{
+			width: 180px;
+			text-align: center;
+			height: 45px;
+			line-height: 45px;
+			font-size: 14px;
+			cursor: pointer;
+			@include btn();
+			@include dib();
+		}
+	}
+	h1{
+		font-size: 24px;
+		line-height: 55px;
+	}
+	p{
+		line-height: 22px;
+	}
+	.prompts{
+		margin-top: 10px;
+		line-height: 35px;
+		border-top: 1px solid #f2f2f2;
+	}
+}
+.main-con-flow{
+	.con{
+		margin-top: 30px;
+	}
+	.step{
+		float: left;
+		width: 33.3333%;
+		background: url(../img/advertisement/arrow.png) no-repeat right;
+		text-align: center;
+		p{
+			line-height: 45px;
+		}
+		&.last{
+			background: none;
+		}
+	}
+}
+.shop-recomend{
+	h2{
+		margin-top: 5px;
+		font-size: 14px;
+	}
+}
+.similar-shops{
+	margin-left: -1px;
+	margin-bottom: -1px;
+	li{
+		float: left;
+	}
+	img{
+		width: 120px;
+	}
+	a{
+		position: relative;
+		z-index: 1;
+		width: 132px;
+		height: 100px;
+		border-left: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+		text-align: center;
+		display: table-cell;
+ 		vertical-align:middle;
+ 		*width: 132px;
+ 		*padding: 35px 0 0;
+ 		*display: inline-block;
+ 		&>div{
+ 			position: absolute;
+			z-index: 100;
+			left: 0;
+			right: 0;
+			bottom: 20px;
+ 		}
+	}
+	b{
+		
+		line-height: 35px;
+		color: $main-color;
+	}
+}
+.crumbs{
+	margin-left: 0!important;
+}
+@import "layout/footer";

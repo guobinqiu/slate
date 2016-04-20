@@ -19,9 +19,10 @@
 
 namespace Doctrine\Common\DataFixtures\Purger;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Internal\CommitOrderCalculator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
  * Class responsible for purging databases of data before reloading data fixtures.
@@ -34,7 +35,7 @@ class ORMPurger implements PurgerInterface
     const PURGE_MODE_DELETE = 1;
     const PURGE_MODE_TRUNCATE = 2;
 
-    /** EntityManager instance used for persistence. */
+    /** EntityManagerInterface instance used for persistence. */
     private $em;
 
     /**
@@ -47,9 +48,9 @@ class ORMPurger implements PurgerInterface
     /**
      * Construct new purger instance.
      *
-     * @param EntityManager $em EntityManager instance used for persistence.
+     * @param EntityManagerInterface $em EntityManagerInterface instance used for persistence.
      */
-    public function __construct(EntityManager $em = null)
+    public function __construct(EntityManagerInterface $em = null)
     {
         $this->em = $em;
     }
@@ -76,19 +77,19 @@ class ORMPurger implements PurgerInterface
     }
 
     /**
-     * Set the EntityManager instance this purger instance should use.
+     * Set the EntityManagerInterface instance this purger instance should use.
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      */
-    public function setEntityManager(EntityManager $em)
+    public function setEntityManager(EntityManagerInterface $em)
     {
       $this->em = $em;
     }
 
     /**
-     * Retrieve the EntityManager instance this purger instance is using.
+     * Retrieve the EntityManagerInterface instance this purger instance is using.
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return \Doctrine\ORM\EntityManagerInterface
      */
     public function getObjectManager()
     {
@@ -102,25 +103,28 @@ class ORMPurger implements PurgerInterface
         $metadatas = $this->em->getMetadataFactory()->getAllMetadata();
 
         foreach ($metadatas as $metadata) {
-            if ( ! $metadata->isMappedSuperclass) {
+            if (! $metadata->isMappedSuperclass && ! (isset($metadata->isEmbeddedClass) && $metadata->isEmbeddedClass)) {
                 $classes[] = $metadata;
             }
         }
 
         $commitOrder = $this->getCommitOrder($this->em, $classes);
 
-        // Drop association tables first
-        $orderedTables = $this->getAssociationTables($commitOrder);
-
         // Get platform parameters
         $platform = $this->em->getConnection()->getDatabasePlatform();
+
+        // Drop association tables first
+        $orderedTables = $this->getAssociationTables($commitOrder, $platform);
 
         // Drop tables in reverse commit order
         for ($i = count($commitOrder) - 1; $i >= 0; --$i) {
             $class = $commitOrder[$i];
 
-            if (($class->isInheritanceTypeSingleTable() && $class->name != $class->rootEntityName)
-                || $class->isMappedSuperclass) {
+            if (
+                ($class->isInheritanceTypeSingleTable() && $class->name != $class->rootEntityName) ||
+                (isset($class->isEmbeddedClass) && $class->isEmbeddedClass) ||
+                $class->isMappedSuperclass
+            ) {
                 continue;
             }
 
@@ -136,7 +140,7 @@ class ORMPurger implements PurgerInterface
         }
     }
 
-    private function getCommitOrder(EntityManager $em, array $classes)
+    private function getCommitOrder(EntityManagerInterface $em, array $classes)
     {
         $calc = new CommitOrderCalculator;
 
@@ -182,14 +186,23 @@ class ORMPurger implements PurgerInterface
         return $calc->getCommitOrder();
     }
 
-    private function getAssociationTables(array $classes)
+    /**
+     * @param array $classes
+     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
+     * @return array
+     */
+    private function getAssociationTables(array $classes, AbstractPlatform $platform)
     {
         $associationTables = array();
 
         foreach ($classes as $class) {
             foreach ($class->associationMappings as $assoc) {
                 if ($assoc['isOwningSide'] && $assoc['type'] == ClassMetadata::MANY_TO_MANY) {
-                    $associationTables[] = $assoc['joinTable']['name'];
+                    if (isset($assoc['joinTable']['schema'])) {
+                        $associationTables[] = $assoc['joinTable']['schema'] . '.' . $class->getQuotedJoinTableName($assoc, $platform);
+                    } else {
+                        $associationTables[] = $class->getQuotedJoinTableName($assoc, $platform);
+                    }
                 }
             }
         }

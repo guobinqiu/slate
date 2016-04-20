@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/help";
+body{
+	background: #fff;
+}
+.main-help-con{
+	h2{
+		padding-left: 20px;
+		font-size: 16px;
+		font-weight: bold;
+		color: #333;
+		border-left: 6px solid $main-color;
+		b{
+			color: $main-color;
+		}
+	}
+	.search-result{
+		margin-top: 20px;
+		padding: 10px 30px 50px;
+		border-top: $block-border;
+		dt{
+			line-height: 55px;
+			color: $main-title-color;
+			font-size: 15px;
+			font-weight: bold;
+			b{
+				color: $main-color;
+			}
+		}
+		dd{
+			padding-bottom: 20px;
+			line-height: 20px;
+			border-bottom: $block-inner-border;
+			&.allCon{
+				display: none;
+			}
+			a{
+				color: $main-title-color;
+			}
+		}
+	}
+	.more-result{
+		padding: 40px 0 0;
+		a{
+			width: 100%;
+			text-align: center;
+			height: 32px;
+			line-height: 32px;
+			border: 1px solid #bbb;
+			border-radius: 3px;
+			@include gradient(#f7f7f8, #e6e6e8);
+			@include dib();
+		}
+	}
+}
+.backTop{
+	position: fixed;
+	z-index: 1000;
+	bottom: 150px;
+	left: 50%;
+	margin-left: 540px;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	color: #fff;
+	background: #d6d6d6;
+	cursor: pointer;
+}
+@import "layout/footer";

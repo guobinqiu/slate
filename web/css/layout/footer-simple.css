@@ -1,0 +1,9 @@
+.footer {
+  padding: 20px 0;
+  line-height: 24px;
+  color: #535353; }
+  .footer .copyright {
+    text-align: center; }
+    .footer .copyright p {
+      line-height: 30px;
+      color: #989898; }

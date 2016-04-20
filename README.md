@@ -1,174 +1,84 @@
-Symfony Standard Edition
-========================
+# PointMedia
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+## How to setup
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+if USER = seki
 
-1) Installing the Standard Edition
-----------------------------------
+### Prerequirement
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+1. SSH account for testgroup.91jili.com machine
+2. github account
+3. ssh-key registration on github https://github.com/settings/ssh
+4. git author setting
 
-### Use Composer (*recommended*)
+    ```bash
+    $ git config --global user.name "Takafumi Sekiguchi"
+    $ git config --global user.email "takafumi.sekiguchi@d8aspring.com"
+    ```
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+### Setup
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+1. setup umask
 
-    curl -s http://getcomposer.org/installer | php
+    ```bash
+    $ echo "umask 0002" >> ~/.bashrc
+    ```
 
-Then, use the `create-project` command to generate a new Symfony application:
+1. setup your directory
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+    ```bash
+    $ mkdir -p /data/src/$USER/
+    $ cd !$
+    $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
+    $ make setup
+    ```
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+1. configure yml files in `./app/config/`
 
-### Download an Archive File
+    * `./app/config/parameters.yml`
+      * DB configuration
+      * for `vagrant` environment, password should be emtpy
+    * `app/config/custom_parameters.yml`
+      * `webuser_signup.login.username`
+      * `webuser_signup.login.password`
+      * `webpower.login.username`
+      * `webpower.login.password`
+      * `signup.crypt_method`
+      * `signup.salt`
+      * `recruit_offerwow`
+      * `recruit_offer99`
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+1. setup /etc/hosts on your **local**  machine.
 
-    php composer.phar install
+    ```
+    115.29.208.157 $USER.www.91jili.com.dev.91jili.com
+    ```
 
-2) Checking your System Configuration
--------------------------------------
+## Document root
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+| site           | URL                                    |
+|----------------|----------------------------------------|
+| 91jili         | http://$USER.www.91jili.com.dev.91jili.com/app\_dev.php |
 
-Execute the `check.php` script from the command line:
 
-    php app/check.php
+## Tips
 
-Access the `config.php` script from a browser:
+### When you need 2nd URL for test.
 
-    http://localhost/path/to/symfony/app/web/config.php
+1. set up your 2nd directory
 
-If you get any warnings or recommendations, fix them before moving on.
+    ```bash
+    $ mkdir -p /data/src/seki-2/
+    $ cd !$
+    $ git clone git@github.com:voyagechinagroup/PointMedia.git ./
+    $ make setup SUBDOMAIN=seki-2
+    ```
 
-3) Browsing the Demo Application
---------------------------------
+1. configure DB `./app/config/parameters.yml`
 
-Congratulations! You're now ready to use Symfony.
+1. setup /etc/hosts on your **local**  machine.
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
-
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
-
-To see a real-live Symfony page in action, access the following page:
-
-    web/app_dev.php/demo/hello/Fabien
-
-4) Getting started with Symfony
--------------------------------
-
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
-
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
-
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
-
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
-
-  * delete the `src/Acme` directory;
-
-  * remove the routing entries referencing AcmeBundle in
-    `app/config/routing_dev.yml`;
-
-  * remove the AcmeBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * remove the `security.providers`, `security.firewalls.login` and
-    `security.firewalls.secured_area` entries in the `security.yml` file or
-    tweak the security configuration to fit your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * [**JMSSecurityExtraBundle**][13] - Allows security to be added via
-    annotations
-
-  * [**JMSDiExtraBundle**][14] - Adds more powerful dependency injection
-    features
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][15] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.1/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.1/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.1/index.html
-[6]:  http://symfony.com/doc/2.1/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.1/book/doctrine.html
-[8]:  http://symfony.com/doc/2.1/book/templating.html
-[9]:  http://symfony.com/doc/2.1/book/security.html
-[10]: http://symfony.com/doc/2.1/cookbook/email.html
-[11]: http://symfony.com/doc/2.1/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.1/cookbook/assetic/asset_management.html
-[13]: http://jmsyst.com/bundles/JMSSecurityExtraBundle/master
-[14]: http://jmsyst.com/bundles/JMSDiExtraBundle/master
-[15]: http://symfony.com/doc/2.1/bundles/SensioGeneratorBundle/index.html
+    ```
+    115.29.208.157 seki-2.www.91jili.com.dev.91jili.com
+    ```

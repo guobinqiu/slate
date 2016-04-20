@@ -47,6 +47,8 @@ $container = $this->getContainer();
         } else if( $input->getOption('refresh-ranking')) {
         } else if( $input->getOption('pool-alarm')) {
             
+            $logger->crit('[command][gameEggBreaker][statReport] ignored :pool-alarm');
+            return;
 
             try {
                 $sql = 'select sum(num_of_common) as "common", sum(num_of_consolation) as  "consolation" from game_eggs_breaker_eggs_info;';
@@ -92,7 +94,7 @@ $container = $this->getContainer();
                     $recipients  = 'chiang_32@126.com';
                 } else {
                     $title ='';
-                    $recipients = 'vctech-system@voyagegroup.info';
+                    $recipients = $container->getParameter('cron_alertTo_contacts');
                 }
 
                 $title .='积粒网-砸金蛋活动状态报告';

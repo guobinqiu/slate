@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/survey";
+.main-con-left{
+	li{
+		&:hover, &.active{
+			.survey-btn{
+				width: 24%;
+			}
+		}
+	}
+}
+.survey-sub{
+	position: relative;
+	z-index: 1;
+	&>li{
+		border-top: none;
+		border-bottom: $block-inner-border;
+	}
+	#noSurvey{
+		text-align: center;
+		display: none;
+	}
+}
+@import "component/page";
+@import "layout/footer";

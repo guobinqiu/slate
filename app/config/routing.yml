@@ -1,3 +1,13 @@
+wenwen_app:
+    resource: "@WenwenAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+wenwen_frontend:
+    resource: "@WenwenFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 api:
     resource: "@JiliApiBundle/Controller"
     type: annotation
@@ -14,6 +24,10 @@ jili_frontend:
     resource: "@JiliFrontendBundle/Controller/"
     type:     annotation
     prefix:   /
+
+wenwen_frontend:
+    resource: "@WenwenFrontendBundle/Controller/"
+    type:     annotation
 
 _login:
     path: /login
@@ -44,9 +58,6 @@ jili_emar:
     prefix:   /emar
 
 
-jili_backend:
-    resource: "@JiliBackendBundle/Resources/config/routing.yml"
-    prefix:   /backend
 
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"

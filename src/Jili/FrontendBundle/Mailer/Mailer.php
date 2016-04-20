@@ -2,12 +2,17 @@
 namespace Jili\FrontendBundle\Mailer;
 
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class Mailer 
+Class Mailer 
 {
 
     private $mailer;
     private $router;
+
+    private $templating;
+    private $translator;
 
     public function __construct($mailer , RouterInterface $router) {
         $this->mailer  = $mailer;
@@ -15,7 +20,6 @@ class Mailer
     }
 
     /**
-     * todo: move the email body to template
      * @abstract send an email to the new reg user a forgetPassword link to set the email
      * @param string $email User.email
      * @param string $nick User.nick
@@ -27,29 +31,22 @@ class Mailer
     {
         $url = $this->router->generate('_user_forgetPass',array('code'=>$code, 'id'=>$user_id),true);
         $message = \Swift_Message::newInstance()
-            ->setSubject('积粒网-注册激活邮件')
-            ->setFrom(array('account@91jili.com'=>'积粒网'))
+            ->setSubject( $this->translator->trans('signup_title', array(), 'mailings') )
+            ->setFrom(array('account@91jili.com'=>$this->translator->trans('signup_send_from', array() , 'mailings')))
             ->setTo($email)
-            ->setBody(
-                '<html>' .
-                ' <head></head>' .
-                ' <body>' .
-                '亲爱的'.$nick.'<br/>'.
-                '<br/>'.
-                '  感谢您注册成为“积粒网”会员！请点击<a href='.$url.' target="_blank">这里</a>，立即激活您的帐户！<br/><br/><br/>' .
-                '  注：激活邮件有效期是14天，如果过期后不能激活，请到网站首页重新注册激活。<br/><br/>' .
-                '  ++++++++++++++++++++++++++++++++++<br/>' .
-                '  积粒网，轻松积米粒，快乐换奖励！<br/>赚米粒，攒米粒，花米粒，一站搞定！' .
-                ' </body>' .
-                '</html>',
-                'text/html'
-            );
+            ->setBody($this->templating->render('JiliApiBundle::Mailings/_signup_body.html.twig' , array('nick'=>$nick,'url'=>$url) ), 'text/html');
         $flag = $this->mailer->send($message);
-        if($flag===1){
-            return true;
-        }else{
-            return false;
-        }
+        return $flag === 1;
+    }
 
+
+    public function setTemlating(EngineInterface $templating) 
+    {
+        $this->templating = $templating;
+    }
+
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
     }
 }

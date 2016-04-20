@@ -1,7 +1,52 @@
-Version 2.0.0-dev-dev
----------------------
+Version 2.0.2-dev
+-----------------
 
 Nothing yet.
+
+Version 2.0.1 (2016-02-28)
+--------------------------
+
+### Fixed
+
+* `declare() {}` and `declare();` are not semantically equivalent and will now result in different
+  ASTs. The format case will have an empty `stmts` array, while the latter will set `stmts` to
+  `null`.
+* Magic constants are now supported as semi-reserved keywords.
+* A shebang line like `#!/usr/bin/env php` is now allowed at the start of a namespaced file.
+  Previously this generated an exception.
+* The `prettyPrintFile()` method will not strip a trailing `?>` from the raw data that follows a
+  `__halt_compiler()` statement.
+* The `prettyPrintFile()` method will not strip an opening `<?php` if the file starts with a
+  comment followed by InlineHTML.
+
+Version 2.0.0 (2015-12-04)
+--------------------------
+
+### Changed
+
+* String parts of encapsed strings are now represented using `Scalar\EncapsStringPart` nodes.
+  Previously raw strings were used. This affects the `parts` child of `Scalar\Encaps` and
+  `Expr\ShellExec`. The change has been done to allow assignment of attributes to encapsed string
+  parts.
+
+Version 2.0.0-beta1 (2015-10-21)
+--------------------------------
+
+### Fixed
+
+* Fixed issue with too many newlines being stripped at the end of heredoc/nowdoc strings in some
+  cases. (#227)
+
+### Changed
+
+* Update group use support to be in line with recent PHP 7.0 builds.
+* Renamed `php-parse.php` to `php-parse` and registered it as a composer bin.
+* Use composer PSR-4 autoloader instead of custom autoloader.
+* Specify phpunit as a dev dependency.
+
+### Added
+
+* Added `shortArraySyntax` option to pretty printer, to print all arrays using short syntax.
 
 Version 2.0.0-alpha1 (2015-07-14)
 ---------------------------------

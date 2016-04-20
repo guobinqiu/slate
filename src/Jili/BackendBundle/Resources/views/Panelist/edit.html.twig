@@ -1,0 +1,124 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Panel Search- edit
+{% endblock %}
+
+{% block stylesheets %}
+{{parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body%}
+<div class="panelist">
+<h1>edit panelist</h1>
+
+{% if user is null %}
+<h2>No such panelist_id</h2>
+{% else %}
+
+{% if error_messages is defined %}
+    {% for error_message in error_messages %}
+     <center><font color='red'>{{ error_message }}</font></center>
+    {% endfor %}
+{%endif%}
+
+<form action="{{ path('_admin_panelist_edit_confirm') }}" method="post" id="form1" >
+
+<div class="float_left">
+  <table class="inputForm">
+  <tr>
+    <th>PID</th>
+    <td>{{ user.id }}</td>
+  </tr>
+  <tr>
+    <th>email</th>
+    <td>{{ user.email }}</td>
+  </tr>
+  <tr>
+    <th>gender</th>
+    <td>{% if user.sex==1 %}男{% elseif user.sex==2 %}女{% else %}{% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th>birthday</th>
+    <td>{{ form_widget(form.birthday, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}{{ form_errors(form.birthday) }}
+    </td>
+  </tr>
+  <tr>
+    <th>nickname</th>
+    <td>{{ form_widget(form.nick) }}{{ form_errors(form.nick) }}
+    </td>
+  </tr>
+  <tr>
+    <th>biography</th>
+    <td>{{ user.personalDes }}
+    </td>
+  </tr>
+  <tr>
+    <th>hobby</th>
+    <td>{{ user_hobby_name }}
+    </td>
+  </tr>
+  <tr>
+    <th>favorite music</th>
+    <td>{{ user.favMusic }}
+    </td>
+  </tr>
+  <tr>
+    <th>monthly wish</th>
+    <td>{{ user.monthlyWish }}
+    </td>
+  </tr>
+  <tr>
+        <th>telephone</th>
+        <td>{{ form_widget(form.tel) }}{{ form_errors(form.tel) }}</td>
+    </tr>
+    <tr>
+        <th>register date</th>
+        <td>{{ user.registerDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+        <th>last login date</th>
+        <td>{{ user.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+        <th>points</th>
+        <td>{{ user.points }}</td>
+    </tr>
+    <tr>
+        <th>delete flag</th>
+        <td>{{ form_widget(form.deleteFlag) }}</td>
+    </tr>
+  {%  if user.iconPath is not null %}
+  <tr>
+    <th>profile icon</th>
+    <td><img src="{{ asset(user.iconPath) }}" width="90" height="90" />
+    </td>
+  </tr>
+  {% endif %}
+  </table>
+
+<div class="clear_both">
+  <input type="submit" name="undo" value="Undo" />
+  <input type="submit" value="Confirm" />
+</div><!-- /.clear_both -->
+
+<div style="display: none;">
+{{form_widget(form.id)}}
+{{ form_rest(form) }}
+</div>
+
+</form>
+
+{% endif %} {# if $user #}
+{% if completed is defined and completed == 1%}
+<div class="successMess">Update completed!</div><!-- /.errorMess -->
+{% endif %}
+</div>
+{% endblock %}

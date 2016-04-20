@@ -20,10 +20,10 @@
             <li class="subnavItem second"><a href="{{ asset(path('_advertiserment_offer99')) }}">任务大厅二</a></li>
             <li class="subnavItem"><a class="now" href="{{ asset(path('_advertiserment_bangwoya')) }}">任务大厅三</a></li>
         </ul>
-        <div class="navNew"><img src="{{ asset('images/newTag.gif') }}" title="NEW"></div>
     </div>
     <!--  subnav  /-->
-    <iframe src='{{ bangwoya_com.url }}&u={{ app.session.get('uid') }}' style='width:1024px; height:3500px;' scrolling='no' frameborder='no' border='0'></iframe>
+    {# <iframe src='{{ bangwoya_com.url }}&u={{ app.session.get('uid') }}' style='width:1024px; height:3500px;' scrolling='no' frameborder='no' border='0'></iframe> #}
+    <div class="offer99Error"><span>很抱歉，“任务大厅三”系统正在升级中...</span></div>
 		<script type="text/javascript" src="/js/iframeResizer.min.js"></script> 
 		<script type="text/javascript">
 			iFrameResize({enablePublicMethods: true});

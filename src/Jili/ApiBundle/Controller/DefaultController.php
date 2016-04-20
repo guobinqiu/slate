@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Mailer;
-use Jili\ApiBundle\Form\RegType;
 use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\WenwenUser;
 use Jili\ApiBundle\Entity\Callboard;
@@ -518,7 +517,39 @@ class DefaultController extends Controller
 	 */
     public function aboutAction()
     {
-        return $this->render('JiliApiBundle:Default:about.html.twig');
+        return $this->render('WenwenFrontendBundle:About:company.html.twig');
+    }
+
+    /**
+     * @Route("/about/map", name="_default_about_map", requirements={"_scheme"="http"})
+     */
+    public function mapAction()
+    {
+        return $this->render('WenwenFrontendBundle:About:map.html.twig');
+    }
+
+    /**
+     * @Route("/about/links", name="_default_about_links", requirements={"_scheme"="http"})
+     */
+    public function linksAction()
+    {
+        return $this->render('WenwenFrontendBundle:About:links.html.twig');
+    }
+
+    /**
+     * @Route("/about/regulations", name="_default_about_regulations", requirements={"_scheme"="http"})
+     */
+    public function regulationsAction()
+    {
+        return $this->render('WenwenFrontendBundle:About:regulations.html.twig');
+    }
+
+    /**
+     * @Route("/about/ww", name="_default_about_ww", requirements={"_scheme"="http"})
+     */
+    public function wwAction()
+    {
+        return $this->render('WenwenFrontendBundle:About:91ww.html.twig');
     }
 
     /**
@@ -526,7 +557,7 @@ class DefaultController extends Controller
 	 */
     public function errorAction()
     {
-        return $this->render('JiliApiBundle::error.html.twig');
+        return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
     }
 
     /**
@@ -542,7 +573,55 @@ class DefaultController extends Controller
 	 */
     public function supportAction()
     {
-        return $this->render('JiliApiBundle:Default:help.html.twig');
+        return $this->render('WenwenFrontendBundle:Help:index.html.twig');
+    }
+
+    /**
+     * @Route("/newGuide", name="_default_support_newGuide", requirements={"_scheme"="http"})
+     */
+    public function guideAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuide.html.twig');
+    }
+
+    /**
+     * @Route("/newGuide/detail", name="_default_support_newGuide_detail", requirements={"_scheme"="http"})
+     */
+    public function guideDetailAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuideDetail.html.twig');
+    }
+
+    /**
+     * @Route("/support/search", name="_default_support_search", requirements={"_scheme"="http"})
+     */
+    public function searchAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:search.html.twig');
+    }
+
+    /**
+     * @Route("/feedback", name="_default_feedback", requirements={"_scheme"="http"})
+     */
+    public function feedbackAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:feedback.html.twig');
+    }
+
+    /**
+     * @Route("/feedback/confirm", name="_default_feedback_confirm", requirements={"_scheme"="http"})
+     */
+    public function confirmAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:confirm.html.twig');
+    }
+
+    /**
+     * @Route("/feedback/finished", name="_default_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
+     */
+    public function finishedAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:finished.html.twig');
     }
 
     /**

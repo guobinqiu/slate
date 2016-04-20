@@ -422,7 +422,11 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_Array(Expr\Array_ $node) {
-        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        if ($this->options['shortArraySyntax']) {
+            return '[' . $this->pCommaSeparated($node->items) . ']';
+        } else {
+            return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        }
     }
 
     public function pExpr_ArrayItem(Expr\ArrayItem $node) {
@@ -605,12 +609,12 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Declare(Stmt\Declare_ $node) {
-        return 'declare (' . $this->pCommaSeparated($node->declares) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'declare (' . $this->pCommaSeparated($node->declares) . ')'
+             . (null !== $node->stmts ? ' {' . $this->pStmts($node->stmts) . "\n" . '}' : ';');
     }
 
     public function pStmt_DeclareDeclare(Stmt\DeclareDeclare $node) {
-        return $node->key . ' = ' . $this->p($node->value);
+        return $node->key . '=' . $this->p($node->value);
     }
 
     // Control flow
@@ -768,8 +772,8 @@ class Standard extends PrettyPrinterAbstract
     protected function pEncapsList(array $encapsList, $quote) {
         $return = '';
         foreach ($encapsList as $element) {
-            if (is_string($element)) {
-                $return .= addcslashes($element, "\n\r\t\f\v$" . $quote . "\\");
+            if ($element instanceof Scalar\EncapsedStringPart) {
+                $return .= addcslashes($element->value, "\n\r\t\f\v$" . $quote . "\\");
             } else {
                 $return .= '{' . $this->p($element) . '}';
             }

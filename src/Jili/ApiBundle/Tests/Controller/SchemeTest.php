@@ -13,7 +13,7 @@ class SchemeTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/');
-        $this->assertEquals(200,$client->getResponse()->getStatusCode());
+        $this->assertEquals(302,$client->getResponse()->getStatusCode());
         $this->assertFalse($client->getRequest()->isSecure() );
 #
         // http://{hostname}/login will redirect to https://{hostname}/login

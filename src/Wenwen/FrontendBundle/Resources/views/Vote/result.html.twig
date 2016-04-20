@@ -1,0 +1,58 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}快速问答结果：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000 clearfix">
+    <div class="main-con-left left">
+        <div class="vote vote-sub">
+            <h1>{{vote.title}}<a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览</a></h1>
+            <div class="relate">
+                {% if vote_image_path %}
+                <img src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
+                {% else %}
+                <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
+                {% endif %}
+                <div class="relate-text">
+                    <div>时间：{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
+                    <div class="description">
+                        <b class="btn"></b>
+                        <p class="">{% autoescape false %}{{ vote.description }}{% endautoescape %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="options">
+                <dl>
+                    {% for choice in choices %}
+                    <dt title="{{choice.name}}">{{choice.name}}</dt>
+                    <dd class="option1">
+                        <span class="result">{{choice.answer_count}}票</span>
+                        <span class="progress"><p style="width: {{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%;"></p></span>
+                    </dd>
+                    {% endfor %}
+                </dl>
+                <wb:share-button class="weiboshare" appkey="17dg2I" addition="simple" type="button" ralateUid="3572980047" default_text="{{vote.title}}"></wb:share-button>
+                
+            </div>
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/voteDetail')}}"></script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

@@ -1,0 +1,198 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+.main-con-left{
+	.vote-sub{
+		padding-bottom: 50px;
+	}
+	.survey-recomend{
+		padding: 15px 40px 40px;
+	}
+}
+.vote-sub{
+ 	h1{
+ 		margin-top: 15px;
+ 		height: 45px;
+ 		line-height: 45px;
+ 		color: $main-title-color;
+ 		font-size: 20px;
+ 		font-weight: bold;
+ 		a{
+ 			margin-top: 10px;
+ 			float: right;
+ 			padding: 0 10px;
+ 			height: 24px;
+ 			line-height: 24px;
+ 			font-size: 12px;
+ 			font-weight: normal;
+ 			color: #8c8c8c;
+ 			background: #f7f7f7;
+ 			border: 1px solid #ededf0;
+ 			border-radius: 3px;
+ 			@include dib();
+ 		}
+ 	}
+ 	.relate{
+ 		margin-top: 20px;
+ 		padding-left: 130px;
+ 		padding-right: 20px;
+ 		position: relative;
+ 		z-index: 1;
+ 		@include minHeight(90px);
+ 		img{
+ 			position: absolute;
+ 			z-index: 100;
+ 			top: 0;
+ 			left: 15px;
+ 		}
+ 	}
+ 	.relate-text{
+ 		color: #9da1a8;
+ 		line-height: 20px;
+ 		b{
+ 			color: $main-color;
+ 		}
+ 		.description{
+ 			margin-top: 7px;
+ 			margin-bottom: 20px;
+ 			padding: 0 10px;
+ 			height: 33px;
+ 			line-height: 30px;
+ 			color: #495361;
+ 			background: #f3f5f8;
+ 			overflow: hidden;
+ 			cursor: pointer;
+			@include transition(height, 300ms);
+ 			b.btn{
+ 				float: right;
+ 				margin-top: 15px;
+ 				@include arrow(bottom, 5px, $top-font-color);
+ 			}
+ 			p{
+ 				padding: 6px 20px 10px 2px;
+  				line-height: 22px;
+ 			}
+ 		}
+ 	}
+ 	.options{
+ 		margin-top: -17px;
+ 		padding-left: 130px;
+ 		padding-right: 20px;
+ 		li{
+ 			line-height: 35px;
+ 			span{
+ 				margin-left: 5px;
+ 			}
+ 		}
+ 		.btn{
+ 			padding:20px 0 0 0;
+			.submit{
+				width: 140px;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				font-size: 14px;
+				font-weight: bold;
+				@include btn();
+				@include dib();
+				vertical-align: middle;
+				outline: none;
+			}
+			.loginTips{
+				line-height: 35px;
+			}
+			a{
+				&.result{
+					float: right;
+					margin-top: 12px;	
+				}
+				color: $main-title-color;
+			}
+ 		}
+ 		dt{
+ 			margin-top: 25px;
+ 			font-size: 13px;
+ 			color: #404040;
+ 			font-weight: bold;
+ 			height: 30px;
+			line-height: 30px;
+            overflow: hidden;
+			width: 48%;
+ 		}
+ 		dd{
+ 			width: 50%;
+  		    float: right;
+  		    margin-top: -24px;
+ 		}
+ 		b, span.result{
+ 			float: right;
+ 			color: #9da1a8;
+ 		}
+ 		.progress{
+ 			width: 82%;
+ 			height: 18px;
+ 			background: #f2f2f2;
+ 			@include dib();
+ 			p{
+ 				width: 0%;
+ 				height: 18px;
+ 				background: #59ca4f;
+ 				@include transition(width, 2s);
+ 			}
+ 		}
+ 		.share{
+ 			margin-top: 40px;
+ 			a{
+ 				padding-left: 25px;
+ 				width: 110px;
+ 				text-align: center;
+ 				height: 42px;
+ 				line-height: 42px;
+ 				color: #666666;
+ 				background: #efefef url(../img/common/sina_share.png) no-repeat 25px 12px;
+ 				border: 1px solid #e3e3e3;
+ 				border-radius: 5px;
+ 				@include dib();
+ 			}
+ 		}
+ 	}
+}
+.exchange-dynamics{
+	padding: 10px 20px;
+	line-height: 24px;
+	.mask{
+		height: 335px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	ul{
+		position: absolute;
+		z-index: 1000;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	h2{
+		padding: 0;
+	}
+	li{
+		padding: 12px 0;
+		border-bottom: $block-inner-border;
+		p{
+			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
+		}
+		.date{
+			color: #bfbfbf;
+		}
+	}
+}
+@import "layout/footer";

@@ -1,0 +1,32 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}公告详情：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/callboard.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000 clearfix">
+	<div class="main-con-left newsInfo left">
+		<article>
+		    <h1>{{ callboard.title }}</h1>
+		    <div class="artInfo"><time>{{ callboard.startTime.date | date("Y-m-d")  }}</time>&nbsp;&nbsp;作者：<span class="media_name">{{ callboard.author  }}</span></div>
+		    <div class="content">
+				{{ callboard.content | raw }}
+		    </div>
+		</article>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

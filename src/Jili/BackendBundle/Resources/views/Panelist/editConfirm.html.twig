@@ -1,0 +1,103 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Panel Search- edit
+{% endblock %}
+
+{% block stylesheets %}
+{{parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
+
+{% block body%}
+<div class="panelist">
+<h1>confirm edit panelist</h1>
+  <table class="inputForm">
+  <tr>
+    <th>PID</th>
+    <td>{{ user.id }}</td>
+  </tr>
+  <tr>
+    <th>email</th>
+    <td>{{ user.email }}</td>
+  </tr>
+  <tr>
+    <th>gender</th>
+    <td>{% if user.sex==1 %}男{% elseif user.sex==2 %}女{% else %}{% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th>birthday</th>
+    <td>{{ values.birthday }}</td>
+  </tr>
+  <tr>
+    <th>nickname</th>
+    <td>{{ values.nick }}
+    </td>
+  </tr>
+  <tr>
+    <th>biography</th>
+    <td>{{ user.personalDes }}
+    </td>
+  </tr>
+  <tr>
+    <th>hobby</th>
+    <td>{{ user_hobby_name }}
+    </td>
+  </tr>
+  <tr>
+    <th>favorite music</th>
+    <td>{{ user.favMusic }}
+    </td>
+  </tr>
+  <tr>
+    <th>monthly wish</th>
+    <td>{{ user.monthlyWish }}
+    </td>
+  </tr>
+  <tr>
+        <th>telephone</th>
+        <td>{{ values.tel }}</td>
+    </tr>
+    <tr>
+        <th>register date</th>
+        <td>{{ user.registerDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+        <th>last login date</th>
+        <td>{{ user.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+        <th>points</th>
+        <td>{{ user.points }}</td>
+    </tr>
+    <tr>
+        <th>delete flag</th>
+        <td>{% if values.deleteFlag==0 %}会员{% elseif values.deleteFlag==1 %}注销{% else %}{% endif %}</td>
+    </tr>
+  {%  if user.iconPath is not null %}
+  <tr>
+    <th>profile icon</th>
+    <td><img src="{{ asset(user.iconPath) }}" width="90" height="90" />
+    </td>
+  </tr>
+  {% endif %}
+  </table>
+
+<form action="{{ path('_admin_panelist_edit_commit') }}" method="post" id="form1">
+
+<div class="clear_both">
+  <input type="submit" name="undo" value="Undo" />
+  <input type="submit" value="Confirm" />
+</div><!-- /.clear_both -->
+
+<div style="display: none;">
+{{form_widget(form)}}
+</div>
+
+</form>
+</div>
+{% endblock %}

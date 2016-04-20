@@ -1,0 +1,28 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}正在维护中：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/weiboQQ.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '正在维护中'} ) }}
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="mtText">
+		<em></em>
+		<h2>很抱歉，快捷登录功能正在维护中</h2>
+		<p>提示：快捷登录暂时只支持对老用户开放，如果您是第一次在我站使用快捷登录，您将无法正常登录哟！如果您没有账号，请到当前页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+	</div>
+</div>	
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/weiboQQ')}}"></script>
+{% endblock %}

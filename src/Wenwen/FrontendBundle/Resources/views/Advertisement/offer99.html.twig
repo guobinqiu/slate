@@ -1,0 +1,30 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}体验广告：{{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/advertisement.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
+	<div class="main-con-advertisement">
+		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+		<div class="tabCon offer99">
+			<iframe src='http://app.offer99.com/index.php?pid=f4b42b65ce528bb151ea6e2eb5a01692&userid=1132938' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
+{% endblock %}

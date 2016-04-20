@@ -1,0 +1,317 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/personal";
+$border: 1px solid #ededf0;
+$color: #0078b6;
+.main-personal-right{
+	h2{
+		.progress{
+			b{
+				margin-right: 5px;
+				font-size: 14px;
+				font-weight: bold;
+			}
+			span{
+				position: relative;
+				z-index: 1;
+				width: 120px;
+				height: 4px;
+				background: #e7e7e7;
+				@include dib();
+				vertical-align: middle;
+			}
+			.colorBar{
+				position: absolute;
+				z-index: 1000;
+				left: 0;
+				top: 0;
+				width: 0%;
+				height: 4px;
+				background: $main-color;
+				@include transition(width, 300ms);
+			}
+			.btn{
+				position: absolute;
+				z-index: 1000;
+				left: 0%;
+				top: -4px;
+				width: 11px;
+				height: 11px;
+				background: url(../img/personal/progressIcon.png) no-repeat;
+				@include transition(left, 300ms);
+			}
+		}
+	}
+}
+.main-personal-profile{
+	padding: 20px 30px 50px;
+	h3{
+		padding: 10px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #555;
+		height: 45px;
+		line-height: 45px;
+		b{
+			margin-left: 10px;
+			font-size: 12px;
+			color: #a1a1a1;
+		}
+		a{
+			float: right;
+			font-size: 12px;
+			color: $color;
+		}
+	}
+	label{
+		color: #333;
+		@include dib();
+	}
+	.con{
+		padding: 17px 10px 45px;
+	}
+	.profile-base{
+		border-bottom: $block-inner-border;
+		.face{
+			margin-right: 10px;
+			padding: 0 50px;
+			position: relative;
+			z-index: 1;
+			.set{
+				margin-top: 10px;
+				padding-left: 30px;
+				color: $color;
+				cursor: pointer;
+			}
+			#profile_attachment{
+				position: absolute;
+				z-index: 1000;
+				width: 65px;
+				top: 100px;
+				left: 72px;
+				opacity: 0;
+				filter:alpha(opacity=0); 
+				cursor: pointer; 
+			}
+		}
+		ul{
+			margin-top: 15px;
+		}
+		li{
+			&.nk{
+				font-size: 22px;
+				margin-bottom: 10px;
+				font-weight: bold;
+				color: #555;
+			}
+			#points{
+				color: #ff6700;
+				font-size: 18px;
+				vertical-align: -2px;
+			}
+			&.prompt{
+				margin-top: 5px;
+				span{
+					display: none;
+				}
+			}
+			label{
+				width: 64px;
+				line-height: 30px;
+				text-align: left;
+				color: #a1a1a1;
+			}
+			input[type='text'], input[type='password']{
+				padding: 5px;
+				border: $border;
+				border-radius: 2px;
+				outline: none;
+				&:focus, &.input_normal{
+					border: $input-border-focus;
+				}
+				&.input_error{
+					border: 1px solid $error-color;
+				}
+			}
+			span{
+				color: #a1a1a1;
+				&.succeed{
+					color: #3bc570;
+					display: inline;
+				}
+				&.focus{
+					color: #a1a1a1;
+					display: inline;
+				}
+				&.error{
+					color: $error-color;
+					display: inline;
+				}
+			}
+			a{
+				margin-left: 10px;
+				color: $color;
+			}
+		}
+		.face-wapper{
+			img{
+				border: 2px solid #e3e3e3;
+				border-radius: 50%;
+				padding: 4px;
+			}
+			& form{
+				& input#profile_attachment{
+					@include border-radius(5px);
+					padding: 5px 10px;
+				}
+				.errorInfo{
+				    position: absolute;
+				    width: 170px;
+				    right: 6px;
+				    bottom: -21px;
+				    color: #ff0000;
+				}
+			}
+		}
+		.picCut{
+			margin-bottom: 20px;
+			@extend .clearfix;
+			display: none;
+		}
+		.imageInfo{
+			margin-right: 20px;
+			img{
+				width: 512px;
+				height: auto;
+			}
+		}
+		.resImg{
+			width: 150px;
+			height: 150px;
+			overflow: hidden;
+		}
+		.resizeSubmit{
+			padding-top: 20px;
+			input{
+				margin-bottom: 10px;
+				width: 150px;
+				height: 35px;
+				line-height: 35px;
+				color: #fff;
+				cursor: pointer;
+				border-radius: 3px;
+				background: #83c44e;
+				border: 1px solid #83c44e;
+				outline: none;
+				@include transition(all, 0.4s);
+				@include dib();
+				&:hover{
+					background:#71b639;
+					border: 1px solid #71b639;
+				}
+				&.cancelBtn{
+					color: #666;
+					background: #e5e5e5;
+					border: 1px solid #e5e5e5;
+				}
+			}
+		}
+	}
+	.profile-detail{
+		.successMess{
+			width: 150px;
+			margin: 0 auto;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			border: 2px solid #ade378;
+			background: #f7f7f7;
+			border-radius: 5px;
+		}
+		li{
+			margin-top: 10px;
+			color: #a1a1a1;
+			label{
+				margin-right: 30px;
+				width: 115px;
+				line-height: 36px;
+				text-align: right;
+			}
+			#profile_sex{
+				label{
+					margin-right: 5px;
+					width: 15px;
+				}
+			}
+			input[type='text']{
+				padding: 0 5px;
+				width: 395px; 
+				height: 34px;
+				line-height: 34px;
+				border: $border;
+				border-radius: 2px;
+				outline: none;
+				&:focus{
+					border: $input-border-focus;
+				}
+				vertical-align: middle;
+			}
+			input[type='checkbox']{
+				vertical-align: middle;
+			}
+			span{
+				line-height: 34px;
+				@include dib();
+				vertical-align: top;
+			}
+			select{
+				margin-right: 5px;
+				padding-left: 3px;
+				height: 34px;
+				line-height: 34px;
+				text-align: center;
+				font-family: '微软雅黑';
+				font-size: 12px;
+				color: #a1a1a1;
+				border: $border;
+				outline: none;
+				&:focus{
+					border: $input-border-focus;
+				}
+			}
+			option{
+				border: $border;
+			}
+			textarea{
+				width: 405px; 
+				height: 75px;
+				line-height: 20px;
+				border: $border;
+				outline: none;
+				&:focus{
+					border: $input-border-focus;
+				}
+			}
+			ul{
+				margin-left: 145px;
+				li{
+					color: $error-color;
+				}
+			}
+		}
+		.btn{
+			padding-left: 155px;
+			span{
+				width: 75px;
+				height: 35px;
+				line-height: 35px;
+				text-align: center;
+				@include btn();
+				@include dib();
+			}
+		}
+	}
+}
+@import "layout/footer";

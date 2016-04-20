@@ -4,9 +4,9 @@
 <META http-equiv=Content-Type content="text/html; charset=utf8">
 <LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
 <link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
-<SCRIPT src="{{ asset('js/load.js')}}" type=text/javascript></SCRIPT>
-<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/plugin/load.js')}}" type=text/javascript></SCRIPT>
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -29,8 +29,8 @@ $(document).ready(function(){
 -->
 </STYLE>
 
-<table>
-    <form action="{{ path('_admin_member')}}" method="post" id="form1"}} >
+<table align="center" class="search">
+    <form action="{{ path('_admin_member')}}" method="post" id="form1" >
     <tr>
         <td colspan="7" align="center">&nbsp;</td>
     </tr>
@@ -44,7 +44,7 @@ $(document).ready(function(){
     </form>
  </table>
  {% if member %}
-   <table border="1px" cellspacing="0px" class="member_table">
+   <table border="1px" cellspacing="0px" class="member_table list">
     <tr>
         <th>user id</th>
         <td width="350px;">{{ member.id }}
@@ -64,11 +64,15 @@ $(document).ready(function(){
     </tr>
     <tr>
         <th>register date</th>
-        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ member.registerDate is empty ? "": member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>register complete date</th>
+        <td>{{ member.registerCompleteDate is empty ? "": member.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>last login date</th>
-        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ member.lastLoginDate is empty ? "": member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
         <th>points</th>
@@ -82,8 +86,12 @@ $(document).ready(function(){
         <th>delete flag</th>
         <td>{{ member.deleteFlag }}&nbsp;</td>
     </tr>
+    <tr>
+        <th>delete_date</th>
+        <td>{{ member.deleteDate is empty ? "": member.deleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
 </table>
-<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 100px;"/>
+<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;"/>
 {% endif %}
 
 </BODY>

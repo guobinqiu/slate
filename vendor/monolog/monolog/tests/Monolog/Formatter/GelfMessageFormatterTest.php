@@ -82,6 +82,21 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Monolog\Formatter\GelfMessageFormatter::format
+     * @expectedException InvalidArgumentException
+     */
+    public function testFormatInvalidFails()
+    {
+        $formatter = new GelfMessageFormatter();
+        $record = array(
+            'level' => Logger::ERROR,
+            'level_name' => 'ERROR',
+        );
+
+        $formatter->format($record);
+    }
+
+    /**
+     * @covers Monolog\Formatter\GelfMessageFormatter::format
      */
     public function testFormatWithContext()
     {
@@ -93,7 +108,7 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
             'context' => array('from' => 'logger'),
             'datetime' => new \DateTime("@0"),
             'extra' => array('key' => 'pair'),
-            'message' => 'log'
+            'message' => 'log',
         );
 
         $message = $formatter->format($record);
@@ -130,11 +145,11 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
             'context' => array('from' => 'logger', 'exception' => array(
                 'class' => '\Exception',
                 'file'  => '/some/file/in/dir.php:56',
-                'trace' => array('/some/file/1.php:23', '/some/file/2.php:3')
+                'trace' => array('/some/file/1.php:23', '/some/file/2.php:3'),
             )),
             'datetime' => new \DateTime("@0"),
             'extra' => array(),
-            'message' => 'log'
+            'message' => 'log',
         );
 
         $message = $formatter->format($record);
@@ -158,7 +173,7 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
             'context' => array('from' => 'logger'),
             'datetime' => new \DateTime("@0"),
             'extra' => array('key' => 'pair'),
-            'message' => 'log'
+            'message' => 'log',
         );
 
         $message = $formatter->format($record);

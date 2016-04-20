@@ -1,0 +1,54 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}公司介绍：{{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-about-con w1000 clearfix">
+	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	<div class="aboutR tabCon right">
+		<h2>公司介绍</h2>
+		<ul class="rpaIntro w732 con">
+			<li>
+				<div class="rpaPic"><img src="{{ asset('img/about/aboutRPA.png') }}" alt="dataSpring"></div>
+				<h3>公司简介</h3>
+				<p>dataSpring, Inc. (日本) 的起源可以追溯到其曾经的母公司VOYAGE GROUP集团，VOYAGE GROUP集团于2003年在日本成立了一家调查面板供应公司。面板供应公司于2005年重组合并成为日本调查面板株式会社(RPJ)。2009年，Research Panel Asia成立，并且在亚洲地区拓展业务。每年完成超过4000个调查项目，提供了超过15000份调查问卷。2015年，RPA与一个线上调研工具供应公司（Mapps）合作，正式改名为dataSpring, Inc. (日本) 。</p>
+				<h3>公司概况</h3>
+				<p class="lh30">公司名称：dataSpring, Inc.(日本) <br/>
+					成立日期：2009年 <br/>
+					总公司地址：东京都新宿区新宿1-28-11 小杉ビル 7楼 邮编160-0022 <br/>
+					董事长：鹰嘴 昌弘 <br/>
+					董事：荻野 郁夫	 松本 尚子<br/>
+					员工人数：60人（截至2015年11月底） <br/>
+					营业额：4亿日元（截至2015年11月底）</p>
+					<h3>发展历史</h3>
+					<p class="lh30">2015年9月更名为dataSpring, Inc. (日本) <br/>
+						2011年1月发布日本消费者数据统计系统 LifeStyle Index Japan <br/>
+						2010年10月韩国面板规模超过100,000,在美国加州洛杉矶成立办事处 <br/>
+						2010年9月在菲律宾首都马尼拉成立7×24小时运营中心,发布中国消费者数据统计系统 LifeStyle Index China <br/>
+						2010年3月在韩国建立第二个海外面板(panelnow.co.kr),成立RPK株式会社(Research Panel Korea Inc.) <br/>
+						2010年2月中国面板规模超过100,000 并正式发布<br/>
+						2009年11月在中国成立第一个海外面板(91wenwen.net) <br/>
+						2009年10月VOYAGE GROUP的全资子公司亚洲调查面板株式会社(RPA)成立 <br/>
+						2006年5月日本调查面板(RPJ)同Cross Marketing公司达成资金层面的合作 <br/>
+						2005年11月日本调查面板(RPJ)成立 <br/>
+						2005年10月VOYAGE GROUP集团开始涉足调查面板供应业务</p>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

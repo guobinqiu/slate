@@ -46,4 +46,15 @@ class String
         }
         return null;
     }
+
+    // $data =  $recipient1, 
+    public static function encodeForCommandArgument( array $data) 
+    {
+        return base64_encode( json_encode( $data) ) ;
+    }
+
+    public static function decodeForCommandArgument( $string) 
+    {
+        return  json_decode(base64_decode( $string) ,true) ;
+    }
 }

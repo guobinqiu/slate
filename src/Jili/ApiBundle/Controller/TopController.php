@@ -33,7 +33,8 @@ class TopController extends Controller
         if( ! empty($tmpl_prefix)) {
             $tmpl_prefix =  '_'. $tmpl_prefix;
         }
-        return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
+        // return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Vote:_topEvent'.$tmpl_prefix.'.html.twig', $arr);
     }
 
     /**
@@ -61,18 +62,18 @@ class TopController extends Controller
         $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
         $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
         $cache_proxy = $this->get('cache.file_handler');
-        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
+        if($cache_proxy->isValid($cache_fn , $cache_duration)) {
             $callboard= $cache_proxy->get($cache_fn);
         }  else {
             $cache_proxy->remove( $cache_fn);
             //最新公告，取9条
             $em = $this->getDoctrine()->getManager();
-            $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(9);
+            $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(4);
             $cache_proxy->set( $cache_fn, $callboard);
         }
         $arr['callboard'] = $callboard;
 
-        return $this->render('JiliApiBundle:Top:callboard.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Callboard:_listHome.html.twig', $arr);
     }
 
     /**
@@ -113,8 +114,6 @@ class TopController extends Controller
             //获取签到商家
             $arr['arrList'] = $this->checkinList();
 
-            $checkin_form= $this->createForm(new CheckinConfigType(), array('flag_name'=>'auto_checkin'));
-            $arr['checkinConfForm'] = $checkin_form->createView();
 
             return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
         } else {
@@ -188,7 +187,8 @@ class TopController extends Controller
             $cache_proxy->set( $cache_fn, $market);
         }
         $arr['market'] = $market;
-        return $this->render('JiliApiBundle:Top:market.html.twig', $arr);
+
+        return $this->render('WenwenFrontendBundle:Advertisement:_advShopActivity.html.twig', $arr);
     }
 
     //签到列表
@@ -203,9 +203,8 @@ class TopController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($uid);
         $reward_multiple = $user->getRewardMultiple();
-        $is_auto_checkin =  $request->get('auto_checkin',0);
-        $operation = (! $is_auto_checkin) ? CheckinAdverList::ANY_OP_METHOD : CheckinAdverList::AUTO_OP_METHOD; 
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid, $operation);
+
+        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
 
         $count_for_checkin =  6;
         $cal_count = count($cal);

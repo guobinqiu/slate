@@ -1,4 +1,9 @@
 parameters:
+    domain: www.91jili.com.vag.91jili.com
+    wenwen_support_email_address:  support@91wenwen.com
+    cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
+    alert_subject: '积粒网-定时任务提醒邮件'
+
     offerwow_com.websiteid: 1162
     offerwow_com.key: "91jili2offerwow"
     offerwow_com.name: "体验广告"
@@ -21,7 +26,7 @@ parameters:
         client_ip: "121.40.71.200" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
         mail_subject: "积粒网-bangwoya体验广告接口数据处理失败"
         bangwoya_api_log: "/data/91jili/logs/api/bangwoya_api.log"
-        alertTo_contacts: rpa-sys-china@d8aspring.com
+        alertTo_contacts: %cron_alertTo_contacts%
         validations:
             1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
             2: { errorno: "1002", message: "密码验证不通过" }
@@ -138,7 +143,7 @@ parameters:
             - '成人用品'
             - '鲜花礼品'
 
-    cache_data_path: "%kernel.root_dir%/cache_data/%kernel.environment%"
+    cache_data_path: "%kernel.root_dir%/cache/%kernel.environment%"
     cps_default_rebate: 70  #返利给用户百分比
     cps_rebate_type:
         'point': 1  #XX元
@@ -154,8 +159,7 @@ parameters:
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
     admin_vpn_ip: 210.175.54.14
-    admin_ele_ip: 112.65.174.206
-    admin_un_ip: 180.167.8.42 #上海市 RPA-CHN-OFFICE 电信
+    admin_un_ip: 180.168.105.42 #上海市 RPA-CHN-OFFICE 电信
     wenwen_dev_ip: 54.251.246.14
     wenwen_prod_ip: 54.254.98.246
     upload_banner_dir: images/banner/
@@ -165,6 +169,7 @@ parameters:
     upload_tmp_image_dir: uploads/tmp/
     upload_vote_image_dir: uploads/vote_image/
     page_num: 10
+    page_size_50: 50
     init: 0
     init_one: 1
     init_two: 2
@@ -197,7 +202,7 @@ parameters:
     reg_noal_mail: 邮箱地址未激活，请重新
     reg_al_mail: 邮箱地址已经注册
     reg_en_nick: 请输入用户昵称
-    reg_al_nick: 用户昵称已经注册
+    reg_al_nick: 用户昵称已经存在
     reg_wr_nick: 用户昵称为2-20个字符
     reg_wr_captcha: 请输入正确的验证码
     login_wr: 邮箱地址或密码输入错误
@@ -217,13 +222,14 @@ parameters:
     exchange_unsame_mobile: 2次输入的手机号码不相同
     exchange_unsame_alipay: 2次输入的支付宝账号不相同
     forget_en_pwd: 请输入用户密码
-    forget_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    forget_wr_pwd: 用户密码为5-100个字符，密码至少包含1位字母和1位数字
     forget_unsame_pwd: 2次输入的用户密码不相同
     forget_su_pwd: 密码修改成功
+    update_password_fail: 密码修改失败，请稍后再试。
     change_wr_oldpwd: 旧密码不正确
     change_en_oldpwd: 请输入旧的用户密码
     change_en_newpwd: 请输入新的用户密码
-    change_wr_pwd: 用户密码为6-20个字符，不能含特殊符号
+    change_wr_pwd: 用户密码为5-100个字符，密码至少包含1位字母和1位数字
     change_unsame_pwd: 2次输入的用户密码不相同
     chnage_no_email: 邮箱地址未注册
     exchange_ing_amazon_tilte: “亚马逊礼品卡”兑换申请
@@ -276,8 +282,8 @@ parameters:
     91wenwen_api_connect_jili: https://www.91wenwen.net/connect_jili/confirmConnect
     is_from_wenwen_register: 2
     file_path_admin_point_manage: /data/91jili/logs/admin/pointManage
-    file_path_wenwen_vote: /data/91jili/logs/wenwen/vote.json
-    file_path_cpa_ranking_activity: /data/91jili/logs/activity/cpa_ranking_activity
+    file_path_wenwen_vote: %kernel.logs_dir%/data/91jili/logs/wenwen/vote.json
+    file_path_cpa_ranking_activity: %kernel.logs_dir%/data/91jili/logs/activity/cpa_ranking_activity
 
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
@@ -285,8 +291,8 @@ parameters:
     callback_url: http://www.91jili.com/QQLogin/qqcallback
     scope: get_user_info
 
-    upload_experience_advertisement_dir: images/experience_advertisement/
-    upload_experience_advertisement_dir_old: images/experience_advertisement/old/
+    upload_experience_advertisement_dir: uploads/experience_advertisement/
+    upload_experience_advertisement_dir_old: uploads/experience_advertisement/old/
     delete_flag_true: 1
     delete_flag_false: 0
     game_seeker_config_path:
@@ -312,10 +318,18 @@ parameters:
     webpower_email_username: 'admin'
     webpower_email_password: 'nUshkwu#9'
     webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-    
-    cron_alertTo_contacts: [ "miaomiao.zhang@d8aspring.com",  "tao.jiang@d8aspring.com", "xiaoyi.chai@d8aspring.com" ]
 
-    alert_subject: '积粒网-定时任务提醒邮件'
+# this account is copied from wenwen configs:
+# /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
+#  L10 ~ L28
+
+    webpower.91wenwen_signup.username: '91wenwen' #  webuser_signup.login.username
+    webpower.91wenwen_signup.password: 'R4pMJ6FM' #  webuser_signup.login.password
+    webpower.91wenwen_signup.soap_uri: 'https://91wenwen-signup.dmdelivery.com/x/soap-v4/wsdl.php' #  webuser_signup.login.proxy
+
+    webpower.91wenwen.username: '91wenwen' # webpower.login.username
+    webpower.91wenwen.password: 'Ewocofg8,' # webpower.login.password
+    webpower.91wenwen.soap_uri: 'https://91wenwen.dmdelivery.com/x/soap-v4/wsdl.php' # webpower.soap.proxy
 
     # the uri relative to web/
     taobao_self_promotion_picture_uri_path: images/taobao_products_picture/
@@ -335,14 +349,14 @@ parameters:
 
    #流量包
     flow_url: http://59.83.33.13/   #接口url
-    flow_prv_key: ERL21WDDF9HSLJZE  #加密私钥 #A757C0C02B0CF959  
+    flow_prv_key: ERL21WDDF9HSLJZE  #加密私钥 #A757C0C02B0CF959
     flow_custom_sn: 8C981708DF8AE2F0   #SN号码
     flow_client_ip: #ip地址
         1: 59.83.33.8
         2: 59.83.33.60
-    flow_file_path_flow_api_log: /data/91jili/logs/api/flow_api.log
+    flow_file_path_flow_api_log: %kernel.logs_dir%/data/91jili/logs/api/flow_api.log
     flow_mail_subject: "积粒网-flow流量包接口数据处理失败"
-    flow_alertTo_contacts: rpa-sys-china@d8aspring.com
+    flow_alertTo_contacts: %cron_alertTo_contacts%
     flow_exchange_error: "对不起，不能兑换，请联系客服！"
     flow_mobile_validate_api: "mobile_validateV1.php"
     flow_createorder_api: "createorder_api.php"
@@ -377,9 +391,145 @@ parameters:
             SUCCESS_DUPLICATED: 0 #0 表示推送成功 但订单已存在。
             FAILED: -1            #-1 表示推送失败
 
-    jili_app.logs_dir: /data/91jili/logs
-    admin_vote_log_path: /data/91jili/logs/admin/admin_vote.log
+    jili_app.logs_dir: %kernel.logs_dir%/data/91jili/logs
+    admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
+    vote_suggest_mail_to: %wenwen_support_email_address%
+
+    recruit_offer99:
+        callback:
+          url:
+          ad_key:
+          return_strings:
+            error_tid: 交易号错误
+            error_1: 交易号重复处理过
+            error_2: Ip完成过
+            error_3: 一天内ip段完成过
+            error_safe_filename: 回调文件与交易号不匹配
+            error_callback_ip: 广告方IP加调不正确
+            error_sign: 签名不正确
+            success: 成功
+
+    recruit_offerwow:
+        api:
+          recruit:
+          pid:
+          tier:
+
+    signup.crypt_method: blowfish
+    signup.salt: dummy
+
+#生日错误
+    birthday_error: "您选择的生日不正确"
+
+#职业
+    job_code:
+        '1':  "公务员"
+        '2':  "经营管理者"
+        '3':  "公司职员（一般事务）"
+        '4':  "公司职员（技术人员）"
+        '5':  "公司职员（律师，医生等专业人士）"
+        '6':  "公司职员（其他）"
+        '7':  "军人"
+        '8':  "个体户"
+        '9':  "家庭主妇"
+        '10': "打工者"
+        '11': "学生"
+        '12': "待业"
+        '99': "其他"
+#产业
+    industry_code:
+        '1':  "农业/水产"
+        '2':  "金融（银行/证券/保险）"
+        '3':  "计算机/IT/数据输入"
+        '4':  "电子技术/半导体/集成电路"
+        '5':  "会计/审计"
+        '6':  "贸易/进出口"
+        '7':  "房地产"
+        '8':  "印刷/出版"
+        '9':  "咨询"
+        '10': "人力资源"
+        '11': "美容"
+        '12': "娱乐/休闲/体育"
+        '13': "建筑业"
+        '14': "教育"
+        '15': "工业"
+        '16': "政府机关"
+        '17': "医疗/保健"
+        '18': "法律"
+        '19': "制造业"
+        '20': "销售/市场"
+        '21': "媒体/广告/互联网"
+        '22': "制药"
+        '23': "批发/零售"
+        '24': "供电/供水/煤气/供热"
+        '25': "保安"
+        '26': "电话/通信"
+        '27': "运输/物流"
+        '28': "采掘/矿产"
+        '29': "酒店/旅游代理"
+        '30': "餐饮服务"
+        '99': "其他"
+#部门
+    work_section_code:
+        '1':  "总务/人事/管理"
+        '2':  "会计/财务"
+        '3':  "销售"
+        '4':  "公关/宣传"
+        '5':  "调研/市场"
+        '6':  "规划"
+        '7':  "设计"
+        '8':  "信息系统管理"
+        '9':  "IT开发"
+        '10': "技术开发"
+        '11': "生产/制造"
+        '12': "劳务保障"
+        '13': "客户服务"
+        '14': "经营"
+        '15': "法律"
+        '16': "医疗"
+        '99': "其他"
+#教育程度
+    graduation_code:
+        '1': "高中以下"
+        '2': "高中毕业"
+        '3': "大专毕业"
+        '4': "大学本科毕业"
+        '5': "研究生，博士毕业"
+
+    ssi_project_survey:
+        title: "SSI海外调查"
+        point: 180
+
+    ssi_project_survey_code:
+        api_key: dummy
+
+#SOP
+    sop_console_host: console.partners.surveyon.com.dev.researchpanelasia.com
+    sop:
+        partner_id: 1
+        admin_host:   staff.surveyon.com.dev.researchpanelasia.com
+        console_host: %sop_console_host%
+        host: partners.surveyon.com.dev.researchpanelasia.com
+        auth:
+            app_id: 27
+            app_secret: 1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a
+        point:
+            profile: 1
+        api_v1_1_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/surveys/research/participation_history
+        api_v1_1_fulcrum_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/research/participation_history
+        api_v1_1_fulcrum_user_agreement_participation_history: https://%sop_console_host%/api/v1_1/fulcrum/surveys/user_agreement/participation_history
+        api_v1_1_cint_surveys_research_participation_history: https://%sop_console_host%/api/v1_1/cint/surveys/research/participation_history
+        api_v1_1_surveys_research_additional_incentive: https://%sop_console_host%/api/v1_1/surveys/research/additional_incentive
+        sop_point_type:
+            11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
+            61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
+    cint:
+        user_agreement:
+          inactive: 0
+          active: 1
+          agreed: 10
+
 twig:
     globals:
         cps_default_rebate:  %cps_default_rebate%
-
+        app_sop_hosts: %sop_console_host%

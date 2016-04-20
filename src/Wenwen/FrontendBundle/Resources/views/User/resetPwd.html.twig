@@ -1,0 +1,53 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}找回密码：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/resetPwd.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '重置密码'} ) }}
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="form main-resetPwd">
+		{%  if codeflag==1 %}
+      	<div class="step3">
+			<div class="steps"><span>1 输入邮箱地址</span><span class="pass">2 重置密码</span><span class="last active">3 完成</span></div>
+			<div class="main-resetPwd-con">
+				<div><img src="{{ asset('img/common/success_email.png') }}" alt="密码修改成功"><span><b>密码修改成功！</b><a href="{{ path('_homepage') }}">回首页</a></span></div>
+			</div>
+		</div>
+      	{% else %}
+		<div class="step2">
+			<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
+			<form action="{{ path('_user_resetPass',{'code':pwdcode.code,'id':user.id }) }}" method="post" name="form1" id="form1" >
+			<div class="main-resetPwd-con">
+				<ul>
+					<li>
+						<div><label for="pwd">请输入新密码：</label><input type="password" id="pwd" name="pwd"></div>
+						<div class="prompt"><span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="pwd_succeed"></span><span id="pwd_error"></span></div>
+					</li>
+					<li>
+						<div><label for="pwdRepeat">请再次输入：</label><input type="password" id="pwdRepeat" name="pwdRepeat"></div>
+						<div class="prompt"><span id="pwdRepeat_succeed"></span><span id="pwdRepeat_error"></span></div>
+					</li>
+				</ul>
+                <p class="backError">{% if code is defined %} {{ code }} {% endif %}</p>
+				<span class="btn" id="savePwd" tabindex="0">下一步</span>
+			</div>
+			</form>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/resetPwd')}}"></script>
+{% endblock %}

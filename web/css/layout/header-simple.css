@@ -1,0 +1,33 @@
+.header {
+  background: #fff;
+  height: 92px;
+  border-bottom: 3px solid #f26f21;
+  -webkit-box-shadow: 0px 1px 5px #d8d8d8;
+  -moz-box-shadow: 0px 1px 5px #d8d8d8;
+  box-shadow: 0px 1px 5px #d8d8d8; }
+  .header .logo a {
+    padding: 15px 20px 15px 0;
+    vertical-align: middle;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
+  .header .logo span {
+    padding: 0 20px;
+    line-height: 35px;
+    font-size: 26px;
+    color: #595654;
+    border-left: 1px solid #ddd;
+    vertical-align: middle;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
+    .header .logo span b {
+      color: #f26f21; }
+  .header p {
+    color: #a0a0a0;
+    font-size: 14px;
+    height: 92px;
+    line-height: 92px; }
+    .header p a {
+      color: #007ec2;
+      font-weight: bold; }

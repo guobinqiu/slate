@@ -1,9 +1,11 @@
 {% extends '::base.html.twig' %}
-
+{% block stylesheets %}
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+{% endblock %}
 {% block body -%}
-    <h1>EmarWebsitesCroned list</h1>
+    <h1 align="center">EmarWebsitesCroned list</h1>
 
-    <table class="records_list">
+    <table class="records_list list">
         <thead>
             <tr>
                 <th>index</th>
@@ -12,9 +14,9 @@
 {#                <th>Webcatid</th> #}
                 <th>Logourl</th>
 {#                <th>Weburl</th> #}
-                <th>Information</th>
+                <th class="longCon">Information</th>
                 <th>有效期</th>
-                <th>返利</th>
+                <th class="longCon">返利</th>
 {#                <th>Id</th>  #}
                 <th>Actions</th>
             </tr>

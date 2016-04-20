@@ -21,6 +21,7 @@ reserved_non_modifiers:
     | T_FINALLY | T_THROW | T_USE | T_INSTEADOF | T_GLOBAL | T_VAR | T_UNSET | T_ISSET | T_EMPTY | T_CONTINUE | T_GOTO
     | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
     | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
+    | T_CLASS_C | T_TRAIT_C | T_FUNC_C | T_METHOD_C | T_LINE | T_FILE | T_DIR | T_NS_C | T_HALT_COMPILER
 ;
 
 semi_reserved:
@@ -53,7 +54,7 @@ top_statement:
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\Namespace_[null,     $3]; }
     | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations ';'                   { $$ = Stmt\Use_[$3, $2]; }
-    | group_use_declaration                                 { $$ = $1; }
+    | group_use_declaration ';'                             { $$ = $1; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt\Const_[$2]; }
 ;
 
@@ -64,10 +65,20 @@ use_type:
 
 /* Using namespace_name_parts here to avoid s/r conflict on T_NS_SEPARATOR */
 group_use_declaration:
-      T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
+      T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
           { $$ = Stmt\GroupUse[Name[$3], $6, $2]; }
+    | T_USE use_type T_NS_SEPARATOR namespace_name_parts T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
+          { $$ = Stmt\GroupUse[Name[$4], $7, $2]; }
     | T_USE namespace_name_parts T_NS_SEPARATOR '{' inline_use_declarations '}'
           { $$ = Stmt\GroupUse[Name[$2], $5, Stmt\Use_::TYPE_UNKNOWN]; }
+    | T_USE T_NS_SEPARATOR namespace_name_parts T_NS_SEPARATOR '{' inline_use_declarations '}'
+          { $$ = Stmt\GroupUse[Name[$3], $6, Stmt\Use_::TYPE_UNKNOWN]; }
+;
+
+unprefixed_use_declarations:
+      unprefixed_use_declarations ',' unprefixed_use_declaration
+          { push($1, $3); }
+    | unprefixed_use_declaration                            { init($1); }
 ;
 
 use_declarations:
@@ -75,21 +86,24 @@ use_declarations:
     | use_declaration                                       { init($1); }
 ;
 
-use_declaration:
-      namespace_name                                        { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; }
-    | namespace_name T_AS T_STRING                          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; }
-    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt\UseUse[$2, null, Stmt\Use_::TYPE_UNKNOWN]; }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt\UseUse[$2, $4, Stmt\Use_::TYPE_UNKNOWN]; }
-;
-
 inline_use_declarations:
       inline_use_declarations ',' inline_use_declaration    { push($1, $3); }
     | inline_use_declaration                                { init($1); }
 ;
 
+unprefixed_use_declaration:
+      namespace_name                                        { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; }
+    | namespace_name T_AS T_STRING                          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; }
+;
+
+use_declaration:
+      unprefixed_use_declaration                            { $$ = $1; }
+    | T_NS_SEPARATOR unprefixed_use_declaration             { $$ = $2; }
+;
+
 inline_use_declaration:
-      use_declaration                                       { $$ = $1; $$->type = Stmt\Use_::TYPE_NORMAL; }
-    | use_type use_declaration                              { $$ = $2; $$->type = $1; }
+      unprefixed_use_declaration                            { $$ = $1; $$->type = Stmt\Use_::TYPE_NORMAL; }
+    | use_type unprefixed_use_declaration                   { $$ = $2; $$->type = $1; }
 ;
 
 constant_declaration_list:
@@ -123,7 +137,7 @@ inner_statement:
           { throw new Error('__HALT_COMPILER() can only be used from the outermost scope', attributes()); }
 ;
 
-statement:
+non_empty_statement:
       '{' inner_statement_list '}'                          { $$ = $2; }
     | T_IF parentheses_expr statement elseif_list else_single
           { $$ = Stmt\If_[$2, ['stmts' => toArray($3), 'elseifs' => $4, 'else' => $5]]; }
@@ -152,13 +166,17 @@ statement:
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW foreach_variable ')' foreach_statement
           { $$ = Stmt\Foreach_[$3, $7[0], ['keyVar' => $5, 'byRef' => $7[1], 'stmts' => $9]]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt\Declare_[$3, $5]; }
-    | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches optional_finally
           { $$ = Stmt\TryCatch[$3, $5, $6]; }
     | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt\Goto_[$2]; }
     | T_STRING ':'                                          { $$ = Stmt\Label[$1]; }
     | error                                                 { $$ = array(); /* means: no statement */ }
+;
+
+statement:
+      non_empty_statement                                   { $$ = $1; }
+    | ';'                                                   { $$ = array(); /* means: no statement */ }
 ;
 
 catches:
@@ -242,7 +260,8 @@ foreach_statement:
 ;
 
 declare_statement:
-      statement                                             { $$ = toArray($1); }
+      non_empty_statement                                   { $$ = toArray($1); }
+    | ';'                                                   { $$ = null; }
     | ':' inner_statement_list T_ENDDECLARE ';'             { $$ = $2; }
 ;
 
@@ -691,7 +710,7 @@ exit_expr:
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | T_ENCAPSED_AND_WHITESPACE
-          { $$ = array(Scalar\String_::parseEscapeSequences($1, '`', false)); }
+          { $$ = array(Scalar\EncapsedStringPart[Scalar\String_::parseEscapeSequences($1, '`', false)]); }
     | encaps_list                                           { parseEncapsed($1, '`', false); $$ = $1; }
 ;
 
@@ -903,9 +922,13 @@ array_pair:
 
 encaps_list:
       encaps_list encaps_var                                { push($1, $2); }
-    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, $2); }
+    | encaps_list encaps_string_part                        { push($1, $2); }
     | encaps_var                                            { init($1); }
-    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init($1, $2); }
+    | encaps_string_part encaps_var                         { init($1, $2); }
+;
+
+encaps_string_part:
+      T_ENCAPSED_AND_WHITESPACE                             { $$ = Scalar\EncapsedStringPart[$1]; }
 ;
 
 encaps_var:

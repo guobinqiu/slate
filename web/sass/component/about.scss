@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.main-about-con{
+	padding-top: 20px;
+	.aboutL{
+		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
+		width: 190px;
+		background: $block-bg-color;
+		border: $block-border;
+		h2{
+			height: 75px;
+			line-height: 75px;
+			text-align: center;
+			font: {
+				size: 24px;
+				weight: bold;
+			}
+		}
+		.tabNav{
+			li{
+				height: 50px;
+				line-height: 50px;
+				margin-bottom: -1px;
+				cursor: pointer;
+				font-size: 14px;
+				a{
+					padding-left: 74px;
+  					display: block; 
+  					&.active, &:hover{
+					color: $main-color;
+					font-weight: bold;
+					background: $block-line-color;
+					border-left: {
+						width: 3px;
+						style: solid;
+						color: $main-color;
+					}
+					}
+				}
+				
+			} 
+		}
+	}
+	.aboutR{
+		width: 729px;
+		margin-left: -1px;
+		padding: 10px 30px 20px;
+		background: $block-bg-color;
+		border: $block-border;
+		font-size: 14px;
+		min-height: 645px;
+		h2{
+			height: 45px;
+			line-height: 45px;
+			color: #ff5500;
+			font-size: 22px;
+			border-bottom: $block-border;
+			margin-bottom: 30px;
+		}
+		.w732{
+			width: 732px;
+		}
+	}	
+}

@@ -19,6 +19,7 @@ return false;
 <tr><td><input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
 </table>
 </form>
+<div class="tips">
 <p>&nbsp;</p>
 <p>注：请上传csv格式，文件编码为utf-8的文件</p>
 <p>&nbsp;</p>
@@ -54,6 +55,7 @@ return false;
 <p>4====> 9,16,21,90</p>
 <p>5====> 17,18</p>
 <p>&nbsp;</p>
+</div>
 {% if code %}
     {% for item in code %}
         <center><font color='red'>{{ item }}</font></center>

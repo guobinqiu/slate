@@ -1,0 +1,252 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/form";
+.main-con{
+	padding-top: 20px;
+}
+.main-con-exchange{
+	background: $block-bg-color;
+	border: $block-border;
+	h1{
+		margin-top: 30px;
+		padding-left: 30px;
+		line-height: 20px;
+		font-size: 24px;
+		color: $main-color;
+		border-left: 6px solid $main-color;
+	}
+}
+.form{
+	.main-con-exchangeInfo{
+		span{
+			&.error{
+				padding: 0 5px;
+			}
+		}
+	}
+}
+.main-con-exchangeInfo{
+	padding: 50px;
+	li{
+		line-height: 34px;
+		label{
+			width: 197px;
+		}
+		select{
+			height: 34px;
+			line-height: 34px;
+			border: 1px solid #e5e5e5;
+			&:focus{
+				border: $input-border-focus;
+				outline: none;
+			}
+			&.input_error{
+				border: $input-border-error;
+			}
+		}
+		span{
+			&.cur, &.option{
+				@include dib();
+			}
+			&.option{
+				position: relative;
+				z-index: 1;
+				margin-right: 8px;
+				width: 70px;
+				text-align: center;
+				background: #f1f1f1;
+				cursor: pointer;
+				.points{
+					position: absolute;
+					z-index: 1000;
+					top: 50%;
+					left: 50%;
+					width: 0;
+					height: 0;
+					font-size: 0;
+					color: #fff;
+					background: $main-color;
+					@include transition(all, 300ms);
+				}
+				&:hover, &.active{
+					.points{
+						top: 0;
+						left: 0;
+						font-size: 12px;
+						width: 70px;
+						height: 34px;
+					}
+				}
+			}
+			&.about{
+				position: relative;
+				z-index: 1;
+				color: #9192a6;
+				&>b{
+					margin-right: 3px;
+					font-size: 12px;
+					@include tips();
+				}
+				.expand-con{
+					position: absolute;
+					z-index: 1000;
+					top: 25px;
+					left: 8px;
+					width: 420px;
+					padding-top: 10px;
+					display: none;
+					b.arrow{
+						position: absolute;
+						z-index: 1999;
+						top: 2px;
+						left: 0;
+						width: 9px;
+						height: 10px;
+						background: url(../img/exchange/icons_arrow.png) top left no-repeat;
+						@include dib();
+					}
+				}
+				p{
+					padding: 10px 15px;
+					line-height: 20px;
+					color: #666;
+					background: #fcf5eb;
+					border: 1px solid #fdb558;
+					border-radius: 3px;
+				}
+			}
+		}
+		a{
+			margin-left: 10px;
+			color: #1666d7;
+		}
+	}
+	.detail, .btn{
+		text-align: center;
+	}
+	.detail{
+		line-height: 55px;
+		.text{
+			margin: 60px auto 0;
+			width: 55%;
+			color: #4d4d4d;
+			font-size: 14px;
+			border: 2px dashed #e8e8e8;
+		}
+		strong{
+			margin-right: 30px;
+			color: $main-color;
+			font-size: 18px;
+		}
+	}
+	.backError{
+		color: #ff0000;
+		text-align: center;
+		height: 50px;
+		line-height: 50px;
+		&.flowInfo, &.idCardError{
+			text-align: left;
+			padding-left: 200px;
+		}
+	}
+	.btn{
+		margin-top: 30px;
+		span{
+			margin-right: 5px;
+			width: 126px;
+			height: 50px;
+			line-height: 50px;
+			font-size: 18px;
+			@include btn();
+			&.disabled{
+				background: #888;
+				border: 1px solid #888; 
+				cursor: defalut;
+			}
+			&.return{
+				margin-right: 10px;
+				color: #404040;
+				background: #f5f5f7;
+				border: 1px solid #ededed;
+			}
+		}
+		&.spec{
+			text-align: left;
+			padding-left: 200px;
+		}
+	}
+	.tips{
+		margin-top: 50px;
+		padding: 20px 30px;
+		background: #f5f5f6;
+		h3{
+			font-size: 14px;
+			font-weight: bold;
+		}
+		p{
+			margin-top: 5px;
+			line-height: 20px;
+			em{
+				margin-right: 5px;
+			}
+		}
+	}
+	.alipay-tips{
+		margin-bottom: 50px;
+		padding: 20px 0 20px 96px;
+		line-height: 20px;
+		background: #f6f6f6;
+		em{
+			color: #ccc;
+			margin-right: 10px;
+		}
+	}
+	.flow-tips{
+		margin-top: 30px;
+		padding-left: 200px;
+		p{
+			padding-left: 10px;
+			line-height: 35px;
+			background: #fcf5eb;
+			border: 1px solid #fdb558;
+			border-radius: 3px;
+		}
+	}
+}
+.main-con-finished{
+	padding: 60px 50px;
+	.con{
+		padding-left: 95px;
+		background: url(../img/exchange/finished.png) no-repeat 0 3px;
+		h2{
+			font-size: 18px;
+			font-weight: bold;
+		}
+		.prompt{
+			margin-top: 20px;
+			line-height: 24px;
+			em{
+				margin-right: 5px;
+			}
+			b{
+				color: $main-color;
+			}
+			a{
+				color: #0078b6;
+			}
+		}
+	}
+	.tips{
+		margin-top: 50px;
+		padding: 50px;
+		background: #fafafa;
+		p{
+			text-align: center;
+			color: #a6a6a6;
+		}
+	}
+}
+@import "layout/footer";
+@import "component/layer";

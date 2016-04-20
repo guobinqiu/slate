@@ -7,20 +7,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
-use Jili\ApiBundle\Entity\PointHistory00;
-use Jili\ApiBundle\Entity\PointHistory01;
-use Jili\ApiBundle\Entity\PointHistory02;
-use Jili\ApiBundle\Entity\PointHistory03;
-use Jili\ApiBundle\Entity\PointHistory04;
-use Jili\ApiBundle\Entity\PointHistory05;
-use Jili\ApiBundle\Entity\PointHistory06;
-use Jili\ApiBundle\Entity\PointHistory07;
-use Jili\ApiBundle\Entity\PointHistory08;
-use Jili\ApiBundle\Entity\PointHistory09;
+
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
-    private $soap = 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php';
+    private $soap;
     private $username;
     private $password;
     private $alertTo;
@@ -42,9 +33,11 @@ class DmdeliveryCommand extends ContainerAwareCommand
             xhprof_enable(XHPROF_FLAGS_MEMORY);
         }
 
-        $this->username = $this->getContainer()->getParameter('webpower_email_username');
-        $this->password = $this->getContainer()->getParameter('webpower_email_password');
+        $this->soap = $this->getContainer()->getParameter('webpower.91wenwen.soap_uri');
+        $this->username = $this->getContainer()->getParameter('webpower.91wenwen.username');
+        $this->password = $this->getContainer()->getParameter('webpower.91wenwen.password');
         $this->alertTo =  $this->getContainer()->getParameter('cron_alertTo_contacts');
+
         $this->alertSubject = $this->getContainer()->getParameter('alert_subject');
         $output->writeln('start at '.date('Y-m-d H:i:s',time()));
         $batch_name = $input->getArgument('batch_name');
@@ -89,16 +82,16 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 180;
-        $companyId = 4;
-        $mailingId = 28;
+        $companyId = 10;
+        $mailingId = 90021;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailure');
     }
     public function pointFailureForWeek($em)
     {
         set_time_limit(0);
         $failTime = 173;
-        $companyId = 4;
-        $mailingId = 31;
+        $companyId = 10;
+        $mailingId = 90022;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForWeek');
     }
     
@@ -106,8 +99,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 150;
-        $companyId = 4;
-        $mailingId = 30;
+        $companyId = 10;
+        $mailingId = 90023;
         $this->handleSendPointFail($em, $failTime, $companyId, $mailingId, 'pointFailureForMonth');
     }
     
@@ -159,7 +152,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
                             $em->getConnection()->rollback();
                             $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
                             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
-                            throw $e;
+                            throw $ex;
                         }
                     } else {
                         $send_fail_email_count++;

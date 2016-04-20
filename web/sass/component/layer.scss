@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.pageMask{
+	position: fixed;
+	z-index: 99999;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	@include opacity(60, 0.6);
+}
+.maskConWrap{
+	position: fixed;
+	z-index: 100000;
+	top: 0;
+	left: 0;
+	background: #fff;
+	border: 1px solid #eee;
+}
+.maskCon{
+	position: relative;
+	z-index: 1;
+	padding: 20px;
+	line-height: 35px;
+}
+.close{
+	position: absolute;
+	z-index: 1000;
+	top: 0;
+	right: 0;
+	width: 42px;
+	height: 24px;
+	text-align: center;
+	line-height: 24px;
+	color: #fff;
+	background: #a1a1a1;
+	cursor: pointer;
+}

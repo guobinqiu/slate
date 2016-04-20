@@ -1,0 +1,11 @@
+<div class="main-personal-left left">
+	<h1>个人中心</h1>
+	<ul>
+		{% set router_current = app.request.attributes.get('_route') %}
+		<li {{ router_current == '_profile_edit' ? 'class="active"':'' }}><a href="{{ path('_profile_edit') }}"><em></em>个人资料</a></li>
+		<li {{ router_current == '_user_message' ? 'class="active"':'' }}><a href="{{ path('_user_message',{'sid': 1}) }}"><em class="icon2"></em>我的消息</a></li>
+		<li {{ router_current == '_user_adtaste' ? 'class="active"':'' }}><a href="{{ path('_user_adtaste',{'type':0}) }}"><em class="icon3"></em>任务历史</a></li>
+		<li {{ router_current == '_user_exchange' ? 'class="active"':'' }}><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}"><em class="icon4"></em>兑换历史</a></li>
+		<li {{ router_current == '_profile_index' ? 'class="active"':'' }}><a href="{{ path('_profile_index') }}"><em class="icon5"></em>账户设置</a></li>
+	</ul>
+</div>

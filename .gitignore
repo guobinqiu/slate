@@ -14,11 +14,8 @@ app/config/config_dev.yml
 app/config/config_test.yml
 app/config/custom_parameters.yml
 app/config/parameters.yml
-^bin/
-/bin/
 app/config/parameters.ini
 app/SymfonyRequirements.php
-composer.lock
 
 dwsync.xml
 .DS_Store
@@ -48,3 +45,4 @@ Capfile
 app/config/deploy.rb
 
 .settings/org.eclipse.core.resources.prefs
+.idea/

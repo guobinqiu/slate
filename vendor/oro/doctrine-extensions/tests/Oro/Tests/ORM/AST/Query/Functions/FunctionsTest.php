@@ -30,7 +30,17 @@ class FunctionsTest extends TestCase
         $query = new Query($this->entityManager);
         $query->setDQL($dql);
 
-        $this->assertEquals($sql, $query->getSQL(), sprintf('Unexpected SQL for "%s"', $dql));
+        if (is_array($sql)) {
+            $constraints = array();
+            foreach ($sql as $sqlVariant) {
+                $constraints[] = $this->equalTo($sqlVariant);
+            }
+            $constraint = new \PHPUnit_Framework_Constraint_Or();
+            $constraint->setConstraints($constraints);
+            $this->assertThat($query->getSQL(), $constraint);
+        } else {
+            $this->assertEquals($sql, $query->getSQL(), sprintf('Unexpected SQL for "%s"', $dql));
+        }
         $result = $query->getArrayResult();
         $this->assertNotEmpty($result);
         $this->assertEquals(
@@ -49,7 +59,11 @@ class FunctionsTest extends TestCase
         $data = array();
         $files = new \FilesystemIterator(__DIR__ . '/fixtures/' . $platform, \FilesystemIterator::SKIP_DOTS);
         foreach ($files as $file) {
-            $data = array_merge($data, Yaml::parse($file));
+            $fileData = Yaml::parse($file);
+            if (!is_array($fileData)) {
+                throw new \RuntimeException(sprintf('Could not parse file %s', $file));
+            }
+            $data = array_merge($data, $fileData);
         }
 
         return $data;

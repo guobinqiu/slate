@@ -1,0 +1,89 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}返利详情：{{ parent() }}{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/shopDetail.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con-shopDetail w1000">
+	<div class="main-con-left">
+		{% set href_ = path('jili_frontend_cpsadvertisement_redirect', {'wid':app.request.get('wid') })  %}
+		<div class="main-con-shop">
+			<div class="crumbs">
+			     <a href="{{ path('_homepage') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
+			</div>
+			<span>
+				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="{{ website.websiteName }}"></div>
+				<div class="btn"><a href="{{ href_ }}" target="_blank">去购物，赚积分</a></div>
+			</span>
+			<span class="text">
+				<h1>{{ website.websiteName }}</h1>
+				<div class="prompts">返利比率：正常商品：7%  团购商品：2%  优惠券、礼品卡商品：4%</div>
+			</span>
+		</div>
+		{% if commission_list is defined and commission_list is not empty  %}
+		<div class="main-con-rebate">
+			<h2><span>返利详情</span></h2>
+			<table>
+				<thead>
+					<tr>
+						<th>类目</th>
+						<th>返利</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in commission_list %}
+					<tr>
+						<td>{{ row[0].commissionName }}</td>
+						<td>{{ row[0].getCommissionForUser(cps_default_rebate) }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endif %}
+		<div class="main-con-flow">
+			<h2><span>返利流程</span></h2>
+			<div class="con clearfix">
+				<div class="step">
+					<img src="{{ asset('img/advertisement/flow1.png') }}" alt="登录网站">
+					<p>登录网站</p>
+				</div>
+				<div class="step">
+					<img src="{{ asset('img/advertisement/flow2.png') }}" alt="商家购物">
+					<p>商家购物</p>
+				</div>
+				<div class="step last">
+					<img src="{{ asset('img/advertisement/flow3.png') }}" alt="订单生效，积分到账">
+					<p>订单生效，积分到账</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="main-con-right">
+		{% if same_cat_websites is defined and same_cat_websites is not empty %}
+		<div class="shop-recomend">
+			<h2>同类商家推荐</h2>
+			<ul class="similar-shops clearfix">
+				{% for row in same_cat_websites %}
+				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.website_name }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

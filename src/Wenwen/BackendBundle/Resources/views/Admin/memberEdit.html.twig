@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf8">
+<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
+<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<SCRIPT src="{{ asset('js/plugin/load.js')}}" type=text/javascript></SCRIPT>
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#edit").click(function (){
+      window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
+  })
+});
+</script>
+</HEAD>
+<BODY>
+
+ <STYLE TYPE="text/css" MEDIA=screen>
+<!--
+  table { margin: 30px;}
+  table th { text-align:left; width:150px;}
+  table td { text-align:left;}
+-->
+</STYLE>
+
+<form action="{{ path('_admin_member_edit')}}" method="post" id="form1">
+   <table border="1px" cellspacing="0px" class="member_table"> 
+    <tr>
+        <th>user id</th>
+        <td width="350px;">{{ member.id }}&nbsp;<input type="hidden" id="id" name="user_id" value="{{ member.id }}"></td>
+    </tr>
+    <tr>
+        <th>email</th>
+        <td>{{ member.email }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>nick</th>
+        <td><input type="text" id="email" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" /> &nbsp;</td>
+    </tr>
+    <tr>
+        <th>tel</th>
+        <td><input type="text" id="email" name="tel" value="{% if tel %}{{ tel }}{% endif %}" size="20" />&nbsp;</td>
+    </tr>
+    <tr>
+        <th>register date</th>
+        <td>{{ member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>last login date</th>
+        <td>{{ member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>points</th>
+        <td>{{ member.points }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>is_from_wenwen</th>
+        <td>{{ member.isFromWenwen }}&nbsp;</td>
+    </tr>
+    <tr>
+        <th>delete flag</th>
+        <td><input type="radio" name="delete_flag" value="0" {% if delete_flag != 1 %} checked="checked" {% endif %}>会员&nbsp;
+        <input type="radio" name="delete_flag" value="1" {% if delete_flag == 1 %} checked="checked" {% endif %}>注销</td>
+    </tr>
+</table>
+{% if errorMessage %}
+    {% for item in errorMessage %}
+        <center><font color='red'>{{ item }}</font></center>
+    {% endfor %}
+{% endif %}
+
+<input type="submit" id="edit" name="edit" value="编辑" style="margin-left: 100px;"/>
+
+</BODY>
+</HTML>
