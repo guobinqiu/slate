@@ -136,7 +136,7 @@ class UserDeleted
      *
      * @ORM\Column(name="personalDes", type="text", nullable=true)
      */
-    private $personaldes;
+    private $personalDes;
 
     /**
      * @var string
@@ -695,26 +695,26 @@ class UserDeleted
     }
 
     /**
-     * Set personaldes
+     * Set personalDes
      *
-     * @param string $personaldes
+     * @param string $personalDes
      * @return UserDeleted
      */
-    public function setPersonaldes($personaldes)
+    public function setPersonalDes($personalDes)
     {
-        $this->personaldes = $personaldes;
+        $this->personalDes = $personalDes;
 
         return $this;
     }
 
     /**
-     * Get personaldes
+     * Get personalDes
      *
      * @return string 
      */
-    public function getPersonaldes()
+    public function getPersonalDes()
     {
-        return $this->personaldes;
+        return $this->personalDes;
     }
 
     /**

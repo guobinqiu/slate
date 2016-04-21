@@ -435,7 +435,7 @@ function getUser($fh)
 
 /**
  * 遍历panel_91wenwen_pointexchange_91jili_account表
- *   
+ *
  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
@@ -581,29 +581,29 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
 
     //last_login_date(panelist.panelist.last_login_time)
-    $user_row[22] = get_one_hour_ago_time($panelist_row[17]);
+    $user_row[23] = get_one_hour_ago_time($panelist_row[17]);
 
     //last_login_ip
-    //$user_row[23] = $panelist_row[23];
+    //$user_row[24]';
 
 
     //delete_flag todo: 是否要查看问问的黑名单处理
-    $user_row[25] = 0;
+    $user_row[26] = 0;
 
     //is_info_set
-    $user_row[26] = 1;
+    $user_row[28] = 1;
 
     //created_remote_addr
-    $user_row[31] = $panelist_row[10];
+    $user_row[33] = $panelist_row[10];
 
     //created_user_agent
-    $user_row[32] = $panelist_row[11];
+    $user_row[34] = $panelist_row[11];
 
     //campaign_code
-    $user_row[33] = $panelist_row[16];
+    $user_row[35] = $panelist_row[16];
 
     //password_choice
-    $user_row[34] = Constants::$password_choice['pwd_wenwen'];
+    $user_row[36] = Constants::$password_choice['pwd_wenwen'];
 
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
     global $panelist_mobile_indexs;
@@ -665,16 +665,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
         //industry_code: detail.industry_code
         if($panelist_detail_row[28] === '') {
-            $user_row[37] ='NULL';
+            $user_row[39] ='NULL';
         } else {
-            $user_row[37] = $panelist_detail_row[28];
+            $user_row[39] = $panelist_detail_row[28];
         }
 
         //work_section_code: detail.work_section_code
         if( $panelist_detail_row[29] === '' ) {
-            $user_row[38] ='NULL';
+            $user_row[40] ='NULL';
         } else {
-            $user_row[38] = $panelist_detail_row[29];
+            $user_row[40] = $panelist_detail_row[29];
         }
     } else {
 #        //education: detail.graduation_code
@@ -694,13 +694,13 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 #
 #
 #        //industry_code: detail.industry_code
-#        if(empty($user_row[37] )) {
-#            $user_row[37] ='NULL';
+#        if(empty($user_row[39] )) {
+#            $user_row[39] ='NULL';
 #        }
 #
 #        //work_section_code: detail.work_section_code
-#        if(empty($user_row[38] )) {
-#            $user_row[38] ='NULL';
+#        if(empty($user_row[40] )) {
+#            $user_row[40] ='NULL';
 #        }
 
     }
@@ -721,9 +721,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[18] = addslashes($panelist_profile_row[5]);
 
         //fav_music: profile.fav_music
-        $user_row[35] = $panelist_profile_row[7];
+        $user_row[37] = $panelist_profile_row[7];
         //monthly_wish:profile.monthly_wish
-        $user_row[36] = $panelist_profile_row[8];
+        $user_row[38] = $panelist_profile_row[8];
     }
 
     //points: panel_91wenwen_panelist_point.point_value
@@ -732,20 +732,21 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
 
+        //points
         if( !isset($user_row[24]) ) {
-            $user_row[24] =  0;
+            $user_row[25] =  0;
         }
-        $user_row[24]  +=  (int) $panelist_point_indexs[$panelist_row[0]]['point_value'];
+        $user_row[25]  +=  (int) $panelist_point_indexs[$panelist_row[0]]['point_value'];
     } else {
         if( ! isset($user_row[24])  ){
-            $user_row[24] = 0;
+            $user_row[25] = 0;
         }
     }
 
     //icon_path:panelist_profile_image
     global $panelist_image_indexs;
     if (isset($panelist_image_indexs[$panelist_row[0]])) {
-        $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
+        $user_row[29] = $panelist_image_indexs[$panelist_row[0]]['hash'];
     }
     return $user_row;
 }
@@ -758,7 +759,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 function set_default_value($row)
 {
 
-    for ($i = 0; $i <= 38; $i++) {
+    for ($i = 0; $i <= 40; $i++) {
 
         if (! isset($row[$i]) ) {
             $row[$i] = 'NULL';
@@ -766,17 +767,21 @@ function set_default_value($row)
 
     }
 
-
     // is_email_confirmed
-    if(''===$row[3] ) {
-        $row[3] = 'NULL';
+    if ($row[2]) {
+        //user has password, set is_email_confirmed = 1
+        $row[3] = 1;
+    } else {
+        //user password is null, is_email_confirmed = 0
+        $row[3] = 0;
     }
-    // is_from_wenwen 
+
+    // is_from_wenwen
     if(''=== $row[4] ) {
         $row[4] = 'NULL';
     }
 
-    // wenwen_user 
+    // wenwen_user
     if(''=== $row[5] ) {
         $row[5] = 'NULL';
     }
@@ -784,16 +789,16 @@ function set_default_value($row)
     // nick
     $row[7] = addslashes($row[7]);
 
-//personalDes	text	YES		NULL	
+//personalDes	text	YES		NULL
     $row[18] = addslashes($row[18]);
-    // agent
-    $row[32] = addslashes($row[32]);
-// fav_music	varchar(255)	YES		NULL	
-    $row[35] = addslashes($row[35]);
-//monthly_wish	varchar(255)	YES		NULL	
-    $row[36] = addslashes($row[36]);
+    // created_user_agent
+    $row[34] = addslashes($row[32]);
+// fav_music	varchar(255)	YES		NULL
+    $row[37] = addslashes($row[35]);
+//monthly_wish	varchar(255)	YES		NULL
+    $row[38] = addslashes($row[36]);
 
-    // sex 
+    // sex
     if(''===$row[8] ) {
         $row[8] = 'NULL';
     }
@@ -813,7 +818,7 @@ function set_default_value($row)
         $row[13] = 'NULL';
     }
 
-    //education 
+    //education
     if(''===$row[14] ) {
         $row[14] = 'NULL';
     }
@@ -828,24 +833,24 @@ function set_default_value($row)
         $row[16] ='NULL';
     }
     //delete_flag
-    if( $row[25] === '') {
-        $row[25] ='NULL';
+    if( $row[26] === '') {
+        $row[26] ='NULL';
     }
 
 
-    // is_tel_confirmed 
-    if(''=== $row[29] ) {
-        $row[29] = 'NULL';
+    // token_created_at
+    if(''=== $row[31] ) {
+        $row[31] = 'NULL';
     }
 
     //industry_code: detail.industry_code
-    if(empty($row[37] )) {
-        $row[37] ='NULL';
+    if(empty($row[39] )) {
+        $row[39] ='NULL';
     }
 
     //work_section_code: detail.work_section_code
-    if(empty($row[38] )) {
-        $row[38] ='NULL';
+    if(empty($row[40] )) {
+        $row[40] ='NULL';
     }
     return $row;
 }
@@ -897,15 +902,15 @@ function generate_weibo_user_data($panelist_id, $user_id)
             // different open_id
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id . 
-                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . 
-                        ' user_id: ' . $user_id . 
+                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id .
+                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] .
+                        ' user_id: ' . $user_id .
                         ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
                 //$weibo_user[0] = 'NULL';
             } else {
                 $is_open_id_match =  true;
-            }  
+            }
 
         }  else {
             //$weibo_user_row[0] = 'NULL';
@@ -1087,7 +1092,7 @@ function export_csv_row($data, $file_name )
     return fclose($handle);
 }
 
-function strip_vote_description_links($description) 
+function strip_vote_description_links($description)
 {
     return preg_replace('/<a\s+href="http:\/\/www\.91wenwen\.net\/user\/?\s*[\w\d]+\s*">(.*)<\/a>/s', '\1', $description);
 }
