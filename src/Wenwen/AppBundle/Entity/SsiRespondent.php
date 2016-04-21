@@ -24,14 +24,14 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status_flag", type="smallint", nullable=true)
+     * @ORM\Column(name="status_flag", type="smallint", nullable=true, options={"default": 1})
      */
     private $statusFlag;
 
@@ -45,7 +45,7 @@ class SsiRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 

@@ -16,7 +16,7 @@ class EmarProductsCroned
     /**
      * @var integer
      *
-     * @ORM\Column(name="pid", type="integer", nullable=false)
+     * @ORM\Column(name="pid", type="integer")
      */
     private $pid;
 
@@ -30,7 +30,7 @@ class EmarProductsCroned
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_id", type="integer", nullable=false)
+     * @ORM\Column(name="web_id", type="integer")
      */
     private $webId;
 
@@ -65,7 +65,7 @@ class EmarProductsCroned
     /**
      * @var integer
      *
-     * @ORM\Column(name="catid", type="integer", nullable=false)
+     * @ORM\Column(name="catid", type="integer")
      */
     private $catid;
 
@@ -86,7 +86,7 @@ class EmarProductsCroned
     /**
      * @var string
      *
-     * @ORM\Column(name="short_intro", type="string", length=255, nullable=true)
+     * @ORM\Column(name="short_intro", type="text", nullable=true)
      */
     private $shortIntro;
 

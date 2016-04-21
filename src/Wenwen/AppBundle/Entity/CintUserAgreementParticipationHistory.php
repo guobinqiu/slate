@@ -15,14 +15,14 @@ class CintUserAgreementParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="agreement_status", type="integer", nullable=false)
+     * @ORM\Column(name="agreement_status", type="integer", options={"default": 0})
      */
     private $agreementStatus;
 

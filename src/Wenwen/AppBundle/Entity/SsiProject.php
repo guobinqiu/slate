@@ -24,14 +24,14 @@ class SsiProject
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true, options={"default": 1})
      */
     private $statusFlag;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 

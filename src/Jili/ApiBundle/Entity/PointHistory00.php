@@ -10,32 +10,36 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="point_history00")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
-class PointHistory00 extends PointHistoryBase
+class PointHistory00 //extends PointHistoryBase
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var integer
      */
-    protected $userId;
+    private $userId;
 
     /**
      * @var integer
      */
-    protected $pointChangeNum;
+    private $pointChangeNum;
 
     /**
      * @var integer
      */
-    protected $reason;
+    private $reason;
 
     /**
      * @var \DateTime
      */
-    protected $createTime;
+    private $createTime;
 
 
     /**

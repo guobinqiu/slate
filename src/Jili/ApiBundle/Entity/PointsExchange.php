@@ -88,7 +88,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_item_number", type="integer")
+     * @ORM\Column(name="exchange_item_number", type="integer", nullable=true)
      */
     private $exchangeItemNumber;
     /**
