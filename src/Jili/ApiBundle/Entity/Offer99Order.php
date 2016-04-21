@@ -17,7 +17,7 @@ class Offer99Order
      *
      * @ORM\Column(name="user_id", type="integer")
      */
-    private $userid;
+    private $userId;
 
     /**
      * @var \DateTime
@@ -50,26 +50,26 @@ class Offer99Order
     private $id;
 
     /**
-     * Set userid
+     * Set userId
      *
-     * @param integer $userid
+     * @param integer $userId
      * @return Offer99Order
      */
-    public function setUserId($userid)
+    public function setUserId($userId)
     {
-        $this->userid = $userid;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get userid
+     * Get userId
      *
      * @return integer
      */
     public function getUserId()
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     /**
