@@ -15,63 +15,63 @@ class ExchangeFlowOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_id", type="integer", nullable=true)
+     * @ORM\Column(name="exchange_id", type="integer", nullable=true, options={"default": 0})
      */
     private $exchangeId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="provider", type="string", length=16, nullable=false)
+     * @ORM\Column(name="provider", type="string", length=16)
      */
     private $provider;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="province", type="string", length=64, nullable=false)
+     * @ORM\Column(name="province", type="string", length=64)
      */
     private $province;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_product_id", type="string", length=5, nullable=false)
+     * @ORM\Column(name="custom_product_id", type="string", length=5)
      */
     private $customProductId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="packagesize", type="string", length=8, nullable=false)
+     * @ORM\Column(name="packagesize", type="string", length=8)
      */
     private $packagesize;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_prise", type="decimal", precision=8, scale=3, nullable=false)
+     * @ORM\Column(name="custom_prise", type="decimal", precision=8, scale=3)
      */
     private $customPrise;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 

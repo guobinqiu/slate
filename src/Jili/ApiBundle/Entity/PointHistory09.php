@@ -10,53 +10,38 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="point_history09")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
-class PointHistory09
+class PointHistory09 //extends PointHistoryBase
 {
-    public function __construct()
-    {
-        $this->createTime = new \DateTime();
-    }
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer", nullable=true)
      */
     private $userId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="point_change_num", type="string", length=45, nullable=true)
+     * @var integer
      */
     private $pointChangeNum;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="reason", type="integer", nullable=true)
      */
     private $reason;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="create_time", type="datetime")
      */
     private $createTime;
+
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -79,7 +64,7 @@ class PointHistory09
     /**
      * Get userId
      *
-     * @return integer
+     * @return integer 
      */
     public function getUserId()
     {
@@ -89,7 +74,7 @@ class PointHistory09
     /**
      * Set pointChangeNum
      *
-     * @param string $pointChangeNum
+     * @param integer $pointChangeNum
      * @return PointHistory09
      */
     public function setPointChangeNum($pointChangeNum)
@@ -102,7 +87,7 @@ class PointHistory09
     /**
      * Get pointChangeNum
      *
-     * @return string
+     * @return integer 
      */
     public function getPointChangeNum()
     {
@@ -125,13 +110,12 @@ class PointHistory09
     /**
      * Get reason
      *
-     * @return integer
+     * @return integer 
      */
     public function getReason()
     {
         return $this->reason;
     }
-
 
     /**
      * Set createTime
@@ -149,11 +133,10 @@ class PointHistory09
     /**
      * Get createTime
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
-
 }

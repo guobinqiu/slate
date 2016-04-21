@@ -19,7 +19,7 @@ class SendCallboard
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -28,14 +28,14 @@ class SendCallboard
     /**
      * @var integer
      *
-     * @ORM\Column(name="sendFrom", type="integer", nullable=true)
+     * @ORM\Column(name="sendFrom", type="integer", nullable=true, options={"default": 0})
      */
     private $sendFrom;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sendTo", type="integer", nullable=true)
+     * @ORM\Column(name="sendTo", type="integer", nullable=true, options={"default": 0})
      */
     private $sendTo;
 
@@ -63,14 +63,14 @@ class SendCallboard
     /**
      * @var integer
      *
-     * @ORM\Column(name="read_flag", type="integer", nullable=true)
+     * @ORM\Column(name="read_flag", type="integer")
      */
     private $readFlag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
+     * @ORM\Column(name="delete_flag", type="integer")
      */
     private $deleteFlag;
 

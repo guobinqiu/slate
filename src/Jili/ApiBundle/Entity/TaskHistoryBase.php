@@ -5,84 +5,119 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TaskHistory01
+ * TaskHistoryBase
  *
- * @ORM\Table(name="task_history01")
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaskHistoryRepository")
+ * @ORM\MappedSuperclass
  */
-class TaskHistory01 //extends TaskHistoryBase
+class TaskHistoryBase
 {
+    // 1:cpa, 4:checkin , 2 or 3: 小鸡找米, 5: offer-wow
+    const  TASK_TYPE_ADW = 1 ; // adw CPS/CPA  TASK_TYPE_CPA is deprecated 
+    const  TASK_TYPE_PAG_CPX = 2; //小鸡找米 广告ad_category.id == 3, 
+    const  TASK_TYPE_PAG_POINTS = 3; //小鸡找米 积分码ad_category.id == 4
+    const  TASK_TYPE_CHECKIN = 4 ;//签到 
+    const  TASK_TYPE_OFFERWOW = 5;  // offerwow , bangwoya, offer99
+    const  TASK_TYPE_GAME_SEEKER = 6; // 寻宝箱
+    const  TASK_TYPE_GAME_EGGS_BREAKER = 7;  // 
+    const  TASK_TYPE_DUOMAI  = 8;  // 多麦
+
+// const STATUS_SUCCEED = 1; // 完成状态，积分已发.
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="order_id", type="integer", nullable=true, options={"default": 0})
      */
-    private $orderId;
+    protected $orderId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $userId;
+    protected $userId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="task_type", type="integer")
      */
-    private $taskType;
+    protected $taskType;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="category_type", type="integer")
      */
-    private $categoryType;
+    protected $categoryType;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="task_name", type="string", length=50)
      */
-    private $taskName;
+    protected $taskName;
 
     /**
      * @var float
+     *
+     * @ORM\Column(name="reward_percent", type="float",nullable=true)
      */
-    private $rewardPercent;
+    protected $rewardPercent;
 
-    /**
+     /**
      * @var integer
+     *
+     * @ORM\Column(name="point", type="integer")
      */
-    private $point;
+    protected $point;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="ocd_created_date", type="datetime", nullable=true)
      */
-    private $ocdCreatedDate;
+    protected $ocdCreatedDate;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
-    private $date;
+    protected $date;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    protected $status;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
+
     /**
      * Set orderId
      *
      * @param integer $orderId
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setOrderId($orderId)
     {
@@ -94,7 +129,7 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get orderId
      *
-     * @return integer 
+     * @return integer
      */
     public function getOrderId()
     {
@@ -105,7 +140,7 @@ class TaskHistory01 //extends TaskHistoryBase
      * Set userId
      *
      * @param integer $userId
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setUserId($userId)
     {
@@ -117,18 +152,19 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
         return $this->userId;
     }
 
+
     /**
      * Set taskType
      *
      * @param integer $taskType
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setTaskType($taskType)
     {
@@ -140,18 +176,19 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get taskType
      *
-     * @return integer 
+     * @return integer
      */
     public function getTaskType()
     {
         return $this->taskType;
     }
 
-    /**
+
+     /**
      * Set categoryType
      *
      * @param integer $categoryType
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setCategoryType($categoryType)
     {
@@ -163,7 +200,7 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get categoryType
      *
-     * @return integer 
+     * @return integer
      */
     public function getCategoryType()
     {
@@ -174,7 +211,7 @@ class TaskHistory01 //extends TaskHistoryBase
      * Set taskName
      *
      * @param string $taskName
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setTaskName($taskName)
     {
@@ -186,18 +223,18 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get taskName
      *
-     * @return string 
+     * @return string
      */
     public function getTaskName()
     {
         return $this->taskName;
     }
 
-    /**
+     /**
      * Set rewardPercent
      *
      * @param float $rewardPercent
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setRewardPercent($rewardPercent)
     {
@@ -209,18 +246,19 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get rewardPercent
      *
-     * @return float 
+     * @return float
      */
     public function getRewardPercent()
     {
         return $this->rewardPercent;
     }
 
+
     /**
      * Set point
      *
      * @param integer $point
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setPoint($point)
     {
@@ -232,7 +270,7 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get point
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoint()
     {
@@ -243,7 +281,7 @@ class TaskHistory01 //extends TaskHistoryBase
      * Set ocdCreatedDate
      *
      * @param \DateTime $ocdCreatedDate
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setOcdCreatedDate($ocdCreatedDate)
     {
@@ -255,18 +293,19 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get ocdCreatedDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getOcdCreatedDate()
     {
         return $this->ocdCreatedDate;
     }
 
-    /**
+
+     /**
      * Set date
      *
      * @param \DateTime $date
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setDate($date)
     {
@@ -278,7 +317,7 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -289,7 +328,7 @@ class TaskHistory01 //extends TaskHistoryBase
      * Set status
      *
      * @param integer $status
-     * @return TaskHistory01
+     * @return TaskHistory00
      */
     public function setStatus($status)
     {
@@ -301,10 +340,16 @@ class TaskHistory01 //extends TaskHistoryBase
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
         return $this->status;
     }
+
+
+
+
+
+
 }

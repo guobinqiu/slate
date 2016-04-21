@@ -10,102 +10,73 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="task_history04")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaskHistoryRepository")
  */
-class TaskHistory04
+class TaskHistory04 //extends TaskHistoryBase
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="order_id", type="integer")
      */
     private $orderId;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="task_type", type="integer")
      */
     private $taskType;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="category_type", type="integer")
      */
     private $categoryType;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="task_name", type="string", length=50)
      */
     private $taskName;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="reward_percent", type="float", nullable=true)
      */
     private $rewardPercent;
 
-     /**
+    /**
      * @var integer
-     *
-     * @ORM\Column(name="point", type="integer")
      */
     private $point;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="ocd_created_date", type="datetime", nullable=true)
      */
     private $ocdCreatedDate;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
 
-    public function __construct() {
-        $this->setDate(new \DateTime());
-        $this->setOcdCreatedDate(new \DateTime());
-    }
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
     }
-
 
     /**
      * Set orderId
@@ -123,7 +94,7 @@ class TaskHistory04
     /**
      * Get orderId
      *
-     * @return integer
+     * @return integer 
      */
     public function getOrderId()
     {
@@ -146,13 +117,12 @@ class TaskHistory04
     /**
      * Get userId
      *
-     * @return integer
+     * @return integer 
      */
     public function getUserId()
     {
         return $this->userId;
     }
-
 
     /**
      * Set taskType
@@ -170,15 +140,14 @@ class TaskHistory04
     /**
      * Get taskType
      *
-     * @return integer
+     * @return integer 
      */
     public function getTaskType()
     {
         return $this->taskType;
     }
 
-
-     /**
+    /**
      * Set categoryType
      *
      * @param integer $categoryType
@@ -194,7 +163,7 @@ class TaskHistory04
     /**
      * Get categoryType
      *
-     * @return integer
+     * @return integer 
      */
     public function getCategoryType()
     {
@@ -217,7 +186,7 @@ class TaskHistory04
     /**
      * Get taskName
      *
-     * @return string
+     * @return string 
      */
     public function getTaskName()
     {
@@ -240,7 +209,7 @@ class TaskHistory04
     /**
      * Get rewardPercent
      *
-     * @return float
+     * @return float 
      */
     public function getRewardPercent()
     {
@@ -263,7 +232,7 @@ class TaskHistory04
     /**
      * Get point
      *
-     * @return integer
+     * @return integer 
      */
     public function getPoint()
     {
@@ -286,15 +255,14 @@ class TaskHistory04
     /**
      * Get ocdCreatedDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getOcdCreatedDate()
     {
         return $this->ocdCreatedDate;
     }
 
-
-     /**
+    /**
      * Set date
      *
      * @param \DateTime $date
@@ -310,7 +278,7 @@ class TaskHistory04
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getDate()
     {
@@ -333,16 +301,10 @@ class TaskHistory04
     /**
      * Get status
      *
-     * @return integer
+     * @return integer 
      */
     public function getStatus()
     {
         return $this->status;
     }
-
-
-
-
-
-
 }

@@ -31,42 +31,42 @@ class AdActivity
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="started_at", type="datetime", nullable=false)
+     * @ORM\Column(name="started_at", type="datetime")
      */
     private $startedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="finished_at", type="datetime", nullable=false)
+     * @ORM\Column(name="finished_at", type="datetime")
      */
     private $finishedAt;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="percentage", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="percentage", type="float", nullable=true, options={"default": 1.00})
      */
     private $percentage;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=false)
+     * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default": 0})
      */
     private $isDeleted;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_hidden", type="boolean", nullable=false)
+     * @ORM\Column(name="is_hidden", type="boolean")
      */
     private $isHidden;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 

@@ -25,14 +25,14 @@ class UserSignUpRoute
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="source_route", type="string" ,length=20)
+     * @ORM\Column(name="source_route", type="string", length=20)
      */
     private $sourceRoute;  # such as google, baidu
 

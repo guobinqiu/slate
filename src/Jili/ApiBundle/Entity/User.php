@@ -52,7 +52,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -74,7 +74,7 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(name="token", type="string",length=32, nullable=false)
+     * @ORM\Column(name="token", type="string",length=32)
      */
     private $token;
 
@@ -221,7 +221,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="points", type="integer", nullable=false)
+     * @ORM\Column(name="points", type="integer")
      */
     private $points;
 

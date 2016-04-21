@@ -15,7 +15,7 @@ class QQUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,14 +24,14 @@ class QQUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string",unique=true)
+     * @ORM\Column(name="open_id", type="string")
      */
     private $openId;
 

@@ -25,7 +25,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="order_identity", type="string", length=255, nullable=false)
+     * @ORM\Column(name="order_identity", type="string", length=255)
      *
      * @Assert\Regex(
      *     pattern="/^\d{15,16}$/",
@@ -43,7 +43,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime")
      *
      */
     private $createdAt;

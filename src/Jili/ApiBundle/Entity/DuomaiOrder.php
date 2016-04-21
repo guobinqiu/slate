@@ -18,105 +18,105 @@ class DuomaiOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ocd", type="string", length=32, nullable=false)
+     * @ORM\Column(name="ocd", type="string", length=32)
      */
     private $ocd;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer", nullable=false)
+     * @ORM\Column(name="ads_id", type="integer")
      */
     private $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_name", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_name", type="string", length=128)
      */
     private $adsName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="site_id", type="integer", nullable=false)
+     * @ORM\Column(name="site_id", type="integer")
      */
     private $siteId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="link_id", type="integer", nullable=false)
+     * @ORM\Column(name="link_id", type="integer")
      */
     private $linkId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="order_sn", type="string", length=32, nullable=false)
+     * @ORM\Column(name="order_sn", type="string", length=32)
      */
     private $orderSn;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="order_time", type="datetime", nullable=false)
+     * @ORM\Column(name="order_time", type="datetime")
      */
     private $orderTime;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="orders_price", type="float", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0.00})
      */
     private $ordersPrice;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float", precision=10, scale=2, nullable=false)
+     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0.00})
      */
     private $comm;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0})
      */
     private $status;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deactivated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="deactivated_at", type="datetime", nullable=true)
      */
     private $deactivatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirmed_at", type="datetime", nullable=false)
+     * @ORM\Column(name="confirmed_at", type="datetime", nullable=true)
      */
     private $confirmedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="balanced_at", type="datetime", nullable=false)
+     * @ORM\Column(name="balanced_at", type="datetime", nullable=true)
      */
     private $balancedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 

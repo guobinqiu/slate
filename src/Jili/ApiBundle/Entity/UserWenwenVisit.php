@@ -14,7 +14,7 @@ class UserWenwenVisit
     /**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\Id
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 */
@@ -30,7 +30,7 @@ class UserWenwenVisit
     /**
 	* @var string
 	*
-	* @ORM\Column(name="visit_date", type="string" ,length=30)
+	* @ORM\Column(name="visit_date", type="string", length=30)
 	*/
     private $visitDate;
 

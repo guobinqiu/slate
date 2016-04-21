@@ -38,7 +38,7 @@ class Advertiserment
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=250,nullable=true)
+     * @ORM\Column(name="type", type="string", length=250, nullable=true)
      */
     private $type;
 
@@ -110,7 +110,7 @@ class Advertiserment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_expired", type="boolean", nullable=true)
+     * @ORM\Column(name="is_expired", type="boolean", nullable=true, options={"default": 0})
      */
     private $isExpired;
 
@@ -145,7 +145,7 @@ class Advertiserment
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_rate", type="float")
+     * @ORM\Column(name="reward_rate", type="float", nullable=true, options={"default": 30})
      */
     private $rewardRate;
 
@@ -166,14 +166,14 @@ class Advertiserment
     /**
      * @var integer
      *
-     * @ORM\Column(name="category", type="integer", nullable=true)
+     * @ORM\Column(name="category", type="integer", nullable=true, options={"default": 0})
      */
     private $category;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
      */
     private $deleteFlag;
 

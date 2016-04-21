@@ -57,7 +57,7 @@ class SetPasswordCode
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_available", type="integer", nullable=true)
+     * @ORM\Column(name="is_available", type="integer")
      */
     private $isAvailable;
 
