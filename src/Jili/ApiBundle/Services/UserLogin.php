@@ -68,10 +68,6 @@ class UserLogin
         $em = $this->em;
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($params['email']);
 
-        if ($user->isPasswordWenwen()) {
-            $em->getRepository('JiliApiBundle:User')->migrateUserWenwenLogin($params['pwd'], $user->getId());
-        }
-
         $this->doAfterLogin($user, $params);
         return 'ok';
     }
