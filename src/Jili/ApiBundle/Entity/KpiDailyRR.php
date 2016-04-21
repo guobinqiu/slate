@@ -39,7 +39,7 @@ class KpiDailyRR
      *
      * @ORM\Column(name="RR_day", type="integer", nullable=true, options={"default": 0})
      */
-    private $rrday;
+    private $RRday;
 
     /**
      * @var integer
@@ -60,7 +60,7 @@ class KpiDailyRR
      *
      * @ORM\Column(name="RR", type="integer", nullable=true, options={"default": 0})
      */
-    private $rr;
+    private $RR;
 
     /**
      * Get id
@@ -119,26 +119,26 @@ class KpiDailyRR
     }
 
     /**
-     * Set rrday
+     * Set RRday
      *
-     * @param string $rrday
+     * @param string $RRday
      * @return KpiDailyRR
      */
-    public function setRRday($rrday)
+    public function setRRday($RRday)
     {
-        $this->rrday = $rrday;
+        $this->RRday = $RRday;
 
         return $this;
     }
 
     /**
-     * Get rrday
+     * Get RRday
      *
      * @return string
      */
     public function getRRday()
     {
-        return $this->rrday;
+        return $this->RRday;
     }
 
     /**
@@ -190,23 +190,23 @@ class KpiDailyRR
     /**
      * Set rr
      *
-     * @param string $rr
+     * @param string $RR
      * @return KpiDailyRR
      */
-    public function setRR($rr)
+    public function setRR($RR)
     {
-        $this->rr = $rr;
+        $this->RR = $RR;
 
         return $this;
     }
 
     /**
-     * Get rr
+     * Get RR
      *
      * @return string
      */
     public function getRR()
     {
-        return $this->rr;
+        return $this->RR;
     }
 }
