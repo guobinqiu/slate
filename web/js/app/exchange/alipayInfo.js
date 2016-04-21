@@ -38,7 +38,7 @@ require(['../../config'],function(){
                         validateAlipay.eError(alipayRepeatInput, '两次输入不一致！');
                         return false;
                     }
-                    var name = $(realNameInput).val().trim();
+                    var name = $.trim($(realNameInput).val());
                     if (name == "" || (validateAlipay.isRealName(name) == false)) {
                         validateAlipay.eError(realNameInput, '请务必填写真实姓名与支付宝匹配，否则有可能兑换失败。');
                         return false;
