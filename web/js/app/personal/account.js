@@ -116,34 +116,34 @@ require(['../../config'],function(){
         withdrawSave = $('#withdraw_save');
         withdrawSave.on('click keypress', function(){
             var loginform = new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: true});
-            console.log(loginform.run(true));
-            // if(loginform.run(true)){
-            //     saveWithdraw();
-            // }
+            if(loginform.run(true)){
+                saveWithdraw();
+            }
         });
         function saveWithdraw(){
             var checked = [], len = reasons.find('input:checked').length;
             for(var i = 0; i < len; i++){
-                checked[i] = reasons.find('input:checked').eq(i).val().trim();
+                checked[i] = $.trim(reasons.find('input:checked').eq(i).val());
             }
-
             $.ajax({
                 type: "POST",
                 url: Routing.generate('_profile_withdraw'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: {reason: checked, csrf_token: $("#csrf_token").val().trim()},
+                data: {reason: checked, csrf_token: $.trim(("#csrf_token").val()), email: $.trim(("#withdrawPwd").val()), password: $.trim(("#withdrawEmail").val()) },
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
                         window.location.href = Routing.generate('_profile_withdraw_finish');
                     }else{
-                        if(msg != null && msg.trim() != ''){
+                        if(msg != null && $.trim(msg) != ''){
                             if(msg == 'Need login'){
                                 // 跳转到登录画面
                                 window.location.href = Routing.generate('_user_login');
                             }else if(msg == 'Access Forbidden'){
                                 // 跳转到账户设置首页画面
                                 window.location.href = Routing.generate('_profile_index');
+                            }else if(msg == 'Use Not Exist'){
+                                $('.backError').html('对不起，您的注销失败了，用户不存在');
                             }else{
                                 $('.backError').html('对不起，您的注销失败了，请稍后再试');
                             }
