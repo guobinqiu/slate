@@ -8,7 +8,40 @@ require(['../config'],function(){
             animateTimer: 5000
         }});
     });
-    require(['jquery', 'loginForm'], function($){
+    require(['jquery', 'loginForm'], function($, loginForm){
+        var loginPwd = {
+            ele: '#pwd',
+            prompt: {
+                isNull: '请输入您的密码',
+                isFocus: '请输入您的密码'
+            }
+        }, loginEmail = {
+            ele: '#email',
+            prompt: {
+                isNull: '请输入邮箱地址',
+                isFormat: '邮箱地址格式不正确'
+            },
+            type: 'email'
+        };
+        new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+        var submitBtn = $("#submit_button");
+        submitBtn.on('click', function(e){
+            var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+            if(loginform.run(true)){
+                submitBtn.submit();
+            }else{
+                e.preventDefault();
+            }
+        });
+
+        var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
+        $emailError.add($pwdError).on('click', function(){
+            $(this).addClass('fade');
+        });
+        var errorCode = $('#error_code').val();
+        if(errorCode != undefined){
+            $emailError.html(errorCode).addClass('error').attr('display', 'block');
+        };
         // 点击登录按钮，呈现输入状态
         var logFoc = $("a[title='登录']");
         var surList = $("a[title='问卷列表']");
