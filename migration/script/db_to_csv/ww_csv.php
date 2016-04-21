@@ -1,4 +1,5 @@
 <?php
+include __DIR__.'/../config.php';
 
 // sed 's/"/\\"/g;s/,/\\,/g;s/\t/\",\"/g;s/^/\"/;s/$/\"/;s/\n//g' 
 // sed 's/"/""/g;s/\t/\",\"/g;s/^/\"/;s/$/\"/;s/\n//g' 
@@ -35,7 +36,7 @@ $a = array(
         'panel_91wenwen_panelist_91jili_connection',
         'sop_respondent',
         'panel_91wenwen_panelist_sina_connection',
-        'panel_91wenwen_vote_answer_201604',
+        VOTE_ANSWER,
         'panel_91wenwen_vote',
         'panel_91wenwen_vote_image',
         'panel_91wenwen_vote_choice',
@@ -52,7 +53,7 @@ $orders= array(
         'panel_91wenwen_panelist_91jili_connection'=> ' order by panelist_id asc',
         'sop_respondent'=> ' order by panelist_id asc',
         'panel_91wenwen_panelist_sina_connection'=> 'order by panelist_id asc',
-        'panel_91wenwen_vote_answer_201604'=> '',
+        VOTE_ANSWER=> '',
         'panel_91wenwen_vote'=> '',
         'panel_91wenwen_vote_image'=> '',
         'panel_91wenwen_vote_choice'=> '',
