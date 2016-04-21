@@ -29,16 +29,16 @@ require(['../../config'],function(){
             step2.hide();
         });
    	});
-    require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
+    require(['jquery', 'validate', 'routing', 'loginForm'], function($, rpaValidate, routing, loginForm){
         //修改密码（交互）
         $.extend(rpaValidate.func, {
             updatePwd : function() {
-                $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
+                $("#newPwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
                 $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
-                return rpaValidate.func.FORM_submit([ "#pwd", "#pwdRepeat"]);
+                return rpaValidate.func.FORM_submit([ "#newPwd", "#pwdRepeat"]);
             }
         });
-        $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
+        $("#newPwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
         $('#pwd_save').on('click', function(){
             if(rpaValidate.func.updatePwd()){
@@ -77,8 +77,9 @@ require(['../../config'],function(){
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
-                        alert(msg);
-                        closeSlider();
+                        $('.successMess').html(msg).show(function(){
+                            closeSlider();
+                        });
                     }else{
                         if(msg != null && msg.trim() != ''){
                             if(msg == 'Need login'){

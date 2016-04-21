@@ -23,6 +23,7 @@
                     <label for="login_pwd">登录密码</label>
                     <span name="login_pwd" id="login_pwd" class="default_value">******</span>
                     <div class="con form">
+                        <div class="successMess"></div>
                         <form action="">
                         <ul>
                             <li>
@@ -32,11 +33,11 @@
                                 <span id="curPwd_error"></span>
                             </li>
                             <li>
-                                <label for="pwd">新密码：</label>
-                                <input type="password" id="pwd">
+                                <label for="newPwd">新密码：</label>
+                                <input type="password" id="newPwd">
                                 <span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span>
-                                <span id="pwd_succeed" class="succeed"></span>
-                                <span id="pwd_error"></span>
+                                <span id="newPwd_succeed" class="succeed"></span>
+                                <span id="newPwd_error"></span>
                             </li>
                             <li>
                                 <label for="pwdRepeat">确认密码：</label>
@@ -64,11 +65,12 @@
                             </ul>
                             <div class="btn"><span id="withdraw_continue">继续注销</span></div>
                         </div>
-                        <div class="step2 hide">
+                        <div class="step2 hide form">
                             <p>请确认您要注销会员。请在完成简单的问卷调查后，点击 《注销》 完成会员的注销手续。</p>
                             <div>用户注销以及问卷调查</div>
                             <ul class="reason">
-                                <li><label for="email">邮件地址：</label><span id="email">{{ user.email }}</span></li>
+                                <li><label for="emailWithdraw">请输入您的账号：</label><input id="emailWithdraw" type="text" name="emailWithdraw"></li>
+                                <li><label for="pwdWithdraw">请输入您的密码：</label><input id="pwdWithdraw" type="password" name="pwdWithdraw"></li>
                                 <li><label for="reasons">注销用户的理由：</label><span id="reasons"><ul class="reason-options">
                                     <li><span><input type="checkbox" name="reason[]" value="问卷调查活动的数量太少了">问卷调查活动的数量太少了</span><span><input type="checkbox" name="reason[]" value="每个问卷的奖励太少了">每个问卷的奖励太少了</span></li>
                                     <li><span><input type="checkbox" name="reason[]" value="问卷所要的时间太长了">问卷所要的时间太长了</span><span><input type="checkbox" name="reason[]" value="相对于问题来说，积分报酬太少了">相对于问题来说，积分报酬太少了</span></li>
