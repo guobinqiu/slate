@@ -15,28 +15,28 @@ class Offer99Order
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userid;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tid", type="string", length=100, nullable=true)
+     * @ORM\Column(name="tid", type="string", length=100)
      */
     private $tid;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
      */
     private $deleteFlag;
 

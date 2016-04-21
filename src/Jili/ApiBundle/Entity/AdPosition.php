@@ -15,7 +15,7 @@ class AdPosition
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,21 +24,21 @@ class AdPosition
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=45, nullable=true)
+     * @ORM\Column(name="type", type="string", length=45)
      */
     private $type;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer", nullable=true)
+     * @ORM\Column(name="position", type="integer")
      */
     private $position;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="ad_id", type="integer")
      */
     private $adId;
 

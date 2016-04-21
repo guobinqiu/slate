@@ -15,7 +15,7 @@ class RateAd
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,21 +24,21 @@ class RateAd
     /**
      * @var integer
      *
-     * @ORM\Column(name="ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="ad_id", type="integer")
      */
     private $adId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="income_rate", type="integer", nullable=false)
+     * @ORM\Column(name="income_rate", type="integer", nullable=true)
      */
     private $incomeRate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_rate", type="integer", nullable=false)
+     * @ORM\Column(name="incentive_rate", type="integer")
      */
     private $incentiveRate;
 

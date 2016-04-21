@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SendMessageBase
  *
- * @ORM\MappedSuperclass 
+ * @ORM\MappedSuperclass
  */
 class SendMessageBase
 {
@@ -18,7 +18,7 @@ class SendMessageBase
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -55,7 +55,7 @@ class SendMessageBase
      /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createtime", type="datetime")
+     * @ORM\Column(name="createtime", type="datetime", nullable=true)
      */
     protected $createtime;
 

@@ -15,14 +15,14 @@ class BangwoyaOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
@@ -36,7 +36,7 @@ class BangwoyaOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer")
      */
     private $deleteFlag;
 

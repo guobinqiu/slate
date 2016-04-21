@@ -14,7 +14,7 @@ class UserConfigurations
     /**
      * @var string
      *
-     * @ORM\Column(name="flag_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="flag_name", type="string", length=64)
      */
     private $flagName;
 
@@ -28,14 +28,14 @@ class UserConfigurations
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
@@ -51,7 +51,7 @@ class UserConfigurations
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 

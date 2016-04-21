@@ -15,14 +15,14 @@ class OfferwowOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userid;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
@@ -57,14 +57,14 @@ class OfferwowOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0})
      */
     private $status;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
      */
     private $deleteFlag;
 

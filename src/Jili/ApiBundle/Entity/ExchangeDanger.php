@@ -45,14 +45,14 @@ class ExchangeDanger
     /**
      * @var string
      *
-     * @ORM\Column(name="danger_content", type="string",length=50)
+     * @ORM\Column(name="danger_content", type="string",length=50, nullable=true)
      */
     private $dangerContent;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 

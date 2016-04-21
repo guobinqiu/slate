@@ -11,6 +11,5 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SendMessageRepository")
  */
 class SendMessage09  extends SendMessageBase
-
 {
 }

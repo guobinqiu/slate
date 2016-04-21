@@ -14,7 +14,7 @@ class KpiDailyRR
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -23,42 +23,42 @@ class KpiDailyRR
     /**
      * @var string
      *
-     * @ORM\Column(name="kpi_YMD", type="string", length=10)
+     * @ORM\Column(name="kpi_YMD", type="string", length=10, nullable=true, options={"default": ""})
      */
     private $kpiYMD;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="register_YMD", type="string", length=10)
+     * @ORM\Column(name="register_YMD", type="string", length=10, nullable=true, options={"default": ""})
      */
     private $registerYMD;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="RR_day", type="integer", nullable=false)
+     * @ORM\Column(name="RR_day", type="integer", nullable=true, options={"default": 0})
      */
     private $rrday;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="register_user", type="integer", nullable=false)
+     * @ORM\Column(name="register_user", type="integer", nullable=true, options={"default": 0})
      */
     private $registerUser;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="active_user", type="integer", nullable=false)
+     * @ORM\Column(name="active_user", type="integer", nullable=true, options={"default": 0})
      */
     private $activeUser;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="RR", type="integer", nullable=false)
+     * @ORM\Column(name="RR", type="integer", nullable=true, options={"default": 0})
      */
     private $rr;
 

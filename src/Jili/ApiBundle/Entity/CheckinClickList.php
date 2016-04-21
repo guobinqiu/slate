@@ -20,7 +20,7 @@ class CheckinClickList
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -50,7 +50,7 @@ class CheckinClickList
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer",nullable=true)
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 

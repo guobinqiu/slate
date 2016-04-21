@@ -25,7 +25,7 @@ class CheckinAdverList
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -48,7 +48,7 @@ class CheckinAdverList
     /**
      * @var integer
      *
-     * @ORM\Column(name="operation_method", type="integer", nullable=true)
+     * @ORM\Column(name="operation_method", type="integer", nullable=true, options={"default": 0})
      */
     private $operationMethod;
 

@@ -21,7 +21,7 @@ class PointsExchangeType
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -30,7 +30,7 @@ class PointsExchangeType
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=45, nullable=true)
+     * @ORM\Column(name="type", type="string", length=45)
      */
     private $type;
 

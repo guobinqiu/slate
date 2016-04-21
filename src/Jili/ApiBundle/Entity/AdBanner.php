@@ -44,14 +44,14 @@ class AdBanner
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer", nullable=true)
+     * @ORM\Column(name="position", type="integer")
      */
     private $position;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ad_url", type="string", length=250)
+     * @ORM\Column(name="ad_url", type="string", length=512)
      */
     private $adUrl;
 

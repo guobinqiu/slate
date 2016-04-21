@@ -15,7 +15,7 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +24,28 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="adw_order_id", type="integer", nullable=false)
+     * @ORM\Column(name="adw_order_id", type="integer")
      */
     private $accessHistoryId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rate_ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="rate_ad_id", type="integer")
      */
     private $rateAdId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="result_price", type="integer", nullable=false)
+     * @ORM\Column(name="result_price", type="integer")
      */
     private $resultPrice;
 

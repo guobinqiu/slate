@@ -14,14 +14,14 @@ class Callboard
     public function __construct()
     {
         $this->createTime = new \DateTime();
-        //$this->updateTime = new \DateTime();
+        $this->updateTime = new \DateTime();
         $this->startTime = new \DateTime();
         $this->endTime = new \DateTime();
     }
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -38,7 +38,7 @@ class Callboard
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=100)
+     * @ORM\Column(name="author", type="string", length=100, nullable=true)
      */
     private $author;
 
@@ -81,7 +81,7 @@ class Callboard
       /**
      * @var integer
      *
-     * @ORM\Column(name="cb_type", type="integer")
+     * @ORM\Column(name="cb_type", type="integer", nullable=true)
      */
     private $cbType;
 
