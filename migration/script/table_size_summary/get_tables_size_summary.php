@@ -29,7 +29,7 @@ if( $argv[1] == 'jili' )  {
     'panel_91wenwen_panelist_91jili_connection',
     'sop_respondent',
     'panel_91wenwen_panelist_sina_connection',
-    'panel_91wenwen_vote_answer_201511',
+    'panel_91wenwen_vote_answer_201604',
     'panel_91wenwen_vote',
     'panel_91wenwen_vote_image',
     'panel_91wenwen_vote_choice',
