@@ -62,11 +62,6 @@ time tar cjf  jl_csv.tar.bz jl_csv/
 
 
 exit ;
-echo "scp"
-time scp -P9012 jl_csv.tar.bz jiangtao@testgroup.91jili.com:/data/91jili/merge
-
-screen -S dump
-bash bin/jl_csv.sh  1> log/perf_log_`date +"T%H%M%SD%Y%m%d"`.txt  2>&1
 
 
 EOD;
