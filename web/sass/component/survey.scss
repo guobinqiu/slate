@@ -12,9 +12,8 @@ $survey-border-color: #f6f6f6;
 		height: 55px;
 		line-height: 55px;
 		font-size: 24px;
-		color: #666;
+		color: #757575;
 		padding: 10px 0 0 6px;
-		border-bottom: $block-inner-border;
 	}
 	em{
 		width: 24px;
@@ -25,12 +24,10 @@ $survey-border-color: #f6f6f6;
 		@include dib();
 	}
 	.title{
-		color: #575757;
 		font-size: 15px;
 		font-weight: 600;
 		line-height: 35px;
 		a{
-			color: #575757;
 			&:hover{
 				color: #914b11;
 			}
@@ -41,7 +38,6 @@ $survey-border-color: #f6f6f6;
 	}
 	li{
 		padding: 20px;
-		border-top: $block-inner-border;
 		position: relative;
 		z-index: 1;
 		&:hover, &.active{

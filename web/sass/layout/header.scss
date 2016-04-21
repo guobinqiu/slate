@@ -116,29 +116,44 @@ $top-bg-color: #36363c;
 		z-index: 9999;
 		top: 30px;
 		right: 0;
-		border: $block-border;
+		border: 1px solid #e0e0e0;  
 		background: $block-bg-color;
 		width: 194px;
 		display: none;
+		@include box-shadow(1px 2px 3px rgba(0,0,0,0.2));
 		li{
 			float: none;
 			border-top: $block-border;
 			line-height: 35px;
-			padding: 0 20px;
+			padding: 3px 20px;
 			a{
 				width: 100%;
 				border-right: none;
-				color: #4d4d4d;
+				color: #333;
 				@include dib();
+				font-size: 14px;
 			}
 			&:hover{
-				background: #fafafa;
+				background: #ededed;
+				a{
+					color: $main-color;
+				}
 			}
 		}
-		
+		ul{
+			border-top: 6px solid #ebebeb;
+		}	
 	}
 	.personal-con{
 		padding: 15px;
+		border-bottom: 1px solid #dbdbdb;
+		.faceTop{
+			img{
+				border: 1px solid #d6d6d6;
+			    border-radius: 50%;
+			    padding: 4px;
+			}
+		}
 		span{
 			padding: 0;
 			@include dib();
@@ -159,6 +174,7 @@ $top-bg-color: #36363c;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
+					font-weight: bold;
 				}
 			}
 			strong{
