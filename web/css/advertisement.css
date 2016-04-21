@@ -546,6 +546,14 @@ body {
       padding: 10px 0 0; }
     .main-con-advertisement .tabCon.offerWow {
       padding: 20px 25px; }
+    .main-con-advertisement .tabCon .maintenance {
+      width: 100%;
+      text-align: center;
+      height: 260px;
+      padding-top: 200px;
+      background: url(../img/questionnaire/normalface.png) no-repeat 180px 150px; }
+      .main-con-advertisement .tabCon .maintenance .con {
+        font-size: 16px; }
   .main-con-advertisement .taskFlow {
     position: absolute;
     z-index: 1000;
