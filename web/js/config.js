@@ -34,7 +34,8 @@ require.config({
         'sopSurvey':'common/sopSurvey',
         'alimama':'common/alimama',
         'scrollTop':'common/scrollTop',
-        'feedbackForm':'common/feedbackForm'
+        'feedbackForm':'common/feedbackForm',
+        'loginForm':'common/loginForm'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {

@@ -1,77 +1,52 @@
 require(['../config'],function(){
     require(['common', 'scrollTop']);
     require(['feedbackForm']);
-    require(['numScroll'], function(RPANumScroll){
-        new RPANumScroll({ numScrollEle: '.digits b', config: {
+    require(['numScroll'], function(numScroll){
+        new numScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
             num: 3688002,
             animateTimer: 5000
         }});
     });
-    require(['jquery', 'validate'], function($, validate){
-        var validatePrompt = {
-            email:{
-                onFocus:"电子邮件就是今后您登录91问问的账号",
-                succeed: "OK!",
-                isNull: "请输入您的邮箱",
-                error: {
-                    beUsed: "该邮箱已被注册,请更换其它邮箱,或使用该<a href=\"signin.php?Email={#Email#}\" name=\"email_login_link\" class=\"more\">邮箱登录</a>",
-                    badLength: "邮箱地址长度应在4-50个字符之间",
-                    badFormat: "邮箱地址格式不正确"
-                }
+    require(['jquery', 'loginForm'], function($, loginForm){
+        var loginPwd = {
+            ele: '#pwd',
+            prompt: {
+                isNull: '请输入您的密码',
+                isFocus: '请输入您的密码'
             }
+        }, loginEmail = {
+            ele: '#email',
+            prompt: {
+                isNull: '请输入邮箱地址',
+                isFormat: '邮箱地址格式不正确'
+            },
+            type: 'email'
         };
-        $.extend(validate.func, {
-            loginValidate : function() {
-                $("#email").RPAValidate(validatePrompt.email, validate.func.email, true);
-                return validate.func.FORM_submit([ "#email"]);
+        new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+        var submitBtn = $("#submit_button");
+        submitBtn.on('click', function(e){
+            var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+            if(loginform.run(true)){
+                submitBtn.submit();
+            }else{
+                e.preventDefault();
             }
         });
 
-        $("#email").RPAValidate(validatePrompt.email, validate.func.email);
-
-        var isSubmit = false;
-        var submitBtn = $("#submit_button");
-        $('#email_error').on('click', function(){
-            $(this).addClass('fade');
-        });
-        $('#pwd_error').on('click', function(){
+        var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
+        $emailError.add($pwdError).on('click', function(){
             $(this).addClass('fade');
         });
         var errorCode = $('#error_code').val();
         if(errorCode != undefined){
-            $('#email_error').html(errorCode).addClass('error').attr('display', 'block');
-        }
-        var pwd = $('#pwd');
-        pwd.on('focus', function(){
-            $('#pwd_error').removeClass('error');
-        })
-        submitBtn.on('click', function(){
-            if(validate.func.loginValidate()){
-                var val = pwd.val();
-                if(val != undefined && val != ''){
-                    $('#form1').submit(); 
-                }else{
-                    $('#pwd_error').html('请输入您的密码').addClass('error');
-                }
-            }
-        });
-
+            $emailError.html(errorCode).addClass('error').attr('display', 'block');
+        };
         // 点击登录按钮，呈现输入状态
         var logFoc = $("a[title='登录']");
         var surList = $("a[title='问卷列表']");
         logFoc.add(surList).click(function(){
-            $("#email").focus(); 
-        });
-
-        // keyboard获取登录按钮焦点以后，按Enter键触发click事件
-        $('#submit_button').keypress(function(e){
-            var key = e.which;
-            if(key == 13) // the enter key code
-            {
-                $(this).click();
-                return false;
-            }
+            $('#email').focus(); 
         });
 
         //sinaWeibo and QQ quick login prompt
