@@ -140,9 +140,12 @@
 		&.withdraw{
 			span{
 				@include dib();
-				vertical-align: middle;
+				vertical-align: top;
 				margin-left: 0;
 				padding-left: 0;
+				&.focus{
+					display:none;
+				}
 			}
 			ul{
 				&.tips{

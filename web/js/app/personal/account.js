@@ -33,14 +33,14 @@ require(['../../config'],function(){
         //修改密码（交互）
         $.extend(rpaValidate.func, {
             updatePwd : function() {
-                $("#newPwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
+                $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
                 $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
-                return rpaValidate.func.FORM_submit([ "#newPwd", "#pwdRepeat"]);
+                return rpaValidate.func.FORM_submit([ "#pwd", "#pwdRepeat"]);
             }
         });
-        $("#newPwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
+        $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
-        $('#pwd_save').on('click', function(){
+        $('#pwd_save').on('click keypress', function(){
             if(rpaValidate.func.updatePwd()){
                 savePwd();
             }
@@ -77,8 +77,8 @@ require(['../../config'],function(){
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
-                        $('.successMess').html(msg).show(function(){
-                            closeSlider();
+                        $('.successMess').html(msg).show(1000, function(){
+                            setTimeout(closeSlider, 3000); 
                         });
                     }else{
                         if(msg != null && msg.trim() != ''){
@@ -97,10 +97,29 @@ require(['../../config'],function(){
             });
         }
         //注销
+        var withdrawPwd = {
+            ele: '#withdrawPwd',
+            prompt: {
+                isNull: '请输入您的密码',
+                isFocus: '请输入您的密码'
+            }
+        }, withdrawEmail = {
+            ele: '#withdrawEmail',
+            prompt: {
+                isNull: '请输入邮箱地址',
+                isFormat: '邮箱地址格式不正确'
+            },
+            type: 'email'
+        };
+        new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: false});
         var reasons = $('.reason-options'),
         withdrawSave = $('#withdraw_save');
-        withdrawSave.on('click', function(){
-            saveWithdraw();
+        withdrawSave.on('click keypress', function(){
+            var loginform = new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: true});
+            console.log(loginform.run(true));
+            // if(loginform.run(true)){
+            //     saveWithdraw();
+            // }
         });
         function saveWithdraw(){
             var checked = [], len = reasons.find('input:checked').length;

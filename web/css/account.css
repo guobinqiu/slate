@@ -584,9 +584,11 @@ h1 {
       display: inline-block;
       *display: inline;
       *zoom: 1;
-      vertical-align: middle;
+      vertical-align: top;
       margin-left: 0;
       padding-left: 0; }
+      .main-personal-account .con.withdraw span.focus {
+        display: none; }
     .main-personal-account .con.withdraw ul.tips {
       margin-top: 10px; }
     .main-personal-account .con.withdraw ul.reason {
