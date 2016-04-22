@@ -15,84 +15,84 @@ class EmarAdvertisement implements CustomRedirectUrlInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer", nullable=false)
+     * @ORM\Column(name="ads_id", type="integer", nullable=false, options={"comment":"活动ID"})
      */
     private $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="ads_name", type="string", length=64, nullable=false, options={"comment":"活动名称"})
      */
     private $adsName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=128, nullable=false)
+     * @ORM\Column(name="category", type="string", length=128, nullable=false, options={"default":"", "comment":"活动分类"})
      */
     private $category;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=128, nullable=false)
+     * @ORM\Column(name="commission", type="string", length=128, nullable=false, options={"default":"", "comment":"佣金"})
      */
     private $commission;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true, options={"default":"", "comment":"结算周期"})
      */
     private $commissionPeriod;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false, options={"comment":"首页地址"})
      */
     private $adsUrl;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="can_customize_target", type="integer", nullable=false)
+     * @ORM\Column(name="can_customize_target", type="integer", nullable=false, options={"default":1, "comment":"是否允许修改目标地址"})
      */
     private $canCustomizeTarget;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="feedback_tag", type="string", length=4, nullable=false)
+     * @ORM\Column(name="feedback_tag", type="string", length=4, nullable=false, options={"default":"c", "comment":"反馈标签"})
      */
     private $feedbackTag;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="marketing_url", type="text", nullable=false)
+     * @ORM\Column(name="marketing_url", type="text", nullable=false, options={"comment":"自定义链接"})
      */
     private $marketingUrl;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="selected_at", type="datetime", nullable=true)
+     * @ORM\Column(name="selected_at", type="datetime", nullable=true, options={"default":NULL, "comment":"选入cps_adver时间"})
      */
     private $selectedAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false)
+     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false, options={"comment":"更新时使用"})
      */
     private $fixedHash;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_activated", type="integer", nullable=false)
+     * @ORM\Column(name="is_activated", type="integer", nullable=false, options={"default":0, "comment":"1: 使用中, 0: 不在使用"})
      */
     private $isActivated;
 

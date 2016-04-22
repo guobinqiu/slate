@@ -15,21 +15,21 @@ class EmarWebsitesCategory
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_id", type="integer", nullable=false)
+     * @ORM\Column(name="web_id", type="integer", nullable=false, options={"comment":"商家网站的id"})
      */
     private $webId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="category_id", type="integer", nullable=false)
+     * @ORM\Column(name="category_id", type="integer", nullable=false, options={"comment":"商品分类"})
      */
     private $categoryId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count", type="integer", nullable=false)
+     * @ORM\Column(name="count", type="integer", nullable=false, options={"default":0,"comment":"计数"})
      */
     private $count;
 

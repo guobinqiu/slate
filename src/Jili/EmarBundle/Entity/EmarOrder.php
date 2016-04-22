@@ -7,7 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EmarOrder
  *
- * @ORM\Table(name="emar_order")
+ * @ORM\Table(name="emar_order",
+ *            uniqueConstraints={@ORM\UniqueConstraint(name="adid_ocd_uniq", columns={"ad_id", "ocd"})},
+ *            indexes={@ORM\Index(name="ad_id_ref", columns={"ad_id", "ad_type"})}
+ *           )
  * @ORM\Entity(repositoryClass="Jili\EmarBundle\Repository\EmarOrderRepository")
  */
 class EmarOrder
@@ -29,7 +32,7 @@ class EmarOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="ad_type", type="string", length=16, nullable=false)
+     * @ORM\Column(name="ad_type", type="string", length=16, nullable=false, options={"default":"emar", "comment":"表示ad_id对应, local: advertiserment, emar: open.yiqifa.ad.get"})
      */
     private $adType;
 
@@ -78,14 +81,14 @@ class EmarOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=false, options={"default":0})
      */
     private $status;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=false, options={"default":0})
      */
     private $deleteFlag;
 

@@ -16,77 +16,77 @@ class EmarProductsCroned
     /**
      * @var integer
      *
-     * @ORM\Column(name="pid", type="integer")
+     * @ORM\Column(name="pid", type="integer", options={"comment":"商品id"})
      */
     private $pid;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="p_name", type="string", length=128, nullable=true)
+     * @ORM\Column(name="p_name", type="string", length=128, nullable=true, options={"default":"", "comment":"商品名称"})
      */
     private $pName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_id", type="integer")
+     * @ORM\Column(name="web_id", type="integer", options={"comment":"商家网站的站点ID"})
      */
     private $webId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="web_name", type="string", length=128, nullable=true)
+     * @ORM\Column(name="web_name", type="string", length=128, nullable=true, options={"default":"", "comment":"商家网站名称"})
      */
     private $webName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ori_price", type="string", length=128, nullable=true)
+     * @ORM\Column(name="ori_price", type="string", length=128, nullable=true, options={"default":"0.0", "comment":"参考价格，原始价格"})
      */
     private $oriPrice;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cur_price", type="string", length=128, nullable=true)
+     * @ORM\Column(name="cur_price", type="string", length=128, nullable=true, options={"default":"0.0", "comment":"实际价格，现在价格"})
      */
     private $curPrice;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pic_url", type="string", length=128, nullable=true)
+     * @ORM\Column(name="pic_url", type="string", length=128, nullable=true, options={"default":"", "comment":"图片链接"})
      */
     private $picUrl;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="catid", type="integer")
+     * @ORM\Column(name="catid", type="integer", options={"comment":"商品分类id"})
      */
     private $catid;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cname", type="string", length=128, nullable=true)
+     * @ORM\Column(name="cname", type="string", length=128, nullable=true, options={"default":"", "comment":"商品分类名称"})
      */
     private $cname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="p_o_url", type="string", length=128, nullable=true)
+     * @ORM\Column(name="p_o_url", type="string", length=128, nullable=true, options={"default":"", "comment":"商品的计费链接"})
      */
     private $pOUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="short_intro", type="text", nullable=true)
+     * @ORM\Column(name="short_intro", type="text", nullable=true, options={"comment":"商品详情"})
      */
     private $shortIntro;
 

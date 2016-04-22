@@ -40,7 +40,7 @@ class EmarAccessHistory
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\Advertiserment")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ad_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ad_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $ad;
