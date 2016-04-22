@@ -61,7 +61,8 @@ define(['jquery'],function($){
             return new RegExp("^[1-9]([0-9]{14}|[0-9]{16}([0-9]|X|x))$").test(str);
         },
         isAlipay: function(str){
-            return new RegExp("^[A-Za-z0-9_\\-\\u4e00-\\u9fa5]+$").test(str);
+            // /^0?\d{9,11}$/.test(str)||/^(?:\w+\.?)*\w+@(?:\w+\.)+\w+$/.test(str);
+            return new RegExp("^0?\\d{9,11}$").test(str)||new RegExp("^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$").test(str);
         },
         isRealName: function(str){
             return new RegExp("^[A-Za-z\\u4e00-\\u9fa5]+$").test(str);
