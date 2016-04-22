@@ -7,7 +7,7 @@ require(['../../config'],function(){
         var validateIdCard;
 
         function validateAlipay(){
-            var alipayNum = $(idCardInput).val().trim();
+            var alipayNum = $.trim($(idCardInput).val());
             if (alipayNum == "" || (validateIdCard.isIdCard(alipayNum) == false)) {
                 validateIdCard.eError(idCardInput, '请输入有效的身份证号');
                 return false;
