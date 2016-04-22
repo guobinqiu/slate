@@ -497,7 +497,7 @@ function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
     //origin_flag
-    $user_row[30] = Constants::$origin_flag['wenwen_jili'];
+    $user_row[32] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
     export_csv_row($user_row, Constants::$migrate_user_name);
     export_history_data($panelist_row[0], $user_row[0]);
@@ -519,7 +519,7 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     //reward_multiple
     $user_row[20] = 1;
     //origin_flag
-    $user_row[30] = Constants::$origin_flag['wenwen'];
+    $user_row[32] = Constants::$origin_flag['wenwen'];
     $user_row = set_default_value($user_row);
     export_csv_row($user_row, Constants::$migrate_user_name);
     export_history_data($panelist_row[0], $user_id);
@@ -533,9 +533,9 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
 function generate_user_data_only_jili($row = array())
 {
     //origin_flag
-    $row[30] = Constants::$origin_flag['jili'];
+    $row[32] = Constants::$origin_flag['jili'];
     //password_choice
-    $row[34] = Constants::$password_choice['pwd_jili'];
+    $row[36] = Constants::$password_choice['pwd_jili'];
     $row = set_default_value($row);
     export_csv_row($row, Constants::$migrate_user_name);
 }
@@ -832,11 +832,17 @@ function set_default_value($row)
     if( $row[16] === '') {
         $row[16] ='NULL';
     }
+
+    //register_complete_date
+    $row[22] ='NULL';
+
     //delete_flag
     if( $row[26] === '') {
         $row[26] ='NULL';
     }
 
+    //delete_date
+    $row[27] ='NULL';
 
     // token_created_at
     if(''=== $row[31] ) {

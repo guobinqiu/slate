@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo 'start...'`date "+%c"`
+
 # image list file exists here:
 src=/data/91jili/merge/user_images/
 
@@ -128,6 +130,8 @@ print_lacks()
 }
 print_lacks;
 echo '...done'
+
+echo '...done'`date "+%c"`
 
 #for subdir in  {{0..9},{a..f}}/{{0..9},{a..f}}/{{0..9},{a..f}};
 #do
