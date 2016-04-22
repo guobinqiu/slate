@@ -87,7 +87,7 @@ function initialise_csv()
     global $vote_answer_indexs;
     global $weibo_user_indexs;
 
-    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
+    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'l_file');
     $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
     $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
     $region_mapping_indexs = build_file_index($migration_region_mapping_file_handle, 'region_id');
@@ -746,7 +746,7 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //icon_path:panelist_profile_image
     global $panelist_image_indexs;
     if (isset($panelist_image_indexs[$panelist_row[0]])) {
-        $user_row[29] = $panelist_image_indexs[$panelist_row[0]]['hash'];
+        $user_row[29] = 'uploads/user/' . $panelist_image_indexs[$panelist_row[0]]['l_file'];
     }
     return $user_row;
 }
