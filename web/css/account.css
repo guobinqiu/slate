@@ -606,14 +606,20 @@ h1 {
     .main-personal-account .con.withdraw ul.tips {
       margin-top: 10px; }
     .main-personal-account .con.withdraw ul.reason {
+      margin-top: 10px;
       padding: 10px 0;
       border: 1px solid #f6f6f6; }
       .main-personal-account .con.withdraw ul.reason #email {
         padding-left: 5px; }
+      .main-personal-account .con.withdraw ul.reason span {
+        padding-left: 5px; }
+        .main-personal-account .con.withdraw ul.reason span#reasons {
+          padding-left: 0px; }
     .main-personal-account .con.withdraw ul.reason-options li {
       margin-top: 0; }
     .main-personal-account .con.withdraw ul.reason-options span {
-      width: 210px; }
+      width: 210px;
+      padding-left: 0px; }
     .main-personal-account .con.withdraw ul label {
       width: 110px; }
     .main-personal-account .con.withdraw li {
