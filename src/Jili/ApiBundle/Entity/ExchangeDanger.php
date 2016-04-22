@@ -38,7 +38,7 @@ class ExchangeDanger
     /**
      * @var integer
      *
-     * @ORM\Column(name="danger_type", type="integer")
+     * @ORM\Column(name="danger_type", type="integer", options={"comment": "1 同一手机 2 相同ip 3同一身份证"})
      */
     private $dangerType;
 

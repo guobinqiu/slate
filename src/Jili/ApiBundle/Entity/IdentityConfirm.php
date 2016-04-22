@@ -28,21 +28,21 @@ class IdentityConfirm
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", nullable=true)
      */
     private $userId;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="identity_card", type="string", length=50)
+     * @ORM\Column(name="identity_card", type="string", length=50, nullable=true)
      */
     private $identityCard;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="identity_validate_time", type="datetime")
+     * @ORM\Column(name="identity_validate_time", type="datetime", nullable=true)
      */
     private $identityValidateTime;
 

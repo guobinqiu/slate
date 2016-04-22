@@ -46,7 +46,7 @@ class MarketActivity
      /**
      * @var string
      *
-     * @ORM\Column(name="activity_description", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="activity_description", type="string", length=1000)
      */
     private $activityDescription;
 
