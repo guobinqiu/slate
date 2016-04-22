@@ -83,10 +83,12 @@ require(['../../config'],function(){
    		sysTitles.unbind('click');
        	titles.on('click', function(){
             var idStr = $(this).attr('class'), id;
-            if(idStr){
-            	id = idStr.substr(5, idStr.length-10);
-            	showMs(id);
+            if(idStr.indexOf('new') == -1){
+            	id = idStr.substr(6, idStr.length-6);            	
+            }else{
+            	id = idStr.substr(6, idStr.length-10);
             }
+            showMs(id);
         });
        	sysTitles.on('click', function(){
             var idStr = $(this).attr('class'), id;
