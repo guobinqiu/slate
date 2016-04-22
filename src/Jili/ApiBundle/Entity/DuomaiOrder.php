@@ -18,105 +18,105 @@ class DuomaiOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", options={"comment": "euid网站主设定的反馈标签"})
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ocd", type="string", length=32)
+     * @ORM\Column(name="ocd", type="string", length=32, options={"comment": "请求参数中的id"})
      */
     private $ocd;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer")
+     * @ORM\Column(name="ads_id", type="integer", options={"comment": "活动ID"})
      */
     private $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_name", type="string", length=128)
+     * @ORM\Column(name="ads_name", type="string", length=128, options={"comment": "活动名称"})
      */
     private $adsName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="site_id", type="integer")
+     * @ORM\Column(name="site_id", type="integer", options={"comment": "网站ID"})
      */
     private $siteId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="link_id", type="integer")
+     * @ORM\Column(name="link_id", type="integer", options={"comment": "活动链接ID"})
      */
     private $linkId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="order_sn", type="string", length=32)
+     * @ORM\Column(name="order_sn", type="string", length=32, options={"comment": "order_sn 订单编号"})
      */
     private $orderSn;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="order_time", type="datetime")
+     * @ORM\Column(name="order_time", type="datetime", options={"comment": "下单时间"})
      */
     private $orderTime;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0.00})
+     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0.00}, options={"comment": "订单金额"})
      */
     private $ordersPrice;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0.00})
+     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0.00}, options={"comment": "siter_commission 订单佣金"})
      */
     private $comm;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0}, options={"comment": "订单状态  -1 无效 0 未确认 1 确认 2 结算"})
      */
     private $status;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deactivated_at", type="datetime", nullable=true)
+     * @ORM\Column(name="deactivated_at", type="datetime", nullable=true, options={"comment": "status= -1 的时间"})
      */
     private $deactivatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirmed_at", type="datetime", nullable=true)
+     * @ORM\Column(name="confirmed_at", type="datetime", nullable=true, options={"comment": "status= 1 的时间"})
      */
     private $confirmedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="balanced_at", type="datetime", nullable=true)
+     * @ORM\Column(name="balanced_at", type="datetime", nullable=true, options={"comment": "status= 2 的时间"})
      */
     private $balancedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"comment": "status= 0 的时间"})
      */
     private $createdAt;
 

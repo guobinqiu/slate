@@ -43,7 +43,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      *
      */
     private $createdAt;
@@ -62,7 +62,7 @@ class ActivityGatheringTaobaoOrder
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $user;

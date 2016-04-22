@@ -14,8 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     indexes={
  *         @ORM\Index(name="ssi_project_mail_batch_idx", columns={"ssi_project_id", "ssi_mail_batch_id"}),
  *         @ORM\Index(name="ssi_respondent_idx", columns={"ssi_respondent_id"}),
- *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"}),
- *         @ORM\Index(name="IDX_DCEFA6E9EBD1F782", columns={"ssi_project_id"})
+ *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"})
  *     }
  * )
  * @ORM\Entity
@@ -25,7 +24,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -95,7 +94,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiRespondent")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id", )
      * })
      */
     private $ssiRespondent;

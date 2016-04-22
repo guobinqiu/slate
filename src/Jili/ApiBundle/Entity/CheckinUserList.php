@@ -43,7 +43,7 @@ class CheckinUserList
     /**
      * @var integer
      *
-     * @ORM\Column(name="open_shop_id", type="integer")
+     * @ORM\Column(name="open_shop_id", type="integer", options={"comment": "对应 checkin_adver_list的id"})
      */
     private $openShopId;
 

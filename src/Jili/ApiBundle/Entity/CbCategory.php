@@ -24,7 +24,7 @@ class CbCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="category_name", type="string", length=30, nullable=true)
+     * @ORM\Column(name="category_name", type="string", length=30)
      */
     private $categoryName;
 

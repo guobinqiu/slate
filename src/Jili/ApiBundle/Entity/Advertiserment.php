@@ -53,7 +53,7 @@ class Advertiserment
     /**
      * @var integer
      *
-     * @ORM\Column(name="action_id", type="integer", nullable=true)
+     * @ORM\Column(name="action_id", type="integer", nullable=true, options={"comment": "emar  action_id"})
      */
     private $actionId;
 
@@ -110,7 +110,7 @@ class Advertiserment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_expired", type="boolean", nullable=true, options={"default": 0})
+     * @ORM\Column(name="is_expired", type="boolean", nullable=true, options={"default": 0, "comment": "imageurl response reports expired"})
      */
     private $isExpired;
 

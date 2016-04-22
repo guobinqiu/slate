@@ -15,7 +15,7 @@ class SsiProject
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,8 @@ class SsiProject
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true, options={"default": 1})
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true,
+     *     options={"default": 1, "comment": "1: active,0:inactive", "unsigned": true})
      */
     private $statusFlag;
 

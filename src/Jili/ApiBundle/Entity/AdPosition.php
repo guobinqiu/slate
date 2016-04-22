@@ -24,7 +24,7 @@ class AdPosition
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=45)
+     * @ORM\Column(name="type", type="string", length=45, nullable=true)
      */
     private $type;
 
