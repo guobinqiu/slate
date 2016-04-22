@@ -63,7 +63,7 @@ require(['../../config'],function(){
             curPwdError.removeClass().addClass('error').html(prompt);
         }
         function savePwd(){
-            var str = $('#curPwd').val().trim();
+            var str = $.trim($('#curPwd').val());
             str = $.trim(str);
             if (str == "") {
                 eError('请输入当前密码');
@@ -73,7 +73,7 @@ require(['../../config'],function(){
                 type: "POST",
                 url: Routing.generate('_profile_changepwd'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: { curPwd: $("#curPwd").val().trim(), pwd: $("#pwd").val().trim(), pwdRepeat: $("#pwdRepeat").val().trim(), csrf_token: $("#csrf_token").val().trim()},
+                data: { curPwd: $.trim($("#curPwd").val()), pwd: $.trim($("#pwd").val()), pwdRepeat: $.trim($("#pwdRepeat").val()), csrf_token: $.trim($("#csrf_token").val())},
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
@@ -81,7 +81,7 @@ require(['../../config'],function(){
                             setTimeout(closeSlider, 3000); 
                         });
                     }else{
-                        if(msg != null && msg.trim() != ''){
+                        if(msg != null && $.trim(msg) != ''){
                             if(msg == 'Need login'){
                                 // 跳转到登录画面
                                 window.location.href = Routing.generate('_user_login');

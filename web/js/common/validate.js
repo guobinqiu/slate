@@ -295,7 +295,7 @@ define(['jquery'],function($){
             var str1 = option.value;
             var pwdStrength = $(option.prompts.elements.pwdStrength);
             var regName = $(option.prompts.elements.regName).val();
-            if((regName != undefined) && (validateRules.isNull(regName) == false) && (regName != "") && (regName.trim()) ==str1){
+            if((regName != undefined) && (validateRules.isNull(regName) == false) && (regName != "") && ($.trim(regName)) ==str1){
                 pwdStrength.hide();
                 validateSettings.error.run(option, "您的密码与昵称重合度太高，有被盗风险，请换一个密码");
                 return;
@@ -322,7 +322,7 @@ define(['jquery'],function($){
         },
         pwdRepeat: function(option) {
             var str1 = option.value;
-            var str2 = $(option.prompts.elements.pwd).val().trim();
+            var str2 = $.trim($(option.prompts.elements.pwd).val());
             var length = validateRules.betweenLength(option.value, 5, 100);
             var format2 = validateRules.isPwdRepeat(str1, str2);
             var format1 = validateRules.isPwd(str1);
@@ -432,7 +432,7 @@ define(['jquery'],function($){
             var _isNull = $("#" + id + validateSettings.isNull.container);
             var _error = $("#" + id + validateSettings.error.container);
             if (def == true) {
-                var str = ele.val().trim();
+                var str = $.trim(ele.val());
                 var tag = ele.attr("sta");
 
                 if (str == "" || str == "-1") {
@@ -469,7 +469,7 @@ define(['jquery'],function($){
                     case "password":
                         ele.bind("focus",
                             function() {
-                                var str = ele.val().trim();
+                                var str = $.trim(ele.val());
                                 if (str == def) {
                                     ele.val("");
                                 }
@@ -483,7 +483,7 @@ define(['jquery'],function($){
                                     option.onFocus, option.onFocusExpand);
                             }).bind("blur",
                             function() {
-                                var str = ele.val().trim();
+                                var str = $.trim(ele.val());
                                 if (str == "") {
                                     ele.val(def);
                                 }
@@ -513,7 +513,7 @@ define(['jquery'],function($){
                         if (rel && rel == "select") {
                             ele.bind("change",
                                 function() {
-                                    var str = ele.val().trim();
+                                    var str = $.trim(ele.val());
                                     callback({
                                         prompts: option,
                                         element: ele,

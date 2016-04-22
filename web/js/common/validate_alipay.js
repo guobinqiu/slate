@@ -15,7 +15,7 @@ define(['jquery'],function($){
                     $(_self.alipayInput).focus(function(){
                         _self.eFocus(_self.alipayInput);
                     }).blur(function(){
-                        var alipayNum = $(_self.alipayInput).val().trim();
+                        var alipayNum = $.trim($(_self.alipayInput).val());
                         if (alipayNum == "" || (_self.isAlipay(alipayNum) == false)) {
                             _self.eError(_self.alipayInput, '请输入有效的支付宝账号');
                             return false;
@@ -29,7 +29,7 @@ define(['jquery'],function($){
                     $(_self.realName).focus(function(){
                         _self.eFocus(_self.realName);
                     }).blur(function(){
-                        var name = $(_self.realName).val().trim();
+                        var name = $.trim($(_self.realName).val());
                         if (name == "" || (_self.isRealName(name) == false)) {
                             _self.eError(_self.realName, '请务必填写真实姓名与支付宝匹配，否则有可能兑换失败。');
                             return false;
@@ -44,8 +44,8 @@ define(['jquery'],function($){
                     $(alipayRepeatInput).focus(function(){
                         _self.eFocus(alipayRepeatInput);
                     }).blur(function(){
-                        var alipayNum = $(_self.alipayInput).val().trim(),
-                            alipayRepeatNum = $(alipayRepeatInput).val().trim();
+                        var alipayNum = $.trim($(_self.alipayInput).val()),
+                            alipayRepeatNum = $.trim($(alipayRepeatInput).val());
                         if(!_self.isEqual(alipayNum, alipayRepeatNum)){
                             _self.eError(alipayRepeatInput, '两次输入不一致！');
                             return false;

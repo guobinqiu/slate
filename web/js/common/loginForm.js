@@ -38,7 +38,7 @@ define(['jquery'],function($){
         },
         checkInputEmail: function(obj){
             var _self = this;
-            if(obj.type && obj.type == 'email' && !_self.isEmail($(obj.ele).val().trim())){
+            if(obj.type && obj.type == 'email' && !_self.isEmail($.trim($(obj.ele).val()))){
                 _self.eError(obj.ele, obj.prompt.isFormat);    
                 return false;
             }
