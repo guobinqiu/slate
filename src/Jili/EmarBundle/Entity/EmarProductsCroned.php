@@ -44,14 +44,14 @@ class EmarProductsCroned
     /**
      * @var string
      *
-     * @ORM\Column(name="ori_price", type="string", length=128, nullable=true, options={"default":"0.0", "comment":"参考价格，原始价格"})
+     * @ORM\Column(name="ori_price", type="string", length=128, nullable=true, options={"default":"0", "comment":"参考价格，原始价格"})
      */
     private $oriPrice;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cur_price", type="string", length=128, nullable=true, options={"default":"0.0", "comment":"实际价格，现在价格"})
+     * @ORM\Column(name="cur_price", type="string", length=128, nullable=true, options={"default":"0", "comment":"实际价格，现在价格"})
      */
     private $curPrice;
 

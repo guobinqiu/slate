@@ -43,7 +43,7 @@ class EmarRequest
     /**
      * @var string
      *
-     * @ORM\Column(name="time_consumed_total", type="decimal", precision=10, scale=4, nullable=false, options={"default":"0.0000", "comment":"使用时间之和"})
+     * @ORM\Column(name="time_consumed_total", type="decimal", precision=10, scale=4, nullable=false, options={"default":"0", "comment":"使用时间之和"})
      */
     private $timeConsumedTotal;
 

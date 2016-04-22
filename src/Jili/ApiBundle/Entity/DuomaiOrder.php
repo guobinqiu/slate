@@ -74,14 +74,14 @@ class DuomaiOrder
     /**
      * @var float
      *
-     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0.00}, options={"comment": "订单金额"})
+     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0}, options={"comment": "订单金额"})
      */
     private $ordersPrice;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0.00}, options={"comment": "siter_commission 订单佣金"})
+     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0}, options={"comment": "siter_commission 订单佣金"})
      */
     private $comm;
 
