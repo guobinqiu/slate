@@ -129,7 +129,7 @@ require(['../../config'],function(){
                 type: "POST",
                 url: Routing.generate('_profile_withdraw'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: {reason: checked, csrf_token: $.trim($("#csrf_token").val()), email: $.trim($("#withdrawPwd").val()), password: $.trim($("#withdrawEmail").val()) },
+                data: {reason: checked, csrf_token: $.trim($("#csrf_token").val()), email: $.trim($("#withdrawEmail").val()), password: $.trim($("#withdrawPwd").val()) },
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
