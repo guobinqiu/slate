@@ -666,11 +666,11 @@ body {
   margin: 0 auto;
   z-index: 10000; }
   #newguideWrap .newguide1 {
-    width: 455px;
-    height: 222px;
+    width: 531px;
+    height: 266px;
     position: absolute;
     background: url(../img/home/guide1.png) no-repeat 0 0;
-    left: 292px;
+    left: 232px;
     top: 303px; }
   #newguideWrap .newguide2 {
     width: 520px;
