@@ -207,30 +207,31 @@ $main-ad-color: #eb7020;
 		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
 		.rMes{
 			width: 160px;
-			margin: 95px auto 0;
+			margin: 84px auto 0;
 			text-align: center;
 			.rPic1{
-				width: 120px;
-				height: 86px;
+				width: 82px;
+				height: 98px;
 				display: inline-block;
-				background: url(../img/home/indexMess.png) no-repeat -120px -16px;
+				background: url(../img/home/indexMess.png) no-repeat -120px -4px;
+				margin-bottom: -12px;
 			}
 			.rPic2{
 				width: 157px;
 				height: 86px;
 				display: inline-block;
-				background: url(../img/home/indexMess.png) no-repeat -272px -21px;
+				background: url(../img/home/indexMess.png) no-repeat -252px -2px;
 			}
 			.rPic3{
-				width: 145px;
+				width: 157px;
 				height: 86px;
 				display: inline-block;
-				background: url(../img/home/indexMess.png) no-repeat -455px -21px;
+				background: url(../img/home/indexMess.png) no-repeat -456px -5px;
 			}
 			.rTit{
 				font-size: 20px;
 				color: #313035;
-				margin-top: 40px;
+				margin-top: 43px;
 				display: block;
 			}
 			.rBtn{
@@ -238,7 +239,7 @@ $main-ad-color: #eb7020;
 				@include border-radius(3px);
 				color: #ff6617;
 				border: 1px solid #ff6617;
-				margin-top: 30px;
+				margin-top: 43px;
 				display: inline-block;
 				@include transition(all, 0.1s);
 				&:hover{

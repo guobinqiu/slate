@@ -654,27 +654,28 @@ body {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); }
   .rewardlist li .rMes {
     width: 160px;
-    margin: 95px auto 0;
+    margin: 84px auto 0;
     text-align: center; }
     .rewardlist li .rMes .rPic1 {
-      width: 120px;
-      height: 86px;
+      width: 82px;
+      height: 98px;
       display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -120px -16px; }
+      background: url(../img/home/indexMess.png) no-repeat -120px -4px;
+      margin-bottom: -12px; }
     .rewardlist li .rMes .rPic2 {
       width: 157px;
       height: 86px;
       display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -272px -21px; }
+      background: url(../img/home/indexMess.png) no-repeat -252px -2px; }
     .rewardlist li .rMes .rPic3 {
-      width: 145px;
+      width: 157px;
       height: 86px;
       display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -455px -21px; }
+      background: url(../img/home/indexMess.png) no-repeat -456px -5px; }
     .rewardlist li .rMes .rTit {
       font-size: 20px;
       color: #313035;
-      margin-top: 40px;
+      margin-top: 43px;
       display: block; }
     .rewardlist li .rMes .rBtn {
       padding: 11px 25px;
@@ -685,7 +686,7 @@ body {
       -o-border-radius: 3px;
       color: #ff6617;
       border: 1px solid #ff6617;
-      margin-top: 30px;
+      margin-top: 43px;
       display: inline-block;
       transition: all 0.1s;
       -moz-transition: all 0.1s;
