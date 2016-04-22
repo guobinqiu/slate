@@ -46,7 +46,7 @@ class AdActivity
      * @var float
      *
      * @ORM\Column(name="percentage", type="decimal", precision=7, scale=2, nullable=true,
-     *     options={"default": 1.00, "comment": "比例。default: 100%"})
+     *     options={"default": 1, "comment": "比例。default: 100%"})
      */
     private $percentage;
 

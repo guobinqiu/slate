@@ -67,56 +67,56 @@ class DuomaiOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="order_time", type="datetime", options={"comment": "下单时间"})
+     * @ORM\Column(name="order_time", type="datetime", options={"comment": "下单时间", "default": "0000-00-00 00:00:00"})
      */
     private $orderTime;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0.00}, options={"comment": "订单金额"})
+     * @ORM\Column(name="orders_price", type="float", nullable=true, options={"default": 0, "comment": "订单金额"})
      */
     private $ordersPrice;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0.00}, options={"comment": "siter_commission 订单佣金"})
+     * @ORM\Column(name="comm", type="float", nullable=true, options={"default": 0, "comment": "siter_commission 订单佣金"})
      */
     private $comm;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0}, options={"comment": "订单状态  -1 无效 0 未确认 1 确认 2 结算"})
+     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0, "comment": "订单状态  -1 无效 0 未确认 1 确认 2 结算"})
      */
     private $status;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deactivated_at", type="datetime", nullable=true, options={"comment": "status= -1 的时间"})
+     * @ORM\Column(name="deactivated_at", type="datetime", nullable=true, options={"comment": "status= -1 的时间", "default": "0000-00-00 00:00:00"})
      */
     private $deactivatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirmed_at", type="datetime", nullable=true, options={"comment": "status= 1 的时间"})
+     * @ORM\Column(name="confirmed_at", type="datetime", nullable=true, options={"comment": "status= 1 的时间", "default": "0000-00-00 00:00:00"})
      */
     private $confirmedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="balanced_at", type="datetime", nullable=true, options={"comment": "status= 2 的时间"})
+     * @ORM\Column(name="balanced_at", type="datetime", nullable=true, options={"comment": "status= 2 的时间", "default": "0000-00-00 00:00:00"})
      */
     private $balancedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"comment": "status= 0 的时间"})
+     * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"comment": "status= 0 的时间", "default": "0000-00-00 00:00:00"})
      */
     private $createdAt;
 
