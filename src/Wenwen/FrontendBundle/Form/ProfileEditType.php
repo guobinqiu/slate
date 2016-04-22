@@ -72,7 +72,7 @@ class ProfileEditType extends AbstractType
             'constraints' => array (
                 new Assert\Length(array (
                     'max' => 512,
-                    'maxMessage' => '大于512个文字'
+                    'maxMessage' => '不超过512个字符'
                 ))
             )
         ));
@@ -83,7 +83,7 @@ class ProfileEditType extends AbstractType
             'constraints' => array (
                 new Assert\Length(array (
                     'max' => 64,
-                    'maxMessage' => '大于64个文字'
+                    'maxMessage' => '不超过64个字符'
                 ))
             )
         ));
@@ -94,7 +94,7 @@ class ProfileEditType extends AbstractType
             'constraints' => array (
                 new Assert\Length(array (
                     'max' => 64,
-                    'maxMessage' => '大于64个文字'
+                    'maxMessage' => '不超过64个字符'
                 ))
             )
         ));
