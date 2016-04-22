@@ -35,7 +35,7 @@ class SopRespondent
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean")
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true, options={"default": 1})
      */
     private $statusFlag;
 
@@ -49,14 +49,14 @@ class SopRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 

@@ -30,7 +30,7 @@ class UserWenwenVisit
     /**
 	* @var string
 	*
-	* @ORM\Column(name="visit_date", type="string", length=30)
+	* @ORM\Column(name="visit_date", type="string", length=20)
 	*/
     private $visitDate;
 

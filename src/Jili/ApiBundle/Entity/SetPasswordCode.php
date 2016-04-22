@@ -43,21 +43,21 @@ class SetPasswordCode
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=45)
+     * @ORM\Column(name="code", type="string", length=45, nullable=true)
      */
     private $code;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
     private $createTime;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_available", type="integer")
+     * @ORM\Column(name="is_available", type="integer", nullable=true)
      */
     private $isAvailable;
 

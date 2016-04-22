@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * RateAd
  *
- * @ORM\Table(name="rate_ad")
+ * @ORM\Table(name="rate_ad", indexes={@ORM\Index(name="fk_rate_ad_advertiserment1", columns={"ad_id"})})
  * @ORM\Entity
  */
 class RateAd

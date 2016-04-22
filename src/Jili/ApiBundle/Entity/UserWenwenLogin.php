@@ -16,21 +16,21 @@ class UserWenwenLogin
     /**
      * @var string
      *
-     * @ORM\Column(name="login_password_salt", type="text", nullable=true)
+     * @ORM\Column(name="login_password_salt", type="text", nullable=true, options={"comment": "The salt for encrypt password"})
      */
     private $loginPasswordSalt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="login_password_crypt_type", type="string", length=50, nullable=true)
+     * @ORM\Column(name="login_password_crypt_type", type="string", length=50, nullable=true, options={"comment": "the encrypt method name"})
      */
     private $loginPasswordCryptType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="login_password", type="text", nullable=true)
+     * @ORM\Column(name="login_password", type="text", nullable=true, options={"comment": "the encrypted text"})
      */
     private $loginPassword;
 
@@ -48,7 +48,7 @@ class UserWenwenLogin
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $user;

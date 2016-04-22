@@ -38,7 +38,7 @@ class CintPermission
      *
      * @ORM\Column(name="user_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $userId;
 

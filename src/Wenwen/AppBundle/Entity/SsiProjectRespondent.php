@@ -94,7 +94,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiRespondent")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id", )
+     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id")
      * })
      */
     private $ssiRespondent;
