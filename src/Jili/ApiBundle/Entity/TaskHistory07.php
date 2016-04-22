@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="task_history07")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaskHistoryRepository")
  */
-class TaskHistory07 //extends TaskHistoryBase
+class TaskHistory07
 {
     // 1:cpa, 4:checkin , 2 or 3: 小鸡找米, 5: offer-wow
     const  TASK_TYPE_ADW = 1 ; // adw CPS/CPA  TASK_TYPE_CPA is deprecated 
