@@ -15,91 +15,91 @@ class DuomaiAdvertisement implements CustomRedirectUrlInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer", nullable=false)
+     * @ORM\Column(name="ads_id", type="integer", options={"comment": "活动ID"})
      */
     private $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="ads_name", type="string", length=64, options={"comment": "活动名称"})
      */
     private $adsName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_url", type="string", length=128, options={"comment": "网址"})
      */
     private $adsUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_commission", type="string", length=64, nullable=false)
+     * @ORM\Column(name="ads_commission", type="string", length=64, options={"comment": "佣金"})
      */
     private $adsCommission;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="date", nullable=false)
+     * @ORM\Column(name="start_time", type="date", options={"comment": "活动时间(起)"})
      */
     private $startTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="date", nullable=false)
+     * @ORM\Column(name="end_time", type="date", options={"comment": "活动时间(止)"})
      */
     private $endTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=128, nullable=false)
+     * @ORM\Column(name="category", type="string", length=128, options={"comment": "活动分类"})
      */
     private $category;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="return_day", type="integer", nullable=false)
+     * @ORM\Column(name="return_day", type="integer", options={"comment": "效果认定期RD", "default": 0})
      */
     private $returnDay;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="billing_cycle", type="string", length=255, nullable=false)
+     * @ORM\Column(name="billing_cycle", type="string", length=255, nullable=false, options={"comment": "结算周期"})
      */
     private $billingCycle;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="link_custom", type="string", length=128, nullable=false)
+     * @ORM\Column(name="link_custom", type="string", length=128, nullable=false, options={"comment": "自定义链接"})
      */
     private $linkCustom;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="selected_at", type="datetime", nullable=true)
+     * @ORM\Column(name="selected_at", type="datetime", nullable=true, options={"comment": "选入cps_adver时间"})
      */
     private $selectedAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false)
+     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false, options={"comment": "更新时使用"})
      */
     private $fixedHash;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_activated", type="integer", nullable=false)
+     * @ORM\Column(name="is_activated", type="integer", nullable=false, options={"comment": "1: 使用中, 0: 不在使用", "default": 0})
      */
     private $isActivated;
 

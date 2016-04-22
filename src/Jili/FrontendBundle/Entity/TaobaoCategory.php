@@ -31,7 +31,7 @@ class TaobaoCategory
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=false, options={"default: 0"})
      */
     private $deleteFlag;
 
