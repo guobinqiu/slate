@@ -10,8 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="send_message07")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SendMessageRepository")
  */
-class SendMessage07 //extends SendMessageBase
+class SendMessage07
 {
+    const SEND_FROM_SYS = 0;
+    const READ_FLAG_UNREAD = 0;
+    const DELETE_FLAG_CREATED =0;
+
     /**
      * @var integer
      *
@@ -23,55 +27,69 @@ class SendMessage07 //extends SendMessageBase
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="sendFrom", type="integer", nullable=true)
      */
     private $sendFrom;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="sendTo", type="integer", nullable=true)
      */
     private $sendTo;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
-     * @var string
+     * @var text
+     *
+     * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="createtime", type="datetime", nullable=true)
      */
     private $createtime;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="read_flag", type="integer", nullable=true)
      */
     private $readFlag;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
-
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
+
     /**
      * Set sendFrom
      *
      * @param integer $sendFrom
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setSendFrom($sendFrom)
     {
@@ -83,18 +101,19 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get sendFrom
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendFrom()
     {
         return $this->sendFrom;
     }
 
+
     /**
      * Set sendTo
      *
      * @param integer $sendTo
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setSendTo($sendTo)
     {
@@ -106,18 +125,21 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get sendTo
      *
-     * @return integer 
+     * @return integer
      */
     public function getSendTo()
     {
         return $this->sendTo;
     }
 
+
+
+
     /**
      * Set title
      *
      * @param string $title
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setTitle($title)
     {
@@ -129,18 +151,19 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
 
+
     /**
      * Set content
      *
-     * @param string $content
-     * @return SendMessage07
+     * @param text $content
+     * @return SendMessageXX
      */
     public function setContent($content)
     {
@@ -152,7 +175,7 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get content
      *
-     * @return string 
+     * @return text
      */
     public function getContent()
     {
@@ -163,7 +186,7 @@ class SendMessage07 //extends SendMessageBase
      * Set createtime
      *
      * @param \DateTime $createtime
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setCreatetime($createtime)
     {
@@ -175,18 +198,19 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get createtime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatetime()
     {
         return $this->createtime;
     }
 
+
     /**
      * Set readFlag
      *
      * @param integer $readFlag
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setReadFlag($readFlag)
     {
@@ -198,18 +222,19 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get readFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getReadFlag()
     {
         return $this->readFlag;
     }
 
+
     /**
      * Set deleteFlag
      *
      * @param integer $deleteFlag
-     * @return SendMessage07
+     * @return SendMessageXX
      */
     public function setDeleteFlag($deleteFlag)
     {
@@ -221,10 +246,18 @@ class SendMessage07 //extends SendMessageBase
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
         return $this->deleteFlag;
+    }
+
+    public function __construct()
+    {
+        $this->setCreatetime( new \DateTime())
+            ->setSendFrom(0)
+            ->setReadFlag(0)
+            ->setDeleteFlag(0);
     }
 }

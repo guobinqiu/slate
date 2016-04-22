@@ -26,35 +26,35 @@ class PointHistory00
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="user_id", type="integer")
      */
-    protected $userId;
+    private $userId;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="point_change_num", type="integer")
      */
-    protected $pointChangeNum;
+    private $pointChangeNum;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="reason", type="integer")
      */
-    protected $reason;
+    private $reason;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
-    protected $createTime;
+    private $createTime;
 
 
     /**
