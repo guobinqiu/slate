@@ -63,14 +63,14 @@ class SendCallboard
     /**
      * @var integer
      *
-     * @ORM\Column(name="read_flag", type="integer", nullable=true)
+     * @ORM\Column(name="read_flag", type="integer", nullable=true, options={"default": 0})
      */
     private $readFlag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
      */
     private $deleteFlag;
 

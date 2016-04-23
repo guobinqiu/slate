@@ -73,7 +73,7 @@ class CpsAdvertisement
     /**
      * @var string
      *
-     * @ORM\Column(name="website_name_dictionary_key", type="string", length=1, options={"comment": "商家名称索引", "default": ""})
+     * @ORM\Column(name="website_name_dictionary_key", type="string", length=1, options={"fixed":true, "comment": "商家名称索引", "default": ""})
      */
     private $websiteNameDictionaryKey;
 

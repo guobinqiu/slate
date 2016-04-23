@@ -16,7 +16,7 @@ class UserVisitLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="target_flag", type="integer", nullable=true)
+     * @ORM\Column(name="target_flag", type="integer", length=4, nullable=true, options={"comment": "分类标志位", "default": -1})
      */
     private $targetFlag;
 
@@ -37,7 +37,7 @@ class UserVisitLog
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"comment": "创建日期"})
      */
     private $createdAt;
 

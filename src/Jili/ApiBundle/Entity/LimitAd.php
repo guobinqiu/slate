@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * LimitAd
  *
- * @ORM\Table(name="limit_ad")
+ * @ORM\Table(name="limit_ad", indexes={@ORM\Index(name="fk_limit_ad_advertiserment1", columns={"ad_id"})})
  * @ORM\Entity
  */
 class LimitAd
