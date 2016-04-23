@@ -47,7 +47,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="answer_status", type="smallint", options={"default": 1})
+     * @ORM\Column(name="answer_status", type="smallint", options={"default": 1, "comment": "0:init, 2:reopened, 5:forwarded ,11:completed"})
      */
     private $answerStatus;
 
@@ -68,7 +68,7 @@ class SsiProjectRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
 
@@ -84,7 +84,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiProject")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_project_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ssi_project_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $ssiProject;
@@ -94,7 +94,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiRespondent")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $ssiRespondent;

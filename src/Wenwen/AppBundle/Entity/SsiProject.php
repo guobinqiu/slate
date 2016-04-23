@@ -17,7 +17,7 @@ class SsiProject
      *
      * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -32,7 +32,7 @@ class SsiProject
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
 

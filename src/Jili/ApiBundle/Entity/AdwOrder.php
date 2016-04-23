@@ -134,7 +134,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_status", type="integer", length=2, nullable=false, options={"default": 0})
+     * @ORM\Column(name="order_status", type="integer", nullable=false, options={"default": 0})
      */
     private $orderStatus;
 
@@ -142,14 +142,14 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", length=1, nullable=false, options={"default": 0})
+     * @ORM\Column(name="delete_flag", type="integer", nullable=false, options={"default": 0})
      */
     private $deleteFlag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_type", type="integer", nullable=true, options={"comment":"2:合并后的order"})
+     * @ORM\Column(name="order_type", type="integer", nullable=true, options={"comment": "2:合并后的order"})
      */
     private $orderType;
 

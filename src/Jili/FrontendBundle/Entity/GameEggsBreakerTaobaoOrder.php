@@ -75,7 +75,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * @var float
      *
-     * @ORM\Column(name="order_paid", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="order_paid", type="decimal", precision=9, scale=2, nullable=false)
      */
     private $orderPaid;
 
@@ -89,7 +89,7 @@ class GameEggsBreakerTaobaoOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="audit_status", type="integer", nullable=false)
+     * @ORM\Column(name="audit_status", type="integer", nullable=false, options={"default": 0})
      */
     private $auditStatus;
 
@@ -103,14 +103,14 @@ class GameEggsBreakerTaobaoOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_valid", type="integer", nullable=false)
+     * @ORM\Column(name="is_valid", type="integer", nullable=false, options={"default": 0})
      */
     private $isValid;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_egged", type="integer", nullable=false)
+     * @ORM\Column(name="is_egged", type="integer", nullable=false, options={"default": 0})
      */
     private $isEgged;
 

@@ -30,14 +30,14 @@ class GameEggsBreakerEggsInfo
     /**
      * @var float
      *
-     * @ORM\Column(name="total_paid", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="total_paid", type="decimal", precision=9, scale=2, nullable=false)
      */
     private $totalPaid;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="offcut_for_next", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="offcut_for_next", type="decimal", precision=9, scale=2, nullable=false)
      */
     private $offcutForNext;
 

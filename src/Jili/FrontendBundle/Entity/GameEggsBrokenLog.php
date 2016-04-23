@@ -22,7 +22,7 @@ class GameEggsBrokenLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="egg_type", type="integer", length=2, nullable=false, options={"default": 0})
+     * @ORM\Column(name="egg_type", type="integer", nullable=false, options={"default": 0})
      */
     private $eggType;
 

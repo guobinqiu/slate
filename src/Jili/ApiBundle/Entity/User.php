@@ -74,7 +74,7 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(name="token", type="string", length=32)
+     * @ORM\Column(name="token", type="string", length=32, options={"default": "", "comment": "remember me cookie token "})
      */
     private $token;
 
@@ -95,7 +95,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="sex", type="boolean", nullable=true)
+     * @ORM\Column(name="sex", type="integer", nullable=true)
      */
     private $sex;
 

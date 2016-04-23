@@ -16,7 +16,7 @@ class UserVisitLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="target_flag", type="integer", length=4, nullable=true, options={"comment": "分类标志位", "default": -1})
+     * @ORM\Column(name="target_flag", type="integer", nullable=true, options={"comment": "分类标志位", "default": -1})
      */
     private $targetFlag;
 
