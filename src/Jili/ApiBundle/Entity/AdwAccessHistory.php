@@ -42,7 +42,7 @@ class AdwAccessHistory
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="access_time", type="datetime")
+     * @ORM\Column(name="access_time", type="datetime", nullable=true)
      */
     private $accessTime;
 

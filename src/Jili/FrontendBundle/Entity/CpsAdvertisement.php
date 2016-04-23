@@ -7,7 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CpsAdvertisement
  *
- * @ORM\Table(name="cps_advertisement", uniqueConstraints={@ORM\UniqueConstraint(name="ad_id", columns={"ad_category_id", "ad_id", "is_activated"}), @ORM\UniqueConstraint(name="website_host", columns={"website_host", "is_activated"})}, indexes={@ORM\Index(name="website_name_dictionary_key", columns={"website_name_dictionary_key"})})
+ * @ORM\Table(name="cps_advertisement",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="ad_id", columns={"ad_category_id", "ad_id", "is_activated"}),
+ *         @ORM\UniqueConstraint(name="website_host", columns={"website_host", "is_activated"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="website_name_dictionary_key", columns={"website_name_dictionary_key"})
+ *     }
+ * )
+ *
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\CpsAdvertisementRepository")
  */
 class CpsAdvertisement
@@ -15,84 +24,84 @@ class CpsAdvertisement
     /**
      * @var integer
      *
-     * @ORM\Column(name="ad_category_id", type="integer", nullable=false)
+     * @ORM\Column(name="ad_category_id", type="integer", options={"comment": "FK to ad_category"})
      */
     private $adCategoryId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="ad_id", type="integer", options={"comment": "FK to XXX_advertisement"})
      */
     private $adId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=64, nullable=false)
+     * @ORM\Column(name="title", type="string", length=64, options={"comment": "活动名称"})
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="marketing_url", type="text", nullable=false)
+     * @ORM\Column(name="marketing_url", type="text", options={"comment": "推广链接,(cps平台的url)"})
      */
     private $marketingUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_url", type="string", length=128, options={"comment": "活动目标地址"})
      */
     private $adsUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission", type="string", length=100, nullable=true, options={"comment": "返利详情", "default": ""})
      */
     private $commission;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="website_name", type="string", length=64, options={"comment": "商家名称"})
      */
     private $websiteName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website_name_dictionary_key", type="string", length=1, nullable=false)
+     * @ORM\Column(name="website_name_dictionary_key", type="string", length=1, options={"fixed":true, "comment": "商家名称索引", "default": ""})
      */
     private $websiteNameDictionaryKey;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website_category", type="string", length=128, nullable=false)
+     * @ORM\Column(name="website_category", type="string", length=128, options={"comment": "活动分类"})
      */
     private $websiteCategory;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="website_host", type="string", length=128, nullable=false)
+     * @ORM\Column(name="website_host", type="string", length=128, options={"comment": "活动地址(商家名)的域名，用于找logo"})
      */
     private $websiteHost;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="selected_at", type="datetime", nullable=true)
+     * @ORM\Column(name="selected_at", type="datetime", nullable=true, options={"comment": "选入cps_adver时间"})
      */
     private $selectedAt;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_activated", type="integer", nullable=false)
+     * @ORM\Column(name="is_activated", type="integer", options={"comment": "1: 使用中, 0: 不在使用 , 2: 丢弃", "default": 0})
      */
     private $isActivated;
 

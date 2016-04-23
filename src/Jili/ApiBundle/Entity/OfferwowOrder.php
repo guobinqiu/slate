@@ -57,14 +57,14 @@ class OfferwowOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="status", type="integer", options={"default": 0})
      */
     private $status;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="delete_flag", type="integer", options={"default": 0})
      */
     private $deleteFlag;
 

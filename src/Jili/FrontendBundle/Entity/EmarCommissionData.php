@@ -15,63 +15,63 @@ class EmarCommissionData extends CommissionDataBase
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_id", type="integer", nullable=false)
+     * @ORM\Column(name="commission_id", type="integer", nullable=false, options={"comment":"FK"})
      */
     private $commissionId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false)
+     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false, options={"comment":"佣金序号"})
      */
     private $commissionSerialNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true)
+     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true, options={"default":"", "comment":"佣金类目"})
      */
     private $commissionName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission", type="string", length=100, nullable=true, options={"default":"", "comment":"佣金"})
      */
     private $commission;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true, options={"default":"", "comment":"佣金周期"})
      */
     private $commissionPeriod;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="product_apply_to", type="string", length=100, nullable=true)
+     * @ORM\Column(name="product_apply_to", type="string", length=100, nullable=true, options={"default":"", "comment":"适用商品"})
      */
     private $productApplyTo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true, options={"comment":"详细说明"})
      */
     private $description;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"comment":"写入时间"})
      */
     private $createdAt;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

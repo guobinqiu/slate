@@ -17,49 +17,50 @@ class AdActivity
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=127, nullable=true)
+     * @ORM\Column(name="title", type="string", length=127, nullable=true, options={"comment": "活动标题"})
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true, options={"comment": "活动内容描述"})
      */
     private $description;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="started_at", type="datetime")
+     * @ORM\Column(name="started_at", type="datetime", options={"comment": "活动开始时间"})
      */
     private $startedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="finished_at", type="datetime")
+     * @ORM\Column(name="finished_at", type="datetime", options={"comment": "结束时间"})
      */
     private $finishedAt;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="percentage", type="float", nullable=true, options={"default": 1.00})
+     * @ORM\Column(name="percentage", type="decimal", precision=7, scale=2, nullable=true,
+     *     options={"default": 1, "comment": "比例。default: 100%"})
      */
     private $percentage;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default": 0})
+     * @ORM\Column(name="is_deleted", type="boolean", options={"default": 0, "comment": "1: 失效; 0: 有效"})
      */
     private $isDeleted;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_hidden", type="boolean")
+     * @ORM\Column(name="is_hidden", type="boolean", options={"default":0, "comment": "0: 显示; 1: 隐藏"})
      */
     private $isHidden;
 

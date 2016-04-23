@@ -70,7 +70,7 @@ class AdCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="asp", type="string", length=64, nullable=true)
+     * @ORM\Column(name="asp", type="string", length=64, nullable=true, options={"comment": "平台供应商"})
      */
     private $asp;
 

@@ -7,33 +7,51 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PointHistory04
  *
- * @ORM\Table(name="point_history04")
+ * @ORM\Table(name="point_history04", indexes={@ORM\Index(name="fk_point_history_00_user", columns={"user_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
-class PointHistory04 //extends PointHistoryBase
+class PointHistory04
 {
+
+    public function __construct()
+    {
+        $this->createTime = new \DateTime();
+    }
+
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="point_change_num", type="integer")
      */
     private $pointChangeNum;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="reason", type="integer")
      */
     private $reason;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
     private $createTime;
 
@@ -41,7 +59,7 @@ class PointHistory04 //extends PointHistoryBase
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -52,7 +70,7 @@ class PointHistory04 //extends PointHistoryBase
      * Set userId
      *
      * @param integer $userId
-     * @return PointHistory04
+     * @return PointHistoryXX
      */
     public function setUserId($userId)
     {
@@ -64,7 +82,7 @@ class PointHistory04 //extends PointHistoryBase
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -75,7 +93,7 @@ class PointHistory04 //extends PointHistoryBase
      * Set pointChangeNum
      *
      * @param integer $pointChangeNum
-     * @return PointHistory04
+     * @return PointHistoryXX
      */
     public function setPointChangeNum($pointChangeNum)
     {
@@ -87,7 +105,7 @@ class PointHistory04 //extends PointHistoryBase
     /**
      * Get pointChangeNum
      *
-     * @return integer 
+     * @return integer
      */
     public function getPointChangeNum()
     {
@@ -98,7 +116,7 @@ class PointHistory04 //extends PointHistoryBase
      * Set reason
      *
      * @param integer $reason
-     * @return PointHistory04
+     * @return PointHistoryXX
      */
     public function setReason($reason)
     {
@@ -110,18 +128,19 @@ class PointHistory04 //extends PointHistoryBase
     /**
      * Get reason
      *
-     * @return integer 
+     * @return integer
      */
     public function getReason()
     {
         return $this->reason;
     }
 
+
     /**
      * Set createTime
      *
      * @param \DateTime $createTime
-     * @return PointHistory04
+     * @return PointHistoryXX
      */
     public function setCreateTime($createTime)
     {
@@ -133,10 +152,12 @@ class PointHistory04 //extends PointHistoryBase
     /**
      * Get createTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreateTime()
     {
         return $this->createTime;
     }
+
+
 }

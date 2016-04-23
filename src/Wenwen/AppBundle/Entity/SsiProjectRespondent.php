@@ -7,7 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SsiProjectRespondent
  *
- * @ORM\Table(name="ssi_project_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="ssi_respondent_uniq", columns={"ssi_project_id", "ssi_respondent_id"})}, indexes={@ORM\Index(name="ssi_project_mail_batch_idx", columns={"ssi_project_id", "ssi_mail_batch_id"}), @ORM\Index(name="ssi_respondent_idx", columns={"ssi_respondent_id"}), @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"}), @ORM\Index(name="IDX_DCEFA6E9EBD1F782", columns={"ssi_project_id"})})
+ * @ORM\Table(name="ssi_project_respondent",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="ssi_respondent_uniq", columns={"ssi_project_id", "ssi_respondent_id"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="ssi_project_mail_batch_idx", columns={"ssi_project_id", "ssi_mail_batch_id"}),
+ *         @ORM\Index(name="ssi_respondent_idx", columns={"ssi_respondent_id"}),
+ *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class SsiProjectRespondent
@@ -15,7 +24,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,21 +33,21 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="ssi_mail_batch_id", type="integer", nullable=false)
+     * @ORM\Column(name="ssi_mail_batch_id", type="integer")
      */
     private $ssiMailBatchId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="start_url_id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="start_url_id", type="string", length=255)
      */
     private $startUrlId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="answer_status", type="smallint", nullable=false)
+     * @ORM\Column(name="answer_status", type="smallint", options={"default": 1, "comment": "0:init, 2:reopened, 5:forwarded ,11:completed"})
      */
     private $answerStatus;
 
@@ -59,7 +68,7 @@ class SsiProjectRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
 
@@ -75,7 +84,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiProject")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_project_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ssi_project_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $ssiProject;
@@ -85,7 +94,7 @@ class SsiProjectRespondent
      *
      * @ORM\ManyToOne(targetEntity="Wenwen\AppBundle\Entity\SsiRespondent")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="ssi_respondent_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $ssiRespondent;

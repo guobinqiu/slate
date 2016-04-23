@@ -14,28 +14,28 @@ class CommissionBase
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer", nullable=false)
+     * @ORM\Column(name="ads_id", type="integer", options={"comment": "活动ID"})
      */
     protected $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false)
+     * @ORM\Column(name="fixed_hash", type="string", length=64, options={"comment": "更新时使用"})
      */
     protected $fixedHash;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_activated", type="integer", nullable=false)
+     * @ORM\Column(name="is_activated", type="integer", options={"comment": "1: 使用中, 0: 不在使用", "default": 0})
      */
     protected $isActivated;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", options={"comment": "写入时间"})
      */
     protected $createdAt;
 

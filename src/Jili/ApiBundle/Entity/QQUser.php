@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * QQUser
  *
- * @ORM\Table(name="qq_user")
+ * @ORM\Table(name="qq_user",
+ *     indexes={
+ *         @ORM\Index(name="userid_index", columns={"user_id"}),
+ *         @ORM\Index(name="openid_index", columns={"open_id"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\QQUserRepository")
  */
 class QQUser
@@ -31,7 +36,7 @@ class QQUser
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string")
+     * @ORM\Column(name="open_id", type="string", nullable=true)
      */
     private $openId;
 

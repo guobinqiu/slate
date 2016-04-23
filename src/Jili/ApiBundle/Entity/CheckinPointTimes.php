@@ -50,7 +50,7 @@ class CheckinPointTimes
     /**
      * @var integer
      *
-     * @ORM\Column(name="checkin_type", type="integer", nullable=true, options={"default": 1})
+     * @ORM\Column(name="checkin_type", type="boolean", options={"default": 1})
      */
     private $checkinType;
 

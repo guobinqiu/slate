@@ -29,14 +29,14 @@ class Offer99Order
     /**
      * @var string
      *
-     * @ORM\Column(name="tid", type="string", length=100)
+     * @ORM\Column(name="tid", type="string", length=100, nullable=true)
      */
     private $tid;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="delete_flag", type="integer", options={"default": 0})
      */
     private $deleteFlag;
 

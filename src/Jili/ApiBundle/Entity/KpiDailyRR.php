@@ -6,7 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * KpiDailyRR
  *
- * @ORM\Table(name="kpi_daily_RR")
+ * @ORM\Table(name="kpi_daily_RR",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="kpi_YMD", columns={"kpi_YMD", "RR_day"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\KpiDailyRRRepository")
  */
 class KpiDailyRR
@@ -37,28 +41,28 @@ class KpiDailyRR
     /**
      * @var integer
      *
-     * @ORM\Column(name="RR_day", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="RR_day", type="integer", options={"default": 0})
      */
     private $RRday;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="register_user", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="register_user", type="integer", options={"default": 0})
      */
     private $registerUser;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="active_user", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="active_user", type="integer", options={"default": 0})
      */
     private $activeUser;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="RR", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="RR", type="integer", options={"default": 0})
      */
     private $RR;
 

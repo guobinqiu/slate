@@ -43,7 +43,7 @@ class CheckinClickList
     /**
      * @var integer
      *
-     * @ORM\Column(name="open_shop_times", type="integer")
+     * @ORM\Column(name="open_shop_times", type="integer", options={"comment": "点击的数量"})
      */
     private $openShopTimes;
 

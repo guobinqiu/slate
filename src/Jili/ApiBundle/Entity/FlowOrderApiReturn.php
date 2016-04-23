@@ -22,7 +22,7 @@ class FlowOrderApiReturn
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(name="content", type="text", options={"comment": "推送内容"})
      */
     private $content;
 

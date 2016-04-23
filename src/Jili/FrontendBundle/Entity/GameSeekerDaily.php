@@ -22,21 +22,21 @@ class GameSeekerDaily
     /**
      * @var integer
      *
-     * @ORM\Column(name="points", type="integer", nullable=false)
+     * @ORM\Column(name="points", type="integer", nullable=false, options={"default": -1})
      */
     private $points;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="clicked_day", type="date", nullable=false)
+     * @ORM\Column(name="clicked_day", type="date", nullable=false, options={"comment": "YYYY-mm-dd"})
      */
     private $clickedDay;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=32, nullable=false)
+     * @ORM\Column(name="token", type="string", length=32, nullable=false, options={"comment": "每次请求重新生成"})
      */
     private $token;
 

@@ -41,14 +41,15 @@ class CheckinAdverList
     /**
      * @var integer
      *
-     * @ORM\Column(name="inter_space", type="integer")
+     * @ORM\Column(name="inter_space", type="integer", options={"comment": "间隙"})
      */
     private $interSpace;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="operation_method", type="integer", nullable=true, options={"default": 0})
+     * @ORM\Column(name="operation_method", type="integer", nullable=true,
+     *     options={"default": 0, "comment": "3: manual, 5:auto, 0 or 15: all "})
      */
     private $operationMethod;
 

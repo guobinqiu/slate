@@ -67,7 +67,7 @@ class PointsExchange
     /**
      * @var string
      *
-     * @ORM\Column(name="real_name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="real_name", type="string", length=50, nullable=true)
      */
     private $realName;
 
@@ -88,7 +88,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_item_number", type="integer")
+     * @ORM\Column(name="exchange_item_number", type="integer", nullable=true)
      */
     private $exchangeItemNumber;
     /**
@@ -101,7 +101,7 @@ class PointsExchange
     /**
      * @var string
      *
-     * @ORM\Column(name="ip", type="string", length=20)
+     * @ORM\Column(name="ip", type="string", length=20, nullable=true)
      */
     private $ip;
 

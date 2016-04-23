@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TaobaoSelfPromotionProducts
  *
- * @ORM\Table(name="taobao_self_promotion_products", indexes={@ORM\Index(name="taobao_category_id", columns={"taobao_category_id"})})
+ * @ORM\Table(name="taobao_self_promotion_products",
+ *     indexes={@ORM\Index(name="taobao_category_id", columns={"taobao_category_id"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\TaobaoSelfPromotionProductsRepository")
  */
 class TaobaoSelfPromotionProducts
@@ -22,14 +23,14 @@ class TaobaoSelfPromotionProducts
     /**
      * @var float
      *
-     * @ORM\Column(name="price", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="price", type="decimal", precision=9, scale=2, options={"default": 0})
      */
     private $price;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="price_promotion", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="price_promotion", type="decimal", precision=9, scale=2, options={"default": 0})
      */
     private $pricePromotion;
 
@@ -43,28 +44,28 @@ class TaobaoSelfPromotionProducts
     /**
      * @var string
      *
-     * @ORM\Column(name="click_url", type="text", nullable=false)
+     * @ORM\Column(name="click_url", type="text")
      */
     private $clickUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="picture_name", type="string", length=64, nullable=true)
+     * @ORM\Column(name="picture_name", type="string", length=64)
      */
     private $pictureName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="comment_description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="comment_description", type="string", length=255, nullable=true, options={"default": ""})
      */
     private $commentDescription;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="promotion_rate", type="float", precision=9, scale=2, nullable=false)
+     * @ORM\Column(name="promotion_rate", type="decimal", precision=9, scale=2, options={"default": 0})
      */
     private $promotionRate;
 
@@ -96,7 +97,7 @@ class TaobaoSelfPromotionProducts
      *
      * @ORM\ManyToOne(targetEntity="Jili\FrontendBundle\Entity\TaobaoCategory")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="taobao_category_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="taobao_category_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $taobaoCategory;
