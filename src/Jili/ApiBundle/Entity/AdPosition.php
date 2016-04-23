@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AdPosition
  *
- * @ORM\Table(name="ad_position")
+ * @ORM\Table(name="ad_position", indexes={@ORM\Index(name="fk_ad_position_advertiserment1", columns={"ad_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdPositionRepository")
  */
 class AdPosition
