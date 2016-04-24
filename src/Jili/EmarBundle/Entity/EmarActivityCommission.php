@@ -15,91 +15,91 @@ class EmarActivityCommission
     /**
      * @var integer
      *
-     * @ORM\Column(name="activity_id", type="integer", nullable=false)
+     * @ORM\Column(name="activity_id", type="integer", nullable=false, options={"comment":"活动ID"})
      */
     private $activityId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="activity_name", type="string", length=100, nullable=true)
+     * @ORM\Column(name="activity_name", type="string", length=100, nullable=true, options={"comment":"活动名称"})
      */
     private $activityName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="activity_category", type="string", length=100, nullable=true)
+     * @ORM\Column(name="activity_category", type="string", length=100, nullable=true, options={"comment":"活动分类"})
      */
     private $activityCategory;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_id", type="integer", nullable=false)
+     * @ORM\Column(name="commission_id", type="integer", nullable=false, options={"comment":"佣金序号"})
      */
     private $commissionId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_number", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission_number", type="string", length=100, nullable=true, options={"comment":"佣金编号"})
      */
     private $commissionNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true)
+     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true, options={"comment":"佣金名称"})
      */
     private $commissionName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission", type="string", length=100, nullable=true, options={"comment":"佣金"})
      */
     private $commission;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true, options={"comment":"佣金周期"})
      */
     private $commissionPeriod;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="apply_products", type="string", length=200, nullable=true)
+     * @ORM\Column(name="apply_products", type="string", length=200, nullable=true, options={"comment":"佣金适用商品"})
      */
     private $applyProducts;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true, options={"comment":"说明"})
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mall_name", type="string", length=100, nullable=true)
+     * @ORM\Column(name="mall_name", type="string", length=100, nullable=true, options={"comment":"商城名"})
      */
     private $mallName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rebate_type", type="integer", nullable=true)
+     * @ORM\Column(name="rebate_type", type="integer", nullable=true, options={"comment":"佣金比率类型"})
      */
     private $rebateType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="rebate", type="string", length=10, nullable=true)
+     * @ORM\Column(name="rebate", type="string", length=10, nullable=true, options={"comment":"佣金比率"})
      */
     private $rebate;
 

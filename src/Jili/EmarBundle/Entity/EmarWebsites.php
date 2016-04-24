@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EmarWebsites
  *
- * @ORM\Table(name="emar_websites", indexes={@ORM\Index(name="web_catid", columns={"web_catid"})})
+ * @ORM\Table(name="emar_websites", uniqueConstraints={@ORM\UniqueConstraint(name="web_id", columns={"web_id"})}, indexes={@ORM\Index(name="web_catid", columns={"web_catid"})})
  * @ORM\Entity(repositoryClass="Jili\EmarBundle\Repository\EmarWebsitesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -16,70 +16,70 @@ class EmarWebsites
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_id", type="integer", nullable=false)
+     * @ORM\Column(name="web_id", type="integer", nullable=false, options={"comment":"商家网站的站点ID"})
      */
     private $webId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_catid", type="integer", nullable=true)
+     * @ORM\Column(name="web_catid", type="integer", nullable=true, options={"comment":"商家网站所属分类的分类id"})
      */
     private $webCatid;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=128, nullable=true)
+     * @ORM\Column(name="commission", type="string", length=128, nullable=true, options={"default":"", "comment":" 推广佣金比例信息"})
      */
     private $commission;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=true)
+     * @ORM\Column(name="is_deleted", type="boolean", nullable=true, options={"default":0, "comment":"是否已经弃用, 0:末弃用"})
      */
     private $isDeleted;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer", nullable=false)
+     * @ORM\Column(name="position", type="integer", nullable=true, options={"default":NULL, "comment":"商家网站显示的顺序"})
      */
     private $position;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_hidden", type="boolean", nullable=true)
+     * @ORM\Column(name="is_hidden", type="boolean", nullable=true, options={"default":1, "comment":"是否不显示, 1:不用做页面显示"})
      */
     private $isHidden;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_hot", type="boolean", nullable=false)
+     * @ORM\Column(name="is_hot", type="boolean", nullable=true, options={"default":0, "comment":"是否为热卖商家"})
      */
     private $isHot;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="hot_at", type="datetime", nullable=true)
+     * @ORM\Column(name="hot_at", type="datetime", nullable=false, options={"default":"0000-00-00 00:00:00", "comment":"热卖商家 排序"})
      */
     private $hotAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false, options={"default":"0000-00-00 00:00:00"})
      */
     private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"default":"0000-00-00 00:00:00"})
      */
     private $createdAt;
 

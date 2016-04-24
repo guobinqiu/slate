@@ -10,7 +10,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * ActivityGatheringTaobaoOrder
  *
- * @ORM\Table(name="activity_gathering_taobao_order", uniqueConstraints={@ORM\UniqueConstraint(name="user_order", columns={"user_id", "order_identity"})}, indexes={@ORM\Index(name="IDX_93358419A76ED395", columns={"user_id"})})
+ * @ORM\Table(name="activity_gathering_taobao_order",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="user_order", columns={"user_id", "order_identity"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="IDX_93358419A76ED395", columns={"user_id"})
+ *     }
+ * )
+ *
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\ActivityGatheringTaobaoOrderRepository")
  *
  * @UniqueEntity(
@@ -25,7 +33,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="order_identity", type="string", length=255, nullable=false)
+     * @ORM\Column(name="order_identity", type="string", length=255)
      *
      * @Assert\Regex(
      *     pattern="/^\d{15,16}$/",
@@ -62,7 +70,7 @@ class ActivityGatheringTaobaoOrder
      *
      * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
      */
     private $user;

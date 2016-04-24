@@ -22,49 +22,49 @@ class GameSeekerPointsPool
     /**
      * @var integer
      *
-     * @ORM\Column(name="points", type="integer", nullable=false)
+     * @ORM\Column(name="points", type="integer", options={"comment": "每次发放的积分"})
      */
     private $points;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="send_frequency", type="integer", nullable=false)
+     * @ORM\Column(name="send_frequency", type="integer", options={"comment": "发放的频率"})
      */
     private $sendFrequency;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_published", type="boolean", nullable=false)
+     * @ORM\Column(name="is_published", type="boolean", options={"comment": "是否已经发布,1: wrote into cache file,   "})
      */
     private $isPublished;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="published_at", type="datetime", nullable=false)
+     * @ORM\Column(name="published_at", type="datetime", options={"comment": "发布日期, auto publish"})
      */
     private $publishedAt;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_valid", type="boolean", nullable=false)
+     * @ORM\Column(name="is_valid", type="boolean", options={"comment": "是否生效, default 0"})
      */
     private $isValid;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime", options={"comment": "更新日期, if has latest updated_at than cache ,do auto publish"})
      */
     private $updatedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", options={"comment": "创建日期"})
      */
     private $createdAt;
 

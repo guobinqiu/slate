@@ -16,7 +16,7 @@ class RegisterReward
      /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -39,7 +39,7 @@ class RegisterReward
      /**
      * @var int
      *
-     * @ORM\Column(name="rewards", type="integer")
+     * @ORM\Column(name="rewards", type="integer", nullable=true)
      */
     private $rewards;
 

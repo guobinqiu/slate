@@ -7,7 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * WeiBoUser
  *
- * @ORM\Table(name="weibo_user", indexes={@ORM\Index(name="user_id", columns={"user_id"})},indexes={@ORM\Index(name="open_id", columns={"open_id"})}  )
+ * @ORM\Table(name="weibo_user",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="open_id_uniq", columns={"open_id"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="user_id_idx", columns={"user_id"})
+ *     }
+ * )
+ *
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\WeiBoUserRepository")
  */
 class WeiBoUser
@@ -21,7 +29,7 @@ class WeiBoUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -30,21 +38,21 @@ class WeiBoUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", options={"comment":"jili用户id"})
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string",unique=true)
+     * @ORM\Column(name="open_id", type="string", nullable=true, options={"comment":"微博id唯一标识"})
      */
     private $openId;
 
      /**
      * @var datetime $registDate
      *
-     * @ORM\Column(name="regist_date", type="datetime", nullable=true)
+     * @ORM\Column(name="regist_date", type="datetime", nullable=true, options={"comment":"注册日期"})
      */
     private $registDate;
     
@@ -123,6 +131,16 @@ class WeiBoUser
      * @return \DateTime
      */
     public function getRegistrDate()
+    {
+        return $this->registDate;
+    }
+
+    /**
+     * Get registDate
+     *
+     * @return \DateTime 
+     */
+    public function getRegistDate()
     {
         return $this->registDate;
     }

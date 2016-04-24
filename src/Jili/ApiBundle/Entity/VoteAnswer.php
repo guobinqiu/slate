@@ -15,21 +15,21 @@ class VoteAnswer
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="vote_id", type="integer", nullable=false)
+     * @ORM\Column(name="vote_id", type="integer")
      */
     private $voteId;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="answer_number", type="boolean", nullable=false)
+     * @ORM\Column(name="answer_number", type="boolean")
      */
     private $answerNumber;
 

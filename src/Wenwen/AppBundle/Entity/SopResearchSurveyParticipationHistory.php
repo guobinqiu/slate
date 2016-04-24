@@ -15,28 +15,28 @@ class SopResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="partner_app_project_id", type="integer", nullable=false)
+     * @ORM\Column(name="partner_app_project_id", type="integer")
      */
     private $partnerAppProjectId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="partner_app_project_quota_id", type="integer", nullable=false)
+     * @ORM\Column(name="partner_app_project_quota_id", type="integer")
      */
     private $partnerAppProjectQuotaId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="app_member_id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="app_member_id", type="string", length=255)
      */
     private $appMemberId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="point", type="integer", nullable=false)
+     * @ORM\Column(name="point", type="integer", options={"default": 0})
      */
     private $point;
 

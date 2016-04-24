@@ -32,14 +32,14 @@ class Vote
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="datetime", nullable=false)
+     * @ORM\Column(name="start_time", type="datetime")
      */
     private $startTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="datetime", nullable=false)
+     * @ORM\Column(name="end_time", type="datetime")
      */
     private $endTime;
 

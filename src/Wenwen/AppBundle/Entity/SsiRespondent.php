@@ -23,7 +23,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -32,7 +32,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", options={"unsigned": true})
      */
     private $userId;
 
@@ -49,7 +49,8 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="status_flag", type="smallint", nullable=true)
+     * @ORM\Column(name="status_flag", type="smallint", nullable=true,
+     *     options={"unsigned": true, "default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
      */
     private $statusFlag;
 
@@ -63,7 +64,7 @@ class SsiRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
 

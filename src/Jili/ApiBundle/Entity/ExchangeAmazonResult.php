@@ -19,7 +19,7 @@ class ExchangeAmazonResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -28,49 +28,49 @@ class ExchangeAmazonResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_id", type="integer")
+     * @ORM\Column(name="exchange_id", type="integer", nullable=true)
      */
     private $exchangeId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amazonCard_one", type="string", length=50)
+     * @ORM\Column(name="amazonCard_one", type="string", length=50, nullable=true)
      */
     private $amazonCardOne;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amazonCard_two", type="string", length=50)
+     * @ORM\Column(name="amazonCard_two", type="string", length=50, nullable=true)
      */
     private $amazonCardTwo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amazonCard_three", type="string", length=50)
+     * @ORM\Column(name="amazonCard_three", type="string", length=50, nullable=true)
      */
     private $amazonCardThree;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amazonCard_four", type="string", length=50)
+     * @ORM\Column(name="amazonCard_four", type="string", length=50, nullable=true)
      */
     private $amazonCardFour;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="amazonCard_five", type="string", length=50)
+     * @ORM\Column(name="amazonCard_five", type="string", length=50, nullable=true)
      */
     private $amazonCardFive;
 
      /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createtime", type="datetime")
+     * @ORM\Column(name="createtime", type="datetime", nullable=true)
      */
     private $createtime;
 

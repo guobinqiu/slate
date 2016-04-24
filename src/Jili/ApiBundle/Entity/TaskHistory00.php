@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="task_history00")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\TaskHistoryRepository")
  */
-class TaskHistory00
+class TaskHistory00 
 {
     // 1:cpa, 4:checkin , 2 or 3: 小鸡找米, 5: offer-wow
     const  TASK_TYPE_ADW = 1 ; // adw CPS/CPA  TASK_TYPE_CPA is deprecated 
@@ -23,20 +23,21 @@ class TaskHistory00
     const  TASK_TYPE_DUOMAI  = 8;  // 多麦
     const  TASK_TYPE_SURVEY = 9;  // 问卷
 
-// const STATUS_SUCCEED = 1; // 完成状态，积分已发.
+    // const STATUS_SUCCEED = 1; // 完成状态，积分已发.
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_id", type="integer")
+     * @ORM\Column(name="order_id", type="integer", nullable=true, options={"default": 0})
      */
     private $orderId;
 
@@ -71,14 +72,14 @@ class TaskHistory00
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_percent", type="float",nullable=true)
+     * @ORM\Column(name="reward_percent", type="float", nullable=true)
      */
     private $rewardPercent;
 
      /**
      * @var integer
      *
-     * @ORM\Column(name="point", type="integer")
+     * @ORM\Column(name="point", type="integer", nullable=true)
      */
     private $point;
 
@@ -92,7 +93,7 @@ class TaskHistory00
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
 
@@ -107,13 +108,12 @@ class TaskHistory00
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
         return $this->id;
     }
-
 
     /**
      * Set orderId
@@ -131,7 +131,7 @@ class TaskHistory00
     /**
      * Get orderId
      *
-     * @return integer
+     * @return integer 
      */
     public function getOrderId()
     {
@@ -154,13 +154,12 @@ class TaskHistory00
     /**
      * Get userId
      *
-     * @return integer
+     * @return integer 
      */
     public function getUserId()
     {
         return $this->userId;
     }
-
 
     /**
      * Set taskType
@@ -178,15 +177,14 @@ class TaskHistory00
     /**
      * Get taskType
      *
-     * @return integer
+     * @return integer 
      */
     public function getTaskType()
     {
         return $this->taskType;
     }
 
-
-     /**
+    /**
      * Set categoryType
      *
      * @param integer $categoryType
@@ -202,7 +200,7 @@ class TaskHistory00
     /**
      * Get categoryType
      *
-     * @return integer
+     * @return integer 
      */
     public function getCategoryType()
     {
@@ -225,14 +223,14 @@ class TaskHistory00
     /**
      * Get taskName
      *
-     * @return string
+     * @return string 
      */
     public function getTaskName()
     {
         return $this->taskName;
     }
 
-     /**
+    /**
      * Set rewardPercent
      *
      * @param float $rewardPercent
@@ -248,13 +246,12 @@ class TaskHistory00
     /**
      * Get rewardPercent
      *
-     * @return float
+     * @return float 
      */
     public function getRewardPercent()
     {
         return $this->rewardPercent;
     }
-
 
     /**
      * Set point
@@ -272,7 +269,7 @@ class TaskHistory00
     /**
      * Get point
      *
-     * @return integer
+     * @return integer 
      */
     public function getPoint()
     {
@@ -295,15 +292,14 @@ class TaskHistory00
     /**
      * Get ocdCreatedDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getOcdCreatedDate()
     {
         return $this->ocdCreatedDate;
     }
 
-
-     /**
+    /**
      * Set date
      *
      * @param \DateTime $date
@@ -319,7 +315,7 @@ class TaskHistory00
     /**
      * Get date
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getDate()
     {
@@ -342,16 +338,10 @@ class TaskHistory00
     /**
      * Get status
      *
-     * @return integer
+     * @return integer 
      */
     public function getStatus()
     {
         return $this->status;
     }
-
-
-
-
-
-
 }

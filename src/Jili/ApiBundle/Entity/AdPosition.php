@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AdPosition
  *
- * @ORM\Table(name="ad_position")
+ * @ORM\Table(name="ad_position", indexes={@ORM\Index(name="fk_ad_position_advertiserment1", columns={"ad_id"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\AdPositionRepository")
  */
 class AdPosition
@@ -15,7 +15,7 @@ class AdPosition
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -31,14 +31,14 @@ class AdPosition
     /**
      * @var integer
      *
-     * @ORM\Column(name="position", type="integer", nullable=true)
+     * @ORM\Column(name="position", type="integer")
      */
     private $position;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="ad_id", type="integer")
      */
     private $adId;
 

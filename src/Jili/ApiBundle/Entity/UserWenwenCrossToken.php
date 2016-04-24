@@ -15,14 +15,14 @@ class UserWenwenCrossToken
     /**
      * @var integer
      *
-     * @ORM\Column(name="cross_id", type="integer", nullable=false)
+     * @ORM\Column(name="cross_id", type="integer")
      */
     private $crossId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=64, nullable=false)
+     * @ORM\Column(name="token", type="string", length=64)
      */
     private $token;
 

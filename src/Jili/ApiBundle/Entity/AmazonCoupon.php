@@ -16,7 +16,7 @@ class AmazonCoupon
      /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -25,21 +25,21 @@ class AmazonCoupon
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\Column(name="user_id", type="integer", nullable=true)
      */
     private $userid;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="coupon_od", type="string" ,length=50)
+     * @ORM\Column(name="coupon_od", type="string" ,length=50, nullable=true)
      */
     private $couponOd;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="coupon_elec", type="string" ,length=50)
+     * @ORM\Column(name="coupon_elec", type="string" ,length=50, nullable=true)
      */
     private $couponElec;
 

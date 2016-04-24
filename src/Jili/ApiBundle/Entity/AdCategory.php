@@ -56,7 +56,7 @@ class AdCategory
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -72,7 +72,7 @@ class AdCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="asp", type="string", length=64, nullable=true)
+     * @ORM\Column(name="asp", type="string", length=64, nullable=true, options={"comment": "平台供应商"})
      */
     private $asp;
 

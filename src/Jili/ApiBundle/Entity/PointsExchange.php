@@ -22,7 +22,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -31,7 +31,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
@@ -39,7 +39,7 @@ class PointsExchange
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="exchange_date", type="datetime")
+     * @ORM\Column(name="exchange_date", type="datetime", nullable=true)
      */
     private $exchangeDate;
 
@@ -53,21 +53,21 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer", nullable=false)
+     * @ORM\Column(name="type", type="integer")
      */
     private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="target_account", type="string", length=45)
+     * @ORM\Column(name="target_account", type="string", length=45, nullable=true)
      */
     private $targetAccount;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="real_name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="real_name", type="string", length=50, nullable=true)
      */
     private $realName;
 
@@ -88,7 +88,7 @@ class PointsExchange
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_item_number", type="integer")
+     * @ORM\Column(name="exchange_item_number", type="integer", nullable=true)
      */
     private $exchangeItemNumber;
     /**
@@ -101,7 +101,7 @@ class PointsExchange
     /**
      * @var string
      *
-     * @ORM\Column(name="ip", type="string", length=20)
+     * @ORM\Column(name="ip", type="string", length=20, nullable=true)
      */
     private $ip;
 

@@ -15,63 +15,63 @@ class ChanetAdvertisement implements CustomRedirectUrlInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="ads_id", type="integer", nullable=false)
+     * @ORM\Column(name="ads_id", type="integer", nullable=false, options={"comment": "活动ID"})
      */
     private $adsId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_name", type="string", length=64, nullable=false)
+     * @ORM\Column(name="ads_name", type="string", length=64, nullable=false, options={"comment": "活动名称"})
      */
     private $adsName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=128, nullable=false)
+     * @ORM\Column(name="category", type="string", length=128, nullable=false, options={"comment": "活动分类"})
      */
     private $category;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_url_type", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_url_type", type="string", length=128, nullable=false, options={"comment": "链接类型"})
      */
     private $adsUrlType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false)
+     * @ORM\Column(name="ads_url", type="string", length=128, nullable=false, options={"comment": "首页地址"})
      */
     private $adsUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="marketing_url", type="text", nullable=false)
+     * @ORM\Column(name="marketing_url", type="text", nullable=false, options={"comment": "推广链接"})
      */
     private $marketingUrl;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="selected_at", type="datetime", nullable=true)
+     * @ORM\Column(name="selected_at", type="datetime", nullable=true, options={"comment": "选入cps_adver时间"})
      */
     private $selectedAt;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false)
+     * @ORM\Column(name="fixed_hash", type="string", length=64, nullable=false, options={"comment": "更新时使用"})
      */
     private $fixedHash;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_activated", type="integer", nullable=false)
+     * @ORM\Column(name="is_activated", type="integer", nullable=false, options={"comment": "1: 使用中, 0: 不在使用"})
      */
     private $isActivated;
 

@@ -56,7 +56,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -65,7 +65,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_from_wenwen",  type="integer", nullable=true)
+     * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
      */
     private $isFromWenwen;
 
@@ -78,7 +78,7 @@ class User
 
     /**
      * @var string
-     * @ORM\Column(name="token", type="string",length=32, nullable=false)
+     * @ORM\Column(name="token", type="string", length=32, options={"default": "", "comment": "remember me cookie token "})
      */
     private $token;
 
@@ -106,7 +106,7 @@ class User
     /**
      * @var date
      *
-     * @ORM\Column(name="birthday", type="string",length=50, nullable=true)
+     * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      */
     private $birthday;
 
@@ -120,7 +120,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_email_confirmed", type="integer",nullable=true)
+     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
      */
     private $isEmailConfirmed;
 
@@ -134,7 +134,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="is_tel_confirmed", type="integer" , nullable=true)
+     * @ORM\Column(name="is_tel_confirmed", type="integer", nullable=true)
      */
     private $isTelConfirmed;
 
@@ -155,14 +155,14 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="education", type="integer", nullable=true)
+     * @ORM\Column(name="education", type="integer", nullable=true, options={"comment": "学历"})
      */
     private $education;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="profession", type="integer", nullable=true)
+     * @ORM\Column(name="profession", type="integer", nullable=true, options={"comment": "职业"})
      */
     private $profession;
 
@@ -176,14 +176,14 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="hobby", type="string", length=250, nullable=true)
+     * @ORM\Column(name="hobby", type="string", length=250, nullable=true, options={"comment": "爱好"})
      */
     private $hobby;
 
     /**
      * @var text
      *
-     * @ORM\Column(name="personalDes", type="text", nullable=true)
+     * @ORM\Column(name="personalDes", type="text", nullable=true, options={"comment": "个性说明"})
      */
     private $personalDes;
 
@@ -197,7 +197,7 @@ class User
     /**
      * @var float
      *
-     * @ORM\Column(name="reward_multiple", type="float")
+     * @ORM\Column(name="reward_multiple", type="float", options={"default": 1})
      */
     private $rewardMultiple;
 
@@ -232,7 +232,7 @@ class User
     /**
      * @var integer
      *
-     * @ORM\Column(name="points", type="integer", nullable=false)
+     * @ORM\Column(name="points", type="integer")
      */
     private $points;
 
@@ -273,70 +273,70 @@ class User
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="token_created_at", type="datetime", nullable=true)
+     * @ORM\Column(name="token_created_at", type="datetime", nullable=true, options={"comment": "remember me cookie token created at"})
      */
     private $tokenCreatedAt;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="origin_flag", type="smallint", nullable=true)
+     * @ORM\Column(name="origin_flag", type="smallint", nullable=true, options={"comment": "which sites does the user from"})
      */
     private $originFlag;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true)
+     * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true, options={"comment": "remote IP when create"})
      */
     private $createdRemoteAddr;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="created_user_agent", type="text", nullable=true)
+     * @ORM\Column(name="created_user_agent", type="text", nullable=true, options={"comment": "remote User Agent when create"})
      */
     private $createdUserAgent;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true)
+     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true, options={"comment": "recruit campaign code"})
      */
     private $campaignCode;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="password_choice", type="smallint", nullable=true)
+     * @ORM\Column(name="password_choice", type="smallint", nullable=true, options={"comment": "which password to use for login"})
      */
     private $passwordChoice;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fav_music", type="string", length=255, nullable=true)
+     * @ORM\Column(name="fav_music", type="string", length=255, nullable=true, options={"comment": "喜欢的音乐"})
      */
     private $favMusic;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true)
+     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true, options={"comment": "本月心愿"})
      */
     private $monthlyWish;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="industry_code", type="integer", nullable=true)
+     * @ORM\Column(name="industry_code", type="integer", nullable=true, options={"comment": "行业"})
      */
     private $industryCode;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="work_section_code", type="integer", nullable=true)
+     * @ORM\Column(name="work_section_code", type="integer", nullable=true, options={"comment": "部门"})
      */
     private $workSectionCode;
 

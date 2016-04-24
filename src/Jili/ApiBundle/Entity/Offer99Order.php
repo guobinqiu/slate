@@ -15,14 +15,14 @@ class Offer99Order
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $userid;
+    private $userId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
@@ -36,7 +36,7 @@ class Offer99Order
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer", nullable=false)
+     * @ORM\Column(name="delete_flag", type="integer", options={"default": 0})
      */
     private $deleteFlag;
 
@@ -50,26 +50,26 @@ class Offer99Order
     private $id;
 
     /**
-     * Set userid
+     * Set userId
      *
-     * @param integer $userid
+     * @param integer $userId
      * @return Offer99Order
      */
-    public function setUserId($userid)
+    public function setUserId($userId)
     {
-        $this->userid = $userid;
+        $this->userId = $userId;
 
         return $this;
     }
 
     /**
-     * Get userid
+     * Get userId
      *
      * @return integer
      */
     public function getUserId()
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     /**

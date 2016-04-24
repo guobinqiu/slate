@@ -15,7 +15,7 @@ class Blackusers
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,21 +24,21 @@ class Blackusers
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="blacked_date", type="datetime")
+     * @ORM\Column(name="blacked_date", type="datetime", nullable=true)
      */
     private $blackedDate;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer",  nullable=true)
      */
     private $status;
 
