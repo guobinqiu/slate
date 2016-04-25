@@ -343,8 +343,14 @@ parameters:
     activity_gathering:
         taobao_order_total_src:  "%cache_data_path%/activity_gathering_taobao_order_total.json"
 
-    weibo_appid: 693159936
-    weibo_appkey: ac24832ff6273b123b4f3dc7747cbf1e
+    #jili weibo developer account
+    #weibo_appid: 693159936
+    #weibo_appkey: ac24832ff6273b123b4f3dc7747cbf1e
+    #weibologin_callback_url: http://www.91jili.com/WeiBoLogin/weibocallback
+
+    #wenwen weibo developer account
+    weibo_appid: 3163097902
+    weibo_appkey: af3e112c53a2357b201f3ddd6c8e69e7
     weibologin_callback_url: http://www.91jili.com/WeiBoLogin/weibocallback
 
    #流量包
