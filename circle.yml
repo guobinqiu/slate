@@ -5,6 +5,12 @@ machine:
     Asia/Shanghai
 
 dependencies:
+  pre:
+    - sudo apt-add-repository -y 'deb
+      http://ppa.launchpad.net/ondrej/mysql-experimental/ubuntu precise
+      main'
+    - sudo apt-get update; sudo DEBIAN_FRONTEND=noninteractive apt-get
+      install -y mysql-server-5.6
   override:
     - make circle
     - php app/console doctrine:database:drop --force --env "test"
