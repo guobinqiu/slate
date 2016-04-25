@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiProjectRespondentRepository")
  * @ORM\HasLifecycleCallbacks
  *
  */
