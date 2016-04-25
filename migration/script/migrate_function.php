@@ -532,6 +532,15 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_only_jili($row = array())
 {
+    // is_email_confirmed
+    if ($row[2]) {
+        //user has password, set is_email_confirmed = 1
+        $row[3] = 1;
+    } else {
+        //user password is null, is_email_confirmed = 0
+        $row[3] = 0;
+    }
+
     //origin_flag
     $row[32] = Constants::$origin_flag['jili'];
     //password_choice
@@ -764,16 +773,6 @@ function set_default_value($row)
         if (! isset($row[$i]) ) {
             $row[$i] = 'NULL';
         }
-
-    }
-
-    // is_email_confirmed
-    if ($row[2]) {
-        //user has password, set is_email_confirmed = 1
-        $row[3] = 1;
-    } else {
-        //user password is null, is_email_confirmed = 0
-        $row[3] = 0;
     }
 
     // is_from_wenwen
