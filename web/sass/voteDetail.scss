@@ -11,32 +11,20 @@
 	}
 }
 .vote-sub{
- 	h1{
- 		margin-top: 15px;
- 		height: 45px;
- 		line-height: 45px;
- 		color: $main-title-color;
- 		font-size: 20px;
- 		font-weight: bold;
- 		a{
- 			margin-top: 10px;
- 			float: right;
- 			padding: 0 10px;
- 			height: 24px;
- 			line-height: 24px;
- 			font-size: 12px;
- 			font-weight: normal;
- 			color: #8c8c8c;
- 			background: #f7f7f7;
- 			border: 1px solid #ededf0;
- 			border-radius: 3px;
- 			@include dib();
- 		}
+ 	.backLink{
+ 		display: inline-block;
+ 		color: #696767;
+ 		height: 54px;
+ 		line-height: 54px;
+ 		text-align: center;
+ 		width: 100%;
+ 		background: #fdf2e7;
+ 		margin-top: 29px;
  	}
  	.relate{
- 		margin-top: 20px;
- 		padding-left: 130px;
- 		padding-right: 20px;
+ 		margin: 25px 10px 27px;
+ 		padding-left: 122px;
+ 		padding-right: 12px;
  		position: relative;
  		z-index: 1;
  		@include minHeight(90px);
@@ -47,36 +35,31 @@
  			left: 15px;
  		}
  	}
- 	.relate-text{
+ 	.relateText{
  		color: #9da1a8;
  		line-height: 20px;
- 		b{
- 			color: $main-color;
+ 		h1{
+ 			font-size: 24px;
+ 			font-weight: bold;
+ 			color: #333;
+ 			text-indent: -10px;
+ 			line-height: 36px;
  		}
  		.description{
- 			margin-top: 7px;
- 			margin-bottom: 20px;
- 			padding: 0 10px;
- 			height: 33px;
- 			line-height: 30px;
- 			color: #495361;
  			background: #f3f5f8;
- 			overflow: hidden;
- 			cursor: pointer;
-			@include transition(height, 300ms);
- 			b.btn{
- 				float: right;
- 				margin-top: 15px;
- 				@include arrow(bottom, 5px, $top-font-color);
+ 			border: 1px solid #e6e7eb;
+ 			padding: 13px 15px;
+ 			margin: 10px 0;
+ 			color: #333;
+ 			.fst{
+ 				margin-bottom: 4px;
  			}
- 			p{
- 				padding: 6px 20px 10px 2px;
-  				line-height: 22px;
- 			}
+			.cor9{
+				color: #999;
+			}
  		}
  	}
  	.options{
- 		margin-top: -17px;
  		padding-left: 130px;
  		padding-right: 20px;
  		li{
@@ -84,13 +67,16 @@
  			span{
  				margin-left: 5px;
  			}
+ 			label{
+ 				cursor: pointer;
+ 			}
  		}
  		.btn{
  			padding:20px 0 0 0;
 			.submit{
 				width: 140px;
 				text-align: center;
-				height: 36px;
+				height: 40px;
 				line-height: 36px;
 				font-size: 14px;
 				font-weight: bold;
@@ -141,20 +127,9 @@
  				@include transition(width, 2s);
  			}
  		}
- 		.share{
+ 		.weiboshare{
  			margin-top: 40px;
- 			a{
- 				padding-left: 25px;
- 				width: 110px;
- 				text-align: center;
- 				height: 42px;
- 				line-height: 42px;
- 				color: #666666;
- 				background: #efefef url(../img/common/sina_share.png) no-repeat 25px 12px;
- 				border: 1px solid #e3e3e3;
- 				border-radius: 5px;
- 				@include dib();
- 			}
+ 			display: block;
  		}
  	}
 }
