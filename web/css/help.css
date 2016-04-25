@@ -101,7 +101,7 @@ body {
     padding-left: 0; }
   .header-top-con a.last {
     border-right: none; }
-.header-top-con em, .header-top-con .main-help-con .tabCon ul li span, .main-help-con .tabCon ul li .header-top-con span {
+.header-top-con em {
   width: 20px;
   height: 15px;
   line-height: 15px;
@@ -112,12 +112,12 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1; }
-  .header-top-con em.tool, .header-top-con .main-help-con .tabCon ul li span.tool, .main-help-con .tabCon ul li .header-top-con span.tool {
+  .header-top-con em.tool {
     width: 12px;
     height: 16px;
     line-height: 16px;
     background-position: 0 -38px; }
-  .header-top-con em.mail, .header-top-con .main-help-con .tabCon ul li span.mail, .main-help-con .tabCon ul li .header-top-con span.mail {
+  .header-top-con em.mail {
     margin-top: 1px;
     margin-left: 0;
     background-position: 0 -20px;
@@ -125,7 +125,7 @@ body {
     z-index: 1;
     cursor: pointer;
     *margin-top: 8px; }
-  .header-top-con em .mark, .header-top-con .main-help-con .tabCon ul li span .mark, .main-help-con .tabCon ul li .header-top-con span .mark {
+  .header-top-con em .mark {
     position: absolute;
     z-index: 1000;
     top: -3px;
@@ -404,11 +404,10 @@ body {
       background-color: #f5f5f5;
       margin-bottom: 2px;
       cursor: pointer; }
-    .main-help-con .tabCon ul li em, .main-help-con .tabCon ul li span {
+    .main-help-con .tabCon ul li em {
+      width: 8px;
       margin-right: 30px;
       float: left; }
-      .main-help-con .tabCon ul li em img, .main-help-con .tabCon ul li span img {
-        margin-top: 15px; }
     .main-help-con .tabCon ul li span.icons {
       float: right;
       margin-top: 15px;
@@ -426,7 +425,7 @@ body {
       line-height: 30px;
       font-size: 13px;
       margin: 15px 0;
-      padding-left: 40px;
+      padding-left: 21px;
       padding-right: 20px;
       display: none; }
       .main-help-con .tabCon ul li p strong {
