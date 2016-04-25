@@ -305,7 +305,7 @@ body {
   text-align: center;
   width: 100%;
   background: #fdf2e7;
-  margin-top: 29px; }
+  margin-top: 54px; }
 .vote-sub .relate {
   margin: 25px 10px 27px;
   padding-left: 122px;
@@ -333,8 +333,9 @@ body {
     background: #f3f5f8;
     border: 1px solid #e6e7eb;
     padding: 13px 15px;
-    margin: 10px 0;
-    color: #333; }
+    margin: 14px 0;
+    color: #333;
+    line-height: 23px; }
     .vote-sub .relateText .description .fst {
       margin-bottom: 4px; }
     .vote-sub .relateText .description .cor9 {
