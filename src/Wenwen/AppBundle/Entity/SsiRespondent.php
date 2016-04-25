@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ssi_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="partner_app_member_id_UNIQUE", columns={"user_id"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiRespondentRepository")
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiRespondent
 {
@@ -64,7 +66,7 @@ class SsiRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -255,5 +257,13 @@ class SsiRespondent
         }
 
         return;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="ssi_project")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiProject
 {
@@ -32,7 +34,7 @@ class SsiProject
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -126,5 +128,13 @@ class SsiProject
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
