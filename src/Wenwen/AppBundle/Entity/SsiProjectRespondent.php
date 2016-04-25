@@ -190,9 +190,9 @@ class SsiProjectRespondent
      * @param string $stashData
      * @return SsiProjectRespondent
      */
-    public function setStashData($stashData)
+    public function setStashData(array $stashData)
     {
-        $this->stashData = $stashData;
+        $this->stashData = json_encode($stashData);
 
         return $this;
     }
@@ -204,7 +204,7 @@ class SsiProjectRespondent
      */
     public function getStashData()
     {
-        return $this->stashData;
+        return json_decode($this->stashData, true);
     }
 
     /**
