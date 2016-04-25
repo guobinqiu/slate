@@ -23,7 +23,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -32,7 +32,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 

@@ -24,7 +24,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
