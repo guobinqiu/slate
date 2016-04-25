@@ -23,7 +23,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer"})
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -50,7 +50,7 @@ class SsiRespondent
      * @var integer
      *
      * @ORM\Column(name="status_flag", type="smallint", nullable=true,
-     *     options={"unsigned": true, "default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
+     *     options={"default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
      */
     private $statusFlag;
 
