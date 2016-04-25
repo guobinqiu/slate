@@ -17,9 +17,9 @@
 .loadingDot {
     float: left;
     width: 7px;
-	width: 0/0;
-	width: 0/9;
-	_width: 0;
+    width: 0/0;
+    width: 0/9;
+    _width: 0;
     height: 7px;
     margin: 3px 4px;
     background: rgba(0,0,0,.5);
@@ -32,9 +32,9 @@
     animation: loadingFade 1s infinite;
 }
 .loadingDotWrap{
-	height:10px;
-	float:left;
-	margin-top: 16px;
+    height:10px;
+    float:left;
+    margin-top: 16px;
 }
 .loadingDot:nth-child(1) {
     -webkit-animation-delay: 0s;
@@ -79,58 +79,58 @@ var firstUrl = "{{ firstUrl | raw }}";
 var lastUrl = "{{ lastUrl | raw }}";
 var type = "{{ type }}";
 {% if app.session.get('uid') %}
-	var u = "{{ app.session.get('uid') }}";
+    var u = "{{ app.session.get('uid') }}";
 {% else %}
-	var u = "";
+    var u = "";
 {% endif %}
 $(document).ready(function(){
     if (location.protocol == 'https:') {
       location.href = location.href.replace(/^https:/, 'http:');
     }
-	init(u,type);
-	changeWindow();
-	$(window).resize(function() {
-		changeWindow();
-	});
+    init(u,type);
+    changeWindow();
+    $(window).resize(function() {
+        changeWindow();
+    });
 }); 
 function changeWindow(){
-	//窗口居中垂直
-	var winH = $(window).height();
-	var loginH = $("#loginFrame").height();
-	$("#loginFrame").css({"top":(winH-loginH)/2});
-	//窗口居中水平
-	var winW = $(window).width();
-	var loginW = $("#loginFrame").width();
-	$("#loginFrame").css({"left":(winW-loginW)/2});
+    //窗口居中垂直
+    var winH = $(window).height();
+    var loginH = $("#loginFrame").height();
+    $("#loginFrame").css({"top":(winH-loginH)/2});
+    //窗口居中水平
+    var winW = $(window).width();
+    var loginW = $("#loginFrame").width();
+    $("#loginFrame").css({"left":(winW-loginW)/2});
 }
 function goto(type){
-	switch(type){
-		case 1:
-			window.location.href = firstUrl; //cps
-		break;
-		case 2:
-			window.location.href = lastUrl; //shop
-		break;
-	}
+    switch(type){
+        case 1:
+            window.location.href = firstUrl; //cps
+        break;
+        case 2:
+            window.location.href = lastUrl; //shop
+        break;
+    }
 
 }
 
 function onloadfinish(type){
-	goto(type);
+    goto(type);
 }
 
 function init(u,type){
-	if(u){
-		$("#loginFrame").hide();
-		hasLogin()
-	}else{
-		//window.location.href = "{{ path('_user_login') }}";
-		$("#loginFrame").show();
-	}
+    if(u){
+        $("#loginFrame").hide();
+        hasLogin()
+    }else{
+        //window.location.href = "{{ path('_user_login') }}";
+        $("#loginFrame").show();
+    }
 }
 function hasLogin(){
-	$("#loginFrame").hide();
-	$("#iframeDiv").html("<iframe id=\"iframe\" src=\""+firstUrl+"\" onload=\"onloadfinish({{ type }})\" name=\"iframe\" style=\"display:none;\"></iframe>");
+    $("#loginFrame").hide();
+    $("#iframeDiv").html("<iframe id=\"iframe\" src=\""+firstUrl+"\" onload=\"onloadfinish({{ type }})\" name=\"iframe\" style=\"display:none;\"></iframe>");
 }
 function sendLoginInfo(){
     $.ajax({  
@@ -139,9 +139,9 @@ function sendLoginInfo(){
         type: "POST",
         success:function(data){
            if(data=='ok'){
-            	hasLogin();
+                hasLogin();
            }else{
-        	   $(".error").html(data);
+               $(".error").html(data);
            }
         }
       });
@@ -153,8 +153,8 @@ function sendLoginInfo(){
 <div id="iframeDiv"></div>
 
 <div class="loadingFrame">
-	<p class="logo"><img src="{{ asset('images/logo.gif') }}"></p>
-	<div class="loadingDotWrap">
+    <p class="logo"><img src="{{ asset('images/logo.gif') }}"></p>
+    <div class="loadingDotWrap">
       <p style="font-size: 12px; float: left; color: rgb(102, 102, 102); margin: 0 2px 0 0;">积粒网正在为您跳转，请稍等</p>
       <div class="loadingDot"></div>
       <div class="loadingDot"></div>
@@ -164,10 +164,10 @@ function sendLoginInfo(){
 </div>
 <div id="loginFrame">
 <form action="{{ path('_login') }}" method="post" name="form1" id="form1">
-	<h2>登录</h2>
-	<div class="loginForm">
+    <h2>登录</h2>
+    <div class="loginForm">
         <li class="error"></li>
-    	<li><dd>用户名</dd><dt><input class="name" id="email" name="email" type="text" value="{{ email }}"></dt></li>
+        <li><dd>用户名</dd><dt><input class="name" id="email" name="email" type="text" value="{{ email }}"></dt></li>
         <li><dd>密  码</dd><dt><input class="password" id="pwd" name="pwd" type="password"><a href="{{ asset(path('_user_resetPwd'),'cdn1') }}" class="forget">忘记密码？</a></dt></li>
         <li><dd>&nbsp;</dd><dt><a class="loginBtn" onclick="sendLoginInfo();" >登录</a><input type="checkbox" value="1" name="remember_me" type="checkbox" >记住我<a href="{{ path('_user_reg') }}" class="regBtn">立即注册</a></dt></li>
     </div>
