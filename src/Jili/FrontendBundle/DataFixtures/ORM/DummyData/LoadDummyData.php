@@ -1,6 +1,6 @@
 <?php
 
-namespace JiliFrontendBundle\DataFixtures\ORM;
+namespace JiliFrontendBundle\DataFixtures\ORM\DummyData;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
