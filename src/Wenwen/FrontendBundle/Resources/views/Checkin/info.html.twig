@@ -1,0 +1,86 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}跳转中：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/checkin.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+<input type="hidden" id="firstUrl" value="{{ firstUrl | raw }}">
+<input type="hidden" id="lastUrl" value="{{ lastUrl | raw }}">
+<input type="hidden" id="type" value="{{ type }}">
+{% if app.session.get('uid') %}
+    <input type="hidden" id="u" value="{{ app.session.get('uid') }}">
+{% else %}
+    <input type="hidden" id="u" value="">;
+{% endif %}
+<div id="iframeDiv"></div>
+<div class="loadingFrame">
+    <p class="logo"><img src="{{ asset('img/common/logo.png') }}"></p>
+    <div class="loadingDotWrap">
+      <p style="font-size: 12px; float: left; color: rgb(102, 102, 102); margin: 0 2px 0 0;">正在为您跳转，请稍等</p>
+      <div class="loadingDot"></div>
+      <div class="loadingDot"></div>
+      <div class="loadingDot"></div>
+      <div class="loadingDot"></div>
+    </div>
+</div>
+<div id="loginFrame">
+<div class="login-wrapper">
+    <div class="login">
+        <h2>用户登录</h2>
+        <div class="login-con">
+            <form action="" method="post" name="form1" id="form1">
+            <ul>
+                <li><label for="email">邮箱</label><input id="email" name="email" type="text" value="{{ email }}"><span id="email_succeed"></span><span id="email_error"></span></li>
+                <li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+            </ul>
+            {% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
+            <input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
+            {% endif %}
+            {% if code %}
+            <input type="hidden" id="error_code" class="error" value="{{ code }}">
+            {% endif %}
+            <input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
+            </form>
+            <p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
+            <div class="login-btn-others">
+                <span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
+            </div>
+            <div class="directGo">不登录？<a class="directGoBtn" onclick="hasLogin();" href="javascript:void(0);">直接跳转</a></div>
+        </div>
+    </div>
+</div>
+</div>
+    <div class="quickLogPop" id="wbLogCon" style="display: none;">
+        <div class="quickLCon">
+            <div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
+            <div class="wbText">
+                <p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
+                <p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+            </div>
+            <div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
+        </div>
+    </div>
+    <div class="quickLogPop" id="qqLogCon" style="display: none;">
+        <div class="quickLCon">
+            <div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
+            <div class="wbText">
+                <p class="l1">QQ登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用QQ快捷登录，您将无法正常登录哟！</p>
+                <p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+            </div>
+            <div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('qq_api_login') }}" class="continueBtn">继续</a></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/checkin')}}"></script>
+{% endblock %}
