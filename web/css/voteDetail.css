@@ -344,11 +344,12 @@ body {
   padding-left: 130px;
   padding-right: 20px; }
   .vote-sub .options li {
-    line-height: 35px; }
+    line-height: 41px; }
     .vote-sub .options li span {
       margin-left: 5px; }
     .vote-sub .options li label {
-      cursor: pointer; }
+      cursor: pointer;
+      font-size: 14px; }
   .vote-sub .options .btn {
     padding: 20px 0 0 0; }
     .vote-sub .options .btn .submit {
@@ -381,7 +382,7 @@ body {
       color: #0078b6; }
       .vote-sub .options .btn a.result {
         float: right;
-        margin-top: 12px; }
+        margin-top: 11px; }
   .vote-sub .options dt {
     margin-top: 25px;
     font-size: 13px;
