@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "component/login";
+@import "component/quickLog";
+body{
+	background: #f7f7f7;
+}
+.loadingFrame{
+    position: fixed;
+    top: 40%;
+    left: 46%;
+    margin: -14px 0 0 -42px;
+    padding: 10px;
+    text-align:center;
+}
+.loadingDot {
+    float: left;
+    width: 7px;
+	width: 0/0;
+	width: 0/9;
+	_width: 0;
+    height: 7px;
+    margin: 3px 4px;
+    background: rgba(0,0,0,.5);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-animation: loadingFade 1s infinite;
+    -moz-animation: loadingFade 1s infinite;
+    animation: loadingFade 1s infinite;
+}
+.loadingDotWrap{
+	height:10px;
+	float:left;
+	margin-top: 16px;
+}
+.loadingDot:nth-child(1) {
+    -webkit-animation-delay: 0s;
+    -moz-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+.loadingDot:nth-child(2) {
+    -webkit-animation-delay: 0.1s;
+    -moz-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+.loadingDot:nth-child(3) {
+    -webkit-animation-delay: 0.2s;
+    -moz-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+.loadingDot:nth-child(4) {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+@-webkit-keyframes loadingFade {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes loadingFade {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+@keyframes loadingFade {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+#loginFrame{
+	position: relative;
+	z-index: 1;
+	width: 545px;
+	height: 500px;
+	display: none;
+}
+.login-wrapper{
+	top: 0;
+	left: 0;
+	right: 0;
+}
+.login{
+	.login-btn-others{
+		margin-top: 20px;
+	}
+}
+.directGo{
+	margin-top: 25px;
+	font-size: 14px;
+	width: 100%;
+	text-align: right;
+	a{
+		color: #1ca3db;
+	}
+}
+.quickLogPop{
+	position: relative;
+	z-index: 1;
+}
