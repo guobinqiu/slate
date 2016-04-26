@@ -14,18 +14,17 @@
 <div class="main-con w1000 clearfix">
     <div class="main-con-left left">
         <div class="vote vote-sub">
-            <h1>{{vote.title}}<a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览</a></h1>
             <div class="relate">
                 {% if vote_image_path %}
                 <img src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                 {% else %}
                 <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
-                <div class="relate-text">
-                    <div>时间：{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
+                <div class="relateText">
+                    <h1>{{vote.title}}</h1>
                     <div class="description">
-                        <b class="btn"></b>
-                        <p class="">{% autoescape false %}{{ vote.description }}{% endautoescape %}</p>
+                        <div class="fst"><span class="cor9">时间：</span>{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
+                        <div><span class="cor9">详情：</span>{% autoescape false %}{{ vote.description }}{% endautoescape %}</div>
                     </div>
                 </div>
             </div>
@@ -40,7 +39,7 @@
                     {% endfor %}
                 </dl>
                 <wb:share-button class="weiboshare" appkey="17dg2I" addition="simple" type="button" ralateUid="3572980047" default_text="{{vote.title}}"></wb:share-button>
-                
+                <a class="backLink" href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a>
             </div>
         </div>
     </div>
