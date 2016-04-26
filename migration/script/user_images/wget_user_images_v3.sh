@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo 'start...'`date "+%Y-%m-%d %H:%M:%S"`
+
 # image list file exists here:
 src=/data/91jili/merge/user_images/
 
@@ -7,7 +9,7 @@ if [ $# -eq 1 ] && [ -f $1 ] ; then
   images_fn_file=$1
 else
   images_fn_file=/data/91jili/merge/user_image_file_.csv
-  awk -F, '{if( NR>1) print $3}' /data/91jili/merge/ww_csv/panel_91wenwen_panelist_profile_image.csv  > ${images_fn_file} 
+  awk -F, '{if( NR>1) print $9}' /data/91jili/merge/ww_csv/panel_91wenwen_panelist_profile_image.csv  > ${images_fn_file} 
 fi
 
 # download to this dir:
@@ -128,6 +130,8 @@ print_lacks()
 }
 print_lacks;
 echo '...done'
+
+echo '...done'`date "+%Y-%m-%d %H:%M:%S"`
 
 #for subdir in  {{0..9},{a..f}}/{{0..9},{a..f}}/{{0..9},{a..f}};
 #do
