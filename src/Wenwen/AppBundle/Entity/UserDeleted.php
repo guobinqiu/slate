@@ -171,6 +171,13 @@ class UserDeleted
     /**
      * @var \DateTime
      *
+     * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
+     */
+    private $registerCompleteDate;
+
+    /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
     private $lastLoginDate;
@@ -195,6 +202,13 @@ class UserDeleted
      * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
+
+    /**
+     * @var datetime $deleteDate
+     *
+     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
+     */
+    private $deleteDate;
 
     /**
      * @var integer
@@ -286,20 +300,6 @@ class UserDeleted
      * @ORM\Column(name="work_section_code", type="integer", nullable=true)
      */
     private $workSectionCode;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
-     */
-    private $registerCompleteDate;
-
-    /**
-     * @var datetime $deleteDate
-     *
-     * @ORM\Column(name="delete_date", type="datetime", nullable=true)
-     */
-    private $deleteDate;
 
     /**
      * Set isFromWenwen

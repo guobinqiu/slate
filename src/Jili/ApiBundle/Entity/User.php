@@ -63,6 +63,27 @@ class User
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=250, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
+     */
+    private $pwd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
+     */
+    private $isEmailConfirmed;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
@@ -90,13 +111,6 @@ class User
     private $nick;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
-     */
-    private $pwd;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="sex", type="integer", nullable=true)
@@ -109,20 +123,6 @@ class User
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      */
     private $birthday;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=250, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
-     */
-    private $isEmailConfirmed;
 
     /**
      * @var string
