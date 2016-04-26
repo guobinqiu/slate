@@ -11,7 +11,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
-use Jili\ApiBundle\Utility\SopUtil;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
