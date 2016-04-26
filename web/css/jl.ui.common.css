@@ -447,7 +447,7 @@ a.tencent{
 }
 .noticeM .wrap{
 	min-height: 74px;
-	background: #ffcc42 url(/images/notice/bgNotice.jpg) no-repeat 0 5px;
+	background: #ffe18f;
 	margin: 0 auto;
 }
 .noticeM .wrap .txt{
@@ -467,7 +467,7 @@ a.tencent{
 	text-align: center;
     margin: 10px auto 0;
     width: 100px;
-	border: 1px solid #997326;
+	background: #ba8e4b;
     cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
@@ -481,7 +481,10 @@ a.tencent{
 	height: 7px;
 	display: inline-block;
     margin-left: 5px;
-	background: #ffcc42 url(/images/notice/unfoldArrow.png) no-repeat;
+	background: url(/images/notice/unfoldArrow-v2.png) no-repeat;
+}
+.noticeM .wrap .unfold span{
+	color: #fff;
 }
 .noticeM .wrap .unfold .arrow-unfolded{
    -moz-transform: rotate(180deg);
@@ -494,16 +497,16 @@ a.tencent{
 	overflow-x: hidden;
 }
 .noticeCont .noticeDetail{
-	background: #ffcc42 url(/images/notice/bgxScroll.jpg) repeat-x center;
-	height: 293px;
+	background: #ffe18f url(/images/notice/bgxScroll-v2.jpg) repeat-x center;
+	height: 277px;
 }
 .noticeCont .noticeDetail .wrap{
-	width: 100%;
+	width: 1403px;
 	height: 100%;
-	background: url(/images/notice/bgScroll.jpg) no-repeat center;
+	background: #ffe18f url(/images/notice/bgNotice-v2.jpg) no-repeat center;
 }
 .noticeCont .warn{
-	background: #ffdd8c;
+	background: #ffd673;
 	margin: 0 auto;
 }
 .noticeCont .warn .cont{
@@ -511,7 +514,7 @@ a.tencent{
 	height: 409px;
 	margin: 0 auto;
     position: relative;;
-	background: #ffdd8c url(/images/notice/bgCont.jpg) no-repeat center;
+	background: #ffd673 url(/images/notice/bgCont-v2.jpg) no-repeat center;
 }
 .noticeCont .warn .fold{
 	text-align: center;
@@ -535,7 +538,7 @@ a.tencent{
 }
 .noticeCont .warn .btm{
 	height: 14px;
-	background: url(/images/notice/bgxBottom.jpg) repeat-x;
+	background: url(/images/notice/bgxBottom-v2.jpg) repeat-x;
 }
 .noticeCont {
     /* padding-top: 47px; */
@@ -611,7 +614,7 @@ a.tencent{
     width: 578px;
     position: absolute;
     left: 86px;
-    top: 86px;
+    top: 68px;
 }
 .noticeCont .warn .cont table tr td{
     height: 29px;
@@ -634,14 +637,14 @@ a.tencent{
     line-height: 16px;
 }
 .noticeCont .warn .cont table tr td.thanks{
-    color: #f7612a;
+    color: #4d4d4d;
     line-height: 18px;
     padding: 0;
     line-height: 21px;
 }
 .noticeCont .warn .cont table tr td a.bind{
     padding: 0.6% 2%;
-    background: #19c706;
+    background: #3f50f2;
     color: #fff;
     text-decoration: none;
     margin-left: 5px;
