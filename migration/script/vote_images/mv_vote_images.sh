@@ -1,5 +1,7 @@
 #! /bin/bash
 
+echo 'start...'`date "+%c"`
+
 src=/tmp/vote_images/
 dst=/data/91jili/web/uploads/vote_image/
 
@@ -14,4 +16,6 @@ ls -1 ${src} | while read line
 do
   cp  ${src}$line ${dst}${line:0:1}/${line:1:1}/
 done
+
+echo '...done'`date "+%c"`
 

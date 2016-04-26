@@ -15,6 +15,36 @@ class UserDeleted
     /**
      * @var integer
      *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=250, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
+     */
+    private $pwd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
+     */
+    private $isEmailConfirmed;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
      */
     private $isFromWenwen;
@@ -41,13 +71,6 @@ class UserDeleted
     private $nick;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
-     */
-    private $pwd;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="sex", type="integer", nullable=true)
@@ -60,20 +83,6 @@ class UserDeleted
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      */
     private $birthday;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=250, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
-     */
-    private $isEmailConfirmed;
 
     /**
      * @var string
@@ -291,17 +300,6 @@ class UserDeleted
      * @ORM\Column(name="work_section_code", type="integer", nullable=true)
      */
     private $workSectionCode;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
-
 
     /**
      * Set isFromWenwen
