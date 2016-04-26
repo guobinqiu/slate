@@ -7,6 +7,17 @@
 .main-personal-account{
 	padding: 20px 45px 50px;
 	color: #666;
+	.successMess{
+		width: 150px;
+		margin: 0 auto;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		border: 2px solid #ade378;
+		background: #f7f7f7;
+		border-radius: 5px;
+		display: none;
+	}
 	li{
 		padding: 15px 0;
 		line-height: 45px;
@@ -94,6 +105,8 @@
 				font-size: 12px;
 				font-weight: normal;
 				color: #666;
+				height: 32px;
+				line-height: 32px;
 			}
 		}
 		p{
@@ -124,60 +137,49 @@
 				}
 			}
 		}
-		&.bding{
-			ul{
-				margin-top: 20px;
-				padding: 0;
-				border-top: $block-inner-border;
-			}
-			span{
-				margin-left: 40px;
-				width: 110px;
-				vertical-align: middle;
-			}
-			strong{
-				margin-left: 20px;
-				line-height: 45px;
-				@include dib();
-				vertical-align: middle;
-			}
-		}
-		&.subscribe{
-			label{
-				margin-right: 10px;
-			}
-			p{
-				padding-left: 100px;
-			}
-			.btn{
-				padding:10px 0 0 100px;
-			}
-		}
 		&.withdraw{
 			span{
 				@include dib();
-				vertical-align: middle;
+				vertical-align: top;
+				margin-left: 0;
+				padding-left: 0;
+				&.focus{
+					display:none;
+				}
 			}
 			ul{
 				&.tips{
 					margin-top: 10px;
 				}
 				&.reason{
+					margin-top: 10px;
 					padding: 10px 0;
 					border: $block-inner-border;
 					#email{
 						padding-left: 5px;
 					}
+					span{
+						padding-left: 5px;
+						&#reasons{
+							padding-left: 0px;
+						}
+					}
 				}
-				&.reason-options span{
-					width: 210px;
-				}
+				&.reason-options{
+					li{
+						margin-top: 0;
+					}
+					span{
+						width: 210px;
+						padding-left: 0px;
+					}
+				} 
 				label{
 					width: 110px;
 				}
 			}
 			li{
-				margin-top: 0;
+				margin-top: 5px;
 				line-height: 24px;
 			}
 			.btn{

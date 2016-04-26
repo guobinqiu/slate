@@ -170,7 +170,7 @@ class CheckinController extends Controller
             break;
         }
 
-        return $this->render('JiliApiBundle:Checkin:info.html.twig',
+        return $this->render('WenwenFrontendBundle:Checkin:info.html.twig',
                 array('firstUrl'=>$firstUrl,'lastUrl'=>$lastUrl,'type'=>$type,'email'=>'','code'=>''));
     }
 
@@ -185,8 +185,8 @@ class CheckinController extends Controller
         $uid = $request->getSession()->get('uid');
         $id = $request->query->get('aid');
         $yixun = $em->getRepository('JiliApiBundle:Advertiserment')->getRedirect($uid,$id);
-        $url = 'http://www.91jili.com/shopping/list/'.$uid;
-        return $this->render('JiliApiBundle:Checkin:info.html.twig',
+        $url = 'http://www.91wenwen.net/shopping/list/'.$uid;
+        return $this->render('WenwenFrontendBundle:Checkin:info.html.twig',
                 array('yixun'=>$yixun,'url'=>$url));
     }
 

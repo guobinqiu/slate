@@ -29,7 +29,8 @@
          			{% for item in pagination %}
 					<tr>
 						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d') }}{% endif %}</td>
-						<td>{{ item.displayName }}-{% if item.adid %}
+						<td>{% if item.incentiveType==92 or item.incentiveType==93 %}{% else %}
+						     {{ item.displayName }}-{% endif %}{% if item.adid %}
 	                  		<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">  {{ item.title }}</a>
 						{% else%}
 							{% if item.incentiveType == 17 %}

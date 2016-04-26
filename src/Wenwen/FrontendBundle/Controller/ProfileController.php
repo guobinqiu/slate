@@ -373,10 +373,32 @@ class ProfileController extends Controller
         $reasons = $request->get('reason', array ());
         $reason_text = implode(',', $reasons);
         $csrf_token = $request->get('csrf_token');
+        $email = $request->get('email');
+        $password = $request->get('password');
 
         //check csrf_token
         if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
             $result['message'] = 'Access Forbidden';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
+        }
+
+        // check user email
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($request->getSession()->get('uid'));
+        if (trim($user->getEmail()) != trim($email)) {
+            $result['message'] = 'Use Not Exist';
+            $resp = new Response(json_encode($result));
+            $resp->headers->set('Content-Type', 'application/json');
+            return $resp;
+        }
+
+        // check user password
+        $check_user_service = $this->container->get('login.listener');
+        $invalid_user = $check_user_service->checkPassword($user, $password);
+        if ($invalid_user) {
+            $result['message'] = 'Use Not Exist';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
