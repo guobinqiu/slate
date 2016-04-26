@@ -550,10 +550,12 @@ body {
       width: 100%;
       text-align: center;
       height: 260px;
-      padding-top: 200px;
-      background: url(../img/questionnaire/normalface.png) no-repeat 180px 150px; }
+      padding-top: 235px;
+      background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px; }
       .main-con-advertisement .tabCon .maintenance .con {
-        font-size: 16px; }
+        font-size: 16px;
+        color: #a1a1a1;
+        line-height: 25px; }
   .main-con-advertisement .taskFlow {
     position: absolute;
     z-index: 1000;

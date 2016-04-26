@@ -17,7 +17,9 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiProjectRespondentRepository")
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiProjectRespondent
 {
@@ -68,7 +70,7 @@ class SsiProjectRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -320,5 +322,13 @@ class SsiProjectRespondent
     public function getSsiRespondent()
     {
         return $this->ssiRespondent;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
