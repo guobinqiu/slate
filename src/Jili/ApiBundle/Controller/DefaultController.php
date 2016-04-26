@@ -728,7 +728,7 @@ class DefaultController extends Controller
     }
 
     /**
-	* @Route("/adLogin", name="_default_ad_login")
+	* @Route("/adLogin", name="_default_ad_login", options={"expose"=true})
 	*/
     public function adLoginAction()
     {

@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common']);
-    require(['jquery', 'loginForm'], function($, loginForm){
+    require(['jquery', 'loginForm', 'routing'], function($, loginForm, routing){
         var firstUrl = $('#firstUrl').val(), lastUrl = $('#lastUrl').val(), type = $('#type').val(), u = $('#u').val();
         function changeWindow(){
 			//窗口居中垂直
@@ -54,15 +54,15 @@ require(['../config'],function(){
 
 		function sendLoginInfo(){
 		    $.ajax({  
-		        url: "{{ path('_default_ad_login') }}",
+		        url: Routing.generate("_default_ad_login"),
 		        data: { email: $.trim($("#email").val()), pwd: $.trim($("#pwd").val()) }, 
 		        type: "POST",
 		        success:function(data){
-		           if(data=='ok'){
-		            	hasLogin();
-		           }else{
-		        	   	$("#email_error").html(data).addClass('error').attr('display', 'block');
-		           }
+					if(data=='ok'){
+						hasLogin();
+					}else{
+					   	$("#email_error").html(data).addClass('error').attr('display', 'block');
+					}
 		        }
 		    });
 		}
@@ -88,6 +88,7 @@ require(['../config'],function(){
 				var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
 	            if(loginform.run(true)){
 	                sendLoginInfo();
+	                e.preventDefault();
 	            }else{
 	                e.preventDefault();
 	            }
