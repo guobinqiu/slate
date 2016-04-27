@@ -251,7 +251,7 @@ parameters:
     exchange_finish_mobile_content: 亲爱的用户：<br/><br/>您好！您的手机费兑换申请已经处理成功，请及时查看您的手机余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://%domain%/support" target="_blank">http://%domain%/support</a><br/><br/>91问问运营中心
     exchange_finish_flow_content: 亲爱的用户：<br/><br/>您好！您的流量包兑换申请已经处理成功，请及时查看您的流量。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://%domain%/support" target="_blank">http://%domain%/support</a><br/><br/>91问问运营中心
     exchange_finish_wenwen_title: 91问问积分兑换成功
-    ecchange_finish_wenwen_content: 亲爱的用户：<br/><br/>您好！您从91问问网站上申请的兑换已经处理成功，米粒已经发放至您的91问问账户，请及时查看您的米粒余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://%domain%/support" target="_blank">http://%domain%/support</a><br/><br/>91问问运营中心
+    ecchange_finish_wenwen_content: 亲爱的用户：<br/><br/>您好！您从91问问网站上申请的兑换已经处理成功，积分已经发放至您的91问问账户，请及时查看您的积分余额。<br/><br/>如有问题，请联系我们的网站客服人员。<br/><a href="http://%domain%/support" target="_blank">http://%domain%/support</a><br/><br/>91问问运营中心
     exchange_fail_amazon_tilte: “亚马逊礼品卡”兑换失败
     exchange_fail_alipay_tilte: 支付宝充值兑换失败
     exchange_fail_mobile_tilte: 手机费兑换失败
