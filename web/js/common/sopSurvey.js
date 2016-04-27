@@ -28,7 +28,7 @@ define(['backbone'], function(Backbone) {
         ,getAnswerLabel: function(){
             var label;
             if ( this.get('is_answered') == 1 ){
-                label = '回答完毕！';
+                label = '<span class="disabled">回答完毕</span>';
             }else{
                 label = '<a href="#" class="open-link">可回答</a>';
             }
@@ -72,7 +72,7 @@ define(['backbone'], function(Backbone) {
         ,getAnswerLabel: function(){
             var label;
             if ( this.get('is_answered') == 1 ){
-                label = '回答完毕！';
+                label = '<span class="disabled">回答完毕</span>';
             }else{
                 label = '<a href="#" class="open-link">可回答</a>';
             }
@@ -100,7 +100,7 @@ define(['backbone'], function(Backbone) {
         }
         ,openSurvey: function (e) {
             // Mark item as "done"
-            $(e.currentTarget).parent().empty().text('回答完毕！');
+            $(e.currentTarget).parent().empty().html('<span class="disabled">回答完毕</span>');
             this.insertConversionTags();
             window.open(
                 this.model.get('url'),

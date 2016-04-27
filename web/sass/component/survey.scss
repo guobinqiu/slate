@@ -87,24 +87,38 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 }
-.survey .survey-btn{
-	color: #666;
-	background: transparent;
-	width: 24%;
-	line-height: 170px;
-	cursor: default;
-	position: absolute;
-	right: -13px;
-	top: 0px;
-	a{
-		color: #fff;
-		background: #ff7733;
-		width: 141px;
-		height: 33px;
-		line-height: 33px;
-		text-align: center;
-		@include btn();			
-		@include dib();
+.survey {
+	.survey-btn{
+		color: #666;
+		background: transparent;
+		width: 24%;
+		line-height: 170px;
+		cursor: default;
+		position: absolute;
+		right: -13px;
+		top: 0px;
+		a{
+			color: #fff;
+			background: #ff7733;
+			width: 141px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			@include btn();			
+			@include dib();
+		}
+		.disabled{
+			margin-top: 67px;
+			color: #fff;
+			background: #a7a7a7;
+			border: 1px solid #a7a7a7;
+			border-radius: 3px;
+			width: 141px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			@include dib();
+		}
 	}
 }
 .vote .vote-btn{

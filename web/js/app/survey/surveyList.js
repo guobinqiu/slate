@@ -2,13 +2,13 @@ require(['../../config'], function() {
     require(['common']);
     require(['jquery', 'sopSurvey', 'backbone', 'routing','jqueryCookie'], function($, survey, backbone, routing) {
 
-        var pop_survey_window = function(element) {
-            window.open(
-                element.getAttribute('href'),
-                'enquete_window',
-                'resizable=yes,scrollbars=yes,toolbar=no'
-            );
-        };
+        // var pop_survey_window = function(element) {
+        //     window.open(
+        //         element.getAttribute('href'),
+        //         'enquete_window',
+        //         'resizable=yes,scrollbars=yes,toolbar=no'
+        //     );
+        // };
 
         var addSuveyItem = function (el) {
 

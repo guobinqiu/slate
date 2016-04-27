@@ -386,6 +386,19 @@ body {
     .survey .survey-btn a:hover {
       background: #f05218;
       border: 1px solid #f05218; }
+  .survey .survey-btn .disabled {
+    margin-top: 67px;
+    color: #fff;
+    background: #a7a7a7;
+    border: 1px solid #a7a7a7;
+    border-radius: 3px;
+    width: 141px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1; }
 
 .vote .vote-btn {
   width: 0%;
