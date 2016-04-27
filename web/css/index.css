@@ -296,7 +296,7 @@ body {
 .login-wrapper {
   position: absolute;
   z-index: 1000;
-  right: -70px;
+  right: -61px;
   top: 100px;
   background: url(../img/home/loginBg.png) no-repeat center bottom;
   padding: 0 70px 5px; }
@@ -495,20 +495,29 @@ body {
   background: url(../img/home/coinBg.png) no-repeat; }
 
 .coinBack {
-  width: 100%;
   height: 100%;
-  background: url(../img/home/coinBack.png) no-repeat 121px 40px; }
+  background-image: url(../img/home/coinBack.png);
+  background-image: url(../img/home/coinBack.svg), none;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  margin: 0 auto; }
 
 .main-ad-con {
   width: 1000px;
   height: 100%;
   position: relative;
-  z-index: 1; }
+  z-index: 1;
+  margin: 0 auto; }
 
 .main-ad-con-text {
   color: #f4fafd;
-  padding-top: 145px;
-  padding-left: 20px;
+  left: 0;
+  top: 145px;
   position: absolute;
   z-index: 3; }
   .main-ad-con-text h1 {
