@@ -388,14 +388,20 @@ body {
     font-size: 13px;
     color: #404040;
     font-weight: bold;
-    height: 30px;
-    line-height: 30px;
-    overflow: hidden;
-    width: 48%; }
+    line-height: 21px;
+    width: 48%;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle; }
   .vote-sub .options dd {
+    margin-top: 28px;
     width: 50%;
-    float: right;
-    margin-top: -24px; }
+    height: 18px;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle; }
   .vote-sub .options b, .vote-sub .options span.result {
     float: right;
     color: #9da1a8; }

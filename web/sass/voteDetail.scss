@@ -103,15 +103,17 @@
  			font-size: 13px;
  			color: #404040;
  			font-weight: bold;
- 			height: 30px;
-			line-height: 30px;
-            overflow: hidden;
+			line-height: 21px;
 			width: 48%;
+			@include dib();
+			vertical-align: middle;
  		}
  		dd{
+ 			margin-top: 28px;
  			width: 50%;
-  		    float: right;
-  		    margin-top: -24px;
+ 			height: 18px;
+  		    @include dib();
+  		    vertical-align: middle;
  		}
  		b, span.result{
  			float: right;
