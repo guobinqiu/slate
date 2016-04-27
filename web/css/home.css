@@ -558,6 +558,13 @@ body {
   overflow-y: scroll;
   font-size: 14px;
   line-height: 24px; }
+  .proText::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px; }
+  .proText::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.3); }
   .proText .em {
     color: #ff6700; }
 
