@@ -4,12 +4,12 @@ use common::sense;
 
 use Moo;
 use Time::Piece ();
-use Time::Seconds;
 use Time::Piece::Plus;
+use Time::Seconds;
 
-use Wenwen::Task::ActiveRatio;
 use Wenwen::Model;
 use Wenwen::Model::Service::PanelKPI;
+use Wenwen::Task::ActiveRatio;
 
 has base_date => (is => 'ro',);
 

@@ -1,8 +1,8 @@
 use common::sense;
 
 use Getopt::Long;
-use Wenwen::Task::GetPerformanceReport;
 use Wenwen::Email;
+use Wenwen::Task::GetPerformanceReport;
 
 my %opt = (base_date => Time::Piece->localtime->strftime('%Y-%m-%d'),);
 

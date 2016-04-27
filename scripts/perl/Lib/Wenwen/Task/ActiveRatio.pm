@@ -2,10 +2,8 @@ package Wenwen::Task::ActiveRatio;
 
 use common::sense;
 
-#use diagnostics -verbose;
-
-use Moo;
 use DateTime;
+use Moo;
 
 has end_register_date => (is => 'ro',);
 
