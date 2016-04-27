@@ -47,4 +47,7 @@
 59 23 20 12 * /bin/sh /var/www/html/jili/app/cache/rm-cache.sh 1>>/data/91jili/logs/cron/cron_logs/rm_cache.log  2>&1
 
 # tzy api check
-30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
+#30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
+
+#reward point
+0 10 * * * bash /var/www/html/jili/bin/schedule/reward-point.sh
