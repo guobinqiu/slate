@@ -50,4 +50,4 @@
 #30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
 
 #reward point
-0 10 * * * bash /var/www/html/jili/bin/schedule/reward-point.sh 2>&1 >> /data/91jili/logs/cron/cron_logs/reward_point.log
+0 9 * * * bash /var/www/html/jili/bin/schedule/reward-point.sh 2>&1 >> /data/91jili/logs/cron/cron_logs/reward_point.log
