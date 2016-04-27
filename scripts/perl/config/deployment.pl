@@ -7,4 +7,7 @@ use common::sense;
         user => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
         pass => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
     },
+        email => {
+        from  => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
+    },
 };

@@ -1,9 +1,9 @@
-package logic::Email;
+package Wenwen::Email;
 
 use common::sense;
 
 #use diagnostics -verbose;
-
+use Wenwen::Config;
 use Email::MIME;
 use Email::Sender::Simple qw(sendmail);
 
@@ -28,13 +28,16 @@ sub send {
     # Todo isolate dsn etc. from here
     my ($self, $to, $subject, $body) = @_;
 
+    my $email_config = c->param('email');
+    my $from         = $email_config->{from};
+    say "From: $from";
     say "To: $to";
     say "Subject: $subject";
     say "body: $body";
 
     my $message = Email::MIME->create(
         header_str => [
-            From    => 'ds-sys-china@d8aspring.com',
+            From    => $from,
             To      => $to,
             Subject => $subject,
         ],

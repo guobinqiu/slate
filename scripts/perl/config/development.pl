@@ -6,5 +6,8 @@ use common::sense;
         user => 'root',
         pass => '',
     },
+    email => {
+        from  => 'test.91wenwen@net',
+    },
 };
 
