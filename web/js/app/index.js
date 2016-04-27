@@ -100,6 +100,12 @@ require(['../config'],function(){
                 scrollTop: $($(this).attr('href')).offset().top
             }, 800);
          });
+
+
+        //resize coin background
+        window.onresize = function(event) {
+            $(".coinBack").css("width", $(window).width());
+        }
     });
     require(['jquery', 'jqueryCookie'], function($){
         //feedback
