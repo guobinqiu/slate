@@ -87,8 +87,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'respondent_id' => 'wwcn-473',
             'start_url_id' => 'c37xkNG9WDnfTS6Y6IYJ1h3tECGN8vZn',
             'stash_data' => [
-            'contact_method_id' => 1,
-            'start_url_head' => 'String',
+            'contactMethodId' => 1,
+            'startUrlHead' => 'String',
             ],
             ], $request->nextRespondent(), '1st'
         );
@@ -100,8 +100,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'respondent_id' => 'wwcn-474',
             'start_url_id' => 'hogefuga',
             'stash_data' => [
-            'contact_method_id' => 1,
-            'start_url_head' => 'String',
+            'contactMethodId' => 1,
+            'startUrlHead' => 'String',
             ],
             ], $request->nextRespondent(), '2nd'
         );
