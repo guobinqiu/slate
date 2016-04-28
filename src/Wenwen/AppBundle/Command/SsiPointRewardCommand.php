@@ -32,6 +32,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('start panel:reward-ssi-point...');
+
         $env = $this->getContainer()->get('kernel')->getEnvironment();
         $date = $input->getOption('date');
         $definitive = $input->getOption('definitive');
