@@ -78,8 +78,7 @@ deploy: deploy-js-routing
 	@echo done
 
 cc-cache:
-	sudo rm -rf app/cache/dev/*
-	sudo rm -rf app/cache/prod/*
+	sudo rm -rf app/cache/*
 
 cc-all:
 	sudo rm -rf app/cache/*
