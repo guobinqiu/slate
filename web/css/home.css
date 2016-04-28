@@ -681,7 +681,7 @@ body {
 
 #newguideWrap {
   width: 1000px;
-  min-height: 1000px;
+  height: 100%;
   position: relative;
   margin: 0 auto;
   z-index: 10000; }
@@ -691,25 +691,21 @@ body {
     position: absolute;
     background: url(../img/home/guide1.png) no-repeat 0 0;
     left: 232px;
-    top: 303px; }
+    top: -400px; }
   #newguideWrap .newguide2 {
     width: 520px;
     height: 379px;
     position: absolute;
     background: url(../img/home/guide2.png) no-repeat 0 0;
     right: 58px;
-    top: 9px; }
+    top: -644px; }
   #newguideWrap .newguide3 {
     width: 493px;
     height: 369px;
     position: absolute;
     background: url(../img/home/guide3.png) no-repeat 0 0;
-    right: -9px;
-    top: 10px; }
-  #newguideWrap .newguide1 div, #newguideWrap .newguide2 div, #newguideWrap .newguide3 div {
-    width: 100%;
-    height: 100%;
-    position: relative; }
+    right: -2px;
+    top: -641px; }
   #newguideWrap .ngbtn {
     position: absolute;
     width: 120px;
