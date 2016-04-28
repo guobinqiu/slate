@@ -25,7 +25,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $this
       ->setName('panel:reward-ssi-point')
       ->setDescription('Reward Point for SSI API conversion')
-      ->addOption('date', null, InputOption::VALUE_REQUIRED, 'conversion-date', date('Y-m-d', strtotime('2 days ago')))
+      ->addArgument('date', null, InputOption::VALUE_REQUIRED, 'conversion-date', date('Y-m-d', strtotime('2 days ago')))
       ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
       ;
     }
@@ -35,7 +35,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $output->writeln('start panel:reward-ssi-point...');
 
         $env = $this->getContainer()->get('kernel')->getEnvironment();
-        $date = $input->getOption('date');
+        $date = $input->getArgument('date');
         $definitive = $input->getOption('definitive');
         $this->setLogger($this->getName());
 
