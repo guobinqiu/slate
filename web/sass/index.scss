@@ -153,14 +153,15 @@ $main-ad-color: #eb7020;
 	}
 }
 .main-con-process{
-	height: 562px;
-	background: url(../img/home/adProcess.png) no-repeat center 155px #EFEFEF;
+	height: 570px;
+	background: url(../img/home/adProcess.png) no-repeat center 175px #EFEFEF;
 	overflow: hidden;
 	position: relative;
+	padding-bottom: 30px;
 }
 .procDisc{
 	width: 100%;
-	margin-top: 296px;
+	margin-top: 313px;
 	li{
 		width: 33%;
 		display: inline-block;
@@ -199,7 +200,8 @@ $main-ad-color: #eb7020;
 }
 .main-con-reward{
 	background: #dedede;
-	padding-bottom: 75px;
+	padding-bottom: 126px;
+	padding-top: 20px;
 	overflow: hidden;
 	.topTit{
 		margin-bottom: 80px;
@@ -283,7 +285,7 @@ $main-ad-color: #eb7020;
 	overflow: hidden;
 	.topTit{
 		width: 1000px;
-		margin: 40px auto 80px;
+		margin: 54px auto 80px; 
 	}
 	.party{
 		    background: url(../img/home/wallCon.png) no-repeat;
