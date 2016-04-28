@@ -386,6 +386,7 @@ body {
         margin-top: 11px; }
   .vote-sub .options dt {
     margin-top: 25px;
+    margin-right: 1%;
     font-size: 13px;
     color: #404040;
     font-weight: bold;
