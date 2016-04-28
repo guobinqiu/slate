@@ -1,3 +1,13 @@
+########################################################################
+# You can study on http://mrbook.org/blog/tutorials/make/
+# Do not use phpstorm or similar IDE to edit this file!
+# Pay attention to the format of Makefiles below:
+#
+#     target: dependencies
+#     [tab] system command
+#
+########################################################################
+
 APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
 BRANCH=origin/master
 PHP=$(shell which php)
@@ -7,7 +17,7 @@ SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
-	$(PHPUNIT) -c ./app/ -d memory_limit=-1 --testsuite wenwen
+	$(PHPUNIT) -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
 
 test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
@@ -21,29 +31,27 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
+setup: show-setting setup-submodules create-dir fix-perms create-config setup-dev-databases deploy-js-routing cc-all setup-web-root
 
 setup-perl:
 	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
 
-setup-databases:
-	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		if [ `mysql -uroot -e  "SHOW DATABASES" | grep "jili_db"` ] ; then \
-			php app/console doctrine:database:drop --force; \
-		fi; \
-		php app/console doctrine:database:create; \
-		php app/console doctrine:schema:update --force; \
-	fi;
+setup-dev-databases:
+	php app/console doctrine:database:drop --force --env "dev" --if-exists
+	php app/console doctrine:database:create --env "dev"
+	php app/console doctrine:schema:update --force --env "dev"
+
+setup-circle-databases:
+	php app/console doctrine:database:drop --force --env "test" --if-exists
+	php app/console doctrine:database:create --env "test"
+	php app/console doctrine:schema:update --force --env "test"
 
 setup-submodules:
 	git submodule update --init;
 
-circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all setup-circle-databases
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
-	php app/console doctrine:database:drop --force --env "test"
-	php app/console doctrine:database:create --env "test"
-	php app/console doctrine:schema:update --force --env "test"
-	php app/console cache:clear --env "test"
+
 
 show-setting:
 	@echo "Setting"
