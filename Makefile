@@ -40,6 +40,10 @@ setup-submodules:
 
 circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
+	php app/console doctrine:database:drop --force --env "test"
+	php app/console doctrine:database:create --env "test"
+	php app/console doctrine:schema:update --force --env "test"
+	php app/console cache:clear --env "test"
 
 show-setting:
 	@echo "Setting"
