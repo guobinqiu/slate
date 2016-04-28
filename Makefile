@@ -78,7 +78,8 @@ deploy: deploy-js-routing
 	@echo done
 
 cc-cache:
-	sudo rm -rf app/cache/*
+	sudo rm -rf app/cache/dev/*
+	sudo rm -rf app/cache/prod/*
 
 cc-all:
 	sudo rm -rf app/cache/*
@@ -87,9 +88,9 @@ cc-all:
 	sudo rm -rf app/logs_data/*
 	sudo rm -rf app/sessions/*
 
-
 sass:
 	sass -v
 	sass --trace  -C --sourcemap=none  --style=nested --watch web/sass:web/css
 
-
+run-job:
+	php ./app/console jms-job-queue:run  --env dev -j 4
