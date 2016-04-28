@@ -44,9 +44,10 @@ setup-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all setup-databases
+circle-sed:
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-databases
 
 show-setting:
 	@echo "Setting"
