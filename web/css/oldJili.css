@@ -4,8 +4,7 @@ body {
 .JLNotWrap {
   height: 772px;
   background: url(../img/404/oldJiliNotice.png) no-repeat center center;
-  margin: 30px auto;
-  position: relative; }
+  margin: 30px auto; }
   .JLNotWrap .JLNotCon {
     width: 570px;
     height: 470px;
@@ -24,11 +23,11 @@ body {
       color: #808080;
       text-align: left;
       line-height: 22px;
-      margin-top: 160px;
+      margin-top: 25px;
       font-size: 12px; }
     .JLNotWrap .JLNotCon .link {
       width: 262px;
       height: 100px;
-      position: absolute;
-      left: 547px;
-      top: 409px; }
+      text-align: center;
+      display: inline-block;
+      padding-top: 30px; }
