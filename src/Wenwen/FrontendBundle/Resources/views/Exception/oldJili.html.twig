@@ -1,0 +1,21 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}出错啦：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/oldJili.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+<div class="JLNotWrap">
+	<div class="JLNotCon">
+		<p class="title">积粒网域名<strong>变更通知</strong></p>
+		<p class="text1">积粒网的域名 <em>www.91jili.com</em>  已变更为  <em>www.91wenwen.net</em></p>
+		<a href="http://www.91wenwen.net/" target="_blank" class="link"></a>
+		<p class="text2">非常感谢您一直以来对积粒网的支持，为了使您能更好的体验网站，新网站做了人性化的改变。积分不需要多一步兑换了，大大节省了积分兑换的繁琐和时间哦！另外和91问问调查网内容合并，能更快的获得积分啦！当然新网站可能会存在很多不足，也希望大家可以提出自己的建议，继续支持我们！</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

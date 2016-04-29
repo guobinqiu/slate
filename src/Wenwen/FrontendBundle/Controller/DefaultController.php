@@ -8,4 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends Controller
 {
+	/**
+     * @Route("/jiliNotice", name="_jili_notice")
+     * @Template
+     */
+    public function jiliNoticeAction()
+    {
+        return $this->render('WenwenFrontendBundle:Exception:oldJili.html.twig');
+    }
 }
