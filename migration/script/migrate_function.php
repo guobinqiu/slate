@@ -541,6 +541,8 @@ function generate_user_data_only_jili($row = array())
         $row[3] = 0;
     }
 
+    // register_date -> register_complete_date
+    $row[22] = $row[21];
     //origin_flag
     $row[32] = Constants::$origin_flag['jili'];
     //password_choice
@@ -589,6 +591,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
     //register_date (panelist.created_at)
     $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
 
+    //register_complete_date (panelist.created_at)
+    $user_row[22] = $user_row[21];
+    
     //last_login_date(panelist.panelist.last_login_time)
     $user_row[23] = get_one_hour_ago_time($panelist_row[17]);
 
@@ -833,7 +838,9 @@ function set_default_value($row)
     }
 
     //register_complete_date
-    $row[22] ='NULL';
+    if( $row[22] === '') {
+        $row[22] ='NULL';
+    }
 
     //delete_flag
     if( $row[26] === '') {
