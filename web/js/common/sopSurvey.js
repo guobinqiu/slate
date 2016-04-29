@@ -101,22 +101,12 @@ define(['backbone'], function(Backbone) {
         ,openSurvey: function (e) {
             // Mark item as "done"
             $(e.currentTarget).parent().empty().html('<span class="disabled">回答完毕</span>');
-            this.insertConversionTags();
             window.open(
                 this.model.get('url'),
                 'sop_window',
                 'resizable=yes,scrollbars=yes,toolbar=no'
             );
             e.preventDefault();
-        }
-        ,insertConversionTags: function () {
-            $(document.body).append(
-                '<iframe src="/internal_api/cvt?'
-                +
-                'sop_url=' + encodeURIComponent(this.model.get('url'))
-                +
-                '" width="1" height="1" frameborder="0"></iframe>'
-            );
         }
     });
     exports.ResearchItemView = Backbone.View.extend({
@@ -163,22 +153,12 @@ define(['backbone'], function(Backbone) {
         }
         ,openSurvey: function (e) {
             // Mark item as "done"
-            this.insertConversionTags();
             window.open(
                 this.model.get('url'),
                 'sop_window',
                 'resizable=yes,scrollbars=yes,toolbar=no'
             );
             e.preventDefault();
-        }
-        ,insertConversionTags: function () {
-            $(document.body).append(
-                '<iframe src="/internal_api/cvt?'
-                +
-                'sop_url=' + encodeURIComponent(this.model.get('url'))
-                +
-                '" width="1" height="1" frameborder="0"></iframe>'
-            );
         }
     });
     exports.FulcrumUserAgreementView = Backbone.View.extend({
