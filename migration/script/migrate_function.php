@@ -797,11 +797,11 @@ function set_default_value($row)
 //personalDes	text	YES		NULL
     $row[18] = addslashes($row[18]);
     // created_user_agent
-    $row[34] = addslashes($row[32]);
+    $row[34] = addslashes($row[34]);
 // fav_music	varchar(255)	YES		NULL
-    $row[37] = addslashes($row[35]);
+    $row[37] = addslashes($row[37]);
 //monthly_wish	varchar(255)	YES		NULL
-    $row[38] = addslashes($row[36]);
+    $row[38] = addslashes($row[38]);
 
     // sex
     if(''===$row[8] ) {
