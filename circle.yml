@@ -16,10 +16,10 @@ dependencies:
 
 test:
   override:
-    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite wenwen -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_command -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_controller -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_entity -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_form -d memory_limit=-1 --debug --verbose
-#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_repo -d memory_limit=-1 --debug --verbose
+#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite wenwen -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_command -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_controller -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_entity -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_form -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_repo -d memory_limit=-1 --debug --verbose
