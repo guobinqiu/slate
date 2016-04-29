@@ -34,7 +34,7 @@
                     <dt title="{{choice.name}}">{{choice.name}}</dt>
                     <dd class="option1">
                         <span class="result">{{choice.answer_count}}票</span>
-                        <span class="progress"><p style="width: {{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%;"></p></span>
+                        <span class="progress"><p></p><input type="hidden" value="{{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%"></span>
                     </dd>
                     {% endfor %}
                 </dl>
