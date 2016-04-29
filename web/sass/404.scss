@@ -8,17 +8,19 @@
 	background: #f2f3f5;
 	.main-error-con{
 		margin: 0 auto;
-		background: url(../img/404/errorbox.png) no-repeat center;
+		background: url(../img/404/errorbg.png) no-repeat center;
 		.errorCon{
 			width: 1000px;
 			height: 436px;
-			margin: 0 auto;
+			margin: 80px auto;
 			position: relative;
 			.errorText{
 				width: 480px;
 				position: absolute;
-				top: 178px;
-				left: 455px;
+				top: 298px;
+				left: 665px;
+				padding: 15px;
+				background: #f2f2f2;
 				.txt{
 					font-size: 14px;
 					line-height: 24px;
@@ -39,17 +41,15 @@
 			}
 		}
 	}
-	.errorBot{
-			height: 152px;
-			margin-top: 20px;
-			background: url(../img/404/wave.png) repeat-x;
-	}
+	// .errorBot{
+	// 		height: 152px;
+	// 		margin-top: 20px;
+	// 		background: url(../img/404/wave.png) repeat-x;
+	// }
 }
 .footer{
-	background: #4b95d7;
-	margin-top: 0;
-	border: none;
+	display: none;
 }
-body{
-	background: #4b95d7;
-}
+// body{
+// 	background: #4b95d7;
+// }
