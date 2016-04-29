@@ -7,6 +7,7 @@ reward-sop-additional-point
 reward-fulcrum-point
 reward-fulcrum-agreement
 reward-cint-point
+reward-ssi-point
 )
 
 cd $(dirname $0)/../../;
