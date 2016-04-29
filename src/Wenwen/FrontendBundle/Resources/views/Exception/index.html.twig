@@ -16,7 +16,7 @@
 			{% if errorMessage is defined and errorMessage is not empty %}
 				<p class="txt">{{ errorMessage|nl2br }}</p>
 			{% else %}
-				<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>
+				<p class="txt">对不起，出错啦！请确认您所输入的网址是否正确。</p>
 			{% endif %}
 				<p class="btn"><a href="{{ path('_homepage') }}">返回首页</a><a href="{{ path('_default_feedback') }}">联系客服</a></p>
 		</div>
