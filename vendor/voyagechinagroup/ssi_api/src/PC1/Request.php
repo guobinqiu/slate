@@ -64,8 +64,8 @@ class Request
           'respondent_id' => $respondent['respondentId'],
           'start_url_id' => $respondent['startUrlId'],
           'stash_data' => [
-            'contact_method_id' => $this->getContactMethodId(),
-            'start_url_head' => $this->getStartUrlHead(),
+            'contactMethodId' => $this->getContactMethodId(),
+            'startUrlHead' => $this->getStartUrlHead(),
           ],
         ];
     }

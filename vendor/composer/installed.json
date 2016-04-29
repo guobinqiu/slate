@@ -4197,17 +4197,17 @@
     },
     {
         "name": "voyagechinagroup/ssi_api",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "git@github.com:voyagechinagroup/ssi_api.git",
-            "reference": "d4d0961ee18edf8929e5da4a67d42bab5aa25ada"
+            "reference": "2dcb57f8f7410c93afd3454ecd5023014e7b24fb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/d4d0961ee18edf8929e5da4a67d42bab5aa25ada",
-            "reference": "d4d0961ee18edf8929e5da4a67d42bab5aa25ada",
+            "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/2dcb57f8f7410c93afd3454ecd5023014e7b24fb",
+            "reference": "2dcb57f8f7410c93afd3454ecd5023014e7b24fb",
             "shasum": ""
         },
         "require": {
@@ -4220,7 +4220,7 @@
             "phpunit/phpunit": "4.*",
             "piece/stagehand-testrunner": "4.1.*"
         },
-        "time": "2016-04-16 00:55:06",
+        "time": "2016-04-28 10:25:24",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4236,7 +4236,7 @@
         ],
         "description": "ssi api integration",
         "support": {
-            "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.0",
+            "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.1",
             "issues": "https://github.com/voyagechinagroup/ssi_api/issues"
         }
     }
