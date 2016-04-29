@@ -31,17 +31,12 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config setup-dev-databases deploy-js-routing cc-all setup-web-root
+setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
 
 setup-perl:
 	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
 
-setup-dev-databases:
-	php app/console doctrine:database:drop --force --env "dev" --if-exists
-	php app/console doctrine:database:create --env "dev"
-	php app/console doctrine:schema:update --force --env "dev"
-
-setup-circle-databases:
+setup-databases:
 	php app/console doctrine:database:drop --force --env "test" --if-exists
 	php app/console doctrine:database:create --env "test"
 	php app/console doctrine:schema:update --force --env "test"
@@ -49,9 +44,10 @@ setup-circle-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all setup-circle-databases
+circle-sed:
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-databases
 
 show-setting:
 	@echo "Setting"

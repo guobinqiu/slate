@@ -1,30 +1,30 @@
-{% extends 'JiliFrontendBundle::base.html.twig' %}
-{% block title %}积粒网-页面不存在 404{% endblock %}
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}出错啦：{{ parent() }} {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/comingSoon.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/404.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block javascript %}
-<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
-
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
-<div class="webArticle error404">
-{% if errorMessage is defined and errorMessage is not empty %}
-    <div class="error">
-        <div class="errorMessage">{{ errorMessage }}</div>
-        <div class=""><a href="{{ path('_homepage') }}">去首页</a></div>
-    </div>
-{% else %}
-    <article>
-    <a href="{{ path('_homepage') }}">去首页</a>
-    </article>
-{% endif %}
-  
+<div class="main-error-con clearfix">
+	<div class="errorCon">
+		<div class="errorText">
+			{% if errorMessage is defined and errorMessage is not empty %}
+				<p class="txt">{{ errorMessage|nl2br }}</p>
+			{% else %}
+				<p class="txt">404错误，这个页面被大鲨鱼劫走了~</p>
+			{% endif %}
+				<p class="btn"><a href="{{ path('_homepage') }}">返回首页</a><a href="{{ path('_default_feedback') }}">联系客服</a></p>
+		</div>
+	</div>
 </div>
+<div class="errorBot"></div>
 {% endblock %}
 
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}
