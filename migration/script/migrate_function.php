@@ -496,6 +496,8 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current )
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
+    //register_complete_date (panelist.created_at)
+    $user_row[22] = get_one_hour_ago_time($panelist_row[9]);
     //origin_flag
     $user_row[32] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
@@ -518,6 +520,8 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row[4] = Constants::$is_from_wenwen['wenwen_only'];
     //reward_multiple
     $user_row[20] = 1;
+    //register_complete_date (panelist.created_at)
+    $user_row[22] = get_one_hour_ago_time($panelist_row[9]);
     //origin_flag
     $user_row[32] = Constants::$origin_flag['wenwen'];
     $user_row = set_default_value($user_row);
@@ -536,13 +540,13 @@ function generate_user_data_only_jili($row = array())
     if ($row[2]) {
         //user has password, set is_email_confirmed = 1
         $row[3] = 1;
+        // register_date -> register_complete_date
+        $row[22] = $row[21];
     } else {
         //user password is null, is_email_confirmed = 0
         $row[3] = 0;
     }
 
-    // register_date -> register_complete_date
-    $row[22] = $row[21];
     //origin_flag
     $row[32] = Constants::$origin_flag['jili'];
     //password_choice
@@ -590,9 +594,6 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     //register_date (panelist.created_at)
     $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
-
-    //register_complete_date (panelist.created_at)
-    $user_row[22] = $user_row[21];
     
     //last_login_date(panelist.panelist.last_login_time)
     $user_row[23] = get_one_hour_ago_time($panelist_row[17]);
