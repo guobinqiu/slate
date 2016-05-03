@@ -1189,11 +1189,11 @@ function generate_history_details($array_panelistid_userid)
                 continue;
             }
             // point_history.user_id related to panel_91wenwen_panelist_point_log.user_id
-            $point_history_user_id = $array_panelistid_userid[$panel_91wenwen_panelist_point_log_panelist_id];
+            $user_id = $array_panelistid_userid[$panel_91wenwen_panelist_point_log_panelist_id];
             
             // Generate one row of point_history from panel_91wenwen_panelist_point_log
-            $point_history_row = generate_point_history_row($panel_91wenwen_panelist_point_log_row, $point_history_user_id);
-            $task_history_row = generate_task_history_row($panel_91wenwen_panelist_point_log_row, $point_history_user_id);
+            $point_history_row = generate_point_history_row($panel_91wenwen_panelist_point_log_row, $user_id);
+            $task_history_row = generate_task_history_row($panel_91wenwen_panelist_point_log_row, $user_id);
 
             // Debug
             // print_r($point_history_row);
@@ -1201,7 +1201,7 @@ function generate_history_details($array_panelistid_userid)
             $panelist_point_indexs[$panel_91wenwen_panelist_point_log_panelist_id]['point_value'] -= $panel_91wenwen_panelist_point_log_row[3];
             
             // Output to point_history0x.csv and task_history0x.csv
-            $index = $point_history_user_id % 10;
+            $index = $user_id % 10;
             $point_history_csv_name = Constants::$migrate_point_history_name . $index . ".csv";
             export_csv_row($point_history_row, $point_history_csv_name);
             $task_history_csv_name = Constants::$migrate_task_history_name . $index . ".csv";
@@ -1223,12 +1223,10 @@ function generate_history_details($array_panelistid_userid)
  */
 function generate_point_history_row($panel_91wenwen_panelist_point_log_row, $point_history_user_id){
 
-    $panel_91wenwen_panelist_point_log_panelist_id = $panel_91wenwen_panelist_point_log_row[1];
     $panel_91wenwen_panelist_point_log_add_point_value = $panel_91wenwen_panelist_point_log_row[3];
     $panel_91wenwen_panelist_point_log_exec_type = $panel_91wenwen_panelist_point_log_row[5];
     $panel_91wenwen_panelist_point_log_created_at = $panel_91wenwen_panelist_point_log_row[10];
 
-    $point_history_id = NULL;
     $point_history_point_change_num = $panel_91wenwen_panelist_point_log_add_point_value;
     $point_history_reason = mapping_reason($panel_91wenwen_panelist_point_log_exec_type);
     $point_history_create_time = $panel_91wenwen_panelist_point_log_created_at;
@@ -1253,19 +1251,13 @@ function generate_point_history_row($panel_91wenwen_panelist_point_log_row, $poi
  * @param string $point_history_user_id string of user_id in 91jili system
  * @return mixed $task_history_row array of one row for task_history
  */
-function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $point_history_user_id){
+function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $task_history_user_id){
 
-    $panel_91wenwen_panelist_point_log_panelist_id = $panel_91wenwen_panelist_point_log_row[1];
     $panel_91wenwen_panelist_point_log_add_point_value = $panel_91wenwen_panelist_point_log_row[3];
     $panel_91wenwen_panelist_point_log_exec_type = $panel_91wenwen_panelist_point_log_row[5];
     $panel_91wenwen_panelist_point_log_exec_comment = $panel_91wenwen_panelist_point_log_row[6];
     $panel_91wenwen_panelist_point_log_created_at = $panel_91wenwen_panelist_point_log_row[10];
 
-    $task_history_id = NULL;
-    $task_history_order_id = 0;
-    $task_history_user_id = $point_history_user_id;
-
-    $point_history_point_change_num = $panel_91wenwen_panelist_point_log_add_point_value;
     $task_history_category_type = mapping_reason($panel_91wenwen_panelist_point_log_exec_type);
     $task_history_task_type = $task_history_category_type;
     $task_history_task_name = $panel_91wenwen_panelist_point_log_exec_comment;
@@ -1275,7 +1267,6 @@ function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $poin
     $task_history_date = $panel_91wenwen_panelist_point_log_created_at;
     $task_history_status = "1";
     
-            
     // task_history_0x.id
     $task_history_row[0] = 'NULL';
     // task_history_0x.order_id
