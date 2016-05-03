@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .w1000 {
   width: 1000px;
   margin: 0 auto; }
@@ -424,6 +425,35 @@ body {
           color: #ff6700; }
         .main .qnWrap .qnEnd .qnEndTxt .txt .cor666 {
           color: #666; }
+      .main .qnWrap .qnEnd .qnEndTxt .refer {
+        margin-top: 168px;
+        padding: 20px 60px;
+        width: 585px;
+        background: #f7f7f7;
+        font-size: 12px;
+        color: #b6b6b6;
+        line-height: 20px;
+        border-radius: 5px; }
+        .main .qnWrap .qnEnd .qnEndTxt .refer a {
+          color: #0078b6; }
+      .main .qnWrap .qnEnd .qnEndTxt .confirmBtn {
+        margin-top: 10px;
+        width: 65px;
+        height: 26px;
+        line-height: 24px;
+        font-family: "微软雅黑";
+        color: #fff;
+        background: #ff652b;
+        border: 1px solid #ff652b;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        -webkit-transition: all 0.4s;
+        -o-transition: all 0.4s; }
+        .main .qnWrap .qnEnd .qnEndTxt .confirmBtn:hover {
+          background: #f05218;
+          border: 1px solid #f05218; }
 
 /* permisson page Start */
 .permissionMain {
