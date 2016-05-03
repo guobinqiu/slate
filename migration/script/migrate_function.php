@@ -65,7 +65,7 @@ function initialise_csv()
     $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
     $panelist_sina_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv");
     $pointexchange_91jili_account_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv");
-    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
+    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . panel_91wenwen_vote_answer . ".csv");
     $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
     $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
     $ssi_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/ssi_respondent.csv");

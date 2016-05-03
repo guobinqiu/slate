@@ -36,7 +36,15 @@ $a = array(
         'panel_91wenwen_panelist_91jili_connection',
         'sop_respondent',
         'panel_91wenwen_panelist_sina_connection',
-        VOTE_ANSWER,
+        'panel_91wenwen_vote_answer_201604',
+        'panel_91wenwen_vote_answer_201605',
+        'panel_91wenwen_panelist_point_log_201511',
+        'panel_91wenwen_panelist_point_log_201512',
+        'panel_91wenwen_panelist_point_log_201601',
+        'panel_91wenwen_panelist_point_log_201602',
+        'panel_91wenwen_panelist_point_log_201603',
+        'panel_91wenwen_panelist_point_log_201604',
+        'panel_91wenwen_panelist_point_log_201605',
         'panel_91wenwen_vote',
         'panel_91wenwen_vote_image',
         'panel_91wenwen_vote_choice',
@@ -53,7 +61,15 @@ $orders= array(
         'panel_91wenwen_panelist_91jili_connection'=> ' order by panelist_id asc',
         'sop_respondent'=> ' order by panelist_id asc',
         'panel_91wenwen_panelist_sina_connection'=> 'order by panelist_id asc',
-        VOTE_ANSWER=> '',
+        'panel_91wenwen_vote_answer_201604'=> '',
+        'panel_91wenwen_vote_answer_201605'=> '',
+        'panel_91wenwen_panelist_point_log_201511'=> '',
+        'panel_91wenwen_panelist_point_log_201512'=> '',
+        'panel_91wenwen_panelist_point_log_201601'=> '',
+        'panel_91wenwen_panelist_point_log_201602'=> '',
+        'panel_91wenwen_panelist_point_log_201603'=> '',
+        'panel_91wenwen_panelist_point_log_201604'=> '',
+        'panel_91wenwen_panelist_point_log_201605'=> '',
         'panel_91wenwen_vote'=> '',
         'panel_91wenwen_vote_image'=> '',
         'panel_91wenwen_vote_choice'=> '',
@@ -88,6 +104,35 @@ echo 'echo ssi_respondent' ,"\n";
 echo $cmd2, "\n";
 
 echo <<<CMD
+
+sed -i '1d' ww_csv/panel_91wenwen_vote_answer_201605.csv;
+cat ww_csv/panel_91wenwen_vote_answer_201604.csv > ww_csv/panel_91wenwen_vote_answer.csv;
+cat ww_csv/panel_91wenwen_vote_answer_201605.csv >> ww_csv/panel_91wenwen_vote_answer.csv;
+
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201512.csv;
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201601.csv;
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201602.csv;
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201603.csv;
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201604.csv;
+sed -i '1d' ww_csv/panel_91wenwen_panelist_point_log_201605.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201511.csv > ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201512.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201601.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201602.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201603.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201604.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+cat ww_csv/panel_91wenwen_panelist_point_log_201605.csv >> ww_csv/panel_91wenwen_panelist_point_log.csv;
+
+rm ww_csv/panel_91wenwen_vote_answer_201604.csv;
+rm ww_csv/panel_91wenwen_vote_answer_201605.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201511.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201512.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201601.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201602.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201603.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201604.csv;
+rm ww_csv/panel_91wenwen_panelist_point_log_201605.csv;
+
 
 echo "tar"
 time tar -cjf ww_csv.tar.bz ww_csv
