@@ -3,24 +3,22 @@
 @import "layout/common";
 @import "layout/header";
 @import "layout/footer";
+body{
+	background: #f5f5f5;
+}
 .main{
 	margin-top: 0;
-	background: #f2f3f5;
 	.main-error-con{
 		margin: 0 auto;
 		background: url(../img/404/errorbg.png) no-repeat center;
 		.errorCon{
 			width: 1000px;
 			height: 436px;
-			margin: 80px auto;
-			position: relative;
+			margin: 45px auto;
 			.errorText{
-				width: 480px;
-				position: absolute;
-				top: 298px;
-				left: 665px;
-				padding: 15px;
-				background: #f2f2f2;
+				padding: 458px 230px;
+				text-align: center; 
+				margin: 0 auto;
 				.txt{
 					font-size: 14px;
 					line-height: 24px;
@@ -41,11 +39,6 @@
 			}
 		}
 	}
-	// .errorBot{
-	// 		height: 152px;
-	// 		margin-top: 20px;
-	// 		background: url(../img/404/wave.png) repeat-x;
-	// }
 }
 .footer{
 	display: none;
