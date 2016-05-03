@@ -1261,7 +1261,6 @@ function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $task
     $task_history_category_type = mapping_reason($panel_91wenwen_panelist_point_log_exec_type);
     $task_history_task_type = $task_history_category_type;
     $task_history_task_name = $panel_91wenwen_panelist_point_log_exec_comment;
-    $task_history_reward_percent = NULL;
     $task_history_point = $panel_91wenwen_panelist_point_log_add_point_value;
     $task_history_ocd_created_date = $panel_91wenwen_panelist_point_log_created_at;
     $task_history_date = $panel_91wenwen_panelist_point_log_created_at;
@@ -1280,7 +1279,7 @@ function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $task
     // task_history_0x.task_name
     $task_history_row[5] = $task_history_task_name;
     // task_history_0x.reward_percent
-    $task_history_row[6] = $task_history_reward_percent;
+    $task_history_row[6] = 'NULL';
     // task_history_0x.point
     $task_history_row[7] = $task_history_point;
     // task_history_0x.ocd_created_date
