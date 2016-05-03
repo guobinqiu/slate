@@ -551,7 +551,8 @@ body {
       text-align: center;
       height: 260px;
       padding-top: 235px;
-      background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px; }
+      background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px;
+      display: none; }
       .main-con-advertisement .tabCon .maintenance .con {
         font-size: 16px;
         color: #a1a1a1;
@@ -563,7 +564,8 @@ body {
     top: 20px;
     width: 239px;
     padding-bottom: 20px;
-    background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right; }
+    background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right;
+    display: none; }
     .main-con-advertisement .taskFlow h4 {
       padding-left: 25px;
       height: 50px;
