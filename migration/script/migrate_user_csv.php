@@ -57,6 +57,10 @@ function do_process()
     //get max user id
     $max_user_id = get_max_user_id($user_file_handle);
 
+    // array to store the relation between panelist_id and user_id
+    $array_panelistid_userid = array();
+    
+    
     FileUtil::writeContents($log_handle, "max_user_id:" . $max_user_id);
     //遍历panelist表
     fgetcsv($panelist_file_handle, 2000);
@@ -80,6 +84,7 @@ function do_process()
 
                         // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                         generate_user_data_both_exsit($panelist_row, $user_row);
+                        $array_panelistid_userid[$panelist_row[0]] = $user_row[0];
                         //其他要迁移的数据
                         migrate_common($panelist_row, $user_row[0]);
                         $cross_exist_count++;
@@ -104,6 +109,7 @@ function do_process()
                     }
                     // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                     generate_user_data_both_exsit($panelist_row, $user_row);
+                    $array_panelistid_userid[$panelist_row[0]] = $user_row[0];
                     //其他要迁移的数据
                     migrate_common($panelist_row,  $user_row[0]);
                     $exchange_exist_count++;
@@ -122,6 +128,7 @@ function do_process()
             if ( $user_row) {
                 // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                 generate_user_data_both_exsit($panelist_row, $user_row);
+                $array_panelistid_userid[$panelist_row[0]] = $user_row[0];
                 //其他要迁移的数据
                 migrate_common($panelist_row, $user_row[0]);
                 $both_exist_count++;
@@ -152,6 +159,7 @@ function do_process()
 
                             // 生成新的user数据：拥有两边账号，相同的部分取问问数据
                             generate_user_data_both_exsit($panelist_row, $user_row);
+                            $array_panelistid_userid[$panelist_row[0]] = $user_row[0];
 
                             //其他要迁移的数据
                             migrate_common($panelist_row, $user_row[0]);
@@ -169,6 +177,7 @@ function do_process()
             $max_user_id++;
             //生成仅存在问问的账号的user数据
             generate_user_data_only_wenwen($panelist_row,  $max_user_id);
+            $array_panelistid_userid[$panelist_row[0]] = $max_user_id;
 
             //其他要迁移的数据
             migrate_common($panelist_row, $max_user_id);
@@ -179,6 +188,10 @@ function do_process()
                 "\t".$panelist_row[3] . '+ maxid:' .$max_user_id;
             FileUtil::writeContents($log_handle, $log_msg);
         }
+        
+        generate_history_details($array_panelistid_userid);
+        export_history_data($array_panelistid_userid);
+        
     } catch (Exception $e) {
         FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());
     }
