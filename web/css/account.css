@@ -470,6 +470,11 @@ h1 {
     #pwdStrength b.c1 {
       background: #ff8b3d; }
 
+#signup_email_error ul li {
+  max-width: 280px;
+  line-height: 21px;
+  padding: 8px 0; }
+
 .main-personal-account {
   padding: 20px 45px 50px;
   color: #666; }
