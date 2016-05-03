@@ -37,9 +37,14 @@ setup-perl:
 	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
 
 setup-databases:
-	php app/console doctrine:database:drop --force --env "test" --if-exists
-	php app/console doctrine:database:create --env "test"
-	php app/console doctrine:schema:update --force --env "test"
+	php app/console doctrine:database:drop --force --env "dev" --if-exists
+	php app/console doctrine:database:create --env "dev"
+	php app/console doctrine:schema:update --force --env "dev"
+
+setup-circle-databases:
+    php app/console doctrine:database:drop --force --env "test" --if-exists
+    php app/console doctrine:database:create --env "test"
+    php app/console doctrine:schema:update --force --env "test"
 
 setup-submodules:
 	git submodule update --init;
@@ -47,7 +52,7 @@ setup-submodules:
 circle-sed:
 	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
 
-circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-databases
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-circle-databases
 
 show-setting:
 	@echo "Setting"
