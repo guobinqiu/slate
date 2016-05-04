@@ -140,10 +140,10 @@ $main-ad-color: #eb7020;
 	}
 }
 .topTit{
-	margin: 66px 0;
+	margin: 74px 0;
 	h1{
 		font-size: 40px;
-		color: #4b4a52;
+		color: #61646b;
 		display: inline;
 	}
 	span{
@@ -153,7 +153,7 @@ $main-ad-color: #eb7020;
 	}
 }
 .main-con-process{
-	height: 570px;
+	height: 586px;
 	background: url(../img/home/adProcess.png) no-repeat center 175px #EFEFEF;
 	overflow: hidden;
 	position: relative;
@@ -171,8 +171,8 @@ $main-ad-color: #eb7020;
 			text-align: center;
 		}
 		.pdt{
-			font-size: 26px;
-			color: #303030;
+			font-size: 22px;
+			color: #333;
 			margin-bottom: 14px;
 		}
 		.pdc{
@@ -208,17 +208,18 @@ $main-ad-color: #eb7020;
 	}
 }
 .rewardlist{
+	display: inline-block;
+	background: #fff;
+	@include box-shadow(1px 2px 4px rgba(0,0,0,0.1));
 	li{
 		width: 310px;
-		height: 370px;
+		height: 380px;
 		float: left;
 		margin-right: 35px;
-		background: #fff;
 		position: relative;
-		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
 		.rMes{
 			width: 160px;
-			margin: 84px auto 0;
+			margin: 74px auto 0;
 			text-align: center;
 			.rPic1{
 				width: 82px;
@@ -240,21 +241,21 @@ $main-ad-color: #eb7020;
 				background: url(../img/home/indexMess.png) no-repeat -456px -5px;
 			}
 			.rTit{
-				font-size: 20px;
-				color: #313035;
-				margin-top: 43px;
+				font-size: 22px;
+				color: #2e2e2e;
+				margin-top: 63px;
 				display: block;
 			}
 			.rBtn{
-				padding: 11px 25px;
+				padding: 10px 52px 11px;
 				@include border-radius(3px);
-				color: #ff6617;
-				border: 1px solid #ff6617;
+				color: #666666;
+				background: #e8e8e8;
 				margin-top: 43px;
 				display: inline-block;
 				@include transition(all, 0.1s);
 				&:hover{
-					background: #ff6617;
+					background: #ff652b;
 					color: #fff;
 				}
 			} 
@@ -266,11 +267,20 @@ $main-ad-color: #eb7020;
 			padding-top: 22px;
 			line-height: 19px;
 			text-align: center;
-			right: -27px;
-			top: -23px;
+			right: -38px;
+			top: -14px;
 			color: #fff;
-			font-size: 14px;
-			background: url(../img/home/indexMess.png) no-repeat -632px -2px;
+			font-size: 12px;
+			background: url(../img/home/indexMess.png) no-repeat -625px -2px;
+
+		}
+		.rLine{
+			width: 1px;
+			height: 65%;
+			position: absolute;
+			right: -15px;
+			top: 64px;
+			border-right: 1px dashed #d4d4d4;
 
 		}
 	}
@@ -281,7 +291,7 @@ $main-ad-color: #eb7020;
 .main-con-detail{
 	background: #fff;
 	padding-bottom: 50px;
-	padding-top: 22px;
+	padding-top: 34px;
 	overflow: hidden;
 	.topTit{
 		width: 1000px;
@@ -290,7 +300,7 @@ $main-ad-color: #eb7020;
 	.party{
 		    background: url(../img/home/wallCon.png) no-repeat;
   			height: 521px;
-  			width: 1003px;
+  			width: 936px;
 			position: relative;
 			margin: 0 auto;
 			.party-item {
@@ -369,7 +379,7 @@ $main-ad-color: #eb7020;
 	text-align: center;
 	background: url(../img/home/actionBg.png) no-repeat center #323235;
 	height: 200px;
-	padding: 36px 0 0;
+	padding: 52px 0 0;
 	h1{
 	    font-size: 24px;
 	    font-weight: bold;

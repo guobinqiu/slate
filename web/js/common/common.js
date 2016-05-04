@@ -55,4 +55,11 @@ define(['jquery', 'routing'],function($){
             });
         });
     }
+
+
+    //返回顶部
+    $('.goTop').click(function() {
+        $('body,html').animate({ scrollTop: 0 }, 800);
+    })
+    
 });
