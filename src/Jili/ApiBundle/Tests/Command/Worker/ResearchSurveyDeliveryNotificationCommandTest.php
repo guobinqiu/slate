@@ -49,7 +49,7 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $application->add(new ResearchSurveyDeliveryNotificationCommand());
 
         $data = array (
-            'name1' => 'Jarod',
+            'name1' => 'Test',
             'email' => 'miaomiao.zhang@d8aspring.com',
             'title' => '先生',
             'survey_title' => 'RPA Test Fulcrum Survey Delivery',
