@@ -88,7 +88,7 @@ function initialise_csv()
     global $weibo_user_indexs;
 
     // Debug
-    print date("Y-m-d H:i:s") ."Before create panelist_image_indexs. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
+    // print date("Y-m-d H:i:s") ."Before create panelist_image_indexs. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
     $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'l_file');
     $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
     $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
@@ -102,7 +102,7 @@ function initialise_csv()
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 
     // Debug
-    print "After create indexes. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
+    // print "After create indexes. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
     // insert title for merged user, in order to build index
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
     export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
@@ -1029,18 +1029,17 @@ function export_history_data($array_panelistid_userid)
     $date_180_days_ago = date('Y-m-d H:i:s', strtotime($today. ' -180 days '));
     
     // Debug
-    print_r($panelist_point_indexs);
+    // print_r($panelist_point_indexs);
     
     foreach ($panelist_point_indexs as $panelist_id => $panelist_point) {
         
         $wenwen_point = $panelist_point['point_value'];
-        $user_id = $array_panelistid_userid[$panelist_id];
 
         // Debug
-        printf ("panelist_id=%s panelist_point=%s user_id=%s\n",$panelist_id,$wenwen_point,$user_id);
+        // printf ("panelist_id=%s panelist_point=%s user_id=%s\n",$panelist_id,$wenwen_point,$user_id);
 
-        if( $wenwen_point != 0 && isset($user_id)){
-            
+        if( $wenwen_point != 0 && isset($array_panelistid_userid[$panelist_id])){
+            $user_id = $array_panelistid_userid[$panelist_id];
             $index = $user_id % 10;
             $task_history_name = Constants::$migrate_task_history_name;
             $point_history_name = Constants::$migrate_point_history_name;
