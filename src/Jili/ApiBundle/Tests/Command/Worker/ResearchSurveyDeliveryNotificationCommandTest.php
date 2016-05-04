@@ -48,9 +48,16 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $application = new Application(static::$kernel);
         $application->add(new ResearchSurveyDeliveryNotificationCommand());
 
-        $data = array (
-            'name1' => 'Test',
+        $data1 = array (
+            'name1' => 'Test1',
             'email' => 'miaomiao.zhang@d8aspring.com',
+            'title' => '先生',
+            'survey_title' => 'RPA Test Fulcrum Survey Delivery',
+            'survey_point' => '101'
+        );
+        $data2 = array (
+            'name1' => 'Test2',
+            'email' => 'miaomiao.zhang+1@d8aspring.com',
             'title' => '先生',
             'survey_title' => 'RPA Test Fulcrum Survey Delivery',
             'survey_point' => '101'
@@ -64,7 +71,8 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
             '--mailing_id' => '90004', # survey-mail-fulcrum
             '--group_name' => 'test_by_jarod',
             'recipients' => array (
-                \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data)
+                \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data1),
+                \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data2)
             )
         );
 
