@@ -48,19 +48,26 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $application = new Application(static::$kernel);
         $application->add(new ResearchSurveyDeliveryNotificationCommand());
 
+        $data = array (
+            'name1' => 'Jarod',
+            'email' => 'miaomiao.zhang@d8aspring.com',
+            'title' => '先生',
+            'survey_title' => 'RPA Test Fulcrum Survey Delivery',
+            'survey_point' => '101'
+        );
+
         $command = $application->find('research_survey:delivery_notification');
         $commandTester = new CommandTester($command);
-        $commandParam = array ('command' => $command->getName(),
+        $commandParam = array (
+            'command' => $command->getName(),
             '--campaign_id' => '23', # 91wenwen-survey-mailing2
-            '--mailing_id'  => '90004', # survey-mail-fulcrum
-            '--group_name'  => 'test_by_jarod',
-            'recipients'=> array(
-                base64_encode("{'name':'Guobin','value':'guobin.qiu@d8aspring.com'}"),
-                base64_encode("{'name':'Guobin','value':'guobin.qiu@d8aspring.com'}"),
-                base64_encode("{'name':'Chai','value':'xiaoyi.chai@d8aspring.com'}"),
+            '--mailing_id' => '90004', # survey-mail-fulcrum
+            '--group_name' => 'test_by_jarod',
+            'recipients' => array (
+                \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data)
             )
         );
-        
+
         $commandTester->execute($commandParam);
 
     }
