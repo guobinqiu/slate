@@ -50,3 +50,7 @@ DirectoryIndex app.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+# support for svgz file
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz

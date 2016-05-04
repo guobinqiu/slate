@@ -1202,7 +1202,7 @@ class UserController extends Controller implements CampaignTrackingController
             $code = $this->container->getParameter('chnage_no_email');
             return new Response($code);
         }
-        if(!$user[0]->getPwd()){
+        if(!$user[0]->getIsEmailConfirmed()){
             return new Response($this->container->getParameter('init_two'));
         }
 

@@ -497,7 +497,7 @@ body {
 .coinBack {
   height: 100%;
   background-image: url(../img/home/coinBack.png);
-  background-image: url(../img/home/coinBack.svg), none;
+  background-image: url(../img/home/coinBack.svgz), none;
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
