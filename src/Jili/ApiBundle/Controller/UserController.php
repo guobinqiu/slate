@@ -1564,34 +1564,39 @@ class UserController extends Controller implements CampaignTrackingController
         return $this->render('WenwenFrontendBundle:Personal:exchangeHistory.html.twig',$arr);
     }
 
-
     /**
-	 * @Route("/adtaste/{type}", name="_user_adtaste")
+	 * @Route("/adtaste", name="_user_adtaste")
 	 */
-    public function adtasteAction($type)
+    public function adtasteAction(Request $request)
     {
         if(!$this->get('session')->has('uid')){
            return $this->redirect($this->generateUrl('_user_login'));
         }
+        $page = $request->query->get('p', 1);
+        $type = $request->query->get('type', 0);
+        $page_size = $this->container->getParameter('page_num');
 
+        $user_id = $this->get('session')->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $option = array('status' => $type ,'offset'=>'','limit'=>'');
-#		$adtaste = $this->selTaskHistory($id,$option);
+        $total_count = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id%10))->getTaskHistoryCount($user_id, $type);
+        $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
         $this->get('session.my_task_list')->remove(array('alive'));
-        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($type, $page);
         foreach ($adtaste as $key => $value) {
             if($value['orderStatus'] == 1 && $value['type'] ==1){
                 unset($adtaste[$key]);
             }
         }
+
+        $arr['p'] = $page;
+        $arr['page_size'] = $page_size;
+        $arr['total'] = $total_count;
+        $arr['type'] = $type;
+
         $arr['adtaste'] = $adtaste;
-        $user = $em->getRepository('JiliApiBundle:User')->find($this->get('session')->get('uid'));
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $arr['user'] = $user;
-        $paginator = $this->get('knp_paginator');
-        $arr['pagination'] = $paginator
-        ->paginate($adtaste,
-                $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
     }
 

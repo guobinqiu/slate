@@ -4,7 +4,6 @@ namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 
-
 class TaskHistoryRepository extends EntityRepository
 {
     public function getTaskPercent($orderId)
@@ -17,37 +16,65 @@ class TaskHistoryRepository extends EntityRepository
         $query = $query->getQuery();
         return $query->getResult();
     }
+
     /**
-     *@param $id the userId
-     *@param $option = array('status'=> 0|1|2|3 , 'offset'=> true|false, 'limit'=>true|false)
+     *@param $user_id the userId
+     *@param $status 0|1|2|3
      */
-    public function getUseradtaste($id,$option=array())
+    public function getTaskHistoryCount($user_id, $status = 0)
     {
         $query = $this->createQueryBuilder('to');
-        $query = $query->select('to.userId,to.orderId,to.date as createTime,to.taskType as type,to.status as orderStatus,to.categoryType as incentiveType,to.point as incentive,to.taskName as title,adc.displayName');
+        $query = $query->select('COUNT(to.id)');
+        $query = $this->getTaskHistoryCondition($query, $user_id, $status);
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     *@param $user_id the userId
+     *@param $query
+     */
+    public function getTaskHistoryCondition($query, $user_id, $status = 0)
+    {
         $query = $query->innerJoin('JiliApiBundle:AdCategory', 'adc', 'WITH', 'to.categoryType = adc.id');
-        $query = $query->Where('to.userId = :id');
-        if(isset($option['status']) && $option['status']){
-            switch($option['status']){
-                case 0:
+        $query = $query->Where('to.userId = :userId');
+        if (isset($status) && $status) {
+            switch ($status) {
+                case 0 :
                     break;
-                case 1:
+                case 1 :
                     $query = $query->andWhere('(to.status = 2  and to.taskType = 1) or to.status = 0');
                     break;
-                case 2:
+                case 2 :
                     $query = $query->andWhere('to.status = 3 or (to.status = 1 and to.taskType > 1)');
                     break;
-                case 3:
+                case 3 :
                     $query = $query->andWhere('to.status = 4 or (to.status = 2 and to.taskType > 1)');
                     break;
             }
         }
-        $query = $query->setParameter('id',$id);
+        $query = $query->setParameter('userId', $user_id);
+        return $query;
+    }
+
+    /**
+     *@param $id the userId
+     *@param $status 0|1|2|3
+     *@param $page_size
+     *@param $page
+     */
+    public function getUseradtaste($user_id, $status=0, $page = 1, $page_size = 10)
+    {
+        $query = $this->createQueryBuilder('to');
+        $query = $query->select('to.userId,to.orderId,to.date as createTime,to.taskType as type,to.status as orderStatus,to.categoryType as incentiveType,to.point as incentive,to.taskName as title,adc.displayName');
+        $query = $this->getTaskHistoryCondition($query, $user_id, $status);
         $query = $query->orderBy('to.date', 'DESC');
-        if(isset($option['offset']) && $option['offset'] && isset($option['limit']) && $option['limit']){
-            $query = $query->setFirstResult(0);
-            $query = $query->setMaxResults(10);
+
+        if ((int) $page < 1) {
+            $page = 1;
         }
+        $query = $query->setFirstResult($page_size * ($page - 1));
+        $query = $query->setMaxResults($page_size);
+
         $query = $query->getQuery();
         return $query->getResult();
     }
