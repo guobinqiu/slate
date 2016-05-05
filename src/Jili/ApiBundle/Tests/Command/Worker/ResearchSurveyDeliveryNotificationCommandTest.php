@@ -41,7 +41,8 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $this->em->close();
     }
 
-    public function testExecute() 
+
+    public function testExecute()
     {
         // mock the Kernel or create one depending on your needs
         $em = $this->em;
@@ -77,15 +78,49 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         );
 
         $commandTester->execute($commandParam);
+    }
 
+    public function testExecuteFromJob1()
+    {
+        $em = $this->em;
+        $data1 = array (
+            'name1' => 'Test1',
+            'email' => 'miaomiao.zhang@d8aspring.com',
+            'title' => '先生',
+            'survey_title' => 'RPA Test Fulcrum Survey Delivery',
+            'survey_point' => '101'
+        );
+        $data2 = array (
+            'name1' => 'Test2',
+            'email' => 'miaomiao.zhang+1@d8aspring.com',
+            'title' => '先生',
+            'survey_title' => 'RPA Test Fulcrum Survey Delivery',
+            'survey_point' => '101'
+        );
+
+        $add_recipients[] = \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data1);
+        $add_recipients[] = \Jili\ApiBundle\Utility\String::encodeForCommandArgument($data2);
+
+        $args = array (
+            '--campaign_id=23',
+            '--group_name=test_by_jarod',
+            '--mailing_id=90004',
+            implode(' ', $add_recipients)
+        );
+        $job = new Job('research_survey:delivery_notification', $args, true, '91wenwen');
+        $em->persist($job);
+        $em->flush($job);
+        $jobs = $em->getRepository('JMSJobQueueBundle:Job')->findAll();
+        $this->assertCount(1, $jobs, 'only 1 job ');
     }
 
     /**
      * @group debug
      */
-    public function testExecuteFromJob() 
+    public function testExecuteFromJob()
     {
-        $add_recipients = array( 'VyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMEBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8wIiwic3VydmV5X3BvaW50IjoxMDF9',
+        $add_recipients = array (
+            'VyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMEBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8wIiwic3VydmV5X3BvaW50IjoxMDF9',
             'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMUBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8xIiwic3VydmV5X3BvaW50IjoxMDF9',
             'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrMkBnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8yIiwic3VydmV5X3BvaW50IjoxMDF9',
             'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrM0BnbWFpbC5jb20iLCJ0aXRsZSI6InRlc3QiLCJzdXJ2ZXlfdGl0bGUiOiJzdXJ2ZXlfdGl0bGVfdGVzdF8zIiwic3VydmV5X3BvaW50IjoxMDF9',
@@ -186,7 +221,8 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
             'eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrOThAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3RfOTgiLCJzdXJ2ZXlfcG9pbnQiOjEwMX0='
         );
         $em = $this->em;
-        $args = array( '--campaign_id=23',
+        $args = array (
+            '--campaign_id=23',
             '--group_name=test_by_jarod',
             '--mailing_id=90004',
             'recipients='.implode(' ', $add_recipients)

@@ -36,7 +36,7 @@ class DeliveryNotification91wenwenUtil
                 '--campaign_id=' . static::$CAMPAIGN_ID,
                 '--mailing_id=' . static::$MAILING_ID,
                 '--group_name=' . $group_name,
-                'recipients=' . implode(' ', $add_recipients)
+                implode(' ', $add_recipients)
             );
 
             //调用共通的发邮件系统
