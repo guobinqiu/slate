@@ -1,8 +1,8 @@
 <div class="main-con-shop clearfix">
 	<div class="advLeft left">
-		<div class="tbSearchWrap">
+		<!-- <div class="tbSearchWrap">
 			<a data-type="6" data-tmpl="573x66" data-tmplid="140" data-style="2" data-border="0" biz-s_logo="1" biz-s_hot="1" href="#"></a>
-		</div>
+		</div> -->
 		<div class="main-slider left clearfix">
 			<div class="main-slider-text left">
 				{% for item in market %}
@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	
-	{{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 9, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
+	{{ render(controller('JiliEmarBundle:Websites:hot' , { 'max': 5, 'tmpl': 'top' } ) ) }}{# 返利商城 #}
 </div>
 <div class="promptS">
 	<div class="promptSText"></div>

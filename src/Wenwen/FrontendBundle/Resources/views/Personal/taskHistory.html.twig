@@ -4,14 +4,14 @@
 {% block stylesheet %}
 <link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
 <div class="main-personal w1000 clearfix">
-	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
 	<div class="main-personal-right right">
 		<h2>任务历史</h2>
 		<div class="main-personal-points">
@@ -25,8 +25,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% if adtaste %}
-         			{% for item in pagination %}
+					{% if adtaste|length > 0 %}
+					{% for item in adtaste %}
 					<tr>
 						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d') }}{% endif %}</td>
 						<td>{% if item.incentiveType==92 or item.incentiveType==93 %}{% else %}
@@ -70,16 +70,16 @@
 					{% endif %}
 				</tbody>
 			</table>
-			<div class="page-wrapper">
-				{{ knp_pagination_render(pagination) }}
-			</div>
+            <div class="page-wrapper">
+                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
+            </div>
 		</div>
 	</div>
 </div>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

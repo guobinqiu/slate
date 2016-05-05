@@ -10,7 +10,6 @@ parameters:
     mailer_host:       smtp.exmail.qq.com
     mailer_user:       account@91jili.com
     mailer_password:   91jili
-    mailer_return_path: bm@bm.91wenwen.com
 
     locale:            zh_CN
     secret:            ThisTokenIsNotSoSecretChangeIt

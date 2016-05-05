@@ -106,6 +106,7 @@ class CpsAdvertisementController extends Controller
             array('categories'=> $wcats,
             'websites'=> $websites_paged,
             'total'=> $total,
+            'page_size'=> $this->container->getParameter('emar_com.page_size_of_shoplist'),
             'filter_form'=>$filter_form->createView() ));
     }
 

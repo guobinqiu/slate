@@ -1,14 +1,10 @@
 <?php
-
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
@@ -22,7 +18,6 @@ class VoteController extends Controller
 {
     # 中国時間で日付変わる前に新規QSに答えるとボーナスポイント+1
     const RECENT_BONUS_HOUR = 24;
-
     const RECENT_BONUS_POINT = 1;
 
     /**
@@ -39,7 +34,8 @@ class VoteController extends Controller
         $user_id = $request->getSession()->get('uid');
         $result = $this->getVoteData($result, $user_id);
 
-        $arr['pagination'] = $result;
+        $arr['vote_list'] = $result;
+
         return $this->render('WenwenFrontendBundle:Vote:_topVoteList.html.twig', $arr);
     }
 
@@ -49,21 +45,23 @@ class VoteController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $page = $request->query->get('page', 1);
+        $page = $request->query->get('p', 1);
         $page_size = $this->container->getParameter('page_num');
         $em = $this->getDoctrine()->getManager();
 
+        // get vote total count
+        $total_count = $em->getRepository('JiliApiBundle:Vote')->fetchVoteCount();
+        $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
         //get vote list
-        $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList();
+        $vote_list = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, $page_size, $page);
         $user_id = $request->getSession()->get('uid');
-        $result = $this->getVoteData($result, $user_id);
+        $vote_list = $this->getVoteData($vote_list, $user_id);
 
-        // 分页显示
-        $paginator = $this->get('knp_paginator');
-        $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
-        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
-
-        $arr['page'] = $page;
+        $arr['p'] = $page;
+        $arr['page_size'] = $page_size;
+        $arr['total'] = $total_count;
+        $arr['vote_list'] = $vote_list;
 
         return $this->render('WenwenFrontendBundle:Vote:index.html.twig', $arr);
     }
@@ -77,10 +75,13 @@ class VoteController extends Controller
             $votes[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
 
             //get user answer count
-            if ($user_id) {
-                $votes[$key]['userAnswerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
+            if ($value['endTime']->format('Y-m-d H:i:s') < date('Y-m-d H:i:s')) {
+                $votes[$key]['answerable'] = false;
+            } elseif ($user_id) {
+                $count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
+                $votes[$key]['answerable'] = $count ? false : true;
             } else {
-                $votes[$key]['userAnswerCount'] = 0;
+                $votes[$key]['answerable'] = true;
             }
 
             if ($votes[$key]['voteImage']) {
@@ -176,6 +177,7 @@ class VoteController extends Controller
         //check login
         if (!$request->getSession()->get('uid')) {
             $request->getSession()->set('referer', $this->generateUrl('jili_frontend_vote_index'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -276,9 +278,11 @@ class VoteController extends Controller
             $db_connection->rollback();
             $this->get('logger')->critical('[JiliFrontend][vote][click]' . $e->getMessage());
             $this->get('session')->getFlashBag()->add('error', '投票失败，内部出错');
+
             return $this->redirect($this->generateUrl('_default_error'));
         }
         $session->remove('csrf_token');
+
         return $this->redirect($this->generateUrl('jili_frontend_vote_result', array (
             'id' => $vote_id
         )));
@@ -335,6 +339,7 @@ class VoteController extends Controller
     {
         if (!$request->getSession()->get('uid')) {
             $request->getSession()->set('referer', $this->generateUrl('jili_frontend_vote_suggest'));
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -356,7 +361,7 @@ class VoteController extends Controller
                 )));
             }
         }
-        
+
         return $this->render('WenwenFrontendBundle:Vote:suggest.html.twig', array (
             'form' => $form->createView(),
             'send_ok' => $send_ok
@@ -369,24 +374,19 @@ class VoteController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $user_email = $user->getEmail();
         $mail_to = $this->container->getParameter('vote_suggest_mail_to');
-        $mailer_return_path = $this->container->getParameter('mailer_return_path');
-
+        $mail_from = $this->container->getParameter('mailer_user');
         $engine = $this->container->get('templating');
         $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
-            'email' => $user_email,
+            'email' => $user->getEmail(),
             'values' => $values
         ));
-
         $subject = '[QS] ' . $values['title'];
         $message = \Swift_Message::newInstance()
                         ->setSubject($subject)
-                        ->setFrom($user_email)
+                        ->setFrom($mail_from, '91问问')
                         ->setTo($mail_to)
-                        ->setReturnPath($mailer_return_path)
                         ->setBody($content);
-
         $mailer = $this->container->get('mailer');
         $mailer->send($message);
     }
@@ -399,6 +399,7 @@ class VoteController extends Controller
         }
 
         # without bonus
+
         return $vote_point;
     }
 
@@ -410,6 +411,7 @@ class VoteController extends Controller
         if ($dt < $time_limit_dt) {
             return true;
         }
+
         return false;
     }
 

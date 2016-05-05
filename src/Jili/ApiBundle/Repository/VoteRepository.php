@@ -6,6 +6,21 @@ use Doctrine\ORM\EntityRepository;
 class VoteRepository extends EntityRepository
 {
 
+    public function fetchVoteCount($active_flag = true)
+    {
+        $query = $this->createQueryBuilder('v');
+        $query = $query->select('COUNT(v.id)');
+        if ($active_flag) {
+            $query->andWhere('v.startTime <= :startTime');
+        } else {
+            $query->andWhere('v.startTime >= :startTime');
+        }
+        $parameters['startTime'] = new \Datetime();
+        $query->setParameters($parameters);
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
     /**
      * fetch vote entity list
      *
@@ -13,7 +28,7 @@ class VoteRepository extends EntityRepository
      *
      * @return array The objects.
      */
-    public function fetchVoteList($active_flag = true, $limit = false)
+    public function fetchVoteList($active_flag = true, $page_size=10, $page = 1)
     {
         $query = $this->createQueryBuilder('v');
         $query->select('v.id,v.title,v.startTime,v.endTime,v.description,v.voteImage');
@@ -23,34 +38,17 @@ class VoteRepository extends EntityRepository
             $query->andWhere('v.startTime >= :startTime');
         }
 
-        $query->orderBy('v.startTime', 'DESC');
+        $query->orderBy('v.endTime', 'DESC');
 
         $parameters['startTime'] = new \Datetime();
         $query->setParameters($parameters);
 
-        if ($limit > 0) {
-            $query = $query->setFirstResult(0);
-            $query = $query->setMaxResults($limit);
+        if ((int) $page < 1) {
+            $page = 1;
         }
+        $query = $query->setFirstResult($page_size * ($page - 1));
+        $query = $query->setMaxResults($page_size);
 
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
-    /**
-     * fetch active vote entity list
-     *
-     * @return array The objects.
-     */
-    public function getActiveVoteList()
-    {
-        $query = $this->createQueryBuilder('v');
-        $query->select('v.id,v.title,v.startTime,v.endTime,v.pointValue');
-        $query->andWhere('v.startTime <= :startTime');
-        $query->andWhere('v.endTime >= :startTime');
-        $query->orderBy('v.startTime', 'DESC');
-        $parameters['startTime'] = new \Datetime();
-        $query->setParameters($parameters);
         $query = $query->getQuery();
         return $query->getResult();
     }
