@@ -19,7 +19,7 @@ class ResearchSurveyDeliveryNotificationCommand extends ContainerAwareCommand
             ->addOption('campaign_id', null , InputOption::VALUE_REQUIRED, 'dmdelivery soap api campaignId'  )
             ->addOption('group_name', null , InputOption::VALUE_REQUIRED, 'the group name in campaign, create when not exists ' )
             ->addOption('mailing_id', null , InputOption::VALUE_REQUIRED, 'dmdelivery soap api mailingId'  )
-            ->addArgument('recipients', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'recipients arguments '  )
+            ->addArgument('recipients', InputArgument::REQUIRED, 'recipients arguments '  )
             ->setHelp(  <<<EOT
 For prod usage:
 ./app/console research_survey:delivery_notification -e prod --campaign_id=23 --group_name=tmp_xxxx --mailing_id=90004  eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrOThAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3RfOTgiLCJzdXJ2ZXlfcG9pbnQiOjEwMX0=
@@ -44,7 +44,6 @@ EOT
         $groupName = $input->getOption('group_name');
 
         $recipients = $input->getArgument('recipients');
-        $recipients = $recipients[0];
 
         $pasrsed = array();
 
