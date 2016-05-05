@@ -6,7 +6,7 @@
 <script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
 {% endblock %}
 
-<h2 align="center">実施予定の設問</h2>
+<h2 align="center">未发行的快速问答</h2>
 <table class="list">
     <tr>
         <th>时间</th>
@@ -15,9 +15,9 @@
         <th>image</th>
         <th>&nbsp;</th>
     </tr>
-    {% if pagination is defined %}
+    {% if vote_list|length > 0 %}
     {% set router_current = app.request.attributes.get('_route') %}
-    {% for item in pagination %}
+    {% for item in vote_list %}
     <tr>
       <td align="left" >{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
       <td align="left">{{ item.id}}</td>
@@ -31,7 +31,9 @@
     <tr>
       <td colspan="5" align="right">
       {% if paging %}
-      {% if pagination is defined %}{{ knp_pagination_render(pagination) }}{%endif %}
+        <div style="display: inline-block; width: 100%;">
+          {% include '::pagination.html.twig' %}
+        </div>
       {% else %}
       <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">more</a>
       {% endif %}

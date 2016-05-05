@@ -1,15 +1,9 @@
 <?php
-
 namespace Jili\BackendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\BackendBundle\Form\VoteType;
 use Jili\ApiBundle\Entity\Vote;
@@ -46,15 +40,13 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
     }
 
     /**
-     * @Route("/activeList/{paging}",  name="_admin_vote_activelist")
+     * @Route("/activeList",  name="_admin_vote_activelist")
      */
-    public function activeListAction(Request $request, $paging)
+    public function activeListAction(Request $request)
     {
-        $active_flag = true;
         $page = $request->query->get('page', 1);
-        $arr = $this->getVoteList($page, $active_flag);
-        $arr['paging'] = $paging;
-        $arr['page'] = $page;
+        $paging = $request->query->get('paging', false);
+        $arr = $this->getVoteList($page, true);
 
         $session = $request->getSession();
         $csrf_token = $session->get('csrf_token');
@@ -63,21 +55,21 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $csrf_token = $csrfProvider->generateCsrfToken('vote');
             $session->set('csrf_token', $csrf_token);
         }
+
         $arr['csrf_token'] = $csrf_token;
+        $arr['paging'] = $paging;
 
         return $this->render('JiliBackendBundle:Vote:activelist.html.twig', $arr);
     }
 
     /**
-     * @Route("/reserveList/{paging}", name="_admin_vote_reserveList")
+     * @Route("/reserveList", name="_admin_vote_reserveList")
      */
-    public function reserveListAction(Request $request, $paging)
+    public function reserveListAction(Request $request)
     {
-        $active_flag = false;
         $page = $request->query->get('page', 1);
-        $arr = $this->getVoteList($page, $active_flag);
-        $arr['paging'] = $paging;
-        $arr['page'] = $page;
+        $paging = $request->query->get('paging', false);
+        $arr = $this->getVoteList($page, false);
 
         $session = $request->getSession();
         $csrf_token = $session->get('csrf_token');
@@ -86,7 +78,9 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
             $csrf_token = $csrfProvider->generateCsrfToken('vote');
             $session->set('csrf_token', $csrf_token);
         }
+
         $arr['csrf_token'] = $csrf_token;
+        $arr['paging'] = $paging;
 
         return $this->render('JiliBackendBundle:Vote:reserveList.html.twig', $arr);
     }
@@ -97,8 +91,12 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
 
         $em = $this->getDoctrine()->getManager();
 
+        // get vote total count
+        $total_count = $em->getRepository('JiliApiBundle:Vote')->fetchVoteCount($active_flag);
+        $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
         //get vote list
-        $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList($active_flag);
+        $result = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList($active_flag, $page_size, $page);
         foreach ($result as $key => $value) {
             //get vote answer count
             $result[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
@@ -111,10 +109,12 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 $result[$key]['sqPath'] = false;
             }
         }
-        // 分页显示
-        $paginator = $this->get('knp_paginator');
-        $arr['pagination'] = $paginator->paginate($result, $page, $page_size);
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
+
+        $arr['page'] = $page;
+        $arr['page_size'] = $page_size;
+        $arr['total'] = $total_count;
+        $arr['vote_list'] = $result;
+
         return $arr;
     }
 
@@ -370,7 +370,7 @@ class AdminVoteController extends Controller implements IpAuthenticatedControlle
                 'paging' => true,
                 'page' => $ret_page
             )));
-        } else if ($ret_action == '_admin_vote_reserveList') {
+        } elseif ($ret_action == '_admin_vote_reserveList') {
             return $this->redirect($this->get('router')->generate('_admin_vote_reserveList', array (
                 'paging' => true,
                 'page' => $ret_page
