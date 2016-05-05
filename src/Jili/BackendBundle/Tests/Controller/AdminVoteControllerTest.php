@@ -3,8 +3,6 @@
 namespace Jili\BackendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -93,7 +91,7 @@ class AdminVoteControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $url = '/admin/vote/activeList/1';
+        $url = '/admin/vote/activeList';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
@@ -108,7 +106,7 @@ class AdminVoteControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $url = '/admin/vote/reserveList/1';
+        $url = '/admin/vote/reserveList';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
@@ -128,13 +126,13 @@ class AdminVoteControllerTest extends WebTestCase
         $controller->setContainer($container);
 
         $result = $controller->getVoteList(1, true);
-        $this->assertEquals(2, $result['pagination']->count());
-        $item = $result['pagination']->getItems();
+        $this->assertEquals(2, count($result['vote_list']));
+        $item = $result['vote_list'];
         $this->assertEquals(3, $item[0]['id']);
 
         $result = $controller->getVoteList(1, false);
-        $this->assertEquals(1, $result['pagination']->count());
-        $item = $result['pagination']->getItems();
+        $this->assertEquals(1, count($result['vote_list']));
+        $item = $result['vote_list'];
         $this->assertEquals(2, $item[0]['id']);
     }
 
