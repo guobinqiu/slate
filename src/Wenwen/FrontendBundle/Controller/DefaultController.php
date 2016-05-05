@@ -16,4 +16,13 @@ class DefaultController extends Controller
     {
         return $this->render('WenwenFrontendBundle:Exception:oldJili.html.twig');
     }
+
+    /**
+     * @Route("/maintain", name="maintain")
+     * @Template
+     */
+    public function maintainAction()
+    {
+        return $this->render('WenwenFrontendBundle:Exception:maintain.html.twig');
+    }
 }
