@@ -36,12 +36,10 @@ class MyTaskList
     }
 
     /**
-     * @param: $option = array('status' => $type ,'offset'=>'','limit'=>'');
-     * @param: $option['status']
-     * @param: $option['offset']
-     * @param: $option['limit']
+     * @param: $status
+     * @param: $page
      */
-    public function selTaskHistory($option)
+    public function selTaskHistory($status, $page=1)
     {
         $session = $this->session;
         $logger = $this->logger;
@@ -69,12 +67,12 @@ class MyTaskList
             // 取出全部做写到cache中。
             // todo: 不能总保存在session中!
 #//            $option_all= array( 'status' => 0 );
-            $data = $this->selTaskHistoryRaw($option);
+            $data = $this->selTaskHistoryRaw($status, $page);
 #            $session->set($key_list, $data);
         }
 
-        if(false && isset($option['status'])) {
-            $status = (int) $option['status'];
+        if(false && isset($status)) {
+            $status = (int)$status;
             if( $status === 1 ) {
                 foreach( $data as $key => $value){
                     if(($value['orderStatus'] === 2 && $value['type'] === 1 ) || $value['orderStatus'] === 0 ) {
@@ -107,11 +105,11 @@ class MyTaskList
         return $data;
     }
 
-    private function selTaskHistoryRaw($option)
+    private function selTaskHistoryRaw($status, $page)
     {
       $userid = $this->session->get('uid');
       $task = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
-      $po = $task->getUseradtaste($userid, $option);
+      $po = $task->getUseradtaste($userid, $status, $page);
 
       foreach ($po as $key => $value) {
             if($value['type']==1 ) {
