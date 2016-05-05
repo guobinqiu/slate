@@ -374,24 +374,19 @@ class VoteController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $user_email = $user->getEmail();
         $mail_to = $this->container->getParameter('vote_suggest_mail_to');
-        $mailer_return_path = $this->container->getParameter('mailer_return_path');
-
+        $mail_from = $this->container->getParameter('mailer_user');
         $engine = $this->container->get('templating');
         $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
-            'email' => $user_email,
+            'email' => $user->getEmail(),
             'values' => $values
         ));
-
         $subject = '[QS] ' . $values['title'];
         $message = \Swift_Message::newInstance()
                         ->setSubject($subject)
-                        ->setFrom($user_email)
+                        ->setFrom($mail_from, '91问问')
                         ->setTo($mail_to)
-                        ->setReturnPath($mailer_return_path)
                         ->setBody($content);
-
         $mailer = $this->container->get('mailer');
         $mailer->send($message);
     }
@@ -404,6 +399,7 @@ class VoteController extends Controller
         }
 
         # without bonus
+
 
         return $vote_point;
     }
