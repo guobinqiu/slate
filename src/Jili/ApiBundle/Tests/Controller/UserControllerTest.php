@@ -394,7 +394,7 @@ class UserControllerTest extends WebTestCase
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email );
         $this->assertNotNull($user, 'user should not be null');
 
-        $this->assertEquals('邮箱"user@voyagegroup.com.cn"是无效的.邮箱已经被使用,需要重新激活',
+        $this->assertEquals('邮箱"user@voyagegroup.com.cn"是无效的.该邮箱已被使用，请到邮箱查找激活邮件，还有问题？请联系support@91wenwen.com',
             $crawler->filter('input[id=signup_email]')->siblings()->last()->text(),
             'voyagegroup.com.cn is invalid mail server; user with same email exists');
 
