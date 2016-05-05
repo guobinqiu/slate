@@ -169,26 +169,40 @@ class PointsExchangeRepository extends EntityRepository
         $query = $query->getQuery();
         return $query->getResult();
     }
-    public function getUserExchange($id,$option=array())
+    public function getUserExchangeCount($user_id, $daytype)
+    {
+        $query = $this->createQueryBuilder('p');
+        $query = $query->select('COUNT(p.id)');
+        $query = $query->Where('p.userId = :userId');
+        if ($daytype) {
+            $query = $query->andWhere('p.type = :type');
+            $query = $query->setParameter('type', $daytype);
+        }
+        $query = $query->setParameter('userId', $user_id);
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+    public function getUserExchange($user_id, $daytype, $page = 1, $page_size = 10)
     {
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.id,p.targetAccount,p.userId,p.type as exType,p.sourcePoint,p.targetPoint,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pe.type');
         $query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pe', 'WITH', 'p.type = pe.id');
-        $query = $query->Where('p.userId = :id');
-        if($option['daytype']){
+        $query = $query->Where('p.userId = :userId');
+        if ($daytype) {
             $query = $query->andWhere('p.type = :type');
-            $query = $query->setParameter('type',$option['daytype']);
-
+            $query = $query->setParameter('type', $daytype);
         }
-        $query = $query->setParameter('id',$id);
+        $query = $query->setParameter('userId', $user_id);
         $query = $query->orderBy('p.exchangeDate', 'DESC');
-        if($option['offset'] && $option['limit']){
-            $query = $query->setFirstResult(0);
-            $query = $query->setMaxResults(10);
+
+        if ((int) $page < 1) {
+            $page = 1;
         }
+        $query = $query->setFirstResult($page_size * ($page - 1));
+        $query = $query->setMaxResults($page_size);
+
         $query = $query->getQuery();
         return $query->getResult();
-
     }
     /**
      *

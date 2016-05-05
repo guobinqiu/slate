@@ -43,13 +43,30 @@ class ExchangeFromWenwenRepository extends EntityRepository
 
     }
 
-    public function eFrWenById($uid)
+    public function eFrWenByIdCount($uid)
+    {
+        $query = $this->createQueryBuilder('efw');
+        $query = $query->select('COUNT(efw.id)');
+        $query = $query->Where('efw.userId = :uid');
+        $query = $query->setParameter('uid',$uid);
+        $query = $query->getQuery();
+        return $query->getSingleScalarResult();
+    }
+
+    public function eFrWenById($uid, $page = 1, $page_size=10)
     {
         $query = $this->createQueryBuilder('efw');
         $query = $query->select('efw.wenwenExchangeId,efw.email,efw.paymentPoint,efw.status,efw.reason,efw.createTime');
         $query = $query->Where('efw.userId = :uid');
         $query = $query->orderBy('efw.createTime','DESC');
         $query = $query->setParameter('uid',$uid);
+
+        if ((int) $page < 1) {
+            $page = 1;
+        }
+        $query = $query->setFirstResult($page_size * ($page - 1));
+        $query = $query->setMaxResults($page_size);
+
         $query = $query->getQuery();
         return $query->getResult();
 
