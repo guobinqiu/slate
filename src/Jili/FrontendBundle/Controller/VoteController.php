@@ -75,7 +75,7 @@ class VoteController extends Controller
             $votes[$key]['answerCount'] = $em->getRepository('JiliApiBundle:VoteAnswer')->getAnswerCount($value['id']);
 
             //get user answer count
-            if ($value['endTime'] < date('Y-m-d H:i:s')) {
+            if ($value['endTime']->format('Y-m-d H:i:s') < date('Y-m-d H:i:s')) {
                 $votes[$key]['answerable'] = false;
             } elseif ($user_id) {
                 $count = $em->getRepository('JiliApiBundle:VoteAnswer')->getUserAnswerCount($user_id, $value['id']);
