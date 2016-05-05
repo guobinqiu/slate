@@ -44,9 +44,11 @@ EOT
         $groupName = $input->getOption('group_name');
 
         $recipients = $input->getArgument('recipients');
+        $recipients = $recipients[0];
 
         $pasrsed = array();
 
+       $recipients =  explode(' ',$recipients);
         foreach($recipients as $recipient_str ) {
             $pasrsed [] = json_decode( base64_decode($recipient_str), true);
         }
@@ -77,7 +79,7 @@ EOT
             ->setMailingId( $mailingId )
             ->setGroup(array('name'=> $groupName, 'is_test'=> ( $env !== 'prod') ? true : false  ));
 
-        $return = $delivery_service->addRecipientsSendMailing($delivery_service->buildRecipientData($recipients));
+        $return = $delivery_service->sendMailing($recipients);
         $logger->info( $return );
     }
 }

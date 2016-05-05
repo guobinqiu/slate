@@ -127,6 +127,7 @@ class Client
 
             if ($group->status == "ERROR") {
                 $rs = 'Cannot add group:' . $group->statusMsg;
+                $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $group->statusMsg);
                 return $rs;
             }
 
@@ -162,9 +163,9 @@ class Client
                 return $rs;
             }
 
-            $addRecipient_result = $client->addRecipient($login, $this->campaignId, array (
+            $addRecipient_result = $client->addRecipients($login, $this->campaignId, array (
                 $group->id
-            ), $recipient_arr, true, true);
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($addRecipient_result->status == "ERROR") {
                 $re = "addRecipient error';";
