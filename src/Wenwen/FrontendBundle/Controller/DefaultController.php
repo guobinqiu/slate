@@ -18,11 +18,20 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/maintain", name="maintain")
+     * @Route("/maintain91ww", name="maintain91ww")
      * @Template
      */
-    public function maintainAction()
+    public function maintain91wwAction()
     {
-        return $this->render('WenwenFrontendBundle:Exception:maintain.html.twig');
+        return $this->render('WenwenFrontendBundle:Exception:maintain91ww.html.twig');
+    }
+
+    /**
+     * @Route("/maintain91jili", name="maintain91jili")
+     * @Template
+     */
+    public function maintain91jiliAction()
+    {
+        return $this->render('WenwenFrontendBundle:Exception:maintain91jili.html.twig');
     }
 }
