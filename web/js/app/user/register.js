@@ -96,4 +96,17 @@ require(['../../config'],function(){
             wbPCon.add(qqPCon).hide();
         });
     });
+    require(['jquery', 'googleAnalytics'], function($, _gaq){
+        _gaq.push(['_trackEvent', 'Signup Form', 'Open']);
+        $('form').on('submit', function(e) {
+            _gaq.push(['_trackEvent', 'Signup Form', 'Submit', '注 册']);
+        });
+        $('a').each(function() {
+            $a = $(this);
+            _gaq.push(['_trackEvent', 'Signup Form Link', 'Open', $a.attr('href')]);
+            $a.on('click', function() {
+                _gaq.push(['_trackEvent', 'Signup Form Link', 'Click', $a.attr('href')]);
+            });
+        });
+    });
 });
