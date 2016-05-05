@@ -1,6 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}快速问答结果：{{ parent() }} {% endblock %}
-
+{% block meta %}
+<meta name="keywords" content="快速问答，快速问答结果，投票结果，快速问答投票结果" />
+<meta name="description" content="快速问答结果页面展示了参与用户的观点，还可分享到微博给更多的朋友看到您的观点。" />
+<meta name="title" content="快速问答结果:91问问调查网" />
+{% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
