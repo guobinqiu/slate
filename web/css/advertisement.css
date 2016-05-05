@@ -464,8 +464,8 @@ body {
     background: #fff; }
     .main-con-shop .shops h2 {
       text-align: center;
-      height: 34px;
-      line-height: 34px;
+      height: 35px;
+      line-height: 35px;
       color: #ff6700;
       border: 1px solid #ebedf2; }
       .main-con-shop .shops h2 em {
@@ -479,8 +479,8 @@ body {
       border: 1px solid #ebedf2; }
       .main-con-shop .shops li a {
         width: 114px;
-        height: 61px;
-        line-height: 60px;
+        height: 58px;
+        line-height: 58px;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
@@ -618,7 +618,7 @@ body {
   width: 168px;
   height: 159px;
   position: absolute;
-  top: 204px;
+  top: 135px;
   right: -174px;
   display: none;
   z-index: 9999;
