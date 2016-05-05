@@ -1,6 +1,6 @@
 <ul>
-{% if pagination is defined %}
-    {% for item in pagination %}
+{% if vote_list|length > 0  %}
+    {% for item in vote_list %}
 	<li {% if item.timelimit is defined %} class="vote-new" {% endif %}>
 		<span class="vote-img">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</span>
 		<span class="vote-txt">
