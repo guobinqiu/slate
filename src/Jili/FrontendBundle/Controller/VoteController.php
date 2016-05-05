@@ -400,7 +400,6 @@ class VoteController extends Controller
 
         # without bonus
 
-
         return $vote_point;
     }
 
