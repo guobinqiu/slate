@@ -61,32 +61,12 @@ class VoteRepositoryTest extends KernelTestCase
     public function testFetchVoteList()
     {
         $em = $this->em;
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList();
+        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true);
         $this->assertEquals(2, count($voteList), 'active_flag:true, the count of vote is' . count($voteList));
         $this->assertEquals(3, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
         $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(false);
         $this->assertEquals(1, count($voteList), 'active_flag:false, the count of vote is ' . count($voteList));
         $this->assertEquals(2, $voteList[0]['id'], 'vote id is ' . $voteList[0]['id']);
-
-        //test limit
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 1);
-        $this->assertEquals(1, count($voteList), 'active_flag:true, limit=1 , the count of vote is' . count($voteList));
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 0);
-        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=0 , the count of vote is' . count($voteList));
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, -1);
-        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=-1 , the count of vote is' . count($voteList));
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->fetchVoteList(true, 'a');
-        $this->assertEquals(2, count($voteList), 'active_flag:true, limit=a , the count of vote is' . count($voteList));
-    }
-
-    /**
-     * @group user_vote
-     */
-    public function testGetActiveVoteList()
-    {
-        $em = $this->em;
-        $voteList = $em->getRepository('JiliApiBundle:Vote')->getActiveVoteList();
-        $this->assertEquals(1, count($voteList), 'acount of active vote list: ' . count($voteList));
     }
 
     /**
