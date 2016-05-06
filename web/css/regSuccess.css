@@ -356,6 +356,7 @@ body {
       line-height: 20px; }
 
 .footer {
+  width: 100%;
   margin-top: 50px;
   border-top: 3px solid #d6d9df;
   padding: 30px 0;

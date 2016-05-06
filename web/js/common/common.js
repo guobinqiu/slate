@@ -61,5 +61,19 @@ define(['jquery', 'routing'],function($){
     $('.goTop').click(function() {
         $('body,html').animate({ scrollTop: 0 }, 800);
     })
-    
+
+    $(window).resize(function() {
+        resizeFooter();
+    });
+    var resizeFooter =function(){
+        console.log('windowH:'+$(window).height());
+        console.log('bodyH:'+$("body").height());
+        if($(window).height() > $("body").height()){
+            $(".footer").css({"position":"fixed", "bottom":"0"});
+        }
+        else{
+            $(".footer").css("position","static");
+        }   
+    }
+    resizeFooter();
 });

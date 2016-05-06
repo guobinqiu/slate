@@ -58,7 +58,7 @@ body {
 .login-wrapper {
   position: absolute;
   z-index: 1000;
-  right: -70px;
+  right: -61px;
   top: 100px;
   background: url(../img/home/loginBg.png) no-repeat center bottom;
   padding: 0 70px 5px; }
@@ -234,20 +234,17 @@ body {
 
 /* quick login prompt Start*/
 .quickLogWrap {
-  /* display: block; */
-  /* height: 0px; */
-  /* background: rgba(0,0,0,0); */
   position: relative;
   top: -500px; }
 
 .quickLogPop {
   width: 406px;
-  height: 253px;
+  height: 235px;
   background: rgba(202, 202, 202, 0.4);
   position: absolute;
   z-index: 1;
   top: 355px;
-  right: 0;
+  right: 8px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -259,7 +256,7 @@ body {
   right: 200px; }
 
 .quickLCon {
-  height: 230px;
+  height: 212px;
   margin: 10px;
   border: 1px solid #bdbdbd;
   background: #fff;
@@ -294,34 +291,30 @@ body {
   .quickLCon .wbText {
     padding: 22px 27px 28px; }
     .quickLCon .wbText .l1 {
-      font-size: 15px;
+      font-size: 16px;
       line-height: 22px;
-      color: #666; }
+      color: #444; }
       .quickLCon .wbText .l1 strong {
         color: #4ab6db; }
     .quickLCon .wbText .l2 {
       color: #999;
       line-height: 19px;
       margin-top: 7px; }
-  .quickLCon .wbBtnArea {
-    text-align: center; }
-    .quickLCon .wbBtnArea .cancelBtn, .quickLCon .wbBtnArea .continueBtn {
-      padding: 5px 30px;
-      border-radius: 3px;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      -ms-border-radius: 3px;
-      -o-border-radius: 3px; }
-    .quickLCon .wbBtnArea .cancelBtn {
-      background: #e4e4e4;
-      border: 1px solid #dbdbdb;
-      color: #000;
-      margin-right: 20px;
-      cursor: pointer; }
-    .quickLCon .wbBtnArea .continueBtn {
-      background: #50c5ee;
-      border: 1px solid #49b3d9;
-      color: #fff; }
+    .quickLCon .wbText .wbBtnArea {
+      text-align: center;
+      margin-top: 30px; }
+      .quickLCon .wbText .wbBtnArea .cancelBtn {
+        padding: 5px 30px;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        background: #50c5ee;
+        border: 1px solid #49b3d9;
+        color: #fff;
+        margin-right: 20px;
+        cursor: pointer; }
 
 /* quick login prompt End*/
 body {
