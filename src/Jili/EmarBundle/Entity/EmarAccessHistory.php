@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EmarAccessHistory
  *
- * @ORM\Table(name="emar_access_history", indexes={@ORM\Index(name="fk_emar_access_record_user1", columns={"user_id"}), @ORM\Index(name="fk_emar_access_record_advertiserment1", columns={"ad_id"})})
+ * @ORM\Table(name="emar_access_history", indexes={@ORM\Index(name="fk_emar_access_record_advertiserment1", columns={"ad_id"})})
  * @ORM\Entity
  */
 class EmarAccessHistory
