@@ -7,7 +7,6 @@
 		.newsInfo{
 			display: table;
 		    margin: 20px auto;
-		    padding: 0 0 140px;
 		    position: relative;
 		    width: 1000px;
 		    z-index: auto;
@@ -16,8 +15,8 @@
 			    border: 1px solid #ececec;
 			    display: inline-block;
 			    float: left;
-			    padding: 20px;
-			    width: 732px;
+			    padding: 30px;
+			    width: 940px;
 			    h1{
 			    	color: $main-color;
 				    font-size: 22px;
