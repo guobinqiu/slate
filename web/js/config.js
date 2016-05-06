@@ -33,6 +33,7 @@ require.config({
         'goTop': 'common/backTop',
         'sopSurvey':'common/sopSurvey',
         'alimama':'common/alimama',
+        'googleAnalytics':'common/googleAnalytics',
         'scrollTop':'common/scrollTop',
         'feedbackForm':'common/feedbackForm',
         'loginForm':'common/loginForm'

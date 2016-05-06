@@ -269,5 +269,15 @@ require(['../../config'], function() {
             mockResponse();
         }
     });
- 
+    require(['jquery', 'googleAnalytics'], function($, _gaq){
+        var survey_class = ['cint_survey', 'quick_survey', 'project_survey'];
+        $.each(survey_class, function(sc) {
+            if($('a.'+sc).size() > 0) {
+                _gaq.push(['_trackEvent', sc, 'ShowLink']);
+                $('a.'+sc).click(function() {
+                    _gaq.push(['_trackEvent', sc, 'Enter']);
+                });
+            }
+        });
+    });
 });
