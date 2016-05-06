@@ -78,7 +78,7 @@ EOT
             ->setMailingId( $mailingId )
             ->setGroup(array('name'=> $groupName, 'is_test'=> ( $env !== 'prod') ? true : false  ));
 
-        $return = $delivery_service->sendMailing($recipients);
+        $return = $delivery_service->addRecipientsSendMailing($recipients);
         $logger->info( $return );
     }
 }

@@ -133,7 +133,7 @@ class Client
 
             $result = $client->addRecipientsSendMailing($login, $this->campaignId, $this->mailingId, array (
                 $group->id
-            ), $recipient_arr, true, true);
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($result->status != "ERROR") {
                 $rs = 'Email send success';
