@@ -4,20 +4,17 @@
 
 /* quick login prompt Start*/
 .quickLogWrap{
-	/* display: block; */
-	/* height: 0px; */
-	/* background: rgba(0,0,0,0); */
 	position: relative;
 	top: -500px;
 }
 .quickLogPop{
 	width: 406px;
-	height: 253px;
+	height: 235px;
 	background: rgba(202,202,202,.4);
 	position: absolute;
     z-index: 1;
     top: 355px;
-    right: 0;
+    right: 8px;
     @include border-radius(5px);
 }
 .qlpR{
@@ -25,7 +22,7 @@
 	right: 200px;
 }
 .quickLCon{
-	height: 230px;
+	height: 212px;
 	margin: 10px;
 	border: 1px solid #bdbdbd;
 	background: #fff;
@@ -65,9 +62,9 @@
 	.wbText{
 		padding: 22px 27px 28px;
 		.l1{
-			font-size: 15px;
+			font-size: 16px;
 			line-height: 22px;
-			color: #666;
+			color: #444;
 			strong{
 				color: #4ab6db;
 			}
@@ -77,24 +74,18 @@
 			line-height: 19px;
 			margin-top: 7px;
 		}
-	}
-	.wbBtnArea{
-		text-align: center;
-		.cancelBtn,.continueBtn{
-			padding: 5px 30px;
-			@include border-radius(3px);
-		}
-		.cancelBtn{
-			background: #e4e4e4;
-			border: 1px solid #dbdbdb;
-			color: #000;
-			margin-right: 20px;
-			cursor: pointer;
-		}
-		.continueBtn{
-			background: #50c5ee;
-			border: 1px solid #49b3d9;
-			color: #fff;
+		.wbBtnArea{
+			text-align: center;
+			margin-top: 30px;
+			.cancelBtn{
+				padding: 5px 30px;
+				@include border-radius(3px);
+				background: #50c5ee;
+				border: 1px solid #49b3d9;
+				color: #fff;
+				margin-right: 20px;
+				cursor: pointer;
+			}
 		}
 	}
 }

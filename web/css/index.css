@@ -601,10 +601,10 @@ body {
   margin-bottom: 45px; }
 
 .topTit {
-  margin: 66px 0; }
+  margin: 74px 0; }
   .topTit h1 {
     font-size: 40px;
-    color: #4b4a52;
+    color: #61646b;
     display: inline; }
   .topTit span {
     font-size: 16px;
@@ -612,7 +612,7 @@ body {
     margin-left: 5px; }
 
 .main-con-process {
-  height: 570px;
+  height: 586px;
   background: url(../img/home/adProcess.png) no-repeat center 175px #EFEFEF;
   overflow: hidden;
   position: relative;
@@ -629,8 +629,8 @@ body {
       width: 168px;
       text-align: center; }
     .procDisc li .pdt {
-      font-size: 26px;
-      color: #303030;
+      font-size: 22px;
+      color: #333;
       margin-bottom: 14px; }
     .procDisc li .pdc {
       font-size: 12px;
@@ -653,78 +653,87 @@ body {
   .main-con-reward .topTit {
     margin-bottom: 80px; }
 
-.rewardlist li {
-  width: 310px;
-  height: 370px;
-  float: left;
-  margin-right: 35px;
+.rewardlist {
+  display: inline-block;
   background: #fff;
-  position: relative;
-  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); }
-  .rewardlist li .rMes {
-    width: 160px;
-    margin: 84px auto 0;
-    text-align: center; }
-    .rewardlist li .rMes .rPic1 {
-      width: 82px;
-      height: 98px;
-      display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -120px -4px;
-      margin-bottom: -12px; }
-    .rewardlist li .rMes .rPic2 {
-      width: 157px;
-      height: 86px;
-      display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -252px -2px; }
-    .rewardlist li .rMes .rPic3 {
-      width: 157px;
-      height: 86px;
-      display: inline-block;
-      background: url(../img/home/indexMess.png) no-repeat -456px -5px; }
-    .rewardlist li .rMes .rTit {
-      font-size: 20px;
-      color: #313035;
-      margin-top: 43px;
-      display: block; }
-    .rewardlist li .rMes .rBtn {
-      padding: 11px 25px;
-      border-radius: 3px;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      -ms-border-radius: 3px;
-      -o-border-radius: 3px;
-      color: #ff6617;
-      border: 1px solid #ff6617;
-      margin-top: 43px;
-      display: inline-block;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
-      .rewardlist li .rMes .rBtn:hover {
-        background: #ff6617;
-        color: #fff; }
-  .rewardlist li .rTag {
-    width: 100px;
-    height: 90px;
-    position: absolute;
-    padding-top: 22px;
-    line-height: 19px;
-    text-align: center;
-    right: -27px;
-    top: -23px;
-    color: #fff;
-    font-size: 14px;
-    background: url(../img/home/indexMess.png) no-repeat -632px -2px; }
-.rewardlist li.last {
-  margin-right: 0; }
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1); }
+  .rewardlist li {
+    width: 310px;
+    height: 380px;
+    float: left;
+    margin-right: 35px;
+    position: relative; }
+    .rewardlist li .rMes {
+      width: 160px;
+      margin: 74px auto 0;
+      text-align: center; }
+      .rewardlist li .rMes .rPic1 {
+        width: 82px;
+        height: 98px;
+        display: inline-block;
+        background: url(../img/home/indexMess.png) no-repeat -120px -4px;
+        margin-bottom: -12px; }
+      .rewardlist li .rMes .rPic2 {
+        width: 157px;
+        height: 86px;
+        display: inline-block;
+        background: url(../img/home/indexMess.png) no-repeat -252px -2px; }
+      .rewardlist li .rMes .rPic3 {
+        width: 157px;
+        height: 86px;
+        display: inline-block;
+        background: url(../img/home/indexMess.png) no-repeat -456px -5px; }
+      .rewardlist li .rMes .rTit {
+        font-size: 22px;
+        color: #2e2e2e;
+        margin-top: 63px;
+        display: block; }
+      .rewardlist li .rMes .rBtn {
+        padding: 10px 52px 11px;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        color: #666666;
+        background: #e8e8e8;
+        margin-top: 43px;
+        display: inline-block;
+        transition: all 0.1s;
+        -moz-transition: all 0.1s;
+        -webkit-transition: all 0.1s;
+        -o-transition: all 0.1s; }
+        .rewardlist li .rMes .rBtn:hover {
+          background: #ff652b;
+          color: #fff; }
+    .rewardlist li .rTag {
+      width: 100px;
+      height: 90px;
+      position: absolute;
+      padding-top: 22px;
+      line-height: 19px;
+      text-align: center;
+      right: -38px;
+      top: -14px;
+      color: #fff;
+      font-size: 12px;
+      background: url(../img/home/indexMess.png) no-repeat -625px -2px; }
+    .rewardlist li .rLine {
+      width: 1px;
+      height: 65%;
+      position: absolute;
+      right: -15px;
+      top: 64px;
+      border-right: 1px dashed #d4d4d4; }
+  .rewardlist li.last {
+    margin-right: 0; }
 
 .main-con-detail {
   background: #fff;
   padding-bottom: 50px;
-  padding-top: 22px;
+  padding-top: 34px;
   overflow: hidden; }
   .main-con-detail .topTit {
     width: 1000px;
@@ -732,7 +741,7 @@ body {
   .main-con-detail .party {
     background: url(../img/home/wallCon.png) no-repeat;
     height: 521px;
-    width: 1003px;
+    width: 936px;
     position: relative;
     margin: 0 auto; }
     .main-con-detail .party .party-item {
@@ -794,7 +803,7 @@ body {
   text-align: center;
   background: url(../img/home/actionBg.png) no-repeat center #323235;
   height: 200px;
-  padding: 36px 0 0; }
+  padding: 52px 0 0; }
   .main-con-action h1 {
     font-size: 24px;
     font-weight: bold;
