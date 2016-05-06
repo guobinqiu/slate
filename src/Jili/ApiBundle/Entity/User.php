@@ -374,9 +374,9 @@ class User
         $types = array('jpg','jpeg');
 
         $upload_dir .= $this->getId()%100;
-        if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777,true);
-        }
+
+        \Jili\ApiBundle\Utility\FileUtil::mkdir($upload_dir);
+
         $upload_dir.='/';
         foreach ($fileNames as $key=>$fileName){
             $filename_upload = '';

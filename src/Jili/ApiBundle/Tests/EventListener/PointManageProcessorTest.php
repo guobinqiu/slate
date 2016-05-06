@@ -70,9 +70,8 @@ class PointManageProcessorTest extends KernelTestCase {
 
         dirname($log_path);
         $dir = dirname($log_path);
-        if( ! file_exists($dir)) {
-            mkdir(  $dir , 0700 , true) ;
-        }
+        \Jili\ApiBundle\Utility\FileUtil::mkdir($dir);
+
         file_put_contents($path, $content);
 
         $message = $this->container->get('point_manage.processor')->process($path, $log_path);
