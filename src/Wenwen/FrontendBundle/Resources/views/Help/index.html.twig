@@ -1,6 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}帮助中心：{{ parent() }} {% endblock %}
-
+{% block meta %}
+<meta name="keywords" content="帮助中心，常见问题，问题反馈，新手上路" />
+<meta name="description" content="帮助中心给用户提供可能出现的常见问题作为参考，方便用户快速定位问题，解决问题。还提供了问题反馈供用户反映自己遇到的问题，以便于我们及时的补充和解决问题。" />
+<meta name="title" content="帮助中心:91问问调查网" />
+{% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/help.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
