@@ -161,6 +161,11 @@ body {
     #pwdStrength b.c1 {
       background: #ff8b3d; }
 
+#signup_email_error ul li {
+  max-width: 280px;
+  line-height: 21px;
+  padding: 8px 0; }
+
 .main-con {
   width: 740px; }
 
