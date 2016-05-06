@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PointHistory08
  *
- * @ORM\Table(name="point_history08", indexes={@ORM\Index(name="fk_point_history_00_user", columns={"user_id"})})
+ * @ORM\Table(name="point_history08")
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\PointHistoryRepository")
  */
 class PointHistory08
