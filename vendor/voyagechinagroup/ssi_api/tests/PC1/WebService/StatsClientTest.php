@@ -28,7 +28,7 @@ class StatClientTest extends \PHPUnit_Framework_TestCase
             'page' => '1',
             'limit' => '1000',
             'filter' => [
-            'Stat.offer_id' => 2189,
+            'Stat.offer_id' => 3135,
             ],
             ], $query
         );
@@ -49,7 +49,7 @@ class StatClientTest extends \PHPUnit_Framework_TestCase
             'page' => '2',
             'limit' => '1000',
             'filter' => [
-            'Stat.offer_id' => 2189,
+            'Stat.offer_id' => 3135,
             ],
             ], $query
         );
@@ -70,7 +70,7 @@ class StatClientTest extends \PHPUnit_Framework_TestCase
             'page' => '2',
             'limit' => '500',
             'filter' => [
-            'Stat.offer_id' => 2189,
+            'Stat.offer_id' => 3135,
             ],
             ], $query
         );

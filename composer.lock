@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "15ad107b407193329a6aa1a9131ce0f2",
-    "content-hash": "4d983be5aa224ffce747b7277047e728",
+    "hash": "3700cf12307e086854d579a50eed8292",
+    "content-hash": "e6e915891cf24bd16afc7807886f6b17",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2443,16 +2443,16 @@
         },
         {
             "name": "voyagechinagroup/ssi_api",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:voyagechinagroup/ssi_api.git",
-                "reference": "2dcb57f8f7410c93afd3454ecd5023014e7b24fb"
+                "reference": "ef159e863d8a5ef2f10fb3b935096cc208476522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/2dcb57f8f7410c93afd3454ecd5023014e7b24fb",
-                "reference": "2dcb57f8f7410c93afd3454ecd5023014e7b24fb",
+                "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/ef159e863d8a5ef2f10fb3b935096cc208476522",
+                "reference": "ef159e863d8a5ef2f10fb3b935096cc208476522",
                 "shasum": ""
             },
             "require": {
@@ -2479,10 +2479,10 @@
             ],
             "description": "ssi api integration",
             "support": {
-                "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.1",
+                "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.2",
                 "issues": "https://github.com/voyagechinagroup/ssi_api/issues"
             },
-            "time": "2016-04-28 10:25:24"
+            "time": "2016-05-06 01:31:43"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

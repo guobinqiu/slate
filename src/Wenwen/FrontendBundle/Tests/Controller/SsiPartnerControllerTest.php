@@ -98,7 +98,7 @@ class SsiPartnerControllerTest extends WebTestCase
 
         //redirect survey site
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=2189', $client->getRequest()->getUri());
+        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=3135', $client->getRequest()->getUri());
 
         //check db
         $em->clear();
@@ -201,7 +201,7 @@ class SsiPartnerControllerTest extends WebTestCase
 
         //redirect survey site
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=2189', $client->getRequest()->getUri());
+        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=3135', $client->getRequest()->getUri());
     }
 
     /**
