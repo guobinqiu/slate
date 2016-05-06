@@ -14,7 +14,7 @@ define(['jquery'],function($){
                 $(_self.mobileInput).focus(function(){
                     _self.eFocus(_self.mobileInput);
                 }).blur(function(){
-                    var mobileNum = $(_self.mobileInput).val().trim();
+                    var mobileNum = $.trim($(_self.mobileInput).val());
                     if (mobileNum == "" || (_self.isPhone(mobileNum) == false)) {
                         _self.eError(_self.mobileInput, '请输入有效的手机号码');
                         return false;
@@ -28,8 +28,8 @@ define(['jquery'],function($){
                     $(mobileRepeatInput).focus(function(){
                         _self.eFocus(mobileRepeatInput);
                     }).blur(function(){
-                        var mobileNum = $(_self.mobileInput).val().trim(),
-                            mobileRepeatNum = $(mobileRepeatInput).val().trim();
+                        var mobileNum = $.trim($(_self.mobileInput).val()),
+                            mobileRepeatNum = $.trim($(mobileRepeatInput).val());
                         if(!_self.isEqual(mobileNum, mobileRepeatNum)){
                             _self.eError(mobileRepeatInput, '两次输入不一致！');
                             return false;

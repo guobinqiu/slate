@@ -15,7 +15,7 @@ class CintPermission
     /**
      * @var boolean
      *
-     * @ORM\Column(name="permission_flag", type="boolean", nullable=false)
+     * @ORM\Column(name="permission_flag", type="boolean")
      */
     private $permissionFlag;
 
@@ -38,7 +38,7 @@ class CintPermission
      *
      * @ORM\Column(name="user_id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $userId;
 

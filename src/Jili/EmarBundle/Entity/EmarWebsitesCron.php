@@ -15,63 +15,63 @@ class EmarWebsitesCron
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_id", type="integer", nullable=false)
+     * @ORM\Column(name="web_id", type="integer", nullable=false, options={"comment":"商家网站的站点ID"})
      */
     private $webId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="web_name", type="string", length=128, nullable=true)
+     * @ORM\Column(name="web_name", type="string", length=128, nullable=true, options={"default":"", "comment":"商家网站的中文名称"})
      */
     private $webName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="web_catid", type="integer", nullable=true)
+     * @ORM\Column(name="web_catid", type="integer", nullable=true, options={"default":NULL, "comment":"商家网站所属分类的分类id"})
      */
     private $webCatid;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="logo_url", type="string", length=128, nullable=true)
+     * @ORM\Column(name="logo_url", type="string", length=128, nullable=true, options={"default":"", "comment":"网站LOGO图片的URL"})
      */
     private $logoUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="web_url", type="string", length=255, nullable=true)
+     * @ORM\Column(name="web_url", type="string", length=255, nullable=true, options={"default":NULL, "comment":"商品的计费链接"})
      */
     private $webUrl;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="information", type="text", nullable=true)
+     * @ORM\Column(name="information", type="text", nullable=true, options={"comment":"商家网站的描述信息"})
      */
     private $information;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="begin_date", type="string", length=128, nullable=true)
+     * @ORM\Column(name="begin_date", type="string", length=128, nullable=true, options={"default":"", "comment":"网站推广开始时间"})
      */
     private $beginDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="end_date", type="string", length=128, nullable=true)
+     * @ORM\Column(name="end_date", type="string", length=128, nullable=true, options={"default":"", "comment":"网站推广结束时间"})
      */
     private $endDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="text", nullable=true)
+     * @ORM\Column(name="commission", type="text", nullable=true, options={"comment":"推广佣金比例信息"})
      */
     private $commission;
 

@@ -38,21 +38,21 @@ class ExchangeDanger
     /**
      * @var integer
      *
-     * @ORM\Column(name="danger_type", type="integer")
+     * @ORM\Column(name="danger_type", type="integer", options={"comment": "1 同一手机 2 相同ip 3同一身份证"})
      */
     private $dangerType;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="danger_content", type="string",length=50)
+     * @ORM\Column(name="danger_content", type="string",length=50, nullable=true)
      */
     private $dangerContent;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 

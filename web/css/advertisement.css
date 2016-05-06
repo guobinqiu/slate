@@ -171,25 +171,39 @@ body {
   z-index: 9999;
   top: 30px;
   right: 0;
-  border: 1px solid #ebedf2;
+  border: 1px solid #e0e0e0;
   background: #fff;
-  width: 186px;
-  display: none; }
+  width: 194px;
+  display: none;
+  -webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2); }
   .header-top-con .personal li {
     float: none;
     border-top: 1px solid #ebedf2;
     line-height: 35px;
-    padding: 0 20px; }
+    padding: 3px 20px; }
     .header-top-con .personal li a {
+      width: 100%;
       border-right: none;
-      color: #4d4d4d;
+      color: #333;
       display: inline-block;
       *display: inline;
-      *zoom: 1; }
+      *zoom: 1;
+      font-size: 14px; }
     .header-top-con .personal li:hover {
-      background: #fafafa; }
+      background: #ededed; }
+      .header-top-con .personal li:hover a {
+        color: #ff6700; }
+  .header-top-con .personal ul {
+    border-top: 6px solid #ebebeb; }
 .header-top-con .personal-con {
-  padding: 15px 20px; }
+  padding: 15px;
+  border-bottom: 1px solid #dbdbdb; }
+  .header-top-con .personal-con .faceTop img {
+    border: 1px solid #d6d6d6;
+    border-radius: 50%;
+    padding: 4px; }
   .header-top-con .personal-con span {
     padding: 0;
     display: inline-block;
@@ -210,7 +224,8 @@ body {
         line-height: 30px;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap; }
+        white-space: nowrap;
+        font-weight: bold; }
     .header-top-con .personal-con span strong {
       font-size: 16px;
       color: #ff6700; }
@@ -268,18 +283,14 @@ body {
         color: #ff6700; }
   .header-nav .login-btn a {
     margin-left: 5px;
-    padding: 5px 10px;
-    color: #88878e;
-    border: 1px solid #dedfe3;
-    border-radius: 3px; }
+    padding: 0 10px;
+    color: #888; }
     .header-nav .login-btn a:hover {
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
+      color: #ff652b; }
+  .header-nav .login-btn a.sign {
+    color: #ff652b;
+    border-left: 1px solid #d0d1d1;
+    padding-left: 40px; }
 
 .main-slider-wrapper {
   background: #e0ebff;
@@ -394,8 +405,8 @@ body {
       text-align: center;
       font-size: 14px;
       color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
+      background: #ff652b;
+      border: 1px solid #ff652b;
       border-radius: 3px;
       cursor: pointer;
       transition: all 0.4s;
@@ -406,8 +417,8 @@ body {
       *display: inline;
       *zoom: 1; }
       .main-slider span a:hover {
-        background: #f25807;
-        border: 1px solid #f25807; }
+        background: #f05218;
+        border: 1px solid #f05218; }
     .main-slider span .relate {
       margin-top: 10px;
       height: 30px;
@@ -453,8 +464,8 @@ body {
     background: #fff; }
     .main-con-shop .shops h2 {
       text-align: center;
-      height: 34px;
-      line-height: 34px;
+      height: 35px;
+      line-height: 35px;
       color: #ff6700;
       border: 1px solid #ebedf2; }
       .main-con-shop .shops h2 em {
@@ -468,8 +479,8 @@ body {
       border: 1px solid #ebedf2; }
       .main-con-shop .shops li a {
         width: 114px;
-        height: 61px;
-        line-height: 60px;
+        height: 58px;
+        line-height: 58px;
         text-align: center;
         display: table-cell;
         vertical-align: middle;
@@ -535,6 +546,17 @@ body {
       padding: 10px 0 0; }
     .main-con-advertisement .tabCon.offerWow {
       padding: 20px 25px; }
+    .main-con-advertisement .tabCon .maintenance {
+      width: 100%;
+      text-align: center;
+      height: 260px;
+      padding-top: 235px;
+      background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px;
+      display: none; }
+      .main-con-advertisement .tabCon .maintenance .con {
+        font-size: 16px;
+        color: #a1a1a1;
+        line-height: 25px; }
   .main-con-advertisement .taskFlow {
     position: absolute;
     z-index: 1000;
@@ -542,7 +564,8 @@ body {
     top: 20px;
     width: 239px;
     padding-bottom: 20px;
-    background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right; }
+    background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right;
+    display: none; }
     .main-con-advertisement .taskFlow h4 {
       padding-left: 25px;
       height: 50px;
@@ -597,8 +620,8 @@ body {
   width: 168px;
   height: 159px;
   position: absolute;
-  top: 204px;
-  right: -154px;
+  top: 135px;
+  right: -174px;
   display: none;
   z-index: 9999;
   background: url(../img/advertisement/promptCPS.png) no-repeat; }

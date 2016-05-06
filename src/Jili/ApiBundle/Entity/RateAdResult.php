@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * RateAdResult
  *
- * @ORM\Table(name="rate_ad_result")
+ * @ORM\Table(name="rate_ad_result",
+ *     indexes={
+ *         @ORM\Index(name="fk_rate_ad_result_rate_ad1", columns={"rate_ad_id"}),
+ *         @ORM\Index(name="fk_rate_ad_result_user1", columns={"user_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class RateAdResult
@@ -15,7 +20,7 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,28 +29,28 @@ class RateAdResult
     /**
      * @var integer
      *
-     * @ORM\Column(name="adw_order_id", type="integer", nullable=false)
+     * @ORM\Column(name="adw_order_id", type="integer")
      */
     private $accessHistoryId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="rate_ad_id", type="integer", nullable=false)
+     * @ORM\Column(name="rate_ad_id", type="integer")
      */
     private $rateAdId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="result_price", type="integer", nullable=false)
+     * @ORM\Column(name="result_price", type="integer")
      */
     private $resultPrice;
 

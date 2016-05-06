@@ -1,9 +1,9 @@
-<!-- 
+<!--
     {# set total = ( total > emar_max_of_total ) ? emar_max_of_total : total  #}
     {% set total_  = total %}
 
     <p>total: {{ total }}; total:{{ total }}</p>
-    {% set page_size = emar_page_size_shoplist %}
+
     <p>page_size: {{ page_size }}</p>
 
     {% set page_req = app.request.query.get('p',1) %}
@@ -12,8 +12,8 @@
 
     <p>cur: {{ cur }}</p>
 
-    {% set first = 1 %} 
-    {% set last =  ( total / page_size) |round(0,'ceil') %} 
+    {% set first = 1 %}
+    {% set last =  ( total / page_size) |round(0,'ceil') %}
 
 
     <p>last: {{ last }}</p>
@@ -21,20 +21,20 @@
     <p>prev: {{ prev }}</p>
     {% set next = ( cur < last  ) ? cur + 1: last  %}
     <p>next: {{ next }}</p>
-    
+
     -->
 <p class="page">
-    {% if last <= 1 %} 
+    {% if last <= 1 %}
     {% elseif last > 1 and last <= 5 %}
 
         {% for i in range(1, last ) %}
             <!-- i: {{ i }} -->
-            {% if cur != i %} 
+            {% if cur != i %}
             <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}">{{ i }}</a></span>
             {% else %}
             <span class="active"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}" onclick="javascript: return false;">{{ cur }}</a></span>
             {% endif %}
-        {% endfor %} 
+        {% endfor %}
 
     {% else %}
         {% if cur  != first  %}

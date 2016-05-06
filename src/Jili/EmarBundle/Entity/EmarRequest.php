@@ -15,35 +15,35 @@ class EmarRequest
     /**
      * @var string
      *
-     * @ORM\Column(name="tag", type="string", length=16, nullable=false)
+     * @ORM\Column(name="tag", type="string", length=16, nullable=false, options={"comment":"时间标签，YmdHi"})
      */
     private $tag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count", type="integer", nullable=false)
+     * @ORM\Column(name="count", type="integer", nullable=false, options={"default":0, "comment":"对emar api请求的次数"})
      */
     private $count;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size_up", type="integer", nullable=false)
+     * @ORM\Column(name="size_up", type="integer", nullable=false, options={"default":0, "comment":"对emar api请求 的size之和"})
      */
     private $sizeUp;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size_down", type="integer", nullable=false)
+     * @ORM\Column(name="size_down", type="integer", nullable=false, options={"default":0, "comment":"对emar api返回的size之和"})
      */
     private $sizeDown;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="time_consumed_total", type="decimal", precision=10, scale=4, nullable=false)
+     * @ORM\Column(name="time_consumed_total", type="decimal", precision=10, scale=4, nullable=false, options={"default":"0", "comment":"使用时间之和"})
      */
     private $timeConsumedTotal;
 

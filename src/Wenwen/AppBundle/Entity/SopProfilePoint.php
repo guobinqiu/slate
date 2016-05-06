@@ -7,7 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SopProfilePoint
  *
- * @ORM\Table(name="sop_profile_point", uniqueConstraints={@ORM\UniqueConstraint(name="hash_uniq", columns={"hash"})}, indexes={@ORM\Index(name="panelist_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"}), @ORM\Index(name="name_user_idx", columns={"name", "user_id"})})
+ * @ORM\Table(name="sop_profile_point",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="hash_uniq", columns={"hash"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="panelist_status_idx", columns={"status_flag", "user_id"}),
+ *         @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}),
+ *         @ORM\Index(name="updated_at_idx", columns={"updated_at"}),
+ *         @ORM\Index(name="name_user_idx", columns={"name", "user_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class SopProfilePoint
@@ -15,7 +25,7 @@ class SopProfilePoint
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
@@ -29,21 +39,21 @@ class SopProfilePoint
     /**
      * @var integer
      *
-     * @ORM\Column(name="point_value", type="integer", nullable=false)
+     * @ORM\Column(name="point_value", type="integer", options={"default": 0})
      */
     private $pointValue;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="hash", type="string", length=255, nullable=false)
+     * @ORM\Column(name="hash", type="string", length=255)
      */
     private $hash;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true, options={"default": 1})
      */
     private $statusFlag;
 

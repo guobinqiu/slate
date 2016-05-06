@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 #use Symfony\Component\HttpFoundation\Response;
-use Jili\ApiBundle\Utility\SopUtil;
+use Wenwen\AppBundle\WebService\Sop\SopUtil;
 use SOPx\Auth\V1_1\Util;
 
 
@@ -42,7 +42,7 @@ class FulcrumProjectSurveyController extends Controller
             'time' => time()
         );
 
-        $sop_params['sig'] = SopUtil::createSignature($sop_params, $sop_config['auth']['app_secret']);
+        $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
         $sop_params['sop_callback'] = 'surveylistCallback';
 
         $url = SopUtil::getJsopURL($sop_params, $sop_config['host']);

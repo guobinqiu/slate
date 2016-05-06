@@ -58,6 +58,7 @@ $color: #0078b6;
 			margin-left: 10px;
 			font-size: 12px;
 			color: #a1a1a1;
+			font-weight: normal;
 		}
 		a{
 			float: right;
@@ -136,7 +137,6 @@ $color: #0078b6;
 				}
 			}
 			span{
-				color: #a1a1a1;
 				&.succeed{
 					color: #3bc570;
 					display: inline;
@@ -238,11 +238,13 @@ $color: #0078b6;
 				width: 115px;
 				line-height: 36px;
 				text-align: right;
+				color: #a1a1a1;
 			}
 			#profile_sex{
 				label{
 					margin-right: 5px;
 					width: 15px;
+					color: #333;
 				}
 			}
 			input[type='text']{
@@ -274,7 +276,6 @@ $color: #0078b6;
 				text-align: center;
 				font-family: '微软雅黑';
 				font-size: 12px;
-				color: #a1a1a1;
 				border: $border;
 				outline: none;
 				&:focus{

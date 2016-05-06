@@ -111,17 +111,17 @@ class UserLoginTest extends KernelTestCase
 
         $this->assertEquals('ok', $result,  '"ok" for bob login successuflly');
 
-        $user  = UserLoginTestFixture::$USERS[1];
-        $em = $this->em;
+//         $user  = UserLoginTestFixture::$USERS[1];
+//         $em = $this->em;
 
-        $user_updated = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=>$user->getId()));
+//         $user_updated = $em->getRepository('JiliApiBundle:User')->findOneBy(array('id'=>$user->getId()));
 
-        $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$user->getId());
-        $user_stm->execute();
-        $user_updated =$user_stm->fetchAll();
+//         $user_stm =   $em->getConnection()->prepare('select * from user where id =  '.$user->getId());
+//         $user_stm->execute();
+//         $user_updated =$user_stm->fetchAll();
 
-        $this->assertNotEmpty($user_updated[0]['pwd'], 'password should not be empty');
-        $this->assertEquals( 2, $user_updated[0]['password_choice'], 'after migrate password , password_choice should be 2');
+//         $this->assertNotEmpty($user_updated[0]['pwd'], 'password should not be empty');
+//         $this->assertEquals( 2, $user_updated[0]['password_choice'], 'after migrate password , password_choice should be 2');
 
     }
 }

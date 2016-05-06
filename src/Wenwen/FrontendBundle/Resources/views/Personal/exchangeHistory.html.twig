@@ -4,14 +4,14 @@
 {% block stylesheet %}
 <link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
 <div class="main-personal w1000 clearfix">
-	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
 	<div class="main-personal-right right">
 		<h2>兑换历史</h2>
 		<div class="main-personal-points">
@@ -25,11 +25,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% if exchange %}
-					{% for item in pagination %}
+					{% if exchange|length > 0 %}
+					{% for item in exchange %}
 					<tr>
 						<td>{{ item.exchangeDate.date | date('Y-m-d') }}</td>
-						<td>{{ item.type }}-{% if item.exType == 1 %}{{ item.targetPoint }}% elseif item.exType == 2 %}{{ item.exchangeItemNumber }}张{% elseif item.exType == 3 %}{{ item.exchangeItemNumber }}元{% elseif item.exType == 4 %}{{ item.exchangeItemNumber }}元{% elseif item.exType == 5 %}{{ item.exchangeItemNumber }}M{% endif %}</td>
+						<td>{{ item.type }}-{% if item.exType == 1 %}{{ item.targetPoint }}{% elseif item.exType == 2 %}{{ item.exchangeItemNumber }}张{% elseif item.exType == 3 %}{{ item.exchangeItemNumber }}元{% elseif item.exType == 4 %}{{ item.exchangeItemNumber }}元{% elseif item.exType == 5 %}{{ item.exchangeItemNumber }}M{% endif %}</td>
 						<td>{{ item.targetPoint }}</td>
 						<td>{% if item.status %} {% if item.status==1 %} 兑换成功 {% elseif item.status==2 %} 兑换失败 {% else %} {% endif %}  {% else %} 处理中 {% endif %}</td>
 					</tr>
@@ -40,15 +40,15 @@
 				</tbody>
 			</table>
 			<div class="page-wrapper">
-				{{ knp_pagination_render(pagination) }}
-			</div>
+                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
+            </div>
 		</div>
 	</div>
 </div>
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

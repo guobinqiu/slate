@@ -1,5 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}{{ parent() }}_资深问卷调查网，在线调查，商业调查，免费，市场调查，调查问卷{% endblock %}
+{% block meta %}
+<meta name="keywords" content="问卷网，调查网，调查赚钱，在线调查，调查问卷，问卷调查，91问问" />
+<meta name="description" content="每个人都是社会的决策者！欢迎来到91问问调查网。现在注册会员，在线参加全球市场调查，轻轻松松赢取现金,并用您的意见改变世界。另有体验广告让您乐赚不停；购物返利让你省得多，赚得也更多" />
+<meta name="title" content="首页:91问问调查网" />
+{% endblock %}
 
 {% block stylesheet %}
 	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
@@ -13,37 +18,46 @@
 
 {% block body %}
 <div class="main-ad">
-	<div class="main-ad-con w1000">
-		<div class="main-ad-con-text">
-			<h1><img src="{{ asset('img/home/adTitle.png') }}" alt="问卷调查_动动手指就能赚钱" title="问卷调查_动动手指就能赚钱"></h1>
-			<p class="digits"><img src="{{ asset('img/home/pointsText.png') }}" alt="91问问调查网当前已发放人民币" title="91问问调查网当前已发放人民币"><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-			<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多？</a></div>
-		</div>
-		<div class="login-wrapper">
-			<div class="login">
-				<h2>用户登录</h2>
-				<div class="login-con">
-					<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
-					<ul>
-						<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
-						<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-					</ul>
-					{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
-					<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
-					{% endif %}
-					{% if code %}
-            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
-       				{% endif %}
-					<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
-					</form>
-					<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
-					<div class="login-btn-others">
-						<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
+	<div class="coinBg">
+		<div class="coinBack">
+					<div class="main-ad-con w1000">
+						<div class="main-ad-con-text">
+							<h1>动动手指就能<strong>赚钱</strong></h1>
+							<p class="digits"><em class="pst">当前已发放人民币</em><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
+							<div class="moreText">
+								<p><em></em>完成问卷最高可获得人民币<span class="corYellow">￥100</span></p>
+								<p><em></em>国内最活跃的调查社区之一</p>
+								<p><em></em>用您的声音改变我们的世界</p> 
+							</div>
+							<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多</a></div>
+						</div>
+						<div class="login-wrapper">
+							<div class="login">
+								<h2>用户登录</h2>
+								<div class="login-con">
+									<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
+									<ul>
+										<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
+										<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+									</ul>
+									{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
+									<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
+									{% endif %}
+									{% if code %}
+				            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
+				       				{% endif %}
+									<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
+									</form>
+									<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
+									<div class="login-btn-others">
+										<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="arrowScroll" href="#process"></div>
 					</div>
-				</div>
-			</div>
 		</div>
-		<div class="introBg"></div>
 	</div>
 </div>
 <div class="quickLogWrap w1000">
@@ -51,10 +65,10 @@
 		<div class="quickLCon">
 			<div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
 			<div class="wbText">
-				<p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
+				<p class="l1">很抱歉，微博快捷登录功能因维护<strong>暂时关闭</strong>！</p>
 				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+				<p class="wbBtnArea"><a class="cancelBtn">我知道了</a></p>
 			</div>
-			<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
 		</div>
 	</div>
 </div>
@@ -63,20 +77,59 @@
 		<div class="quickLCon">
 			<div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
 			<div class="wbText">
-				<p class="l1">QQ登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用QQ快捷登录，您将无法正常登录哟！</p>
+				<p class="l1">很抱歉，QQ快捷登录功能因维护<strong>暂时关闭</strong>！</p>
 				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+				<p class="wbBtnArea"><a class="cancelBtn">我知道了</a></p>
 			</div>
-			<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('qq_api_login') }}" class="continueBtn">继续</a></div>
 		</div>
 	</div>
 </div>
-<div class="main-con-process">
-	<a class="sLog" href="{{ path('_user_reg') }}"></a>
+<div class="main-con-process" id="process">
+	<div class="w1000">
+		<div class="topTit"><h1>只需三步</h1><span>轻松玩转91问问</span></div>
+		<ul class="procDisc">
+			<li class="first"><p class="pdt">免费注册会员</p><p class="pdc">只需两步就可以完成注册，注册即送10积分哦！</p></li>
+			<li class="second"><p class="pdt">做任务赚积分</p><p class="pdc">回答问卷，快速问答投票，做任务，购物都可以赚取积分</p></li>
+			<li class="third"><p class="pdt">兑换奖品</p><p class="pdc">奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等</p></li>
+		</ul>
+	</div>
 </div>
 <div class="main-con-reward">
-	<img src="{{ asset('img/home/adAward.png') }}" alt="奖品展示" title="奖品展示">
+	<div class="w1000">
+		<div class="topTit"><h1>奖励礼品</h1><a href="{{ path('_exchange_index') }}" title="兑换中心" target="_blank"><span>查看详情>></span></a></div>
+		<ul class="rewardlist">
+			<li>
+				<div class="rMes">
+					<p class="rPic1"></p>
+					<p class="rTit">手机话费</p>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2010积分<br>起兑</div>
+				<div class="rLine"></div>
+			</li>
+			<li>
+				<div class="rMes">
+					<span class="rPic2"></span>
+					<span class="rTit">支付宝现金</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2050积分<br>起兑</div>
+				<div class="rLine"></div>
+			</li> 
+			<li class="last">
+				<div class="rMes">
+					<span class="rPic3"></span>
+					<span class="rTit">上网流量包</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">1590积分<br>起兑</div>
+			</li>
+		</ul>
+	</div>
 </div>
 <div class="main-con-detail">
+
+	<div class="topTit"><h1>大家在</h1><span>91问问做什么...</span></div>
 	<div class="party" data-timeout="500">
 		<em class="party-item party01 js-item"></em>
         <em class="party-item party02 js-item"></em>

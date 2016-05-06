@@ -46,13 +46,13 @@ require(['../../config'],function(){
                 return false;
             }
             $.ajax({
-               url: Routing.generate("_user_reset", {"email": $('#email').val().trim() }),
+               url: Routing.generate("_user_reset", {"email": $.trim($('#email').val()) }),
                post: "GET",
                success:function(data){
                     if(data==1){
                         $('#email').val('');
                         if($("#secondNum").length > 0){
-                            seconds = parseInt($("#secondNum").val().trim());
+                            seconds = parseInt($.trim($("#secondNum").val()));
                         }else{
                             seconds = 59;
                         }
@@ -61,7 +61,7 @@ require(['../../config'],function(){
                         sendEmail.addClass('disabled').html('重新发送');
                         sendEmail.onclick = null;
                     }else if(data==2){
-                        var email = $('#email').val().trim();
+                        var email = $.trim($('#email').val());
                         var url = Routing.generate("_user_activeEmail", {"email": email });
                         url = url.replace('email',encodeURIComponent( email));
                         eError('邮箱地址未激活，请重新<a href="'+url+'" class="activeEmail">激活</a>');
@@ -74,7 +74,7 @@ require(['../../config'],function(){
         }
         var sendEmail = $('#sendEmail');
         sendEmail.on('click', function(){
-            var email = $('#email').val().trim();
+            var email = $.trim($('#email').val());
             if(sendEmail.hasClass('disabled')){
                 return;
             }else{
@@ -83,11 +83,11 @@ require(['../../config'],function(){
         });
         emailInput.bind('focus',
             function() {
-                var str = $('#email').val().trim();
+                var str = $.trim($('#email').val());
                 eFocus('');
             }).bind('blur',
             function() {
-                var str = $('#email').val().trim();
+                var str = $('#email').val();
                 str = $.trim(str);
                 if (str == "" || (isEmail(str) == false)) {
                     eError('请输入有效的邮箱地址');
@@ -95,7 +95,7 @@ require(['../../config'],function(){
                 }
             });
         if($("#pwd").length >= 1){
-            var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#pwd_error"), value: $("#pwd").val().trim()};
+            var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#pwd_error"), value: $.trim($("#pwd").val())};
             $.extend(rpaValidate.func, {
                 updatePwd : function() {
                     $("#pwd").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);

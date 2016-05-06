@@ -7,7 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FulcrumUserAgreementParticipationHistory
  *
- * @ORM\Table(name="fulcrum_user_agreement_participation_history", uniqueConstraints={@ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})})
+ * @ORM\Table(name="fulcrum_user_agreement_participation_history",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="app_member_id_uniq_key", columns={"app_member_id"})
+ *     }
+ * )
  * @ORM\Entity
  */
 class FulcrumUserAgreementParticipationHistory
@@ -15,7 +19,7 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,14 +28,14 @@ class FulcrumUserAgreementParticipationHistory
     /**
      * @var string
      *
-     * @ORM\Column(name="app_member_id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="app_member_id", type="string", length=255)
      */
     private $appMemberId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="agreement_status", type="integer", nullable=false)
+     * @ORM\Column(name="agreement_status", type="integer", options={"default": 0})
      */
     private $agreementStatus;
 

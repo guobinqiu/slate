@@ -473,6 +473,21 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
         $return = json_decode($return, true);
+        $this->assertEquals(0, $return['status']);
+
+        $post_data = array ();
+        $post_data['reason'] = array (
+            '问卷的内容太难了',
+            '问卷调查活动的数量太少了'
+        );
+        $post_data['csrf_token'] = $csrf_token;
+        $post_data['email'] = 'test_withdraw@d8aspring.com';
+        $post_data['password'] = '123qwe';
+
+        $crawler = $client->request('POST', $url, $post_data);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $return = $client->getResponse()->getContent();
+        $return = json_decode($return, true);
         $this->assertEquals(1, $return['status']);
 
         //check db

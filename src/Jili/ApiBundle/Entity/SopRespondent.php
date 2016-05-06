@@ -7,7 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SopRespondent
  *
- * @ORM\Table(name="sop_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})}, indexes={@ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}), @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}), @ORM\Index(name="updated_at_idx", columns={"updated_at"})})
+ * @ORM\Table(name="sop_respondent",
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})
+ *     },
+ *     indexes={
+ *         @ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}),
+ *         @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}),
+ *         @ORM\Index(name="updated_at_idx", columns={"updated_at"})
+ *     }
+ * )
+ *
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\SopRespondentRepository")
  */
 class SopRespondent
@@ -18,14 +28,14 @@ class SopRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true, options={"default": 1})
      */
     private $statusFlag;
 

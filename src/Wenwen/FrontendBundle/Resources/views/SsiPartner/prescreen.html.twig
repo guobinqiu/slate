@@ -12,18 +12,14 @@
 {% block body %}
 <div class="qnWrap">
     <div class="qnCon qnEnd">
-        <div class="qnEndTxt clearfix">
-            <span class="left"><img src="{{ asset('img/questionnaire/normalface.png') }}" alt="图片"></span>
-                <div class="terms">
-        <form action="{{ path('_ssi_partner_redirect') }}" method="post" style="margin:20px 0 0 0;" id="ssi_redirect_form">
-          <p style="text-align:center; margin:20px;">
-            请先回答SSI属性问卷，您将会获得<font color="#ef6d00">1</font>个积分，之后您将会收到SSI的问卷调查。
-          </p>
-          <p style="text-align:center;"><input style="padding:5px 10px;" type="submit" value="确定" /></p>
-        </form>
-        <p style="color:#999; padding:15px 35px; text-align:center;">参考信息：SSI是世界领先的样本，数据收集和数据分析供应商之一。如果您还需要获得更多的关于SSI的信息，请您查询他们的网站<a href="http://www.surveysampling.com/" target="_blank">http://www.surveysampling.com/ </a>。</p>
-    </div>
-    <!--/.terms-->
+        <div class="qnEndTxt">
+            <div class="txt">
+                <form action="{{ path('_ssi_partner_redirect') }}" method="post" id="ssi_redirect_form">
+                <p>请先回答SSI属性问卷，您将会获得<b>1</b>个积分，之后您将会收到SSI的问卷调查。</p>
+                <input type="submit" value="确定" class="confirmBtn" />
+                </form>
+            </div>
+            <p class="refer">参考信息：SSI是世界领先的样本，数据收集和数据分析供应商之一。如果您还需要获得更多的关于SSI的信息，请您查询他们的网站：<a href="http://www.surveysampling.com/" target="_blank">http://www.surveysampling.com/</a>。</p>
         </div>
     </div>
     {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}

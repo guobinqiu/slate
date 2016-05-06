@@ -15,7 +15,7 @@ require(['../../config'],function(){
                 return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
             }
         });
-        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $("#signup_password_first").val().trim()}
+        var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $.trim($("#signup_password_first").val())}
         $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
         $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
         $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
@@ -35,7 +35,7 @@ require(['../../config'],function(){
         function validateRegName() {
             var regName = $("#signup_nickname"),
                 regNameError = $("#signup_nickname_error");
-            var loginName = regName.val().trim();
+            var loginName = $.trim(regName.val());
             if (validate.rules.isNull(loginName) || loginName == '') {
                 regName.val("");
                 regName.attr({

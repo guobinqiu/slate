@@ -7,7 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * QQUser
  *
- * @ORM\Table(name="qq_user")
+ * @ORM\Table(name="qq_user",
+ *     indexes={
+ *         @ORM\Index(name="userid_index", columns={"user_id"}),
+ *         @ORM\Index(name="openid_index", columns={"open_id"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\QQUserRepository")
  */
 class QQUser
@@ -15,7 +20,7 @@ class QQUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,14 +29,14 @@ class QQUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string",unique=true)
+     * @ORM\Column(name="open_id", type="string", nullable=true)
      */
     private $openId;
 

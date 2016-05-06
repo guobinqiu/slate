@@ -171,25 +171,39 @@ body {
   z-index: 9999;
   top: 30px;
   right: 0;
-  border: 1px solid #ebedf2;
+  border: 1px solid #e0e0e0;
   background: #fff;
-  width: 186px;
-  display: none; }
+  width: 194px;
+  display: none;
+  -webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2); }
   .header-top-con .personal li {
     float: none;
     border-top: 1px solid #ebedf2;
     line-height: 35px;
-    padding: 0 20px; }
+    padding: 3px 20px; }
     .header-top-con .personal li a {
+      width: 100%;
       border-right: none;
-      color: #4d4d4d;
+      color: #333;
       display: inline-block;
       *display: inline;
-      *zoom: 1; }
+      *zoom: 1;
+      font-size: 14px; }
     .header-top-con .personal li:hover {
-      background: #fafafa; }
+      background: #ededed; }
+      .header-top-con .personal li:hover a {
+        color: #ff6700; }
+  .header-top-con .personal ul {
+    border-top: 6px solid #ebebeb; }
 .header-top-con .personal-con {
-  padding: 15px 20px; }
+  padding: 15px;
+  border-bottom: 1px solid #dbdbdb; }
+  .header-top-con .personal-con .faceTop img {
+    border: 1px solid #d6d6d6;
+    border-radius: 50%;
+    padding: 4px; }
   .header-top-con .personal-con span {
     padding: 0;
     display: inline-block;
@@ -210,7 +224,8 @@ body {
         line-height: 30px;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap; }
+        white-space: nowrap;
+        font-weight: bold; }
     .header-top-con .personal-con span strong {
       font-size: 16px;
       color: #ff6700; }
@@ -268,18 +283,14 @@ body {
         color: #ff6700; }
   .header-nav .login-btn a {
     margin-left: 5px;
-    padding: 5px 10px;
-    color: #88878e;
-    border: 1px solid #dedfe3;
-    border-radius: 3px; }
+    padding: 0 10px;
+    color: #888; }
     .header-nav .login-btn a:hover {
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
+      color: #ff652b; }
+  .header-nav .login-btn a.sign {
+    color: #ff652b;
+    border-left: 1px solid #d0d1d1;
+    padding-left: 40px; }
 
 .main-personal {
   padding: 20px 0 0 5px; }
@@ -297,7 +308,7 @@ h1 {
   padding-top: 27px; }
   .main-personal-left em {
     margin-right: 10px;
-    width: 18px;
+    width: 19px;
     height: 20px;
     background: url(../img/personal/icons.png) no-repeat 0 2px;
     display: inline-block;
@@ -424,8 +435,8 @@ h1 {
   height: 36px;
   line-height: 36px;
   color: #fff;
-  background: #ff6700;
-  border: 1px solid #ff6700;
+  background: #ff652b;
+  border: 1px solid #ff652b;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.4s;
@@ -437,8 +448,8 @@ h1 {
   *zoom: 1;
   vertical-align: middle; }
   .form .btn span:hover {
-    background: #f25807;
-    border: 1px solid #f25807; }
+    background: #f05218;
+    border: 1px solid #f05218; }
 
 #pwdStrength {
   padding: 0;
@@ -462,6 +473,16 @@ h1 {
 .main-personal-account {
   padding: 20px 45px 50px;
   color: #666; }
+  .main-personal-account .successMess {
+    width: 150px;
+    margin: 0 auto;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 2px solid #ade378;
+    background: #f7f7f7;
+    border-radius: 5px;
+    display: none; }
   .main-personal-account li {
     padding: 15px 0;
     line-height: 45px;
@@ -535,7 +556,9 @@ h1 {
         text-align: right;
         font-size: 12px;
         font-weight: normal;
-        color: #666; }
+        color: #666;
+        height: 32px;
+        line-height: 32px; }
     .main-personal-account .con p {
       line-height: 24px; }
     .main-personal-account .con em {
@@ -549,8 +572,8 @@ h1 {
         height: 36px;
         line-height: 36px;
         color: #fff;
-        background: #ff6700;
-        border: 1px solid #ff6700;
+        background: #ff652b;
+        border: 1px solid #ff652b;
         border-radius: 3px;
         cursor: pointer;
         transition: all 0.4s;
@@ -562,8 +585,8 @@ h1 {
         *zoom: 1;
         vertical-align: middle; }
         .main-personal-account .con .btn span:hover {
-          background: #f25807;
-          border: 1px solid #f25807; }
+          background: #f05218;
+          border: 1px solid #f05218; }
         .main-personal-account .con .btn span.backStep {
           background: #c7c7c7;
           border: 1px solid #c7c7c7;
@@ -571,45 +594,36 @@ h1 {
           .main-personal-account .con .btn span.backStep:hover {
             background: #a7a7a7;
             border: 1px solid #a7a7a7; }
-    .main-personal-account .con.bding ul {
-      margin-top: 20px;
-      padding: 0;
-      border-top: 1px solid #f6f6f6; }
-    .main-personal-account .con.bding span {
-      margin-left: 40px;
-      width: 110px;
-      vertical-align: middle; }
-    .main-personal-account .con.bding strong {
-      margin-left: 20px;
-      line-height: 45px;
-      display: inline-block;
-      *display: inline;
-      *zoom: 1;
-      vertical-align: middle; }
-    .main-personal-account .con.subscribe label {
-      margin-right: 10px; }
-    .main-personal-account .con.subscribe p {
-      padding-left: 100px; }
-    .main-personal-account .con.subscribe .btn {
-      padding: 10px 0 0 100px; }
     .main-personal-account .con.withdraw span {
       display: inline-block;
       *display: inline;
       *zoom: 1;
-      vertical-align: middle; }
+      vertical-align: top;
+      margin-left: 0;
+      padding-left: 0; }
+      .main-personal-account .con.withdraw span.focus {
+        display: none; }
     .main-personal-account .con.withdraw ul.tips {
       margin-top: 10px; }
     .main-personal-account .con.withdraw ul.reason {
+      margin-top: 10px;
       padding: 10px 0;
       border: 1px solid #f6f6f6; }
       .main-personal-account .con.withdraw ul.reason #email {
         padding-left: 5px; }
+      .main-personal-account .con.withdraw ul.reason span {
+        padding-left: 5px; }
+        .main-personal-account .con.withdraw ul.reason span#reasons {
+          padding-left: 0px; }
+    .main-personal-account .con.withdraw ul.reason-options li {
+      margin-top: 0; }
     .main-personal-account .con.withdraw ul.reason-options span {
-      width: 210px; }
+      width: 210px;
+      padding-left: 0px; }
     .main-personal-account .con.withdraw ul label {
       width: 110px; }
     .main-personal-account .con.withdraw li {
-      margin-top: 0;
+      margin-top: 5px;
       line-height: 24px; }
     .main-personal-account .con.withdraw .btn {
       padding: 10px 0 0 0; }

@@ -7,11 +7,41 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * UserDeleted
  *
- * @ORM\Table(name="user_deleted", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+ * @ORM\Table(name="user_deleted")
  * @ORM\Entity
  */
 class UserDeleted
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=250, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
+     */
+    private $pwd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
+     */
+    private $isEmailConfirmed;
+
     /**
      * @var integer
      *
@@ -41,13 +71,6 @@ class UserDeleted
     private $nick;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pwd", type="string", length=45, nullable=true)
-     */
-    private $pwd;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="sex", type="integer", nullable=true)
@@ -60,20 +83,6 @@ class UserDeleted
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      */
     private $birthday;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=250, nullable=true)
-     */
-    private $email;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
-     */
-    private $isEmailConfirmed;
 
     /**
      * @var string
@@ -136,7 +145,7 @@ class UserDeleted
      *
      * @ORM\Column(name="personalDes", type="text", nullable=true)
      */
-    private $personaldes;
+    private $personalDes;
 
     /**
      * @var string
@@ -291,17 +300,6 @@ class UserDeleted
      * @ORM\Column(name="work_section_code", type="integer", nullable=true)
      */
     private $workSectionCode;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
-
 
     /**
      * Set isFromWenwen
@@ -695,26 +693,26 @@ class UserDeleted
     }
 
     /**
-     * Set personaldes
+     * Set personalDes
      *
-     * @param string $personaldes
+     * @param string $personalDes
      * @return UserDeleted
      */
-    public function setPersonaldes($personaldes)
+    public function setPersonalDes($personalDes)
     {
-        $this->personaldes = $personaldes;
+        $this->personalDes = $personalDes;
 
         return $this;
     }
 
     /**
-     * Get personaldes
+     * Get personalDes
      *
      * @return string 
      */
-    public function getPersonaldes()
+    public function getPersonalDes()
     {
-        return $this->personaldes;
+        return $this->personalDes;
     }
 
     /**

@@ -29,7 +29,7 @@ require(['../../config'],function(){
             step2.hide();
         });
    	});
-    require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
+    require(['jquery', 'validate', 'routing', 'loginForm'], function($, rpaValidate, routing, loginForm){
         //修改密码（交互）
         $.extend(rpaValidate.func, {
             updatePwd : function() {
@@ -40,7 +40,7 @@ require(['../../config'],function(){
         });
         $("#pwd").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
         $("#pwdRepeat").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
-        $('#pwd_save').on('click', function(){
+        $('#pwd_save').on('click keypress', function(){
             if(rpaValidate.func.updatePwd()){
                 savePwd();
             }
@@ -63,7 +63,7 @@ require(['../../config'],function(){
             curPwdError.removeClass().addClass('error').html(prompt);
         }
         function savePwd(){
-            var str = $('#curPwd').val().trim();
+            var str = $.trim($('#curPwd').val());
             str = $.trim(str);
             if (str == "") {
                 eError('请输入当前密码');
@@ -73,14 +73,15 @@ require(['../../config'],function(){
                 type: "POST",
                 url: Routing.generate('_profile_changepwd'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: { curPwd: $("#curPwd").val().trim(), pwd: $("#pwd").val().trim(), pwdRepeat: $("#pwdRepeat").val().trim(), csrf_token: $("#csrf_token").val().trim()},
+                data: { curPwd: $.trim($("#curPwd").val()), pwd: $.trim($("#pwd").val()), pwdRepeat: $.trim($("#pwdRepeat").val()), csrf_token: $.trim($("#csrf_token").val())},
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
-                        alert(msg);
-                        closeSlider();
+                        $('.successMess').html(msg).show(1000, function(){
+                            setTimeout(closeSlider, 3000); 
+                        });
                     }else{
-                        if(msg != null && msg.trim() != ''){
+                        if(msg != null && $.trim(msg) != ''){
                             if(msg == 'Need login'){
                                 // 跳转到登录画面
                                 window.location.href = Routing.generate('_user_login');
@@ -96,34 +97,53 @@ require(['../../config'],function(){
             });
         }
         //注销
+        var withdrawPwd = {
+            ele: '#withdrawPwd',
+            prompt: {
+                isNull: '请输入您的密码',
+                isFocus: '请输入您的密码'
+            }
+        }, withdrawEmail = {
+            ele: '#withdrawEmail',
+            prompt: {
+                isNull: '请输入邮箱地址',
+                isFormat: '邮箱地址格式不正确'
+            },
+            type: 'email'
+        };
+        new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: false});
         var reasons = $('.reason-options'),
         withdrawSave = $('#withdraw_save');
-        withdrawSave.on('click', function(){
-            saveWithdraw();
+        withdrawSave.on('click keypress', function(){
+            var loginform = new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: true});
+            if(loginform.run(true)){
+                saveWithdraw();
+            }
         });
         function saveWithdraw(){
             var checked = [], len = reasons.find('input:checked').length;
             for(var i = 0; i < len; i++){
-                checked[i] = reasons.find('input:checked').eq(i).val().trim();
+                checked[i] = $.trim(reasons.find('input:checked').eq(i).val());
             }
-
             $.ajax({
                 type: "POST",
                 url: Routing.generate('_profile_withdraw'),
                 contentType : "application/x-www-form-urlencoded; charset=utf-8",
-                data: {reason: checked, csrf_token: $("#csrf_token").val().trim()},
+                data: {reason: checked, csrf_token: $.trim($("#csrf_token").val()), email: $.trim($("#withdrawEmail").val()), password: $.trim($("#withdrawPwd").val()) },
                 success : function(data) {
                     var msg = data.message;
                     if(data.status == 1){
                         window.location.href = Routing.generate('_profile_withdraw_finish');
                     }else{
-                        if(msg != null && msg.trim() != ''){
+                        if(msg != null && $.trim(msg) != ''){
                             if(msg == 'Need login'){
                                 // 跳转到登录画面
                                 window.location.href = Routing.generate('_user_login');
                             }else if(msg == 'Access Forbidden'){
                                 // 跳转到账户设置首页画面
                                 window.location.href = Routing.generate('_profile_index');
+                            }else if(msg == 'Use Not Exist'){
+                                $('.backError').html('对不起，您的注销失败了，用户不存在');
                             }else{
                                 $('.backError').html('对不起，您的注销失败了，请稍后再试');
                             }

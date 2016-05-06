@@ -65,7 +65,7 @@ function initialise_csv()
     $panelist_point_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point.csv");
     $panelist_sina_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_sina_connection.csv");
     $pointexchange_91jili_account_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_pointexchange_91jili_account.csv");
-    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . VOTE_ANSWER . ".csv");
+    $vote_answer_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/" . panel_91wenwen_vote_answer . ".csv");
     $panelist_91jili_connection_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_91jili_connection.csv");
     $sop_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/sop_respondent.csv");
     $ssi_respondent_file_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/ssi_respondent.csv");
@@ -87,7 +87,9 @@ function initialise_csv()
     global $vote_answer_indexs;
     global $weibo_user_indexs;
 
-    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'hash');
+    // Debug
+    // print date("Y-m-d H:i:s") ."Before create panelist_image_indexs. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
+    $panelist_image_indexs = build_key_value_index($panelist_profile_image_file_handle, 'panelist_id', 'l_file');
     $panelist_point_indexs = build_key_value_index($panelist_point_file_handle, 'panelist_id', 'point_value');
     $panelist_mobile_indexs = build_key_value_index($panelist_mobile_number_file_handle, 'panelist_id', 'mobile_number');
     $region_mapping_indexs = build_file_index($migration_region_mapping_file_handle, 'region_id');
@@ -99,6 +101,8 @@ function initialise_csv()
     $vote_answer_indexs = build_file_index($vote_answer_file_handle, 'panelist_id');
     $weibo_user_indexs = build_file_index($weibo_user_file_handle, 'user_id');
 
+    // Debug
+    // print "After create indexes. " . round(memory_get_usage() / 1024 / 1024, 2) . 'MB' . "\n";
     // insert title for merged user, in order to build index
     export_csv_row(Constants::$jili_user_title, Constants::$migrate_user_name);
     export_csv_row(Constants::$user_wenwen_login_title, Constants::$migrate_user_wenwen_login_name);
@@ -435,7 +439,7 @@ function getUser($fh)
 
 /**
  * 遍历panel_91wenwen_pointexchange_91jili_account表
- *   
+ *
  * "panelist_id","jili_email","status_flag","stash_data","updated_at","created_at"
  * "305","28216843@qq.com","1","NULL","2014-02-24 10:21:34","2014-02-20 11:58:08"
  * "2229759","syravia@gmail.com","0","{""activation_url"":""https://www.91jili.com/user/setPassFromWenwen/944966ca79a14e49c74009896922bf13/1436557""}","2015-11-16 11:38:00","2015-11-16 11:38:00"
@@ -496,11 +500,12 @@ function getPointExchangeByPanelistId($fh, $panelist_id_input, $current )
 function generate_user_data_both_exsit($panelist_row, $user_row)
 {
     $user_row = generate_user_data_wenwen_common($panelist_row, $user_row);
+    //register_complete_date (panelist.created_at)
+    $user_row[22] = get_one_hour_ago_time($panelist_row[9]);
     //origin_flag
-    $user_row[30] = Constants::$origin_flag['wenwen_jili'];
+    $user_row[32] = Constants::$origin_flag['wenwen_jili'];
     $user_row = set_default_value($user_row);
     export_csv_row($user_row, Constants::$migrate_user_name);
-    export_history_data($panelist_row[0], $user_row[0]);
 }
 
 /**
@@ -518,11 +523,12 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
     $user_row[4] = Constants::$is_from_wenwen['wenwen_only'];
     //reward_multiple
     $user_row[20] = 1;
+    //register_complete_date (panelist.created_at)
+    $user_row[22] = get_one_hour_ago_time($panelist_row[9]);
     //origin_flag
-    $user_row[30] = Constants::$origin_flag['wenwen'];
+    $user_row[32] = Constants::$origin_flag['wenwen'];
     $user_row = set_default_value($user_row);
     export_csv_row($user_row, Constants::$migrate_user_name);
-    export_history_data($panelist_row[0], $user_id);
 }
 
 /**
@@ -532,10 +538,21 @@ function generate_user_data_only_wenwen($panelist_row, $user_id)
  */
 function generate_user_data_only_jili($row = array())
 {
+    // is_email_confirmed
+    if ($row[2]) {
+        //user has password, set is_email_confirmed = 1
+        $row[3] = 1;
+        // register_date -> register_complete_date
+        $row[22] = $row[21];
+    } else {
+        //user password is null, is_email_confirmed = 0
+        $row[3] = 0;
+    }
+
     //origin_flag
-    $row[30] = Constants::$origin_flag['jili'];
+    $row[32] = Constants::$origin_flag['jili'];
     //password_choice
-    $row[34] = Constants::$password_choice['pwd_jili'];
+    $row[36] = Constants::$password_choice['pwd_jili'];
     $row = set_default_value($row);
     export_csv_row($row, Constants::$migrate_user_name);
 }
@@ -579,31 +596,31 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     //register_date (panelist.created_at)
     $user_row[21] = get_one_hour_ago_time($panelist_row[9]);
-
+    
     //last_login_date(panelist.panelist.last_login_time)
-    $user_row[22] = get_one_hour_ago_time($panelist_row[17]);
+    $user_row[23] = get_one_hour_ago_time($panelist_row[17]);
 
     //last_login_ip
-    //$user_row[23] = $panelist_row[23];
+    //$user_row[24]';
 
 
     //delete_flag todo: 是否要查看问问的黑名单处理
-    $user_row[25] = 0;
+    $user_row[26] = 0;
 
     //is_info_set
-    $user_row[26] = 1;
+    $user_row[28] = 1;
 
     //created_remote_addr
-    $user_row[31] = $panelist_row[10];
+    $user_row[33] = $panelist_row[10];
 
     //created_user_agent
-    $user_row[32] = $panelist_row[11];
+    $user_row[34] = $panelist_row[11];
 
     //campaign_code
-    $user_row[33] = $panelist_row[16];
+    $user_row[35] = $panelist_row[16];
 
     //password_choice
-    $user_row[34] = Constants::$password_choice['pwd_wenwen'];
+    $user_row[36] = Constants::$password_choice['pwd_wenwen'];
 
     //tel: panel_91wenwen_panelist_mobile_number.mobile_number
     global $panelist_mobile_indexs;
@@ -665,16 +682,16 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
         //industry_code: detail.industry_code
         if($panelist_detail_row[28] === '') {
-            $user_row[37] ='NULL';
+            $user_row[39] ='NULL';
         } else {
-            $user_row[37] = $panelist_detail_row[28];
+            $user_row[39] = $panelist_detail_row[28];
         }
 
         //work_section_code: detail.work_section_code
         if( $panelist_detail_row[29] === '' ) {
-            $user_row[38] ='NULL';
+            $user_row[40] ='NULL';
         } else {
-            $user_row[38] = $panelist_detail_row[29];
+            $user_row[40] = $panelist_detail_row[29];
         }
     } else {
 #        //education: detail.graduation_code
@@ -694,13 +711,13 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 #
 #
 #        //industry_code: detail.industry_code
-#        if(empty($user_row[37] )) {
-#            $user_row[37] ='NULL';
+#        if(empty($user_row[39] )) {
+#            $user_row[39] ='NULL';
 #        }
 #
 #        //work_section_code: detail.work_section_code
-#        if(empty($user_row[38] )) {
-#            $user_row[38] ='NULL';
+#        if(empty($user_row[40] )) {
+#            $user_row[40] ='NULL';
 #        }
 
     }
@@ -721,9 +738,9 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
         $user_row[18] = addslashes($panelist_profile_row[5]);
 
         //fav_music: profile.fav_music
-        $user_row[35] = $panelist_profile_row[7];
+        $user_row[37] = $panelist_profile_row[7];
         //monthly_wish:profile.monthly_wish
-        $user_row[36] = $panelist_profile_row[8];
+        $user_row[38] = $panelist_profile_row[8];
     }
 
     //points: panel_91wenwen_panelist_point.point_value
@@ -732,20 +749,21 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 
     if (isset($panelist_point_indexs[$panelist_row[0]])) {
 
+        //points
         if( !isset($user_row[24]) ) {
-            $user_row[24] =  0;
+            $user_row[25] =  0;
         }
-        $user_row[24]  +=  (int) $panelist_point_indexs[$panelist_row[0]]['point_value'];
+        $user_row[25]  +=  (int) $panelist_point_indexs[$panelist_row[0]]['point_value'];
     } else {
         if( ! isset($user_row[24])  ){
-            $user_row[24] = 0;
+            $user_row[25] = 0;
         }
     }
 
     //icon_path:panelist_profile_image
     global $panelist_image_indexs;
     if (isset($panelist_image_indexs[$panelist_row[0]])) {
-        $user_row[27] = $panelist_image_indexs[$panelist_row[0]]['hash'];
+        $user_row[29] = 'uploads/user/' . $panelist_image_indexs[$panelist_row[0]]['l_file'];
     }
     return $user_row;
 }
@@ -758,25 +776,19 @@ function generate_user_data_wenwen_common($panelist_row, $user_row = array())
 function set_default_value($row)
 {
 
-    for ($i = 0; $i <= 38; $i++) {
+    for ($i = 0; $i <= 40; $i++) {
 
         if (! isset($row[$i]) ) {
             $row[$i] = 'NULL';
         }
-
     }
 
-
-    // is_email_confirmed
-    if(''===$row[3] ) {
-        $row[3] = 'NULL';
-    }
-    // is_from_wenwen 
+    // is_from_wenwen
     if(''=== $row[4] ) {
         $row[4] = 'NULL';
     }
 
-    // wenwen_user 
+    // wenwen_user
     if(''=== $row[5] ) {
         $row[5] = 'NULL';
     }
@@ -784,16 +796,16 @@ function set_default_value($row)
     // nick
     $row[7] = addslashes($row[7]);
 
-//personalDes	text	YES		NULL	
+//personalDes	text	YES		NULL
     $row[18] = addslashes($row[18]);
-    // agent
-    $row[32] = addslashes($row[32]);
-// fav_music	varchar(255)	YES		NULL	
-    $row[35] = addslashes($row[35]);
-//monthly_wish	varchar(255)	YES		NULL	
-    $row[36] = addslashes($row[36]);
+    // created_user_agent
+    $row[34] = addslashes($row[34]);
+// fav_music	varchar(255)	YES		NULL
+    $row[37] = addslashes($row[37]);
+//monthly_wish	varchar(255)	YES		NULL
+    $row[38] = addslashes($row[38]);
 
-    // sex 
+    // sex
     if(''===$row[8] ) {
         $row[8] = 'NULL';
     }
@@ -813,7 +825,7 @@ function set_default_value($row)
         $row[13] = 'NULL';
     }
 
-    //education 
+    //education
     if(''===$row[14] ) {
         $row[14] = 'NULL';
     }
@@ -827,25 +839,33 @@ function set_default_value($row)
     if( $row[16] === '') {
         $row[16] ='NULL';
     }
-    //delete_flag
-    if( $row[25] === '') {
-        $row[25] ='NULL';
+
+    //register_complete_date
+    if( $row[22] === '') {
+        $row[22] ='NULL';
     }
 
+    //delete_flag
+    if( $row[26] === '') {
+        $row[26] ='NULL';
+    }
 
-    // is_tel_confirmed 
-    if(''=== $row[29] ) {
-        $row[29] = 'NULL';
+    //delete_date
+    $row[27] ='NULL';
+
+    // token_created_at
+    if(''=== $row[31] ) {
+        $row[31] = 'NULL';
     }
 
     //industry_code: detail.industry_code
-    if(empty($row[37] )) {
-        $row[37] ='NULL';
+    if(empty($row[39] )) {
+        $row[39] ='NULL';
     }
 
     //work_section_code: detail.work_section_code
-    if(empty($row[38] )) {
-        $row[38] ='NULL';
+    if(empty($row[40] )) {
+        $row[40] ='NULL';
     }
     return $row;
 }
@@ -897,15 +917,15 @@ function generate_weibo_user_data($panelist_id, $user_id)
             // different open_id
             if ($panelist_sina_row[1] != $weibo_user_row[2]) {
                 global $log_handle;
-                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id . 
-                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] . 
-                        ' user_id: ' . $user_id . 
+                FileUtil::writeContents($log_handle, '绑定的微博账号不同, panelist_id: ' .$panelist_id .
+                        ' panelist_sina_row[1]: ' . $panelist_sina_row[1] .
+                        ' user_id: ' . $user_id .
                         ' weibo_user_row[2]: ' . $weibo_user_row[2]);
                 //weibo_user :  change
                 //$weibo_user[0] = 'NULL';
             } else {
                 $is_open_id_match =  true;
-            }  
+            }
 
         }  else {
             //$weibo_user_row[0] = 'NULL';
@@ -996,18 +1016,30 @@ function generate_vote_answer_data($panelist_id, $user_id)
 }
 
 /**
- * Export the task_history and point_history  data
- * @param Integer $point
+ * Generate the task_history and point_history data before 180 days
+ * @param array $array_panelistid_userid
  * @return void
  */
-function export_history_data($panelist_id, $user_id)
+function export_history_data($array_panelistid_userid)
 {
+    //Todo
+    
     global $panelist_point_indexs;
+    $today = date('Y-m-d H:i:s');
+    $date_180_days_ago = date('Y-m-d H:i:s', strtotime($today. ' -180 days '));
+    
+    // Debug
+    // print_r($panelist_point_indexs);
+    
+    foreach ($panelist_point_indexs as $panelist_id => $panelist_point) {
+        
+        $wenwen_point = $panelist_point['point_value'];
 
-    if (isset($panelist_point_indexs[$panelist_id])) {
-        $wenwen_point = $panelist_point_indexs[$panelist_id]['point_value'];
-        if ($wenwen_point > 0) {
+        // Debug
+        // printf ("panelist_id=%s panelist_point=%s user_id=%s\n",$panelist_id,$wenwen_point,$user_id);
 
+        if( $wenwen_point != 0 && isset($array_panelistid_userid[$panelist_id])){
+            $user_id = $array_panelistid_userid[$panelist_id];
             $index = $user_id % 10;
             $task_history_name = Constants::$migrate_task_history_name;
             $point_history_name = Constants::$migrate_point_history_name;
@@ -1020,19 +1052,19 @@ function export_history_data($panelist_id, $user_id)
             //user_id
             $task_history[2] = $user_id;
             //task_type
-            $task_history[3] = 4;
+            $task_history[3] = Constants::$ad_category_type_web_merge;
             //category_type
             $task_history[4] = Constants::$ad_category_type_web_merge;
             //task_name
-            $task_history[5] = '合并前91问问的积分数';
+            $task_history[5] = '合并6个月前91问问的积分数';
             //reward_percent
             $task_history[6] = 'NULL';
             //point
             $task_history[7] = $wenwen_point;
             //ocd_created_date
-            $task_history[8] = date('Y-m-d H:i:s');
+            $task_history[8] = $date_180_days_ago;
             //date
-            $task_history[9] = date('Y-m-d H:i:s');
+            $task_history[9] = $date_180_days_ago;
             //status
             $task_history[10] = 1;
 
@@ -1048,7 +1080,7 @@ function export_history_data($panelist_id, $user_id)
             //reason
             $point_history[3] = Constants::$ad_category_type_web_merge;
             //create_time
-            $point_history[4] = date('Y-m-d H:i:s');
+            $point_history[4] = $date_180_days_ago;
 
             export_csv_row($point_history, $point_history_name . $index . ".csv");
         }
@@ -1087,7 +1119,7 @@ function export_csv_row($data, $file_name )
     return fclose($handle);
 }
 
-function strip_vote_description_links($description) 
+function strip_vote_description_links($description)
 {
     return preg_replace('/<a\s+href="http:\/\/www\.91wenwen\.net\/user\/?\s*[\w\d]+\s*">(.*)<\/a>/s', '\1', $description);
 }
@@ -1124,4 +1156,183 @@ function migrate_common($panelist_row, $jili_user_id)
 
     //vote_answer 数据迁移
     generate_vote_answer_data($panelist_row[0], $jili_user_id);
+}
+
+/**
+ * Generate point_history0x.csv and task_history0x.csv from panel_91wenwen_panelist_point_log.csv
+ * @param array $array_panelistid_userid mapping data of panelist_id and user_id
+ */
+function generate_history_details($array_panelistid_userid)
+{
+    global $log_handle;
+    global $panelist_point_indexs;
+    FileUtil::writeContents($log_handle, "INFO [generate_point_history] start." . round(memory_get_usage() / 1024 / 1024, 2) . 'MB');  
+    $panel_91wenwen_panelist_point_log_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point_log.csv");
+    $point_history_handle = FileUtil::checkFile(IMPORT_WW_PATH . "/panel_91wenwen_panelist_point_log.csv");
+
+    // Debug
+    // print_r($array_panelistid_userid);
+    
+    try
+    {
+        while (($panel_91wenwen_panelist_point_log_row = fgetcsv($panel_91wenwen_panelist_point_log_handle, 0,',','"','"')) !== false )
+        {
+            // Debug
+            // print_r($panel_91wenwen_panelist_point_log_row);
+            
+            $panel_91wenwen_panelist_point_log_panelist_id = $panel_91wenwen_panelist_point_log_row[1];
+            if( ! isset($array_panelistid_userid[$panel_91wenwen_panelist_point_log_panelist_id]))
+            {
+                // If user_id related to panelist_id is not exist, we dont need this panelist's point_history
+                FileUtil::writeContents($log_handle, "INFO [generate_point_history] panelist_id = " . $panel_91wenwen_panelist_point_log_panelist_id . ". Related user_id not found -> skip this record.");  
+                continue;
+            }
+            // point_history.user_id related to panel_91wenwen_panelist_point_log.user_id
+            $user_id = $array_panelistid_userid[$panel_91wenwen_panelist_point_log_panelist_id];
+            
+            // Generate one row of point_history from panel_91wenwen_panelist_point_log
+            $point_history_row = generate_point_history_row($panel_91wenwen_panelist_point_log_row, $user_id);
+            $task_history_row = generate_task_history_row($panel_91wenwen_panelist_point_log_row, $user_id);
+
+            // Debug
+            // print_r($point_history_row);
+            
+            $panelist_point_indexs[$panel_91wenwen_panelist_point_log_panelist_id]['point_value'] -= $panel_91wenwen_panelist_point_log_row[3];
+            
+            // Output to point_history0x.csv and task_history0x.csv
+            $index = $user_id % 10;
+            $point_history_csv_name = Constants::$migrate_point_history_name . $index . ".csv";
+            export_csv_row($point_history_row, $point_history_csv_name);
+            $task_history_csv_name = Constants::$migrate_task_history_name . $index . ".csv";
+            export_csv_row($task_history_row, $task_history_csv_name);
+        }
+    } catch ( Exception $e ) {
+        FileUtil::writeContents($log_handle, "Exception:" . $e->getMessage());  
+    }
+    FileUtil::closeFile($panel_91wenwen_panelist_point_log_handle);
+
+    FileUtil::writeContents($log_handle, "INFO [generate_point_history] end." . round(memory_get_usage() / 1024 / 1024, 2) . 'MB');  
+}
+
+/**
+ * Generate one row of point_history from one row of panel_91wenwen_panelist_point_log
+ * @param array $panel_91wenwen_panelist_point_log_row arrary of one row for panel_91wenwen_panelist_point_log
+ * @param string $point_history_user_id string of user_id in 91jili system
+ * @return mixed $point_history_row array of one row for point_history
+ */
+function generate_point_history_row($panel_91wenwen_panelist_point_log_row, $point_history_user_id){
+
+    $panel_91wenwen_panelist_point_log_add_point_value = $panel_91wenwen_panelist_point_log_row[3];
+    $panel_91wenwen_panelist_point_log_exec_type = $panel_91wenwen_panelist_point_log_row[5];
+    $panel_91wenwen_panelist_point_log_created_at = $panel_91wenwen_panelist_point_log_row[10];
+
+    $point_history_point_change_num = $panel_91wenwen_panelist_point_log_add_point_value;
+    $point_history_reason = mapping_reason($panel_91wenwen_panelist_point_log_exec_type);
+    $point_history_create_time = $panel_91wenwen_panelist_point_log_created_at;
+            
+    // point_history_0x.id
+    $point_history_row[0] = 'NULL';
+    // point_history_0x.user_id
+    $point_history_row[1] = $point_history_user_id;
+    // point_history_0x.point_change_num
+    $point_history_row[2] = $point_history_point_change_num;
+    // point_history_0x.reason
+    $point_history_row[3] = $point_history_reason;
+    // point_history_0x.create_time
+    $point_history_row[4] = $point_history_create_time;
+
+    return $point_history_row;
+}
+
+/**
+ * Generate one row of task_history from one row of panel_91wenwen_panelist_point_log
+ * @param array $panel_91wenwen_panelist_point_log_row arrary of one row for panel_91wenwen_panelist_point_log
+ * @param string $point_history_user_id string of user_id in 91jili system
+ * @return mixed $task_history_row array of one row for task_history
+ */
+function generate_task_history_row($panel_91wenwen_panelist_point_log_row, $task_history_user_id){
+
+    $panel_91wenwen_panelist_point_log_add_point_value = $panel_91wenwen_panelist_point_log_row[3];
+    $panel_91wenwen_panelist_point_log_exec_type = $panel_91wenwen_panelist_point_log_row[5];
+    $panel_91wenwen_panelist_point_log_exec_comment = $panel_91wenwen_panelist_point_log_row[6];
+    $panel_91wenwen_panelist_point_log_created_at = $panel_91wenwen_panelist_point_log_row[10];
+
+    $task_history_category_type = mapping_reason($panel_91wenwen_panelist_point_log_exec_type);
+    $task_history_task_type = $task_history_category_type;
+    $task_history_task_name = $panel_91wenwen_panelist_point_log_exec_comment;
+    $task_history_point = $panel_91wenwen_panelist_point_log_add_point_value;
+    $task_history_ocd_created_date = $panel_91wenwen_panelist_point_log_created_at;
+    $task_history_date = $panel_91wenwen_panelist_point_log_created_at;
+    $task_history_status = "1";
+    
+    // task_history_0x.id
+    $task_history_row[0] = 'NULL';
+    // task_history_0x.order_id
+    $task_history_row[1] = '0';
+    // task_history_0x.user_id
+    $task_history_row[2] = $task_history_user_id;
+    // task_history_0x.task_type
+    $task_history_row[3] = $task_history_task_type;
+    // task_history_0x.category_type
+    $task_history_row[4] = $task_history_category_type;
+    // task_history_0x.task_name
+    $task_history_row[5] = $task_history_task_name;
+    // task_history_0x.reward_percent
+    $task_history_row[6] = 'NULL';
+    // task_history_0x.point
+    $task_history_row[7] = $task_history_point;
+    // task_history_0x.ocd_created_date
+    $task_history_row[8] = $task_history_ocd_created_date;
+    // task_history_0x.date
+    $task_history_row[9] = $task_history_date;
+    // task_history_0x.status
+    $task_history_row[10] = $task_history_status;
+    
+    return $task_history_row;
+}
+
+/**
+ * panel_91wenwen_panelist_point_log -> point_history.reason
+ * @param string $panel_91wenwen_panelist_point_log_exec_type
+ * @return string $point_history_reason
+ */
+function mapping_reason($panel_91wenwen_panelist_point_log_exec_type) {
+    
+    $point_history_reason = NULL;
+    switch($panel_91wenwen_panelist_point_log_exec_type) {
+        // questionnaire(cost), operation: increase, account: prime_cost
+        case "11":
+            $point_history_reason = "92";
+            break;
+        // "exchange point", operation: decrease, account: payment 
+        case "21":
+            $point_history_reason = "13";
+            break;
+        // questionnaire(expense), operation: increase, account: promotion_cost
+        case "61":
+            $point_history_reason = "93";
+            break;
+        // registration, operation: increase, account: promotion_cost 
+        case "64":
+            $point_history_reason = "32";
+            break;
+        // "campaign", operation: increase, account: promotion_cost
+        case "65":
+            $point_history_reason = "21";
+            break;
+        // "expire", operation: decrease, account: lapse
+        case "91":
+            $point_history_reason = "15";
+            break;
+        // "repayment", operation: increase, account: other
+        case "92":
+            $point_history_reason = "90";
+            break;
+        // others reason = 94 web merge
+        default:
+            $point_history_reason = "94";
+            break;
+    }
+    
+    return $point_history_reason;
 }

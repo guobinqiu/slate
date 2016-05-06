@@ -17,7 +17,7 @@ class AdwAccessHistory
      /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -42,7 +42,7 @@ class AdwAccessHistory
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="access_time", type="datetime")
+     * @ORM\Column(name="access_time", type="datetime", nullable=true)
      */
     private $accessTime;
 

@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ssi_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="partner_app_member_id_UNIQUE", columns={"user_id"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiRespondentRepository")
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiRespondent
 {
@@ -18,7 +20,7 @@ class SsiRespondent
     const STATUS_PRESCREENED = 10;
     const STATUS_ACTIVE = 10;
 
-    public static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=2189&aff_id=1346&aff_sub5=wwcn-%d';
+    public static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=3135&aff_id=1346&aff_sub5=wwcn-%d';
 
     /**
      * @var integer
@@ -32,7 +34,7 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
@@ -49,7 +51,8 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="status_flag", type="smallint", nullable=true)
+     * @ORM\Column(name="status_flag", type="smallint", nullable=true,
+     *     options={"default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
      */
     private $statusFlag;
 
@@ -63,7 +66,7 @@ class SsiRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -254,5 +257,13 @@ class SsiRespondent
         }
 
         return;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

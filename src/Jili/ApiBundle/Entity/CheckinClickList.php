@@ -20,7 +20,7 @@ class CheckinClickList
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -43,14 +43,14 @@ class CheckinClickList
     /**
      * @var integer
      *
-     * @ORM\Column(name="open_shop_times", type="integer")
+     * @ORM\Column(name="open_shop_times", type="integer", options={"comment": "点击的数量"})
      */
     private $openShopTimes;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer",nullable=true)
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
     private $status;
 

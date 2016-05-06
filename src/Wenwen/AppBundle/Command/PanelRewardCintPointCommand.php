@@ -21,7 +21,7 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start...');
+        $output->writeln('start panel:reward-cint-point...');
 
         $app_name = 'site91wenwen';
         $this->setLogger($app_name . '-reward-cint-point');

@@ -101,7 +101,7 @@ body {
     padding-left: 0; }
   .header-top-con a.last {
     border-right: none; }
-.header-top-con em, .header-top-con .main-help-con .tabCon ul li span, .main-help-con .tabCon ul li .header-top-con span {
+.header-top-con em {
   width: 20px;
   height: 15px;
   line-height: 15px;
@@ -112,12 +112,12 @@ body {
   display: inline-block;
   *display: inline;
   *zoom: 1; }
-  .header-top-con em.tool, .header-top-con .main-help-con .tabCon ul li span.tool, .main-help-con .tabCon ul li .header-top-con span.tool {
+  .header-top-con em.tool {
     width: 12px;
     height: 16px;
     line-height: 16px;
     background-position: 0 -38px; }
-  .header-top-con em.mail, .header-top-con .main-help-con .tabCon ul li span.mail, .main-help-con .tabCon ul li .header-top-con span.mail {
+  .header-top-con em.mail {
     margin-top: 1px;
     margin-left: 0;
     background-position: 0 -20px;
@@ -125,7 +125,7 @@ body {
     z-index: 1;
     cursor: pointer;
     *margin-top: 8px; }
-  .header-top-con em .mark, .header-top-con .main-help-con .tabCon ul li span .mark, .main-help-con .tabCon ul li .header-top-con span .mark {
+  .header-top-con em .mark {
     position: absolute;
     z-index: 1000;
     top: -3px;
@@ -171,25 +171,39 @@ body {
   z-index: 9999;
   top: 30px;
   right: 0;
-  border: 1px solid #ebedf2;
+  border: 1px solid #e0e0e0;
   background: #fff;
-  width: 186px;
-  display: none; }
+  width: 194px;
+  display: none;
+  -webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2); }
   .header-top-con .personal li {
     float: none;
     border-top: 1px solid #ebedf2;
     line-height: 35px;
-    padding: 0 20px; }
+    padding: 3px 20px; }
     .header-top-con .personal li a {
+      width: 100%;
       border-right: none;
-      color: #4d4d4d;
+      color: #333;
       display: inline-block;
       *display: inline;
-      *zoom: 1; }
+      *zoom: 1;
+      font-size: 14px; }
     .header-top-con .personal li:hover {
-      background: #fafafa; }
+      background: #ededed; }
+      .header-top-con .personal li:hover a {
+        color: #ff6700; }
+  .header-top-con .personal ul {
+    border-top: 6px solid #ebebeb; }
 .header-top-con .personal-con {
-  padding: 15px 20px; }
+  padding: 15px;
+  border-bottom: 1px solid #dbdbdb; }
+  .header-top-con .personal-con .faceTop img {
+    border: 1px solid #d6d6d6;
+    border-radius: 50%;
+    padding: 4px; }
   .header-top-con .personal-con span {
     padding: 0;
     display: inline-block;
@@ -210,7 +224,8 @@ body {
         line-height: 30px;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap; }
+        white-space: nowrap;
+        font-weight: bold; }
     .header-top-con .personal-con span strong {
       font-size: 16px;
       color: #ff6700; }
@@ -268,18 +283,14 @@ body {
         color: #ff6700; }
   .header-nav .login-btn a {
     margin-left: 5px;
-    padding: 5px 10px;
-    color: #88878e;
-    border: 1px solid #dedfe3;
-    border-radius: 3px; }
+    padding: 0 10px;
+    color: #888; }
     .header-nav .login-btn a:hover {
-      color: #fff;
-      background: #ff6700;
-      border: 1px solid #ff6700;
-      transition: all 0.1s;
-      -moz-transition: all 0.1s;
-      -webkit-transition: all 0.1s;
-      -o-transition: all 0.1s; }
+      color: #ff652b; }
+  .header-nav .login-btn a.sign {
+    color: #ff652b;
+    border-left: 1px solid #d0d1d1;
+    padding-left: 40px; }
 
 .main-help-banner {
   height: 104px;
@@ -393,11 +404,10 @@ body {
       background-color: #f5f5f5;
       margin-bottom: 2px;
       cursor: pointer; }
-    .main-help-con .tabCon ul li em, .main-help-con .tabCon ul li span {
+    .main-help-con .tabCon ul li em {
+      width: 8px;
       margin-right: 30px;
       float: left; }
-      .main-help-con .tabCon ul li em img, .main-help-con .tabCon ul li span img {
-        margin-top: 15px; }
     .main-help-con .tabCon ul li span.icons {
       float: right;
       margin-top: 15px;
@@ -415,7 +425,7 @@ body {
       line-height: 30px;
       font-size: 13px;
       margin: 15px 0;
-      padding-left: 40px;
+      padding-left: 21px;
       padding-right: 20px;
       display: none; }
       .main-help-con .tabCon ul li p strong {

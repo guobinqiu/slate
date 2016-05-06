@@ -113,17 +113,17 @@ $slider-height: 305px;
 }
 #newguideWrap {
 	width: 1000px;
-	min-height: 1000px;
+	height: 100%;
 	position: relative;
 	margin: 0 auto;
 	z-index: 10000;
 	.newguide1{
-		width: 881px;
-		height: 407px;
+		width: 531px;
+		height: 266px;
 		position: absolute;
 		background: url(../img/home/guide1.png) no-repeat 0 0;
-		left: 32px;
-	    top: 433px;
+		left: 232px;
+		top: -400px;
 	}
 	.newguide2{
 		width: 520px;
@@ -131,20 +131,15 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide2.png) no-repeat 0 0;
 		right: 58px;
-	    top: 9px;
+	    top: -644px;
 	}
 	.newguide3{
 		width: 493px;
 		height: 369px;
 		position: absolute;
 		background: url(../img/home/guide3.png) no-repeat 0 0;
-		right: -9px;
-	    top: 10px;
-	}
-	.newguide1 div, .newguide2 div, .newguide3 div{
-		width: 100%;
-	    height: 100%;
-		position: relative;
+		right: -2px;
+	    top: -641px;
 	}
 	.ngbtn{
 		position: absolute;
@@ -154,7 +149,7 @@ $slider-height: 305px;
 	}
 	.ngbtn1{
 		right: 69px;
-	    bottom: 71px;
+	    bottom: 11px;
 	}
 	.ngbtn2{
 		right: 69px;
@@ -171,8 +166,8 @@ $slider-height: 305px;
 	    cursor: pointer;
 	}
 	.ngclose1{
-		right: 0;
-	    bottom: 78px;
+		right: -7px;
+		bottom: 18px;
 	}
 	.ngclose2{
 		right: 0;

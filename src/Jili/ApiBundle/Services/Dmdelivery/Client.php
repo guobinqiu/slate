@@ -167,7 +167,7 @@ class Client
             if ($addRecipient_result->status == "ERROR") {
                 $re = "addRecipient error';";
                 $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re );
-                return $rs;
+                return $re;
             }
 
 
@@ -184,7 +184,7 @@ class Client
             $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $rs );
             return $rs;
         } catch (SoapFault $exception) {
-            $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $e->getMessage()  );
+            $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $exception->getMessage()  );
             echo $exception;
         }
     }

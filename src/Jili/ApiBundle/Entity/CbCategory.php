@@ -15,7 +15,7 @@ class CbCategory
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,7 +24,7 @@ class CbCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="category_name", type="string", length=30, nullable=true)
+     * @ORM\Column(name="category_name", type="string", length=30)
      */
     private $categoryName;
 

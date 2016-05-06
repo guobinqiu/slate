@@ -49,10 +49,17 @@ define(['jquery', 'routing'],function($){
     if(expandCon.length > 0){
         $.each(expandCon, function(i, e){
             expandBtn.eq(i).hover(function(){
-                expandCon.eq(i).show();
+                expandCon.eq(i).show(30);
             }, function(){
-                expandCon.eq(i).hide();
+                expandCon.eq(i).hide(30);
             });
         });
     }
+
+
+    //返回顶部
+    $('.goTop').click(function() {
+        $('body,html').animate({ scrollTop: 0 }, 800);
+    })
+    
 });

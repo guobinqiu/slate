@@ -19,7 +19,7 @@ class IdentityConfirm
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -35,14 +35,14 @@ class IdentityConfirm
      /**
      * @var string
      *
-     * @ORM\Column(name="identity_card", type="string" ,length=50)
+     * @ORM\Column(name="identity_card", type="string", length=50, nullable=true)
      */
     private $identityCard;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="identity_validate_time", type="datetime")
+     * @ORM\Column(name="identity_validate_time", type="datetime", nullable=true)
      */
     private $identityValidateTime;
 

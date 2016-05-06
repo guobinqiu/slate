@@ -15,56 +15,56 @@ class ChanetCommissionData extends CommissionDataBase
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_id", type="integer", nullable=false)
+     * @ORM\Column(name="commission_id", type="integer", nullable=false, options={"comment": "FK"})
      */
     private $commissionId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false)
+     * @ORM\Column(name="commission_serial_number", type="integer", nullable=false, options={"comment": "佣金序号"})
      */
     private $commissionSerialNumber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true)
+     * @ORM\Column(name="commission_name", type="string", length=200, nullable=true, options={"comment": "商品名称"})
      */
     private $commissionName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission", type="string", length=100, nullable=true, options={"comment": "佣金比例"})
      */
     private $commission;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true)
+     * @ORM\Column(name="commission_period", type="string", length=100, nullable=true, options={"comment": "有效期"})
      */
     private $commissionPeriod;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true, options={"comment": "备注"})
      */
     private $description;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"comment": "写入时间"})
      */
     private $createdAt;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */

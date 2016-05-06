@@ -28,8 +28,8 @@ require(['../../config'],function(){
                 });
                 mobileSave.unbind('click');
                 mobileSave.on('click', function(){
-                    var mobileNum = $(mobileInput).val().trim(),
-                        mobileRepeatNum = $(mobileRepeatInput).val().trim();
+                    var mobileNum = $.trim($(mobileInput).val()),
+                        mobileRepeatNum = $.trim($(mobileRepeatInput).val());
                     if (mobileNum == "" || (validateMobile.isPhone(mobileNum) == false)) {
                         validateMobile.eError(mobileInput, '请输入有效的手机号码');
                         return false;

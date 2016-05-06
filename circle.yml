@@ -5,9 +5,21 @@ machine:
     Asia/Shanghai
 
 dependencies:
+  pre:
+    - sudo apt-add-repository -y 'deb
+      http://ppa.launchpad.net/ondrej/mysql-experimental/ubuntu precise
+      main'
+    - sudo apt-get update; sudo DEBIAN_FRONTEND=noninteractive apt-get
+      install -y mysql-server-5.6
   override:
     - make circle
 
 test:
   override:
-    - make test
+#    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite wenwen -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_command -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_controller -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_entity -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_form -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml.dist --testsuite jili_api_repo -d memory_limit=-1 --debug --verbose

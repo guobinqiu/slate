@@ -30,14 +30,14 @@ class AdBanner
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
     private $createTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="icon_image", type="string", length=250)
+     * @ORM\Column(name="icon_image", type="string", length=250, nullable=true)
      */
     private $iconImage;
 
@@ -51,7 +51,7 @@ class AdBanner
     /**
      * @var string
      *
-     * @ORM\Column(name="ad_url", type="string", length=250)
+     * @ORM\Column(name="ad_url", type="text")
      */
     private $adUrl;
 

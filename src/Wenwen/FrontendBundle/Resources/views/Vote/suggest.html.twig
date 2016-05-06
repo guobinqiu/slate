@@ -1,6 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}快速问答出题：{{ parent() }} {% endblock %}
-
+{% block meta %}
+<meta name="keywords" content="快速问答，有奖出题，快速问答出题，热门出题，征询网友意见" />
+<meta name="description" content="在出题页面您可以提供您感兴趣的话题，征询广大91问问网友的意见，热点新闻，社会话题，甚至当你犹豫不决该买哪个产品，都可以成为“快速问答”的主题，同时还有机会获得200积分奖励。" />
+<meta name="title" content="快速问答出题:91问问调查网" />
+{% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/suggest.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}

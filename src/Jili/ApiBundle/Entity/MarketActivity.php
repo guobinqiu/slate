@@ -23,7 +23,7 @@ class MarketActivity
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -39,65 +39,67 @@ class MarketActivity
      /**
      * @var string
      *
-     * @ORM\Column(name="business_name", type="string" ,length=250)
+     * @ORM\Column(name="business_name", type="string", length=250, nullable=true)
      */
     private $businessName;
     
      /**
      * @var string
      *
-     * @ORM\Column(name="activity_description", type="string" ,length=1000)
+     * @ORM\Column(name="activity_description", type="string", length=1000)
      */
     private $activityDescription;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="category_id",type="string" ,length=250)
+     * @ORM\Column(name="category_id", type="string",length=250, nullable=true)
      */
     private $categoryId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="activity_url", type="string" ,length=1000)
+     * @ORM\Column(name="activity_url", type="string", length=1000, nullable=true)
      */
     private $activityUrl;
 
      /**
      * @var string
      *
-     * @ORM\Column(name="activity_image", type="string" ,length=250)
+     * @ORM\Column(name="activity_image", type="string", length=250, nullable=true)
      */
     private $activityImage;
 
      /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_time", type="datetime")
+     * @ORM\Column(name="start_time", type="datetime", nullable=true)
      */
     private $startTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_time", type="datetime")
+     * @ORM\Column(name="end_time", type="datetime", nullable=true)
      */
     private $endTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(name="create_time", type="datetime", nullable=true)
      */
     private $createTime;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer")
+     * @ORM\Column(name="delete_flag", type="integer", nullable=true)
      */
     private $deleteFlag;
+
+
 
     /**
      * editupload image to temp dir

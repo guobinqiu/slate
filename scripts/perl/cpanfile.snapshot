@@ -1766,6 +1766,16 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
+  Text-CSV_XS-1.23
+    pathname: H/HM/HMBRAND/Text-CSV_XS-1.23.tgz
+    provides:
+      Text::CSV_XS 1.23
+    requirements:
+      Config 0
+      DynaLoader 0
+      ExtUtils::MakeMaker 0
+      IO::Handle 0
+      Test::More 0
   Text-Diff-1.44
     pathname: N/NE/NEILB/Text-Diff-1.44.tar.gz
     provides:

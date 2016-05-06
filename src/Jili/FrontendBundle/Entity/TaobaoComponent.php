@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TaobaoComponent
  *
- * @ORM\Table(name="taobao_component")
+ * @ORM\Table(name="taobao_component", indexes={@ORM\Index(name="component_index", columns={"component_id", "category_id"})})
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\TaobaoComponentRepository")
  */
 class TaobaoComponent
@@ -27,7 +27,7 @@ class TaobaoComponent
     /**
      * @var integer
      *
-     * @ORM\Column(name="component_id", type="integer", nullable=false)
+     * @ORM\Column(name="component_id", type="integer", options={"comment": "1：搜索框 2：分类产品 3：单品 4：店铺"})
      */
     private $componentId;
 
@@ -48,14 +48,14 @@ class TaobaoComponent
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", nullable=false)
+     * @ORM\Column(name="content", type="text")
      */
     private $content;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="sort", type="integer", length=3, nullable=true)
+     * @ORM\Column(name="sort", type="smallint", nullable=true, options={"default": 0})
      */
     private $sort;
 

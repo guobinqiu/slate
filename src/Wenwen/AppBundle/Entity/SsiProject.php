@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="ssi_project")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiProject
 {
@@ -24,14 +26,15 @@ class SsiProject
     /**
      * @var boolean
      *
-     * @ORM\Column(name="status_flag", type="boolean", nullable=true)
+     * @ORM\Column(name="status_flag", type="boolean", nullable=true,
+     *     options={"default": 1, "comment": "1: active,0:inactive"})
      */
     private $statusFlag;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -125,5 +128,13 @@ class SsiProject
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

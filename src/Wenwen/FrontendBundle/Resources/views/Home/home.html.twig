@@ -1,5 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}首页：{{ parent() }} {% endblock %}
+{% block meta %}
+<meta name="keywords" content="问卷网，调查网，调查赚钱，在线调查，调查问卷，问卷调查，91问问" />
+<meta name="description" content="每个人都是社会的决策者！欢迎来到91问问调查网。现在注册会员，在线参加全球市场调查，轻轻松松赢取现金,并用您的意见改变世界。另有体验广告让您乐赚不停；购物返利让你省得多，赚得也更多" />
+<meta name="title" content="首页:91问问调查网" />
+{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
@@ -16,84 +21,7 @@
 	</div>
 </div>
 {{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}
-<div class="main-con w1000 clearfix">
-	<div class="main-con-left left">
-		{# 1. 首页问卷默认显示两条 #}
-		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
-		<div class="survey" id="surveyHome">
-			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
-			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<ul id="surveyList">
-				{# SSI permission #}
-        {%  if (ssi_respondent is null or ssi_respondent.needPrescreening) %}
-				<!-- <li class="ssiPermission">
-				    <div class="survey-item">
-				        <div class="title">ssi同意问卷</div>
-				        <ul class="con clearfix">
-				            <li class="first">
-				                <span>问卷编号</span>
-				                <p>--</p>
-				            </li>
-				            <li>
-				                <span>问卷类型</span>
-				                <p title="商业问卷">商业问卷</p>
-				            </li>
-				            <li>
-				                <span>回答期限</span>
-				                <p>--</p>
-				            </li>
-				            <li class="last">
-				                <span>积分数</span>
-				                <p><strong>1</strong></p>
-				            </li>
-				        </ul>
-				    </div>
-				    <div class="survey-btn">
-				        <a href="javascript: void(0)" target="_brank" onClick="pop_survey_window(this);return false;" >可回答</a>
-				    </div>
-				</li> -->
-				{# SSI survey #}
-        {% elseif ssi_respondent.isActive and ssi_surveys %}
-				    <li class="ssiSurvey" style="display: block;">
-				        <div class="survey-item">
-				            <div class="title">ssi</div>
-				            <ul class="con clearfix">
-				                <li class="first">
-				                    <span>问卷编号</span>
-                            <p>s{{ ssi_surveys[0].ssiProjectId }} {{ssi_project_config.title }}</p>
-				                </li>
-				                <li>
-				                    <span>问卷类型</span>
-                            <p title="商业问卷">商业问卷</p>
-				                </li>
-				                <li>
-				                    <span>回答期限</span>
-				                    <p>---</p>
-				                </li>
-				                <li class="last">
-				                    <span>积分数</span>
-                            <p><strong>{{ ssi_project_config.point }}</strong></p>
-				                </li>
-				            </ul>
-				        </div>
-				        <div class="survey-btn">
-				            <a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" >可回答</a>
-				        </div>
-				    </li>
-        {% endif %}
-			</ul>
-		</div>
-		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
-		<div class="vote">
-			<h1><em></em>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
-			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
-		</div>
-	</div>
-	<div class="main-con-right right">
-		{{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
-		<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
-	</div>
-</div>
+
 {# 新手引导开始 #}
 <div id="mask"></div>
 <div id="newguideWrap">
@@ -116,6 +44,62 @@
 	</div>
 </div>
 {# 新手引导结束 #}
+
+<div class="main-con w1000 clearfix">
+	<div class="main-con-left left">
+		{# 1. 首页问卷默认显示两条 #}
+		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
+		<div class="survey" id="surveyHome">
+			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
+			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
+			<ul id="surveyList">
+			{% set has_tip_displayed = 0 %}
+    		{%  if (ssi_respondent is null or ssi_respondent.needPrescreening) %}
+    		{# SSI permission #}
+				{{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                    {
+                        'type_class': 'trade',
+                        'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
+                        'type_label': '商业问卷',
+                        'end_date': '--',
+                        'num': '--',
+                        'title': '申请参与SSI海外市场调查项目',
+                        'answered': false,
+                        'url': path('_ssi_partner_permission'),
+                        'point':1,
+                        'answer_status_label': '投票',
+                        'tip': has_tip_displayed ? null : '赶快加入SSI海外项目，可获更多高分问卷！'
+                    } ) }}
+                {% set has_tip_displayed = 1 %}
+    		{% elseif ssi_respondent.isActive and ssi_surveys %}
+    		{# SSI survey #}
+			    {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                  {
+                        'type_class': 'trade',
+                        'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
+                        'type_label': '商业问卷',
+                        'end_date': '--',
+                        'num': 's' + ssi_surveys[0].ssiProjectId,
+                        'title': ssi_project_config.title,
+                        'answered': false,
+                        'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
+                        'point': ssi_project_config.point,
+                  } ) }}
+    		{% endif %}
+			</ul>
+		</div>
+		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
+		<div class="vote">
+			<h1><em></em>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
+			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
+		</div>
+	</div>
+	<div class="main-con-right right">
+		{{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+		<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
+	</div>
+</div>
+
 {% endblock %}
 
 {% block footer %}

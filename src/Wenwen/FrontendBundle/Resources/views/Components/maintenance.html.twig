@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
+{{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '正在维护中'} ) }}
 {% endblock %}
 
 {% block body %}

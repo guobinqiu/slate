@@ -15,63 +15,63 @@ class ExchangeFlowOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", options={"comment": "USER ID"})
      */
     private $userId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="exchange_id", type="integer", nullable=true)
+     * @ORM\Column(name="exchange_id", type="integer", nullable=true, options={"default": 0, "comment": "points_exchange.id"})
      */
     private $exchangeId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="provider", type="string", length=16, nullable=false)
+     * @ORM\Column(name="provider", type="string", length=16, options={"comment":"手机号码所属运营商(移动、联通、电信)"})
      */
     private $provider;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="province", type="string", length=64, nullable=false)
+     * @ORM\Column(name="province", type="string", length=64, options={"comment":"手机号码归属省份"})
      */
     private $province;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_product_id", type="string", length=5, nullable=false)
+     * @ORM\Column(name="custom_product_id", type="string", length=5, options={"comment":"流量包产品编码"})
      */
     private $customProductId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="packagesize", type="string", length=8, nullable=false)
+     * @ORM\Column(name="packagesize", type="string", length=8, options={"comment":"流量包产品大小，如30表示30MB"})
      */
     private $packagesize;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_prise", type="decimal", precision=8, scale=3, nullable=false)
+     * @ORM\Column(name="custom_prise", type="decimal", precision=8, scale=3, options={"comment":"流量包产品用户执行的价格，单位（元）"})
      */
     private $customPrise;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(name="created_at", type="datetime", options={"comment":""})
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 

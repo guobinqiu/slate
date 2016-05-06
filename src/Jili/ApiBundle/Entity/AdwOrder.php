@@ -33,7 +33,7 @@ class AdwOrder
      /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -65,7 +65,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="happen_time", type="datetime",nullable=true)
+     * @ORM\Column(name="happen_time", type="datetime", nullable=true)
      */
     private $happenTime;
 
@@ -73,7 +73,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="adw_return_time", type="datetime",nullable=true)
+     * @ORM\Column(name="adw_return_time", type="datetime", nullable=true)
      */
     private $adwReturnTime;
 
@@ -81,7 +81,7 @@ class AdwOrder
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="confirm_time", type="datetime",nullable=true)
+     * @ORM\Column(name="confirm_time", type="datetime", nullable=true)
      */
     private $confirmTime;
 
@@ -89,7 +89,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_type", type="integer")
+     * @ORM\Column(name="incentive_type", type="integer", nullable=true)
      */
     private $incentiveType;
 
@@ -97,7 +97,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive", type="integer",nullable=true)
+     * @ORM\Column(name="incentive", type="integer", nullable=true)
      */
     private $incentive;
 
@@ -112,7 +112,7 @@ class AdwOrder
     /**
      * @var float
      *
-     * @ORM\Column(name="comm", type="float",nullable=true)
+     * @ORM\Column(name="comm", type="float", nullable=true)
      */
     private $comm;
 
@@ -126,7 +126,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_price", type="integer",nullable=true)
+     * @ORM\Column(name="order_price", type="float", nullable=true)
      */
     private $orderPrice;
 
@@ -134,7 +134,7 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_status", type="integer")
+     * @ORM\Column(name="order_status", type="integer", nullable=false, options={"default": 0})
      */
     private $orderStatus;
 
@@ -142,14 +142,14 @@ class AdwOrder
     /**
      * @var integer
      *
-     * @ORM\Column(name="delete_flag", type="integer")
+     * @ORM\Column(name="delete_flag", type="integer", nullable=false, options={"default": 0})
      */
     private $deleteFlag;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="order_type", type="integer", nullable=true)
+     * @ORM\Column(name="order_type", type="integer", nullable=true, options={"comment": "2:合并后的order"})
      */
     private $orderType;
 

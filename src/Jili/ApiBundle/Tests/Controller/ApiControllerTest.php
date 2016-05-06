@@ -75,6 +75,7 @@ class ApiControllerTest extends WebTestCase
     {
 
         $client = $this->client;
+        $client->setServerParameter('HTTPS', true);
 
         $data = array(
             array('chiangtor@gmail.com', '1'),

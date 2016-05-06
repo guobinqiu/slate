@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -83,13 +82,15 @@ class SsiPartnerControllerTest extends WebTestCase
         $form = $crawler->filter('form[id=ssi_permission_form]')->form();
         $form['SsiPartnerPermission[permission_flag]'] = '1';
         $crawler = $client->submit($form);
-        $this->assertEquals('http://localhost/ssi_partner/commit', $client->getRequest()->getUri());
+        //$this->assertEquals('http://localhost/ssi_partner/commit', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/commit$/', $client->getRequest()->getUri());
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         //redirect redirectAction
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://localhost/ssi_partner/redirect', $client->getRequest()->getUri());
+        //$this->assertEquals('http://localhost/ssi_partner/redirect', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/redirect$/', $client->getRequest()->getUri());
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
@@ -97,7 +98,7 @@ class SsiPartnerControllerTest extends WebTestCase
 
         //redirect survey site
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-'.$ssi_respondent->getId().'&offer_id=2189', $client->getRequest()->getUri());
+        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=3135', $client->getRequest()->getUri());
 
         //check db
         $em->clear();
@@ -126,13 +127,13 @@ class SsiPartnerControllerTest extends WebTestCase
         $form = $crawler->filter('form[id=ssi_permission_form]')->form();
         $form['SsiPartnerPermission[permission_flag]'] = '0';
         $crawler = $client->submit($form);
-        $this->assertEquals('http://localhost/ssi_partner/commit', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/commit$/', $client->getRequest()->getUri());
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         //redirect completeAction
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://localhost/ssi_partner/complete', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/complete$/', $client->getRequest()->getUri());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //check db
@@ -160,7 +161,7 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://localhost/ssi_partner/error', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/error$/', $client->getRequest()->getUri());
 
         # Disagreed User
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_permission'));
@@ -170,7 +171,7 @@ class SsiPartnerControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', $url);
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://localhost/ssi_partner/error', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/error$/', $client->getRequest()->getUri());
     }
 
     public function testPrescreenActionWithValidStatusFlag()
@@ -188,19 +189,19 @@ class SsiPartnerControllerTest extends WebTestCase
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user->getId());
 
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_prescreen'));
-        $this->assertEquals('http://localhost/ssi_partner/prescreen', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/prescreen$/', $client->getRequest()->getUri());
 
         //submit redirect survey site
         $form = $crawler->filter('form[id=ssi_redirect_form]')->form();
         $crawler = $client->submit($form);
-        $this->assertEquals('http://localhost/ssi_partner/redirect', $client->getRequest()->getUri());
+        $this->assertRegExp('/ssi_partner\/redirect$/', $client->getRequest()->getUri());
 
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         //redirect survey site
         $crawler = $client->followRedirect();
-        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-'.$ssi_respondent->getId().'&offer_id=2189', $client->getRequest()->getUri());
+        $this->assertEquals('http://tracking.surveycheck.com/aff_c?aff_id=1346&aff_sub5=wwcn-' . $ssi_respondent->getId() . '&offer_id=3135', $client->getRequest()->getUri());
     }
 
     /**
@@ -260,11 +261,11 @@ class SsiPartnerControllerTest extends WebTestCase
 
         //check db
         $em->clear();
-        $task = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id % 10))->findOneByUserId($user_id);
+        $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
         $this->assertEquals(1, $task->getPoint());
         $this->assertEquals('申请参与SSI市场调查项目', $task->getTaskName());
 
-        $point = $em->getRepository('JiliApiBundle:PointHistory0'.($user_id % 10))->findOneByUserId($user_id);
+        $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
         $this->assertEquals(1, $point->getPointChangeNum());
         $this->assertEquals(93, $point->getReason());
 
@@ -275,8 +276,12 @@ class SsiPartnerControllerTest extends WebTestCase
     private function login($client)
     {
         $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array(), true);
-        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => 'password', 'remember_me' => '1'));
+        $url = $container->get('router')->generate('_login', array (), true);
+        $client->request('POST', $url, array (
+            'email' => 'test@d8aspring.com',
+            'pwd' => 'password',
+            'remember_me' => '1'
+        ));
         $client->followRedirect();
     }
 }
@@ -302,6 +307,7 @@ class SsiPartnerControllerTestFixture implements FixtureInterface, ContainerAwar
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);
+        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
         $user->setPwd('password');
         $manager->persist($user);
         $manager->flush();

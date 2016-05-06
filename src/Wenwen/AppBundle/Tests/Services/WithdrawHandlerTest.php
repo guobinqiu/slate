@@ -97,7 +97,7 @@ class WithdrawHandlerTestFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $user = new User();
-        $user->setNick(__CLASS__);
+        $user->setNick('nick');
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);
         $user->setIsInfoSet(0);

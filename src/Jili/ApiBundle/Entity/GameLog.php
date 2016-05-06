@@ -53,42 +53,42 @@ class GameLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="game_score", type="integer")
+     * @ORM\Column(name="game_score", type="integer", nullable=true, options={"default": 0})
      */
     private $gameScore;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="game_type", type="integer")
+     * @ORM\Column(name="game_type", type="integer", nullable=true, options={"default": 0})
      */
     private $gameType;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="mass_point", type="integer")
+     * @ORM\Column(name="mass_point", type="integer", nullable=true, options={"default": 0})
      */
     private $massPoint;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="goal_point", type="integer")
+     * @ORM\Column(name="goal_point", type="integer", nullable=true, options={"default": 0})
      */
     private $goalPoint;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="ranking_point", type="integer")
+     * @ORM\Column(name="ranking_point", type="integer", nullable=true, options={"default": 0})
      */
     private $rankingPoint;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="attendance_point", type="integer")
+     * @ORM\Column(name="attendance_point", type="integer", nullable=true, options={"default": 0})
      */
     private $attendancePoint;
 

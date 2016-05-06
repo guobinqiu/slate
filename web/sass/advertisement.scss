@@ -131,8 +131,8 @@
 		background: $block-bg-color;
 		h2{
 			text-align: center;
-			height: 34px;
-			line-height: 34px;
+			height: 35px;
+			line-height: 35px;
 			color: $main-color;
 			border: $block-border;
 			em{
@@ -148,8 +148,8 @@
 			border: $block-border;
 			a{
 				width: 114px;
-				height: 61px;
-				line-height: 60px;
+				height: 58px;
+				line-height: 58px;
 				text-align: center;
 				display: table-cell;
 				vertical-align: middle;
@@ -227,6 +227,19 @@
 		&.offerWow{
 			padding: 20px 25px;
 		}
+		.maintenance{
+			width: 100%;
+			text-align: center;
+			height: 260px;
+			padding-top: 235px;
+			background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px;
+			display: none;
+			.con{
+				font-size: 16px;
+				color: #a1a1a1;
+				line-height: 25px;
+			}
+		}
 	}
 	.taskFlow{
 		position: absolute;
@@ -236,6 +249,7 @@
 		width: 239px;
 		padding-bottom: 20px;
 		background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right;
+		display: none;
 		h4{
 			padding-left: 25px;
 			height: 50px;
@@ -298,8 +312,8 @@
 	width: 168px;
 	height: 159px;
 	position: absolute;
-	top: 204px;
-	right: -154px;
+	top: 135px;
+	right: -174px;
 	display: none;
 	z-index: 9999;
 	background: url(../img/advertisement/promptCPS.png) no-repeat;

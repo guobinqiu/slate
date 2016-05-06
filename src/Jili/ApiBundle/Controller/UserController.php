@@ -812,7 +812,7 @@ class UserController extends Controller implements CampaignTrackingController
         }
         $adtasteNum = count($adtaste);
         $exchange = $em->getRepository('JiliApiBundle:PointsExchange');
-        $exchange = $exchange->getUserExchange($id,$option_ex);
+        $exchange = $exchange->getUserExchange($id, 0, 1);
         $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdMaxTen($id);
         $sex = $request->request->get('sex');
         $tel = $request->request->get('tel');
@@ -1202,7 +1202,7 @@ class UserController extends Controller implements CampaignTrackingController
             $code = $this->container->getParameter('chnage_no_email');
             return new Response($code);
         }
-        if(!$user[0]->getPwd()){
+        if(!$user[0]->getIsEmailConfirmed()){
             return new Response($this->container->getParameter('init_two'));
         }
 
@@ -1525,35 +1525,46 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-	 * @Route("/exchange/{type}/{exchangeType}", name="_user_exchange")
+	 * @Route("/exchange", name="_user_exchange")
 	 */
-    public function exchangeAction($type=0,$exchangeType)
+    public function exchangeAction(Request $request)
     {
         $id = $this->get('request')->getSession()->get('uid');
         if(!$id){
            return $this->redirect($this->generateUrl('_user_login'));
         }
+
+        $type = $request->query->get('type', 0);
+        $exchangeType = $request->query->get('exchangeType', 1);
+        $page = $request->query->get('p', 1);
+        $page_size = $this->container->getParameter('page_num');
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
         $arr['user'] = $user;
         if($exchangeType==1){
-            $repository = $em->getRepository('JiliApiBundle:PointsExchange');
-            $option = array('daytype' => $type ,'offset'=>'','limit'=>'');
-            $exchange = $repository->getUserExchange($id,$option);
+
+            // get total count
+            $total_count = $em->getRepository('JiliApiBundle:PointsExchange')->getUserExchangeCount($id, $type);
+            $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
+            //get list
+            $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getUserExchange($id, $type, $page);
             $arr['exchange'] = $exchange;
-            $paginator = $this->get('knp_paginator');
-            $arr['pagination'] = $paginator
-                    ->paginate($exchange,
-                    $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
+            $arr['p'] = $page;
+            $arr['total'] = $total_count;
+
         }else if($exchangeType==2){
-            $exFrWen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id);
-            $arr['exFrWen'] = $exFrWen;
-            $paginator = $this->get('knp_paginator');
-            $arr['pagination'] = $paginator
-                    ->paginate($exFrWen,
-                    $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-            $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
+
+            // get total count
+            $total_count = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdCount($id);
+            $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
+            //get list
+            $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id,$page);
+            $arr['exchange'] = $exchange;
+            $arr['p'] = $page;
+            $arr['total'] = $total_count;
 
         }else{
             return $this->redirect($this->generateUrl('_default_error'));
@@ -1561,37 +1572,38 @@ class UserController extends Controller implements CampaignTrackingController
         }
         $arr['exchangeType'] = $exchangeType;
         $arr['type'] = $type;
+        $arr['page_size'] = $page_size;
         return $this->render('WenwenFrontendBundle:Personal:exchangeHistory.html.twig',$arr);
     }
 
-
     /**
-	 * @Route("/adtaste/{type}", name="_user_adtaste")
+	 * @Route("/adtaste", name="_user_adtaste")
 	 */
-    public function adtasteAction($type)
+    public function adtasteAction(Request $request)
     {
         if(!$this->get('session')->has('uid')){
            return $this->redirect($this->generateUrl('_user_login'));
         }
+        $page = $request->query->get('p', 1);
+        $type = $request->query->get('type', 0);
+        $page_size = $this->container->getParameter('page_num');
 
+        $user_id = $this->get('session')->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $option = array('status' => $type ,'offset'=>'','limit'=>'');
-#		$adtaste = $this->selTaskHistory($id,$option);
+        $total_count = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id%10))->getTaskHistoryCount($user_id, $type);
+        $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
+
         $this->get('session.my_task_list')->remove(array('alive'));
-        $adtaste = $this->get('session.my_task_list')->selTaskHistory($option);
-        foreach ($adtaste as $key => $value) {
-            if($value['orderStatus'] == 1 && $value['type'] ==1){
-                unset($adtaste[$key]);
-            }
-        }
+        $adtaste = $this->get('session.my_task_list')->selTaskHistory($type, $page);
+
+        $arr['p'] = $page;
+        $arr['page_size'] = $page_size;
+        $arr['total'] = $total_count;
+        $arr['type'] = $type;
+
         $arr['adtaste'] = $adtaste;
-        $user = $em->getRepository('JiliApiBundle:User')->find($this->get('session')->get('uid'));
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $arr['user'] = $user;
-        $paginator = $this->get('knp_paginator');
-        $arr['pagination'] = $paginator
-        ->paginate($adtaste,
-                $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
-        $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
     }
 

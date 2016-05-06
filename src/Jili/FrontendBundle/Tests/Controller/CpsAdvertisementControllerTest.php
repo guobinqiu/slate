@@ -62,7 +62,8 @@ class CpsAdvertisementControllerTest extends WebTestCase
         $em = $this->em;
 
         $url =$container->get('router')->generate('jili_frontend_cpsadvertisement_list');
-        $crawler = $this->assertEquals('/shop/list', $url);
+        $this->assertRegExp('/\/shop\/list$/', $url);
+
         $client->request('GET', $url);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -79,7 +80,7 @@ class CpsAdvertisementControllerTest extends WebTestCase
         $em = $this->em;
 
         $url = $container->get('router')->generate('jili_frontend_cpsadvertisement_listsearch'  ) ;
-        $this->assertEquals('/shop/list/search', $url);
+        $this->assertRegExp('/\/shop\/list\/search$/', $url);
 
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'normal GET');

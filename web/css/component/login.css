@@ -2,8 +2,8 @@
 .login-wrapper {
   position: absolute;
   z-index: 1000;
-  right: -70px;
-  top: 50px;
+  right: -61px;
+  top: 100px;
   background: url(../img/home/loginBg.png) no-repeat center bottom;
   padding: 0 70px 5px; }
 
@@ -119,8 +119,8 @@
     color: #fff;
     font-size: 20px;
     font-family: "微软雅黑";
-    background: #1566d6;
-    border: 1px solid #1566d6;
+    background: #e85015;
+    border: 1px solid #e85015;
     border-radius: 5px;
     text-align: center;
     display: block;
@@ -130,14 +130,14 @@
     -webkit-transition: all 0.4s;
     -o-transition: all 0.4s; }
     .login .login-btn:hover {
-      background: #145dc4;
-      border: 1px solid #145dc4; }
+      background: #d34216;
+      border: 1px solid #d34216; }
     .login .login-btn a {
       color: #fff; }
   .login p {
     line-height: 55px; }
     .login p a {
-      color: #1566d6; }
+      color: #1ca3db; }
       .login p a.spec {
         color: #757982; }
   .login .login-btn-others {

@@ -149,6 +149,27 @@ body{
 						color: #666;
 					}
 				}
+				.refer{
+					margin-top: 168px;
+					padding: 20px 60px;
+					width: 585px;
+					background: #f7f7f7;
+					font-size: 12px;
+					color: #b6b6b6;
+					line-height: 20px;
+					border-radius: 5px;
+					a{
+						color: #0078b6;
+					}
+				}
+				.confirmBtn{
+					margin-top: 10px;
+					width: 65px;
+					height: 26px;
+					line-height: 24px;
+					font-family: "微软雅黑";
+					@include btn();
+				}
 			}
 		}
     }

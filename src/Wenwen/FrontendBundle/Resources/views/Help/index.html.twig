@@ -1,6 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}帮助中心：{{ parent() }} {% endblock %}
-
+{% block meta %}
+<meta name="keywords" content="帮助中心，常见问题，问题反馈，新手上路" />
+<meta name="description" content="帮助中心给用户提供可能出现的常见问题作为参考，方便用户快速定位问题，解决问题。还提供了问题反馈供用户反映自己遇到的问题，以便于我们及时的补充和解决问题。" />
+<meta name="title" content="帮助中心:91问问调查网" />
+{% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/help.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
@@ -43,12 +47,12 @@
             </li>
             <li>
             	<div class="title"><em>4</em><span>注销会员</span><span class="icons"></span></div>
-                <p>您可以通过地址 <a href="http://www.91wenwen.net/withdraw/" target="_blank">http://www.91wenwen.net/withdraw/</a> ，注销在91问问调查网的注册及定制</p>
+                <p>您可以通过地址 <a href="http://www.91wenwen.net/profile/index" target="_blank">http://www.91wenwen.net/profile/index</a> ，注销在91问问调查网的注册及定制</p>
             </li>
             <li>
             	<div class="title"><em>5</em><span>如何注册</span><span class="icons"></span></div>
                 <p>您可以通过以下链接完成注册程序。
-<a href="http://www.91wenwen.net/signup/" target="_blank">http://www.91wenwen.net/signup/ </a>
+<a href="http://www.91wenwen.net/user/reg" target="_blank">http://www.91wenwen.net/user/reg </a>
 请您注意我们发送的激活验证邮件有时可能会被归为垃圾邮件，您可以在垃圾邮件中找找来自于91问问调查网的验证激活邮件,并将我们添加为联系人。<br>
 有些时候，邮件的发送可能会有10分钟到20分钟的延迟，请您过一会儿再查看邮箱。<br>
 在您完成会员注册，首次登陆91问问调查网后，您的个人主页中会显示 “问卷列表”，您可以分批或一次性回答完属性问卷即可获得相应积分。今后我们将通过邮件向您发送新的调查问卷的邀请，请您留意您的邮件收件箱。</p>
@@ -57,7 +61,7 @@
                 <div class="title"><em>6</em><span>生日错误</span><span class="icons"></span></div>
                 <p>您输入的生日信息需要与您在注册91问问账户时填写的生日信息相同。<br>
 在91问问调查网，生日是一个非常重要的信息，我们以此来判断一个用户的年龄，进而提供给他合适的问卷。<br>
-如果您忘记了您的生日信息或者您当初填入了错误的日期，请提供91问问账号并提供所回答问卷编号，以邮件形式提供给我们，这边帮您修改之后，请您再次回答问卷时填写正确生日并牢记。</p>
+如果您忘记了您的生日信息或者您当初填入了错误的日期，请提供91问问账号并提供您的身份证明（身份证或其他可以证明您生日的证件），以邮件形式提供给我们，这边帮您修改之后，请您回答发送给您关于生日信息的属性问卷，填写正确的生日并牢记。</p>
             </li>
             <li>
                 <div class="title"><em>7</em><span>账户被锁定</span><span class="icons"></span></div>
@@ -69,7 +73,7 @@
             <li>
                 <div class="title"><em>8</em><span>忘记帐号和密码</span><span class="icons"></span></div>
                 <p>您在91问问在线调查网的账户名即为您的电子邮件地址！<br>
-如果您忘记了密码，您可以通过以下URL找回密码<a href="http://www.91wenwen.net/reminder/" target="_blank">http://www.91wenwen.net/reminder/</a></p>
+如果您忘记了密码，您可以通过以下URL找回密码<a href="http://www.91wenwen.net/user/resetPwd" target="_blank">http://www.91wenwen.net/user/resetPwd</a></p>
             </li>
             <li>
                 <div class="title"><em>9</em><span>在哪里修改个人信息</span><span class="icons"></span></div>
@@ -80,7 +84,7 @@
                 <div class="title"><em>10</em><span>重复登陆网站/无法登陆</span><span class="icons"></span></div>
                 <p>确认下述各项后，请再试一次。<br>
 1.输入的邮箱地址、密码是否正确？<br>
-如果您忘记了密码，您可以通过以下URL找回密码<a href="https://www.91wenwen.net/reminder/" target="_blank">https://www.91wenwen.net/reminder/</a><br>
+如果您忘记了密码，您可以通过以下URL找回密码<a href="https://www.91wenwen.net/user/resetPwd" target="_blank">https://www.91wenwen.net/user/resetPwd</a><br>
 ※密码区分英文大小写。输入时请注意。<br>
 2.浏览器的设置是否处于接收「Cookie」的状态？「Cookie」的设定无效时，无法正常登录本网站。<br>
 请确认您使用的浏览器是否设定为接受「Cookie」的状态。<br>
@@ -120,8 +124,8 @@
             </li>
             <li>
                 <div class="title"><em>4</em><span>问卷分值不一样</span><span class="icons"></span></div>
-                <p>1.每份问卷根据内容和难易度不同，分值不同，这是正常的情况。快速问答为1分一题，即答即得；属性问卷回答为每小题1积分。请您尽快完成所有属性问卷，以便快速累计积分和获得高分问卷的机会。<br>
-2.我们会不定期给您发送高分问卷的邀请，您如果经常且及时的回答常规个人信息问卷，今后收到高分问卷的机会就会高。您回答的属性问卷越多，获得高积分商业问卷的几率也越大，因为商业问卷的受访群体是回答了相关属性的用户。 当您完成了所以的属性问卷以后，会重新将所有属性问卷再次发送给您，以便您保持更新您的最新情况。</p>
+                <p>1.每份问卷根据内容和难易度不同，分值不同，这是正常的情况。快速问答为1分一题，即答即得，当日回答快速问答可额外获得1积分即2积分；属性问卷回答为每小题1积分。请您尽快完成所有属性问卷，以便快速累计积分和获得高分问卷的机会。<br>
+2.我们会不定期给您发送高分问卷的邀请，您如果经常且及时的回答常规个人信息问卷，今后收到高分问卷的机会就会高。您回答的属性问卷越多，获得高积分商业问卷的几率也越大，因为商业问卷的受访群体是回答了相关属性的用户。 当您完成了所以的属性问卷以后，会重新不定期将所有属性问卷再次发送给您，以便您保持更新您的最新情况。</p>
             </li>
             <li>
                 <div class="title"><em>5</em><span>高分问卷额度满</span><span class="icons"></span></div>
@@ -171,8 +175,8 @@
         <ul class="con">
         	<li>
                 <div class="title"><em>1</em><span>如何获得返利</span><span class="icons"></span></div>
-                <p>1.登录91问问调查网账户，进入“体验广告”页面，点击“返利商家”模块的右下角“全部>>”，进入商家列表页面，找到您感兴趣的商家，并点击“直接购物”。选择需要购买的商品，下单购买商品。回到91问问调查网，点击页面右上角的下拉菜单，选择“我的任务历史”查看您的购物返利状态。<br>
-2.进入“体验广告”页面，点击左上方的促销活动，前往商家活动页面，从列表中找到您感兴趣的商家活动并点击活动图片前往。找到您感兴趣的物品并下订单完成购买。您可以在任务历史页面，查看您的购物返利状态。</p>
+                <p>1.登录91问问调查网账户，进入“体验广告”页面，点击“返利商家”模块的右下角“全部>>”，进入商家列表页面，找到您感兴趣的商家，并点击“直接购物”。选择需要购买的商品，下单购买商品。回到91问问调查网，点击页面右上角的“个人中心”的下拉菜单，选择“我的任务历史”查看您的购物返利状态。<br>
+2.进入“体验广告”页面，点击左上方的滚动的促销活动，前往商家活动页面，从列表中找到您感兴趣的商家活动并点击活动图片前往。找到您感兴趣的物品并下订单完成购买。您可以在页面右上角的“个人中心”的下拉菜单，选择“我的任务历史”查看您的购物返利状态。</p>
             </li>
             <li>
                 <div class="title"><em>2</em><span>返利何时到账</span><span class="icons"></span></div>
@@ -188,11 +192,11 @@
             </li>
             <li>
                 <div class="title"><em>4</em><span>通过91问问调查网搜索收藏的物品，下次购物是否可以返利</span><span class="icons"></span></div>
-                <p>通过91问问调查网搜索收藏的物品，跳转至商品的结果页面，若购物之前已经收藏了该宝贝，可能导致您无法获得返利，不建议使用。</p>
+                <p>建议通过91问问调查网进入商城直接搜索收藏的商品名称，跳转至商品的结果页面，进行购买。若购物时直接通过收藏的该宝贝进行购买，可能导致您无法获得返利，不建议使用。</p>
             </li>
             <li>
                 <div class="title"><em>5</em><span>购物无返利</span><span class="icons"></span></div>
-                <p>请确认是否是通过91问问调查网产生的消费。请提交订单号，以便我们核查是否是我们网站的订单。<br>
+                <p>请确认是否是通过91问问调查网产生的消费。请提交订单号和下单日期，以便我们核查是否是我们网站的订单。<br>
 （1）跳转信息被删除了，没有记录是我们网站购买，您是否有打开过其他的返利网站呢？<br>
 （2）购物成功了，我们网站记录了。但是该网站漏单了。</p>
             </li>
@@ -213,24 +217,18 @@
                 <div class="title"><em>1</em><span>91问问积分可以兑换什么</span><span class="icons"></span></div>
                 <p>可以兑换成手机费，支付宝现金，亚马逊礼品卡和流量包。<br>
 手机费兑换和亚马逊兑换是隔天到账；<br>
-支付宝兑换是每周一兑换上周一到上周日的申请（周末和节假日延后）。</p>
+支付宝兑换每周一统一处理上一周的兑换申请（周末和节假日延后）。<br>
+流量包兑换，即时兑换成功。</p>
             </li>
             <li>
                 <div class="title"><em>2</em><span>怎样兑换支付宝</span><span class="icons"></span></div>
                 <p>您在91问问调查网，通过做问卷、参加活动等，积累了至少2050积分之后，就可以通过支付宝兑换现金。<br>请参考以下链接。<br>
-<a href="http://www.91wenwen.net/privilege/" target="_blank">http://www.91wenwen.net/privilege/（支付宝兑换链接）</a> <br>
+<a href="http://www.91wenwen.net/exchange/center" target="_blank">http://www.91wenwen.net/exchange/center（支付宝兑换链接）</a> <br>
 请注意，您必须拥有经过数字认证的支付宝账号，且您的支付宝帐号状态正常。一个91问问账户仅可以关联一个支付宝账户。<br>
 具体有关支付宝账户注册及认证的问题，您可以查询支付宝网站 www.alipay.com 或致电支付宝客服热线：0571-88156688（全天24小时服务）</p>
             </li>
             <li>
-                <div class="title"><em>3</em><span>积分兑换没有绑定手机</span><span class="icons"></span></div>
-                <p>如果您是第一次兑换，我们需要先输入手机号码，如果您成功收到验证码并且成功再次登录，那么您的手机号码就已被91问问账号绑定了。以后就不需要再输入手机号码了。如果您输入的手机号码不正确或者与绑定账户不符，则兑换窗口呈灰色无法输入兑换数额。请重新确认手机号码。<br>
-1.请您完成以下操作绑定您的手机号码：<br>
-登录您的个人主页（网站右上角）——会员基础信息——【拉动页面至底部，点击“变更注册信息”的蓝色按钮】（此步骤切勿遗漏）——“手机号码”一栏点击“修改”——输入手机号码，发送验证码——输入手机短信中的验证码——绑定成功 然后您可以进行兑换。<br> 
-2.如果上述步骤您无法完成或无法解决您的问题，请告知您使用的是什么浏览器？您电脑的操作系统是什么？请您提供详细截图发送至客服，我们会尽快为您解答！</p>
-            </li>
-            <li>
-                <div class="title"><em>4</em><span>支付宝兑换失败原因</span><span class="icons"></span></div>
+                <div class="title"><em>3</em><span>支付宝兑换失败原因</span><span class="icons"></span></div>
                 <p>您的提交的支付宝兑换失败，有以下几点原因：<br>
 1.无该支付宝账户<br>
 2.支付宝账户和姓名不符<br>
@@ -238,78 +236,74 @@
 3.恶意兑换</p>
             </li>
             <li>
-                <div class="title"><em>5</em><span>帮您核查支付宝兑换情况</span><span class="icons"></span></div>
+                <div class="title"><em>4</em><span>帮您核查支付宝兑换情况</span><span class="icons"></span></div>
                 <p>如果您需要核查，请将您的支付宝帐号和申请兑换积分日期发送到客服中心。我们将帮您核查！</p>
             </li>
             <li>
-                <div class="title"><em>6</em><span>支付宝恶意兑换定义</span><span class="icons"></span></div>
+                <div class="title"><em>5</em><span>支付宝恶意兑换定义</span><span class="icons"></span></div>
                 <p>支付宝恶意兑换的定义为：<br>
 1.用户违反《会员协议》的约定，拥有多个91问问账户<br>
 2.多个91问问账户申请兑换到一个支付宝账户<br>
 请您确认一下，您是否存在以上情况？</p>
             </li>
             <li>
-                <div class="title"><em>7</em><span>身份证保证安全(支付宝）</span><span class="icons"></span></div>
-                <p>请您提供您身份证复印件/扫描件/照片电子版，以附件的形式发送给我们。我们核查后帮您申请更改支付宝信息。您的身份证明我们只用于为您修改您的个人信息，也是为了保证您的账户安全，绝不会外泄或他用。如果您不放心可以在您的扫描件上加上“仅用于91问问修改个人信息”。</p>
+                <div class="title"><em>6</em><span>身份证保证安全(支付宝）</span><span class="icons"></span></div>
+                <p>91问问沿用的积粒网的设置，支付宝修改用户直接修改即可，无需提供任何信息。</p>
             </li>
             <li>
-                <div class="title"><em>8</em><span></span>更改支付宝账户<span class="icons"></span></div>
-                <p>1.为了用户账号的安全，请提供您的身份证明（身份证或其他可以证明您身份的证件，请将您的身份证扫描以邮件附件的形式传送给我们），以及提供您原来的支付宝账号和新的支付宝账号，并请您证明该新的支付宝帐号确为您所有，如提供支付宝个人信息页的截图等。<br>
-2.请您更改91问问绑定手机号后联系客服，我们会在确认后为您修改支付宝信息。由相关工作人员审查合格后，帮您修改您的支付宝账号。
-</p>
+                <div class="title"><em>7</em><span></span>更改支付宝账户<span class="icons"></span></div>
+                <p>点击“兑换中心”，进入支付宝兑换页面，点击支付宝账号边上的修改按钮进行修改即可。</p>
             </li>
             <li>
-                <div class="title"><em>9</em><span></span>积分未返还<span class="icons"></span></div>
+                <div class="title"><em>8</em><span></span>积分未返还<span class="icons"></span></div>
                 <p>如果兑换不成功，积分会自动返还（大约10个工作日之内）。请您耐心等待！</p>
             </li>
             <li>
-                <div class="title"><em>10</em><span>支付宝账号只能对应一个91问问</span><span class="icons"></span></div>
+                <div class="title"><em>9</em><span>支付宝账号只能对应一个91问问</span><span class="icons"></span></div>
                 <p>一个支付宝只能对应一个91问问帐号。否则系统将会视为恶意兑换。</p>
             </li>
             <li>
-                <div class="title"><em>11</em><span>支付宝名义人是什么</span><span class="icons"></span></div>
+                <div class="title"><em>10</em><span>支付宝名义人是什么</span><span class="icons"></span></div>
                 <p>支付宝名义人是您在注册支付宝时填写的实名。</p>
             </li>
             <li>
-                <div class="title"><em>12</em><span>手机费兑换何时到账</span><span class="icons"></span></div>
+                <div class="title"><em>11</em><span>手机费兑换何时到账</span><span class="icons"></span></div>
                 <p>手机费兑换是隔天到账，节假日及周末延后。</p>
             </li>
             <li>
-                <div class="title"><em>13</em><span>手机费兑换总是失败</span><span class="icons"></span></div>
+                <div class="title"><em>12</em><span>手机费兑换总是失败</span><span class="icons"></span></div>
                 <p>手机费兑换失败原因：<br>
 1.有多个账户兑换到同一个手机号码中。系统会自动判定不予兑换。<br>
 2.我们是通过移动运营商等兑换您的手机费，由于部分地区对小面额的充值不稳定的关系，导致多次充值失败。建议您多累积一点积分。大面额的充值比较稳定。</p>
             </li>
             <li>
-                <div class="title"><em>14</em><span>支付宝兑换何时到账</span><span class="icons"></span></div>
+                <div class="title"><em>13</em><span>支付宝兑换何时到账</span><span class="icons"></span></div>
                 <p>支付宝的兑换工作一般需要十个工作日左右完成。每周一兑换上周一至周日的兑换申请，如果提交的兑换请求不满2周，敬请耐心等候。</p>
             </li>
             <li>
-                <div class="title"><em>15</em><span>支付宝兑换显示成功，但未收到</span><span class="icons"></span></div>
+                <div class="title"><em>14</em><span>支付宝兑换显示成功，但未收到</span><span class="icons"></span></div>
                 <p>请联系客服，提供兑换日期、91问问调查网账号，我们将告知您支付宝流水号，进行查询。</p>
             </li>
             <li>
-                <div class="title"><em>16</em><span>支付宝有了流水号就是没收到</span><span class="icons"></span></div>
+                <div class="title"><em>15</em><span>支付宝有了流水号就是没收到</span><span class="icons"></span></div>
                 <p>支付宝的流水号是由支付宝提供给我们的积分兑换成功的凭证，请您联系支付宝客服查询。</p>
             </li>
             <li>
-                <div class="title"><em>17</em><span>支付宝兑换不能输入身份证</span><span class="icons"></span></div>
+                <div class="title"><em>16</em><span>支付宝兑换不能输入身份证</span><span class="icons"></span></div>
                 <p>请确认是否有输入正确的身份证号码。可以提供身份证明（身份证或其他可以证明您身份的证件，请将您的身份证扫描以邮件附件的形式传送给客服中心），以便我们可以帮助您绑定身份证号码。</p>
             </li>
             <li>
-                <div class="title"><em>18</em><span>修改绑定的支付宝</span><span class="icons"></span></div>
-                <p>更改绑定账户的支付宝账号，您需要提供以下资料，我们核实后会给您修改您的支付宝账号:<br>
- 1：您要更改绑定支付宝账号的91问问账户<br>
- 2：您的身份证复印件或扫描件<br>
- 3：您以前绑定的旧支付宝账号<br>
- 4：需要更改的新支付宝账号</p>
+                <div class="title"><em>17</em><span>修改绑定的支付宝</span><span class="icons"></span></div>
+                <p>91问问沿用的积粒网的设置，支付宝修改用户直接修改即可，无需提供任何信息。</p>
             </li>
             <li>
-                <div class="title"><em>19</em><span>支付宝如何支付手续费</span><span class="icons"></span></div>
-                <p>由于支付宝方面大幅提高积分兑换的手续费，91问问网本着用户利益至上，一直以来承担着替用户支付手续费。现91问问网已经上线积分兑换手机费功能，您依然可以用2010分兑换成20元手机费。今后，我们会上线更多兑换的途径，使您有更多的兑换选择。</p>
+                <div class="title"><em>18</em><span>支付宝如何支付手续费</span><span class="icons"></span></div>
+                <p>由于支付宝方面大幅提高积分兑换的手续费，91问问网本着用户利益至上，一直以来承担着替用户支付手续费。现91问问网已经上线积分兑换手机费功能，您依然可以用2010分兑换成20元手机费。今后，我们会上线更多兑换的途径，使您有更多的兑换选择。<br>
+                    支付宝每笔兑换会收取1元的手续费。 2014-05-27日起，对于2000米粒兑换20元支付宝现金的每笔兑换，手续费为0.5元/次(余下0.5元由积粒网承担)； 对于3000米粒兑换30元支付宝现金的每笔兑换，手续费为0.3元/次(余下0.7元由积粒网承担)。 而5000米粒兑换50元支付宝现金的兑换，积粒网将会全额承担兑换手续费。
+                </p>
             </li>
             <li>
-                <div class="title"><em>20</em><span>支付宝兑换与手机兑换积分数量</span><span class="icons"></span></div>
+                <div class="title"><em>19</em><span>支付宝兑换与手机兑换积分数量</span><span class="icons"></span></div>
                 <p>手机费兑换：20元手机费->2010积分起兑。<br>
 2010积分=20元手机费<br>
 2995积分=30元手机费<br>
@@ -322,7 +316,7 @@
 其他</p>
             </li>
             <li>
-                <div class="title"><em>21</em><span>网络太慢</span><span class="icons"></span></div>
+                <div class="title"><em>20</em><span>网络太慢</span><span class="icons"></span></div>
                 <p>1.给您带来的不便深感抱歉。由于91问问调查网是一家全球性公司，服务器在海外，造成国内访问速度缓慢。<br>
 2.我们的系统团队始终致力于开发和改善此类功能，希望为您提供更好的服务。
 </p>

@@ -13,6 +13,9 @@ define(['jquery', 'autoJump', 'routing'],function($, autoJump){
         }
         return true;
     }
+    function betweenLength(str, _min, _max){
+        return (str.length >= _min && str.length <= _max);
+    }
     function eFocus(ele,prompt){
         $(ele).removeClass();
         $(ele+'_succeed').removeClass();
@@ -31,6 +34,10 @@ define(['jquery', 'autoJump', 'routing'],function($, autoJump){
     function checkInputEmail(obj){
         if(obj.type && obj.type == 'email' && !isEmail($(obj.ele).val())){
             eError(obj.ele, obj.prompt.isFormat);
+            return false;
+        }
+        if(obj.type && obj.type == 'con' && !betweenLength($(obj.ele).val(), 1, 500)){
+            eError(obj.ele, obj.prompt.isBetweenLength);
             return false;
         }
         return true;
@@ -54,8 +61,10 @@ define(['jquery', 'autoJump', 'routing'],function($, autoJump){
         ele: '#content',
         prompt: {
             isNull: '请输入相关内容',
+            isBetweenLength: '仅允许输入1到500个字符',
             isFocus: '请输入您想咨询的内容'
-        }
+        },
+        type: 'con'
     }, email = {
         ele: '#feedbackEmail',
         prompt: {

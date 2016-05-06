@@ -1,6 +1,10 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
 {% block title %}问卷列表：{{ parent() }} {% endblock %}
-
+{% block meta %}
+<meta name="keywords" content="问卷调查，回答问卷，问卷积分，问卷列表，商业问卷，属性问卷，问卷赚钱" />
+<meta name="description" content="问卷列表展示了用户可回答的所有商业问卷、属性问卷等高积分问卷，点击可回答轻松赚取现金奖励。" />
+<meta name="title" content="问卷列表:91问问调查网" />
+{% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/survey.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
@@ -13,7 +17,7 @@
 <div class="main-con w1000 clearfix">
 	<div class="main-con-left left">
 		<div class="survey survey-sub">
-			<h1><em></em>问卷列表</h1>
+			<h1>问卷列表</h1>
             <ul id="surveyList">
             {% set has_tip_displayed = 0 %}
                 {# SSI permission #}

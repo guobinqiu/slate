@@ -24,28 +24,28 @@ class FulcrumResearchSurveyParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="fulcrum_project_id", type="integer", nullable=false)
+     * @ORM\Column(name="fulcrum_project_id", type="integer")
      */
     private $fulcrumProjectId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="fulcrum_project_quota_id", type="integer", nullable=false)
+     * @ORM\Column(name="fulcrum_project_quota_id", type="integer")
      */
     private $fulcrumProjectQuotaId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="app_member_id", type="string", length=255, nullable=false)
+     * @ORM\Column(name="app_member_id", type="string", length=255)
      */
     private $appMemberId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="point", type="integer", nullable=false)
+     * @ORM\Column(name="point", type="integer", options={"default": 0})
      */
     private $point;
 

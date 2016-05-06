@@ -14,28 +14,28 @@ class ExperienceAdvertisement
     /**
      * @var integer
      *
-     * @ORM\Column(name="mission_hall", type="integer", nullable=false)
+     * @ORM\Column(name="mission_hall", type="integer", options={"comment": "1 任务大厅1, 2 任务大厅2"})
      */
     private $missionHall;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="point", type="integer", nullable=true)
+     * @ORM\Column(name="point", type="integer", nullable=true, options={"comment": "米粒"})
      */
     private $point;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mission_img_url", type="string", length=250, nullable=true)
+     * @ORM\Column(name="mission_img_url", type="string", length=250, nullable=true, options={"comment": "任务图片链接"})
      */
     public $missionImgUrl;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="mission_title", type="string", length=250, nullable=true)
+     * @ORM\Column(name="mission_title", type="string", length=250, nullable=true, options={"comment": "任务标题"})
      */
     private $missionTitle;
 
