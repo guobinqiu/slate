@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CheckinClickList
  *
- * @ORM\Table(name="checkin_auto_shop", uniqueConstraints={@ORM\UniqueConstraint(name="uniq_user_id1_checkin_adver_list_id1", columns={"user_id","checkin_adver_list_id"})} )
+ * @ORM\Table(name="checkin_auto_shop",indexes={@ORM\Index(name="fk_checkin_auto_shop_user1", columns={"user_id"})}, uniqueConstraints={@ORM\UniqueConstraint(name="uniq_user_id1_checkin_adver_list_id1", columns={"user_id","checkin_adver_list_id"})} )
  * @ORM\Entity(repositoryClass="Jili\FrontendBundle\Repository\CheckinAutoShopRepository")
  */
 class CheckinAutoShop
