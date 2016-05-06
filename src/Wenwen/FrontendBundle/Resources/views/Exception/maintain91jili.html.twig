@@ -1,0 +1,16 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}积粒网正在改版维护中{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/404.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+<div class="mtWrap mtWrapJL">
+	<p class="text">积粒网正于<b>今晚18:00-次日早8:00</b>进行改版维护，维护期间您将不能访问网站。给您带来的不便，敬请谅解！</p>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}
