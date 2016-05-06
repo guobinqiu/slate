@@ -37,21 +37,24 @@ class TaskHistoryRepository extends EntityRepository
     {
         $query = $query->innerJoin('JiliApiBundle:AdCategory', 'adc', 'WITH', 'to.categoryType = adc.id');
         $query = $query->Where('to.userId = :userId');
-        if (isset($status) && $status) {
-            switch ($status) {
-                case 0 :
-                    break;
-                case 1 :
-                    $query = $query->andWhere('(to.status = 2  and to.taskType = 1) or to.status = 0');
-                    break;
-                case 2 :
-                    $query = $query->andWhere('to.status = 3 or (to.status = 1 and to.taskType > 1)');
-                    break;
-                case 3 :
-                    $query = $query->andWhere('to.status = 4 or (to.status = 2 and to.taskType > 1)');
-                    break;
+
+        switch ($status) {
+            case 0 :
+                $qb = $this->createQueryBuilder('to1');
+                $qb->select('to1.id')->Where('to1.status = 1')->andWhere('to1.taskType = 1')->andWhere('to1.userId = :userId');
+                $qb = $qb->setParameter('userId', $user_id);
+                $query = $query->andWhere($query->expr()->notIn('to.id', $qb->getDQL()));
+                break;
+            case 1 :
+                $query = $query->andWhere('(to.status = 2  and to.taskType = 1) or to.status = 0');
+                break;
+            case 2 :
+                $query = $query->andWhere('to.status = 3 or (to.status = 1 and to.taskType > 1)');
+                break;
+            case 3 :
+                $query = $query->andWhere('to.status = 4 or (to.status = 2 and to.taskType > 1)');
+                break;
             }
-        }
         $query = $query->setParameter('userId', $user_id);
         return $query;
     }

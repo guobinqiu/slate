@@ -1595,11 +1595,6 @@ class UserController extends Controller implements CampaignTrackingController
 
         $this->get('session.my_task_list')->remove(array('alive'));
         $adtaste = $this->get('session.my_task_list')->selTaskHistory($type, $page);
-        foreach ($adtaste as $key => $value) {
-            if($value['orderStatus'] == 1 && $value['type'] ==1){
-                unset($adtaste[$key]);
-            }
-        }
 
         $arr['p'] = $page;
         $arr['page_size'] = $page_size;
