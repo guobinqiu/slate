@@ -9,7 +9,7 @@ class StatClient
     const HOST = 'ssi.hasoffers.com';
 
     private $apiKey = null;
-    private $offerId = 2189; // 1346 API_USD (91wenwen)
+    private $offerId = 3135; // 1346 API RPA CN_USD (Offer ID: 3135)
 
     public function __construct($apiKey, $offerId = null)
     {
