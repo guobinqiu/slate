@@ -1,0 +1,52 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}意见反馈：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/feedback.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main">
+	{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
+	<div class="main-help-con w1000">
+		<div class="main-help-feedback comfirm">
+			<h2>请确认您输入的内容，点击确认按钮。</h2>
+			<form action="/support/commit" method="post">
+			<table>
+				<tbody>
+					<tr>
+						<td class="first">您碰到的问题的种类：</td>
+						<td>验证邮件</td>
+					</tr>
+					<tr>
+						<td class="first">您想咨询的内容：</td>
+						<td>请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容请输入您想咨询的内容</td>
+					</tr>
+					<tr>
+						<td class="first">您的姓名：</td>
+						<td>klldkk</td>
+					</tr>
+					<tr>
+						<td class="first">电子邮件：</td>
+						<td>klldkk@qq.com</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn"><a href="{{ path('_default_feedback') }}" class="normal">回到前一页</a><a href="{{ path('_default_feedback_finished') }}">确认</a></div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/feedback')}}"></script>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}

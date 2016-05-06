@@ -59,11 +59,11 @@ class WeiBoLoginController extends Controller
                 $request->getSession()->set('weibo_name',$weibo_response_user['name']);
                 $request->getSession()->set('weibo_user_img',$weibo_response_user['profile_image_url']);
                 //跳转到 weibofirstlogin action
-                return $this->redirect($this->generateUrl('weibo_first_login'));
+                return $this->redirect($this->generateUrl('weibo_maintenance'));
             }
         }else{
             // '授权失败';
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，微博用户授权失败，请稍后再试。'));
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，微博用户授权失败，请稍后再试。'));
         }
     }
     
@@ -107,8 +107,8 @@ class WeiBoLoginController extends Controller
             //email存在check
             $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
             if($check_user){
-                $code = '此账号已存在，请点击下方【已有积粒网账号】按钮进行绑定!';
-                return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
+                $code = '此账号已存在，请点击下方【已有91问问账号】按钮进行绑定!';
+                return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
             } 
             //openid check
             $check_weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($param['open_id']);
@@ -117,7 +117,7 @@ class WeiBoLoginController extends Controller
                 $weibouser = $user_regist->weibo_user_regist($param);
                 if(!$weibouser){
                     //注册失败
-                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，微博用户注册失败，请稍后再试。'));
+                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，微博用户注册失败，请稍后再试。'));
                 } 
             }
             //注册成功，登陆并跳转主页
@@ -125,14 +125,14 @@ class WeiBoLoginController extends Controller
             if($code == 'ok') {
                 return $this->redirect($this->generateUrl('_homepage'));
             } elseif($check_weibouser) {
-                $code = "您的微博ID已在积粒网注册，请直接登录，如有问题请联系客服。";
+                $code = "您的微博ID已在91问问注册，请直接登录，如有问题请联系客服。";
             }
         } else {
             //入力验证不通过
             $code = '请填写正确的邮箱或密码!';
         }
         $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(), 'regcode'=>$code));
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(), 'regcode'=>$code));
     }
     
     /**
@@ -146,7 +146,7 @@ class WeiBoLoginController extends Controller
         $param['pwd']= $request->request->get('jili_pwd');
         $param['open_id'] = $request->getSession()->get('weibo_open_id'); // get in session
         if(!$param['open_id']){
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
         }
         $request->request->set('pwd', $param['pwd']);
         $request->request->set('email',$param['email']);
@@ -158,7 +158,7 @@ class WeiBoLoginController extends Controller
         }
         $form  = $this->createForm(new WeiBoFirstRegist());
         $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'], 'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(),'bindcode'=>$code));
     }
     
@@ -173,14 +173,22 @@ class WeiBoLoginController extends Controller
         $weibo_name = $request->getSession()->get('weibo_name');
         $weibo_user_img = $request->getSession()->get('weibo_user_img');
         if(!$weibo_token || !$weibo_openid || !$weibo_name){
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请在微博完成授权后再试。'));
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请在微博完成授权后再试。'));
         }
         //销毁不用session (暂定不销毁)
         //$request->getSession()->remove('weibo_token');
         //$request->getSession()->remove('weibo_name');
         //设置form跳转注册页
         $form  = $this->createForm(new WeiBoFirstRegist());
-        return $this->render('JiliApiBundle:User:weiboFirstLogin.html.twig',
+        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
                 array('email'=>'', 'pwd'=>'','open_id'=>$weibo_openid,'nickname'=>$weibo_name, 'weibo_user_img'=>$weibo_user_img, 'form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/maintenance", name="weibo_maintenance")
+     */
+    public function maintenanceAction()
+    {
+        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
     }
 }

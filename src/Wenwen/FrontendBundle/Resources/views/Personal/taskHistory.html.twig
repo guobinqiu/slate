@@ -1,0 +1,87 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}任务历史：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="main-personal w1000 clearfix">
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+	<div class="main-personal-right right">
+		<h2>任务历史</h2>
+		<div class="main-personal-points">
+			<table>
+				<thead>
+					<tr>
+						<th>日期</th>
+						<th>名称</th>
+						<th>奖励积分</th>
+						<th>状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if adtaste|length > 0 %}
+					{% for item in adtaste %}
+					<tr>
+						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d') }}{% endif %}</td>
+						<td>{% if item.incentiveType==92 or item.incentiveType==93 %}{% else %}
+						     {{ item.displayName }}-{% endif %}{% if item.adid %}
+	                  		<a href="{{ path('_advertiserment_index',{'id':item.adid}) }}" target="_blank">  {{ item.title }}</a>
+						{% else%}
+							{% if item.incentiveType == 17 %}
+							<a href="{{ path('_advertiserment_list') }}" target="_blank">{{ item.title }}</a>
+							{% elseif item.incentiveType == 18 %}
+							<a href="{{ asset(path('_advertiserment_offer99')) }}" target="_blank">{{ item.title }}</a>
+							{% elseif item.incentiveType == bangwoya_com.category_type %}
+							<a href="{{ asset(path('_advertiserment_bangwoya')) }}" target="_blank">{{ item.title }}</a>
+							{% else %}
+							{{ item.title }}
+							{% endif %}
+						{% endif %}</td>
+						<td>{% if item.incentiveType==2 or item.incentiveType==19 or item.incentiveType==23 %}
+							{% if item.orderStatus > 1 %}
+								{{ item.incentive }}
+							{% else %}
+							{% endif %}
+						{% else %}
+						     {{ item.incentive }}
+						{% endif %}</td>
+						<td>{% if item.incentiveType==1 or item.incentiveType==2 or item.incentiveType==17 or item.incentiveType==19 or item.incentiveType==23 %}
+							{% if item.orderStatus==1  %} 已参加
+							{% elseif item.orderStatus==2  %} 确认中
+							{% elseif item.orderStatus==3  %} 已完成
+							{% elseif item.orderStatus==4  %} 已拒绝
+							{% else %}{% endif %}
+							{% else %}
+							{% if item.orderStatus==0  %} 确认中
+							{% elseif item.orderStatus==1  %} 已完成
+							{% else %} 已拒绝
+							{% endif %}
+						{% endif %}</td>
+					</tr>
+					{% endfor %}
+					{% else %}
+					<tr><td align="center">没有任务记录</td></tr>
+					{% endif %}
+				</tbody>
+			</table>
+            <div class="page-wrapper">
+                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

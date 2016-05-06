@@ -3,8 +3,6 @@
 namespace Jili\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -57,6 +55,7 @@ class VoteControllerTest extends WebTestCase
 
     /**
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testIsInBonusHour()
     {
@@ -69,6 +68,22 @@ class VoteControllerTest extends WebTestCase
         $time = date_create(date('Y-m-d'));
         $return = $controller->isInBonusHour($time);
         $this->assertTrue($return);
+    }
+
+    /**
+     * @group user_vote_ui
+     */
+    public function testGetBonusTimeLimitDt()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $controller = new VoteController();
+        $controller->setContainer($container);
+
+        $time = date_create('2015-12-08 16:51:00');
+        $bonusTime = $controller->getBonusTimeLimitDt($time);
+        $this->assertEquals('2015-12-09 16:51:00', $bonusTime->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -89,7 +104,21 @@ class VoteControllerTest extends WebTestCase
     }
 
     /**
+     * @group user_vote_ui
+     */
+    public function testTopAction()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $url = '/vote/top';
+        $crawler = $client->request('GET', $url);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    /**
      * @group user_vote
+     * @group user_vote_ui
      */
     public function testIndexAction()
     {
@@ -133,7 +162,6 @@ class VoteControllerTest extends WebTestCase
         $url = '/vote/show?id=3';
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('请登陆后', $client->getResponse()->getContent(), 'not login');
 
         $session = $client->getRequest()->getSession();
         $session->set('uid', 1);
@@ -284,29 +312,6 @@ class VoteControllerTest extends WebTestCase
     /**
      * @group user_vote
      */
-    public function testRecommendAction()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $url = '/vote/recommend';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('', $client->getResponse()->getContent());
-
-        $session = $client->getRequest()->getSession();
-        $session->set('uid', 1);
-        $session->save();
-
-        $url = '/vote/recommend';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('为您推荐的快速问答', $client->getResponse()->getContent());
-    }
-
-    /**
-     * @group user_vote
-     */
     public function testSuggestAction()
     {
         $client = static::createClient();
@@ -342,6 +347,5 @@ class VoteControllerTest extends WebTestCase
         $this->assertRegExp('/\/vote\/suggest\?send_ok=1$/', $client->getResponse()->headers->get('location'), 'need id');
         $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('您的题目已经提交，等待审核！', $client->getResponse()->getContent());
     }
 }

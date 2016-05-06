@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/help";
+.newGuide{
+	ul{
+		margin-top: 10px;
+		& li:hover, & li:active{
+			border: 1px solid #ff6700;
+			outline: 2px solid #ff6700;
+		}
+		& li:hover dl dd .more{
+			background: #ff6700;
+			color: #fff;
+		}
+		li{
+			    float: left;
+			    padding: 50px 0 50px 89px;
+			    width: 38%;
+			    background: #fff;
+			    border: 1px solid #dedede;
+			    margin: 0 0 40px 0;
+			    overflow: hidden;
+				&:nth-child(odd){
+   	 				margin-right: 40px;
+			    }
+		    	em{
+		    	    margin-right: 30px;
+    				float: left;
+		    	}
+		    dl{
+		    	float: left;
+    			width: 160px;
+    			dt{
+    				    color: #eb6b21;
+    					font-size: 23px;
+    			}
+    			dd{
+    				    padding-top: 13px;
+					    line-height: 18px;
+					    font-size: 12px;
+					    color: #929292;
+					    .more{
+					    	font-size: 12px;
+						    width: 100%;
+						    height: 26px;
+						    line-height: 26px;
+						    text-align: center;
+						    color: #545d63;
+						    background-color: #ebedf3;
+						    display: inline-block;
+						    cursor: pointer;
+					    }
+    			}
+		    }
+		}
+	}
+}
+.newGuideDetail{
+	display: none;
+	position: relative;
+	.back{
+		position: absolute;
+		right: 8px; 
+		top: 17px;
+		margin-top: 10px;
+	    padding: 8px 20px;
+	    height: 24px;
+	    line-height: 24px;
+	    color: #666;
+	    background: #fff;
+	    border: 1px solid #ededf0;
+	    border-radius: 3px;
+	    display: inline-block;
+	}
+	h3{
+		color: #b0b0b0;
+		font-size: 36px;
+		line-height: 85px;
+		height: 85px;
+	}
+	dt{
+		line-height: 40px;
+		font-size: 16px;
+		color: #333;
+		strong{
+			margin-right: 5px;
+			color: #ff6700;
+		}
+	}
+	dd{
+		margin-bottom: 20px;
+	}
+}
+@import "layout/footer";

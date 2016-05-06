@@ -18,6 +18,7 @@ class Client
     private $group;
 
     private $logger;
+
     private $resultsEmail;
 
     public function __construct($url , $user, $pass )
@@ -95,7 +96,7 @@ class Client
             ), $recipient_arr, true, true);
 
             if ($addRecipient_result->status == "ERROR") {
-                $rs = "addRecipient error";
+                $rs = "addRecipient error". $addRecipient_result->statusMsg;
                 $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $rs  );
                 return $rs;
             }
@@ -126,22 +127,25 @@ class Client
 
             if ($group->status == "ERROR") {
                 $rs = 'Cannot add group:' . $group->statusMsg;
+                $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $group->statusMsg);
                 return $rs;
             }
 
             $result = $client->addRecipientsSendMailing($login, $this->campaignId, $this->mailingId, array (
                 $group->id
-            ), $recipient_arr, true, true);
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($result->status != "ERROR") {
                 $rs = 'Email send success';
             } else {
                 $rs = 'Email send fail';
+                $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $result->statusMsg);
             }
 
             return $rs;
         } catch (SoapFault $exception) {
             echo $exception;
+            $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $exception->getMessage()  );
         }
     }
 
@@ -159,24 +163,20 @@ class Client
                 return $rs;
             }
 
-            $addRecipient_result = $client->addRecipients($login,
-                $this->campaignId,
-                array ($group->id), 
-                $this->buildRecipientData( $recipient_arr),
-                true, true);
+            $addRecipient_result = $client->addRecipients($login, $this->campaignId, array (
+                $group->id
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($addRecipient_result->status == "ERROR") {
                 $re = "addRecipient error';";
-                $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re );
-                return $rs;
+                $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re .$addRecipient_result->statusMsg);
+                return $re;
             }
-            $is_test  =( isset($this->group['test'] ) && true === $this->group['test'] ) ? true: false;
-            $result = $client->sendMailing($login,
-                $this->campaignId,
-                $this->mailingId,
-                $is_test, # is test
-                $this->resultsEmail,
-                array ($group->id), "", "", "", "");
+
+
+            $result = $client->sendMailing($login, $this->campaignId, $this->mailingId, true, $this->resultsEmail, array (
+                $group->id
+            ), "", "", "", "");
 
             if ($result->status != "ERROR") {
                 $rs = 'Email send success';
@@ -187,7 +187,7 @@ class Client
             $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $rs );
             return $rs;
         } catch (SoapFault $exception) {
-            $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $e->getMessage()  );
+            $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $exception->getMessage()  );
             echo $exception;
         }
     }
@@ -237,10 +237,9 @@ class Client
         $this->logger = $logger;
     }
 
-    public function setResultsEmail($email_address) 
+    public function setResultsEmail ( $email) 
     {
-        $this->resultsEmail = $email_address;
+        $this->resultsEmail = $email; 
     }
 }
-
 

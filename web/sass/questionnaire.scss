@@ -1,0 +1,257 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+body{
+	background: #f5f5f7;
+}
+.header{
+	height: 88px;
+	@include box-shadow(0px 1px 5px #b3b3b3);
+	.header-nav{
+		height: 88px;
+		line-height: 84px;
+		.w1000{
+			p{
+				width: 209px;
+				text-align: right;
+				line-height: 22px;
+				color: #a1a1a1;
+				margin-top: 20px;
+				a{
+					color: $main-title-color;
+				}
+			}
+		}
+	}
+}
+.main{
+	margin-top: 0;
+	background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x 0;
+	.qnWrap{
+		width: 100%;
+		min-height: 333px;
+		position: relative;
+		top: 0px;
+		z-index: 1;
+		background: url(../img/questionnaire/questionnaireBgtop.png) no-repeat top center;	
+		.qnConBg{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 318px;
+			z-index: 2;
+			background: url(../img/questionnaire/questionnaireBgx.png) repeat-y center;
+			.qnConBot{
+				width: 1000px;
+				height: 28px;
+				text-align: center;
+				position: absolute;
+				left: 50%;
+				margin-left: -500px;
+				bottom: -23px;
+				z-index: 2;
+				background: url(../img/questionnaire/questionnaireBot.png) no-repeat bottom;
+			}
+			.bottom{
+				position: absolute;
+				bottom: -130px;
+				width: 100%;
+				text-align: center;
+				margin-bottom: 40px;
+				color: #666;
+			}
+		}
+		.qnCon{
+			position: absolute;
+			z-index: 3; 
+			top: 85px; 
+			left: 50%;
+			width: 940px;
+			margin-left: -470px;
+			.qnTxt{
+				width: 796px;
+				margin: 0 auto; 
+				color: #4d4d4d;
+				h2{
+					font-size: 28px;
+					font-weight: bold;
+				}
+				.subtit{
+					line-height: 24px;
+					font-size: 16px;
+					margin: 20px 0;
+					.point{
+						color: $main-color;
+					}
+				}
+				.prompt{
+					width: 716px;
+					padding: 15px 40px;
+					background: #f2f2f5;
+					color: #666;
+					line-height: 22px;
+				}
+				.notice{
+					margin: 37px 0 54px; 
+					line-height: 22px;
+				}
+				.qnBtn{
+					text-align: center;
+					a{
+						width: 230px;
+						text-align: center;
+						height: 60px;
+						line-height: 60px;
+						background: #1466d6;
+						@include border-radius(5px);
+						@include box-shadow(0 3px 0 #0650b8);
+						color: #fff;
+						font-size: 16px;
+						text-align: center;
+						@include dib();
+					}
+				}
+				.tips{
+					margin-top: 10px;
+					text-align: center;
+					line-height: 20px;
+				}
+			}
+			.error-message{
+				font-size: 16px;
+				text-align: center;
+				margin-top: 50px;
+			}
+		}
+		.qnEnd{
+			.qnEndTxt{
+				padding: 150px 0 0 120px;
+				.txt{
+					width: 585px;
+					font-size: 14px;
+					line-height: 24px;
+					margin-left: 31px;
+					padding: 25px 0 25px 130px;
+					background: url(../img/questionnaire/normalface.png) no-repeat left center;
+					h2{
+						font-size: 26px;
+						line-height: 30px;
+						padding-bottom: 12px;
+					}
+					&.sad{
+						background: url(../img/questionnaire/sadface.png) no-repeat left center;
+					}
+					b{
+						color: #ff6700;
+					}
+					.cor666{
+						color: #666;
+					}
+				}
+				.refer{
+					margin-top: 168px;
+					padding: 20px 60px;
+					width: 585px;
+					background: #f7f7f7;
+					font-size: 12px;
+					color: #b6b6b6;
+					line-height: 20px;
+					border-radius: 5px;
+					a{
+						color: #0078b6;
+					}
+				}
+				.confirmBtn{
+					margin-top: 10px;
+					width: 65px;
+					height: 26px;
+					line-height: 24px;
+					font-family: "微软雅黑";
+					@include btn();
+				}
+			}
+		}
+    }
+}
+/* permisson page Start */
+.permissionMain{
+	margin-top: 14px;
+}
+.prmTit{
+	height: 90px;
+	border-bottom: 1px dashed #d7d8d9;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	h1{
+		font-size: 40px;
+		height: 60px;
+		line-height: 60px;
+		span{
+			color: $main-color;
+		}
+	}
+	p{
+		font-size: 20px;
+	}
+}
+.prmIco{
+	width: 77px;
+	height: 73px;
+	background: url(../img/questionnaire/prmIco.png) no-repeat left center;
+	margin-top: 6px;
+}
+.prmState{
+	font-size: 13px;
+	line-height: 27px;
+	.SSILink{
+		color: #fff;
+		padding: 2px 5px;
+		background: #000;
+		@include border-radius(10px);
+	}
+}
+.prmPrompt{
+	background: #ebeced;
+	padding: 20px 28px;
+	margin: 20px 0;
+	line-height: 22px;
+	color: #858585;
+}
+.prmBtn{
+	text-align: center;
+	margin-top: 20px;
+	input[type="text"]{
+		font-size: 20px;
+		padding: 15px 65px;
+		background: #ffa10d;
+		@include border-radius(3px);
+		color: #fff;
+		border: none;
+	}
+}
+.prmError{
+	li{
+		text-align: center;
+		color: $error-color;
+		margin-top: 10px;
+	}
+}
+/* permisson page End */
+
+/* withdraw finish page Start */
+.withdrawQ{
+	background: #F2F2F2;
+	padding: 25px;
+	margin: 20px 201px 0 163px;
+	@include border-radius(5px);
+	p{
+		font-size: 13px;
+		line-height: 30px;
+		a{
+			color: #24C4D2;
+			margin: 0 8px 0 5px;
+		}
+	}
+}
+/* withdraw finish page End */

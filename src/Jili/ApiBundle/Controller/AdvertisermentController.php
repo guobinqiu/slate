@@ -116,7 +116,8 @@ class AdvertisermentController extends Controller
             $taskList->remove(array( 'adv_visit'));
         }
 
-        return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
+        // return $this->render('JiliApiBundle:Advertiserment:list.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Advertisement:index.html.twig',$arr);
     }
 
     /**
@@ -147,7 +148,8 @@ class AdvertisermentController extends Controller
             $taskList->remove(array( 'adv_visit'));
         }
 
-        return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');
+        // return $this->render('JiliApiBundle:Advertiserment:offer99.html.twig');
+        return $this->render('WenwenFrontendBundle:Advertisement:offer99.html.twig');
     }
 
     /**
@@ -178,7 +180,8 @@ class AdvertisermentController extends Controller
             $taskList->remove(array( 'adv_visit'));
         }
 
-        return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig');
+        // return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig');
+        return $this->render('WenwenFrontendBundle:Advertisement:bangwoya.html.twig');
     }
 
 

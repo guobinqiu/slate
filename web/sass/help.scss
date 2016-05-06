@@ -1,0 +1,110 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/help";
+.main-help-con{
+	.helpL{
+		width: 190px;
+		font-size: 14px;
+	}
+	.tabNav{
+		background: $block-bg-color;
+		border: $block-border;
+		li{
+			height: 50px;
+			width: 100%;
+			line-height: 50px;
+			padding-left: 40px;
+			margin-bottom: -1px;
+			border-bottom: $block-border;
+			@include dib();
+			cursor: pointer;
+			&.active, &:hover{
+				color: $main-color;
+				font-weight: bold;
+				background: #ffefe3;
+			}
+		}
+	}
+	.feedback{ 
+		margin-top: 35px;
+		padding: 15px 0 15px 21px;
+		background: $block-bg-color;
+		border: $block-border;
+	}
+	.helpR{
+		width: 749px;
+		margin-left: -1px;
+		padding: 10px 30px 20px;
+		background: $block-bg-color;
+		border: $block-border;
+		font-size: 14px;
+		min-height: 645px;
+		h2{
+			height: 45px;
+			line-height: 45px;
+			color: #010101;
+			font-size: 20px;
+		}
+	}
+	.tabCon ul{
+		padding: 10px 0 20px;
+		display: none;
+		li{
+			font-size: 0;
+			.title{
+				font-size: 14px;
+				padding-left: 20px;	
+				height: 45px;
+				line-height: 45px;	
+				background-color: #f5f5f5;
+				margin-bottom: 2px;
+				cursor: pointer;
+			}
+			em{
+				width: 8px;
+				margin-right: 30px;
+				float: left;
+			}
+			span{
+				&.icons{
+					float: right;
+					margin-top: 15px;
+					padding-right: 20px;
+					width: 15px;
+					height: 15px;
+					background: url(../img/help/arrow.png) no-repeat 0 -35px;
+				}
+			}
+			&:hover, &.active, &.on{
+				.title{
+					color: $main-color;
+					background-color: #ffefe3;
+				}
+				span{
+					&.icons{
+						padding-right: 23px;
+						background: url(../img/help/arrow.png) no-repeat 0 -55px;
+					}
+				}
+			}
+			p{
+				line-height: 30px;
+				font-size: 13px;
+				margin: 15px 0;
+				padding-left: 21px;
+				padding-right: 20px;
+				display: none;
+				strong{
+					color: #eb411f;
+					font-weight: normal;
+				}
+				a{
+					color: #4c94ff;
+				}
+			}
+		}
+	}
+}
+@import "layout/footer";

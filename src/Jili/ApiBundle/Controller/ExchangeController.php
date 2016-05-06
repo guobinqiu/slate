@@ -38,11 +38,11 @@ class  ExchangeController extends Controller
         $token_key = $this->getTokenKey();
         $session = $this->getRequest()->getSession();
         $session->set('csrf_token', $token_key);
-        return $this->render('JiliApiBundle:Exchange:index.html.twig',array('key'=>$token_key));
+        return $this->render('WenwenFrontendBundle:Exchange:index.html.twig',array('key'=>$token_key));
     }
 
     /**
-     * @Route("/alipayInfo", name="_exchange_alipayInfo")
+     * @Route("/alipayInfo", name="_exchange_alipayInfo", options={"expose"=true})
      */
     public function alipayInfoAction()
     {
@@ -84,11 +84,10 @@ class  ExchangeController extends Controller
             $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
-            $rechange =  $request->request->get('rechange');
-            $change_point =  $request->request->get('point');
+            $change_point =  $request->request->get('rechange');
             $alipay = $request->request->get('alipay');
-            $re_alipay = $request->request->get('re_alipay');
-            $real_name = $request->request->get('real_name');
+            $re_alipay = $request->request->get('alipayRepeat');
+            $real_name = $request->request->get('realName');
             $existAlipay = $request->request->get('existAlipay');
             $existRealName = $request->request->get('existRealName');
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_three'));
@@ -189,11 +188,11 @@ class  ExchangeController extends Controller
 
         }
         $this->get('request')->getSession()->remove('alipayToken');
-        return $this->render('JiliApiBundle:Exchange:alipayInfo.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:alipayInfo.html.twig',$arr);
     }
 
     /**
-     * @Route("/mobileInfo", name="_exchange_mobileInfo")
+     * @Route("/mobileInfo", name="_exchange_mobileInfo", options={"expose"=true})
      */
     public function mobileInfoAction()
     {
@@ -205,7 +204,7 @@ class  ExchangeController extends Controller
             $arr['mobile'] = '';
             $arr['code'] = '';
             $arr['existMobile'] = '';
-            $pointschange  = new PointsExchange();
+            $pointschange  = new PointsExchange(); // 兑换记录表
             $id = $this->get('request')->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
@@ -213,13 +212,12 @@ class  ExchangeController extends Controller
             $arr['user'] = $user;
             $arr['points'] = $points;
             $request = $this->get('request');
-            $rechange =  $request->request->get('rechange');
-            $change_point =  $request->request->get('point');
+            $change_point =  $request->request->get('rechange');
             $mobile = $request->request->get('mobile');
-            $re_mobile = $request->request->get('re_mobile');
+            $re_mobile = $request->request->get('mobileRepeat');
             $existMobile = $request->request->get('existMobile');
-
             $tokenKey = $request->request->get('tokenKey');
+            
             $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('mobileToken', $tokenKey);
@@ -233,16 +231,16 @@ class  ExchangeController extends Controller
             if(!empty($targetAcc)){
                  $arr['existMobile'] = $targetAcc[0]['targetAccount'];
             }
-            if($request->getMethod() == 'POST' && $change_point) {
+            if($request->getMethod() == 'POST' && $change_point) { 
                 $arr['mobile'] = $mobile;
                 if($change_point-$points>0){
                     $code = $this->container->getParameter('exchange_wr_point');
                     $arr['code'] = $code;
                 }else{
                     if($change_point == 2010 || $change_point == 2995 || $change_point == 4960){
-                        if($existMobile || $arr['existMobile']==''){
+                        if($existMobile || $arr['existMobile']==''){ # 如果是已经竞换过，或数据表中没找到兑换历史
                             if($mobile){
-                                    if (!(ValidateUtil::validateMobile($mobile))){
+                                    if (!(ValidateUtil::validateMobile($mobile))){ #验证手机号码
                                         $code = $this->container->getParameter('update_wr_mobile');
                                         $arr['code'] = $code;
                                     }else{
@@ -266,8 +264,8 @@ class  ExchangeController extends Controller
                                             $em->flush();
                                             $pointschange->setUserId($id);
                                             $pointschange->setType($this->container->getParameter('init_four'));
-                                            $pointschange->setSourcePoint($points-intval($change_point));
-                                            $pointschange->setTargetPoint(intval($change_point));
+                                            $pointschange->setSourcePoint($points-intval($change_point)); # 兑换后用户的积分数量
+                                            $pointschange->setTargetPoint(intval($change_point)); #变化积分数量
                                             $pointschange->setTargetAccount($mobile);
                                             $pointschange->setExchangeItemNumber($itemNumber);
                                             $pointschange->setIp($this->get('request')->getClientIp());
@@ -326,21 +324,17 @@ class  ExchangeController extends Controller
                             $token_key = $this->getTokenKey();
                             $session = $this->getRequest()->getSession();
                             $session->set('mobile', $token_key);
-
                             return $this->redirect($this->generateUrl('_exchange_finish',array('type'=>'mobile')));
 
                         }
-
                     }else{
                         $code = $this->container->getParameter('exchange_wr_point');
                         $arr['code'] = $code;
-
                     }
                 }
-
             }
         }
-        return $this->render('JiliApiBundle:Exchange:mobileInfo.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:mobileInfo.html.twig',$arr);
     }
 
     /**
@@ -395,7 +389,7 @@ class  ExchangeController extends Controller
     }
 
      /**
-     * @Route("/amazonInfo", name="_exchange_amazonInfo")
+     * @Route("/amazonInfo", name="_exchange_amazonInfo", options={"expose"=true})
      */
     public function amazonInfoAction()
     {
@@ -461,7 +455,6 @@ class  ExchangeController extends Controller
             }
         }
         return $this->render('JiliApiBundle:Exchange:amazonInfo.html.twig',$arr);
-
     }
 
     public function insertDanger($uid,$exid,$type,$dgcontent)
@@ -562,7 +555,7 @@ class  ExchangeController extends Controller
     }
 
     /**
-     * @Route("/issetIdent", name="_exchange_issetIdent")
+     * @Route("/issetIdent", name="_exchange_issetIdent", options={"expose"=true})
      */
     public function issetIdentAction()
     {
@@ -577,7 +570,7 @@ class  ExchangeController extends Controller
     }
 
     /**
-     * @Route("/info/{type}", name="_exchange_identityCardComfirm")
+     * @Route("/info/{type}", name="_exchange_identityCardComfirm", options={"expose"=true})
      */
     public function IdentityCardComfirmAction($type)
     {
@@ -589,9 +582,9 @@ class  ExchangeController extends Controller
             $arr['type'] = $type;
             $id = $this->get('request')->getSession()->get('uid');
             $request = $this->get('request');
-            $identityCard =  $request->request->get('identityCard');
-
+            $identityCard =  $request->request->get('idCard');
             $tokenKey = $request->request->get('tokenKey');
+            
             $arr['tokenKey'] = $tokenKey;
             $session = $this->getRequest()->getSession();
             $session->set('alipayToken', $tokenKey);
@@ -635,8 +628,7 @@ class  ExchangeController extends Controller
             }
 
         }
-        return $this->render('JiliApiBundle:Exchange:indentityConfirm.html.twig',$arr);
-
+        return $this->render('WenwenFrontendBundle:Exchange:alipayConfirm.html.twig',$arr);
     }
 
     /**
@@ -800,7 +792,7 @@ class  ExchangeController extends Controller
             }
             $arr['user'] = $user;
             $arr['type'] = $type;
-            return $this->render('JiliApiBundle:Exchange:finish.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:finish.html.twig',$arr);
         }
 
     }
@@ -1053,7 +1045,7 @@ class  ExchangeController extends Controller
 
 
     /**
-     * @Route("/flowInfo", name="_exchange_flowInfo")
+     * @Route("/flowInfo", name="_exchange_flowInfo", options={"expose"=true})
      * @Method("POST")
      */
     public function flowInfoAction()
@@ -1090,7 +1082,7 @@ class  ExchangeController extends Controller
         if (file_exists($filename)) {
             $arr['content'] = file_get_contents($filename);
         }
-        return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:flowInfo.html.twig',$arr);
     }
 
     /**
@@ -1113,9 +1105,10 @@ class  ExchangeController extends Controller
         $arr['tokenKey'] = $tokenKey;
 
         $mobile = $request->request->get('mobile');
-        $re_mobile = $request->request->get('re_mobile');
+        $re_mobile = $request->request->get('mobileRepeat');
         $existMobile = $request->request->get('existMobile');
         $selected_flow =  $request->request->get('flow_list',0);
+        // var_dump($selected_flow);exit();
 
         //get user
         $arr['user'] = $request->getSession()->get('flow_user');
@@ -1126,12 +1119,13 @@ class  ExchangeController extends Controller
         //check mobile
         $user_id = $this->get('request')->getSession()->get('uid');
         $error_message = $this->checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id);
+
         if($error_message){
             $arr['code'] = $error_message;
             if($mobile){
                 $arr['existMobile'] = '';
             }
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:flowInfo.html.twig',$arr);
         }
 
         //确定targetAccount
@@ -1147,15 +1141,16 @@ class  ExchangeController extends Controller
                 $arr['existMobile'] = '';
             }
             $arr['code'] = $return['error_message'];
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:flowInfo.html.twig',$arr);
         }
 
         //显示流量列表
         $arr['mobile_info'] = array('mobile'=>$targetAccount,'provider'=>$return['provider'],'province'=>$return['province'],'product_list'=>$return['product_list']);
         $this->get('request')->getSession()->set('mobile_info',$arr['mobile_info']);
         $arr['selected_flow'] = $selected_flow;
-        $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
-        return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
+        $arr['change_point'] = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];        
+        // return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
+        return $this->render('WenwenFrontendBundle:Exchange:flowApply.html.twig',$arr);
     }
 
     public function checkFlowMobile($existMobile, $mobile, $re_mobile, $user_id){
@@ -1206,8 +1201,8 @@ class  ExchangeController extends Controller
         $arr['user'] = $request->getSession()->get('flow_user');
 
         //用户选择的流量包信息
-        $selected_flow =  $request->request->get('flow_list');
-        $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');+
+        $selected_flow =  $request->request->get('rechange');
+        $arr['mobile_info'] = $this->get('request')->getSession()->get('mobile_info');
         $change_point = $arr['mobile_info']['product_list'][$selected_flow]['change_point'];
 
         //check 分数
@@ -1215,7 +1210,7 @@ class  ExchangeController extends Controller
             $arr['code'] = $this->container->getParameter('exchange_wr_point');;
             $arr['selected_flow'] = $selected_flow;
             $arr['change_point'] = $change_point;
-            return $this->render('JiliApiBundle:Exchange:flowApply.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:flowApply.html.twig',$arr);
         }
 
         //ExchangeFlowOrder save
@@ -1243,7 +1238,7 @@ class  ExchangeController extends Controller
         //有错的情况下
         if(isset($return['error_message'])){
             $arr['code'] = $return['error_message'];
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:flowInfo.html.twig',$arr);
         }
 
         // 事务处理
@@ -1293,7 +1288,7 @@ class  ExchangeController extends Controller
 
             $em->getConnection()->rollback();
             $arr['code'] = $this->container->getParameter('flow_exchange_error');
-            return $this->render('JiliApiBundle:Exchange:flowInfo.html.twig',$arr);
+            return $this->render('WenwenFrontendBundle:Exchange:flowInfo.html.twig',$arr);
         }
     }
 

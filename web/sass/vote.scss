@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/survey";
+.vote-sub{
+ 	position: relative;
+	z-index: 1;
+	h1{
+		font-size: 30px;
+		margin: 10px 0 15px 14px;
+	}
+	li{
+		border-top: none;
+		border-bottom: $block-inner-border;
+		&.vote-txt{
+			width: 94%;
+			.relate{
+				margin-left: 0;
+				margin-top: 10px;	
+			}
+		}
+	}
+	.vote-txt{
+		width: 68%;
+		span{
+			strong{
+				font-weight: normal;
+			}
+		}
+		.title{
+			line-height: 20px;
+			a{
+				line-height: 20px;
+				font-size: 15px;
+			}
+		}
+		.con{
+			margin-top: 13px;
+			padding-left: 3px;
+			line-height: 20px;
+			color: #9c9c9c;
+		}
+		.relate{
+			margin-top: 4px;	
+		}
+	}
+	.survey-btn{
+		background: transparent;
+		width: 15%;
+		cursor: default;
+		@include transition(width, 0);
+		position: absolute;
+		right: 0;
+		top: 9px;
+		a{
+			margin: 58px auto auto;
+			width: 90px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			color: #fff;
+			font-size: 12px;
+			@include btn();
+			@include dib();
+			&.disabled{
+				background: #a7a7a7;
+				border: 1px solid #a7a7a7;
+			}
+		}
+	}
+}
+.exchange-dynamics{
+	padding: 10px 20px;
+	line-height: 24px;
+	.mask{
+		height: 335px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	ul{
+		position: absolute;
+		z-index: 1000;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	h2{
+		padding: 0;
+	}
+	li{
+		padding: 12px 0;
+		border-bottom: $block-inner-border;
+		b{
+			color: $main-color;
+		}
+		p{
+			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
+		}
+		.date{
+			color: #bfbfbf;
+		}
+	}
+}
+@import "component/page";
+@import "layout/footer";

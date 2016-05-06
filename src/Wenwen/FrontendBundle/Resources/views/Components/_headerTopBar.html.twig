@@ -1,0 +1,31 @@
+<div class="header-top">
+    {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
+        {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
+        {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}
+    {% endif %}
+    {% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
+    <div class="header-top-con w1000 clearfix">
+        <div class="left"><a href="{{ path('_default_about_map') }}" title="网站地图" class="first">网站地图</a><a href="{{ path('_default_support') }}" title="帮助中心" class="last">帮助中心</a></div>
+        <ul class="right clearfix">
+            <li><em class="guide"></em><a href="{{ path('_default_support_newGuide') }}" title="新手上路">新手上路</a></li>
+            <li><a href="{{ path('_user_message',{'sid': 1}) }}" class="last"><em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em></a><span class="special expand-btn"><div class="expand-title"><label for="personal_links">个人中心</label><b></b></div><div id="personal_links" class="personal expand-con">
+            <div class="personal-con">
+                <span class="faceTop">
+                {% if user.iconPath %}
+                    <img src="{{ asset(user.iconPath) }}" alt="头像" width="60" height="60">
+                {% else %}
+                    <img src="{{ asset('img/common/default_tx.png') }}" alt="头像" width="60" height="60">
+                {% endif %}
+                </span>
+                <span class="txt"><div class="nickname">{{ user.nick[:12] }}</div><div><label for="points">积分：</label><strong id="points" name="points">{{ user.points }}</strong></div></span>
+            </div>
+            <ul>
+                <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>
+                <li><a href="{{ path('_profile_index') }}">账户设置</a></li>
+                <li><a href="{{ path('_user_adtaste',{'type':0}) }}">任务历史</a></li>
+                <li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}">兑换历史</a></li>
+                <li><a href="{{ path('_user_logout') }}" class="exit">退出</a></li>
+            </ul></div></span></li>
+        </ul>
+    </div>
+</div>

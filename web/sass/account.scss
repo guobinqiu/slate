@@ -1,0 +1,197 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/personal";
+@import "component/form";
+.main-personal-account{
+	padding: 20px 45px 50px;
+	color: #666;
+	.successMess{
+		width: 150px;
+		margin: 0 auto;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		border: 2px solid #ade378;
+		background: #f7f7f7;
+		border-radius: 5px;
+		display: none;
+	}
+	li{
+		padding: 15px 0;
+		line-height: 45px;
+		border-bottom: 1px dashed #dedee0;
+		.default_value{
+			display: inline-block;
+		}
+		&.active{
+			.default_value{
+				display: none;
+			}
+		}
+	}
+	label{
+		width: 105px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #333;
+		@include dib();
+		vertical-align: top;
+	}
+	a{
+		float: right;
+		color: $main-title-color;
+	}
+	input[type='checkbox']{
+		vertical-align: middle;
+		margin-right: 5px;
+	}
+	.form{
+		li{
+			input[type='text'], input[type='password']{
+				width: 200px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 3px;
+				background: transparent;
+			}
+			span{
+				border-radius: 3px;
+				margin-left: 5px;
+				padding: 0 5px;
+				line-height: 30px;
+				vertical-align: top;
+				&#curMobile{
+					padding: 0;
+					@include dib();
+					vertical-align: top;
+				}
+				&#send_code{
+					color: #fff;
+					background: #ff8b3d;
+					@include dib();
+					vertical-align: top;
+					cursor: pointer;
+					&.disabled{
+						color: $normal-color;
+						background: $normal-bg-color;
+						border: $normal-border;
+					}
+				}
+				&.succeed, strong{
+					border: none;
+					background: transparent;
+				}
+			}
+		}
+	}
+	.backError{
+		padding-left: 120px;
+		color: $error-color;
+	}
+	.con{
+		padding: 15px 30px;
+		display: none;
+		li{
+			margin-top: 10px;
+			padding: 0;
+			line-height: 30px;
+			border-bottom: none;
+			label{
+				margin-right: 30px;
+				width: 85px;
+				text-align: right;
+				font-size: 12px;
+				font-weight: normal;
+				color: #666;
+				height: 32px;
+				line-height: 32px;
+			}
+		}
+		p{
+			line-height: 24px;
+		}
+		em{
+			margin-right: 5px;
+		}
+		.btn{
+			padding:20px 0 0 120px;
+			span{
+				margin-right: 10px;
+				width: 74px;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				@include btn();
+				@include dib();
+				vertical-align: middle;
+				&.backStep{
+					background: #c7c7c7;
+					border: 1px solid #c7c7c7;
+					cursor: pointer;
+					&:hover{
+						background: #a7a7a7;
+						border: 1px solid #a7a7a7;
+					}
+				}
+			}
+		}
+		&.withdraw{
+			span{
+				@include dib();
+				vertical-align: top;
+				margin-left: 0;
+				padding-left: 0;
+				&.focus{
+					display:none;
+				}
+			}
+			ul{
+				&.tips{
+					margin-top: 10px;
+				}
+				&.reason{
+					margin-top: 10px;
+					padding: 10px 0;
+					border: $block-inner-border;
+					#email{
+						padding-left: 5px;
+					}
+					span{
+						padding-left: 5px;
+						&#reasons{
+							padding-left: 0px;
+						}
+					}
+				}
+				&.reason-options{
+					li{
+						margin-top: 0;
+					}
+					span{
+						width: 210px;
+						padding-left: 0px;
+					}
+				} 
+				label{
+					width: 110px;
+				}
+			}
+			li{
+				margin-top: 5px;
+				line-height: 24px;
+			}
+			.btn{
+				padding:10px 0 0 0;
+				span{
+					width: 110px;
+				}
+			}
+			.backError{
+				padding-left: 0px;
+			}
+		}
+	}
+}
+@import "layout/footer";

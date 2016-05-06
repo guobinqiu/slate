@@ -10,17 +10,13 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
 {% endblock %}
 
 {% block body%}
-
+<div class="panelist">
 <h1>edit panelist</h1>
-
-{% if completed is defined and completed == 1%}
-<div class="successMess">Update completed!</div><!-- /.errorMess -->
-{% endif %}
 
 {% if user is null %}
 <h2>No such panelist_id</h2>
@@ -35,7 +31,7 @@
 <form action="{{ path('_admin_panelist_edit_confirm') }}" method="post" id="form1" >
 
 <div class="float_left">
-  <table>
+  <table class="inputForm">
   <tr>
     <th>PID</th>
     <td>{{ user.id }}</td>
@@ -121,5 +117,8 @@
 </form>
 
 {% endif %} {# if $user #}
-
+{% if completed is defined and completed == 1%}
+<div class="successMess">Update completed!</div><!-- /.errorMess -->
+{% endif %}
+</div>
 {% endblock %}

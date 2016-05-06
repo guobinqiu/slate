@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 
 // create a "test" kernel
-$kernel = new AppTestKernel('test', true); 
+$kernel = new AppTestKernel('test', true);
 $kernel->boot();
 
 $application = new Application($kernel);
@@ -16,6 +16,8 @@ $application->setAutoExit(false);
 
 #echo $application->getName(),PHP_EOL;
 #echo $application->getVersion(),PHP_EOL;
+
+Phake::setClient(Phake::CLIENT_PHPUNIT);
 
 executeCommand($application, "doctrine:database:drop", array('--force'=>true));
 $connection = $application->getKernel()->getContainer()->get('doctrine')->getConnection();

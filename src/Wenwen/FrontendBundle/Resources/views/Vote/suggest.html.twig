@@ -1,0 +1,71 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}快速问答出题：{{ parent() }} {% endblock %}
+{% block meta %}
+<meta name="keywords" content="快速问答，有奖出题，快速问答出题，热门出题，征询网友意见" />
+<meta name="description" content="在出题页面您可以提供您感兴趣的话题，征询广大91问问网友的意见，热点新闻，社会话题，甚至当你犹豫不决该买哪个产品，都可以成为“快速问答”的主题，同时还有机会获得200积分奖励。" />
+<meta name="title" content="快速问答出题:91问问调查网" />
+{% endblock %}
+{% block stylesheet %}
+<link href="{{ asset('css/suggest.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000 clearfix">
+	<div class="main-con-suggest">
+		<h1>现在，您将成为出题者！</h1>
+		<div class="abstract">
+			<p><em>●</em>每个人都是社会的决策者，现在开始您将有机会成为91问问调查网“快速问答”栏目的出题者。</p>
+			<p><em>●</em>您可以提供您感兴趣的话题，征询广大91问问网友的意见，热点新闻，社会话题，甚至当你犹豫不决该买哪个产品，都可以成为“快速问答”的主题。</p>
+			<p><em>●</em>一旦您提供的“快速问答”被采用，您将获得<strong>200积分</strong>的奖励，并且您的名字将显示在该题“出题者”一栏，让更多91问问的网友来认识你！</p>
+		</div>
+		<div class="form">
+			<form action="{{ path('jili_frontend_vote_suggest') }}" id="suggest_form" method="post" >
+                <ul>
+                    <li>{{form_label(form.title)}}{{form_widget(form.title)}}<span id="voteSuggest_title_succeed"></span><span id="voteSuggest_title_error">{{ form_errors(form.title) }}</span></li>
+                    <li>{{form_label(form.description)}}{{form_widget(form.description)}}<span id="voteSuggest_description_succeed"></span><span id="voteSuggest_description_error">{{ form_errors(form.description) }}</span></li>
+                    <li>{{form_label(form.option1)}}{{form_widget(form.option1, {'attr': {'class':'option' }}) }}<span id="voteSuggest_option1_succeed"></span><span id="voteSuggest_option1_error">{{ form_errors(form.option1) }}</span></li>
+                    <li>{{form_label(form.option2)}}{{form_widget(form.option2, {'attr': {'class':'option' }}) }}<span id="option2_error">{{ form_errors(form.option2) }}</span></li>
+                    <li>{{form_label(form.option3)}}{{form_widget(form.option3, {'attr': {'class':'option' }}) }}<span id="option3_error">{{ form_errors(form.option3) }}</span></li>
+                    <li>{{form_label(form.option4)}}{{form_widget(form.option4, {'attr': {'class':'option' }}) }}<span id="option4_error">{{ form_errors(form.option4) }}</span></li>
+                    <li>{{form_label(form.option5)}}{{form_widget(form.option5, {'attr': {'class':'option' }}) }}<span id="option5_error">{{ form_errors(form.option5) }}</span></li>
+                    <li>{{form_label(form.option6)}}{{form_widget(form.option6, {'attr': {'class':'option' }}) }}<span id="option6_error">{{ form_errors(form.option6) }}</span></li>
+                    <li>{{form_label(form.option7)}}{{form_widget(form.option7, {'attr': {'class':'option' }}) }}<span id="option7_error">{{ form_errors(form.option7) }}</span></li>
+                    <li>{{form_label(form.option8)}}{{form_widget(form.option8, {'attr': {'class':'option' }}) }}<span id="option8_error">{{ form_errors(form.option8) }}</span></li>
+                    <li>{{form_label(form.option9)}}{{form_widget(form.option9, {'attr': {'class':'option' }}) }}<span id="option9_error">{{ form_errors(form.option9) }}</span></li>
+                    <li>{{form_label(form.option10)}}{{form_widget(form.option10, {'attr': {'class':'option' }}) }}<span id="option10_error">{{ form_errors(form.option10) }}</span></li>
+                </ul>
+                {{ form_rest(form)}}
+                {% if send_ok == true %}
+                <input type="hidden" value="true" id="sendState">
+                {% else %}
+                <input type="hidden" value="false" id="sendState">
+                {% endif %}
+                
+                <div class="btn">
+                    <span id="suggest_save">提交</span>
+                    <!-- <input type="submit" name="" value="提交"/> -->
+                </div>
+            </form>
+		</div>
+		<div class="tips">
+			<div>注意事项：</div>
+				<p>1. 请勿提交任何涉及政治、暴力、色情等违法信息；恶意提交不法信息者，将被封号！<br>
+				2. 如果被采用，91问问保留适当修改您提供的内容的权利；<br>
+				3. 同一主题请勿重复提交；重复提交并不会提高您的题目被采用的几率，合适的主题才更容易被采用！<br>
+				4. 所有“快速问答”均为<strong>单选题</strong>，请注意考虑选项的逻辑性，考虑是否便于回答者理解和做出适当选择；</p>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/suggest')}}"></script>
+{% endblock %} 

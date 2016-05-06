@@ -1,0 +1,8 @@
+{% set t = app.request.query.get('t','') %}
+<div class="index">
+	<a {% if t == 1 %} class="active" {% endif %} href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'t':1,'q':'','wcat':'-1','p':1})) }}">全部</a>
+    <a {% if t == 2 %} class="active" {% endif %} href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'t':2,'q':'','wcat':'-1','p':1})) }}">0~9</a>
+    {% for letter in range('A', 'Z') %}
+    <a {% if t == letter %} class="active" {% endif %} href="{{ path( app.request.attributes.get('_route'), app.request.query.all|merge({'t':letter,'q':'','wcat':'-1','p':1})) }}">{{letter}}</a>
+    {% endfor %}
+</div>

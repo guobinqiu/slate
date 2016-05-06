@@ -157,7 +157,7 @@ class UserWenwenLogin
         return $this->user;
     }
 
-    public function isPwdCorrect($password) 
+    public function isPwdCorrect($password)
     {
         return ( $this->getLoginPassword() === PasswordEncoder::encode($this->getLoginPasswordCryptType(),
             $password, $this->getLoginPasswordSalt())) ;

@@ -1,0 +1,4 @@
+password_is_required: 请输入密码
+password_is_too_short: 密码长度只能在5-100位字符之间
+password_is_too_long: 密码长度只能在5-100位字符之间
+password_pattern_fail_message: 密码至少包含1位字母和1位数字

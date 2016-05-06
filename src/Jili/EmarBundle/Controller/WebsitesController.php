@@ -92,10 +92,7 @@ class WebsitesController extends Controller
             $cache_proxy->set( $cache_fn, $websites );
         }
 
-
-
-        $template ='JiliEmarBundle:Websites:'. 'hot_on_'. $tmpl. '.html.twig';
-
+        $template ='WenwenFrontendBundle:Advertisement:_advShopList.html.twig';
         return $this->render($template, compact('websites'));
     }
 

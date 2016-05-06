@@ -1,0 +1,100 @@
+#signInFrame {
+    background: url("../images/signInFrame.jpg") bottom;
+    height: 352px;
+    left: 0;
+    #padding: 20px 30px;
+    padding: 10px 15px;
+    position: fixed;
+    top: 0;
+    width: 483px;
+    z-index: 9999;
+}
+#signInFrame h5 {
+    font-size: 14px;
+    font-weight: normal;
+	text-align:left;
+}
+#signInFrame h5 span {
+    color: #E94C1B;
+}
+#signInFrame a.close_checkin {
+    background-image: url("../images/closeTag.gif");
+    display: inline-block;
+    font-size: 0;
+    height: 13px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 14px;
+}
+#signInFrame ul {
+    margin-top: 10px;
+}
+#signInFrame li {
+    border-right: 1px dotted #DCDCDC;
+    border-top: 1px dotted #DCDCDC;
+    float: left;
+    padding: 5px 0;
+    position: relative;
+    text-align: center;
+    width: 160px;
+	margin:0;
+}
+#signInFrame li a:hover {
+    text-decoration: none;
+}
+#signInFrame li.rbn {
+    border-right: medium none;
+}
+#signInFrame li.tbn {
+    border-top: medium none;
+}
+#signInFrame li a {
+    color: #000;
+}
+
+#signInFrame li img {
+    height: auto;
+    width: 120px;
+}
+#signInFrame li p {
+    text-align: center;
+    font-size: 14px;
+}
+#signInFrame li .gray {
+    background-color: #000000;
+    display: none;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#signInFrame li .goTo {
+    background-color: #5EB524;
+    bottom: 0;
+    color: #FFFFFF;
+    display: none;
+    height: 30px;
+    left: 0;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+#signInFrame li .finish {
+    background-color: #E0E2E2;
+    bottom: 0;
+    color: #BCBDBD;
+    display: none;
+    height: 30px;
+    left: 0;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+#signInFrame li.finish .gray, #signInFrame li.finish .finish {
+    display: block;
+}

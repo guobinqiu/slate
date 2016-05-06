@@ -77,7 +77,7 @@ class DefaultControllerTest extends WebTestCase
         $url = $router->generate('_default_ad_login',array(), true);
         $post =  array( 'email'=>$query['email'] , 'pwd'=> 'aaaaaa') ;
 
-        echo $url, PHP_EOL;
+        //echo $url, PHP_EOL;
         $crawler = $client->request('POST', $url, $post) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
         $this->assertEquals('ok', $client->getResponse()->getContent());
@@ -85,7 +85,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertTrue( $session->has('uid'));
         $this->assertEquals($user->getId(), $session->get('uid'));
         //
-        echo $url, PHP_EOL;
+        //echo $url, PHP_EOL;
         $post['remember_me'] ='1';
         $crawler = $client->request('POST', $url,$post);
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'ad login in '  );
@@ -119,7 +119,7 @@ class DefaultControllerTest extends WebTestCase
         $query = array('email'=> 'alice.nima@gmail.com');
         $secret_token= $this->genSecretToken($query);
         $url = $router->generate('_default_landing', array('secret_token'=>$secret_token), true);
-        echo $url, PHP_EOL;
+        //echo $url, PHP_EOL;
 
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'after visit landing page'  );

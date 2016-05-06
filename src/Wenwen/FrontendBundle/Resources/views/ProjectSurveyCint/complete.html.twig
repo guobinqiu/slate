@@ -1,0 +1,43 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷结束：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_headerSurvey.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="qnWrap">
+    <div class="qnCon qnEnd">
+        <div class="qnEndTxt">
+            {% if answer_status == 'complete' %}
+            <div class="txt"><h2>亲爱的用户！您好！</h2>
+                感谢您参加并成功完成本次问卷调查。<br>
+                积分会在调查结束审核过后自动累计到您的账户！</div>
+            {% elseif answer_status == 'screenout' or  answer_status == 'quotafull' %}
+            <div class="txt sad"><h2>亲爱的用户！您好！</h2>
+                非常感谢您参加本次调查。<br>
+                由于您不符合本次调查内容，您将获得<b>1个积分</b>，积分会在调查结束后自动累计到您的账户！</div>
+            {% elseif answer_status == 'error' %}
+            <div class="txt sad"><h2>亲爱的用户！您好！</h2>
+                对不起，您不符合这次问卷的要求，敬请期待下次的高积分问卷。</div>
+            {% else %}
+            <div class="txt"><h2>亲爱的用户！您好！</h2>
+                编号为 c{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
+                请联系我们的客服，告知问卷编号（c{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
+                给您添麻烦了，请继续关注91问问，谢谢！</div>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

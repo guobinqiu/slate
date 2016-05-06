@@ -1,0 +1,65 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}我的消息：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/message.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-personal w1000 clearfix">
+	{% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %} 
+	<div class="main-personal-right right">
+		<div class="main-personal-message">
+			<div class="btn tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="active"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="active"{% endif %}>系统</a><div class="border"></div></div>
+			<div class="tabCon">
+				{% if sid == 1 %}
+				<div class="con">
+					<ul>
+						{% if showMs %}
+						<li class="title"><span>时间</span><strong>标题</strong></li>
+						{% for item in pagination %}
+						<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+						{% endfor %}
+        				{% else %}
+          				<li>暂无消息</li>
+      					{% endif %}  
+					</ul>
+					<div class="page-wrapper">
+						{{ knp_pagination_render(pagination) }}
+					</div>
+				</div>
+				{% elseif sid == 2 %} 
+				<div class="con sys">
+					<ul>
+						{% if sendCb %}
+						<li class="title"><span>时间</span><strong>标题</strong></li>
+						{% for item in pagination %}
+						<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+						{% endfor %}
+        				{% else %}
+          				<li>暂无消息</li>
+      					{% endif %} 
+					</ul>
+					<div class="page-wrapper">
+						{{ knp_pagination_render(pagination) }}
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			<div id="countMessage"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/message')}}"></script>
+{% endblock %}

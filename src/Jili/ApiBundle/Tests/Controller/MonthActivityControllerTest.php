@@ -118,7 +118,7 @@ class MonthActivityControllerTest extends WebTestCase
         
         $config =$container->getParameter('activity_gathering');
         $file = $config['taobao_order_total_src'];
-        echo $file; 
+        //echo $file;
         @unlink($file);
         $client->request('GET', $url, array(), array(), array('HTTP_X-Requested-with'=> 'XMLHttpRequest'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

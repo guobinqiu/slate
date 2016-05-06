@@ -1,0 +1,97 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}账户设置：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/account.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+
+<div class="main-personal w1000 clearfix">
+    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+    <div class="main-personal-right right">
+    <input type="hidden" value="{{ csrf_token }}" name="csrf_token" id="csrf_token"/>
+        <h2>账户设置</h2>
+        <div class="main-personal-account">
+            <ul>
+                <li>
+                    <a href="javascript:void(0)" class="edit">编辑</a>
+                    <label for="login_pwd">登录密码</label>
+                    <span name="login_pwd" id="login_pwd" class="default_value">******</span>
+                    <div class="con form">
+                        <div class="successMess"></div>
+                        <form action="">
+                        <ul>
+                            <li>
+                                <label for="curPwd">当前密码：</label>
+                                <input type="password" id="curPwd">
+                                <span id="curPwd_succeed" class="succeed"></span>
+                                <span id="curPwd_error"></span>
+                            </li>
+                            <li>
+                                <label for="pwd">新密码：</label>
+                                <input type="password" id="pwd">
+                                <span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span>
+                                <span id="newPwd_succeed" class="succeed"></span>
+                                <span id="newPwd_error"></span>
+                            </li>
+                            <li>
+                                <label for="pwdRepeat">确认密码：</label>
+                                <input type="password" id="pwdRepeat">
+                                <span id="pwdRepeat_succeed" class="succeed"></span>
+                                <span id="pwdRepeat_error"></span>
+                            </li>
+                        </ul>
+                        <div class="backError"></div>
+                        <div class="btn"><span id="pwd_save" tabindex="0">保存</span></div>
+                        </form>
+                    </div>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="edit">编辑</a>
+                    <label for="withdraw">注销账户</label>
+                    <span class="default_value" id="withdraw">如果注销，您的积分会失效，请谨慎操作。</span>
+                    <div class="con withdraw">
+                        <div class="step1">
+                            <p>亲爱的用户，感谢您一直以来参加91问问的问卷调查活动和关注我们的网站，请阅读以下的注意事项之后，完成会员注销程序。为了提升我们的服务质量，请您回答一份简短的问卷。</p>
+                            <ul class="tips">
+                                <li><em>●</em>选择注销用户后，您所有的问问积分将会失效。</li>
+                                <li><em>●</em>选择注销用户后，将无法恢复您的账户。</li>
+                                <li><em>●</em>会员注销后的基本信息将在3个月后完全删除。</li>
+                            </ul>
+                            <div class="btn"><span id="withdraw_continue">继续注销</span></div>
+                        </div>
+                        <div class="step2 hide form">
+                            <p>请您完成以下简单的问卷调查后，点击注销按钮完成会员注销手续。</p>
+                            <ul class="reason">
+                                <li><label for="withdrawEmail">请输入您的账号：</label><input id="withdrawEmail" type="text" name="withdrawEmail"><span id="withdrawEmail_succeed"></span><span id="withdrawEmail_error"></span></li>
+                                <li><label for="withdrawPwd">请输入您的密码：</label><input id="withdrawPwd" type="password" name="withdrawPwd"><span id="withdrawPwd_succeed"></span><span id="withdrawPwd_error"></span></li>
+                                <li><label for="reasons">注销用户的理由：</label><span id="reasons"><ul class="reason-options">
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷调查活动的数量太少了">问卷调查活动的数量太少了</span><span><input type="checkbox" name="reason[]" value="每个问卷的奖励太少了">每个问卷的奖励太少了</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷所要的时间太长了">问卷所要的时间太长了</span><span><input type="checkbox" name="reason[]" value="相对于问题来说，积分报酬太少了">相对于问题来说，积分报酬太少了</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="问卷的内容太难了">问卷的内容太难了</span><span><input type="checkbox" name="reason[]" value="工作生活太忙，没时间参加">工作生活太忙，没时间参加</span></li>
+                                    <li><span><input type="checkbox" name="reason[]" value="失去兴趣了">失去兴趣了</span></li>
+                                </ul></span></li>
+                            </ul>
+                            <div class="backError"></div>
+                            <div class="btn"><span class="backStep" tabindex="0">上一步</span><span id="withdraw_save" tabindex="0">注销用户</span></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/account')}}"></script>
+{% endblock %}

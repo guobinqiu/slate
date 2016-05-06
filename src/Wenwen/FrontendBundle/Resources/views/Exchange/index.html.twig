@@ -1,0 +1,92 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}兑换中心：{{ parent() }} {% endblock %}
+{% block meta %}
+<meta name="keywords" content="兑换中心，支付宝现金兑换，手机费兑换，手机流量包兑换" />
+<meta name="description" content="兑换中心为用户提供了多种兑换方式，用户可以直接兑换成支付宝现金或手机费，简单直接，方便高效。" />
+<meta name="title" content="兑换中心:91问问调查网" />
+{% endblock %}
+{% block stylesheet %}
+<link href="{{ asset('css/exchange.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="main-con-exchange">
+		<form method="post" name="exchangeForm" id="exchangeForm">
+	        <ul class="clearfix">
+	            <li>
+	                <div class="clearfix">
+	                    <div class="pic">
+	                        <img src="{{ asset('img/exchange/mobile.png') }}" alt="示意图"/>
+	                    </div>
+	                    <dl>
+	                        <dt>手机充值</dt>
+	                        <dd class="text">用积分为手机充值，<strong>2010米粒</strong>起兑</dd>
+	                        <dd class="exchangeBtn">
+	                            <a href="javascript:void(0)" id="mobileBtn">立即兑换</a>
+	                        </dd>
+	                    </dl>
+	                </div>
+	            </li>
+	            <li>
+	                <div class="clearfix">
+	                    <div class="pic">
+	                        <img src="{{ asset('img/exchange/amazon.png') }}" alt="示意图"/>
+	                    </div>
+	                    <dl>
+	                        <dt>亚马逊礼品卡兑换</dt>
+	                        <dd class="text">用积分兑换亚马逊礼品卡，<strong>2000米粒</strong>起兑</dd>
+	                        <dd class="exchangeBtn">
+	                        	<a href="javascript:void(0)" id="amazonBtn" class="disabled">暂时关闭</a>
+	                        </dd>
+	                    </dl>
+	                </div>
+	            </li>
+	            <li>
+	                <div class="clearfix">
+	                    <div class="pic">
+	                        <img src="{{ asset('img/exchange/alipay.png') }}" alt="示意图"/>
+	                    </div>
+	                    <dl>
+	                        <dt>支付宝现金兑换</dt>
+	                        <dd class="text">用积分兑换支付宝现金，<strong>2050米粒</strong>起兑</dd>
+	                        <dd class="exchangeBtn">
+	                            <a href="javascript:void(0)" id="alipayBtn">立即兑换</a>
+	                        </dd>
+	                    </dl>
+	                </div>
+	            </li>
+	            <li>
+	                <div class="clearfix">
+	                    <div class="pic">
+	                        <img src="{{ asset('img/exchange/flow.png') }}" alt="示意图"/>
+	                    </div>
+	                    <dl>
+	                        <dt>上网流量包兑换</dt>
+	                        <dd class="text">用积分兑换上网流量包，电信、联通<strong>1590米粒</strong>起兑，移动<strong>1660米粒</strong>起兑</dd>
+	                        <dd class="exchangeBtn">
+	                            <a href="javascript:void(0)" id="flowBtn" class="disabled">暂时关闭</a>
+	                        </dd>
+	                    </dl>
+	                    <!-- <span class="newIcon"></span> -->
+	                </div>
+	            </li>
+	        </ul>
+	        <input type="hidden" value="btn" name="btn">
+	        <input type="hidden" value="{{ key }}" name="tokenKey" />
+        </form>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/exchange')}}"></script>
+{% endblock %}

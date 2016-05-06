@@ -1,0 +1,284 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+$h-font-color: #000;
+$h-font-size: 18px;
+$h-small-font-size: 14px;
+$survey-con-font-color: #9c9c9c;
+$survey-border-color: #f6f6f6;
+
+.main-con-left{
+	h1{
+		height: 55px;
+		line-height: 55px;
+		font-size: 24px;
+		color: #757575;
+		padding: 10px 0 0 6px;
+	}
+	em{
+		width: 24px;
+		height: 26px;
+		margin-right: 11px;
+		background: url(../img/common/titIco.png) no-repeat 0 -1px;
+		vertical-align: middle; 
+		@include dib();
+	}
+	.title{
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 35px;
+		a{
+			&:hover{
+				color: #914b11;
+			}
+		}
+	}
+	ul{
+		width: 100%;
+	}
+	li{
+		padding: 20px;
+		position: relative;
+		z-index: 1;
+		&:hover, &.active{
+			.survey-item{
+				width: 86%;				
+			}
+			.vote-btn{
+				width: 15%;
+			}
+			.vote-txt{
+				width: 68%;
+			}
+		}
+		span{
+			vertical-align: top;
+			@include dib();	
+		}
+	}
+}
+.survey-item{
+	width: 86%;
+	padding: 0 0 15px 0;
+	li{
+		float: left;
+		width: 22%;	
+		text-align: left;
+		padding: 5px 0 0 10px;
+		border-top: none;
+		border-left: $block-inner-border;
+		span{
+			line-height: 22px;
+			color: $survey-con-font-color;
+		}
+		p{
+			line-height: 28px;
+			color: $survey-con-font-color;
+			strong{
+				color: $main-color;
+				font-size: 16px;
+			}
+		}
+		&.first{
+			border-left: none;
+		}
+		&.last{
+			width: 10%;
+		}
+	}
+}
+.survey {
+	.survey-btn{
+		color: #666;
+		background: transparent;
+		width: 24%;
+		line-height: 170px;
+		cursor: default;
+		position: absolute;
+		right: -13px;
+		top: 0px;
+		a{
+			color: #fff;
+			background: #ff7733;
+			width: 141px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			@include btn();			
+			@include dib();
+		}
+		.disabled{
+			margin-top: 67px;
+			color: #fff;
+			background: #a7a7a7;
+			border: 1px solid #a7a7a7;
+			border-radius: 3px;
+			width: 141px;
+			height: 33px;
+			line-height: 33px;
+			text-align: center;
+			@include dib();
+		}
+	}
+}
+.vote .vote-btn{
+	width: 0%;
+	height: 65%;
+	line-height: 700%;
+	position: absolute;
+	z-index: 1000;
+	top: 27px;
+	right: 0;
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	background: $main-color;
+	cursor: pointer;
+	overflow: hidden;
+	@include transition(width, 300ms);
+	@include transition(all, 0.4s);
+	&:hover, &:active{
+		background:#f25807;
+	}
+}
+.vote{
+	a.vote-btn{
+		color: #fff;
+		line-height: 700%;
+	}
+	li{
+		padding: 30px 20px;
+		&.vote-new{
+			.vote-img{
+				width: 15%;
+			}
+			.vote-txt{
+				width: 54%;
+			}
+			.tips{
+				position: absolute;
+				z-index: 1000;
+				top: 23px;
+				right: 5px;
+				span{ 
+				    background: url(../img/vote/doubleTag.png) no-repeat;
+					width: 70px;
+					height: 33px;
+					cursor: pointer;
+				}
+			}
+			.tips-con{
+				position: absolute;
+				z-index: 1999;
+				top: -40px;
+				right: -3px;
+				padding-bottom: 10px;
+				width: 270px;
+				display: none;
+				p{
+					padding-left: 5px;
+					line-height: 32px;
+					background: #fff;
+					border: 1px solid #dedddc;
+					border-radius: 3px;
+					@include box-shadow(0px 2px 0px #f2f2f2);
+				}
+				b{
+					position: absolute;
+					z-index: 1999;
+					bottom: 1px;
+					right: 0;
+					width: 9px;
+					height: 10px;
+					background: url(../img/common/icons_arrow.png) right bottom no-repeat;
+					@include dib();
+				}
+			}
+		}
+	}
+}
+.vote-img{
+	width: 15%;
+}
+.vote-txt{
+	width: 84%;
+	color: $survey-con-font-color;
+	line-height: 22px;
+	@include transition(width, 300ms);
+	p{
+		padding-left: 3px;
+		@include ell();
+	}
+	.relate{
+		color: $survey-con-font-color;
+		span{
+			padding: 0 3px;
+			strong{
+				color: $main-color;
+			}
+			&.vline{
+				color: $block-line-color;
+			}
+		}
+	}
+}
+$count-font-color: #914b11;
+$count-font-size: 20px;
+$count-border: 1px solid #dedddc;
+$count-bg: #f5f5f5;
+.countdown{
+	color: $count-font-color;
+	font-size: $count-font-size;
+	position: absolute;
+	z-index: 1000;
+	top: 61px;
+	right: 5px;
+	height: 52px; 
+	line-height: 52px;
+	span{
+		width: 33px;
+		text-align: center;
+		border: $count-border;
+		background: $count-bg;
+	}
+	b{
+		padding: 0 5px;
+	}
+}
+.proSurPop{
+	width: 240px;
+	height: 245px;
+	background: url(../img/questionnaire/profilePop.png) right bottom no-repeat;
+	position: absolute;
+	left: -230px;
+	top: -17px;
+}
+.proText{
+	width: 187px;
+	height: 100px;
+	margin: 115px 22px 0 22px;
+	overflow-y: scroll;
+	font-size: 14px;
+	line-height: 24px;
+	&::-webkit-scrollbar {
+	    -webkit-appearance: none;
+	    width: 7px;
+	}
+	&::-webkit-scrollbar-thumb {
+	    border-radius: 4px;
+	    background-color: rgba(0,0,0,.3);
+	    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3);
+	}
+	.em{
+		color: $main-color;
+	}
+}
+.proClose{
+	width: 37px;
+	height: 37px;
+	position: absolute; 
+	right: 0;
+	top: 0; 
+	cursor: pointer;
+}

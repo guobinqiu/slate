@@ -1,0 +1,75 @@
+jili_log=/data/91jili/merge/log/jili.log
+jili_log_bk=/data/91jili/merge/log/jili_`date +%Y%m%d-%H`.log
+
+ww_log=/data/91jili/merge/log/ww.log
+ww_log_bk=/data/91jili/merge/log/ww_`date +%Y%m%d-%H`.log
+
+time_fmt=real\t%E\nuser\t%U\nsys\t%S\n
+merge_dir=/data/91jili/merge
+ssh_jili_user=jiangtao
+ssh_wenwen_user=t-jiang
+
+init:
+	mkdir -p ${merge_dir} 
+
+# 235
+fetch-jili: dump-jili	
+	echo 'fetch jili tarball' >> ${jili_log} 
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" scp -q -P9012 ${ssh_jili_user}@jili-web:/data/91jili/merge/jl_csv.tar.bz ${merge_dir}  1>>${jili_log}  2>&1
+	echo 'decompress jili ball' >> ${jili_log} 
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/jl_csv.tar.bz -C ${merge_dir} 1>>${jili_log}  2>&1
+	echo 'completed' >> ${jili_log} 
+	cp ${jili_log}  ${jili_log_bk}
+
+
+# 235
+dump-jili: init
+	echo 'generate the dump-db script' > ${jili_log} 
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" php -f jl_csv.php > /data/91jili/merge/bin/jl_csv.sh
+	echo 'deploy dump-db script' >> ${jili_log} 
+	/usr/bin/time -ao ${jili_log}  -f "${time_fmt}" scp -P9012 ./db_to_csv.php  /data/91jili/merge/bin/jl_csv.sh config.bashrc.dist ${ssh_jili_user}@jili-web:/data/91jili/merge/bin/
+#	while true;do read -p "Have you update the db config(/data/91jili/merge/bin/config.bashrc)  on jili-web ?[y/n]" yn;case $$yn in   [Yy]* ) echo "Go next";break;;* ) echo "Please do it.";;esac;done
+	echo 'run dump-db script' >> ${jili_log} 
+	ssh -p 9012 ${ssh_jili_user}@jili-web 'cd /data/91jili/merge; bash bin/jl_csv.sh 2>&1 ' >> ${jili_log}
+
+
+
+dump-ww: init
+	echo 'generate the dump-db script' > ${ww_log} 
+	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}"  php -f ww_csv.php > ${merge_dir}/ww_csv.sh
+	echo 'deploy dump-db script' > ${ww_log} 
+	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" scp -q db_to_csv.php ${merge_dir}/ww_csv.sh  config.bashrc.dist  ${ssh_wenwen_user}@54.254.98.246:/mnt/tmp/merge/bin/
+#	while true;do read -p "Have you update the db config (/mnt/tmp/merge/bin/config.bashrc) on rap-staff01 server?[y/n]" yn;case $$yn in   [Yy]* ) echo "Go next";break;;* ) echo "Please do it.";;esac;done
+	echo 'run dump-db script' >> ${ww_log} 
+	ssh ${ssh_wenwen_user}@54.254.98.246 'cd /mnt/tmp/merge/; bash bin/ww_csv.sh 2>&1 ' >> ${ww_log}
+
+fetch-ww: dump-ww
+	echo 'fetch wenwen tarball' >> ${ww_log} 
+	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" scp -q ${ssh_wenwen_user}@54.254.98.246:/mnt/tmp/merge/ww_csv.tar.bz  ${merge_dir}  1>>${ww_log}  2>&1
+	echo 'decompress jili tarball' >> ${ww_log} 
+	/usr/bin/time -ao ${ww_log}  -f "${time_fmt}" tar -xjf  ${merge_dir}/ww_csv.tar.bz -C ${merge_dir} 1>>${ww_log}  2>&1
+	echo 'completed' >> ${ww_log} 
+	cp ${ww_log}  ${ww_log_bk}
+
+.SILENT:
+
+static:
+	sed "/^$$/d;/^user/d;/^sys/d" ${ww_log} ${jili_log}
+	grep -h real ${ww_log} ${jili_log}   | cut -b 5-100 | awk -F '[m|:|s]' 'BEGIN{m=0;s=0;} { m=m+$$1;s=s+$$2; } END{ print  (m + int(s/60)) "m" (s % 60) "s"}' 
+
+check_log=/data/91jili/merge/log/check.log
+check_log_bk=/data/91jili/merge/log/check.`date +%Y%m%d-%H`.log
+
+fetch-check:
+	echo 'fetch for check ' > ${check_log}
+	echo 'deploy dump-db for check script' >> ${check_log} 
+	/usr/bin/time -ao ${check_log}  -f "${time_fmt}" cp  db_to_csv.php user_password_csv.sh  config.bashrc.dist  /data/91jili/merge/bin/ 
+#	while true;do read -p "Have you update the db config (/data/91jili/merge/bin/config.bashrc ) on remote server?[y/n]" yn;case $$yn in   [Yy]* ) echo "Go next";break;;* ) echo "Please do it.";;esac;done
+	echo 'run dump-db for check script' >> ${check_log} 
+	cd /data/91jili/merge/;/usr/bin/time -ao ${check_log}  -f "${time_fmt}"  bash bin/user_password_csv.sh 2>&1  >> ${check_log}
+	cp ${check_log}  ${check_log_bk}
+	sed "/^$$/d;/^user/d;/^sys/d"  ${check_log}
+s:
+	grep -h real  ${check_log}   | cut -b 5-100 | awk -F '[m|:|s]' 'BEGIN{m=0;s=0;} { m=m+$$1;s=s+$$2; } END{ print  (m + int(s/60)) "m" (s % 60) "s"}' 
+
+

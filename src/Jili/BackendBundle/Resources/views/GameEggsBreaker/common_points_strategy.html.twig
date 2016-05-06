@@ -3,11 +3,13 @@
 {% block body %}
 {{ parent() }}
 
+<div class="autoCenter">
 <form action="{{ path('jili_backend_decemberactivity_pointspool') }}" method="POST">
-{{ form_errors(form.rules) }}
-{{ form_label(form.rules, '规则列表' ) }}
+{{ form_errors(form.rules) }}<br>
+{{ form_label(form.rules, '规则列表' ) }}<br>
 {{ form_widget(form.rules) }}
-{{ form_rest(form) }}
+{{ form_rest(form) }}<br>
 <input type="submit" value="Create" class="btn btn-default pull-right" />
 </form>
+</div>
 {% endblock %}

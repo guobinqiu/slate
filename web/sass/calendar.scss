@@ -1,0 +1,219 @@
+/* Distributed as part of The Coolest DHTML Calendar
+   Author: Mihai Bazon, www.bazon.net/mishoo
+   Copyright Dynarch.com 2005, www.dynarch.com
+*/
+
+/* The main calendar widget.  DIV containing a table. */
+
+div.calendar {
+  border: 0;
+  overflow: hidden;
+  float: left;
+}
+
+.calendar{
+  border: 1px solid #bdb2bf;
+  font-size: 11px;
+  color: #000;
+  cursor: default;
+  background: url("normal-bg.gif");
+  font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+  table {
+    border: 1px solid #bdb2bf;
+    font-size: 11px;
+    color: #000;
+    cursor: default;
+    background: url("normal-bg.gif");
+    font-family: "trebuchet ms",verdana,tahoma,sans-serif;
+    .wn {
+      padding: 2px 3px 2px 2px;
+      border-right: 1px solid #797979;
+      background: url("dark-bg.gif");
+    }
+  }
+  /* Header part -- contains navigation buttons and day names. */
+  .button { /* "<<", "<", ">", ">>" buttons have this class */
+    text-align: center;    /* They are the navigation buttons */
+    padding: 2px;          /* Make the buttons seem like they're pressing */
+    background: url("title-bg.gif") repeat-x 0 100%; color: #000;
+    font-weight: bold;
+  }
+  .nav {
+    font-family: verdana,tahoma,sans-serif;
+    div {
+      background: transparent url("menuarrow.gif") no-repeat 100% 100%;
+    }
+  }
+  thead{
+    tr { 
+      background: url("title-bg.gif") repeat-x 0 100%; 
+      color: #000; 
+    }
+    .title { /* This holds the current "month, year" */
+      font-weight: bold;      /* Pressing it will take you to the current date */
+      text-align: center;
+      padding: 2px;
+      background: url("title-bg.gif") repeat-x 0 100%; color: #000;
+    }
+    .headrow { /* Row <TR> containing navigation buttons */
+    }
+    .name { /* Cells <TD> containing the day names */
+      border-bottom: 1px solid #797979;
+      padding: 2px;
+      text-align: center;
+      color: #000;
+    }
+    .weekend { /* How a weekend day name shows in header */
+      color: #c44;
+    }
+    .hilite { /* How do the buttons in header appear when hover */
+      background: url("hover-bg.gif");
+      border-bottom: 1px solid #797979;
+      padding: 2px 2px 1px 2px;
+    }
+    .active { /* Active (pressed) buttons in header */
+      background: url("active-bg.gif"); color: #fff;
+      padding: 3px 1px 0px 3px;
+      border-bottom: 1px solid #797979;
+    }
+    .daynames { /* Row <TR> containing the day names */
+      background: url("dark-bg.gif");
+    }
+  } 
+  /* The body part -- contains all the days in month. */
+  tbody{
+    .day { /* Cells <TD> containing month days dates */
+      font-family: verdana,tahoma,sans-serif;
+      width: 2em;
+      color: #000;
+      text-align: right;
+      padding: 2px 4px 2px 2px;
+      &.othermonth {
+        font-size: 80%;
+        color: #999;
+      }
+      &.othermonth.oweekend {
+        color: #f99;
+      }
+    }
+    .rowhilite td{
+      background: url("rowhover-bg.gif");
+      &.wn {
+        background: url("rowhover-bg.gif");
+      }
+    }
+    td{
+      &.today { 
+        font-weight: bold; /* background: url("today-bg.gif") no-repeat 70% 50%; */ 
+      }
+      &.hilite { /* Hovered cells <TD> */
+        background: url("hover-bg.gif");
+        padding: 1px 3px 1px 1px;
+        border: 1px solid #bbb;
+      }
+      &.active { /* Active (pressed) cells <TD> */
+        padding: 2px 2px 0px 2px;
+      }
+      &.weekend { /* Cells showing weekend days */
+        color: #c44;
+      }
+      &.selected { /* Cell showing selected date */
+        font-weight: bold;
+        border: 1px solid #797979;
+        padding: 1px 3px 1px 1px;
+        background: url("active-bg.gif"); color: #fff;
+      }
+    }
+    .disabled { 
+      color: #999; 
+    }
+    .emptycell { /* Empty cells (the best is to hide them) */
+      visibility: hidden;
+    }
+    .emptyrow { /* Empty row (some months need less than 6 rows) */
+      display: none;
+    }
+  }
+  /* The footer part -- status bar and "Close" button */
+  tfoot{
+    .footrow { /* The <TR> in footer (only one right now) */
+      text-align: center;
+      background: #565;
+      color: #fff;
+    }
+    .ttip { /* Tooltip (status bar) cell <TD> */
+      padding: 2px;
+      background: url("status-bg.gif") repeat-x 0 0; color: #000;
+    }
+    .hilite { /* Hover style for buttons in footer */
+      background: #afa;
+      border: 1px solid #084;
+      color: #000;
+      padding: 1px;
+    }
+    .active { /* Active (pressed) style for buttons in footer */
+      background: #7c7;
+      padding: 2px 0px 0px 2px;
+    }
+  }
+  /* Combo boxes (menus that display months/years for direct selection) */
+  .combo {
+    position: relative;
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 4em;
+    cursor: default;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: #797979;
+    background: url("normal-bg.gif"); color: #000;
+    z-index: 100;
+    font-size: 90%;
+    .label, .label-IEfix {
+      text-align: center;
+      padding: 1px;
+    }
+    .label-IEfix {
+      width: 4em;
+    }
+    .hilite {
+      background: url("hover-bg.gif"); color: #000;
+    }
+    .active {
+      background: url("active-bg.gif"); color: #fff;
+      font-weight: bold;
+    }
+  }
+  td{
+    &.time {
+      border-top: 1px solid #797979;
+      padding: 1px 0px;
+      text-align: center;
+      background: url("dark-bg.gif");
+      .hour, .minute, .ampm {
+        padding: 0px 5px 0px 6px;
+        font-weight: bold;
+        background: url("normal-bg.gif"); color: #000;
+      }
+      .hour, .minute {
+        font-family: monospace;
+      }
+      .ampm {
+        text-align: center;
+      }
+      .colon {
+        padding: 0px 2px 0px 3px;
+        font-weight: bold;
+      }
+      span{
+        &.hilite {
+          background: url("hover-bg.gif"); color: #000;
+        }
+        &.active {
+          background: url("active-bg.gif"); color: #fff;
+        }
+      }
+    }
+  }
+} 

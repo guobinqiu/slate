@@ -1,0 +1,71 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}网站地图：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="main-about-con w1000 clearfix">
+	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	<div class="aboutR tabCon right">
+		<h2>网站地图</h2>
+		<div class="sitemap w732 con">
+			<div class="box">
+				<h3>账户相关</h3>
+				<ul class="clearfix">
+					<li class="font16"><strong>注册登录</strong></li><li><a href="{{ path('_user_reg') }}" title="注册">注册</a></li><li><a href="{{ path('_user_login') }}" title="登录">登录</a></li><li><a href="{{ path('_user_resetPwd') }}" title="忘记密码">忘记密码</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>个人中心</strong></li><li><a href="{{ path('_profile_edit') }}" title="个人资料">个人资料</a></li><li><a href="{{ path('_profile_index') }}" title="账户设置">账户设置</a></li><li><a href="{{ path('_user_adtaste',{'type':0}) }}" title="任务历史">任务历史</a></li><li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" title="兑换历史">兑换历史</a></li><li></li><li><a href="{{ path('_user_message',{'sid': 1}) }}" title="我的消息">我的消息</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>账户设置</strong></li><li><a href="{{ path('_profile_index') }}" title="修改密码">修改密码</a></li><li><a href="{{ path('_profile_index') }}" title="注销账户">注销账户</a></li>
+				</ul>
+			</div>
+			<div class="box">
+				<h3>问卷与奖励</h3>
+				<ul class="clearfix">
+					<li class="font16"><strong>问卷列表</strong></li><li><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>快速问答</strong></li><li><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li><li><a href="{{ path('jili_frontend_vote_suggest') }}" title="有奖出题">有奖出题</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>体验广告</strong></li><li><a href="{{ path('_advertiserment_list') }}" title="体验广告">体验广告</a></li><li><a href="{{ path('jili_frontend_cpsadvertisement_list') }}" title="返利商家">返利商家</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>兑换中心</strong></li><li><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+				</ul>
+			</div>
+			<div class="box">
+				<h3>了解我们</h3>
+				<ul class="clearfix">
+					<li class="font16"><strong>关于我们</strong></li><li><a href="{{ path('_default_about') }}" title="公司介绍">公司介绍</a></li><li><a href="{{ path('_default_about_ww') }}" title="网站介绍">网站介绍</a></li><li><a href="{{ path('_default_about_regulations') }}" title="会员协议">会员协议</a></li><li><a target="_blank" href="http://weibo.com/91wenwen" title="官方微博">官方微博</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>联系我们</strong></li><li><a href="http://www.d8aspring.com/contact-us/" title="合作咨询" target="_blank">合作咨询</a></li><li><a href="{{ path('_default_about_links') }}" title="友情链接">友情链接</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>集团网站</strong></li><li><a target="_blank" href="http://www.d8aspring.com/" title="dataSpring">dataSpring</a></li><li><a target="_blank" href="https://research-panel.jp/" title="Japan Panel">Japan Panel</a></li><li><a target="_blank" href="http://www.panelnow.co.kr/" title="South Korea Panel">South Korea Panel</a></li>
+				</ul>
+				<ul class="clearfix">
+					<li class="font16"><strong>帮助中心</strong></li><li><a href="{{ path('_default_support_newGuide') }}" title="新手上路">新手上路</a></li><li><a href="{{ path('_default_support') }}" title="常见问题">常见问题</a></li><li><a href="{{ path('_default_feedback') }}" title="我要反馈">我要反馈</a></li><li><a href="{{ path('_default_about_map') }}" title="网站地图">网站地图</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

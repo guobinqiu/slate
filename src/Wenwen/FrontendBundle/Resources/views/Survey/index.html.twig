@@ -1,0 +1,74 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}问卷列表：{{ parent() }} {% endblock %}
+{% block meta %}
+<meta name="keywords" content="问卷调查，回答问卷，问卷积分，问卷列表，商业问卷，属性问卷，问卷赚钱" />
+<meta name="description" content="问卷列表展示了用户可回答的所有商业问卷、属性问卷等高积分问卷，点击可回答轻松赚取现金奖励。" />
+<meta name="title" content="问卷列表:91问问调查网" />
+{% endblock %}
+{% block stylesheet %}
+<link href="{{ asset('css/survey.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000 clearfix">
+	<div class="main-con-left left">
+		<div class="survey survey-sub">
+			<h1>问卷列表</h1>
+            <ul id="surveyList">
+            {% set has_tip_displayed = 0 %}
+                {# SSI permission #}
+            {%  if (ssi_respondent is null or ssi_res.needPrescreening) %}
+                {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                        {
+                            'type_class': 'trade',
+                            'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
+                            'type_label': '商业问卷',
+                            'end_date': '--',
+                            'num': '--',
+                            'title': '申请参与SSI海外市场调查项目',
+                            'answered': false,
+                            'url': path('_ssi_partner_permission'),
+                            'point':1,
+                            'answer_status_label': '投票',
+                            'tip': has_tip_displayed ? null : '赶快加入SSI海外项目，可获更多高分问卷！'
+                        } ) }}
+                {% set has_tip_displayed = 1 %}
+            {% elseif ssi_res.isActive and ssi_surveys %}
+                {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
+                      {
+                            'type_class': 'trade',
+                            'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
+                            'type_label': '商业问卷',
+                            'end_date': '--',
+                            'num': 's' + ssi_surveys[0].ssiProjectId,
+                            'title': ssi_project_config.title,
+                            'answered': false,
+                            'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
+                            'point': ssi_project_config.point,
+                      } ) }}
+
+            {% endif %}
+			</ul>
+            {{ include( 'WenwenFrontendBundle:Survey:_sopSurveyList.html.twig', {'sop_params': sop_params, 'preview': preview} ) }} 
+            <div id="noSurvey">
+                <img src="{{asset('img/common/noSurvey.png')}}" alt="您没有新的问卷">
+            </div>           
+		</div>
+	</div>
+	<div class="main-con-right right">
+		<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/surveyList.js')}}"></script>
+{% endblock %}

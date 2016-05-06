@@ -19,23 +19,22 @@ class ResearchSurveyDeliveryNotificationCommand extends ContainerAwareCommand
             ->addOption('campaign_id', null , InputOption::VALUE_REQUIRED, 'dmdelivery soap api campaignId'  )
             ->addOption('group_name', null , InputOption::VALUE_REQUIRED, 'the group name in campaign, create when not exists ' )
             ->addOption('mailing_id', null , InputOption::VALUE_REQUIRED, 'dmdelivery soap api mailingId'  )
-            ->addArgument('recipients', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'recipients arguments '  )
+            ->addArgument('recipients', InputArgument::REQUIRED, 'recipients arguments '  )
             ->setHelp(  <<<EOT
 For prod usage:
-./app/console research_survey:delivery_notification -e prod --campaign_id=23 --group_name=tmp_xxxx --mailing_id=90004  eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrOThAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3RfOTgiLCJzdXJ2ZXlfcG9pbnQiOjEwMX0= 
+./app/console research_survey:delivery_notification -e prod --campaign_id=23 --group_name=tmp_xxxx --mailing_id=90004  eyJuYW1lMSI6Ikphcm9kIiwiZW1haWwiOiJjaGlhbmd0b3IrOThAZ21haWwuY29tIiwidGl0bGUiOiJ0ZXN0Iiwic3VydmV5X3RpdGxlIjoic3VydmV5X3RpdGxlX3Rlc3RfOTgiLCJzdXJ2ZXlfcG9pbnQiOjEwMX0=
 
 --recipients the recipeints array is encoded by Jili\ApiBundle\Tests\Utility\String::encodeForCommandArgument(). Mulitple recipeints encoded string is separated by space.
 
 EOT
         );
-            ;
 
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start DeliveryNotificationCommand...');
-        $container  = $this->getContainer(); 
+        $container  = $this->getContainer();
         $env = $input->getOption('env');
 
         $logger=$container->get('logger');
@@ -43,11 +42,12 @@ EOT
         $campaignId = $input->getOption('campaign_id');
         $mailingId = $input->getOption('mailing_id');
         $groupName = $input->getOption('group_name');
- 
+
         $recipients = $input->getArgument('recipients');
 
         $pasrsed = array();
 
+       $recipients =  explode(' ',$recipients);
         foreach($recipients as $recipient_str ) {
             $pasrsed [] = json_decode( base64_decode($recipient_str), true);
         }
@@ -65,7 +65,7 @@ EOT
                 '$recipients:'. var_export($recipients, true);
 
             $logger->info($msg);
-            return ; 
+            return ;
         }
 
         if( $env != 'prod') {
@@ -78,7 +78,7 @@ EOT
             ->setMailingId( $mailingId )
             ->setGroup(array('name'=> $groupName, 'is_test'=> ( $env !== 'prod') ? true : false  ));
 
-       $return = $delivery_service->sendMailing( $recipients );
-       $logger->info( $return );
+        $return = $delivery_service->addRecipientsSendMailing($recipients);
+        $logger->info( $return );
     }
 }

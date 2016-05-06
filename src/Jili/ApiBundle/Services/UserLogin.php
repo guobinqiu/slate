@@ -28,20 +28,28 @@ class UserLogin
      */
     public function login(Request $request)
     {
-        $request_params =  array( 
-            'email'=>$request->request->get('email'),
-            'pwd'=>$request->request->get('pwd'),
-            'client_ip'=>$request->getClientIp(),
-            'method'=>$request->getMethod(),
-        );
-
+        $request_params = $this->getRequestParams($request);
         return $this->doLogin( $request_params );
     }
 
     /**
-     * doLogin 
-     * 
-     * @param mixed $params 
+     * @param Request $request
+     * @return array $request_params
+     */
+    public function getRequestParams(Request $request){
+        $request_params =  array(
+            'email'=>trim($request->request->get('email')),
+            'pwd'=>$request->request->get('pwd'),
+            'client_ip'=>$request->getClientIp(),
+            'method'=>$request->getMethod(),
+        );
+        return $request_params;
+    }
+
+    /**
+     * doLogin
+     *
+     * @param mixed $params
      * @access public
      * @return void
      */
@@ -59,52 +67,61 @@ class UserLogin
             return $code;
         }
 
-        if (!preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
+        if ( ! preg_match("/^[A-Za-z0-9-_.+%]+@[A-Za-z0-9-.]+\.[A-Za-z]{2,4}$/", $email)) {
             $code = $this->getParameter('login_wr_mail');
             return $code;
         }
 
         $em = $this->em;
-        $em_email = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if (!$em_email) {
+        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        if (! $user) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
 
-        $user = $em_email[0];
         $id = $user->getId();
-        if ($user->getDeleteFlag() == 1) {
+        if ($user->getDeleteFlag() == 1 || $user->emailIsConfirmed() == 0) {
             $code = $this->getParameter('login_wr');
             return $code;
         }
 
-        // check the password
+        //  checking password
         $password = $params['pwd'];
+        $code = $this->checkPassword($user, $password);
+        if ($code) {
+            return $code;
+        }
 
-        if( $user->isPasswordWenwen() ) {
-            // check wenwen password 
+        $this->doAfterLogin($user, $params);
+        return 'ok';
+    }
+
+    public function checkPassword($user, $password)
+    {
+        $em = $this->em;
+        if ($user->isPasswordWenwen()) {
+
+            // using wenwen password
             $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
-            if(! $wenwenLogin || ! $wenwenLogin->getLoginPasswordCryptType() ) {
-                return $this->getParameter('login_wr'); 
+            if (!$wenwenLogin || !$wenwenLogin->getLoginPasswordCryptType()) {
+                return $this->getParameter('login_wr');
             }
 
-            // check jili password 
-            if(! $wenwenLogin->isPwdCorrect($password) ) {
-                    return $this->getParameter('login_wr'); 
+            // using jili  password
+            if (!$wenwenLogin->isPwdCorrect($password)) {
+                return $this->getParameter('login_wr');
             }
 
-             $em->getRepository('JiliApiBundle:User')
-                 ->migrateUserWenwenLogin( $password , $user->getId());
+            //$em->getRepository('JiliApiBundle:User')->migrateUserWenwenLogin($password, $user->getId());
         } else {
-            // check jili password 
-            if (! $user->isPwdCorrect($password) ) {
+            // check jili password
+            if (!$user->isPwdCorrect($password)) {
                 $code = $this->getParameter('login_wr');
                 return $code;
             }
         }
 
-        $this->doAfterLogin($user, $params);
-        return 'ok';
+        return '';
     }
 
     /**
@@ -112,8 +129,8 @@ class UserLogin
      */
     public function afterLogin(User $user, Request $request)
     {
-        $request_params = array(
-            'client_ip'=>$request->getClientIp(),
+        $request_params = array (
+            'client_ip' => $request->getClientIp()
         );
 
         return $this->doAfterLogin($user, $request_params);

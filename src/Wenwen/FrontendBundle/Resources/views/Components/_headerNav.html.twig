@@ -1,0 +1,35 @@
+<div class="header-nav">
+    <div class="header-nav-con w1000 clearfix">
+        <div class="logo left">
+            <a href="{{ path('_homepage') }}" title="91问问调查网logo">
+            <img src="{{ asset('img/common/logo.png') }}" alt="91问问调查网logo"></a>
+            <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
+        </div>
+        <div class="nav left">
+            {% set router_current = app.request.attributes.get('_route') %}
+            <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="first active"':'class="first"' }}>首页</a>
+            {% if app.request.attributes.get('_route') == '_user_login' %}
+                <a href="javascript: void(0)" title="问卷列表">问卷列表</a>
+            {% else %}
+            <a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="active"':'' }}>问卷列表</a>
+            {% endif %}
+            <a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="active"':'' }}>快速问答</a>
+            {% if app.session.has('uid') %}
+            <a href="{{ path('_advertiserment_list') }}" title="体验广告" {{ router_current == '_advertiserment_list' ? 'class="active"':'' }}>体验广告</a>
+            {% endif %}
+            <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
+            <div class="border"></div>
+        </div>
+        {% if app.session.has('uid') %}
+        {% else %}
+        <div class="login-btn right">
+            <a href="{{ path('_user_reg') }}" title="注册" class="sign">注册</a>
+            {% if app.request.attributes.get('_route') == '_user_login' %}
+            <a href="javascript: void(0)" title="登录">登录</a>
+            {% else %}
+            <a href="{{ path('_user_login') }}" title="登录">登录</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,16 +1,13 @@
 <?php
-
 namespace Jili\BackendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Jili\BackendBundle\Form\PanelistSearchType;
-use Jili\ApiBundle\Utility\String;
 use Jili\BackendBundle\Form\PanelistEditFormType;
+use \VendorIntegration\SSI\PC1\Constants;
 
 /**
  * @Route("/admin/panelist",requirements={"_scheme"="https"})
@@ -58,6 +55,11 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
                     $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
                     $registered_page = $page > (int) ceil($registeredCount / $pageSize) ? (int) ceil($registeredCount / $pageSize) : $page;
                     $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered', $pageSize, $registered_page);
+
+                    foreach ($arr['registeredUserList'] as $key => $value) {
+                        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($value['id']);
+                        $arr['registeredUserList'][$key]['ssi_respondent_exist'] = $ssi_respondent ? true : false;
+                    }
                 }
 
                 // get withdrawal user list
@@ -102,6 +104,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         // user not exist
         if (!$user) {
             $arr['user'] = null;
+
             return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
         }
 
@@ -119,6 +122,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         $arr['user'] = $user;
         $arr['completed'] = $completed;
+
         return $this->render('JiliBackendBundle:Panelist:edit.html.twig', $arr);
     }
 
@@ -165,6 +169,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         //form invalid
         $error_messages = $form->getErrors();
+
         return $this->render('JiliBackendBundle:Panelist:edit.html.twig', array (
             'form' => $form->createView(),
             'error_messages' => $error_messages,
@@ -240,6 +245,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         // user not exist
         if (!$user) {
             $arr['user'] = null;
+
             return $this->render('JiliBackendBundle:Panelist:pointhistory.html.twig', $arr);
         }
 
@@ -264,6 +270,99 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $arr['total'] = $pointHistoryCount;
         $arr['user'] = $user;
         $arr['pointHistoryList'] = $pointHistoryList;
+
         return $this->render('JiliBackendBundle:Panelist:pointhistory.html.twig', $arr);
+    }
+
+    /**
+     * @Route("/ssiRespondentSummary",  name="_admin_panelist_ssirespondentsummary")
+     */
+    public function ssiRespondentSummaryAction(Request $request)
+    {
+        $user_id = $request->query->get('id');
+        $page = (int) $request->query->get('page', 1);
+        if ($page < 1) {
+            $page = 1;
+        }
+
+        $pageSize = $this->container->getParameter('page_size_50');
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+
+            $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+            if (!$ssi_respondent) {
+                $arr['ssi_respondent'] = null;
+                return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
+            }
+
+            //ssi respondent status
+            $ssi_respondent_status = $this->getSsiRespondentStatus($ssi_respondent);
+
+            //ssi project respondent total count
+            $ssi_survey_total = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondentCount($ssi_respondent);
+
+            //ssi project respondent list
+            $ssi_surveys = $em->getRepository('WenwenAppBundle:SsiProjectRespondent')->retrieveAllForRespondent($ssi_respondent, $pageSize, $page);
+
+            foreach ($ssi_surveys as $key => $value) {
+                $ssi_surveys[$key]->setAnswerStatus($this->getAnswerStatusInfo($value->getAnswerStatus()));
+            }
+        } catch (Exception $e) {
+
+            $this->get('logger')->info($e->getMessage());
+
+            $ssi_surveys = array ();
+        }
+
+        $arr['page'] = $page;
+        $arr['page_size'] = $pageSize;
+        $arr['total'] = $ssi_survey_total;
+        $arr['ssi_respondent_status'] = $ssi_respondent_status;
+        $arr['ssi_respondent'] = $ssi_respondent;
+        $arr['ssi_surveys'] = $ssi_surveys;
+
+        return $this->render('JiliBackendBundle:Panelist:ssiRespondentSummary.html.twig', $arr);
+    }
+
+    public function getSsiRespondentStatus($ssi_respondent)
+    {
+        if (!$ssi_respondent) {
+            return null;
+        }
+
+        if ($ssi_respondent->isActive()) {
+            $ssi_respondent_status = 'ACTIVE';
+        } elseif ($ssi_respondent->needPrescreening()) {
+            $ssi_respondent_status = 'PRE-SCREENING';
+        } else {
+            $ssi_respondent_status = 'INACTIVE';
+        }
+
+        return $ssi_respondent_status;
+    }
+
+    public function getAnswerStatusInfo($answer_status)
+    {
+        $answer_status_string = '';
+        switch ($answer_status) {
+            case Constants::SSI_PROJECT_RESPONDENT_STATUS_INIT :
+                $answer_status_string = 'INIT';
+                break;
+            case Constants::SSI_PROJECT_RESPONDENT_STATUS_REOPENED :
+                $answer_status_string = 'RE-OPENED';
+                break;
+            case Constants::SSI_PROJECT_RESPONDENT_STATUS_FORWARDED :
+                $answer_status_string = 'FORWARDED';
+                break;
+            case Constants::SSI_PROJECT_RESPONDENT_STATUS_COMPLETE :
+                $answer_status_string = 'DONE';
+                break;
+            default :
+                $answer_status_string = 'Unknown status';
+                break;
+        }
+
+        return $answer_status_string;
     }
 }

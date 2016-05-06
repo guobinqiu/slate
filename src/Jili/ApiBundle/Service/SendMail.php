@@ -68,7 +68,7 @@ class SendMail
     {
         $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom(array('account@91jili.com'=>'积粒网'))
+        ->setFrom( array('account@91jili.com'=>'积粒网') )
         ->setTo($email)
         ->setBody($content,'text/html');
         $flag = $this->mailer->send($message);

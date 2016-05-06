@@ -1,0 +1,78 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}新手上路：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-help-banner">
+     <div class="text w1000">
+          <div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
+     </div>
+</div>
+<div class="main-help-con w1000">
+     <div class="newGuide">
+          <div class="newGuideDetail" id="survey">
+			<h3>问卷调查</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
+                    <dt><strong>第一步</strong>查看问卷邮件通知</dt>
+                    <dd><img src="{{ asset('img/help/guide1-1.jpg') }}" width="800" height="510"/></dd>
+                    <dt><strong>第二步</strong>进入问卷列表</dt>
+                    <dd><img src="{{ asset('img/help/guide1-2.jpg') }}" width="800" height="376"/></dd>
+                    <dt><strong>第三步</strong>回答问卷，赚取积分</dt>
+                    <dd><img src="{{ asset('img/help/guide1-3.jpg') }}" width="800" height="510"/></dd>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="vote">
+			<h3>快速问答</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+	        	<dl>
+                    <dt><strong>第一步</strong>进入快速问答列表</dt>
+                    <dd><img src="{{ asset('img/help/guide2-1.jpg') }}" width="800" height="442"/></dd>
+                    <dt><strong>第二步</strong>进行投票</dt>
+                    <dd><img src="{{ asset('img/help/guide2-2.jpg') }}" width="800" height="600"/></dd>
+	        	</dl>
+          </div>
+          <div class="newGuideDetail" id="shop">
+			<h3>购物返利</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
+                    <dt><strong>第一步</strong>进入体验广告页面，点击返利商家右下角的“全部>>”</dt>
+                    <dd><img src="{{ asset('img/help/guide3-1.jpg') }}" width="800" height="510"/></dd>
+                    <dt><strong>第二步</strong>进入商家列表页面，点击“直接购物”，跳转到商家页面</dt>
+                    <dd><img src="{{ asset('img/help/guide3-2.jpg') }}" width="800" height="376"/></dd>
+                    <dt><strong>第三步</strong>选择心仪的商品，加入购物车，提交订单并支付</dt>
+                    <dd><img src="{{ asset('img/help/guide3-3.jpg') }}" width="800" height="574"/></dd>
+                    <dt><strong>第三步</strong>点击右上角个人中心->任务历史，查看订单返利的最新状态</dt>
+                    <dd><img src="{{ asset('img/help/guide3-4.jpg') }}" width="800" height="354"/></dd>
+               </dl>
+          </div>
+          <div class="newGuideDetail" id="advertiserment">
+			<h3>体验广告</h3>
+			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+               <dl>
+                    <dt><strong>第一步</strong>进入体验广告页面</dt>
+                    <dd><img src="{{ asset('img/help/guide4-1.jpg') }}" width="800" height="584"/></dd>
+                    <dt><strong>第二步</strong>进行体验广告</dt>
+                    <dd><img src="{{ asset('img/help/guide4-2.jpg') }}" width="800" height="426"/></dd>
+                    <dt><strong>第三步</strong>点击右上角个人中心->任务历史，查看该任务的最新状态</dt>
+                    <dd><img src="{{ asset('img/help/guide4-3.jpg') }}" width="800" height="350"/></dd>
+               </dl>
+          </div>
+     </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/newGuide')}}"></script>
+{% endblock %}

@@ -6,6 +6,7 @@ Taobao订单列表-12月活动-{{ parent() }}
 
 {% block stylesheets %}
 {{ parent() }}
+<link href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
 <link href="{{ asset('css/pageNav.css')}}" type="text/css" rel="stylesheet">
 {% endblock %}
 
@@ -18,7 +19,7 @@ Taobao订单列表-12月活动-{{ parent() }}
 
 {% include("JiliBackendBundle::session_notification.html.twig") %}
 
-<table align="center" width="700">
+<table align="center" width="700" class="list">
 <tr>
 <th>用户Email</th>
 <th>提交日期</th>

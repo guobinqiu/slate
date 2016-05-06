@@ -1,0 +1,45 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}意见反馈：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/feedback.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
+<div class="main-help-con w1000">
+	<div class="main-help-feedback form">
+		<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
+		<form action="" id="feedback_form">
+		<ul>
+			<li>
+				<label for="content"><em>*</em>您想咨询的内容：</label>
+				<textarea id="content" name="content"></textarea>
+				<span id="content_succeed"></span>
+				<span id="content_error"></span>
+			</li>
+			<li>
+				<label for="feedbackEmail"><em>*</em>91问问注册邮箱：</label>
+				<input type="text" id="feedbackEmail" name="feedbackEmail">
+				<span id="feedbackEmail_succeed"></span>
+				<span id="feedbackEmail_error"></span>
+			</li>
+		</ul>
+		<div class="sys_error" id="sys_error"></div>
+		<div class="btn"><a href="javascript:void(0)" id="feedback_save">提交</a></div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/help/feedback')}}"></script>
+{% endblock %}

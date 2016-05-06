@@ -6,3 +6,8 @@ services:
     jili_frontend.mailer:
         class: %jili_frontend.mailer.class%
         arguments: [ @mailer, @router ] 
+        calls:
+            - [ setTemlating, [ @templating ] ] 
+            - [ setTranslator, [ @translator ] ] 
+
+

@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+@import "global";
+.w100{ 
+	width: 100%;
+}
+.w1000{ 
+	width: $page-width; 
+	margin: 0 auto;
+}
+.left{ 
+	float: left;
+}
+.right{ 
+	float: right;
+}
+body{ 
+	font-family: $font-family;
+	font-size: $font-size;
+	background: $bg-body-color;
+	color: $font-color;
+}
+.main{
+    margin-top: 20px;
+}
+.main-con{
+    background: $block-bg-color;
+	border: $block-border;
+}

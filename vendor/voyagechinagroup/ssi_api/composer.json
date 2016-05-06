@@ -1,0 +1,23 @@
+{
+  "name": "voyagechinagroup/ssi_api",
+  "description": "ssi api integration",
+  "require": {
+    "php": ">=5.4",
+    "nategood/httpful": "^0.2.20",
+    "pear/net_url2": "^2.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*",
+    "piece/stagehand-testrunner": "4.1.*",
+    "phake/phake": "^2.2"
+  },
+  "authors": [{
+    "name": "takafumi sekiguchi",
+    "email": "takafumi.sekiguchi@d8aspring.com"
+  }],
+  "autoload": {
+    "psr-4": {
+      "VendorIntegration\\SSI\\": "src/"
+    }
+  }
+}

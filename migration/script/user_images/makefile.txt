@@ -1,0 +1,16 @@
+
+image_log=/data/91jili/merge/log/image.log
+image_log_bk=/data/91jili/merge/log/image_`date +%Y%m%d-%H`.log
+
+image_chk_log=/data/91jili/merge/log/image_check.log
+image_chk_log_bk=/data/91jili/merge/log/image_check_`date +%Y%m%d-%H`.log
+
+time_fmt=real\t%E\nuser\t%U\nsys\t%S\n
+
+ssh_wenwen_user=t-jiang
+
+
+fetch:
+	bash wget_user_images_v3.sh 1>${image_log} 2>&1
+	cp ${image_log} ${image_log_bk}
+

@@ -6,7 +6,7 @@
 
 {% block stylesheets %}
 {{parent() }}
-<link href="{{ asset('css/pagenav.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/pageNav.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascripts %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block body%}
-
+<div class="panelist">
 <h1>Panelist Point History</h1>
 
 {% if user is null %}
@@ -22,7 +22,7 @@
 {% else %}
 
 <h2>Panelist Info</h2>
-<div class="panelist_info">
+<div class="panelist_info autoCenter">
   <table class="stripe">
     <tr>
       <th class="left">PID</th>
@@ -44,7 +44,7 @@
     </tr>
     <tr>
       <th class="left">Current Point</th>
-      <td class="right">{{ user.points }}</td>
+      <td class="left">{{ user.points }}</td>
       <th></th>
       <td></td>
     </tr>
@@ -52,8 +52,8 @@
 </div><!-- /.panelist_info -->
 
 <h2>Panelist Point History</h2>
-<div class="panelist_point_history" style="width:580px;">
-  <table class="stripe" style="width:100%">
+<div class="panelist_point_history autoCenter">
+  <table class="stripe" style="width:580px;">
     <thead>
     <tr>
       <th>Time</th>
@@ -86,5 +86,5 @@
 </div><!-- /.panelist_point_history -->
 
 {% endif %} {# if $user #}
-
+</div>
 {% endblock %}

@@ -7,15 +7,13 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script src="{{ asset('js/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
 {% endblock %}
 
 {% block body%}
     
 {% if activities is defined %}
-<table align="center" width="400">
-<tr><td colspan="6">&nbsp;</td></tr>
-<tr><td colspan="6">&nbsp;</td></tr>
+<table align="center" width="400" class="list">
   <tr>
       <td>#</td>
       <td colspan="2" align="center">Valid duration</td>
@@ -53,7 +51,7 @@
 </table>
 {% endif %}
 
-<div>
+<div class="tips">
 <a href="{{ path('rebate_activity_admin_new') }}">Add</a>
 </div>
 

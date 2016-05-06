@@ -46,8 +46,10 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, F
         $user->setEmail('user@voyagegroup.com.cn');
         $user->setPoints(100);
         $user->setIsInfoSet(0);
+        $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
+        $user->setRegisterDate ( new \DateTime());
         $manager->persist($user);
         $manager->flush();
         self :: $USERS[] = $user;

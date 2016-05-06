@@ -1,9 +1,29 @@
+########################################################################
+# You can study on http://mrbook.org/blog/tutorials/make/
+# Do not use phpstorm or similar IDE to edit this file!
+# Pay attention to the format of Makefiles below:
+#
+#     target: dependencies
+#     [tab] system command
+#
+########################################################################
+
+APACHEUSER=$(shell ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1)
+BRANCH=origin/master
+PHP=$(shell which php)
+PHPUNIT=./bin/phpunit
 SRC_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
-	/usr/local/bin/phpunit -c ./app/ -d memory_limit=-1 -v --debug | tee /tmp/report
+	$(PHPUNIT) -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
+
+test-data: cc-all
+	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
+
+test-branch: cc-all
+	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1
 
 assets-rebuild:
 	php ./app/console assets:install web --symlink --relative
@@ -11,28 +31,28 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config create-symlinks setup-databases cc-all setup-web-root
+setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
+
+setup-perl:
+	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
 
 setup-databases:
-	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		if [ `mysql -uroot -e  "SHOW DATABASES" | grep "jili_db"` ] ; then \
-			php app/console doctrine:database:drop --force; \
-		fi; \
-		php app/console doctrine:database:create; \
-		php app/console doctrine:schema:update --force; \
-	fi;
+	php app/console doctrine:database:drop --force --env "dev" --if-exists
+	php app/console doctrine:database:create --env "dev"
+	php app/console doctrine:schema:update --force --env "dev"
+
+setup-circle-databases:
+	php app/console doctrine:database:drop --force --env "test" --if-exists
+	php app/console doctrine:database:create --env "test"
+	php app/console doctrine:schema:update --force --env "test"
 
 setup-submodules:
-	@# No access to "local-git" from vagrant environment
-	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
-		for mod in $$(find ./submodules/ -maxdepth 1 -mindepth 1 | grep -v local-git); do \
-			git submodule update --init $$mod; \
-		done \
-	else \
-		git submodule update --init; \
-	fi;
+	git submodule update --init;
 
-circle: create-dir create-config
+circle-sed:
+	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
+
+circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-circle-databases
 
 show-setting:
 	@echo "Setting"
@@ -41,15 +61,21 @@ show-setting:
 	@echo "-> WEB_ROOT_DIR=${WEB_ROOT_DIR}"
 
 create-dir:
-	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	mkdir -p app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads
+	sudo mkdir -p /data/91jili/logs
 
 setup-web-root:
 	mkdir -p ${WEB_ROOT_DIR}
 	ln -fs ${SRC_DIR}/web ${WEB_ROOT_DIR}/
 
 fix-perms:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	@if [ "$(USER)" = "vagrant" ] || [ "$(USER)" = "ubuntu" ] ; then \
+		sudo setfacl -R -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+		sudo setfacl -dR -m u:"${APACHEUSER}":rwX -m u:${USER}:rwX app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+	else \
+		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
+	fi;
 
 create-config:
 	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml
@@ -58,8 +84,8 @@ create-config:
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:
-	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
-	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic
+	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs
+	sudo chmod -R 777  app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs
 
 deploy: deploy-js-routing
 	@echo done
@@ -74,9 +100,9 @@ cc-all:
 	sudo rm -rf app/logs_data/*
 	sudo rm -rf app/sessions/*
 
-
 sass:
 	sass -v
 	sass --trace  -C --sourcemap=none  --style=nested --watch web/sass:web/css
 
-
+run-job:
+	php ./app/console jms-job-queue:run  --env dev -j 4

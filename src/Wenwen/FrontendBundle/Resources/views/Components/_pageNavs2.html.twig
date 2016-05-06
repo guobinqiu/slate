@@ -1,0 +1,25 @@
+{% if pageCount > 1 %}
+ <p class="page">
+    {% if first is defined and current != first %}
+        <span>
+            <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">首页</a> 
+        </span>
+    {% endif %}
+    {% for page in pagesInRange %}
+        {% if page != current %}
+            <span>
+                <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a> 
+            </span>
+        {% else %}
+            <span class="active">
+                <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a> 
+            </span>
+        {% endif %}
+    {% endfor %}
+    {% if last is defined and current != last %}
+        <span>
+            <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">尾页</a>
+        </span>
+    {% endif %}
+</p>
+{% endif %}

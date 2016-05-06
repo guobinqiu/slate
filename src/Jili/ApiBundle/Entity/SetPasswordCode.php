@@ -163,4 +163,10 @@ class SetPasswordCode
     {
         return $this->isAvailable;
     }
+
+    public function setToUnavailable()
+    {
+        $this->setIsAvailable(self::UNAVAILABLE);
+        return $this;
+    }
 }

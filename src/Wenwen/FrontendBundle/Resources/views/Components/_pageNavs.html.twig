@@ -1,0 +1,74 @@
+<!--
+    {# set total = ( total > emar_max_of_total ) ? emar_max_of_total : total  #}
+    {% set total_  = total %}
+
+    <p>total: {{ total }}; total:{{ total }}</p>
+
+    <p>page_size: {{ page_size }}</p>
+
+    {% set page_req = app.request.query.get('p',1) %}
+
+    {% set cur = ( page_req == 0 ) ? 1 : page_req %}
+
+    <p>cur: {{ cur }}</p>
+
+    {% set first = 1 %}
+    {% set last =  ( total / page_size) |round(0,'ceil') %}
+
+
+    <p>last: {{ last }}</p>
+    {% set prev = ( cur > first ) ? cur - 1: first  %}
+    <p>prev: {{ prev }}</p>
+    {% set next = ( cur < last  ) ? cur + 1: last  %}
+    <p>next: {{ next }}</p>
+
+    -->
+<p class="page">
+    {% if last <= 1 %}
+    {% elseif last > 1 and last <= 5 %}
+
+        {% for i in range(1, last ) %}
+            <!-- i: {{ i }} -->
+            {% if cur != i %}
+            <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}">{{ i }}</a></span>
+            {% else %}
+            <span class="active"> <a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': i})) }}" onclick="javascript: return false;">{{ cur }}</a></span>
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        {% if cur  != first  %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': first})) }}">首页</a></span>
+        {% endif %}
+
+        {% if cur - 3 > 0 %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur-3 })) }}">{{ cur-3 }}</a></span>
+        {% endif %}
+
+        {% if cur - 2 > 0 %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur-2 })) }}">{{ cur-2 }}</a></span>
+        {% endif %}
+
+        {% if cur - 1 > 0 %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur-1 })) }}">{{ cur-1 }}</a></span>
+        {% endif %}
+
+        <span class="active"><a href="#" onclick="javascript:function() {return false;};">{{ cur }}</a></span>
+
+        {% if cur + 1 < last %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+1 })) }}">{{ cur+1 }}</a></span>
+        {% endif %}
+
+        {% if cur + 2 < last  %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+2 })) }}">{{ cur+2 }}</a></span>
+        {% endif %}
+
+        {% if cur + 3 < last  %}
+        <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': cur+3 })) }}">{{ cur+3 }}</a></span>
+        {% endif %}
+
+	    {% if cur  != last  %}
+	    <span><a href="{{ path( app.request.attributes.get('_route'),  app.request.query.all|merge({'p': last })) }}">尾页</a></span>
+	    {% endif %}
+	{% endif %}
+</p>

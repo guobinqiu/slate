@@ -42,9 +42,9 @@ class ExperienceAdvertisementRepository extends EntityRepository
         //$ea = new ExperienceAdvertisement();
         $fileNames = array('missionImgUrl');
         $types = array('jpg','jpeg','png','gif');
-        if(!is_dir($upload_dir)){
-            mkdir($upload_dir,0777);
-        }
+
+        \Jili\ApiBundle\Utility\FileUtil::mkdir($upload_dir);
+
         foreach ($fileNames as $key=>$fileName){
             $filename_upload = '';
             if (null === $ea->$fileName) {
@@ -57,7 +57,7 @@ class ExperienceAdvertisementRepository extends EntityRepository
                 return  '文件类型为jpg或png或gif';//类型不对
             }
             $size = getimagesize($ea->$fileName);
-            if(($ea->getMissionHall()==1 && $size[0]=='94' && $size[1]=='78') || ($ea->getMissionHall()==2 && $size[0]=='116' && $size[1]=='78')){
+            if(($ea->getMissionHall()==1 && $size[0]=='165' && $size[1]=='112') || ($ea->getMissionHall()==2 && $size[0]=='165' && $size[1]=='112')){
                 $filename_upload = time().'_'.rand(1000,9999).'.'.$ea->$fileName->guessExtension();
                 $ea->$fileName->move($upload_dir, $filename_upload);
                 $ea->$fileName = $upload_dir.$filename_upload;

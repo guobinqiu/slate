@@ -1,0 +1,11 @@
+<div class="aboutL left">
+	<h2>关于我们</h2>
+	<ul class="tabNav">
+		{% set router_current = app.request.attributes.get('_route') %}
+		<li><a href="{{ path('_default_about') }}" {{ router_current == '_default_about' ? 'class="active"':'' }} title="公司介绍">公司介绍</a></li>
+		<li><a href="{{ path('_default_about_ww') }}" {{ router_current == '_default_about_ww' ? 'class="active"':'' }} title="网站介绍">网站介绍</a></li>
+		<li><a href="{{ path('_default_about_regulations') }}" {{ router_current == '_default_about_regulations' ? 'class="active"':'' }} title="会员协议">会员协议</a></li>
+		<li><a href="{{ path('_default_about_map') }}" {{ router_current == '_default_about_map' ? 'class="active"':'' }} title="网站地图">网站地图</a></li>
+		<li><a href="{{ path('_default_about_links') }}" {{ router_current == '_default_about_links' ? 'class="active"':'' }} title="友情链接">友情链接</a></li>
+	</ul>
+</div>

@@ -1,0 +1,64 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}新手上路：{{ parent() }} {% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+ 
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% endblock %}
+
+{% block body %}
+<div class="main-help-banner">
+	<div class="text w1000">
+		<div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
+	</div>
+</div>
+<div class="main-help-con w1000">
+    <div class="newGuide">
+        <ul class="clearfix">
+        	<li>
+            	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84" alt="问卷调查"/></em>
+                <dl>
+                    <dt>问卷调查</dt>
+                    <dd>动动手指，回答问卷，就能赚取积分！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#survey" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon02.png') }}" width="105" height="84" alt="快速问答"/></em>
+                <dl>
+                    <dt>快速问答</dt>
+                    <dd>每日一答，由你做主，积分积少成多！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#vote" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon03.png') }}" width="105" height="84" alt="购物返利"/></em>
+                <dl>
+                    <dt>购物返利</dt>
+                    <dd>网上购物，大势所趋，我们为您返现！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#shop" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+            <li>
+            	<em><img src="{{ asset('img/help/icon04.png') }}" width="105" height="84" alt="体验广告"/></em>
+                <dl>
+                    <dt>体验广告</dt>
+                    <dd>各种体验，不同玩法，积分收入囊中！</dd>
+                    <dd><a href="{{ path('_default_support_newGuide_detail') }}#advertiserment" class="more">快去了解</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header')}}"></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+
+/* quick login prompt Start*/
+.quickLogWrap{
+	position: relative;
+	top: -500px;
+}
+.quickLogPop{
+	width: 406px;
+	height: 235px;
+	background: rgba(202,202,202,.4);
+	position: absolute;
+    z-index: 1;
+    top: 355px;
+    right: 8px;
+    @include border-radius(5px);
+}
+.qlpR{
+	top: 145px;
+	right: 200px;
+}
+.quickLCon{
+	height: 212px;
+	margin: 10px;
+	border: 1px solid #bdbdbd;
+	background: #fff;
+	position: absolute;
+	z-index: 2;
+	.wbTit{
+		height: 40px;
+		line-height: 40px;
+		background: #ebebeb;
+		padding-left: 20px;
+		position: relative;
+		color: #444;
+		.wbIco, .qqIco{
+			width: 23px;
+			height: 18px;
+			display: inline-block;
+			margin-right: 7px;
+			vertical-align: -4px;
+		}
+		.wbIco{
+			background: url(../../img/common/sinaUnact.png) no-repeat; 
+		}
+		.qqIco{
+			width: 19px;
+			background: url(../../img/common/qqUnact.png) no-repeat;
+		}
+		.closeBtn{
+			width: 30px;
+			height: 30px;
+			background: url(../../img/common/closeBtn.png) no-repeat 6px 8px;
+			display: inline-block;
+			position: absolute;
+			top: 4px;
+			right: 10px;
+		}
+	}
+	.wbText{
+		padding: 22px 27px 28px;
+		.l1{
+			font-size: 16px;
+			line-height: 22px;
+			color: #444;
+			strong{
+				color: #4ab6db;
+			}
+		}
+		.l2{
+			color: #999;
+			line-height: 19px;
+			margin-top: 7px;
+		}
+		.wbBtnArea{
+			text-align: center;
+			margin-top: 30px;
+			.cancelBtn{
+				padding: 5px 30px;
+				@include border-radius(3px);
+				background: #50c5ee;
+				border: 1px solid #49b3d9;
+				color: #fff;
+				margin-right: 20px;
+				cursor: pointer;
+			}
+		}
+	}
+}
+/* quick login prompt End*/

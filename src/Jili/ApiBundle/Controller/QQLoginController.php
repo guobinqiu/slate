@@ -41,7 +41,7 @@ class QQLoginController extends Controller
                 //如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
                 $jiliuser = $em->getRepository('JiliApiBundle:User')->find($qquser->getUserId());
                 if(empty($jiliuser)){
-                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，找不到该用户，请联系客服。'));
+                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，找不到该用户，请联系客服。'));
                 }
                 $request->getSession()->set('uid',$jiliuser->getId());
                 $request->getSession()->set('nick',$jiliuser->getNick());
@@ -52,10 +52,10 @@ class QQLoginController extends Controller
             }
         }else{
             // '授权失败';
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
         }
         //跳转到 qqlogin action
-        return $this->redirect($this->generateUrl('qq_fist_login'));
+        return $this->redirect($this->generateUrl('qq_maintenance'));
     }
 
     /**
@@ -117,7 +117,7 @@ class QQLoginController extends Controller
                 $qquser = $user_regist->qq_user_regist($param);
                 if(!$qquser){
                     //注册失败
-                    return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
+                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
                 }
             }
             //注册成功，登陆并跳转主页
@@ -131,7 +131,7 @@ class QQLoginController extends Controller
                 $code = '请填写正确的邮箱或密码!';
             }
         }
-        return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(), 'regcode'=>$code));
     }
@@ -144,7 +144,7 @@ class QQLoginController extends Controller
         $request = $this->get('request');
         $param['open_id'] = $request->getSession()->get('open_id'); // get in session
         if(!$param['open_id']){
-            return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
+            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
         }
         $param['nick'] = $request->request->get('qqnickname');
         $param['email'] = $request->request->get('jili_email');
@@ -163,7 +163,7 @@ class QQLoginController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
         $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
                 array('email'=>$request->request->get('email_id'), 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
                     'sex'=>$request->request->get('sex'),'form' => $form->createView(),'bindcode'=>$code));
     }
@@ -187,13 +187,22 @@ class QQLoginController extends Controller
             $qq_oid = $qq_auth->get_openid();
             $openid = $qq_oid['openid'];
             if( !isset($qq_oid['openid'])) {
-                return $this->render('JiliApiBundle::error.html.twig', array('errorMessage'=>'对不起，验证故障，请稍后再试。'));
+                return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，验证故障，请稍后再试。'));
             }
             $request->getSession()->set('open_id',$openid);
         }
 
         $result = $qq_auth->get_user_info($openid);
         $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('JiliApiBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
     }
+
+    /**
+     * @Route("/maintenance", name="qq_maintenance")
+     */
+    public function maintenanceAction()
+    {
+        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
+    }
+
 }

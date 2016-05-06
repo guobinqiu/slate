@@ -1,0 +1,116 @@
+@charset "UTF-8";
+
+@import "layout/common-simple";
+@import "layout/header-simple";
+@import "component/form";
+.main-con{
+	width: 740px;
+}
+.main-resetPwd{
+	padding: 48px 70px;
+	.steps{
+		span{
+			width: 170px;
+			padding-left: 30px;
+			height: 36px;
+			line-height: 36px;
+			color: #969696;
+			background: #efefef url(../img/user/barBg.png) no-repeat right -94px;
+			@include dib();
+			&.active{
+				color: #fff;
+				background: #63b8ef url(../img/user/barBg.png) no-repeat right 0;
+			}
+			&.pass{
+				background-position: right -47px;
+			}
+			&.last{
+				background-position: right -141px;
+				&.active{
+					background-position: right -188px;
+				}
+			}
+		}
+	}
+	.step2{
+		.prompt{
+			text-align: left;
+			padding-left: 165px;
+		}
+	}
+	.step3{
+		.main-resetPwd-con{
+			span{
+				padding-left: 20px;
+				@include dib();
+			}
+		}
+	}
+}
+.main-resetPwd-con{
+	padding: 50px;
+	text-align: center;
+	color: #333;
+	.title{
+		font-size: 18px;
+		line-height: 55px;
+	}
+	input[type='text'], input[type='password']{
+		width: 348px;
+		height: 40px;
+		line-height: 40px;
+	}
+	input[type='password']{
+		width: 256px;
+	}
+	span{
+		line-height: 24px;
+		&.focus, &.error{
+			border: none;
+			background: transparent;
+		}
+		&.error, strong{
+			color: $error-color;
+		}
+		strong{
+			&#second{
+				border: none;
+				background: none;
+			}
+		}
+		&.btn{
+			margin-top: 30px;
+			width: 180px;
+			text-align: center;
+			height: 50px;
+			line-height: 50px;
+			font-size: 16px;
+			color: #fff;
+			background: #319cfa;
+			border-radius: 1px;
+			@include box-shadow(0 2px 0 #0a7fe6);
+			cursor: pointer;
+			@include dib();
+			&.disabled{
+				color: #333;
+				background: #f6f6f6;
+				@include box-shadow(0 2px 0 #eee);
+				cursor: default;
+			}
+		}
+		.activeEmail{
+			font-size: 12px;
+			color: $main-title-color;
+			display: inline;
+		}
+	}
+	.backError{
+		margin-top: 10px;
+		padding-left: 165px;
+		text-align: left;
+		height: 30px;
+		line-height: 30px;
+		color: $error-color;
+	}
+}
+@import "layout/footer-simple";

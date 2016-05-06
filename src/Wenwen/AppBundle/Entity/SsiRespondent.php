@@ -9,13 +9,23 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="ssi_respondent", uniqueConstraints={@ORM\UniqueConstraint(name="partner_app_member_id_UNIQUE", columns={"user_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiRespondentRepository")
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiRespondent
 {
+    const STATUS_PERMISSION_NO = 0;
+    const STATUS_PERMISSION_YES = 1;
+    const STATUS_PRESCREENED = 10;
+    const STATUS_ACTIVE = 10;
+
+    public static $base_url = 'http://tracking.surveycheck.com/aff_c?offer_id=3135&aff_id=1346&aff_sub5=wwcn-%d';
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -24,15 +34,25 @@ class SsiRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
+
+    /**
+     * @var \Jili\ApiBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="status_flag", type="smallint", nullable=true,
-     *     options={"unsigned": true, "default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
+     *     options={"default": 1, "comment": "0:permission_no,1:permission_yes, 10:active"})
      */
     private $statusFlag;
 
@@ -46,7 +66,7 @@ class SsiRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -76,7 +96,7 @@ class SsiRespondent
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param  integer       $userId
      * @return SsiRespondent
      */
     public function setUserId($userId)
@@ -97,9 +117,33 @@ class SsiRespondent
     }
 
     /**
+     * Set user
+     *
+     * @param \Jili\ApiBundle\Entity\User $user
+     * @return UserWenwenLogin
+     */
+    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Jili\ApiBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
+    /**
      * Set statusFlag
      *
-     * @param integer $statusFlag
+     * @param  integer       $statusFlag
      * @return SsiRespondent
      */
     public function setStatusFlag($statusFlag)
@@ -122,7 +166,7 @@ class SsiRespondent
     /**
      * Set stashData
      *
-     * @param string $stashData
+     * @param  string        $stashData
      * @return SsiRespondent
      */
     public function setStashData($stashData)
@@ -145,7 +189,7 @@ class SsiRespondent
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param  \DateTime     $updatedAt
      * @return SsiRespondent
      */
     public function setUpdatedAt($updatedAt)
@@ -168,7 +212,7 @@ class SsiRespondent
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param  \DateTime     $createdAt
      * @return SsiRespondent
      */
     public function setCreatedAt($createdAt)
@@ -186,5 +230,40 @@ class SsiRespondent
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function isActive()
+    {
+        return $this->getStatusFlag() == self::STATUS_ACTIVE;
+    }
+
+    public function needPrescreening()
+    {
+        return $this->getStatusFlag() == self::STATUS_PERMISSION_YES;
+    }
+
+    public function getPrescreeningSurveyUrl()
+    {
+        return sprintf(self::$base_url,  $this->getId());
+    }
+
+    /**
+     * @param $respondentId shared with SSI. format: wwcn-12345
+     */
+    public static function parseRespondentId($respondentId)
+    {
+        if (preg_match('/\Awwcn-(\d+)\z/', $respondentId, $matches)) {
+            return $matches[1];
+        }
+
+        return;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }

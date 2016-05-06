@@ -42,10 +42,10 @@ class CpsAdvertisementController extends Controller
         $commission_list  = $em->getRepository('JiliFrontendBundle:'.ucfirst($asp).'Commission')->findListByAdId($shop->getAdsId());
 
         $same_cat_websites = $em->getRepository('JiliFrontendBundle:CpsAdvertisement')
-            ->findSameCatWebsitesByRandom( array( 'limit'=> 3, 'category'=> $cps->getWebsiteCategory() ) );
+            ->findSameCatWebsitesByRandom( array( 'limit'=> 6, 'category'=> $cps->getWebsiteCategory() ) );
 
-        return $this->render('JiliFrontendBundle:CpsAdvertisement:detail.html.twig',array('website'=> $cps ,
-            'is_emar_cps'=> $ad_category->getIsEmarCps()  ,
+        return $this->render('WenwenFrontendBundle:Advertisement:shopDetail.html.twig',array('website'=> $cps ,
+            'is_emar_cps'=> $ad_category->getIsEmarCps(),
             'detail' => $shop, 
             'commission_list'=>$commission_list,
             'same_cat_websites' => $same_cat_websites));
@@ -102,10 +102,11 @@ class CpsAdvertisementController extends Controller
             $i++;
         }
 
-        return $this->render('JiliFrontendBundle:CpsAdvertisement:list.html.twig',
+        return $this->render('WenwenFrontendBundle:Advertisement:shopList.html.twig',
             array('categories'=> $wcats,
             'websites'=> $websites_paged,
             'total'=> $total,
+            'page_size'=> $this->container->getParameter('emar_com.page_size_of_shoplist'),
             'filter_form'=>$filter_form->createView() ));
     }
 
@@ -128,7 +129,7 @@ class CpsAdvertisementController extends Controller
                 return $this->redirect( $url );
             }
         }
-        return $this->render('JiliFrontendBundle:CpsAdvertisement:list_search_form.html.twig', array('form'=> $form->createView( )));
+        return $this->render('WenwenFrontendBundle:Advertisement:_shopSearch.html.twig', array('form'=> $form->createView( )));
     }
 
 
@@ -169,6 +170,7 @@ class CpsAdvertisementController extends Controller
         if(strlen($uri_shop) > 0 ) {
             return $this->redirect( $uri_shop);/// Response(__FUNCTION__);
         }
-        return $this->forward('JiliFrontendBundle:CpsAdvertisement:list');
+
+        return $this->forward('WenwenFrontendBundle:Advertisement:shopList');
     }
 }

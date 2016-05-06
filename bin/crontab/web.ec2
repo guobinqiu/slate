@@ -17,10 +17,10 @@
 40 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingYear
 
 #mail:七天未登陆提醒
-0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
+#0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
 
 #1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
-30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
+#30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
 
 #91wenwen
 #30 4 * * * /bin/sh /var/www/html/jili/cron/91wenwen.sh
@@ -47,4 +47,7 @@
 59 23 20 12 * /bin/sh /var/www/html/jili/app/cache/rm-cache.sh 1>>/data/91jili/logs/cron/cron_logs/rm_cache.log  2>&1
 
 # tzy api check
-30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
+#30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
+
+#reward point
+0 9 * * * bash /var/www/html/jili/bin/schedule/reward-point.sh 2>&1 >> /data/91jili/logs/cron/cron_logs/reward_point.log

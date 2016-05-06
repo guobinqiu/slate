@@ -21,6 +21,7 @@ class TaskHistory00
     const  TASK_TYPE_GAME_SEEKER = 6; // 寻宝箱
     const  TASK_TYPE_GAME_EGGS_BREAKER = 7;  // 
     const  TASK_TYPE_DUOMAI  = 8;  // 多麦
+    const  TASK_TYPE_SURVEY = 9;  // 问卷
 
     // const STATUS_SUCCEED = 1; // 完成状态，积分已发.
 

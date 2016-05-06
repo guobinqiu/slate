@@ -8,7 +8,7 @@ imports:
 
 framework:
     esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -61,6 +61,10 @@ twig:
         tb_self_promot_pic_path: %taobao_self_promotion_picture_uri_path%
 
         upload_tmp_image_dir: %upload_tmp_image_dir%
+    form:
+        resources:
+            - 'form/fields.html.twig'
+
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
@@ -106,6 +110,10 @@ swiftmailer:
     host:       %mailer_host%
     username:   %mailer_user%
     password:   %mailer_password%
+# Guobin: for what reason we dont enable a mail queue for sending your emails asynchronously?
+#    spool:
+#        type: file
+#        path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -156,11 +164,13 @@ monolog:
             channels: [user_source]
 
 gregwar_captcha:
-    width: 100
-    height: 35
-    length: 4
+    width: 150
+    height: 40 
+    length: 6
     as_url: true
+    reload: true 
     invalid_message: %reg_wr_captcha%
+    background_color: [255,255,255]
 
 parameters:
     #流量包

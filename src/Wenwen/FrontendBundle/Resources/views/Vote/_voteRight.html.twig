@@ -1,0 +1,7 @@
+<div class="main-con-right right">
+    <div><a href="{{ path('jili_frontend_vote_suggest') }}"><img src="{{asset('img/vote/prize.jpg')}}" alt="有奖出题"></a></div>
+    <div class="exchange-dynamics">
+        <h2>最新动态</h2>
+        {{ render(controller('JiliApiBundle:Top:event') ) }}
+    </div>
+</div>

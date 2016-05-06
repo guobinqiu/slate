@@ -17,14 +17,16 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\Index(name="updated_at_answer_status_idx", columns={"updated_at", "answer_status"})
  *     }
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Wenwen\AppBundle\Repository\SsiProjectRespondentRepository")
+ * @ORM\HasLifecycleCallbacks
+ *
  */
 class SsiProjectRespondent
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", options={"unsigned": true})
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -68,7 +70,7 @@ class SsiProjectRespondent
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
 
@@ -190,9 +192,9 @@ class SsiProjectRespondent
      * @param string $stashData
      * @return SsiProjectRespondent
      */
-    public function setStashData($stashData)
+    public function setStashData(array $stashData)
     {
-        $this->stashData = $stashData;
+        $this->stashData = json_encode($stashData);
 
         return $this;
     }
@@ -204,7 +206,7 @@ class SsiProjectRespondent
      */
     public function getStashData()
     {
-        return $this->stashData;
+        return json_decode($this->stashData, true);
     }
 
     /**
@@ -320,5 +322,13 @@ class SsiProjectRespondent
     public function getSsiRespondent()
     {
         return $this->ssiRespondent;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function beforeUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
 }
