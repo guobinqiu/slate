@@ -96,7 +96,7 @@ class Client
             ), $recipient_arr, true, true);
 
             if ($addRecipient_result->status == "ERROR") {
-                $rs = "addRecipient error";
+                $rs = "addRecipient error". $addRecipient_result->statusMsg;
                 $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $rs  );
                 return $rs;
             }
@@ -127,22 +127,25 @@ class Client
 
             if ($group->status == "ERROR") {
                 $rs = 'Cannot add group:' . $group->statusMsg;
+                $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $group->statusMsg);
                 return $rs;
             }
 
             $result = $client->addRecipientsSendMailing($login, $this->campaignId, $this->mailingId, array (
                 $group->id
-            ), $recipient_arr, true, true);
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($result->status != "ERROR") {
                 $rs = 'Email send success';
             } else {
                 $rs = 'Email send fail';
+                $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $result->statusMsg);
             }
 
             return $rs;
         } catch (SoapFault $exception) {
             echo $exception;
+            $logger->debug( '['.implode(':',array(__LINE__,__FUNCTION__,__CLASS__)).']'. $exception->getMessage()  );
         }
     }
 
@@ -160,13 +163,13 @@ class Client
                 return $rs;
             }
 
-            $addRecipient_result = $client->addRecipient($login, $this->campaignId, array (
+            $addRecipient_result = $client->addRecipients($login, $this->campaignId, array (
                 $group->id
-            ), $recipient_arr, true, true);
+            ), $this->buildRecipientData($recipient_arr), true, true);
 
             if ($addRecipient_result->status == "ERROR") {
                 $re = "addRecipient error';";
-                $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re );
+                $logger->debug( '[SoapMailListener]'.implode(':',array(__LINE__,'')). $re .$addRecipient_result->statusMsg);
                 return $re;
             }
 

@@ -58,9 +58,8 @@ class GameEggsBreakerTest extends KernelTestCase
         }
 
         $dir = dirname($file_expected);
-        if( ! file_exists($dir)) {
-            mkdir(  $dir , 0700 , true) ;
-        }
+
+        \Jili\ApiBundle\Utility\FileUtil::mkdir($dir);
 
         // I
         file_put_contents( $file_expected, json_encode(array(array(1,7))));
