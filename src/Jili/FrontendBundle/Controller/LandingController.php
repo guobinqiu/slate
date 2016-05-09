@@ -16,12 +16,12 @@ class LandingController extends Controller implements CampaignTrackingController
 {
 
     /**
-     * @Route("/lp",name="_lp_page" )
+     * @Route("/lp/",name="_lp_page" )
      * @Method({ "GET"})
      * @Template
      */
-   public function pageAction() 
+   public function pageAction()
    {
-       return $this->forward('JiliApiBundle:User:reg'); 
+       return  $this->redirect($this->generateUrl('_user_login'));
    }
 }
