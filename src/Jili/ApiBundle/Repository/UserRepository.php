@@ -650,6 +650,9 @@ EOT;
         $user->setCreatedRemoteAddr($param['createdRemoteAddr']);
         $user->setCreatedUserAgent($param['createdUserAgent']);
         $user->setPasswordChoice(User::PWD_WENWEN);
+        if(isset($param['campaignCode'])){
+            $user->setCampaignCode($param['campaignCode']);
+        }
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();

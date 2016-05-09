@@ -1399,6 +1399,9 @@ class UserController extends Controller implements CampaignTrackingController
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
+
+
+
         $request = $this->get('request');
         $form = $this->createForm(new SignupType(), array());
 
@@ -1409,13 +1412,16 @@ class UserController extends Controller implements CampaignTrackingController
 
             if($form->isValid()) {
 
+                $session=$this->get('session');
+                $campagin_code = $session->get('campaign_code','');
+
               $user_data_inserted = $this->get('signup.form_handler')
                 ->setForm($form)
                 ->setClientInfo(array(
                   'user_agent'=>$request->headers->get('USER_AGENT'),
                   'remote_address'=>$request->getClientIp()
                 ))
-                ->process();
+                ->process($campagin_code);
 
 
               $em = $this->getDoctrine()->getManager();
