@@ -57,19 +57,20 @@ class VoteApiCommandTest extends KernelTestCase
             'command' => $command->getName()
         ));
 
-        $this->assertFileExists($output_filename, 'generate vote file');
+        //todo: 此功能合并后不需要了，以后删除掉
+        //$this->assertFileExists($output_filename, 'generate vote file');
 
         // build the expected content with fputcsv()
-        $content = file_get_contents($wenwen_vote_api);
-        $rows = json_decode($content, true);
-        $fh = fopen('php://memory', 'r+');
-        fwrite($fh, json_encode($rows['data']));
-        rewind($fh);
-        $expected = fread($fh, 8096);
-        fclose($fh);
+//         $content = file_get_contents($wenwen_vote_api);
+//         $rows = json_decode($content, true);
+//         $fh = fopen('php://memory', 'r+');
+//         fwrite($fh, json_encode($rows['data']));
+//         rewind($fh);
+//         $expected = fread($fh, 8096);
+//         fclose($fh);
 
-        $actual = file_get_contents($output_filename);
-        $this->assertEquals($expected, $actual, 'compare the output file content');
+//         $actual = file_get_contents($output_filename);
+//         $this->assertEquals($expected, $actual, 'compare the output file content');
     }
 
 }
