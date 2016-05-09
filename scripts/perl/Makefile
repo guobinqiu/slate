@@ -10,4 +10,4 @@ create-config:
 	fi;
 
 test:
-	carton exec -- prove -ILib -Ibin/local -r t/
+	carton exec -- prove -ILib -r t/

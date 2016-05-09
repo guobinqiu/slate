@@ -308,6 +308,23 @@ DISTRIBUTIONS
       Data::Section::Simple 0.07
     requirements:
       ExtUtils::MakeMaker 6.30
+  Data-Validator-1.07
+    pathname: G/GF/GFUJI/Data-Validator-1.07.tar.gz
+    provides:
+      Data::Validator 1.07
+      Data::Validator::Role::AllowExtra undef
+      Data::Validator::Role::Croak undef
+      Data::Validator::Role::Method undef
+      Data::Validator::Role::NoRestricted undef
+      Data::Validator::Role::NoThrow undef
+      Data::Validator::Role::Sequenced undef
+      Data::Validator::Role::SmartSequenced undef
+      Data::Validator::Role::StrictSequenced undef
+    requirements:
+      ExtUtils::MakeMaker 6.59
+      Module::Build 0.38
+      Mouse 0.93
+      perl 5.008001
   DateTime-1.26
     pathname: D/DR/DROLSKY/DateTime-1.26.tar.gz
     provides:
@@ -1850,6 +1867,17 @@ DISTRIBUTIONS
     requirements:
       Test::More 0
       perl 5.005
+  Time-Piece-Plus-0.05
+    pathname: S/SO/SONGMU/Time-Piece-Plus-0.05.tar.gz
+    provides:
+      Time::Piece::Plus 0.05
+    requirements:
+      Data::Validator 0
+      Module::Build 0.038
+      Mouse 0
+      Scalar::Util 0
+      Time::Piece 1.20
+      perl 5.010001
   Try-Tiny-0.24
     pathname: E/ET/ETHER/Try-Tiny-0.24.tar.gz
     provides:
