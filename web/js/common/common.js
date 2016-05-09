@@ -66,8 +66,6 @@ define(['jquery', 'routing'],function($){
         resizeFooter();
     });
     var resizeFooter =function(){
-        console.log('windowH:'+$(window).height());
-        console.log('bodyH:'+$("body").height());
         if($(window).height() > $("body").height()){
             $(".footer").css({"position":"fixed", "bottom":"0"});
         }

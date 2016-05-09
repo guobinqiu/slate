@@ -14,7 +14,7 @@ use Jili\FrontendBundle\Entity\GameEggsBreakerTaobaoOrder;
 use Jili\FrontendBundle\Entity\TaobaoCategory;
 
 /**
- * @Route("/activity/december")
+ * @Route("/activity/decemberOffline")
  */
 class DecemberActivityController extends Controller
 {
