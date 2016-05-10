@@ -117,7 +117,7 @@ require(['../config'],function(){
             else if(event.detail) delta = -event.detail / 3;
          
             handle(delta);
-            if(event.preventDefault) event.preventDefault();
+            // if(event.preventDefault) event.preventDefault();
             event.returnValue = false;
         }
          
