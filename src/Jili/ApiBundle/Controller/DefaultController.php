@@ -676,10 +676,10 @@ class DefaultController extends Controller
             $subject = "来自" . $nick . " [" . $user->getEmail() . "] 的咨询";
         }
 
-        $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('contact@91jili.com')->setPassword('91jili');
+        $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('account@91jili.com')->setPassword('D8aspring');
         $mailer = \Swift_Mailer :: newInstance($transport);
         $message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
-            'contact@91jili.com' => '积粒网'
+            'account@91jili.com' => '91问问'
         ))->setTo('cs@91jili.com')->setBody('<html>' .
         '<head></head>' .
         '<body>' .
