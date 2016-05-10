@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common', 'scrollTop']);
-    require(['feedbackForm']);
+    // require(['feedbackForm']);
     require(['numScroll'], function(numScroll){
         new numScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
@@ -131,34 +131,34 @@ require(['../config'],function(){
         }
 
     });
-    require(['jquery', 'jqueryCookie'], function($){
-        //feedback
-        function shouldShow(){
-            var vp  = $.cookie('ShoudShowDialog92');
-            if (vp == undefined || vp == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
-            closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
-        closeTag.on('click', function(){
-            $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
-            fbCon.hide();
-        });
-        closeBtn.on('click', function(){
-            unfdWrap.animate({right: '-420px'}, 300);
-            fdWrap.animate({right: '0'}, 300);
-        });
-        fdWrap.on('click', function(){
-            fdWrap.animate({right: '-150px'}, 300);
-            unfdWrap.animate({right: '0'}, 300);
-        });
-        if(shouldShow()){
-            fbCon.show();
-        }else{
-            fbCon.hide();
-        }
-    });
+    // require(['jquery', 'jqueryCookie'], function($){
+    //     //feedback
+    //     function shouldShow(){
+    //         var vp  = $.cookie('ShoudShowDialog92');
+    //         if (vp == undefined || vp == 1) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     }
+    //     var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
+    //         closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
+    //     closeTag.on('click', function(){
+    //         $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
+    //         fbCon.hide();
+    //     });
+    //     closeBtn.on('click', function(){
+    //         unfdWrap.animate({right: '-420px'}, 300);
+    //         fdWrap.animate({right: '0'}, 300);
+    //     });
+    //     fdWrap.on('click', function(){
+    //         fdWrap.animate({right: '-150px'}, 300);
+    //         unfdWrap.animate({right: '0'}, 300);
+    //     });
+    //     if(shouldShow()){
+    //         fbCon.show();
+    //     }else{
+    //         fbCon.hide();
+    //     }
+    // });
 });
