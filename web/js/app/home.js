@@ -172,7 +172,7 @@ require(['../config'],function(){
                 return true;
             }
             if(res.data.research.length != 0 && type == 'Research'){
-                renderResearchItems(res.data.research.reverse(), 1);
+                renderResearchItems(res.data.research, 1);
                 return true;
             }
             return false;
@@ -197,7 +197,7 @@ require(['../config'],function(){
                 }else if(res.data.profiling.length != 0){
                     renderProfilingItems(res.data.profiling);
                 }else if(res.data.research.length != 0){
-                    renderResearchItems(res.data.research.reverse(), 1);
+                    renderResearchItems(res.data.research, 1);
                 } 
             }else{
                 var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research.reverse());
