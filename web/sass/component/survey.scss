@@ -56,6 +56,14 @@ $survey-border-color: #f6f6f6;
 			@include dib();	
 		}
 	}
+	li.vote-new{
+		&:hover, &.active{
+			.vote-btn{
+				border-left: 50px solid #fff;
+				@include transition(all, 0.4s);
+			}
+		}
+	}
 }
 .survey-item{
 	width: 86%;
@@ -128,18 +136,18 @@ $survey-border-color: #f6f6f6;
 	position: absolute;
 	z-index: 1000;
 	top: 27px;
-	right: 0;
+	right: 11px;
 	text-align: center;
 	color: #fff;
 	font-size: 14px;
 	font-weight: bold;
-	background: $main-color;
+	background: #ff652b;
 	cursor: pointer;
 	overflow: hidden;
 	@include transition(width, 300ms);
 	@include transition(all, 0.4s);
 	&:hover, &:active{
-		background:#f25807;
+		background:#f05218;
 	}
 }
 .vote{
@@ -159,13 +167,17 @@ $survey-border-color: #f6f6f6;
 			.tips{
 				position: absolute;
 				z-index: 1000;
-				top: 23px;
-				right: 5px;
+				top: 81px;
+				right: 162px;
 				span{ 
-				    background: url(../img/vote/doubleTag.png) no-repeat;
-					width: 70px;
-					height: 33px;
-					cursor: pointer;
+				    width: 13px;
+				    height: 13px;
+				    line-height: 13px;
+				    border-radius: 50%;
+				    background: #979797;
+				    color: #fff;
+				    text-align: center;
+				    cursor: pointer;
 				}
 			}
 			.tips-con{
@@ -177,12 +189,12 @@ $survey-border-color: #f6f6f6;
 				width: 270px;
 				display: none;
 				p{
-					padding-left: 5px;
+					padding-left: 8px;
 					line-height: 32px;
 					background: #fff;
 					border: 1px solid #dedddc;
 					border-radius: 3px;
-					@include box-shadow(0px 2px 0px #f2f2f2);
+					@include box-shadow(0px 2px 2px #a3a3a3);
 				}
 				b{
 					position: absolute;

@@ -42,7 +42,7 @@
 			color: #9c9c9c;
 		}
 		.relate{
-			margin-top: 4px;	
+			margin-top: 7px;	
 		}
 	}
 	.survey-btn{
@@ -69,6 +69,20 @@
 			}
 		}
 	}
+	.vote-new{
+		.survey-btn{
+			top: -24px;
+		}
+		.countdown{
+			top: 84px;
+			right: 12px;
+			span{
+				width: 36px;
+			    height: 45px;
+			    line-height: 45px;
+			}
+		}
+	} 
 }
 .exchange-dynamics{
 	padding: 10px 20px;
