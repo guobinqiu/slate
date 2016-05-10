@@ -250,120 +250,6 @@ require(['../../config'], function() {
                        }
                      },
                      {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
-                       "survey_id": "10000",
-                       "quota_id": "20000",
-                       "cpi": "0.00",
-                       "ir": "80",
-                       "loi": "10",
-                       "is_answered": "0",
-                       "is_closed": "0",
-                       "title": "Cint Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-                       "date": "2015-01-01",
-                       "extra_info": {
-                         "point": {
-                           "complete": "40",
-                           "screenout": "10",
-                           "quotafull": "10"
-                         }
-                       }
-                     },
-                     {
                        "survey_id": "10002",
                        "quota_id": "20000",
                        "cpi": "0.00",
@@ -390,7 +276,7 @@ require(['../../config'], function() {
         }
         // preview
         var $preview = $('#preview').val();
-        if (true){
+        if ($preview){
             mockResponse();
         }
     });
