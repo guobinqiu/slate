@@ -108,6 +108,15 @@ require(['../../config'], function() {
             }
         };
 
+        var resizeFooter =function(){
+            if($(window).height() > $("body").height()){
+                $(".footer").css({"position":"fixed", "bottom":"0"});
+            }
+            else{
+                $(".footer").css("position","static");
+            }   
+        }
+
         surveylistCallback = function (res) {
 
             // return if error code
@@ -144,6 +153,8 @@ require(['../../config'], function() {
 
             // load Cint research data
             renderCintResearchItems(res.data.cint_research);
+
+            resizeFooter();
 
         };
 
