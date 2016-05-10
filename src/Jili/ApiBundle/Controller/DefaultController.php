@@ -679,7 +679,7 @@ class DefaultController extends Controller
         $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('account@91jili.com')->setPassword('D8aspring');
         $mailer = \Swift_Mailer :: newInstance($transport);
         $message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
-            'account@91jili.com' => '积粒网'
+            'account@91jili.com' => '91问问'
         ))->setTo('cs@91jili.com')->setBody('<html>' .
         '<head></head>' .
         '<body>' .
