@@ -23,7 +23,7 @@ require(['../../config'],function(){
         }
         if(window.location.hostname == 'www.91wenwen.net'){
             if($('.offerWow').length >= 1){
-                var websiteid = $('#websiteid').val(), memberid = $('#websiteid').val();
+                var websiteid = $('#websiteid').val(), memberid = $('#memberid').val();
                 $('iframe').attr('src', 'http://www.offer-wow.com/affiliate/wall/open.do?websiteid='+websiteid +'&styleIndex=1&memberid='+memberid).add('.taskFlow').show();    
             }
             if($('.offer99').length >= 1){
