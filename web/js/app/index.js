@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common', 'scrollTop']);
-    require(['feedbackForm']);
+    // require(['feedbackForm']);
     require(['numScroll'], function(numScroll){
         new numScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
