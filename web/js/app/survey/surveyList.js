@@ -68,7 +68,7 @@ require(['../../config'], function() {
             .each(function (item) {
                 var model = new survey.FulcrumAgreementModel(item);
                 var view = new survey.FulcrumUserAgreementView({ model: model });
-                view.render();
+                addSuveyItem(view.render().el);
             });
         };
 
@@ -87,7 +87,7 @@ require(['../../config'], function() {
             .each(function (item) {
                 var model = new survey.CintAgreementModel(item);
                 var view = new survey.CintUserAgreementView({"model": model});
-                view.render();
+                addSuveyItem(view.render().el);
             });
         };
 
