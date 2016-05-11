@@ -18,8 +18,8 @@
     @include border-radius(5px);
 }
 .qlpR{
-	top: 145px;
-	right: 200px;
+	top: 97px;
+	right: 20px;
 }
 .quickLCon{
 	height: 212px;
@@ -74,19 +74,34 @@
 			line-height: 19px;
 			margin-top: 7px;
 		}
-		.wbBtnArea{
-			text-align: center;
-			margin-top: 30px;
-			.cancelBtn{
-				padding: 5px 30px;
-				@include border-radius(3px);
-				background: #50c5ee;
-				border: 1px solid #49b3d9;
-				color: #fff;
-				margin-right: 20px;
-				cursor: pointer;
-			}
-		}
 	}
+	.wbBtnArea{
+	 	text-align: center;
+	 	.cancelBtn,.continueBtn{
+	 		padding: 5px 30px;
+	 		@include border-radius(3px);
+	 	}
+	 	.cancelBtn{
+	 		background: #e4e4e4;
+	 		border: 1px solid #dbdbdb;
+	 		color: #000;
+	 		margin-right: 20px;
+	 		cursor: pointer;
+	 	}
+	 	.continueBtn{
+	 		background: #50c5ee;
+	 		border: 1px solid #49b3d9;
+	 		color: #fff;
+	 	} 
+	}
+}
+#wbLogCon {
+	height: 270px;
+	.quickLCon{
+		height: 247px;
+	}
+}
+#qqLogCon .wbBtnArea{
+	margin-top: 30px;
 }
 /* quick login prompt End*/
