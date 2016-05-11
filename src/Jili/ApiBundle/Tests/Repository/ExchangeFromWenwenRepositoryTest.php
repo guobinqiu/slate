@@ -58,12 +58,12 @@ class ExchangeFromWenwenRepository extends KernelTestCase {
         $this->assertEquals(1, count($exFrWen));
         $this->assertNotNull(1, $exFrWen[0]['userWenwenCrossId']);
 
-        $start_time = date('Y-m-d') . " 20:00:00";
+        $start_time = date('Y-m-d');
         $exFrWen = $this->em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time, $end_time);
-        $this->assertEquals(0, count($exFrWen));
+        $this->assertEquals(1, count($exFrWen));
 
-        $start_time = date('Y-m-d') . " 00:00:00";
-        $end_time = date('Y-m-d') . " 23:00:00";
+        $start_time = date('Y-m-d');
+        $end_time = date('Y-m-d');
         $exFrWen = $this->em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time, $end_time);
         $this->assertEquals(1, count($exFrWen));
     }

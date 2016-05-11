@@ -46,7 +46,7 @@ class SignupHandler
     /**
      * array('user'=> object, 'setPasswordCode'=> object) when success;
      */
-    public function process()
+    public function process($campaign_code= '')
     {
         $logger = $this->logger;
         $data = $this->form->getData();
@@ -58,6 +58,7 @@ class SignupHandler
             'email'=>$data['email'],
             'createdUserAgent' => $this->userAgent,
             'createdRemoteAddr' => $this->remoteAddress,
+            'campaignCode' => $campaign_code,
         ));
 
         $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(

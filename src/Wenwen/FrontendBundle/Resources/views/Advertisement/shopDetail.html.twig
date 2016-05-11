@@ -8,9 +8,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/shopDetail.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -22,7 +22,7 @@
 			     <a href="{{ path('_homepage') }}" class="home"></a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('_advertiserment_list') }}">体验广告</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;<a href="{{ path('jili_frontend_cpsadvertisement_list') }}">商家列表</a>&nbsp;&nbsp;<em>&gt;</em>&nbsp;&nbsp;返利详情
 			</div>
 			<span>
-				<div class="img"><img src="{{asset('img/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="{{ website.websiteName }}"></div>
+				<div class="img"><img src="{{asset('images/website_logos/'~website.hostHashAsLogoName ~ '.jpg' )}}" alt="{{ website.websiteName }}"></div>
 				<div class="btn"><a href="{{ href_ }}" target="_blank">去购物，赚积分</a></div>
 			</span>
 			<span class="text">
@@ -75,7 +75,7 @@
 			<h2>同类商家推荐</h2>
 			<ul class="similar-shops clearfix">
 				{% for row in same_cat_websites %}
-				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank"><img src="{{asset('img/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.website_name }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
+				<li><a href="{{path('jili_frontend_cpsadvertisement_redirect', {'wid': row.id })}}" target="_blank"><img src="{{asset('images/website_logos/'~row.hostHashAsLogoName~'.jpg')}}" alt="{{ row.website_name }}">{%if row.max_commission is defined %}<div>最高返<b>{{row.max_commission}}%</b></div>{%endif%}</a></li>
 				{% endfor %}
 			</ul>
 		</div>
@@ -85,7 +85,7 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}

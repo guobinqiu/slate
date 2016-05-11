@@ -13,29 +13,35 @@ require(['../config'],function(){
     // });
     require(['countdown']);
     require(['jquery', 'jqueryCookie'], function($){
-        //读取cookie
-        var res = document.cookie.substring(5,10);
-        //如果没有cookie执行以下操作
         //新手引导部分
-        if(res!="guide"){
-            $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
-            $('#newguideWrap a.ngbtn').click(function(){
-                var current = $(this).parent().parent();
-                current.hide();
-                current.next().show();
-            });
-
-            $(document.body).click(function(event){
-                var target = $(event.target);
-                if(target.is('.ngbtn1, .ngbtn2')){ return false; }
-                $('#mask, #newguideWrap').hide();
-            });
-            //添加cookie
-            var oDate = new Date();
-            oDate.setDate(oDate.getDate() + 10000);
-            document.cookie="name=guide;expires=" + oDate;
+        function shouldShow(){
+            var vp  = $.cookie('guide');
+            if (vp == undefined || vp == 1) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    });     
+        $('#mask, #newguideWrap, #newguideWrap div:eq(0)').show();
+        $('#newguideWrap a.ngbtn').click(function(){
+            var current = $(this).parent().parent();
+            current.hide();
+            current.next().show();
+        });
+        $(document.body).click(function(event){
+            var target = $(event.target);
+            if(target.is('.ngbtn1, .ngbtn2')){ return false; }
+            $.cookie('guide', 0, { expires: 10000, path: '/' });
+            $('#mask, #newguideWrap').hide();
+        });
+        if(shouldShow()){
+            $('#mask, #newguideWrap').show();
+        }else{
+            $('#mask, #newguideWrap').hide();
+        }
+    });
+
+
     require(['jquery', 'sopSurvey', 'backbone', 'routing','jqueryCookie'], function($, survey, backbone, routing) {
 
         var pop_survey_window = function(element) {
@@ -68,8 +74,8 @@ require(['../config'],function(){
 
         var renderResearchItems = function (items, num) {
             if(num == 1){
-                var model = new survey.FulcrumResearchItemModel(items[0]);
-                var view  = new survey.FulcrumResearchItemView({ model: model });
+                var model = new survey.ResearchItemModel(items[0]);
+                var view  = new survey.ResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             }else{
                 _.each(items, function (item, index) {
@@ -101,7 +107,7 @@ require(['../config'],function(){
                 var view  = new survey.FulcrumResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             }else{
-                _.each(items, function (item) {
+                _.each(items, function (item, index) {
                     if(index <= 1){
                         var model = new survey.FulcrumResearchItemModel(item);
                         var view  = new survey.FulcrumResearchItemView({ model: model });
@@ -166,7 +172,7 @@ require(['../config'],function(){
                 return true;
             }
             if(res.data.research.length != 0 && type == 'Research'){
-                renderResearchItems(res.data.research.reverse(), 1);
+                renderResearchItems(res.data.research, 1);
                 return true;
             }
             return false;
@@ -191,7 +197,7 @@ require(['../config'],function(){
                 }else if(res.data.profiling.length != 0){
                     renderProfilingItems(res.data.profiling);
                 }else if(res.data.research.length != 0){
-                    renderResearchItems(res.data.research.reverse(), 1);
+                    renderResearchItems(res.data.research, 1);
                 } 
             }else{
                 var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research.reverse());
@@ -213,7 +219,7 @@ require(['../config'],function(){
                                 renderProfilingItems(res.data.profiling);
                                 if(!fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
                             }else{
-                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research.reverse());
+                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
                                 if(lackNum == 0){ return;}
                                 if(lackNum == 1){
                                     if(!showSsiSurvey(1)){ return;}

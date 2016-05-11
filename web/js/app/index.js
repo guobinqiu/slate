@@ -1,6 +1,6 @@
 require(['../config'],function(){
     require(['common', 'scrollTop']);
-    require(['feedbackForm']);
+    // require(['feedbackForm']);
     require(['numScroll'], function(numScroll){
         new numScroll({ numScrollEle: '.digits b', config: {
             digitH : 30,
@@ -107,58 +107,35 @@ require(['../config'],function(){
             $(".coinBack").css("width", $(window).width());
         }
 
-        //smooth page scroll
-        if(window.addEventListener) window.addEventListener('DOMMouseScroll', wheel, false);
-        window.onmousewheel = document.onmousewheel = wheel;
-         
-        function wheel(event){
-            var delta = 0;
-            if(event.wheelDelta) delta = event.wheelDelta / 120;
-            else if(event.detail) delta = -event.detail / 3;
-         
-            handle(delta);
-            if(event.preventDefault) event.preventDefault();
-            event.returnValue = false;
-        }
-         
-        function handle(delta){
-            var time = 350; // delay time
-            var distance = 400; // delta point 
-            // Dom where it will apply 
-            $('html, body').stop().animate({
-                scrollTop: $(window).scrollTop() - (distance * delta)
-            }, time );
-        }
-
     });
-    require(['jquery', 'jqueryCookie'], function($){
-        //feedback
-        function shouldShow(){
-            var vp  = $.cookie('ShoudShowDialog92');
-            if (vp == undefined || vp == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
-            closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
-        closeTag.on('click', function(){
-            $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
-            fbCon.hide();
-        });
-        closeBtn.on('click', function(){
-            unfdWrap.animate({right: '-420px'}, 300);
-            fdWrap.animate({right: '0'}, 300);
-        });
-        fdWrap.on('click', function(){
-            fdWrap.animate({right: '-150px'}, 300);
-            unfdWrap.animate({right: '0'}, 300);
-        });
-        if(shouldShow()){
-            fbCon.show();
-        }else{
-            fbCon.hide();
-        }
-    });
+    // require(['jquery', 'jqueryCookie'], function($){
+    //     //feedback
+    //     function shouldShow(){
+    //         var vp  = $.cookie('ShoudShowDialog92');
+    //         if (vp == undefined || vp == 1) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     }
+    //     var fbCon = $('.fbCon'), fdWrap = $(".fdWrap"), unfdWrap = $(".unfdWrap"), 
+    //         closeTag = $('.closeTag'), closeBtn = $('.closeBtn');
+    //     closeTag.on('click', function(){
+    //         $.cookie('ShoudShowDialog92', 0, { expires: 10000, path: '/' });
+    //         fbCon.hide();
+    //     });
+    //     closeBtn.on('click', function(){
+    //         unfdWrap.animate({right: '-420px'}, 300);
+    //         fdWrap.animate({right: '0'}, 300);
+    //     });
+    //     fdWrap.on('click', function(){
+    //         fdWrap.animate({right: '-150px'}, 300);
+    //         unfdWrap.animate({right: '0'}, 300);
+    //     });
+    //     if(shouldShow()){
+    //         fbCon.show();
+    //     }else{
+    //         fbCon.hide();
+    //     }
+    // });
 });
