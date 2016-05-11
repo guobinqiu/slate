@@ -107,7 +107,7 @@ require(['../config'],function(){
                 var view  = new survey.FulcrumResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             }else{
-                _.each(items, function (item) {
+                _.each(items, function (item, index) {
                     if(index <= 1){
                         var model = new survey.FulcrumResearchItemModel(item);
                         var view  = new survey.FulcrumResearchItemView({ model: model });
