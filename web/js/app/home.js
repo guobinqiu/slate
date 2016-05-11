@@ -74,8 +74,8 @@ require(['../config'],function(){
 
         var renderResearchItems = function (items, num) {
             if(num == 1){
-                var model = new survey.FulcrumResearchItemModel(items[0]);
-                var view  = new survey.FulcrumResearchItemView({ model: model });
+                var model = new survey.ResearchItemModel(items[0]);
+                var view  = new survey.ResearchItemView({ model: model });
                 addSuveyItem(view.render().el);
             }else{
                 _.each(items, function (item, index) {
@@ -219,7 +219,7 @@ require(['../config'],function(){
                                 renderProfilingItems(res.data.profiling);
                                 if(!fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
                             }else{
-                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research.reverse());
+                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
                                 if(lackNum == 0){ return;}
                                 if(lackNum == 1){
                                     if(!showSsiSurvey(1)){ return;}
