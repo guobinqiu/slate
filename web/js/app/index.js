@@ -57,9 +57,11 @@ require(['../config'],function(){
         var qqPCon = $('#qqLogCon');
         wbLog.on('click', function(){
             wbPCon.show();
+            qqPCon.hide();
         });
         qqLog.on('click', function(){
             qqPCon.show();
+            wbPCon.hide();
         });
         wqClose.on('click', function(){
             wbPCon.add(qqPCon).hide();

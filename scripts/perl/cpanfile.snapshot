@@ -22,6 +22,29 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  CPAN-Meta-2.150005
+    pathname: D/DA/DAGOLDEN/CPAN-Meta-2.150005.tar.gz
+    provides:
+      CPAN::Meta 2.150005
+      CPAN::Meta::Converter 2.150005
+      CPAN::Meta::Feature 2.150005
+      CPAN::Meta::History 2.150005
+      CPAN::Meta::Merge 2.150005
+      CPAN::Meta::Prereqs 2.150005
+      CPAN::Meta::Spec 2.150005
+      CPAN::Meta::Validator 2.150005
+    requirements:
+      CPAN::Meta::Requirements 2.121
+      CPAN::Meta::YAML 0.008
+      Carp 0
+      ExtUtils::MakeMaker 6.17
+      JSON::PP 2.27200
+      Parse::CPAN::Meta 1.4414
+      Scalar::Util 0
+      perl 5.008
+      strict 0
+      version 0.88
+      warnings 0
   Capture-Tiny-0.36
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.36.tar.gz
     provides:
@@ -841,6 +864,12 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Sub::Exporter::Progressive 0.001011
       perl 5.006
+  Devel-PPPort-3.32
+    pathname: W/WO/WOLFSAGE/Devel-PPPort-3.32.tar.gz
+    provides:
+      Devel::PPPort 3.32
+    requirements:
+      ExtUtils::MakeMaker 0
   Devel-StackTrace-2.01
     pathname: D/DR/DROLSKY/Devel-StackTrace-2.01.tar.gz
     provides:
@@ -1509,6 +1538,15 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Socket-2.021
+    pathname: P/PE/PEVANS/Socket-2.021.tar.gz
+    provides:
+      Socket 2.021
+    requirements:
+      ExtUtils::CBuilder 0
+      ExtUtils::Constant 0.23
+      ExtUtils::MakeMaker 0
+      perl 5.006001
   Sub-Exporter-0.987
     pathname: R/RJ/RJBS/Sub-Exporter-0.987.tar.gz
     provides:
@@ -1783,6 +1821,64 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
+  Test-Simple-1.302015
+    pathname: E/EX/EXODIST/Test-Simple-1.302015.tar.gz
+    provides:
+      Test2 1.302015
+      Test2::API 1.302015
+      Test2::API::Breakage 1.302015
+      Test2::API::Context 1.302015
+      Test2::API::Instance 1.302015
+      Test2::API::Stack 1.302015
+      Test2::Event 1.302015
+      Test2::Event::Bail 1.302015
+      Test2::Event::Diag 1.302015
+      Test2::Event::Exception 1.302015
+      Test2::Event::Note 1.302015
+      Test2::Event::Ok 1.302015
+      Test2::Event::Plan 1.302015
+      Test2::Event::Skip 1.302015
+      Test2::Event::Subtest 1.302015
+      Test2::Event::Waiting 1.302015
+      Test2::Formatter 1.302015
+      Test2::Formatter::TAP 1.302015
+      Test2::Hub 1.302015
+      Test2::Hub::Interceptor 1.302015
+      Test2::Hub::Interceptor::Terminator 1.302015
+      Test2::Hub::Subtest 1.302015
+      Test2::IPC 1.302015
+      Test2::IPC::Driver 1.302015
+      Test2::IPC::Driver::Files 1.302015
+      Test2::Util 1.302015
+      Test2::Util::ExternalMeta 1.302015
+      Test2::Util::HashBase 1.302015
+      Test2::Util::Trace 1.302015
+      Test::Builder 1.302015
+      Test::Builder::Formatter 1.302015
+      Test::Builder::IO::Scalar 2.113
+      Test::Builder::Module 1.302015
+      Test::Builder::Tester 1.302015
+      Test::Builder::Tester::Color 1.302015
+      Test::Builder::Tester::Tie 1.302015
+      Test::Builder::TodoDiag 1.302015
+      Test::More 1.302015
+      Test::Simple 1.302015
+      Test::Tester 1.302015
+      Test::Tester::Capture 1.302015
+      Test::Tester::CaptureRunner 1.302015
+      Test::Tester::Delegate 1.302015
+      Test::use::ok 1.302015
+      ok 1.302015
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      File::Temp 0
+      PerlIO 0
+      Scalar::Util 1.13
+      Storable 0
+      perl 5.008001
+      utf8 0
   Text-CSV_XS-1.23
     pathname: H/HM/HMBRAND/Text-CSV_XS-1.23.tgz
     provides:

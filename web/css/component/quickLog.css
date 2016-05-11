@@ -18,8 +18,8 @@
   -o-border-radius: 5px; }
 
 .qlpR {
-  top: 145px;
-  right: 200px; }
+  top: 97px;
+  right: 20px; }
 
 .quickLCon {
   height: 212px;
@@ -66,20 +66,32 @@
       color: #999;
       line-height: 19px;
       margin-top: 7px; }
-    .quickLCon .wbText .wbBtnArea {
-      text-align: center;
-      margin-top: 30px; }
-      .quickLCon .wbText .wbBtnArea .cancelBtn {
-        padding: 5px 30px;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        -ms-border-radius: 3px;
-        -o-border-radius: 3px;
-        background: #50c5ee;
-        border: 1px solid #49b3d9;
-        color: #fff;
-        margin-right: 20px;
-        cursor: pointer; }
+  .quickLCon .wbBtnArea {
+    text-align: center; }
+    .quickLCon .wbBtnArea .cancelBtn, .quickLCon .wbBtnArea .continueBtn {
+      padding: 5px 30px;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px; }
+    .quickLCon .wbBtnArea .cancelBtn {
+      background: #e4e4e4;
+      border: 1px solid #dbdbdb;
+      color: #000;
+      margin-right: 20px;
+      cursor: pointer; }
+    .quickLCon .wbBtnArea .continueBtn {
+      background: #50c5ee;
+      border: 1px solid #49b3d9;
+      color: #fff; }
+
+#wbLogCon {
+  height: 270px; }
+  #wbLogCon .quickLCon {
+    height: 247px; }
+
+#qqLogCon .wbBtnArea {
+  margin-top: 30px; }
 
 /* quick login prompt End*/
