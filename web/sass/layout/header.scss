@@ -220,9 +220,33 @@ $header-nav-height: 80px;
 	.nav{
 		font-size: 0;
 		height: $header-nav-height;
-		overflow: hidden;
+		// overflow: hidden;
 		position: relative;
 		z-index: 2;
+		.logFirst{
+		    height: 50px;
+		    line-height: 20px;
+		    display: inline-block;
+		    color: #fff;
+		    background: rgba(0,0,0,.8);
+		    *background: #333;
+		    background: #333\0;
+		    font-size: 12px;
+			position: absolute;
+		    z-index: 9999999;
+		    left: 93px;
+		    top: 60px;
+		    padding-top: 9px;
+		    text-align: center;
+		    @include border-radius(3px);
+		    display: none;
+		    em{
+		    	position: absolute;
+		    	top: -5px;
+		    	left: 75px;
+		    	@include arrow(top, 5px, rgba(0,0,0,.8));
+		    }
+		}
 		.border{
 			position: absolute;
 			z-index: 1000;
@@ -240,6 +264,7 @@ $header-nav-height: 80px;
 			color: $nav-font-color;
 			@include dib();
 			overflow: hidden;
+			cursor: pointer;
 			&:hover, &.active{
 				color: $main-color;
 			}

@@ -64,6 +64,11 @@ require(['../config'],function(){
         wqClose.on('click', function(){
             wbPCon.add(qqPCon).hide();
         });
+
+        //点击问卷列表提示先登录
+        $('.surUnlog').on('click', function(){
+            $('.logFirst').fadeIn().delay(4000).fadeOut();
+        });
     });
     require(['jquery'], function($){
         var $window = $(window),

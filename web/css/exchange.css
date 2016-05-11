@@ -258,9 +258,43 @@ body {
   .header-nav .nav {
     font-size: 0;
     height: 80px;
-    overflow: hidden;
     position: relative;
     z-index: 2; }
+    .header-nav .nav .logFirst {
+      height: 50px;
+      line-height: 20px;
+      display: inline-block;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.8);
+      *background: #333;
+      background: #333 \0;
+      font-size: 12px;
+      position: absolute;
+      z-index: 9999999;
+      left: 93px;
+      top: 60px;
+      padding-top: 9px;
+      text-align: center;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px;
+      display: none; }
+      .header-nav .nav .logFirst em {
+        position: absolute;
+        top: -5px;
+        left: 75px;
+        width: 0;
+        height: 0;
+        line-height: 0;
+        font-size: 0;
+        overflow: hidden;
+        border-width: 5px;
+        cursor: pointer;
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+        border-top: none; }
     .header-nav .nav .border {
       position: absolute;
       z-index: 1000;
@@ -278,7 +312,8 @@ body {
       display: inline-block;
       *display: inline;
       *zoom: 1;
-      overflow: hidden; }
+      overflow: hidden;
+      cursor: pointer; }
       .header-nav .nav a:hover, .header-nav .nav a.active {
         color: #ff6700; }
   .header-nav .login-btn a {
