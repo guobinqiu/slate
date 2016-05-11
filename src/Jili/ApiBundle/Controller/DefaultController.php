@@ -633,15 +633,18 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/contact", name="_default_contact", options={"expose"=true})
+	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="https"})
 	 */
     public function contactAction()
     {
-        $request = $this->get('request');
-        $content = $request->query->get('content');
-        $email = $request->query->get('email');
-        $code = $this->checkContact($content, $email);
-        return new Response($code);
+       $request = $this->get('request');
+       $content = $request->query->get('content');
+       $email = $request->query->get('email');
+       $code = $this->checkContact($content, $email);
+       $response = new Response($code);
+       //enable CORS
+       $response->headers->set('Access-Control-Allow-Origin', '*');
+       return $response;
     }
 
     public function checkContact($content, $email)
