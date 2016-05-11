@@ -169,126 +169,114 @@ require(['../../config'], function() {
         function mockResponse() {
           var callback = surveylistCallback;
           surveylistCallback = function(res){
-            // dummy_res = { 'meta' : {'code': '200' },
-            //  'data': {
-            //      "profiling": [
-            //          {
-            //              "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-            //              "name": "q004",
-            //              "title": "profiling"
-            //          }
-            //      ],
-            //      "research": [
-            //          {
-            //              "date": "2015-07-21",
-            //              "is_answered": "0",
-            //              "cpi": "0.00",
-            //              "is_closed": "0",
-            //              "ir": "0",
-            //              "extra_info": {
-            //                  "point": {
-            //                      "screenout": "30",
-            //                      "quotafull": "30",
-            //                      "complete": "670"
-            //                  },
-            //                  "date": {
-            //                      "end_at": "2015-08-31 00:00:00",
-            //                      "start_at": "2015-07-21 00:00:00"
-            //                  },
-            //                  "content": ""
-            //              },
-            //              "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-            //              "loi": "15",
-            //              "title": "Test 4",
-            //              "survey_id": "284",
-            //              "quota_id": "393"
-            //          }
-            //      ],
-            //      'user_agreement':[
-            //        {
-            //          "type": "Fulcrum",
-            //          "url": "http://researchpanelasia.com"
-            //        },
-            //        {
-            //          "type": "Cint",
-            //          "url": "http://www.d8aspring.com"
-            //        }
-            //      ],
-            //      'fulcrum_research':[
-            //        {
-            //          "survey_id": "4",
-            //          "quota_id": "10",
-            //          "cpi": "0.00",
-            //          "ir": "80",
-            //          "loi": "10",
-            //          "title": "来自Fulcrum的调查问卷",
-            //          "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-            //          "date": "2015-01-01",
-            //          "extra_info": {
-            //              "point": {"complete": "10"}
-            //          }
-            //        }
-            //      ],
-            //      "cint_research": [
-            //          {
-            //            "survey_id": "10000",
-            //            "quota_id": "20000",
-            //            "cpi": "0.00",
-            //            "ir": "80",
-            //            "loi": "10",
-            //            "is_answered": "0",
-            //            "is_closed": "0",
-            //            "title": "Cint Survey",
-            //            "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-            //            "date": "2015-01-01",
-            //            "extra_info": {
-            //              "point": {
-            //                "complete": "40",
-            //                "screenout": "10",
-            //                "quotafull": "10"
-            //              }
-            //            }
-            //          },
-            //          {
-            //            "survey_id": "10002",
-            //            "quota_id": "20000",
-            //            "cpi": "0.00",
-            //            "ir": "80",
-            //            "loi": "10",
-            //            "is_answered": "1",
-            //            "is_closed": "0",
-            //            "title": "Cint Survey2",
-            //            "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-            //            "date": "2015-01-01",
-            //            "extra_info": {
-            //              "point": {
-            //                "complete": "40",
-            //                "screenout": "10",
-            //                "quotafull": "10"
-            //              }
-            //            }
-            //          }
-            //       ]
-            //    }
-            // };
-
-dummy_res = {"data":{
-"cint_research":[],
-"user_agreement":[
-  {"url":"https://partners.surveyon.com/resource/auth/v1_1?app_id=56&app_mid=431728&next=%2Ffulcrum%2Fuser_agreement&sig=ddd3349a7d3a3cd4505903e6e63012be9bf8398c316eb24041e6ad6b13d44873&sop_locale=&time=1462949098","type":"Fulcrum"},
-  {"url":"https://partners.surveyon.com/resource/auth/v1_1?app_id=56&app_mid=431728&next=%2Fcint%2Fuser_agreement&sig=a93ea7124dbaaa8f7f6d6dd0beaed35b48744cee74591b6b26d9cbf7e1e5b9f8&sop_locale=&time=1462949098","type":"Cint"}
-],
-"research":[],
-"fulcrum_research":[],
-"profiling":[]
-},
-"meta":{"message":"","code":200}};
+            dummy_res = { 'meta' : {'code': '200' },
+             'data': {
+                 "profiling": [
+                     {
+                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                         "name": "q004",
+                         "title": "profiling"
+                     }
+                 ],
+                 "research": [
+                     {
+                         "date": "2015-07-21",
+                         "is_answered": "0",
+                         "cpi": "0.00",
+                         "is_closed": "0",
+                         "ir": "0",
+                         "extra_info": {
+                             "point": {
+                                 "screenout": "30",
+                                 "quotafull": "30",
+                                 "complete": "670"
+                             },
+                             "date": {
+                                 "end_at": "2015-08-31 00:00:00",
+                                 "start_at": "2015-07-21 00:00:00"
+                             },
+                             "content": ""
+                         },
+                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                         "loi": "15",
+                         "title": "Test 4",
+                         "survey_id": "284",
+                         "quota_id": "393"
+                     }
+                 ],
+                 'user_agreement':[
+                   {
+                     "type": "Fulcrum",
+                     "url": "http://researchpanelasia.com"
+                   },
+                   {
+                     "type": "Cint",
+                     "url": "http://www.d8aspring.com"
+                   }
+                 ],
+                 'fulcrum_research':[
+                   {
+                     "survey_id": "4",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "10",
+                     "title": "来自Fulcrum的调查问卷",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "10"}
+                     }
+                   }
+                 ],
+                 "cint_research": [
+                     {
+                       "survey_id": "10000",
+                       "quota_id": "20000",
+                       "cpi": "0.00",
+                       "ir": "80",
+                       "loi": "10",
+                       "is_answered": "0",
+                       "is_closed": "0",
+                       "title": "Cint Survey",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "date": "2015-01-01",
+                       "extra_info": {
+                         "point": {
+                           "complete": "40",
+                           "screenout": "10",
+                           "quotafull": "10"
+                         }
+                       }
+                     },
+                     {
+                       "survey_id": "10002",
+                       "quota_id": "20000",
+                       "cpi": "0.00",
+                       "ir": "80",
+                       "loi": "10",
+                       "is_answered": "1",
+                       "is_closed": "0",
+                       "title": "Cint Survey2",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "date": "2015-01-01",
+                       "extra_info": {
+                         "point": {
+                           "complete": "40",
+                           "screenout": "10",
+                           "quotafull": "10"
+                         }
+                       }
+                     }
+                  ]
+               }
+            };
             callback(dummy_res);
           };
         }
         // preview
         var $preview = $('#preview').val();
-        if (1){
+        if ($preview){
             mockResponse();
         }
     });
