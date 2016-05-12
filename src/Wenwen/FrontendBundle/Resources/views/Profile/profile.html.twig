@@ -84,6 +84,7 @@
                         <option value="{{ item.id }}"  {% if user.province == item.id %} selected = "selected"  {% endif %}>{{ item.provinceName }}</option>
                         {% endfor %}
                         </select>
+                        <input type="hidden" id="user_city" value="{{ user.city }}">
                         <select id="city" name="profile[city]">
                         <option value="0" selected="selected">地区</option>
                         </select>
