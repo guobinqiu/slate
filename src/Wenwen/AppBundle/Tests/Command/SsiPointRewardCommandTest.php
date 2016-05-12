@@ -118,6 +118,49 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->assertCount(3, $rows);
     }
 
+    public function testExecuteInDefinitiveMode_Repeat()
+    {
+        $kernel = self::$kernel;
+
+        // mock the Kernel or create one depending on your needs
+        $application = new Application($kernel);
+        $application->add(new \Wenwen\AppBundle\Command\SsiPointRewardCommand());
+        $command = $application->find('panel:reward-ssi-point');
+        $command->setContainer($this->container);
+
+        $iterator = \Phake::partialMock('\Wenwen\AppBundle\Services\SsiConversionReportIterator');
+        \Phake::when($iterator)->getConversionReport(1)->thenReturn([
+            'success' => true,
+            'totalNumRows' => 1001,
+            'data' => [
+                self::getConversionRowSample2()
+            ]
+        ]);
+        $this->container->set('ssi_api.conversion_report_iterator', $iterator);
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
+
+        $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId());
+        $this->assertCount(1, $rows);
+
+        $this->em->clear();
+        \Phake::when($iterator)->getConversionReport(1)->thenReturn([
+            'success' => true,
+            'totalNumRows' => 1001,
+            'data' => [
+                self::getConversionRowSample2()
+            ]
+        ]);
+        $this->container->set('ssi_api.conversion_report_iterator', $iterator);
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
+
+        $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId());
+        $this->assertCount(1, $rows);
+    }
+
     public function testRecordParticipationHistory()
     {
         $kernel = self::$kernel;
@@ -163,7 +206,26 @@ class SsiPointRewardCommandTest extends KernelTestCase
          'ip' => '123.456.789.123',
          'status' => 'approved',
          'transaction_id' => md5(time().rand()),
-         );
+        );
+    }
+
+    private static function getConversionRowSample2()
+    {
+        return array (
+            'offer' => '1346 API_USD',
+            'date_time' => '2016-05-12 13:54:53',
+            'source' => '',
+            'sub_id' => '',
+            'sub_id_1' => '',
+            'sub_id_2' => '',
+            'sub_id_3' => '',
+            'sub_id_4' => '',
+            'sub_id_5' => 'wwcn-' . SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId(),
+            'payout' => '$1.50',
+            'ip' => '123.456.789.123',
+            'status' => 'approved',
+            'transaction_id' => '102a8857d5db3fb1679cf1c204337b'
+        );
     }
 }
 
