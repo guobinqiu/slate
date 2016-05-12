@@ -130,7 +130,8 @@ class SsiPointRewardCommandTest extends KernelTestCase
 
         $ssiRespondent = SsiPointRewardCommandTestFixture::$SSI_RESPONDENT;
         $row = self::getConversionRowSample();
-        $command->recordParticipationHistory($ssiRespondent, $row);
+        $return= $command->recordParticipationHistory($ssiRespondent, $row);
+        $this->assertTrue($return);
         $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], 'EST', 'Asia/Shanghai'));
 
         $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
@@ -140,6 +141,10 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->assertSame($ssiRespondent->getId(), $rows[0]->getSsiRespondentId());
         $this->assertSame($row['transaction_id'], $rows[0]->getTransactionId());
         $this->assertSame($dt->format('U'), $rows[0]->getCompletedAt()->format('U'));
+
+        //test: repeat insert db
+        $return = $command->recordParticipationHistory($ssiRespondent, $row);
+        $this->assertFalse($return);
     }
 
     private static function getConversionRowSample()
