@@ -14,7 +14,8 @@ sub count_register_number {
     ";
     my $dbh = $handle->dbh;
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->execute($register_from, $register_to) or die $dbh->errstr;
+    $sth->execute($register_from->strftime('%F %T'), $register_to->strftime('%F %T'))
+        or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
     return $count;
 }
@@ -41,7 +42,10 @@ sub count_active_number {
         ";
 
         my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-        $sth->execute($register_from, $register_to, $reward_from, $reward_to) or die $dbh->errstr;
+        $sth->execute(
+            $register_from->strftime('%F %T'), $register_to->strftime('%F %T'),
+            $reward_from->strftime('%F %T'),   $reward_to->strftime('%F %T')
+        ) or die $dbh->errstr;
         my $count = $sth->fetchall_arrayref()->[0][0];
         $total_count += $count;
         $counter++;
@@ -80,7 +84,10 @@ sub count_recent_30_day_inactivated {
             )
     ";
         my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-        $sth->execute($active_from, $active_to, $inactive_from, $inactive_to) or die $dbh->errstr;
+        $sth->execute(
+            $active_from->strftime('%F %T'),   $active_to->strftime('%F %T'),
+            $inactive_from->strftime('%F %T'), $inactive_to->strftime('%F %T')
+        ) or die $dbh->errstr;
         my $count = $sth->fetchall_arrayref()->[0][0];
         $total_count += $count;
         $counter++;
@@ -118,15 +125,15 @@ sub count_inactive_register {
         $counter++;
     }
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->bind_param(1, $register_from);
-    $sth->bind_param(2, $register_to);
+    $sth->bind_param(1, $register_from->strftime('%F %T'));
+    $sth->bind_param(2, $register_to->strftime('%F %T'));
 
     $counter = 0;
     while ($counter < 5) {
         my $bind_counter1 = $counter * 2 + 3;
         my $bind_counter2 = $counter * 2 + 4;
-        $sth->bind_param($bind_counter1, $reward_from);
-        $sth->bind_param($bind_counter2, $reward_to);
+        $sth->bind_param($bind_counter1, $reward_from->strftime('%F %T'));
+        $sth->bind_param($bind_counter2, $reward_to->strftime('%F %T'));
         $counter++;
     }
 
@@ -149,7 +156,8 @@ sub count_withdraw {
                     uw.created_at < ?
                 ";
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->execute($withdraw_from, $withdraw_to) or die $dbh->errstr;
+    $sth->execute($withdraw_from->strftime('%F %T'), $withdraw_to->strftime('%F %T'))
+        or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
 
     return $count;
@@ -168,7 +176,8 @@ sub count_blacklist {
                     u.delete_date < ?
                 ";
     my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->execute($delete_from, $delete_to) or die $dbh->errstr;
+    $sth->execute($delete_from->strftime('%F %T'), $delete_to->strftime('%F %T'))
+        or die $dbh->errstr;
     my $count = $sth->fetchall_arrayref()->[0][0];
 
     return $count;
@@ -196,8 +205,8 @@ sub count_late_active {
                         WHERE
                             u.register_complete_date >= ?
                             AND u.register_complete_date < ?
-                            AND p.id NOT IN(
-                                SELECT distinct p.id
+                            AND p.user_id NOT IN(
+                                SELECT distinct p.user_id
                                 FROM point_history0${counter} p
                                 WHERE
                                     p.create_time >= ?
@@ -207,12 +216,12 @@ sub count_late_active {
                         )
                 ";
         my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-        $sth->bind_param(1, $active_from);
-        $sth->bind_param(2, $active_to);
-        $sth->bind_param(3, $inactive_from);
-        $sth->bind_param(4, $inactive_to);
-        $sth->bind_param(5, $inactive_from);
-        $sth->bind_param(6, $inactive_to);
+        $sth->bind_param(1, $active_from->strftime('%F %T'));
+        $sth->bind_param(2, $active_to->strftime('%F %T'));
+        $sth->bind_param(3, $inactive_from->strftime('%F %T'));
+        $sth->bind_param(4, $inactive_to->strftime('%F %T'));
+        $sth->bind_param(5, $inactive_from->strftime('%F %T'));
+        $sth->bind_param(6, $inactive_to->strftime('%F %T'));
         $sth->execute() or die $dbh->errstr;
         my $count = $sth->fetchall_arrayref()->[0][0];
         $total_count += $count;
