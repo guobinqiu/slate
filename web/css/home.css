@@ -763,7 +763,8 @@ body {
 .mainAdTop ul li {
   width: 165px;
   float: left;
-  margin-right: 42px; }
+  margin-right: 42px;
+  margin-right: 35px\9; }
 
 .mainAdTop ul li:last-child {
   margin-right: 0; }
