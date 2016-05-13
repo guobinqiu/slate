@@ -9,16 +9,19 @@ use Symfony\Component\HttpFoundation\Request;
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
 $office_ip_addresses = [
-  '180.168.105.42',      # China office
+  '180.168.105.42',    # China office
   '123.1.191.42',      # HK VPN
   '158.199.142.139',   # JP VPN
   '153.121.52.149',    # JP VPN
-
   '192.168.33.1',      # vagrant
+  '127.0.0.1',         # localhost
+  '::1'                # localhost
 ];
+
  if (isset($_SERVER['HTTP_CLIENT_IP'])
      || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-     || !in_array(@$_SERVER['REMOTE_ADDR'], array_merge($office_ip_addresses, array('127.0.0.1',/* 'fe80::1',*/ '::1',)))
+     || !in_array(@$_SERVER['REMOTE_ADDR'], $office_ip_addresses)
+     || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
  ) {
      header('HTTP/1.0 403 Forbidden');
      exit('你无权访问此页面.');

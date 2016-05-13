@@ -72,7 +72,7 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $commandParam = array (
             'command' => $command->getName(),
             '--campaign_id' => '23', # 91wenwen-survey-mailing2
-            '--mailing_id' => '90004', # survey-mail-fulcrum
+            '--mailing_id' => '90024', # survey-mail-fulcrum
             '--group_name' => 'test_by_jarod',
             'recipients' => implode(' ', $add_recipients)
         );
@@ -104,7 +104,7 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $args = array (
             '--campaign_id=23',
             '--group_name=test_by_jarod',
-            '--mailing_id=90004',
+            '--mailing_id=90024',
             implode(' ', $add_recipients)
         );
         $job = new Job('research_survey:delivery_notification', $args, true, '91wenwen');
@@ -224,7 +224,7 @@ class ResearchSurveyDeliveryNotificationCommandTest extends KernelTestCase
         $args = array (
             '--campaign_id=23',
             '--group_name=test_by_jarod',
-            '--mailing_id=90004',
+            '--mailing_id=90024',
             'recipients='.implode(' ', $add_recipients)
         );
 

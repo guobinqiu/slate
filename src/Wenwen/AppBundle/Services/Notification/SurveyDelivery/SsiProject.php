@@ -10,7 +10,7 @@ class SsiProject
 {
     public static $PLATFORM = 'message',
         $CAMPAIGN_ID = '23',      # 91wenwen-survey-mailing2
-        $MAILING_ID = '89994',    # survey-mail-ssi(taobao_order) '89974'
+        $MAILING_ID = '90027',    # survey-mail-ssi(Copy 20160512)  before: '89974'
         $EMAIL_PER_JOB = 100;
 
     private $respondentIds = null;

@@ -519,7 +519,7 @@ body {
   .main.unlogin {
     margin-top: 80px; }
 
-.main-ad {
+.main-adv {
   height: 673px;
   overflow: hidden;
   background: #1bb5e6; }
@@ -542,32 +542,32 @@ body {
   background-size: contain;
   margin: 0 auto; }
 
-.main-ad-con {
+.main-adv-con {
   width: 1000px;
   height: 100%;
   position: relative;
   z-index: 1;
   margin: 0 auto; }
 
-.main-ad-con-text {
+.main-adv-con-text {
   color: #f4fafd;
   left: 0;
   top: 145px;
   position: absolute;
   z-index: 3; }
-  .main-ad-con-text h1 {
+  .main-adv-con-text h1 {
     font-size: 51px;
     letter-spacing: 2px;
     text-shadow: 0 1px 2px #3A99BF; }
-  .main-ad-con-text .digits {
+  .main-adv-con-text .digits {
     margin-top: 28px; }
-    .main-ad-con-text .digits .pst {
+    .main-adv-con-text .digits .pst {
       font-size: 28px;
       vertical-align: -8px;
       text-shadow: 0 1px 2px #3A99BF; }
-    .main-ad-con-text .digits img {
+    .main-adv-con-text .digits img {
       vertical-align: middle; }
-    .main-ad-con-text .digits span {
+    .main-adv-con-text .digits span {
       margin-left: 4px;
       width: 24px;
       height: 32px;
@@ -588,29 +588,29 @@ body {
       -webkit-box-shadow: 0 1px 2px #4489A6;
       -moz-box-shadow: 0 1px 2px #4489A6;
       box-shadow: 0 1px 2px #4489A6; }
-    .main-ad-con-text .digits b {
+    .main-adv-con-text .digits b {
       width: 24px;
       height: 300px;
       background: url(../img/home/num.png) no-repeat 5px center;
       display: block; }
-  .main-ad-con-text .moreText {
+  .main-adv-con-text .moreText {
     margin-top: 67px; }
-    .main-ad-con-text .moreText p {
+    .main-adv-con-text .moreText p {
       color: #f4fafd;
       line-height: 36px;
       font-size: 16px;
       text-shadow: 0 1px 2px #3A99BF; }
-      .main-ad-con-text .moreText p em {
+      .main-adv-con-text .moreText p em {
         width: 12px;
         height: 12px;
         background: url(../img/home/indexMess.png) no-repeat 0 0;
         display: inline-block;
         margin-right: 7px; }
-      .main-ad-con-text .moreText p .corYellow {
+      .main-adv-con-text .moreText p .corYellow {
         color: #ffe524; }
-  .main-ad-con-text .more-btn {
+  .main-adv-con-text .more-btn {
     margin-top: 45px; }
-    .main-ad-con-text .more-btn a {
+    .main-adv-con-text .more-btn a {
       width: 140px;
       height: 50px;
       line-height: 50px;

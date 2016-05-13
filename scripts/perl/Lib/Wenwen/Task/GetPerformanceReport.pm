@@ -272,7 +272,7 @@ sub get_late_active_in_30_days {
     my $active_to   = $self->base_date;
     my $active_from = $active_to - 30 * ONE_DAY;
 
-    my $register_to = $self - 31 * ONE_DAY;
+    my $register_to = $self->base_date - 31 * ONE_DAY;
     my $register_from = Time::Piece->strptime('2000-01-01', '%Y-%m-%d');
 
     my $late_active_number = Wenwen::Model::Service::PanelKPI->count_late_active(

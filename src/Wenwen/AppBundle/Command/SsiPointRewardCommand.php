@@ -39,6 +39,10 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $definitive = $input->getOption('definitive');
         $this->setLogger($this->getName());
 
+        $this->logger->info('Start executing');
+        $this->logger->info('    definitive= ' . ($definitive ? 'true' : 'false'));
+        $this->logger->info('    date=' . $date);
+
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
         $iterator->initialize($client, $date);
@@ -50,6 +54,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         try {
             while ($row = $iterator->nextConversion()) {
+                $this->logger->info('transaction_id: ' . $row['transaction_id']);
+                $this->logger->info('date_time: ' . $row['date_time']);
+
                 $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
                 $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
                 if (!$ssiRespondent) {
@@ -76,9 +83,13 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );
 
-                $this->recordParticipationHistory($ssiRespondent, $row);
+                $return = $this->recordParticipationHistory($ssiRespondent, $row);
+                if (!$return) {
+                    $this->logger->info('already exist, skip: ' . $row['transaction_id']);
+                }
             }
         } catch (\Exception $e) {
+            $this->logger->info('rollBack: '.$e->getMessage());
             $dbh->rollBack();
             throw $e;
         }
@@ -109,8 +120,16 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     public function recordParticipationHistory($ssiRespondent, $row)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-
         $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE));
+
+        $records = $em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBy(array (
+            'completedAt' => $dt,
+            'transactionId' => $row['transaction_id']
+        ));
+        if (count($records) > 0) {
+            return false;
+        }
+
         $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
         $history->setSsiRespondentId($ssiRespondent->getId());
         $history->setTransactionId($row['transaction_id']);
@@ -118,5 +137,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         $em->persist($history);
         $em->flush();
+
+        return true;
     }
 }
