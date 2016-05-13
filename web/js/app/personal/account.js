@@ -7,14 +7,22 @@ require(['../../config'],function(){
 
        	btns.on('click', function(){
        		var i = btns.index(this);
-       		if(eles.eq(i).hasClass('active')){
+       		var withdrawL = $(this).hasClass('withdrawPart');
+            if(eles.eq(i).hasClass('active')){
                 eles.eq(i).removeClass('active');
                 cons.eq(i).slideToggle();
-                btns.eq(i).html('编辑');
+                if(withdrawL){
+                    $(this).html('注销');
+                }else{
+                    btns.eq(i).html('编辑');
+                }
             }else{
                 eles.removeClass('active').eq(i).addClass('active');
                 cons.slideUp().eq(i).slideDown();
                 btns.html('编辑').eq(i).html('收起');
+                if(!withdrawL){
+                    $('.withdrawPart').html('注销');
+                }
             }
        	});
 
