@@ -58,9 +58,8 @@ class FulcrumDeliveryNotification91wenwenUtilTest extends KernelTestCase
 
         $this->assertEquals('91wenwen', $job->getQueue());
         $this->assertEquals('--campaign_id=23', $args[0]);
-        $this->assertEquals('--mailing_id=90004', $args[1]);
+        $this->assertEquals('--mailing_id=90024', $args[1]);
         $this->assertRegExp('/--group_name=tmp_sop_notification-/', $args[2]);
-        //$this->assertRegExp('/recipients/', $args[3]);
     }
 
     /**
