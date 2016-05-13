@@ -20,8 +20,7 @@ $office_ip_addresses = [
 
  if (isset($_SERVER['HTTP_CLIENT_IP'])
      || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
-     || !in_array(@$_SERVER['REMOTE_ADDR'], $office_ip_addresses)
-     || substr($_SERVER['REMOTE_ADDR'], 0, 10) == '192.168.1.'
+     || (!in_array(@$_SERVER['REMOTE_ADDR'], $office_ip_addresses) && substr($_SERVER['REMOTE_ADDR'], 0, 10) != '192.168.1.')
  ) {
      header('HTTP/1.0 403 Forbidden');
      exit('你无权访问此页面.');
