@@ -73,19 +73,16 @@ require(['../config'],function(){
         };
 
         var renderResearchItems = function (items, num) {
-            if(num == 1){
-                var model = new survey.ResearchItemModel(items[0]);
-                var view  = new survey.ResearchItemView({ model: model });
-                addSuveyItem(view.render().el);
-            }else{
-                _.each(items, function (item, index) {
-                    if(index <= 1){
-                        var model = new survey.ResearchItemModel(item);
-                        var view  = new survey.ResearchItemView({ model: model });
-                        addSuveyItem(view.render().el);
-                    }
-                });
-            }
+            var flag = 0;
+            _.each(items, function (item, index) {
+                if(flag == num) return true;
+                if(item.is_answered == 0){
+                    var model = new survey.ResearchItemModel(item);
+                    var view  = new survey.ResearchItemView({ model: model });
+                    addSuveyItem(view.render().el);
+                    flag++;                    
+                }
+            });
         };
 
         var renderFulcrumUserAgreementItems = function (items) {
@@ -131,23 +128,20 @@ require(['../config'],function(){
         };
 
         var renderCintResearchItems = function (items, num) {
-            if(num == 1){
-                var model = new survey.CintResearchItemModel(items[0]);
-                var view  = new survey.CintResearchItemView({ model: model });
-                addSuveyItem(view.render().el);
-            }else{
-                _.each(items, function (item, index) {
-                    if(index <= 1){
-                        var model = new survey.CintResearchItemModel(item);
-                        var view  = new survey.CintResearchItemView({ model: model });
-                        addSuveyItem(view.render().el);
-                    }
-                });
-            }
+            var flag = 0;
+            _.each(items, function (item, index) {
+                if(flag == num) return true;
+                if(item.is_answered == 0){
+                    var model = new survey.CintResearchItemModel(item);
+                    var view  = new survey.CintResearchItemView({ model: model });
+                    addSuveyItem(view.render().el);
+                    flag++;                    
+                }
+            });
         };
 
         var fillOtherSurvey = function(res, num, type){
-            if(res.data.cint_research.length != 0 && type == 'Cint'){
+            if(calcAnswerableSurvey(res.data.cint_research) > 0 && type == 'Cint'){
                 renderCintResearchItems(res.data.cint_research, 1);
                 return true;
             }
@@ -171,55 +165,72 @@ require(['../config'],function(){
                 renderProfilingItems(res.data.profiling);
                 return true;
             }
-            if(res.data.research.length != 0 && type == 'Research'){
+            if(calcAnswerableSurvey(res.data.research) > 0 && type == 'Research'){
                 renderResearchItems(res.data.research, 1);
                 return true;
             }
             return false;
         };
 
+        var calcAnswerableSurvey = function(data){
+            var answerableNum = 0;
+            for(var i = 0; i < data.length; i++){
+                if(data[i].is_answered == 0){
+                    answerableNum++;
+                }
+            }
+            return answerableNum;
+        };
+
+        var showSopTypeSurvey = function(func, resData, type){
+            var lackNum;
+            if(type == 'Fulcrum'){
+                if(resData.length >= 2){
+                    func(resData, 2);
+                    lackNum = 0;
+                }else if(resData.length == 1){
+                    func(resData, 1);
+                    lackNum = 1;
+                }
+            }else{
+                if(calcAnswerableSurvey(resData) >= 2){
+                    console.log(calcAnswerableSurvey(resData));
+                    func(resData, 2);
+                    lackNum = 0;
+                }else if(calcAnswerableSurvey(resData) == 1){
+                    func(resData, 1);
+                    lackNum = 1;
+                }
+            }
+            return lackNum;
+        };
+
         var showSopSurvey = function(res, num){
             if(num == 1){
-                if(res.data.cint_research.length != 0){
-                    renderCintResearchItems(res.data.cint_research, 1);
-                }else if(res.data.fulcrum_research.length != 0){
-                    renderFulcrumResearchItems(res.data.fulcrum_research, 1);
-                }else if(res.data.user_agreement.length != 0){
-                    if(res.data.user_agreement.length == 1){
-                        if(res.data.user_agreement[0].type == 'Cint'){
-                            renderCintUserAgreementItems(res.data.user_agreement);
-                        }else if(res.data.user_agreement[0].type == 'Fulcrum'){
-                            renderFulcrumUserAgreementItems(res.data.user_agreement);
-                        }
-                    }else{
-                        renderCintUserAgreementItems(res.data.user_agreement);
-                    }
-                }else if(res.data.profiling.length != 0){
-                    renderProfilingItems(res.data.profiling);
-                }else if(res.data.research.length != 0){
-                    renderResearchItems(res.data.research, 1);
-                } 
+                if(fillOtherSurvey(res, 1, 'Cint')||fillOtherSurvey(res, 1, 'Fulcrum')||fillOtherSurvey(res, 1, 'UserAgreement')||fillOtherSurvey(res, 1, 'Profiling')||fillOtherSurvey(res, 1, 'Research')){
+                    return true;
+                }
             }else{
-                var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research.reverse());
+                var lackNum = showSopTypeSurvey(renderCintResearchItems, res.data.cint_research.reverse(), 'Cint');
                 if(lackNum == 0){ return;}
                 if(lackNum == 1){
-                    if(!fillOtherSurvey(res, 1, 'Fulcrum') && !fillOtherSurvey(res, 1, 'UserAgreement') && !fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
+                    if(fillOtherSurvey(res, 1, 'Fulcrum') || fillOtherSurvey(res, 1, 'UserAgreement') || fillOtherSurvey(res, 1, 'Profiling') || fillOtherSurvey(res, 1, 'Research') || showSsiSurvey(1)){ return true;}
                 }else{
-                    lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research.reverse());
+                    lackNum = showSopTypeSurvey(renderFulcrumResearchItems, res.data.fulcrum_research.reverse(), 'Fulcrum');
                     if(lackNum == 0){ return;}
                     if(lackNum == 1){
-                        if(!fillOtherSurvey(res, 1, 'UserAgreement') && !fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
+                        if(fillOtherSurvey(res, 1, 'UserAgreement') || fillOtherSurvey(res, 1, 'Profiling') || fillOtherSurvey(res, 1, 'Research') || showSsiSurvey(1)){ return true;}
                     }else{
                         lackNum = showUserAgreementSurvey(res, 2);
                         if(lackNum == 0){ return;}
                         if(lackNum == 1){
-                            if( !fillOtherSurvey(res, 1, 'Profiling') && !fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
+                            if(fillOtherSurvey(res, 1, 'Profiling') || fillOtherSurvey(res, 1, 'Research') || showSsiSurvey(1)){ return true;}
                         }else{
                             if(res.data.profiling.length != 0){
                                 renderProfilingItems(res.data.profiling);
-                                if(!fillOtherSurvey(res, 1, 'Research') && !showSsiSurvey(1)){ return;}
+                                if(fillOtherSurvey(res, 1, 'Research') || showSsiSurvey(1)){ return true;}
                             }else{
-                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research);
+                                lackNum = showSopTypeSurvey(renderResearchItems, res.data.research, 'Research');
                                 if(lackNum == 0){ return;}
                                 if(lackNum == 1){
                                     if(!showSsiSurvey(1)){ return;}
@@ -269,18 +280,6 @@ require(['../config'],function(){
             }
         };
 
-        var showSopTypeSurvey = function(func, resData){
-            var lackNum;
-            if( resData.length >= 2 ){
-                func(resData, 2);
-                lackNum = 0;
-            }else if( resData.length == 1){
-                func(resData, 1);
-                lackNum = 1;
-            }
-            return lackNum;
-        };
-
         var showUserAgreementSurvey = function(res, num){
             var lackNum;
             if(num == 1){
@@ -308,6 +307,13 @@ require(['../config'],function(){
             return lackNum;
         };
 
+        var calcSopSurvey = function(res){
+            var surveySopLen = res.data.profiling.length + res.data.user_agreement.length + res.data.fulcrum_research.length;
+            var researchLen = calcAnswerableSurvey(res.data.research), cintResearchLen = calcAnswerableSurvey(res.data.cint_research);
+            var totalLen = surveySopLen + researchLen + cintResearchLen;
+            return totalLen;
+        };
+
         surveylistCallback = function (res) {
 
             // return if error code
@@ -317,8 +323,7 @@ require(['../config'],function(){
             }  
 
             // return if no data
-            var surveySopLen = res.data.profiling.length + res.data.research.length + res.data.user_agreement.length
-                            + res.data.cint_research.length + res.data.fulcrum_research.length;
+            var surveySopLen = calcSopSurvey(res);
             if(surveySopLen == 0){
                 hideSurvey(); 
                 return;

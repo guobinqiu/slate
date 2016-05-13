@@ -111,8 +111,7 @@ require(['../../config'], function() {
         var resizeFooter =function(){
             if($(window).height() > $("body").height()){
                 $(".footer").css({"position":"fixed", "bottom":"0"});
-            }
-            else{
+            }else{
                 $(".footer").css("position","static");
             }   
         }
