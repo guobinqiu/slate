@@ -26,19 +26,21 @@
             </div>
             {% endif %}
 
+            <div class="survey-btn">
             {% if app.session.has('uid')%}
                 {% if(item.endTime|date("Ymd") >= "now"|date('Ymd')) and item.answerable %}
-                <div class="survey-btn"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a></div>
+                <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                 {% else %}
-                <div class="survey-btn"><a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="disabled">去看看</a></div>
+                <a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="disabled">去看看</a>
                 {% endif %}
             {% else %}
                 {% if (item.endTime|date("Ymd") >= "now"|date('Ymd')) %}
-                <div class="survey-btn"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a></div>
+                <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                 {% else %}
-                <div class="survey-btn"><a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="disabled">去看看</a></div>
+                <a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="disabled">去看看</a>
                 {% endif %}
             {% endif %}
+            </div>
         </li>
     {% endfor %}
 {% endif %}
