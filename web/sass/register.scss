@@ -50,6 +50,12 @@
 			color: #a1a1a1;
 		}
 	}
+	span{
+		&.succeed{
+			width: 2px;
+			height: 34px;
+		}
+	}
 }
 .main-register-btn{
 	margin-top: 30px;

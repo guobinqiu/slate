@@ -18,31 +18,31 @@
 			<li>
 			   {{ form_label(form.nickname ) }}
 				<div>{{ form_widget(form.nickname ) }}
-                  <span id="signup_nickname_succeed" class="succeed"></span>
+                  <span id="signup_nickname_succeed"></span>
                   <span id="signup_nickname_error" class="msg_normal">{{ form_errors(form.nickname) }}</span>
                 </div>
 			</li>
 			<li>
 				{{ form_label(form.email) }}
 				<div> {{ form_widget(form.email ) }}
-                    <span id="signup_email_succeed" class="succeed"></span>
+                    <span id="signup_email_succeed"></span>
                     <span id="signup_email_error" class="msg_normal">{{ form_errors(form.email) }}</span>
                 </div>
 			</li>
 			<li>
 				{{ form_label(form.password.first) }}
-				<div>{{ form_widget(form.password.first)}}<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="signup_password_first_succeed" class="succeed"></span><span id="signup_password_first_error" class="msg">{{ form_errors(form.password.first) }}</span>
+				<div>{{ form_widget(form.password.first)}}<span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span><span id="signup_password_first_succeed"></span><span id="signup_password_first_error" class="msg">{{ form_errors(form.password.first) }}</span>
                 </div>
 			</li>
 			<li>
 				{{ form_label(form.password.second) }}
-				<div>{{ form_widget(form.password.second )}}<span id="signup_password_second_succeed" class="succeed"></span><span id="signup_password_second_error" class="msg">{{ form_errors(form.password.second) }}</span>
+				<div>{{ form_widget(form.password.second )}}<span id="signup_password_second_succeed"></span><span id="signup_password_second_error" class="msg">{{ form_errors(form.password.second) }}</span>
                 </div>
 			</li>
 			<li id="vcode">
 				{{ form_label(form.captcha) }}
 				<div>{{ form_widget(form.captcha) }}
-				<span id="signup_captcha_succeed" class="succeed"></span><span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span>
+				<span id="signup_captcha_succeed"></span><span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span>
                 </div>
 			</li>
 			<li>
