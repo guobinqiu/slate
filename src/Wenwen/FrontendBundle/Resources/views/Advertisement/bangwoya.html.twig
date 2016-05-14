@@ -12,7 +12,7 @@
 {% block body %}
 <div class="main-con w1000">
 	{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
-	<div class="main-con-advertisement">
+	<div class="main-con-experience">
 		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
 		<div class="tabCon">
 			<iframe src='http://www.bangwoya.com/91jili&u=1132938' style='width:980px; height:3500px;' scrolling='no' frameborder='no' border='0'></iframe>
@@ -26,5 +26,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/bangwoya')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/experience/bangwoya')}}"></script>
 {% endblock %}
