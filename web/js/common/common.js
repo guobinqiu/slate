@@ -1,7 +1,7 @@
 define(['jquery', 'routing'],function($){
     var href = window.location.href;
     var nav = $('.header-nav .nav');
-    var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '体验广告', 'shop': '体验广告','exchange': '兑换中心'};
+    var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验','exchange': '兑换中心'};
     $.each(arr, function(i, e){
         if(href == Routing.generate('_homepage')){ 
             nav.find('a').removeClass('active').eq(0).addClass('active');
