@@ -194,7 +194,6 @@ require(['../config'],function(){
                 }
             }else{
                 if(calcAnswerableSurvey(resData) >= 2){
-                    console.log(calcAnswerableSurvey(resData));
                     func(resData, 2);
                     lackNum = 0;
                 }else if(calcAnswerableSurvey(resData) == 1){
