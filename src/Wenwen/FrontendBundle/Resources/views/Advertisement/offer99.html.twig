@@ -16,7 +16,7 @@
 {% block body %}
 <div class="main-con w1000">
 	{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
-	<div class="main-con-advertisement">
+	<div class="main-con-experience">
 		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
 		<div class="tabCon offer99">
 			<iframe src='#' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
@@ -35,5 +35,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/experience/experience')}}"></script>
 {% endblock %}
