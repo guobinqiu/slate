@@ -1,0 +1,347 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/slider";
+.main-con{
+	padding-top: 20px;
+	position: relative;
+}
+.tbSearchWrap{
+	width: 574px;
+	height: 66px;
+	padding: 27px 95px;
+	background: #fff;
+	border: 1px solid #ebedf2;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.main-slider{
+	margin-right: 2px;
+	background: $block-bg-color;
+	border: $block-border;
+	.mask{
+		width: 520px;
+		height: 212px;
+	}
+	ul{
+		position: absolute;
+		z-index: 1999;
+		top: 0;
+		left: 0;
+		width: 1000%;
+	}
+	li{
+		float: left;
+		position: relative;
+		z-index: 3;
+		top: 0;
+		left: 0;
+	}
+	.btn-group{
+		bottom: 20px;
+		left: auto;
+		right: 200px;
+		margin-left: 0;
+		b{
+			margin-right: 5px;
+			width: 8px;
+			height: 8px;
+			background: #cbcbcb;
+			border-radius: 50%;
+			&:hover, &.active{
+				background: #ff430a;
+			}
+		}
+	}
+	span{
+		left: 0;
+		top: 0;
+		padding: 8px 18px 20px;
+		width: 212px;
+		display: block;
+		vertical-align: top;
+		display:none;
+		h2{
+			height: 45px;
+			line-height: 45px;
+			color: #000;
+			font-size: 18px;
+			@include ell();
+		}
+		p{
+			height: 45px;
+			line-height: 22px;
+			color: #999;
+		}
+		a{
+			margin-top: 15px;
+			width: 204px;
+			height: 45px;
+			line-height: 45px;
+			text-align: center;
+			font-size: 14px;
+			@include btn();
+			@include dib();
+		}
+		.relate{
+			margin-top: 10px;
+			height: 30px;
+			line-height: 30px;
+			color: #b2b2b2;
+			.attention, .shopName{
+				@include dib();
+			}
+			.shopName{
+				float: right;
+				em{
+					background-position: 0 -19px;
+				}
+			}
+		}
+	}
+	a{
+		width: 520px;
+		@include dib();
+		vertical-align: top;
+		img{
+			width: 520px;
+		}
+	}
+}
+.main-slider-text{
+	width: 244px;
+	height: 212px;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+}
+.main-con-shop{
+	overflow: hidden;
+	em{
+		margin-right: 3px;
+		width: 15px;
+		height: 15px;
+		background: url(../img/advertisement/icons.png) no-repeat 0 2px;
+		@include dib();
+		vertical-align: middle;
+	}
+	.shops{
+		width: 231px;
+		background: $block-bg-color;
+		h2{
+			text-align: center;
+			height: 35px;
+			line-height: 35px;
+			color: $main-color;
+			border: $block-border;
+			em{
+				background-position: 0 -40px;
+			}
+		}
+		li{
+			position: relative;
+			z-index: 1;
+			float: left;
+			margin-top: -1px;
+			margin-right: -1px;
+			border: $block-border;
+			a{
+				width: 114px;
+				height: 58px;
+				line-height: 58px;
+				text-align: center;
+				display: table-cell;
+				vertical-align: middle;
+				color: #666;
+				*display: inline-block;
+				&.prompt{
+						display: none;
+				}		
+			}
+			b{
+				color: $main-color;
+				font-weight: bold;
+				font-size: 14px;
+			}
+			&:hover, &.active{
+				a{
+					&.prompt{
+						display: block;
+						position: absolute;
+						z-index: 1999;
+						left: 0;
+						top: 0;
+						background: #fff;
+						@include opacity(95, 0.95);
+					}
+				}
+			}
+			img{
+				width: 80px;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+.main-con-advertisement{
+	margin-top: 15px;
+	background: $block-bg-color;
+	border: $block-border;
+	.tabBtns{
+		padding: 0 10px;
+		height: 36px;
+		line-height: 36px;
+		border: 1px solid #dcdee5;
+		background: #ebedf2;
+		font-size: 0;
+		a{
+			width: 120px;
+			text-align: center;
+			color: #7b7e85;
+			font-size: 14px;
+			border-left: 1px solid #d7d9e3;
+			@include dib();
+			&.first{
+				border-left: 1px solid #ebedf2;
+			}
+			&:hover, &.active{
+				margin-top: -1px;
+				margin-right: -1px;
+				height: 38px;
+				border: 1px solid #d7d9e3;
+				border-bottom: 1px solid #fff;
+				border-radius: 3px;
+				color: #131313;
+				background: #fff;
+			}
+		}
+	}
+	.tabCon{
+		padding: 10px;
+		position: relative;
+		z-index: 1;
+		&.offer99{
+			padding: 10px 0 0;
+		}
+		&.offerWow{
+			padding: 20px 25px;
+		}
+		.maintenance{
+			width: 100%;
+			text-align: center;
+			height: 260px;
+			padding-top: 235px;
+			background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px;
+			display: none;
+			.con{
+				font-size: 16px;
+				color: #a1a1a1;
+				line-height: 25px;
+			}
+		}
+	}
+	.taskFlow{
+		position: absolute;
+		z-index: 1000;
+		right: 25px;
+		top: 20px;
+		width: 239px;
+		padding-bottom: 20px;
+		background: url(../img/advertisement/offerwowBgBottom.png) no-repeat bottom right;
+		display: none;
+		h4{
+			padding-left: 25px;
+			height: 50px;
+			line-height: 50px;
+			color: #fff;
+			font-size: 14px;
+			background: url(../img/advertisement/offerwowBg.png) no-repeat;
+		}
+		.conWrapper{
+			padding-left: 10px;
+		}
+		.con{
+			padding: 0 15px 15px;
+			width: 199px;
+			background: #7e0419;
+			.text{
+				padding: 20px 15px 20px 45px;
+				width: 137px;
+				border-radius: 8px;
+				background: #fff;
+			}
+			li{
+				position: relative;
+				z-index: 2;
+				padding: 0 20px 30px 30px;
+				color: #666;
+				border-left: 3px solid #dcdcdc;
+				&.last{
+					border-left: 3px solid #fff;
+					padding-bottom: 0;
+				}
+				em{
+					position: absolute;
+					z-index: 1000;
+					left: -18px;
+					top: 0;
+					width: 33px;
+					height: 32px;
+					text-align: center;
+					line-height: 30px;
+					color: #fff;
+					font-size: 16px;
+					@include dib();
+					background: url(../img/advertisement/offerwowIcons.png) no-repeat;
+				}
+				div{
+					color: #292929;
+					font-size: 18px;
+					font-weight: bold;
+				}
+				p{
+					margin-top: 10px;
+					line-height: 18px;
+				}
+			}
+		}
+	}
+}
+.promptS{
+	width: 168px;
+	height: 159px;
+	position: absolute;
+	top: 135px;
+	right: -174px;
+	display: none;
+	z-index: 9999;
+	background: url(../img/advertisement/promptCPS.png) no-repeat;
+	
+}
+.promptSText{
+	width: 137px;
+	padding: 25px 0 0 45px;
+	text-align: left;
+	line-height: 22px;
+	color: #fff;
+}
+.promptSText .sz{
+	font-size: 18px;
+}
+.promptSText .cor1{
+	color: #000;
+	line-height: 35px;
+}
+.promptSText .cor2{
+	color: #ffda00;
+}
+.promptSClose{
+	width: 45px;
+	height: 45px;
+	float: right;
+	margin-top: -36px;
+	margin-right: -7px;
+	cursor: pointer;
+}
+@import "layout/footer";
