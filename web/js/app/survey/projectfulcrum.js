@@ -1,6 +1,6 @@
 require(['../../config'], function() {
     require(['common']);
-    require(['jquery','backbone'], function($, backbone) {
+    require(['jquery'], function($) {
 
     var $survey_id = $('#survey_id').val();
     var $preview = $('#preview').val();

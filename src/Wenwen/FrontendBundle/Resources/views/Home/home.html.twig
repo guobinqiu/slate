@@ -49,10 +49,7 @@
 	<div class="main-con-left left">
 		{# 1. 首页问卷默认显示两条 #}
 		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
-		<div class="survey" id="surveyHome">
-			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
-			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-		</div>
+		{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
 			<h1><em></em>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
