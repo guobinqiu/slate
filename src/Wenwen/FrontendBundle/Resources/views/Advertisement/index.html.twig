@@ -1,12 +1,12 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}体验广告：{{ parent() }}{% endblock %}
+{% block title %}任务体验：{{ parent() }}{% endblock %}
 {% block meta %}
-<meta name="keywords" content="体验广告，购物返利，商家活动，商家返利，做任务赚钱，做任务返现金" />
-<meta name="description" content="体验广告为用户提供了多种赚钱渠道，可以通过任务大厅一和二做任务赢现金，还可以参加商家活动和在商家列表中选择自己喜欢的商家进行购物获得返利。" />
-<meta name="title" content="体验广告:91问问调查网" />
+<meta name="keywords" content="任务体验，购物返利，商家活动，商家返利，做任务赚钱，做任务返现金" />
+<meta name="description" content="任务体验为用户提供了多种赚钱渠道，可以通过任务大厅一和二做任务赢现金，还可以参加商家活动和在商家列表中选择自己喜欢的商家进行购物获得返利。" />
+<meta name="title" content="任务体验:91问问调查网" />
 {% endblock %}
 {% block stylesheet %}
-<link href="{{ asset('css/advertisement.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/experience.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
  
 {% block header %}
@@ -16,7 +16,7 @@
 {% block body %}
 <div class="main-con w1000">
 	{{ render(controller('JiliApiBundle:Top:market' ) ) }}{# 商家活动 #}
-	<div class="main-con-advertisement">
+	<div class="main-con-experience">
 		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
 		<div class="tabCon offerWow">
 			<iframe src='#' style='width:720px;height:560px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
@@ -61,5 +61,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/advertisement/advertisement')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/experience/experience')}}"></script>
 {% endblock %}

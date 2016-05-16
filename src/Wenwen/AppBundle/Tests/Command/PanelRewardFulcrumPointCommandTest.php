@@ -81,7 +81,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $header = array('response_id', 'yyyymm', 'app_id', 'app_mid', 'survey_id', 'quota_id', 'title',
             'loi', 'ir', 'cpi', 'answer_status', 'approval_status','extra_info',);
         $rec1   = array('15','201502','2',$app_mid,'30001','30002', 'This is a title1',
-            '10','','1.500','SCREENOUT','APPROVED','{"point":"30","point_type":"11"}');
+            '10','','1.500','COMPLETE','APPROVED','{"point":"30","point_type":"11"}');
         $rec2   = array('16','201502','3','Invalid-app-mid','2','3', 'This is a title 2',
             '11','','1.600','COMPLETE','APPROVED','{"point":"100","point_type":"11"}');
         $footer = array('EOF','Total 2 Records',);
@@ -99,15 +99,11 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         );
 
         // execute
-        try {
-            $data = $commandTester->execute($commandParam);
-        } catch (\Exception $e) {
-            $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
-        }
+        $data = $commandTester->execute($commandParam);
 
-        // assert rollbacked
+        // assert
         $history = $em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findAll();
-        $this->assertEmpty($history);
+        $this->assertCount(1, $history);
 
     }
 

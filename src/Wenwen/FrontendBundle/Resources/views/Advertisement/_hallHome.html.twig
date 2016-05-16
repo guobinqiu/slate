@@ -1,4 +1,4 @@
-<div class="mainAdTop">
+<div class="mainExpTop">
     <ul>
     	<h2>任务大厅</h2>
     	{% for item in ad_experience %}
@@ -8,9 +8,9 @@
 	    {% else %}
 	    {% set link = path('_advertiserment_offer99') %}
 	    {% endif %}
-	    <li class="mAdItem">
+	    <li class="mExpItem">
 	        <a href="{{link}}" _orighref="/advertiserment/offer99" _tkworked="true"><img src="{{ asset(item.missionImgUrl) }}" width="165" height="112" alt="{{ item.missionTitle }}" title="{{ item.missionTitle }}"></a>
-	        <a class="mAdTit" href="{{link}}">{{ item.missionTitle }}</a>
+	        <a class="mExpTit" href="{{link}}">{{ item.missionTitle }}</a>
 	        <a href="{{link}}"><span class="mPointNum">{{ item.point }}</span>积分</a></li>
 	    </li>
 	    {% endfor %}

@@ -59,7 +59,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     'id' => $history['app_mid']
                 ));
                 if (!$respondent) {
-                    throw new \Exception('No SopRespondent for: ' . $history['app_mid'], 1);
+                    $this->log('No SopRespondent for: ' . $history['app_mid']);
+                    continue;
                 }
 
                 // get panelist

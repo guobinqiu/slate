@@ -178,33 +178,33 @@ $slider-height: 305px;
 #mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
 	display: none;
 }
-.mainAdTop{
+.mainExpTop{
 	width: 100%;
     height: 265px;
     background: #fff;
 }
-.mainAdTop ul{
+.mainExpTop ul{
 	width: 1000px;
 	margin: 0 auto;
 }
-.mainAdTop ul h2{
+.mainExpTop ul h2{
 	font-size: 22px;
 	color: #333;
 	padding: 30px 0 20px;
 }
-.mainAdTop ul li{
+.mainExpTop ul li{
 	width: 165px;
 	float: left;
 	margin-right: 42px;
 	margin-right: 35px\9;
 }
-.mainAdTop ul li:last-child{
+.mainExpTop ul li:last-child{
 	margin-right: 0;
 }
-.mainAdTop ul li a{
+.mainExpTop ul li a{
 	color: #999;
 }
-.mAdTit{
+.mExpTit{
 	display: block;
 	overflow: hidden;
     text-overflow: ellipsis;

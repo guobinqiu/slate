@@ -156,15 +156,11 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         );
 
         // execute
-        try {
-            $data = $commandTester->execute($commandParam);
-        } catch (\Exception $e) {
-            $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
-        }
+        $data = $commandTester->execute($commandParam);
 
-        // assert rollbacked
+        // assert
         $history = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
-        $this->assertEmpty($history);
+        $this->assertCount(1, $history);
     }
 
     /**
