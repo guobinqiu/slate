@@ -79,7 +79,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 
         // data
         $header = array('app_id', 'app_mid', 'agreement_status', 'answered_at');
-        $rec1   = array('1','1','ACTIVE','2015-09-20 00:00:00');
+        $rec1   = array('1',$app_mid,'ACTIVE','2015-09-20 00:00:00');
         $rec2   = array('1','Invalid-app-mid','ACTIVE','2015-09-20 00:00:00');
         $footer = array('EOF','Total 2 Records',);
         $response        = new \stdClass();
@@ -97,15 +97,11 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         );
 
         // run
-        try {
-            $data = $commandTester->execute($commandParam);
-        } catch (\Exception $e) {
-            $this->assertContains('No SopRespondent for', $e->getMessage());
-        }
+        $data = $commandTester->execute($commandParam);
 
-        // assert rollbacked
-        $history = $em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findAll();
-        $this->assertEmpty($history);
+        // assert
+        $history = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findAll();
+        $this->assertCount(1, $history);
     }
 
     public function testUpdateTable()

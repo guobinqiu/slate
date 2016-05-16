@@ -136,15 +136,11 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
             '--definitive' => true
         );
         // execute
-        try {
+        $data = $commandTester->execute($commandParam);
 
-            $data = $commandTester->execute($commandParam);
-        } catch (\Exception $e) {
-            $this->assertEquals('No SopRespondent for: Invalid-app-mid', $e->getMessage());
-        }
-
+        // assert
         $history_list = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findByAppMemberId($app_mid);
-        $this->assertEmpty($history_list);
+        $this->assertCount(1, $history_list);
     }
 
     /**
