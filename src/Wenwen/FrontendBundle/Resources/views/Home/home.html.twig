@@ -52,41 +52,6 @@
 		<div class="survey" id="surveyHome">
 			<h1><em></em>问卷列表<a class="more" href="{{ path('_survey_index') }}">更多>></a></h1>
 			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<ul id="surveyList">
-			{% set has_tip_displayed = 0 %}
-            {%  if (ssi_respondent is null or ssi_respondent.needPrescreening) %}
-            {# SSI permission #}
-                {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
-                    {
-                        'type_class': 'trade',
-                        'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
-                        'type_label': '商业问卷',
-                        'end_date': '--',
-                        'num': '--',
-                        'title': '申请参与SSI海外市场调查项目',
-                        'answered': false,
-                        'url': path('_ssi_partner_permission'),
-                        'point':1,
-                        'answer_status_label': '投票',
-                        'tip': has_tip_displayed ? null : '赶快加入SSI海外项目，可获更多高分问卷！'
-                    } ) }}
-                {% set has_tip_displayed = 1 %}
-            {% elseif ssi_respondent.isActive and ssi_surveys %}
-            {# SSI survey #}
-                {{ include( 'WenwenFrontendBundle:Survey:_surveyRow.html.twig',
-                  {
-                        'type_class': 'trade',
-                        'type_desc': '高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答',
-                        'type_label': '商业问卷',
-                        'end_date': '--',
-                        'num': 's' + ssi_surveys[0].ssiProjectId,
-                        'title': ssi_project_config.title,
-                        'answered': false,
-                        'url': path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}),
-                        'point': ssi_project_config.point,
-                  } ) }}
-            {% endif %}
-			</ul>
 		</div>
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">

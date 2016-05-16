@@ -608,8 +608,7 @@ body {
     border-top: none;
     border-bottom: 1px solid #f6f6f6; }
   .survey-sub #noSurvey {
-    text-align: center;
-    display: none; }
+    text-align: center; }
 
 .page-wrapper {
   padding: 30px;

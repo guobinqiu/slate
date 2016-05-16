@@ -31,20 +31,8 @@ class SurveyController extends Controller
         // 快速問答
         $arr['votes'] = $em->getRepository('JiliApiBundle:Vote')->retrieveUnanswered($user_id);
 
-        // SSI respondent
-        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
-        $ssi_res = array ();
-        if ($ssi_respondent) {
-            $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
-            $ssi_res['isActive'] = $ssi_respondent->isActive();
-            if ($ssi_res['isActive']) {
-                $dbh = $em->getConnection();
-                $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
-                $arr['ssi_project_config'] = $this->container->getParameter('ssi_project_survey');
-            }
-        }
-        $arr['ssi_respondent'] = $ssi_respondent;
-        $arr['ssi_res'] = $ssi_res;
+        //ssi
+        $arr = $this->getSSiParams($em, $arr, $user_id);
 
         // SOP
         $sop_config = $this->container->getParameter('sop');
@@ -57,7 +45,15 @@ class SurveyController extends Controller
         // for preview mode
         $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
 
-        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', $arr);
+        // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
+        $html_survey_list = [];
+        try {
+            $surveyService = $this->get('surveyService');
+            $html_survey_list = $surveyService->getOrderedHtmlServeyList($arr);
+        } catch (\Exception $e) {
+            $this->container->get('logger')->error($e->getMessage());
+        }
+        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
     }
 
     /**
@@ -80,7 +76,18 @@ class SurveyController extends Controller
 
         $arr = $this->getSopParams($sop_config, $sop_respondent->getId());
 
-        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', $arr);
+        //ssi
+        $arr = $this->getSSiParams($em, $arr, $user_id);
+
+        // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
+        $html_survey_list = [];
+        try {
+            $surveyService = $this->get('surveyService');
+            $html_survey_list = $surveyService->getOrderedHtmlServeyList($arr, 2); //第2个参数指定显示多少个，默认是全部
+        } catch (\Exception $e) {
+            $this->container->get('logger')->error($e->getMessage());
+        }
+        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
 
     public function getSopParams($sop_config, $app_mid)
@@ -104,6 +111,24 @@ class SurveyController extends Controller
 
         $arr['sop_point'] = $sop_config['point']['profile'];
 
+        return $arr;
+    }
+
+    private function getSSiParams($em, $arr, $user_id) {
+        // SSI respondent
+        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+        $ssi_res = array ();
+        if ($ssi_respondent) {
+            $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
+            $ssi_res['isActive'] = $ssi_respondent->isActive();
+            if ($ssi_res['isActive']) {
+                $dbh = $em->getConnection();
+                $arr['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+                $arr['ssi_project_config'] = $this->container->getParameter('ssi_project_survey');
+            }
+        }
+        $arr['ssi_respondent'] = $ssi_respondent;
+        $arr['ssi_res'] = $ssi_res;
         return $arr;
     }
 }

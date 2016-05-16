@@ -1,0 +1,28 @@
+<div class="survey-item">
+    <div class="title">
+        {% if title|length > 35 %}
+            {{ title[:35] }}...
+        {% else %}
+            {{ title }}
+        {% endif %}
+    </div>
+    <ul class="con clearfix">
+        <li class="first">
+            <span>问卷编号</span>
+            <p>{{ name }}</p>
+        </li>
+        <li>
+            <span>问卷类型</span>
+            <p title="用于判断您的基本属性，以便发送适合您的商业问卷">属性问卷</p>
+        </li>
+        <li>
+            <span>回答期限</span>
+            <p>--</p>
+        </li>
+        <li class="last">
+            <span>积分数</span>
+            <p><strong>1</strong></p>
+        </li>
+    </ul>
+</div>
+<div class="survey-btn"><a href="{{ url }}" class="open-link" target="_brank">可回答</a></div>
