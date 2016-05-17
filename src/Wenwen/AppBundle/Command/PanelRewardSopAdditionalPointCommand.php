@@ -80,6 +80,18 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         return false;
     }
 
+    protected function skipRewardAlreadyExisted($history)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $records = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findBy(array (
+            'hash' => $history['hash']
+        ));
+        if (count($records) > 0) {
+            return true;
+        }
+        return false;
+    }
+
     protected function createParticipationHistory($history)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();

@@ -58,6 +58,11 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     continue;
                 }
 
+                if ($this->skipRewardAlreadyExisted($history)) {
+                    $this->log('skipRewardAlreadyExisted');
+                    continue;
+                }
+
                 // get respondent
                 $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
                     'id' => $history['app_mid']
@@ -210,6 +215,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function requiredFields();
 
     abstract protected function skipReward($history);
+
+    abstract protected function skipRewardAlreadyExisted($history);
 
     abstract protected function createParticipationHistory($history);
 

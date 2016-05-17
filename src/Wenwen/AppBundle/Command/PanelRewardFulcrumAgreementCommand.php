@@ -72,6 +72,17 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         return false;
     }
 
+    protected function skipRewardAlreadyExisted($history)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $records = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findBy(array (
+            'appMemberId' => $history['app_mid']
+        ));
+        if (count($records) > 0) {
+            return true;
+        }
+        return false;
+    }
 
     protected function createParticipationHistory($history)
     {
