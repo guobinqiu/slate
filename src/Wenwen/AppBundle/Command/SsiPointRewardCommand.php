@@ -72,9 +72,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 continue;
             }
 
-                $dt = new \DateTime(
-                  DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
-                );
+            $dt = new \DateTime(
+              DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
+            );
 
             // check SsiProjectParticipationHistory exist
             $records = $em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBy(array (

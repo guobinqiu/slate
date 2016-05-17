@@ -76,6 +76,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
                 continue;
             }
+
             // transaction start
             $dbh->beginTransaction();
 

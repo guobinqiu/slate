@@ -6,7 +6,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 

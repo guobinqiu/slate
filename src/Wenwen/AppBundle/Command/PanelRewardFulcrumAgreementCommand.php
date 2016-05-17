@@ -18,7 +18,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     private $comment = '';
     private $point   = 0;
 
-
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-agreement')
@@ -34,6 +33,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
         $this->point = 1;
+
         return parent::execute($input, $output);
     }
 
@@ -81,6 +81,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         if (count($records) > 0) {
             return true;
         }
+
         return false;
     }
 
@@ -95,4 +96,3 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     }
 
 }
-
