@@ -3,14 +3,11 @@ namespace Wenwen\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
@@ -37,6 +34,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $this->log('request URL: ' . $url);
 
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
+        $this->log("history_list count : " . count($history_list));
         $this->log("history_list: " . print_r($history_list, 1));
 
         // initialize the database connection
@@ -46,9 +44,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         // transaction start
         $dbh->beginTransaction();
 
+        $num = 1;
+
         //start inserting
-        try {
-            foreach ($history_list as $history) {
+        foreach ($history_list as $history) {
+            try {
+
+                $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
 
                 if ($this->skipReward($history)) {
                     continue;
@@ -82,22 +84,24 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->type($history), // ad_category_id or point.exec_type
                   $this->task($history), //task_type_id
                   $this->comment($history));// task_name
-            }
-        } catch (\Exception $e) {
-            $dbh->rollBack();
-            $output->writeln($e->getMessage());
-            $this->log('rollback');
-            $this->log($e->getMessage());
-            throw $e;
-        }
 
-        // rollBack or commit
-        if ($definitive) {
-            $this->log('commit');
-            $dbh->commit();
-        } else {
-            $this->log('rollback');
-            $dbh->rollBack();
+                $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
+                $num++;
+            } catch (\Exception $e) {
+                $dbh->rollBack();
+                $output->writeln($e->getMessage());
+                $this->log('rollback: ' . $e->getMessage());
+                //throw $e;
+            }
+
+            // rollBack or commit
+            if ($definitive) {
+                $dbh->commit();
+                $this->log('commit');
+            } else {
+                $dbh->rollBack();
+                $this->log('rollback');
+            }
         }
         $this->log('Finish executing');
     }
@@ -177,6 +181,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 }
             }
         }
+
         return $rtn_array;
     }
 

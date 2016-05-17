@@ -52,8 +52,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $dbh->beginTransaction();
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
-        try {
-            while ($row = $iterator->nextConversion()) {
+        while ($row = $iterator->nextConversion()) {
+            try {
                 $this->logger->info('transaction_id: ' . $row['transaction_id']);
                 $this->logger->info('date_time: ' . $row['date_time']);
 
@@ -94,17 +94,17 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
                 $this->recordParticipationHistory($ssiRespondent, $row);
 
+            } catch (\Exception $e) {
+                $this->logger->info('rollBack: ' . $e->getMessage());
+                $dbh->rollBack();
+                //throw $e;
             }
-        } catch (\Exception $e) {
-            $this->logger->info('rollBack: '.$e->getMessage());
-            $dbh->rollBack();
-            throw $e;
-        }
 
-        if ($definitive) {
-            $dbh->commit();
-        } else {
-            $dbh->rollBack();
+            if ($definitive) {
+                $dbh->commit();
+            } else {
+                $dbh->rollBack();
+            }
         }
     }
 
