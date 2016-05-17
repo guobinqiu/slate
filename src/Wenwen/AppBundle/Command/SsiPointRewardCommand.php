@@ -49,41 +49,46 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
-        $dbh->beginTransaction();
+
+        $notice_flag = false;
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
-        try {
-            while ($row = $iterator->nextConversion()) {
-                $this->logger->info('transaction_id: ' . $row['transaction_id']);
-                $this->logger->info('date_time: ' . $row['date_time']);
+        while ($row = $iterator->nextConversion()) {
 
-                $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
-                $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
-                if (!$ssiRespondent) {
-                    $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
-                    continue;
-                }
+            $this->logger->info('transaction_id: ' . $row['transaction_id']);
+            $this->logger->info('date_time: ' . $row['date_time']);
 
-                $userId = $ssiRespondent->getUserId();
-                $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
-                if (!$user) {
-                    $this->logger->info("User (Id: $userId) not found.");
-                    continue;
-                }
+            $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
+            $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
+            if (!$ssiRespondent) {
+                $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
+                continue;
+            }
 
-                $dt = new \DateTime(
-                  DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
-                );
+            $userId = $ssiRespondent->getUserId();
+            $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
+            if (!$user) {
+                $this->logger->info("User (Id: $userId) not found.");
+                continue;
+            }
 
-                $records = $em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBy(array (
-                    'completedAt' => $dt,
-                    'transactionId' => $row['transaction_id']
-                ));
-                if (count($records) > 0) {
-                    $this->logger->info('already exist, skip: ' . $row['transaction_id']);
-                    continue;
-                }
+            $dt = new \DateTime(
+              DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
+            );
 
+            // check SsiProjectParticipationHistory exist
+            $records = $em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBy(array (
+                'completedAt' => $dt,
+                'transactionId' => $row['transaction_id']
+            ));
+            if (count($records) > 0) {
+                $this->logger->info('already exist, skip transaction_id : ' . $row['transaction_id']);
+                continue;
+            }
+
+            $dbh->beginTransaction();
+
+            try {
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
@@ -94,18 +99,39 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
                 $this->recordParticipationHistory($ssiRespondent, $row);
 
+            } catch (\Exception $e) {
+                $this->logger->info('rollBack: ' . $e->getMessage());
+                $notice_flag = true;
+                $dbh->rollBack();
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $this->logger->info('rollBack: '.$e->getMessage());
-            $dbh->rollBack();
-            throw $e;
+
+            if ($definitive) {
+                $this->logger->info('definitive true: commit');
+                $dbh->commit();
+            } else {
+                $this->logger->info('definitive false: rollBack');
+                $dbh->rollBack();
+            }
         }
 
-        if ($definitive) {
-            $dbh->commit();
-        } else {
-            $dbh->rollBack();
+        if ($notice_flag) {
+            $content = date('Y-m-d H:i:s');
+            $subject = 'Panel reward ssi survey point fail, please check log';
+            $this->notice($content, $subject);
         }
+
+        $this->logger->info('Finish executing');
+    }
+
+    protected function notice($content, $subject)
+    {
+        // slack notice
+        $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
+
+        //emai notice
+        $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
+        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
     }
 
     protected function setLogger($domain)

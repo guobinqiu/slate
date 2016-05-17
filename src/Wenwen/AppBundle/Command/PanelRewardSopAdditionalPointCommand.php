@@ -6,7 +6,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\SopResearchSurveyAdditionalIncentiveHistory;
 
@@ -77,6 +76,18 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        return false;
+    }
+
+    protected function skipRewardAlreadyExisted($history)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $records = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findBy(array (
+            'hash' => $history['hash']
+        ));
+        if (count($records) > 0) {
+            return true;
+        }
         return false;
     }
 
