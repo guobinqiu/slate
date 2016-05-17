@@ -88,19 +88,18 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
                 $num++;
             } catch (\Exception $e) {
-                $dbh->rollBack();
-                $output->writeln($e->getMessage());
                 $this->log('rollback: ' . $e->getMessage());
+                $dbh->rollBack();
                 //throw $e;
             }
 
             // rollBack or commit
             if ($definitive) {
-                $dbh->commit();
                 $this->log('commit');
+                $dbh->commit();
             } else {
-                $dbh->rollBack();
                 $this->log('rollback');
+                $dbh->rollBack();
             }
         }
         $this->log('Finish executing');

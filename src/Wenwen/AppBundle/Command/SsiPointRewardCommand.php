@@ -75,15 +75,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                   DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE)
                 );
 
-                $records = $em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBy(array (
-                    'completedAt' => $dt,
-                    'transactionId' => $row['transaction_id']
-                ));
-                if (count($records) > 0) {
-                    $this->logger->info('already exist, skip: ' . $row['transaction_id']);
-                    continue;
-                }
-
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
@@ -101,8 +92,10 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             }
 
             if ($definitive) {
+                $this->log('commit');
                 $dbh->commit();
             } else {
+                $this->log('rollBack');
                 $dbh->rollBack();
             }
         }
