@@ -41,14 +41,15 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
 
-        // transaction start
-        $dbh->beginTransaction();
-
         $num = 1;
         $notice_flag = false;
 
         //start inserting
         foreach ($history_list as $history) {
+
+            // transaction start
+            $dbh->beginTransaction();
+
             try {
 
                 $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);

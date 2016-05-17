@@ -49,12 +49,14 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
-        $dbh->beginTransaction();
 
         $notice_flag = false;
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         while ($row = $iterator->nextConversion()) {
+
+            $dbh->beginTransaction();
+
             try {
                 $this->logger->info('transaction_id: ' . $row['transaction_id']);
                 $this->logger->info('date_time: ' . $row['date_time']);
