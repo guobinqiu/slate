@@ -3,14 +3,11 @@ namespace Wenwen\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
@@ -37,42 +34,53 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $this->log('request URL: ' . $url);
 
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
+        $this->log("history_list count : " . count($history_list));
         $this->log("history_list: " . print_r($history_list, 1));
 
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
 
-        // transaction start
-        $dbh->beginTransaction();
+        $num = 1;
+        $notice_flag = false;
 
         //start inserting
-        try {
-            foreach ($history_list as $history) {
+        foreach ($history_list as $history) {
 
-                if ($this->skipReward($history)) {
-                    continue;
-                }
+            $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
 
-                // get respondent
-                $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
-                    'id' => $history['app_mid']
-                ));
-                if (!$respondent) {
-                    $this->log('No SopRespondent for: ' . $history['app_mid']);
-                    continue;
-                }
+            if ($this->skipReward($history)) {
+                continue;
+            }
 
-                // get panelist
-                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array (
-                    'id' => $respondent->getUserId()
-                ));
-                if (!$user) {
-                    // maybe panelist withdrew
-                    $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
-                    continue;
-                }
+            if ($this->skipRewardAlreadyExisted($history)) {
+                $this->log('skip reward, already existed: app_mid: ' . $history['app_mid']);
+                continue;
+            }
 
+            // get respondent
+            $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
+                'id' => $history['app_mid']
+            ));
+            if (!$respondent) {
+                $this->log('No SopRespondent for: ' . $history['app_mid']);
+                continue;
+            }
+
+            // get panelist
+            $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array (
+                'id' => $respondent->getUserId()
+            ));
+            if (!$user) {
+                // maybe panelist withdrew
+                $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
+                continue;
+            }
+
+            // transaction start
+            $dbh->beginTransaction();
+
+            try {
                 // insert participation history
                 $this->createParticipationHistory($history);
 
@@ -82,23 +90,33 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->type($history), // ad_category_id or point.exec_type
                   $this->task($history), //task_type_id
                   $this->comment($history));// task_name
+
+            } catch (\Exception $e) {
+                $this->log('rollback: ' . $e->getMessage());
+                $notice_flag = true;
+                $dbh->rollBack();
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $dbh->rollBack();
-            $output->writeln($e->getMessage());
-            $this->log('rollback');
-            $this->log($e->getMessage());
-            throw $e;
+
+            // rollBack or commit
+            if ($definitive) {
+                $this->log('definitive true: commit');
+                $dbh->commit();
+            } else {
+                $this->log('definitive false: rollback');
+                $dbh->rollBack();
+            }
+
+            $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
+            $num++;
         }
 
-        // rollBack or commit
-        if ($definitive) {
-            $this->log('commit');
-            $dbh->commit();
-        } else {
-            $this->log('rollback');
-            $dbh->rollBack();
+        if ($notice_flag) {
+            $content = date('Y-m-d H:i:s');
+            $subject = 'Panel reward point fail, please check log';
+            $this->notice($content, $subject);
         }
+
         $this->log('Finish executing');
     }
 
@@ -125,15 +143,10 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             //log
             $this->log($content);
 
-            // slack notice
+            //notice
             $content = $content . '        request URL:' . $url;
-            $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
-
-            //emai notice
-            $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
-            $alertSubject = 'failed to request SOP API';
-
-            $this->getContainer()->get('send_mail')->sendMails($alertSubject, $alertTo, $content);
+            $subject = 'failed to request SOP API';
+            $this->notice($content, $subject);
 
             throw new \Exception($content);
         }
@@ -177,6 +190,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 }
             }
         }
+
         return $rtn_array;
     }
 
@@ -202,7 +216,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     abstract protected function skipReward($history);
 
+    abstract protected function skipRewardAlreadyExisted($history);
+
     abstract protected function createParticipationHistory($history);
+
+    protected function notice($content, $subject)
+    {
+        // slack notice
+        $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
+
+        //emai notice
+        $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
+        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
+    }
 
     protected function log($msg)
     {

@@ -18,7 +18,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     private $comment = '';
     private $point   = 0;
 
-
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-agreement')
@@ -34,6 +33,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
         $this->point = 1;
+
         return parent::execute($input, $output);
     }
 
@@ -72,6 +72,18 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         return false;
     }
 
+    protected function skipRewardAlreadyExisted($history)
+    {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $records = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findBy(array (
+            'appMemberId' => $history['app_mid']
+        ));
+        if (count($records) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 
     protected function createParticipationHistory($history)
     {
@@ -84,4 +96,3 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     }
 
 }
-
