@@ -47,45 +47,39 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         //start inserting
         foreach ($history_list as $history) {
 
+            $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
+
+            if ($this->skipReward($history)) {
+                continue;
+            }
+
+            if ($this->skipRewardAlreadyExisted($history)) {
+                $this->log('skip reward, already existed: app_mid: ' . $history['app_mid']);
+                continue;
+            }
+
+            // get respondent
+            $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
+                'id' => $history['app_mid']
+            ));
+            if (!$respondent) {
+                $this->log('No SopRespondent for: ' . $history['app_mid']);
+                continue;
+            }
+
+            // get panelist
+            $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array (
+                'id' => $respondent->getUserId()
+            ));
+            if (!$user) {
+                // maybe panelist withdrew
+                $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
+                continue;
+            }
             // transaction start
             $dbh->beginTransaction();
 
             try {
-
-                $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
-
-                if ($this->skipReward($history)) {
-                    $dbh->rollBack();
-                    continue;
-                }
-
-                if ($this->skipRewardAlreadyExisted($history)) {
-                    $this->log('skip reward, already existed: app_mid: ' . $history['app_mid']);
-                    $dbh->rollBack();
-                    continue;
-                }
-
-                // get respondent
-                $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
-                    'id' => $history['app_mid']
-                ));
-                if (!$respondent) {
-                    $this->log('No SopRespondent for: ' . $history['app_mid']);
-                    $dbh->rollBack();
-                    continue;
-                }
-
-                // get panelist
-                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array (
-                    'id' => $respondent->getUserId()
-                ));
-                if (!$user) {
-                    // maybe panelist withdrew
-                    $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
-                    $dbh->rollBack();
-                    continue;
-                }
-
                 // insert participation history
                 $this->createParticipationHistory($history);
 
@@ -96,13 +90,11 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->task($history), //task_type_id
                   $this->comment($history));// task_name
 
-                $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
-                $num++;
             } catch (\Exception $e) {
                 $this->log('rollback: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
-                //throw $e;
+                throw $e;
             }
 
             // rollBack or commit
@@ -113,6 +105,9 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $this->log('definitive false: rollback');
                 $dbh->rollBack();
             }
+
+            $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
+            $num++;
         }
 
         if ($notice_flag) {
