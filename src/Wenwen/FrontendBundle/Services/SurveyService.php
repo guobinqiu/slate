@@ -180,7 +180,7 @@ class SurveyService extends BaseService
         $fulcrum_researches = $sop['data']['fulcrum_research'];
         if (count($fulcrum_researches) > 0) {
             foreach ($fulcrum_researches as $fulcrum_research) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', $fulcrum_research);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                 array_unshift($html_survey_list, $html);
             }
         }
@@ -188,7 +188,7 @@ class SurveyService extends BaseService
         $cint_researches = $sop['data']['cint_research'];
         if (count($cint_researches) > 0) {
             foreach ($cint_researches as $cint_research) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', $cint_research);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                 if ($cint_research['is_answered'] == 0) {
                     array_unshift($html_survey_list, $html);
                 } else {
@@ -200,7 +200,7 @@ class SurveyService extends BaseService
         $researches = $sop['data']['research'];
         if (count($researches) > 0) {
             foreach ($researches as $research) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', $research);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                 if ($research['is_answered'] == 0) {
                     array_unshift($html_survey_list, $html);
                 } else {
@@ -213,11 +213,11 @@ class SurveyService extends BaseService
         if (count($user_agreements) > 0 ) {
             foreach ($user_agreements as $user_agreement) {
                 if ($user_agreement['type'] == 'Fulcrum') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_user_agreement_item_template.html.twig', $user_agreement);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_user_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
                     array_unshift($html_survey_list, $html);
                 }
                 if ($user_agreement['type'] == 'Cint') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_user_agreement_item_template.html.twig', $user_agreement);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_user_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
                     array_unshift($html_survey_list, $html);
                 }
             }
@@ -226,7 +226,7 @@ class SurveyService extends BaseService
         $profilings = $sop['data']['profiling'];
         if (count($profilings) > 0) {
             foreach ($profilings as $profiling) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', $profiling);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling));
                 array_unshift($html_survey_list, $html);
             }
         }

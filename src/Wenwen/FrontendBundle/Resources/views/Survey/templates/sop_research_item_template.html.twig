@@ -1,15 +1,15 @@
 <div class="survey-item">
     <div class="title">
-        {% if title|length > 35 %}
-            {{ title[:35] }}...
+        {% if research.title|length > 35 %}
+            {{ research.title[:35] }}...
         {% else %}
-            {{ title }}
+            {{ research.title }}
         {% endif %}
     </div>
     <ul class="con clearfix">
         <li class="first">
             <span>问卷编号</span>
-            <p>r{{ survey_id }}</p>
+            <p>r{{ research.survey_id }}</p>
         </li>
         <li>
             <span>问卷类型</span>
@@ -21,14 +21,14 @@
         </li>
         <li class="last">
             <span>积分数</span>
-            <p><strong>{{ extra_info.point.complete }}</strong></p>
+            <p><strong>{{ research.extra_info.point.complete }}</strong></p>
         </li>
     </ul>
 </div>
 <div class="survey-btn">
-    {% if is_answered == 1 %}
+    {% if research.is_answered == 1 %}
         <span class="disabled">回答完毕</span>
     {% else %}
-        <a href="{{ url }}" class="open-link" target="_brank">可回答</a>
+        <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">可回答</a>
     {% endif %}
 </div>

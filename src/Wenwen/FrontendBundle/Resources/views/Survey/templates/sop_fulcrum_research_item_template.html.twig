@@ -1,15 +1,15 @@
 <div class="survey-item">
     <div class="title">
-        {% if title|length > 35 %}
-            {{ title[:35] }}...
+        {% if fulcrum_research.title|length > 35 %}
+            {{ fulcrum_research.title[:35] }}...
         {% else %}
-            {{ title }}
+            {{ fulcrum_research.title }}
         {% endif %}
     </div>
     <ul class="con clearfix">
         <li class="first">
             <span>问卷编号</span>
-            <p>f{{ survey_id }}</p>
+            <p>f{{ fulcrum_research.survey_id }}</p>
         </li>
         <li>
             <span>问卷类型</span>
@@ -21,8 +21,8 @@
         </li>
         <li class="last">
             <span>积分数</span>
-            <p><strong>{{ extra_info.point.complete }}</strong></p>
+            <p><strong>{{ fulcrum_research.extra_info.point.complete }}</strong></p>
         </li>
     </ul>
 </div>
-<div class="survey-btn"><a href="{{ url }}" class="open-link" target="_brank">可回答</a></div>
+<div class="survey-btn"><a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>

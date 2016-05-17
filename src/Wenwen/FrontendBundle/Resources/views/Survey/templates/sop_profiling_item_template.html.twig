@@ -1,15 +1,15 @@
 <div class="survey-item">
     <div class="title">
-        {% if title|length > 35 %}
-            {{ title[:35] }}...
+        {% if profiling.title|length > 35 %}
+            {{ profiling.title[:35] }}...
         {% else %}
-            {{ title }}
+            {{ profiling.title }}
         {% endif %}
     </div>
     <ul class="con clearfix">
         <li class="first">
             <span>问卷编号</span>
-            <p>{{ name }}</p>
+            <p>{{ profiling.name }}</p>
         </li>
         <li>
             <span>问卷类型</span>
@@ -25,4 +25,4 @@
         </li>
     </ul>
 </div>
-<div class="survey-btn"><a href="{{ url }}" class="open-link" target="_brank">可回答</a></div>
+<div class="survey-btn"><a href="{{ profiling.url }}" class="open-link" target="_brank">可回答</a></div>

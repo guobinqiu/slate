@@ -22,7 +22,6 @@ class FulcrumProjectSurveyController extends Controller
   
     /**
      * @Route("/information/{survey_id}", options={"expose"=true} )
-     * @Template("WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig")
      */
     public function informationAction(Request $request, $survey_id)
     {
@@ -30,23 +29,7 @@ class FulcrumProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $user_id = $request->getSession()->get('uid');
-        // create sop JSONP URL
-        $em = $this->getDoctrine()->getManager();
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
-
-        $sop_config     = $this->container->getParameter('sop');
-        $sop_params = array (
-            'app_id' => $sop_config['auth']['app_id'],
-            'app_mid' => $sop_respondent->getId(),
-            'time' => time()
-        );
-
-        $sop_params['sig'] = Util::createSignature($sop_params, $sop_config['auth']['app_secret']);
-        $sop_params['sop_callback'] = 'surveylistCallback';
-
-        $url = SopUtil::getJsopURL($sop_params, $sop_config['host']);
-        return array('url'=> $url);
+        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $request->query->get('fulcrum_research')));
     }
 
     /**

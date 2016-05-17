@@ -1,15 +1,15 @@
 <div class="survey-item">
     <div class="title">
-        {% if title|length > 35 %}
-            {{ title[:35] }}...
+        {% if cint_research.title|length > 35 %}
+            {{ cint_research.title[:35] }}...
         {% else %}
-            {{ title }}
+            {{ cint_research.title }}
         {% endif %}
     </div>
     <ul class="con clearfix">
         <li class="first">
             <span>问卷编号</span>
-            <p>c{{ survey_id }}</p>
+            <p>c{{ cint_research.survey_id }}</p>
         </li>
         <li>
             <span>问卷类型</span>
@@ -21,14 +21,14 @@
         </li>
         <li class="last">
             <span>积分数</span>
-            <p><strong>{{ extra_info.point.complete }}</strong></p>
+            <p><strong>{{ cint_research.extra_info.point.complete }}</strong></p>
         </li>
     </ul>
 </div>
 <div class="survey-btn">
-    {% if is_answered == 1 %}
+    {% if cint_research.is_answered == 1 %}
         <span class="disabled">回答完毕</span>
     {% else %}
-        <a href="{{ url }}" class="open-link" target="_brank">可回答</a>
+        <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">可回答</a>
     {% endif %}
 </div>
