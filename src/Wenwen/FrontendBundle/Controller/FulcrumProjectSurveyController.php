@@ -14,16 +14,16 @@ use SOPx\Auth\V1_1\Util;
 
 
 /**
- * @Route("/fulcrum_project_survey",requirements={"_scheme"="https"})
+ * @Route("/fulcrum_project_survey")
  */
 class FulcrumProjectSurveyController extends Controller
 {
 
   
     /**
-     * @Route("/information/{survey_id}", options={"expose"=true} )
+     * @Route("/information", options={"expose"=true} )
      */
-    public function informationAction(Request $request, $survey_id)
+    public function informationAction(Request $request)
     {
         if (! $request->getSession()->has('uid')) {
             return $this->redirect($this->generateUrl('_user_login'));
@@ -34,7 +34,6 @@ class FulcrumProjectSurveyController extends Controller
 
     /**
      * @Route("/endlink/{survey_id}/{answer_status}")
-     * @Template("WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig")
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
@@ -42,7 +41,7 @@ class FulcrumProjectSurveyController extends Controller
             throw $this->createNotFoundException('The the answer status  not exist');
         }
 
-        return array();
+        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig');
     }
 
 }

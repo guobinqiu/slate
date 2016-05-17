@@ -51,6 +51,7 @@ class SurveyController extends Controller
             $surveyService = $this->get('surveyService');
             $html_survey_list = $surveyService->getOrderedHtmlServeyList($arr);
         } catch (\Exception $e) {
+            //echo $e->getMessage();
             $this->container->get('logger')->error($e->getMessage());
         }
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
@@ -85,6 +86,7 @@ class SurveyController extends Controller
             $surveyService = $this->get('surveyService');
             $html_survey_list = $surveyService->getOrderedHtmlServeyList($arr, 2); //第2个参数指定显示多少个，默认是全部
         } catch (\Exception $e) {
+            //echo $e->getMessage();
             $this->container->get('logger')->error($e->getMessage());
         }
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
@@ -101,7 +103,7 @@ class SurveyController extends Controller
 
         $arr['sop_params'] = $sop_params;
 
-        $arr['sop_api_url'] = 'http://'.$sop_config['host'].'/api/v1_1/surveys/js?'.http_build_query(array(
+        $arr['sop_api_url'] = 'https://'.$sop_config['host'].'/api/v1_1/surveys/js?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
