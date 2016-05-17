@@ -1,25 +1,15 @@
 <?php
-
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-#use Symfony\Component\HttpFoundation\Response;
-use Wenwen\AppBundle\WebService\Sop\SopUtil;
-use SOPx\Auth\V1_1\Util;
-
-
 
 /**
  * @Route("/fulcrum_project_survey")
  */
 class FulcrumProjectSurveyController extends Controller
 {
-
-  
     /**
      * @Route("/information", options={"expose"=true} )
      */

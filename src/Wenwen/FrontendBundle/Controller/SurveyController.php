@@ -4,18 +4,16 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SOPx\Auth\V1_1\Util;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 /**
- * @Route("/survey",requirements={"_scheme"="http"})
+ * @Route("/survey")
  */
 class SurveyController extends Controller
 {
     /**
      * @Route("/index", name="_survey_index")
-     * @Template
      */
     public function indexAction(Request $request)
     {
@@ -59,7 +57,6 @@ class SurveyController extends Controller
 
     /**
      * @Route("/top", name="_survey_top")
-     * @Template
      */
     public function topAction(Request $request)
     {

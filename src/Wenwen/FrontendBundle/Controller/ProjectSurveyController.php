@@ -3,13 +3,8 @@ namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Wenwen\AppBundle\WebService\Sop\SopUtil;
-use SOPx\Auth\V1_1\Util;
 
 /**
  * @Route("/project_survey")
@@ -19,7 +14,6 @@ class ProjectSurveyController extends Controller
 
     /**
      * @Route("/information", name="_project_survey_information", options={"expose"=true})
-     * @Template
      */
     public function informationAction(Request $request)
     {
@@ -33,7 +27,6 @@ class ProjectSurveyController extends Controller
 
     /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_project_survey_endlink")
-     * @Template
      */
     public function endlinkAction(Request $request)
     {
