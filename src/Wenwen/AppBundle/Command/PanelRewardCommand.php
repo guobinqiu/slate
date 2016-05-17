@@ -98,10 +98,10 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             // rollBack or commit
             if ($definitive) {
-                $this->log('commit');
+                $this->log('definitive true: commit');
                 $dbh->commit();
             } else {
-                $this->log('rollback');
+                $this->log('definitive false: rollback');
                 $dbh->rollBack();
             }
         }

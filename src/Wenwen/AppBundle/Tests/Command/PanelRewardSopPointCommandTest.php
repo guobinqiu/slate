@@ -291,6 +291,40 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
+
+
+        // execute again (old: $rec2, new : $rec3)
+        $rec3 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid,
+            '30001',
+            '30002',
+            'This is a title2',
+            '11',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"100","point_type":"61"}'
+        );
+        $response = new \stdClass();
+        $response->body = array (
+            $header,
+            $rec2,
+            $rec3,
+            $footer
+        );
+        // stub method
+        Phake::when($client)->get(Phake::anyParameters())->thenReturn($response);
+        $data = $commandTester->execute($commandParam);
+
+        $stmt = $em->getConnection()->prepare('select * from sop_research_survey_participation_history ');
+        $stmt->execute();
+        $history_list = $stmt->fetchAll();
+        $this->assertCount(3, $history_list);
     }
 }
 

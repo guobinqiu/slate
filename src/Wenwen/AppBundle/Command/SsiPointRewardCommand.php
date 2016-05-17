@@ -97,10 +97,10 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             }
 
             if ($definitive) {
-                $this->logger->info('commit');
+                $this->logger->info('definitive true: commit');
                 $dbh->commit();
             } else {
-                $this->logger->info('rollBack');
+                $this->logger->info('definitive false: rollBack');
                 $dbh->rollBack();
             }
         }
