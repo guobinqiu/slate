@@ -45,6 +45,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $dbh->beginTransaction();
 
         $num = 1;
+        $notice_flag = false;
 
         //start inserting
         foreach ($history_list as $history) {
@@ -89,6 +90,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $num++;
             } catch (\Exception $e) {
                 $this->log('rollback: ' . $e->getMessage());
+                $notice_flag = true;
                 $dbh->rollBack();
                 //throw $e;
             }
@@ -102,6 +104,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->rollBack();
             }
         }
+
+        if ($notice_flag) {
+            $content = date('Y-m-d H:i:s');
+            $subject = 'Panel reward point fail, please check log';
+            $this->notice($content, $subject);
+        }
+
         $this->log('Finish executing');
     }
 
@@ -128,15 +137,10 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             //log
             $this->log($content);
 
-            // slack notice
+            //notice
             $content = $content . '        request URL:' . $url;
-            $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
-
-            //emai notice
-            $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
-            $alertSubject = 'failed to request SOP API';
-
-            $this->getContainer()->get('send_mail')->sendMails($alertSubject, $alertTo, $content);
+            $subject = 'failed to request SOP API';
+            $this->notice($content, $subject);
 
             throw new \Exception($content);
         }
@@ -207,6 +211,16 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function skipReward($history);
 
     abstract protected function createParticipationHistory($history);
+
+    protected function notice($content, $subject = '')
+    {
+        // slack notice
+        $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
+
+        //emai notice
+        $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
+        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
+    }
 
     protected function log($msg)
     {
