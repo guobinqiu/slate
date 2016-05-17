@@ -51,6 +51,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $dbh = $em->getConnection();
         $dbh->beginTransaction();
 
+        $notice_flag = false;
+
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         while ($row = $iterator->nextConversion()) {
             try {
@@ -87,18 +89,37 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
             } catch (\Exception $e) {
                 $this->logger->info('rollBack: ' . $e->getMessage());
+                $notice_flag = true;
                 $dbh->rollBack();
                 //throw $e;
             }
 
             if ($definitive) {
-                $this->log('commit');
+                $this->logger->info('commit');
                 $dbh->commit();
             } else {
-                $this->log('rollBack');
+                $this->logger->info('rollBack');
                 $dbh->rollBack();
             }
         }
+
+        if ($notice_flag) {
+            $content = date('Y-m-d H:i:s');
+            $subject = 'Panel reward ssi survey point fail, please check log';
+            $this->notice($content, $subject);
+        }
+
+        $this->logger->info('Finish executing');
+    }
+
+    protected function notice($content, $subject)
+    {
+        // slack notice
+        $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
+
+        //emai notice
+        $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
+        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
     }
 
     protected function setLogger($domain)

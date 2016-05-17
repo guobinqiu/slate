@@ -212,7 +212,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     abstract protected function createParticipationHistory($history);
 
-    protected function notice($content, $subject = '')
+    protected function notice($content, $subject)
     {
         // slack notice
         $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
