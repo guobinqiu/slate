@@ -73,8 +73,6 @@ class ProfileControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_profile_index');
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $session = $client->getRequest()->getSession();
