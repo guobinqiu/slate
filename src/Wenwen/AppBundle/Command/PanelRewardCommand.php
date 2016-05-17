@@ -55,11 +55,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
 
                 if ($this->skipReward($history)) {
+                    $dbh->rollBack();
                     continue;
                 }
 
                 if ($this->skipRewardAlreadyExisted($history)) {
-                    $this->log('skipRewardAlreadyExisted');
+                    $this->log('skip reward, already existed: app_mid: ' . $history['app_mid']);
+                    $dbh->rollBack();
                     continue;
                 }
 
@@ -69,6 +71,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 ));
                 if (!$respondent) {
                     $this->log('No SopRespondent for: ' . $history['app_mid']);
+                    $dbh->rollBack();
                     continue;
                 }
 
@@ -79,6 +82,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 if (!$user) {
                     // maybe panelist withdrew
                     $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
+                    $dbh->rollBack();
                     continue;
                 }
 

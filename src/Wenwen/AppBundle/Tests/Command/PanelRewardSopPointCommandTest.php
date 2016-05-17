@@ -292,7 +292,6 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
 
-
         // execute again (old: $rec2, new : $rec3)
         $rec3 = array (
             '800001',

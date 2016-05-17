@@ -65,6 +65,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
                 if (!$ssiRespondent) {
                     $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
+                    $dbh->rollBack();
                     continue;
                 }
 
@@ -72,6 +73,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
                 if (!$user) {
                     $this->logger->info("User (Id: $userId) not found.");
+                    $dbh->rollBack();
                     continue;
                 }
 
@@ -85,7 +87,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     'transactionId' => $row['transaction_id']
                 ));
                 if (count($records) > 0) {
-                    $this->logger->info('already exist, skip: ' . $row['transaction_id']);
+                    $this->logger->info('already exist, skip transaction_id : ' . $row['transaction_id']);
+                    $dbh->rollBack();
                     continue;
                 }
 
