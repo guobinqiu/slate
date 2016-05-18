@@ -100,7 +100,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $this->recordParticipationHistory($ssiRespondent, $row);
 
             } catch (\Exception $e) {
-                $this->logger->info('rollBack: ' . $e->getMessage());
+                $this->logger->error('rollBack: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
                 throw $e;

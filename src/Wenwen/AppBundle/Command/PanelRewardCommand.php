@@ -40,13 +40,17 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
+        $dbh->getConfiguration()->setSQLLogger(null);
 
-        $num = 1;
+        $num = 0;
         $notice_flag = false;
+        //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
+        //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
 
         //start inserting
         foreach ($history_list as $history) {
 
+            $num++;
             $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
 
             if ($this->skipReward($history)) {
@@ -73,7 +77,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             ));
             if (!$user) {
                 // maybe panelist withdrew
-                $this->log('No User. Skip user_id: ' . $respondent->getPanelistId());
+                $this->log('No User. Skip user_id: ' . $respondent->getUserId());
                 continue;
             }
 
@@ -92,7 +96,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->comment($history));// task_name
 
             } catch (\Exception $e) {
-                $this->log('rollback: ' . $e->getMessage());
+                $this->logger->error('rollBack: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
                 throw $e;
@@ -107,8 +111,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->rollBack();
             }
 
+            $em->flush();
+            $em->clear();
+
             $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
-            $num++;
+
+            //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
+            //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
         }
 
         if ($notice_flag) {
@@ -117,6 +126,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $this->notice($content, $subject);
         }
 
+        //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
+        //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
         $this->log('Finish executing');
     }
 
@@ -141,7 +152,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $content = 'failed to request SOP API: ' . $response->raw_body;
 
             //log
-            $this->log($content);
+            $this->logger->error($content);
 
             //notice
             $content = $content . '        request URL:' . $url;
