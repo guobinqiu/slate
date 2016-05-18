@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="guzzle.client.class">Guzzle\Service\Client</parameter>
+        <parameter key="misd_guzzle.listener.request_listener.class">Misd\GuzzleBundle\EventListener\RequestListener</parameter>
+        <parameter key="misd_guzzle.data_collector.class">Misd\GuzzleBundle\DataCollector\GuzzleDataCollector</parameter>
+        <parameter key="misd_guzzle.log.format" />
+    </parameters>
+
+    <services>
+        <service id="guzzle.client" class="%guzzle.client.class%">
+            <tag name="guzzle.client"/>
+        </service>
+        <service id="misd_guzzle.log.array" class="%guzzle.plugin.log.class%" public="false">
+            <tag name="misd_guzzle.plugin"/>
+            <argument type="service" id="misd_guzzle.log.adapter.array"/>
+        </service>
+        <service id="misd_guzzle.listener.request_listener" class="%misd_guzzle.listener.request_listener.class%" public="false">
+            <tag name="misd_guzzle.plugin"/>
+            <argument type="service" id="debug.stopwatch" on-invalid="null"/>
+        </service>
+        <service id="misd_guzzle.log.adapter.array" class="%guzzle.log.adapter.array.class%" public="false"/>
+        <service id="misd_guzzle.data_collector" class="%misd_guzzle.data_collector.class%" public="false">
+            <tag name="data_collector" template="MisdGuzzleBundle:Collector:guzzle" id="guzzle"/>
+            <argument type="service" id="misd_guzzle.log.adapter.array"/>
+        </service>
+    </services>
+</container>

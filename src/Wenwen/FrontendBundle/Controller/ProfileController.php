@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Utility\ValidateUtil;
@@ -13,14 +12,13 @@ use Wenwen\FrontendBundle\Form\ProfileEditType;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
 /**
- * @Route("/profile", requirements={"_scheme"="http"})
+ * @Route("/profile")
  */
 class ProfileController extends Controller
 {
 
     /**
      * @Route("/index", name="_profile_index", options={"expose"=true})
-     * @Template
      */
     public function indexAction(Request $request)
     {

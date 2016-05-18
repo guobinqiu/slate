@@ -10,19 +10,19 @@
 {% endblock %}
 
 {% block body %}
-
-<input type="hidden" id="survey_id" value="{{ survey_id }}">
-<input type="hidden" id="url" value="{% autoescape %}{{ url|raw }}{% endautoescape %}">
-
 <div class="qnWrap">
     <div class="qnCon">
-        <div class="qnTxt" style="display: none;">
+        <div class="qnTxt">
             <h2></h2>
             <div class="subtit">
-                <strong>问卷编号： <span id="no"></span><br></strong>
-                <strong>积分数：<span class="point" id="point"></span></strong>
+                <strong>问卷编号： <span id="no">r{{ research.survey_id }}</span><br></strong>
+                <strong>积分数：<span class="point" id="point">{{ research.extra_info.point.complete }}分</span></strong>
             </div>
-            <div class="prompt" id="note">※ 积分会在本次问卷回答期间完全结束后自动累计<br>※ 如果超过了回答期限将无法参加本次调查</div>
+            {% set note = '※ 积分会在本次问卷回答期间完全结束后自动累计<br>※ 如果超过了回答期限将无法参加本次调查' %}
+            {% if research.extra_info.content is defined %}
+                {% set note = "#{note}<br>※ #{research.extra_info.content}" %}
+            {% endif %}
+            <div class="prompt" id="note">{{ note|raw }}</div>
             <div class="notice">
                 <strong>注意事项：</strong>
                 <p>回答中请不要点击浏览器的返回按钮。<br>
@@ -32,19 +32,11 @@
                     保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
             </div>
             <div class="qnBtn">
-                <a id="survey-link" href="">开始回答问卷</a>
+                <a id="survey-link" href="{{ research.url }}">开始回答问卷</a>
             </div>
             <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
         </div>
-        <div class="error-message" style="display: none;"></div>
     </div>
     {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
 </div>
-{% endblock %}
-
-{% block footer %}
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/survey/projectsurvey.js')}}"></script>
 {% endblock %}
