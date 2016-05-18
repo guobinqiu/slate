@@ -1,11 +1,5 @@
 <div class="survey-item">
-    <div class="title">
-        {% if title|length > 35 %}
-            {{ title[:35] }}...
-        {% else %}
-            {{ title }}
-        {% endif %}
-    </div>
+    <div class="title">{{ ssi_project_config.title }}</div>
     <ul class="con clearfix">
         <li class="first">
             <span>问卷编号</span>
@@ -13,7 +7,7 @@
         </li>
         <li>
             <span>问卷类型</span>
-            <p title="{{ ssi_project_config.title }}">商业问卷</p>
+            <p>商业问卷</p>
         </li>
         <li>
             <span>回答期限</span>
