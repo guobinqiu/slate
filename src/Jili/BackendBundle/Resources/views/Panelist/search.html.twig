@@ -128,8 +128,8 @@ $(function() {
         <td align="left">{{ item.sex == '1' ? 'male' : (item.sex == '2' ? 'female' : '') }}</td>
         <td align="left">{{ item.nick}}</td>
         <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
-        <td align="left">{{ item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
-        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.registerCompleteDate is empty ? "" : item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate is empty ? "" : item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
         <td align="left">{{ item.campaignCode}}</td>
         <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
