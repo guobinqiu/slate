@@ -32,7 +32,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start panel:reward-ssi-point...');
+        $output->writeln('start panel:reward-ssi-point: '.date('Y-m-d H:i:s'));
 
         $env = $this->getContainer()->get('kernel')->getEnvironment();
         $date = $input->getArgument('date');
@@ -40,8 +40,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $this->setLogger($this->getName());
 
         $this->logger->info('Start executing');
-        $this->logger->info('    definitive= ' . ($definitive ? 'true' : 'false'));
-        $this->logger->info('    date=' . $date);
+        $this->logger->info('definitive= ' . ($definitive ? 'true' : 'false'));
+        $this->logger->info('date=' . $date);
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
@@ -61,14 +61,14 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
             $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
             if (!$ssiRespondent) {
-                $this->logger->info("SsiRespondent (Id: $ssiRespondentId) not found");
+                $this->logger->info("Skip reward, SsiRespondent (Id: $ssiRespondentId) not found");
                 continue;
             }
 
             $userId = $ssiRespondent->getUserId();
             $user = $em->getRepository('JiliApiBundle:User')->findOneById($userId);
             if (!$user) {
-                $this->logger->info("User (Id: $userId) not found.");
+                $this->logger->info("Skip reward, User (Id: $userId) not found.");
                 continue;
             }
 
@@ -82,7 +82,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 'transactionId' => $row['transaction_id']
             ));
             if (count($records) > 0) {
-                $this->logger->info('already exist, skip transaction_id : ' . $row['transaction_id']);
+                $this->logger->info('Skip reward, already exist, skip transaction_id : ' . $row['transaction_id']);
                 continue;
             }
 
@@ -100,7 +100,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $this->recordParticipationHistory($ssiRespondent, $row);
 
             } catch (\Exception $e) {
-                $this->logger->error('rollBack: ' . $e->getMessage());
+                $this->logger->error('RollBack: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
                 throw $e;
@@ -122,6 +122,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         }
 
         $this->logger->info('Finish executing');
+        $output->writeln('end panel:reward-ssi-point: '.date('Y-m-d H:i:s'));
     }
 
     protected function notice($content, $subject)

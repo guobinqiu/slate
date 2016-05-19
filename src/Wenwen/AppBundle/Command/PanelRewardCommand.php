@@ -22,20 +22,20 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         // options
         $definitive = ($input->hasOption('definitive')) ? true : false;
 
-        $this->log('Start executing');
-        $this->log('    definitive= ' . ($definitive ? 'true' : 'false'));
-        $this->log('    date=' . $date);
+        $this->logger->info('Start executing');
+        $this->logger->info('definitive= ' . ($definitive ? 'true' : 'false'));
+        $this->logger->info('date=' . $date);
 
         // configs
         $url = $this->url();
         $auth = $this->sop_configure['auth'];
 
         // get data from SOP API
-        $this->log('request URL: ' . $url);
+        $this->logger->info('request URL: ' . $url);
 
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
-        $this->log("history_list count : " . count($history_list));
-        $this->log("history_list: " . print_r($history_list, 1));
+        $this->logger->info("history_list count : " . count($history_list));
+        $this->logger->info("history_list: " . print_r($history_list, 1));
 
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -44,21 +44,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         $num = 0;
         $notice_flag = false;
-        //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
-        //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
 
         //start inserting
         foreach ($history_list as $history) {
 
             $num++;
-            $this->log('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
+            $this->logger->info('start process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
 
             if ($this->skipReward($history)) {
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
-                $this->log('skip reward, already existed: app_mid: ' . $history['app_mid']);
+                $this->logger->info('Skip reward, already existed: app_mid: ' . $history['app_mid']);
                 continue;
             }
 
@@ -67,7 +65,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 'id' => $history['app_mid']
             ));
             if (!$respondent) {
-                $this->log('No SopRespondent for: ' . $history['app_mid']);
+                $this->logger->info('Skip reward, No SopRespondent for: ' . $history['app_mid']);
                 continue;
             }
 
@@ -77,7 +75,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             ));
             if (!$user) {
                 // maybe panelist withdrew
-                $this->log('No User. Skip user_id: ' . $respondent->getUserId());
+                $this->logger->info('Skip reward, No User. Skip user_id: ' . $respondent->getUserId());
                 continue;
             }
 
@@ -96,7 +94,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                   $this->comment($history));// task_name
 
             } catch (\Exception $e) {
-                $this->logger->error('rollBack: ' . $e->getMessage());
+                $this->logger->error('RollBack: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
                 throw $e;
@@ -104,31 +102,29 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             // rollBack or commit
             if ($definitive) {
-                $this->log('definitive true: commit');
+                $this->logger->info('definitive true: commit');
                 $dbh->commit();
             } else {
-                $this->log('definitive false: rollback');
+                $this->logger->info('definitive false: rollback');
                 $dbh->rollBack();
             }
 
             $em->flush();
             $em->clear();
 
-            $this->log('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
-
-            //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
-            //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
+            $this->logger->info('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
         }
 
         if ($notice_flag) {
             $content = date('Y-m-d H:i:s');
-            $subject = 'Panel reward point fail, please check log';
+            $subject = 'Panel reward point fail, please check email or log at web server';
             $this->notice($content, $subject);
         }
 
-        //$this->log("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
-        //$this->log("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
-        $this->log('Finish executing');
+        $this->logger->info("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
+        $this->logger->info("memory_get_peak_usage: " .round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB');
+        $this->logger->info('Finish executing');
+        $output->writeln('end panel:reward-point: '.date('Y-m-d H:i:s'));
     }
 
     public function requestSOP($url, $from_date, $to_date, $app_id, $secret)
@@ -155,7 +151,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $this->logger->error($content);
 
             //notice
-            $content = $content . '        request URL:' . $url;
+            $content = $content . '<br>request URL:' . $url;
             $subject = 'failed to request SOP API';
             $this->notice($content, $subject);
 
@@ -239,11 +235,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         //emai notice
         $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
         $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
-    }
-
-    protected function log($msg)
-    {
-        $this->logger->info($msg);
     }
 
     protected function setLogger($domain)
