@@ -108,11 +108,22 @@ require(['../config'],function(){
             }, 800);
          });
 
-
         //resize coin background
         window.onresize = function(event){
             $(".coinBack").css("width", $(window).width());
         }
+
+        //support placeholder attribute in IE brower
+         (function($){
+             $.support.placeholder = ('placeholder' in document.createElement('input'));
+         });
+         if(!$.support.placeholder){
+             $("[placeholder]").focus(function (){
+                 if($(this).val() == $(this).attr("placeholder")) $(this).val("");
+             }).blur(function(){
+                 if($(this).val() == "") $(this).val($(this).attr("placeholder"));
+             }).blur();
+         } 
 
     });
     // require(['jquery', 'jqueryCookie'], function($){
