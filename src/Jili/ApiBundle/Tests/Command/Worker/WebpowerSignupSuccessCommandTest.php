@@ -51,7 +51,7 @@ class WebpowerSignupSuccessCommandTest extends KernelTestCase
         $command = $application->find('webpower-mailer:signup-success');
         $commandTester = new CommandTester($command);
 
-        $args = array( '--campaign_id=1','--group_id=83','--mailing_id=2411','--email=tao.jiang@d8aspring.com','--title=注册成功test','--name=江');
+        $args = array( '--campaign_id=1','--group_id=83','--mailing_id=3254','--email=tao.jiang@d8aspring.com','--title=注册成功test','--name=江');
 
         $job = new Job('webpower-mailer:signup-success',$args,  true, '91wenwen_signup');
         $em->persist($job);
