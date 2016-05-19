@@ -334,26 +334,7 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    /**
-     * @group user_reg
-     */
-    public function testReSend()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $user = LoadUserReSendCodeData::$ROWS[0];
-        $client->request('GET', '/user/reSend', array (
-                'id'=>$user->getId(),
-                'code'=>'testcode100',
-                'nick'=>'',
-                'email'=>$user->getEmail()
-        ));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertEquals('1', $client->getResponse()->getContent());
-    }
-    
-    public function testRegActionExistingEmail() 
+    public function testRegActionExistingEmail()
     {
         $client = static::createClient(array(), array('HTTP_USER_AGENT'=>'symonfy/2.0' ,'REMOTE_ADDR'=>'121.199.27.128', 'HTTPS' => true) );
         $container = $client->getContainer();

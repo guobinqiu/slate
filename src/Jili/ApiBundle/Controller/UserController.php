@@ -1308,29 +1308,6 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-	 * @Route("/reSend", name="_user_reSend")
-	 */
-    public function reSend()
-    {
-        $request = $this->get('request');
-        $id = $request->query->get('id');
-        $code = $request->query->get('code');
-        $nick = $request->query->get('nick');
-        $email = $request->query->get('email');
-
-        $send_email = false;
-        $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
-        $send_email = $this->sendMail($url, $email,$nick);
-
-        if($send_email){
-            $code = $this->container->getParameter('init_one');
-        }else{
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-    /**
 	 * @Route("/activeEmail/{email}", name="_user_activeEmail", options={"expose"=true})
 	 */
     public function activeEmail($email)
