@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>积粒网-邮箱验证</title>
+{% include 'JiliApiBundle::seo.html.twig' %}
+<!-- [if lt IE9] -->
+<script src="{{ asset('js/html5.js')}}" type="text/javascript"></script>
+<!-- [endif] -->
+<link href="{{ asset('css/default.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/aside.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/regStep.css')}}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('js/jquery-1.7.js')}}" type="text/javascript"></script>
+<script src="{{ asset('js/banner.js')}}" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#prompt").hide();
+	$("#sendAgain").hide();
+	$(".again").click(function(){
+		$.ajax({
+			url : "{{ path('_user_reSend') }}?id="+$('#uid').val()+"&code="+$('#code').val()+"&nick="+$('#nick').val()+"&email="+$('#email').val(),
+			type : 'get',
+			success : function(msg) {
+				if(msg==1){
+					//alert('发送成功,请查收');
+					SysSecond = parseInt($("#second").html()); //这里获取倒计时的起始时间 
+					//SysSecond = 5;
+					InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行 
+					$("#prompt").show();
+					$("#sendAgain").show();
+					$('.again').hide();
+					//$(".again").attr('href','javascript:void(0);');
+					//$(".again").html('已发送&nbsp;&nbsp;');
+				}else{
+					alert('发送失败');
+				}
+			}
+		});
+	});
+});                  
+function SetRemainTime() { 
+    if (SysSecond > 0) { 
+        SysSecond = SysSecond - 1; 
+        var second = Math.floor(SysSecond % 60);             // 计算秒     
+        $("#second").html(second); 
+    } else {
+    	$("#sendAgain").hide();
+    	$(".again").show();
+    	$("#second").html('59');
+        $("#prompt").hide();
+        window.clearInterval(InterValObj);
+    } 
+} 
+</script>
+</head>
+<body>
+{% include 'JiliApiBundle::userHead.html.twig' %}
+<div class="webArticle regStep">
+  <article>
+    <div class="regFrame">
+    	<div class="goToMail">
+   	    <div class="img"><img src="{{ asset('images/emailImage.jpg')}}" width="123" height="115"></div>
+        <p>我们已经发送了激活邮件给您<br />请查看您的邮箱，确认是否收到来自积粒网的激活邮件，并点击邮件中的验证链接。<br />
+        {% if gotoEmial %}
+            <a href="http://{{ gotoEmial }}" target="_blank">
+           <img src="{{ asset('images/goMailBtn.jpg')}}" width="128" height="35"></a>
+       {% endif %}</p>
+        <p><span id="sendAgain">已发送&nbsp;&nbsp;</span><a class="again" >没收到？再次发送！</a><span id="prompt"><span id="second">59</span>秒后可重新发送</span></p>
+         <input type='hidden' id='uid' value='{{ user.id }}'/>
+        <input type='hidden' id='code' value='{{ user.code }}'/>
+        <input type='hidden' id='nick'  value='{{ user.nick  }}'/>
+        <input type='hidden' id='email' value='{{ user.email }}'/>
+        </div>
+        <div class="notMail">
+        	<h6>还没收到激活邮件？</h6>
+            <p class="dustbin">确认邮件是否被您提供的邮箱系统自动拦截，或被误认为垃圾邮件放到了垃圾箱了。</p>
+            {# <p class="change">如果再次发送激活邮件还是没有收到，请试试：<br /><a href="#">更换激活邮箱</a></p> #}
+        </div>
+    </div>
+  </article>
+</div>
+{% include 'JiliApiBundle::userFoot.html.twig' %}
+</body>
+</html>
