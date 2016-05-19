@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSetPasswordCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserResetPasswordCodeData;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserReSendCodeData;
 use JMS\JobQueueBundle\Entity\Job;
 
 class UserControllerTest extends WebTestCase
@@ -42,6 +43,10 @@ class UserControllerTest extends WebTestCase
         $tn = $this->getName();
         if ($tn == 'testResetPasswordAction') {
             $fixture = new LoadUserResetPasswordCodeData();
+            $fixture->setContainer($container);
+            $loader->addFixture($fixture);
+        } else if ($tn == 'testReSend') {
+            $fixture = new LoadUserReSendCodeData();
             $fixture->setContainer($container);
             $loader->addFixture($fixture);
         } else {
