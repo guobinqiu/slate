@@ -1397,7 +1397,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $sm->setDeleteFlag($this->container->getParameter('init'));
             
             $em->getConnection()->beginTransaction();
-            Try { 
+            try { 
                 // update
                 $em->persist($points_exchange);
                 // insert
@@ -1447,7 +1447,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $sm->setDeleteFlag($this->container->getParameter('init'));
             
             $em->getConnection()->beginTransaction();
-            Try { 
+            try { 
                 // update
                 $em->persist($points_exchange);
                 // update
