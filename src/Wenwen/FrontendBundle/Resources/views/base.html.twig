@@ -8,8 +8,8 @@
     <meta name="baidu_union_verify" content="464e52f63986636f61f6710be25148b2" />
     <link href="{{ asset('img/common/favicon.ico') }} " rel="shortcut icon" type="image/x-icon" />
     <link href="{{ asset('css/base.css') }} " rel="stylesheet" type="text/css">
+    {% block global_css %}{% endblock %}
     {% block stylesheet %}{% endblock %}
-    {% block javascript %}{% endblock %}
 </head>
 <body>
     {% block header %}{% endblock %}
@@ -19,13 +19,17 @@
     <div class="footer">
         {% block footer %}{% endblock %}
     </div>
-    <!-- baidu -->
-    <div style="display:none;">
-    <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F878d6a1fecf76315390d7c5db8779bef' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    </div>
-    <!-- /baidu -->
+    {% block global_js %}
+        <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+
+        <!-- baidu statistics -->
+        <div style="display:none;">
+            <script type="text/javascript">
+                var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F878d6a1fecf76315390d7c5db8779bef' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </div>
+    {% endblock %}
+    {% block javascript %}{% endblock %}
 </body>
 </html>
