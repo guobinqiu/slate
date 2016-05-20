@@ -10,7 +10,7 @@ parameters:
     point_type.cost.cpa.offerwow:    '17'
     # cps 购物返利类型的cost
     point_type.cost.cps.chanet:      '2'
-    point_type.cost.cps.emar:        '20'
+    point_type.cost.cps.emar:        '19'
     point_type.cost.cps.duomai:      '23'
  
 ### 推广成本
