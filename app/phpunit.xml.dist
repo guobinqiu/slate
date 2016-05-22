@@ -13,6 +13,10 @@
     syntaxCheck                 = "false"
     bootstrap                   = "bootstrap.php.cache" >
 
+    <listeners>
+        <listener class="Test\Utils\BaseTestListener"></listener>
+    </listeners>
+
     <testsuites>
         <testsuite name="all">
             <directory>../src/*/*Bundle/Tests</directory>
