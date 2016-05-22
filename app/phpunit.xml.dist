@@ -26,7 +26,39 @@
         <testsuite name="jili">
             <directory>../src/Jili/*Bundle/Tests</directory>
         </testsuite>
-
+        
+        <testsuite name="wenwen_app_command">
+            <directory>../src/Wenwen/AppBundle/Tests/Command</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_controller">
+            <directory>../src/Wenwen/AppBundle/Tests/Controller</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_entity">
+            <directory>../src/Wenwen/AppBundle/Tests/Entity</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_repository">
+            <directory>../src/Wenwen/AppBundle/Tests/Repository</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_services">
+            <directory>../src/Wenwen/AppBundle/Tests/Services</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_webservice">
+            <directory>../src/Wenwen/AppBundle/Tests/WebService</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_frontend_controller">
+            <directory>../src/Wenwen/FrontendBundle/Tests/Controller</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_frontend_form">
+            <directory>../src/Wenwen/FrontendBundle/Tests/Form</directory>
+        </testsuite>
+        
         <testsuite name="jili_api_command">
             <directory>../src/Jili/ApiBundle/Tests/Command</directory>
         </testsuite>
