@@ -104,7 +104,6 @@ class ProfileControllerTest extends WebTestCase
             'pwd' => '123qwe',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
 
         // csrf not valiad
         $post_data = array ();
@@ -170,7 +169,6 @@ class ProfileControllerTest extends WebTestCase
             'pwd' => '123qwe',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
     }
 
     /**
@@ -290,7 +288,6 @@ class ProfileControllerTest extends WebTestCase
             'pwd' => '123qwe',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
 
         $url = $container->get('router')->generate('_profile_edit', array (), true);
         $crawler = $client->request('GET', $url);
@@ -439,7 +436,7 @@ class ProfileControllerTest extends WebTestCase
             'pwd' => '123qwe',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
+        
         $session = $client->getRequest()->getSession();
         $user_id = $session->get('uid');
 
