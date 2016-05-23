@@ -57,9 +57,6 @@ parameters:
     session.points.class: Jili\ApiBundle\Services\Session\User\Points
     session.user_configs.class: Jili\ApiBundle\Services\Session\User\Configs
 
-# form_handler:
-    signup_activate.form_handler.class: Jili\ApiBundle\Form\Handler\SignupActivateHandler
-
 #flow 流量
     flow_mobilevalidate.processor.class:  Jili\ApiBundle\Services\Flow\FlowMobileValidateApiProcessor
     flow_ordercreate.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderCreateApiProcessor
@@ -295,17 +292,6 @@ services:
             - [ setLogger, [ @logger ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setSession, [ @session ] ]
-
-    signup_activate.form_handler:
-        class: %signup_activate.form_handler.class%
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
-            - [ setContainer, [ @service_container ] ]
-            - [ setSoapMailListener, [ "@soap.mail.listener" ] ]
-            - [ setLoginListener, [ "@login.listener" ] ]
-
 
     send_mail:
         class: %send_mail.class%
