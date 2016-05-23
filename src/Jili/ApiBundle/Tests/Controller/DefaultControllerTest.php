@@ -103,50 +103,6 @@ class DefaultControllerTest extends WebTestCase
 
     }
 
-
-    /**
-     * landingAction with not exists: fresh email
-     * @group user
-     */
-    public function testLandingActionFresh()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $logger= $container->get('logger');
-        $router = $container->get('router');
-
-        $em = $this->em;
-        $query = array('email'=> 'alice.nima@gmail.com');
-        $secret_token= $this->genSecretToken($query);
-        $url = $router->generate('_default_landing', array('secret_token'=>$secret_token), true);
-        //echo $url, PHP_EOL;
-
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'after visit landing page'  );
-        $form = $crawler->selectButton('1秒注册积粒网')->form();
-
-        $form['nick'] = 'alice323';
-        $form['pwd'] = 'dddddd';
-        $form['newPwd'] = 'dddddd';
-
-        $client->submit($form);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode() );
-
-        ///  check db status
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        $this->assertEquals(1, count($user));
-        $this->assertEquals('alice323',$user->getNick());
-        $this->assertEquals('alice.nima@gmail.com', $user->getEmail() );
-    }
-    /**
-     *@param $plain => array( email, uniqkey )
-     */
-    private function genSecretToken($plain)
-    {
-        $plain['signature'] = WenwenToken::getUniqueToken($plain['email']);
-        return  strtr(base64_encode(json_encode($plain)), '+/', '-_');
-    }
-
     private function buildToken($user , $secret)
     {
         $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
