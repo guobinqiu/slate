@@ -19,6 +19,7 @@ app/SymfonyRequirements.php
 
 dwsync.xml
 .DS_Store
+._.DS_Store
 
 src/Jili/*/Resources/config/doctrine/*.orm.xml
 src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml
