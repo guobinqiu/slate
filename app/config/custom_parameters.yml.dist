@@ -275,14 +275,8 @@ parameters:
     remind_point_mailing_id: 72
     remind_total_point_campaign_id: 12
     remind_total_point_mailing_id: 103
-    register_from_wenwen_campaign_id: 7
-    register_from_wenwen_mailing_id: 101
-    register_from_wenwen_mailing_id_again: 100
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
-    91wenwen_api_url: https://www.91wenwen.net
-    91wenwen_api_connect_jili: https://www.91wenwen.net/connect_jili/confirmConnect
-    is_from_wenwen_register: 2
     file_path_admin_point_manage: %jili_app.logs_dir%/admin/pointManage
     file_path_wenwen_vote: %jili_app.logs_dir%/wenwen/vote.json
     file_path_cpa_ranking_activity: %jili_app.logs_dir%/activity/cpa_ranking_activity
