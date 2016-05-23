@@ -24,14 +24,23 @@ return false;
 </select>
 <input type="file" name="csv" /></td><td><input id="submit" type="submit" name="add" value="提 交"/></td></tr>
 
-{% if success %}
 {% if success == 1 %}
- <center><font color='red'>数据插入成功</font></center>
- {% elseif success == 2 %}
-  <center><font color='red'>请上传csv文件</font></center>
-  {% elseif success == 3 %}
-  <center><font color='red'>csv文件格式不对</font></center>
- {% endif %}
+    <center><font color='blue'>数据插入成功</font></center>
+{% elseif success == 2 %}
+    <center><font color='red'>请上传csv文件</font></center>
+{% elseif success == 3 %}
+    <center><font color='red'>csv文件格式不对</font></center>
+{% elseif success == 4 %}
+    <center><font color='red'>csv文件内容不对</font></center>
+    {% if error_info is defined %}
+
+        {% for error in error_info %}
+            <tr>
+                <td>{{ error }}</td>
+
+            </tr>
+        {% endfor %}
+    {% endif %}
 {% endif %}
 </table>
 </form>

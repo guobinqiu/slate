@@ -23,7 +23,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     }
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start panel:reward-fulcrum-point...');
+        $output->writeln('start panel:reward-fulcrum-point: '.date('Y-m-d H:i:s'));
         $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->setLogger('reward-fulcrum-point');
         return parent::execute($input, $output);
