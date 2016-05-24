@@ -29,7 +29,7 @@ body{
 .main-con-left>div, .main-con-right>div{
 	margin-top: 20px;
 	background: $block-bg-color;
-	border: $block-border;
+	@include box-shadow(0 1px 3px rgba(0,0,0,0.2));
 }
 .main-con-left>div{
 	padding: 10px 25px;

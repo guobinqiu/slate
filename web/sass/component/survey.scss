@@ -26,10 +26,11 @@ $survey-border-color: #f6f6f6;
 	.title{
 		font-size: 15px;
 		font-weight: 600;
-		line-height: 35px;
+		height: 24px;
+		@include ell();
 		a{
 			&:hover{
-				color: #914b11;
+				color: #2ba5cf;
 			}
 		}
 	}
@@ -44,12 +45,6 @@ $survey-border-color: #f6f6f6;
 			.survey-item{
 				width: 86%;				
 			}
-			.vote-btn{
-				width: 15%;
-			}
-			.vote-txt{
-				width: 68%;
-			}
 		}
 		span{
 			vertical-align: top;
@@ -57,10 +52,20 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 	li.vote-new{
+			a{
+			display: none;
+			width: 0;
+			}
 		&:hover, &.active{
 			.vote-btn{
-				border-left: 50px solid #fff;
+				width: 141px;
+				display: inline-block;
+				margin-top: 25px;
+			    border: 1px solid #379fc2;
 				@include transition(all, 0.4s);
+			}
+			.countdown{
+				display: none;
 			}
 		}
 	}
@@ -107,7 +112,6 @@ $survey-border-color: #f6f6f6;
 		top: 0px;
 		a{
 			color: #fff;
-			background: #ff7733;
 			width: 141px;
 			height: 33px;
 			line-height: 33px;
@@ -130,31 +134,21 @@ $survey-border-color: #f6f6f6;
 	}
 }
 .vote .vote-btn{
-	width: 0%;
-	height: 65%;
-	line-height: 700%;
+	color: #fff;
+	width: 141px;
+	height: 33px;
+	line-height: 33px;
+	text-align: center;
 	position: absolute;
 	z-index: 1000;
 	top: 27px;
 	right: 11px;
-	text-align: center;
-	color: #fff;
 	font-size: 14px;
-	font-weight: bold;
-	background: #ff652b;
 	cursor: pointer;
-	overflow: hidden;
-	@include transition(width, 300ms);
-	@include transition(all, 0.4s);
-	&:hover, &:active{
-		background:#f05218;
-	}
+	@include btn();			
+	@include dib();
 }
 .vote{
-	a.vote-btn{
-		color: #fff;
-		line-height: 700%;
-	}
 	li{
 		padding: 30px 20px;
 		&.vote-new{
@@ -214,13 +208,11 @@ $survey-border-color: #f6f6f6;
 	width: 15%;
 }
 .vote-txt{
-	width: 84%;
+	width: 60%;
 	color: $survey-con-font-color;
 	line-height: 22px;
-	@include transition(width, 300ms);
 	p{
 		padding-left: 3px;
-		@include ell();
 	}
 	.relate{
 		color: $survey-con-font-color;

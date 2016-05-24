@@ -12,6 +12,7 @@ require(['../config'],function(){
     //    }});
     // });
     require(['countdown']);
+    require(['textScroll']);
     require(['jquery', 'jqueryCookie'], function($){
         //新手引导部分
         function shouldShow(){

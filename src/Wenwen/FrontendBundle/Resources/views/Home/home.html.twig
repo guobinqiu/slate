@@ -15,9 +15,21 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-slider">
+<div class="homeBr">
 	<div class="w1000">
-		<img src="{{ asset('img/home/sliderImg0.jpg') }}" alt="">
+		<div class="left">
+            <div class="faceWapper left">
+                <img src="{{ asset('img/home/homeAvr.png') }}" alt="头像" width="76" height="76">
+            </div>
+            <div class="infoText left">
+            	<p class="l1">Hi,fgfgertey，欢迎回来</p>
+            	<p class="l2">当前积分：<strong class="point">588</strong></p>
+            </div>
+        </div>
+        <div class="right">
+        	<a href="" class="taskHis">任务历史</a>
+        	<a href="" class="exchangeHis">兑换历史</a>
+        </div>
 	</div>
 </div>
 
@@ -51,16 +63,18 @@
 		{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
-			<h1><em></em>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
+			<h1>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
 			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
 		</div>
 	</div>
 	{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 </div>
-	{{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}
 {% endblock %}
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+{% endblock %}
