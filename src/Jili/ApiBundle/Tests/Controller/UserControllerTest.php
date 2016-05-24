@@ -66,7 +66,7 @@ class UserControllerTest extends WebTestCase
     {
 #        header_remove();
         parent::tearDown();
-#       $this->em->close();
+       $this->em->close();
     }
 
     /**
