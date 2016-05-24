@@ -23,7 +23,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start panel:reward-sop-additional-point...');
+        $output->writeln('start panel:reward-sop-additional-point: '.date('Y-m-d H:i:s'));
 
         $app_name = 'site91wenwen';
         $this->setLogger($app_name . '-reward-sop-additional-point');

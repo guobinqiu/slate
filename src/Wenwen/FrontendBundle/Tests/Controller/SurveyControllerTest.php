@@ -71,7 +71,7 @@ class SurveyControllerTest extends WebTestCase
             'pwd' => '11111q',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
+        //$client->followRedirect();
 
         $url = $container->get('router')->generate('_survey_index');
         $crawler = $client->request('GET', $url);
@@ -110,7 +110,7 @@ class SurveyControllerTest extends WebTestCase
             'pwd' => '11111q',
             'remember_me' => '1'
         ));
-        $client->followRedirect();
+        //$client->followRedirect();
 
         $url = $container->get('router')->generate('_survey_top');
         $crawler = $client->request('GET', $url);
