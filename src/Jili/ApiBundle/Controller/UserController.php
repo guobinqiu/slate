@@ -1074,10 +1074,6 @@ class UserController extends Controller implements CampaignTrackingController
             $session->remove('referer');
         }
 
-        if($session->has('uid')) {
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-
         $code = '';
         $email = $request->request->get('email');
         $pwd = $request->request->get('pwd');
