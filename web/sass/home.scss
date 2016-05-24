@@ -128,7 +128,7 @@ $slider-height: 305px;
 .main-con-right{
 	.notice{
 		ul{
-			padding: 0 15px 15px;
+			padding: 0 25px 20px 22px;
 		}
 		li{
 			line-height: 28px;
@@ -143,10 +143,10 @@ $slider-height: 305px;
 		}
 	}
 	.exchange-dynamics{
-		padding: 10px 20px;
+		padding: 10px 20px 15px;
 		line-height: 24px;
 		.mask{
-			height: 335px;
+			height: 208px;
 			overflow: hidden;
 			position: relative;
 			z-index: 1;
@@ -162,7 +162,7 @@ $slider-height: 305px;
 			padding: 0;
 		}
 		li{
-			padding: 12px 0;
+			padding: 15px 10px 0 5px;
 			border-bottom: $block-inner-border;
 			b{
 				color: $main-color;
@@ -273,7 +273,6 @@ $slider-height: 305px;
 }
 .mainExpTop ul li{
 	width: 165px;
-	float: left;
 	margin-left: 32px;
 	margin-bottom: 40px;
 }
@@ -285,13 +284,18 @@ $slider-height: 305px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap; 
-    line-height: 28px;
+    line-height: 22px;
+    margin: 4px 0 5px;
 }
 .mPointNum{
 	color: $main-color;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 16px;
 	vertical-align: -1px;
 	margin-right: 3px;
+}
+.mpUnit{
+	color: $main-color;
+	
 }
 @import "layout/footer";

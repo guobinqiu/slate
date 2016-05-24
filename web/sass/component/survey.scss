@@ -4,7 +4,7 @@
 $h-font-color: #000;
 $h-font-size: 18px;
 $h-small-font-size: 14px;
-$survey-con-font-color: #9c9c9c;
+$survey-con-font-color: #9aa1ab;
 $survey-border-color: #f6f6f6;
 
 .main-con-left{
@@ -13,7 +13,7 @@ $survey-border-color: #f6f6f6;
 		line-height: 55px;
 		font-size: 24px;
 		color: #757575;
-		padding: 10px 0 0 6px;
+		padding: 10px 0 0 10px;
 	}
 	em{
 		width: 24px;
@@ -29,6 +29,7 @@ $survey-border-color: #f6f6f6;
 		height: 24px;
 		@include ell();
 		a{
+			color: #3c434d;
 			&:hover{
 				color: #2ba5cf;
 			}
@@ -77,7 +78,7 @@ $survey-border-color: #f6f6f6;
 		float: left;
 		width: 22%;	
 		text-align: left;
-		padding: 5px 0 0 10px;
+		padding: 5px 10px 0 0;
 		border-top: none;
 		border-left: $block-inner-border;
 		span{
@@ -208,14 +209,14 @@ $survey-border-color: #f6f6f6;
 	width: 15%;
 }
 .vote-txt{
-	width: 60%;
+	width: 56%;
 	color: $survey-con-font-color;
 	line-height: 22px;
 	p{
-		padding-left: 3px;
+		padding-left: 7px;
 	}
 	.relate{
-		color: $survey-con-font-color;
+		margin-left: 3px;
 		span{
 			padding: 0 3px;
 			strong{

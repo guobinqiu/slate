@@ -33,13 +33,13 @@
 			a{
 				line-height: 20px;
 				font-size: 15px;
+				text-indent: -3px;
 			}
 		}
 		.con{
 			margin-top: 13px;
 			padding-left: 3px;
 			line-height: 20px;
-			color: #9c9c9c;
 		}
 		.relate{
 			margin-top: 7px;	
@@ -85,7 +85,7 @@
 	} 
 }
 .exchange-dynamics{
-	padding: 10px 20px;
+	padding: 10px 20px 15px; 
 	line-height: 24px;
 	.mask{
 		height: 335px;
@@ -104,7 +104,7 @@
 		padding: 0;
 	}
 	li{
-		padding: 12px 0;
+		padding: 15px 10px 0 5px;
 		border-bottom: $block-inner-border;
 		b{
 			color: $main-color;
