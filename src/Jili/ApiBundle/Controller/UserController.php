@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Form\ForgetPasswordType;
 use Jili\ApiBundle\Form\RegType;
-use Jili\ApiBundle\Form\Type\SignupActivateType;
 use Jili\FrontendBundle\Form\Type\SignupType;
 
 use Jili\ApiBundle\Entity\User;
@@ -1606,8 +1605,8 @@ class UserController extends Controller implements CampaignTrackingController
         $email = $session->get('email');
 
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
-           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1), 
-           'email' => $email  
+           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1),
+           'email' => $email
              ) );
     }
 
