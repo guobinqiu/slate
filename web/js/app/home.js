@@ -11,6 +11,7 @@ require(['../config'],function(){
     //        effect: 'fade'
     //    }});
     // });
+    require(['textScroll']);
     require(['countdown']);
     require(['jquery', 'jqueryCookie'], function($){
         //新手引导部分

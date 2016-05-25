@@ -167,7 +167,7 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
 
         // reset email
-        $query = array('email'=> 'user@voyagegroup.com.cn');
+        $query = array('email'=> 'alice.nima@gmail.com');
         $url = $container->get('router')->generate('_user_reset', $query ) ;
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
@@ -211,8 +211,8 @@ class UserControllerTest extends WebTestCase
         //check can login
         $url = $container->get('router')->generate('_login', array (), true);
         $client->request('POST', $url, array (
-            'email' => 'test_1@d8aspring.com',
-            'pwd' => '123qwe',
+            'email' => 'alice.nima@gmail.com',
+            'pwd' => '111111q',
             'remember_me' => '1'
         ));
         $client->followRedirect();
