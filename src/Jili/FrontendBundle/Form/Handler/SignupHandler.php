@@ -8,9 +8,6 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Utility\PasswordEncoder;
 
-use Jili\FrontendBundle\Mailer\Mailer;
-
-
 /**
  *
  **/
