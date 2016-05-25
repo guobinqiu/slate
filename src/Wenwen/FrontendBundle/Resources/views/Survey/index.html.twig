@@ -31,9 +31,6 @@
 			{% endif %}
 		</div>
 	</div>
-	<div class="main-con-right right">
-		<div class="weibo"><iframe width="230" height="580" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=230&height=580&fansRow=2&ptype=1&speed=0&skin=5&isTitle=1&noborder=0&isWeibo=1&isFans=0&uid=1752291082&verifier=37e3a3a3&dpc=1"></iframe></div>
-	</div>
 </div>
 {% endblock %}
 
@@ -41,3 +38,6 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
+{% block javascript %}
+	<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+{% endblock %}
