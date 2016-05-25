@@ -503,7 +503,7 @@ class DefaultController extends Controller
         $mailer = \Swift_Mailer :: newInstance($transport);
         $message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
             'account@91jili.com' => '91问问'
-        ))->setTo('cs@91jili.com')->setBody('<html>' .
+        ))->setTo('support@91wenwen.com')->setBody('<html>' .
         '<head></head>' .
         '<body>' .
         '咨询内容<br/>' .
