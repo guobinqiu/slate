@@ -8,16 +8,16 @@
 	padding: 48px 0 0;
 	line-height: 24px;
 	background: #4a5f75;
-	color: #829eb8;
+	color: #9EADB7;
 	.footer-con{
 		padding-bottom: 30px;
-		color: #9EADB7;
+		// color: #9EADB7;
 	}
 	.footer-nav-group{
 		float: left;
-		margin-right: 80px;
+		width: 154px;
 		span{
-			color: #5BA9C2;
+			color: #66AEC7;
 			font-size: 14px;
 			font-weight: bold;
 			padding: 8px 0;
@@ -84,6 +84,9 @@
 				display: inline-block;
 				&.wb{
 					margin-right: 30px;
+				}
+				img{
+					margin-bottom: 10px;
 				}
 			}
 		}
