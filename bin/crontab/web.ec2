@@ -31,9 +31,6 @@
 #chick in
 30 16 * * * /usr/bin/php /var/www/html/jili/bin/schedule/checkin_immigration_v2.php
 
-#91wenwen
-0 2 * * * /bin/sh /var/www/html/jili/bin/schedule/vote_api.sh
-
 # game egg breaker pool stat report
 #0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh
 
