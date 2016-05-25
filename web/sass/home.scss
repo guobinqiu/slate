@@ -16,7 +16,7 @@ $slider-height: 305px;
 		width: 1000px;
 	}
 	span{
-		top: 50%;
+		top: 50%; 
 		left: -41px;
 		margin-top: -20px;
 		width: 41px;
@@ -28,7 +28,7 @@ $slider-height: 305px;
 			right: -41px;
 			background: url(../img/home/sliderbtnR.png) no-repeat;
 		}
-		display: none;
+		display: none; 
 	}
 	.btn-group{
 		bottom: 10px;
@@ -209,7 +209,7 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide1.png) no-repeat 0 0;
 		left: 232px;
-		top: -400px;
+		top: -120px;
 	}
 	.newguide2{
 		width: 520px;
@@ -217,7 +217,7 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide2.png) no-repeat 0 0;
 		right: 58px;
-	    top: -644px;
+	    top: -377px;
 	}
 	.newguide3{
 		width: 493px;
@@ -225,7 +225,7 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide3.png) no-repeat 0 0;
 		right: -2px;
-	    top: -641px;
+	    top: -375px;
 	}
 	.ngbtn{
 		position: absolute;

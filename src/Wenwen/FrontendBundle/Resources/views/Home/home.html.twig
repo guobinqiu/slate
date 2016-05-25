@@ -69,6 +69,7 @@
 	</div>
 	{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 </div>
+	{#{{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}#}
 {% endblock %}
 
 {% block footer %}
@@ -76,5 +77,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home')}}"></script>
 {% endblock %}

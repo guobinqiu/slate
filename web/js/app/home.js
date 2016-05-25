@@ -11,6 +11,7 @@ require(['../config'],function(){
     //        effect: 'fade'
     //    }});
     // });
+    require(['textScroll']);
     require(['countdown']);
     require(['textScroll']);
     require(['jquery', 'jqueryCookie'], function($){

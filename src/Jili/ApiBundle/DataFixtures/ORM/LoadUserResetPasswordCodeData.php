@@ -43,6 +43,8 @@ class LoadUserResetPasswordCodeData extends AbstractFixture implements Container
         $user->setPoints($this->container->getParameter('init'));
         $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
+        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
+        $user->setIsEmailConfirmed(\Jili\ApiBundle\Entity\User::EMAIL_CONFIRMED);
         $user->setPwd('123qwe');
         $manager->persist($user);
         $manager->flush();
