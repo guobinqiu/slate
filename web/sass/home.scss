@@ -97,6 +97,46 @@ $slider-height: 305px;
 			}
 		}
 	}
+	.exchange-dynamics{
+		padding: 10px 20px;
+		line-height: 24px;
+		.mask{
+			height: 335px;
+			overflow: hidden;
+			position: relative;
+			z-index: 1;
+		}
+		ul{
+			position: absolute;
+			z-index: 1000;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		h2{
+			padding: 0;
+		}
+		li{
+			padding: 12px 0;
+			border-bottom: $block-inner-border;
+			b{
+				color: $main-color;
+			}
+			p{
+				@include ell();
+				.name{
+					    width: 40px;
+					    display: inline-block;
+					    vertical-align: -7px;
+					    text-overflow: ellipsis;
+					    overflow: hidden;
+				}
+			}
+			.date{
+				color: #bfbfbf;
+			}
+		}
+	}
 }
 
 #mask{ 
