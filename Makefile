@@ -17,7 +17,7 @@ SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
-	$(PHPUNIT) -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
+	$(PHPUNIT) -c ./app/phpunit.xml --testsuite all -d memory_limit=-1 --debug --verbose
 
 test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
