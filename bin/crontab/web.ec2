@@ -16,12 +16,6 @@
 #年排行榜
 40 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingYear
 
-#mail:七天未登陆提醒
-#0 1 * * * /usr/bin/curl http://www.91jili.com/remindLogin
-
-#1,2,3 广告体验,购物返利,游戏广告,获得积分提醒
-#30 1 * * * /usr/bin/curl http://www.91jili.com/remindPoint
-
 #91wenwen
 #30 4 * * * /bin/sh /var/www/html/jili/cron/91wenwen.sh
 
@@ -30,9 +24,6 @@
 
 #chick in
 30 16 * * * /usr/bin/php /var/www/html/jili/bin/schedule/checkin_immigration_v2.php
-
-#91wenwen
-0 2 * * * /bin/sh /var/www/html/jili/bin/schedule/vote_api.sh
 
 # game egg breaker pool stat report
 #0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh

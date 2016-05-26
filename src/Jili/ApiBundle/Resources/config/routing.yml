@@ -63,11 +63,6 @@ api-offerwow:
     type:     annotation
     prefix:   /
 
-remind:
-    resource: "@JiliApiBundle/Controller/RemindController.php"
-    type:     annotation
-    prefix:   /
-
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation

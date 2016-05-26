@@ -151,10 +151,7 @@ parameters:
         'point': 1  #XX元
         'order': 2 #每个订单XX元
         'sale': 3 #销售额的XX%
-    point_exchange_upper_limit: 2000 #积分兑换上限
     wenwen_vote_url: http://www.91wenwen.net/vote/?c=91jili#active
-    wenwen_vote_api: http://www.91wenwen.net/index.php/vote/activeList
-    wenwen_vote_mark: c=91jili
 
     emar_com.app_AppKey: %emar_com.cron.AppKey%
     emar_com.app_AppSecret: %emar_com.cron.AppSecret%
@@ -267,16 +264,9 @@ parameters:
     file_path_recent_point: /data/91jili/topcron_recentpoint.log
     file_path_ranking_month: /data/91jili/topcron_rankingmonth.log
     file_path_ranking_year: /data/91jili/topcron_rankingyear.log
-    remind_login_campaign_id: 9
-    remind_login_mailing_id: 75
-    remind_point_campaign_id: 11
-    remind_point_mailing_id: 72
-    remind_total_point_campaign_id: 12
-    remind_total_point_mailing_id: 103
     file_path_advertiserment_check: /data/91jili/advertiserment_check.log
     file_path_emergency_announcement: /data/91jili/emergency_announcement.log
     file_path_admin_point_manage: %jili_app.logs_dir%/admin/pointManage
-    file_path_wenwen_vote: %jili_app.logs_dir%/wenwen/vote.json
     file_path_cpa_ranking_activity: %jili_app.logs_dir%/activity/cpa_ranking_activity
 
     qq_appid: 101163684
