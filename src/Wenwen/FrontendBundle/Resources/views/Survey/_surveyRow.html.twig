@@ -9,15 +9,14 @@
             </li>
             <li>
                 <span>问卷类型</span>
-                <p title="{% if type_desc is defined %} type_desc {% else %}{% endif %} ">{% if type_label is defined %} {{type_label}} {% else %}其他{% endif %}</p>
+                <p class="ltGreen" title="{% if type_desc is defined %} type_desc {% else %}{% endif %} ">{% if type_label is defined %} {{type_label}} {% else %}其他{% endif %}</p>
             </li>
             <li>
                 <span>回答期限</span>
                 <p>{% if end_date is defined %} {{end_date}} {% else %}--{% endif %}</p>
             </li>
             <li class="last">
-                <span>积分数</span>
-                <p><strong>{{ point }}</strong></p>
+                <p><strong>{{ point }}</strong>积分</p>
             </li>
         </ul>
     </div>

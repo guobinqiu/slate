@@ -28,13 +28,13 @@
 					padding-left: 74px;
   					display: block; 
   					&.active, &:hover{
-					color: $main-color;
+					color: $main-color-yellow;
 					font-weight: bold;
 					background: $block-line-color;
 					border-left: {
 						width: 3px;
 						style: solid;
-						color: $main-color;
+						color: $main-color-yellow;
 					}
 					}
 				}
@@ -53,7 +53,7 @@
 		h2{
 			height: 45px;
 			line-height: 45px;
-			color: #ff5500;
+			color: $main-color-yellow;
 			font-size: 22px;
 			border-bottom: $block-border;
 			margin-bottom: 30px;

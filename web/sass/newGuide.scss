@@ -7,11 +7,11 @@
 	ul{
 		margin-top: 10px;
 		& li:hover, & li:active{
-			border: 1px solid #ff6700;
-			outline: 2px solid #ff6700;
+			border: 1px solid #fa8611;
+			outline: 2px solid #fa8611;
 		}
 		& li:hover dl dd .more{
-			background: #ff6700;
+			background: #fa8611;
 			color: #fff;
 		}
 		li{
@@ -33,7 +33,7 @@
 		    	float: left;
     			width: 160px;
     			dt{
-    				    color: #eb6b21;
+    				    color: $main-color-yellow;
     					font-size: 23px;
     			}
     			dd{
@@ -86,7 +86,7 @@
 		color: #333;
 		strong{
 			margin-right: 5px;
-			color: #ff6700;
+			color: #fa8611;
 		}
 	}
 	dd{

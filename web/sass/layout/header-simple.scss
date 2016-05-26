@@ -5,7 +5,7 @@ $header-height: 92px;
 .header{
 	background: #fff;
 	height: $header-height;
-	border-bottom: 3px solid #f26f21;
+	border-bottom: 3px solid #fa8611;
 	@include box-shadow(0px 1px 5px #d8d8d8);
 	.logo{
 		a{
@@ -32,7 +32,7 @@ $header-height: 92px;
 		height: 92px;
 		line-height: 92px;
 		a{
-			color: #007ec2;
+			color: $blue-color;
 			font-weight: bold;
 		}
 	}

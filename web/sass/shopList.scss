@@ -29,12 +29,13 @@
 .shopList-search{
 	position: relative;
 	z-index: 1;
+	box-shadow: none!important;
 	input[type='text']{
 		padding: 0 30px 0 10px;
 		width: 142px;
-		height: 35px;
-		line-height: 35px;
-		color: #bdbdbd;
+		height: 42px;
+		line-height: 42px;
+		color: #808080;
 		border: 1px solid #eee;
 		background: #fff;
 		outline: none;
@@ -51,15 +52,15 @@
 	label{
 		position: absolute;
 		z-index: 1000;
-		left: 10px;
-		top: 12px;
+		left: 16px;
+		top: 16px;
 		color: #bdbdbd;
 	}
 	.btn{
 		position: absolute;
 		z-index: 100;
-		right: 10px;
-		top: 10px;
+		right: 15px;
+		top: 15px;
 		width: 14px;
 		height: 14px;
 		background: url(../img/experience/searchBtn.png) no-repeat;
@@ -67,7 +68,7 @@
 	}
 }
 .shopList-category{
-	margin-top: 5px;
+	margin-top: -1px;
 	height: 555px;
 	overflow: auto;
 	background: #fff;
@@ -77,7 +78,7 @@
 		line-height: 35px;
 		color: #000;
 		&:hover, &.active{
-			background: $main-color;
+			background: $main-color-yellow;
 			a{
 				color: #fff;
 			}

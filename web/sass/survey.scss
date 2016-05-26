@@ -13,9 +13,12 @@
 	}
 }
 .survey-sub{
+	width: 100%;
 	h1{
-		font-size: 30px;
+		font-size: 34px;
+		color: #9aa1ab;
 		margin: 10px 0 15px 14px;
+		// font-weight: 400;
 	}
 	position: relative;
 	z-index: 1;
@@ -25,6 +28,11 @@
 	}
 	#noSurvey{
 		text-align: center;
+	}
+	.survey-btn a{
+		width: 112px;
+	    height: 34px;
+	    line-height: 34px;
 	}
 }
 @import "component/page";
