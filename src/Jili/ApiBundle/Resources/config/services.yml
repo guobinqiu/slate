@@ -57,11 +57,6 @@ parameters:
     session.points.class: Jili\ApiBundle\Services\Session\User\Points
     session.user_configs.class: Jili\ApiBundle\Services\Session\User\Configs
 
-#flow 流量
-    flow_mobilevalidate.processor.class:  Jili\ApiBundle\Services\Flow\FlowMobileValidateApiProcessor
-    flow_ordercreate.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderCreateApiProcessor
-    flow_order_api_return.logger.class: Jili\ApiBundle\Services\Flow\FlowOrderApiLogger
-    flow_order_request.processor.class:  Jili\ApiBundle\Services\Flow\FlowOrderRequestProcessor
 # 兑换结果处理
     exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
 #AlertToSlack
@@ -325,36 +320,6 @@ services:
         
     user_weibo_login:
         class: %user_weibo_login.class%
-
-    flow_mobilevalidate.processor:
-        class: %flow_mobilevalidate.processor.class%
-        arguments: [ %flow% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ alertToSlack, [ @alert_to_slack ] ]
-
-    flow_ordercreate.processor:
-        class: %flow_ordercreate.processor.class%
-        arguments: [ %flow% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ alertToSlack, [ @alert_to_slack ] ]
-
-    flow_order_api.init_log:
-        class: %flow_order_api_return.logger.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    flow_order_request.processor:
-        class: %flow_order_request.processor.class%
-        arguments: [ %flow% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setSendMail, ["@send_mail"] ]
-            - [ setExchange, [ @exchange.processor ] ]
-            - [ alertToSlack, [ @alert_to_slack ] ]
 
     exchange.processor:
         class: %exchange.processor.class%

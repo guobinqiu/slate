@@ -28,11 +28,6 @@ class ClientTest extends KernelTestCase {
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
-//        $fixture = new LoadExchangeFlowOrderData();
-//        $loader = new Loader();
-//        $loader->addFixture($fixture);
-//        $executor->execute($loader->getFixtures());
-
         $this->container = static :: $kernel->getContainer();
         $this->em = $em;
     }
