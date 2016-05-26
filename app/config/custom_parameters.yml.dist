@@ -289,10 +289,6 @@ parameters:
         # 再来1次的金蛋 策略取值
         strategy_value_of_once_more: -1
 
-    webpower_email_username: 'admin'
-    webpower_email_password: 'nUshkwu#9'
-    webpower_soap_uri: 'http://91jili.dmdelivery.com/x/soap-v4/wsdl.php'
-
 # this account is copied from wenwen configs:
 # /web/httpd_rpa/cap-deployment/rpa/current/local-git/pl/etc/config.yaml
 #  L10 ~ L28

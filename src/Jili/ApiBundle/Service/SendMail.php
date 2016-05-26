@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ParameterBagInterface;
 class SendMail
 {
     private $logger;
-    private $soap_mail;
     private $mailer;
 
     public function __construct(LoggerInterface $logger)
@@ -29,19 +28,16 @@ class SendMail
         $this->container_ = $c;
     }
 
-    public function setSoapMail($soap_mail)
-    {
-        $this->soap_mail = $soap_mail;
-    }
     public function setMailer($mailer)
     {
         $this->mailer = $mailer;
     }
+
     public function sendMails($subject,$email,$content)
     {
         $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom( array('account@91jili.com'=>'积粒网') )
+        ->setFrom( array('account@91jili.com'=>'91问问') )
         ->setTo($email)
         ->setBody($content,'text/html');
         $flag = $this->mailer->send($message);

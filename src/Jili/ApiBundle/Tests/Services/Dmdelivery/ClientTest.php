@@ -43,7 +43,11 @@ class ClientTest extends KernelTestCase {
     public function testDemo() 
     {
         $container= $this->container;
-        $client = $container->get('soap.mail.listener');
+
+        $client = $container->get('webpower.91wenwen.mailer');
+        $this->assertInstanceOf( '\Jili\ApiBundle\Services\Dmdelivery\Client', $client);
+
+        $client = $container->get('webpower.91wenwen_signup.mailer');
         $this->assertInstanceOf( '\Jili\ApiBundle\Services\Dmdelivery\Client', $client);
     }
 

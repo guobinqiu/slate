@@ -35,7 +35,7 @@ class SendMailFunctionalTest extends WebTestCase {
         $container = $client->getContainer();
         $send_mail = $container->get('send_mail');
 
-        $email = 'zhangmm@voyagegroup.com.cn';
+        $email = 'miaomiao.zhang@d8aspring.com';
         $result = $send_mail->sendMails('mail_subject', $email, "cont");
         $this->assertTrue($result);
     }
