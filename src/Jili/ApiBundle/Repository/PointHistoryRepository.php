@@ -78,16 +78,6 @@ class PointHistoryRepository extends EntityRepository
         return $po;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isGameSeekerCompletedToday($uid)
-    {
-        $gameSeekerCategoryId = \Jili\ApiBundle\Entity\AdCategory::ID_GAME_SEEKER;
-        $pointLog = $this->issetInsert($uid, $gameSeekerCategoryId);
-        return (empty($pointLog)) ? false : true;
-    }
-
     public function pointHistorySearch($user_id, $category_id, $start_time, $end_time)
     {
         $param = array ();

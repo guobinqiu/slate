@@ -52,7 +52,7 @@ class AutoCheckinConfigControllerTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-       $this->em->close();
+       //$this->em->close();
     }
 
     /**

@@ -22,13 +22,6 @@ class AdCategory
     const ID_QUESTIONNAIRE_COST = 92;//问卷回答,アンケート回答11
     const ID_QUESTIONNAIRE_EXPENSE = 93;//快速问答,アンケート回答（自社）61
 
-
-    /**
-     * @var const
-     *  寻宝箱的id.
-     */
-    const ID_GAME_SEEKER = 30;
-
     /**
      * @var const
      *  砸金蛋id.
