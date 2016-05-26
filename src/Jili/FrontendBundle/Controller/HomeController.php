@@ -117,24 +117,4 @@ class HomeController extends Controller
         return $this->render('WenwenFrontendBundle:Advertisement:_hallHome.html.twig', $arr);
     }
 
-    /**
-     * @Route("/vote")
-     * @Template
-     */
-    public function voteAction()
-    {
-        //get vote mark
-        $wenwen_vote_mark = $this->container->getParameter('wenwen_vote_mark');
-
-        //快速问答:从文件中读取
-        $filename = $this->container->getParameter('file_path_wenwen_vote');
-
-        $votes = FileUtil :: readJosnFile($filename);
-        if(! $votes || empty($votes)) {
-            return new Response('<!-- 快速问答 -->');
-        }
-        $vote = array_pop($votes);
-        $vote['vote_url'] = $vote['vote_url'] . "?" . $wenwen_vote_mark;
-        return $this->render('JiliFrontendBundle:Home:vote.html.twig', $vote);
-    }
 }
