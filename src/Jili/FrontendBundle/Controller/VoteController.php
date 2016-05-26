@@ -328,6 +328,7 @@ class VoteController extends Controller
         $arr['vote_image_path'] = $vote_image_path;
         $arr['choices'] = $choices;
         $arr['answer_count'] = $answer_count;
+        $arr['appkey'] = $this->container->getParameter('weibo_appkey');
 
         return $this->render('WenwenFrontendBundle:Vote:result.html.twig', $arr);
     }
