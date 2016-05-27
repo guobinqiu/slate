@@ -21,7 +21,7 @@
 			@include dib();
 			cursor: pointer;
 			&.active, &:hover{
-				color: $main-color-yellow;
+				color: $orange-color;
 				font-weight: bold;
 				background: #ffefe3;
 			}
@@ -79,7 +79,7 @@
 			}
 			&:hover, &.active, &.on{
 				.title{
-					color: $main-color-yellow;
+					color: $orange-color;
 					background-color: #ffefe3;
 				}
 				span{
@@ -101,7 +101,7 @@
 					font-weight: normal;
 				}
 				a{
-					color: $blue-color;
+					color: $list-tit-color;
 				}
 			}
 		}

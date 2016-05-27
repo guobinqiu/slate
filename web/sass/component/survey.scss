@@ -4,7 +4,7 @@
 $h-font-color: #000;
 $h-font-size: 18px;
 $h-small-font-size: 14px;
-$survey-con-font-color: #9aa1ab;
+$survey-con-font-color: #4C4D4D;
 $survey-border-color: #f6f6f6;
 
 .main-con-left{
@@ -13,7 +13,7 @@ $survey-border-color: #f6f6f6;
 		line-height: 55px;
 		font-size: 24px;
 		color: $head-title-color;
-		padding: 10px 0 0 10px;
+		padding: 14px 0 12px 8px;
 	}
 	em{
 		width: 24px;
@@ -29,7 +29,7 @@ $survey-border-color: #f6f6f6;
 		height: 24px;
 		@include ell();
 		a{
-			color: #3c434d;
+			color: $list-tit-color;
 			&:hover{
 				color: $hover-color;
 			}
@@ -80,12 +80,15 @@ $survey-border-color: #f6f6f6;
 		padding: 5px 10px 0 0;
 		border: none;
 		span,p{
-			color: $survey-con-font-color;
-			font-size: 12px;
-			line-height: 22px;
+			color: $weak-color;
+			font-size: 13px;
+			line-height: 24px;
+		}
+		p{
+			color: $sub-con-color;
 		}
 		&.last{
-			width: 10%;
+			width: 12%;
 			text-align: right;
 			p{
 				color: #e62200;
@@ -106,7 +109,7 @@ $survey-border-color: #f6f6f6;
 		cursor: default;
 		position: absolute;
 		right: -60px;
-		top: 72px;
+		top: 77px;
 		a{
 			color: #fff;
 			width: 86px;
@@ -131,16 +134,16 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 	li{
-		padding: 33px 30px 27px;
-		border-bottom: 1px solid #e9eced;
+		padding: 30px 30px 31px;
+		border-bottom: 1px solid #E6EAEA;
 		&:last-child{
 			border: none;
 		}
 	}
 	.title{
-		font-size: 18px;
-		height: 32px;
-		color: #4a535e;
+		font-size: 19px;
+		height: 36px;
+		color: $list-tit-color; 
 	}
 }
 .vote .vote-btn{
@@ -221,11 +224,16 @@ $survey-border-color: #f6f6f6;
 	p{
 		padding-left: 7px;
 		margin-top: 7px;
+		font-size: 13px;
+		line-height: 24px;
+		margin-bottom: 4px;
+		color: $sub-con-color;
 	}
 	.relate{
 		margin-left: 3px;
 		span{
 			padding: 0 3px;
+			color: $weak-color;
 			span{
 				color: $main-color;
 			}

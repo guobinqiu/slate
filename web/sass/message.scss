@@ -23,7 +23,7 @@
 			font-size: 16px;
 			font-weight: bold;
 			&.active, &:hover{
-				color: $main-color-yellow;
+				color: $orange-color;
 			}
 		}
 		.border{
@@ -33,7 +33,7 @@
 			left: 0;
 			height: 2px;
 			width: 110px;
-			background: $main-color-yellow;
+			background: $orange-color;
 		}
 	}
 	ul{

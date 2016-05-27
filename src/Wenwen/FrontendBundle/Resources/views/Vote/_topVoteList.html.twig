@@ -5,7 +5,7 @@
 		<span class="vote-img">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</span>
 		<span class="vote-txt">
 			<div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
-			<p class="corWeak">{% autoescape false %}{{ item.description }}{% endautoescape %}</p>
+			<p>{% autoescape false %}{{ item.description }}{% endautoescape %}</p>
 			<div class="relate corWeak">
 				<span>参与人气：<span>{{ item.answerCount }}</span></span><span class="vline"></span>
                 <span>截止日期：{{ item.endTime|date("Y-m-d") }}</span>

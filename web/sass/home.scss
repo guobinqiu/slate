@@ -57,7 +57,7 @@ $slider-height: 305px;
 		margin-right: 19px;
 		@include dib();
 		img{
-			border: 2px solid #b0e8ff;
+			// border: 2px solid #b0e8ff;
 			border-radius: 50%;
 		}
 	}
@@ -91,7 +91,7 @@ $slider-height: 305px;
 }
 .main-con-left{
 	h1{
-		color: $head-title-color;
+		color: $main-title-color;
 		font-size: 28px;
 		font-weight: normal;
 		height: 55px;

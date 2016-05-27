@@ -1,26 +1,26 @@
 define(['jquery', 'routing'],function($){
 
-    var navLinks = $('.header-nav .nav a');
-    var navSlider = $('.header-nav .border');
-    var curIndex = navLinks.parent().find('.active').index();
+    // var navLinks = $('.header-nav .nav a');
+    // // var navSlider = $('.header-nav .border');
+    // var curIndex = navLinks.parent().find('.active').index();
 
-    if(curIndex != -1){
-       navSlider.show().animate({ left: 115 * curIndex +'px'}, 100);
-    }
-    navLinks.hover(function(){
-        var i = $(this).index();
-        navSlider.show().animate({ left: 115 * i +'px'}, 100);
-    }, function(){});
+    // if(curIndex != -1){
+    //    navSlider.show().animate({ left: 115 * curIndex +'px'}, 100);
+    // }
+    // navLinks.hover(function(){
+    //     var i = $(this).index();
+    //     // navSlider.show().animate({ left: 115 * i +'px'}, 100);
+    // }, function(){});
     
-    navLinks.parent().hover(function(){
-    }, function(){
-        var i = navLinks.parent().find('.active').index();
-        if(i != -1){
-            navSlider.show().animate({ left: 115 * i +'px'}, 100);
-        }else{
-            navSlider.hide();
-        }
-    });
+    // navLinks.parent().hover(function(){
+    // }, function(){
+    //     var i = navLinks.parent().find('.active').index();
+    //     // if(i != -1){
+    //     //     navSlider.show().animate({ left: 115 * i +'px'}, 100);
+    //     // }else{
+    //     //     navSlider.hide();
+    //     // }
+    // });
 
     var expandBtn = $('.expand-btn'),
         expandCon = $('.expand-con');
