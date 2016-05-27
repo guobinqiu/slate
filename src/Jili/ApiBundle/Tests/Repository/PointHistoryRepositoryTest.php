@@ -92,29 +92,6 @@ class PointHistoryRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group point
-     * @group issue_524
-     */
-    public function testIsGameSeekerCompletedToday()
-    {
-        // user with no point_history record
-        $user = LoadIssetInsertData::$USERS[0];
-        $em = $this->em;
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->isGameSeekerCompletedToday($user->getId());
-        $this->assertSame(false, $result);
-
-        // a yesterday point_history record  and other reason record
-        $user = LoadIssetInsertData::$USERS[1];
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->isGameSeekerCompletedToday($user->getId());
-        $this->assertSame(false, $result);
-
-        // normal
-        $user = LoadIssetInsertData::$USERS[2];
-        $result = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->isGameSeekerCompletedToday($user->getId());
-        $this->assertSame(true, $result);
-    }
-
-    /**
      * @group issue_600
      */
     public function testPointHistorySearch()

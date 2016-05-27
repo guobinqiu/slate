@@ -28,11 +28,6 @@ class ClientTest extends KernelTestCase {
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
-//        $fixture = new LoadExchangeFlowOrderData();
-//        $loader = new Loader();
-//        $loader->addFixture($fixture);
-//        $executor->execute($loader->getFixtures());
-
         $this->container = static :: $kernel->getContainer();
         $this->em = $em;
     }
@@ -48,7 +43,11 @@ class ClientTest extends KernelTestCase {
     public function testDemo() 
     {
         $container= $this->container;
-        $client = $container->get('soap.mail.listener');
+
+        $client = $container->get('webpower.91wenwen.mailer');
+        $this->assertInstanceOf( '\Jili\ApiBundle\Services\Dmdelivery\Client', $client);
+
+        $client = $container->get('webpower.91wenwen_signup.mailer');
         $this->assertInstanceOf( '\Jili\ApiBundle\Services\Dmdelivery\Client', $client);
     }
 

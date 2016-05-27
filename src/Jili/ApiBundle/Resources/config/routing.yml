@@ -43,11 +43,6 @@ marketActivity:
     prefix:   /marketActivity
     type:     annotation
 
-dmdelivery:
-    resource: "@JiliApiBundle/Controller/DmdeliveryController.php"
-    prefix:   /dmdelivery
-    type:     annotation
-
 checkin:
     resource: "@JiliApiBundle/Controller/CheckinController.php"
     prefix:   /checkin
@@ -60,11 +55,6 @@ topcron:
 
 api-offerwow:
     resource: "@JiliApiBundle/Controller/OfferwowController.php"
-    type:     annotation
-    prefix:   /
-
-remind:
-    resource: "@JiliApiBundle/Controller/RemindController.php"
     type:     annotation
     prefix:   /
 

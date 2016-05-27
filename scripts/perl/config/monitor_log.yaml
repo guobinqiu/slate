@@ -1,0 +1,14 @@
+dir:
+   httpd:    /home/kevin/monit_log/data/log_backup/2016-05-16/
+   prod:    /home/vagrant/ 
+ 
+file:
+    prod:    prod.log
+    httpd:    91wenwen-access.log,91wenwen-error.log,access_log,error_log,ssl_access_log,ssl_error_log
+
+keywords:
+    prod:   ERROR, CRITICAL
+    httpd:    'PHP Fatal error'
+
+mail_to:
+    to:    'rpa-sys-china@d8aspring.com'

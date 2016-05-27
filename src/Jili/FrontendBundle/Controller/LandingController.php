@@ -5,9 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Response;
-
-use Jili\FrontendBundle\Form\Type\SignupType;
 
 /**
  * @Route("/",requirements={"_scheme"="http"})

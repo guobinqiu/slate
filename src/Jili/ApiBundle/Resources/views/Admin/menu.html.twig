@@ -311,26 +311,6 @@
         <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
             <TR height=22>
                 <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
-                    <A class=menuParent onclick=expand(24) href="javascript:void(0);">淘宝管理</A>
-                </TD>
-            </TR>
-        </TABLE>
-        <TABLE id=child24 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_taobao_component') }}" target=main>淘宝组件管理</A></TD>
-            </TR>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('jili_backend_admintaobao_listpromotionselfproduct') }}" target=main>自助推广</A></TD>
-            </TR>
-        </TABLE>
-
-        {%include "JiliBackendBundle:GameEggsBreaker:backend_menu_partial.html.twig" %}
-        {%include "JiliBackendBundle:ActivityGathering:backend_menu_partial.html.twig" %}
-        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=22>
-                <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
                     <A class=menuParent onclick=expand(32) href="javascript:void(0);">vote管理</A>
                 </TD>
             </TR>

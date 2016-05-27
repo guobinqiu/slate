@@ -45,8 +45,6 @@ if USER = seki
       * `webpower.login.password`
       * `signup.crypt_method`
       * `signup.salt`
-      * `recruit_offerwow`
-      * `recruit_offer99`
 
 
 1. setup /etc/hosts on your **local**  machine.
