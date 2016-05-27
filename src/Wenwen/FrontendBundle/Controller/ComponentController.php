@@ -26,4 +26,23 @@ class ComponentController extends Controller
             'user' => $user
         ));
     }
+
+    /**
+     * @Route("/homeBar", name="_component_home_bar")
+     */
+    public function homeBarAction(Request $request)
+    {
+        if (!$request->getSession()->get('uid')) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $id = $request->getSession()->get('uid');
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+
+        return $this->render('WenwenFrontendBundle:Components:_homeBar.html.twig', array (
+            'user' => $user
+        ));
+    }
 }
