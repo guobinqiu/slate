@@ -143,7 +143,7 @@ sub insert_emar_advertisement
                 $worksheet->get_cell( $row, 0 )->value(), # ads_id 
                 $worksheet->get_cell( $row, 1 )->value(), # ads_name 
                 $worksheet->get_cell( $row, 2 )->value(), #category            
-                $worksheet->get_cell( $row, 3 )->value(),#commission          
+                $worksheet->get_cell( $row, 3 ) ? $worksheet->get_cell( $row, 3 )->value() : "",#commission
                 $worksheet->get_cell( $row, 4 )->value(),#commission_period   
                 $worksheet->get_cell( $row, 8 )->value(),#ads_url             
                 ( "yes" eq $worksheet->get_cell( $row, 9 )->value()) ? 1: 0 ,#can_customize_target
