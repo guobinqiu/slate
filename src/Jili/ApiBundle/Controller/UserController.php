@@ -1067,6 +1067,10 @@ class UserController extends Controller implements CampaignTrackingController
         $request = $this->get('request');
         $session = $request->getSession();
 
+        if($session->has('uid')){
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+
         $goToUrl =  $session->get('referer');
         if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
             $session->set('goToUrl', $goToUrl);
