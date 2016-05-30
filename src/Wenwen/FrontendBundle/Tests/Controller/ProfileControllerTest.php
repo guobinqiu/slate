@@ -427,7 +427,7 @@ class ProfileControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_profile_withdraw');
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"status":0,"message":"Need login"}', $client->getResponse()->getContent());
+        $this->assertEquals(json_encode(array ('status'=>'1001','message'=>'请先登录')), $client->getResponse()->getContent());
 
         //login
         $url = $container->get('router')->generate('_login', array (), true);
@@ -447,7 +447,7 @@ class ProfileControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_profile_withdraw');
         $crawler = $client->request('POST', $url, $post_data);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"status":0,"message":"Access Forbidden"}', $client->getResponse()->getContent());
+        $this->assertEquals(json_encode(array ('status'=>'1002','message'=>'非法访问，请登陆后从账户设置页面正常注销')), $client->getResponse()->getContent());
 
         //set csrf token
         $csrfProvider = new DefaultCsrfProvider('SECRET');
@@ -468,7 +468,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
         $return = json_decode($return, true);
-        $this->assertEquals(0, $return['status']);
+        $this->assertEquals('1003', $return['status']);
 
         $post_data = array ();
         $post_data['reason'] = array (
@@ -483,7 +483,7 @@ class ProfileControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $return = $client->getResponse()->getContent();
         $return = json_decode($return, true);
-        $this->assertEquals(1, $return['status']);
+        $this->assertEquals('1000', $return['status']);
 
         //check db
         $em = $this->em;
