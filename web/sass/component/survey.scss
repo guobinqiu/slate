@@ -53,20 +53,27 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 	li.vote-new{
-			a{
-			display: none;
+		.vote-btn{
 			width: 0;
-			}
+			border: none;
+			@include transition(all, 0.4s);
+		}
+		.countdown{
+			width: 150px;
+			height: 64px;
+			overflow: hidden;
+			@include transition(all, 0.4s);
+		}
 		&:hover, &.active{
 			.vote-btn{
-				width: 141px;
+				width: 88px;
+				border: 1px solid #43bdcc;
 				display: inline-block;
-				margin-top: 25px;
-			    border: 1px solid #379fc2;
-				@include transition(all, 0.4s);
 			}
 			.countdown{
-				display: none;
+				width: 0;
+				height: 0;
+				overflow: hidden;
 			}
 		}
 	}
@@ -171,8 +178,8 @@ $survey-border-color: #f6f6f6;
 			.tips{
 				position: absolute;
 				z-index: 1000;
-				top: 81px;
-				right: 162px;
+				top: 41px;
+				right: 7px;
 				span{ 
 				    width: 13px;
 				    height: 13px;

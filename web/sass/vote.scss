@@ -22,7 +22,7 @@
 		}
 	}
 	.vote-txt{
-		width: 65%;
+		width: 60%;
 		span{
 			strong{
 				font-weight: normal;
@@ -46,44 +46,13 @@
 			margin-top: 7px;	
 		}
 	}
-	.survey-btn{
-		background: transparent;
-		width: 15%;
-		cursor: default;
-		@include transition(width, 0);
-		position: absolute;
-		right: 0;
-		top: 9px;
-		a{
-			margin: 58px auto auto;
-			width: 90px;
-			height: 33px;
-			line-height: 33px;
-			text-align: center;
-			color: #fff;
-			font-size: 13px;
-			@include btn();
-			@include dib();
-			&.disabled{
-				background: #a7a7a7;
-				border: 1px solid #a7a7a7;
-			}
-		}
+	.countdown{
+		top: 43px;
 	}
-	.vote-new{
-		.survey-btn{
-			top: -24px;
-		}
-		.countdown{
-			top: 84px;
-			right: 12px;
-			span{
-				width: 36px;
-			    height: 45px;
-			    line-height: 45px;
-			}
-		}
-	} 
+	.vote-new .tips{
+		top: 33px!important;
+		right: 0!important;
+	}
 }
 .exchange-dynamics{
 	padding: 10px 20px 15px; 
