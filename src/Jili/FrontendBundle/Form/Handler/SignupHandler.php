@@ -77,7 +77,7 @@ class SignupHandler
 
         } catch (\Exception $e) {
             $con->rollback();
-            $this->logger->crit('user signup fail:' . $e->getMessage());
+            $this->logger->err('user signup fail:' . $e->getMessage());
             throw $e;
         }
 
