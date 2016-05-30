@@ -1205,14 +1205,14 @@ class UserController extends Controller implements CampaignTrackingController
         $nick = $user[0]->getNick();
         $id = $user[0]->getId();
         $passCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($id);
+        $str = 'jiliforgetpassword';
+        $password_code = md5($id.str_shuffle($str));
         if(empty($passCode)){
-            $str = 'jiliforgetpassword';
-            $code = md5($id.str_shuffle($str));
             $url = $this->generateUrl('_user_resetPass',array('code'=>$code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
                 $setPasswordCode = new SetPasswordCode();
                 $setPasswordCode->setUserId($id);
-                $setPasswordCode->setCode($code);
+                $setPasswordCode->setCode($password_code);
                 $setPasswordCode->setCreateTime(new \DateTime());
                 $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
                 $em->persist($setPasswordCode);
@@ -1222,6 +1222,7 @@ class UserController extends Controller implements CampaignTrackingController
         }else{
             $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
+                $passCode[0]->setCode($password_code);
                 $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
                 $passCode[0]->setCreateTime(new \DateTime());
                 $em->flush();
