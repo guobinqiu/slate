@@ -57,7 +57,8 @@ $slider-height: 305px;
 		margin-right: 19px;
 		@include dib();
 		img{
-			// border: 2px solid #b0e8ff;
+			border: 2px solid #E0F6FF;
+			border: 2px solid rgba(224,246,255,0.4);
 			border-radius: 50%;
 		}
 	}

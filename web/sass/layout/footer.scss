@@ -33,14 +33,14 @@
 			}
 		}
 	}
-	.special{
-		margin-top: 16px;
-		.img-link img{
-			margin-left: 2px;
-			margin-top: 3px;
-			display: inline-block;
-		}
-	}
+	// .special{
+	// 	margin-top: 16px;
+	// 	.img-link img{
+	// 		margin-left: 2px;
+	// 		margin-top: 3px;
+	// 		display: inline-block;
+	// 	}
+	// }
 	.copyright{
 		text-align: center;
 		margin-top: 20px;
@@ -64,7 +64,7 @@
 		    overflow: hidden;
 		    background: url(../img/common/icons_common.png) no-repeat 0 -100px;
 		    position: absolute;
-		    bottom: 206px;
+		    bottom: 230px;
 		    right: -86px;
 			&:hover{
 				text-align: center;
