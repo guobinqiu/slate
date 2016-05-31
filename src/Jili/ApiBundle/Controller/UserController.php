@@ -1212,7 +1212,7 @@ class UserController extends Controller implements CampaignTrackingController
         $str = 'jiliforgetpassword';
         $password_code = md5($id.str_shuffle($str));
         if(empty($passCode)){
-            $url = $this->generateUrl('_user_resetPass',array('code'=>$code,'id'=>$id),true);
+            $url = $this->generateUrl('_user_resetPass',array('code'=>$password_code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
                 $setPasswordCode = new SetPasswordCode();
                 $setPasswordCode->setUserId($id);
@@ -1224,7 +1224,7 @@ class UserController extends Controller implements CampaignTrackingController
                 $code = $this->container->getParameter('init_one');
             }
         }else{
-            $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
+            $url = $this->generateUrl('_user_resetPass',array('code'=>$password_code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
                 $passCode[0]->setCode($password_code);
                 $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
