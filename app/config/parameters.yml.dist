@@ -19,6 +19,9 @@ parameters:
     router.request_context.scheme: https
     router.request_context.base_url: ~
 
+    signup.crypt_method: blowfish
+    signup.salt: dummy
+
     ssi_project_survey:
         title: "SSI海外调查"
         point: 180

@@ -351,9 +351,6 @@ parameters:
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
     vote_suggest_mail_to: %wenwen_support_email_address%
 
-    signup.crypt_method: blowfish
-    signup.salt: dummy
-
 #生日错误
     birthday_error: "您选择的生日不正确"
 
