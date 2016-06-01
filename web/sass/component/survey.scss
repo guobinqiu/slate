@@ -180,8 +180,8 @@ $survey-border-color: #f6f6f6;
 	font-size: 12px;
 	@include dib();
 	&:hover:enabled, &:active:enabled{
-		background: #a7a7a7;
-		border: 1px solid #a7a7a7;
+		background: #FF531F;
+		border: 1px solid #FA3E00;
 	}
 }
 .vote{
