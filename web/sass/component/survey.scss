@@ -107,6 +107,50 @@ $survey-border-color: #f6f6f6;
 			}
 		}
 	}
+	.proTit{
+		height: 50px;
+	}
+	.proTag{
+		width: 42px;
+		height: 41px;
+		background: url(../img/home/importantTag.png) no-repeat center;
+		color: #fff;
+	    font-size: 12px;
+	    line-height: 41px;
+	    text-align: center;
+	    vertical-align: 5px;
+        margin-left: 10px;	
+        -o-transform: rotate(-20deg); /* Opera浏览器 */
+        -webkit-transform: rotate(-20deg); /* Webkit内核浏览器 */
+        -moz-transform: rotate(-20deg); /* Firefox浏览器 */
+        transform: rotate(-20deg); 
+	}
+	.proRow{
+		color: #A7B2BE;
+	    line-height: 24px;
+	    font-size: 13px;
+	    width: 90%;
+	    margin-bottom: 3px;
+	    .proNum{
+	    	color: $weak-color;
+	    	&:after{
+	    		content: '';
+	    		width: 1px;
+	    		height: 11px;
+	    		display: inline-block;
+	    		border-right: 1px solid #A7B2BE;
+	    		margin: 0 10px;
+	    	}
+	    }
+    	i{
+    		color: $streng-color;
+    		font-weight: bold;
+    	}
+
+	}
+	.proSec{
+		color: $sub-con-color;
+	}
 }
 .survey {
 	padding-bottom: 40px;

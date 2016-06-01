@@ -1,27 +1,10 @@
 <div class="survey-item">
-    <div class="title">
-        {% if profiling.title|length > 35 %}
-            {{ profiling.title[:35] }}...
-        {% else %}
-            {{ profiling.title }}
-        {% endif %}
+    <div class="title proTit">
+        属性问卷<span class="proTag">重要</span>
     </div>
-    <ul class="con clearfix">
-        <li class="first">
-            <span>问卷编号</span>
-            <p>{{ profiling.name }}</p>
-        </li>
-        <li>
-            <span>问卷类型</span>
-            <p title="用于判断您的基本属性，以便发送适合您的商业问卷">属性问卷</p>
-        </li>
-        <li>
-            <span>回答期限</span>
-            <p>--</p>
-        </li>
-        <li class="last">
-            <p><strong>1</strong>积分</p>
-        </li>
-    </ul>
+    <div class="proCon clearfix">
+            <div class="proRow">问卷编号：<span class="proNum">{{ profiling.name }}</span>每小题<i>1积分</i>，最多可得<i>126积分</i></div>
+            <div class="proRow proSec">回答属性问卷可以帮助您收到更多的高积分问卷哦！您填写的属性越多，高积分问卷收到的频率就越高。中途关闭，之后再打开可以继续回答。属性问卷每年都会更新一次。</div>
+    </div>
 </div>
 <div class="survey-btn"><a href="{{ profiling.url }}" class="open-link" target="_brank">可回答</a></div>
