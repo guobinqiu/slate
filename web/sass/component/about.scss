@@ -28,13 +28,13 @@
 					padding-left: 74px;
   					display: block; 
   					&.active, &:hover{
-					color: $main-color;
+					color: $orange-color;
 					font-weight: bold;
 					background: $block-line-color;
 					border-left: {
 						width: 3px;
 						style: solid;
-						color: $main-color;
+						color: $orange-color;
 					}
 					}
 				}
@@ -53,7 +53,6 @@
 		h2{
 			height: 45px;
 			line-height: 45px;
-			color: #ff5500;
 			font-size: 22px;
 			border-bottom: $block-border;
 			margin-bottom: 30px;

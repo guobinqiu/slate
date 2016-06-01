@@ -16,7 +16,7 @@ $slider-height: 305px;
 		width: 1000px;
 	}
 	span{
-		top: 50%;
+		top: 50%; 
 		left: -41px;
 		margin-top: -20px;
 		width: 41px;
@@ -28,7 +28,7 @@ $slider-height: 305px;
 			right: -41px;
 			background: url(../img/home/sliderbtnR.png) no-repeat;
 		}
-		display: none;
+		display: none; 
 	}
 	.btn-group{
 		bottom: 10px;
@@ -44,17 +44,62 @@ $slider-height: 305px;
 		}
 	}
 }
+.homeBr{
+	.left{
+		margin-top: 24px;
+	}
+	.right{
+		margin-top: 0;
+	}
+	height: 174px;
+	background: url(../img/home/homeBrBg.jpg) no-repeat -1px center #465f79;
+	.faceWapper{
+		margin-right: 19px;
+		@include dib();
+		img{
+			border: 2px solid #E0F6FF;
+			border: 2px solid rgba(224,246,255,0.4);
+			border-radius: 50%;
+		}
+	}
+	.infoText{
+		@include dib();
+		color: #e8ebef;
+		.l1{
+			font-size: 26px;
+			height: 51px;
+			line-height: 46px;
+		}
+		.l2{
+			font-size: 14px;
+		}
+		.point{
+			font-size: 20px;
+		}
+
+	}
+	.taskHis, .exchangeHis{
+		color: #e8ebef;
+		@include border-radius(3px);
+		border: 1px solid #e8ebef;
+		margin-top: 73px;
+		padding: 10px 17px;
+		@include dib();
+	}
+	.taskHis{
+		margin-right: 10px;
+	}
+}
 .main-con-left{
 	h1{
-		color: #333;
-		font-size: 22px;
+		color: $main-title-color;
+		font-size: 28px;
 		font-weight: normal;
 		height: 55px;
 		line-height: 55px;
 		position: relative;
-		border-bottom: 1px dotted #e2e2e2;
+		border-bottom: 1px solid #e9eced;
 		padding-bottom: 10px;
-		
 		.more{
 			position: absolute;
 			right: 0;
@@ -77,13 +122,12 @@ $slider-height: 305px;
 	}
 	.countdown{
 		top: 42px;
-		right: 20px;
 	}
 }
 .main-con-right{
 	.notice{
 		ul{
-			padding: 0 15px 15px;
+			padding: 0 25px 23px 22px;
 		}
 		li{
 			line-height: 28px;
@@ -98,10 +142,10 @@ $slider-height: 305px;
 		}
 	}
 	.exchange-dynamics{
-		padding: 10px 20px;
+		padding: 18px 20px 15px;
 		line-height: 24px;
 		.mask{
-			height: 335px;
+			height: 208px;
 			overflow: hidden;
 			position: relative;
 			z-index: 1;
@@ -117,7 +161,7 @@ $slider-height: 305px;
 			padding: 0;
 		}
 		li{
-			padding: 12px 0;
+			padding: 15px 10px 0 5px;
 			border-bottom: $block-inner-border;
 			b{
 				color: $main-color;
@@ -164,15 +208,15 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide1.png) no-repeat 0 0;
 		left: 232px;
-		top: -120px;
+		top: -70px;
 	}
 	.newguide2{
 		width: 520px;
 		height: 379px;
 		position: absolute;
 		background: url(../img/home/guide2.png) no-repeat 0 0;
-		right: 58px;
-	    top: -377px;
+		right: 28px;
+	    top: -247px;
 	}
 	.newguide3{
 		width: 493px;
@@ -180,7 +224,7 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide3.png) no-repeat 0 0;
 		right: -2px;
-	    top: -375px;
+	    top: -246px;
 	}
 	.ngbtn{
 		position: absolute;
@@ -220,42 +264,34 @@ $slider-height: 305px;
 }
 .mainExpTop{
 	width: 100%;
-    height: 265px;
     background: #fff;
 }
 .mainExpTop ul{
-	width: 1000px;
 	margin: 0 auto;
-}
-.mainExpTop ul h2{
-	font-size: 22px;
-	color: #333;
-	padding: 30px 0 20px;
 }
 .mainExpTop ul li{
 	width: 165px;
-	float: left;
-	margin-right: 42px;
-	margin-right: 35px\9;
+	margin-left: 32px;
+	margin-bottom: 30px;
+	display: inline-block;
 }
 .mainExpTop ul li:last-child{
 	margin-right: 0;
 }
-.mainExpTop ul li a{
-	color: #999;
-}
 .mExpTit{
 	display: block;
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 28px;
+    line-height: 21px;
+    margin: 4px 0 5px;
 }
 .mPointNum{
 	color: $main-color;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 16px;
 	vertical-align: -1px;
 	margin-right: 3px;
+}
+.mpUnit{
+	color: $main-color;
+	
 }
 @import "layout/footer";

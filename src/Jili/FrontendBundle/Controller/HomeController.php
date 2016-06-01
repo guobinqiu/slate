@@ -109,7 +109,7 @@ class HomeController extends Controller
         } else {
             $cache_proxy->remove($cache_fn);
             $em = $this->getDoctrine()->getManager();
-            $adExperience = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement();
+            $adExperience = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement(2);
             $cache_proxy->set($cache_fn, $adExperience);
         }
 

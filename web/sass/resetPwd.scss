@@ -86,9 +86,7 @@
 			line-height: 50px;
 			font-size: 16px;
 			color: #fff;
-			background: #319cfa;
-			border-radius: 1px;
-			@include box-shadow(0 2px 0 #0a7fe6);
+			@include btn();
 			cursor: pointer;
 			@include dib();
 			&.disabled{

@@ -53,7 +53,7 @@
 	                    </div>
 	                    <dl>
 	                        <dt>支付宝现金兑换</dt>
-	                        <dd class="text">用积分兑换支付宝现金，<strong>2050米粒</strong>起兑</dd>
+	                        <dd class="text">积分兑换支付宝现金，<strong>2050米粒</strong>起兑</dd>
 	                        <dd class="exchangeBtn">
 	                            <a href="javascript:void(0)" id="alipayBtn">立即兑换</a>
 	                        </dd>
@@ -88,5 +88,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/exchange')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/exchange.js')}}"></script>
 {% endblock %}

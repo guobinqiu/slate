@@ -1,52 +1,54 @@
 @charset "UTF-8";
 
 @import "global";
-$footer-bg-color: #edeff2;
-$footer-title-font-color: #000;
-$footer-con-font-color: #535353;
-$footer-copyright-font-color: #989898;
 
 .footer{
 	width: 100%;
 	margin-top: 50px;
-	border-top: 3px solid #d6d9df;
-	padding: 30px 0;
+	padding: 48px 0 0;
 	line-height: 24px;
-	background: $footer-bg-color;
-	color: $footer-con-font-color;
+	background: #3D4751;
+	color: #9EADB7;
+	.footer-con{
+		padding-bottom: 30px;
+	}
 	.footer-nav-group{
 		float: left;
-		margin-right: 80px;
+		width: 154px;
 		span{
-			color: $footer-title-font-color;
+			color: #66AEC7;
 			font-size: 14px;
 			font-weight: bold;
 			padding: 8px 0;
 			display: inline-block;
 		}
 		li{
+			a{
+				color: #9EADB7;
+			}
 			span{
-				color: inherit;
 				font-size: 12px;
 				font-weight: normal;
 				padding: 0;
 			}
 		}
 	}
-	.special{
-		margin-top: 16px;
-		.img-link img{
-			margin-left: 2px;
-			margin-top: 3px;
-			display: inline-block;
-		}
-	}
+	// .special{
+	// 	margin-top: 16px;
+	// 	.img-link img{
+	// 		margin-left: 2px;
+	// 		margin-top: 3px;
+	// 		display: inline-block;
+	// 	}
+	// }
 	.copyright{
 		text-align: center;
 		margin-top: 20px;
+		background: #323B43;
+		padding: 10px 0;
 		p{
 			line-height: 30px;
-			color: $footer-copyright-font-color;
+			color: #7A8894;
 		}
 	}
 	.footer-con-right{
@@ -61,6 +63,9 @@ $footer-copyright-font-color: #989898;
 		    display: block;
 		    overflow: hidden;
 		    background: url(../img/common/icons_common.png) no-repeat 0 -100px;
+		    position: absolute;
+		    bottom: 230px;
+		    right: -86px;
 			&:hover{
 				text-align: center;
 			    font-size: 14px;
@@ -69,6 +74,19 @@ $footer-copyright-font-color: #989898;
 			    line-height: 17px;
 			    padding-top: 10px;
 			    color: #fff;
+			}
+		}
+		.QRcode{
+			span{
+				width: 100px;
+				text-align: center;
+				display: inline-block;
+				&.wb{
+					margin-right: 30px;
+				}
+				img{
+					margin-bottom: 10px;
+				}
 			}
 		}
 	}
