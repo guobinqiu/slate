@@ -28,7 +28,6 @@ require.config({
         'autoJump': 'common/autoJump',
         'layer': 'common/layer',
         'exchange': 'common/exchange',
-        'goTop': 'common/backTop',
         'alimama':'common/alimama',
         'googleAnalytics':'common/googleAnalytics',
         'scrollTop':'common/scrollTop',
