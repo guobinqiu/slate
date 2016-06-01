@@ -86,7 +86,7 @@ sub do_task {
     my $sum_survey_expense_points   = $self->get_survey_expense_points();
     my $sum_register_expense_points = $self->get_register_expense_points();
 
-    my $total_expense_points = $sum_register_expense_points;
+    my $total_expense_points = $sum_survey_expense_points + $sum_register_expense_points;
 
     my $sum_expired_points = $self->get_expired_points();
 
