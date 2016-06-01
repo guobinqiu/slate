@@ -142,22 +142,24 @@ require(['../../config'],function(){
                 data: {reason: checked, csrf_token: $.trim($("#csrf_token").val()), email: $.trim($("#withdrawEmail").val()), password: $.trim($("#withdrawPwd").val()) },
                 success : function(data) {
                     var msg = data.message;
-                    if(data.status == 1){
-                        window.location.href = Routing.generate('_profile_withdraw_finish');
-                    }else{
-                        if(msg != null && $.trim(msg) != ''){
-                            if(msg == 'Need login'){
-                                // 跳转到登录画面
-                                window.location.href = Routing.generate('_user_login');
-                            }else if(msg == 'Access Forbidden'){
-                                // 跳转到账户设置首页画面
-                                window.location.href = Routing.generate('_profile_index');
-                            }else if(msg == 'Use Not Exist'){
-                                $('.backError').html('对不起，您的注销失败了，用户不存在');
-                            }else{
-                                $('.backError').html('对不起，您的注销失败了，请稍后再试');
-                            }
-                        }
+                    var status = data.status;
+                    switch(status){
+                        case '1000':
+                            // 注销成功，跳转至注销结束页面
+                            window.location.href = Routing.generate('_profile_withdraw_finish');
+                            break;
+                        case '1001':
+                            // 跳转到登录画面
+                            window.location.href = Routing.generate('_user_login');
+                            break;
+                        case '1002':
+                            // 跳转到账户设置首页画面
+                            window.location.href = Routing.generate('_profile_index');
+                            break;
+                        default:
+                            // 注销失败，不做跳转，仅显示出错信息
+                            $('.backError').html(msg);
+                            break;
                     }
                 }
             });

@@ -167,20 +167,18 @@ class UserControllerTest extends WebTestCase
         $logger= $container->get('logger');
 
         // reset email
-        $query = array('email'=> 'alice.nima@gmail.com');
+        $user = LoadUserResetPasswordCodeData::$ROWS[0];
+
+        $query = array('email'=> $user->getEmail());
         $url = $container->get('router')->generate('_user_reset', $query ) ;
         $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         //$this->assertEquals('1', $client->getResponse()->getContent());
-        $user = LoadUserResetPasswordCodeData::$ROWS[0];
 
-        $passwordCode =LoadUserResetPasswordCodeData::$SET_PASSWORD_CODE[0];
-        $code= $passwordCode->getCode();
-        $url = $container->get('router')->generate('_user_resetPass',array('code'=>$code,'id'=>$user->getId() ),true);
-
+        $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($user->getId());
+        $url = $container->get('router')->generate('_user_resetPass',array('code'=>$setPasswordCode->getCode(),'id'=>$user->getId() ),true);
         $client->request('GET', $url ) ;
         $crawler = $client->request('GET', $url ) ;
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode() , 'GET forget pass url status check' );
 
         $form = $crawler->filter('form[id=form1]')->form();

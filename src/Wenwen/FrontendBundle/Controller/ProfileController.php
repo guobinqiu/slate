@@ -359,10 +359,12 @@ class ProfileController extends Controller
      */
     public function withdrawAction(Request $request)
     {
-        $result['status'] = 0;
+        $result['status'] = '0';
+        $result['message'] = '抱歉，系统出错，请稍后再尝试注销';
 
         if (!$request->getSession()->get('uid')) {
-            $result['message'] = 'Need login';
+            $result['status'] = '1001';
+            $result['message'] = '请先登录';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
@@ -376,7 +378,8 @@ class ProfileController extends Controller
 
         //check csrf_token
         if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
-            $result['message'] = 'Access Forbidden';
+            $result['status'] = '1002';
+            $result['message'] = '非法访问，请登陆后从账户设置页面正常注销';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
@@ -386,7 +389,8 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($request->getSession()->get('uid'));
         if (trim($user->getEmail()) != trim($email)) {
-            $result['message'] = 'Use Not Exist';
+            $result['status'] = '1003';
+            $result['message'] = '请输入正确的邮箱地址';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
@@ -396,7 +400,8 @@ class ProfileController extends Controller
         $check_user_service = $this->container->get('login.listener');
         $invalid_user = $check_user_service->checkPassword($user, $password);
         if ($invalid_user) {
-            $result['message'] = 'Use Not Exist';
+            $result['status'] = '1004';
+            $result['message'] = '请输入正确的登录密码';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
@@ -412,13 +417,15 @@ class ProfileController extends Controller
             $logout_service->logout($request);
             $result['status'] = 1;
         } else {
-            $result['message'] = 'fail';
+            $result['status'] = '1005';
+            $result['message'] = '抱歉，系统忙，请稍后再尝试注销';
             $resp = new Response(json_encode($result));
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
         }
 
-        $result['message'] = 'success';
+        $result['status'] = '1000';
+        $result['message'] = '注销成功';
         $resp = new Response(json_encode($result));
         $resp->headers->set('Content-Type', 'application/json');
 

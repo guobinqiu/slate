@@ -161,6 +161,8 @@ class VoteController extends Controller
         $session->set('csrf_token', $csrf_token);
         $arr['csrf_token'] = $csrf_token;
 
+        $request->getSession()->set('goToUrl', $request->getUri());
+
         return $this->render('WenwenFrontendBundle:Vote:show.html.twig', $arr);
     }
 
