@@ -34,6 +34,9 @@ framework:
         gc_maxlifetime:   86400
         save_path: "%kernel.root_dir%/sessions/%kernel.environment%"
     fragments:       ~
+    templating:
+        engines: ['twig']
+        assets_version: 'v000001'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

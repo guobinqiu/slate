@@ -7,7 +7,7 @@
  	position: relative;
 	z-index: 1;
 	h1{
-		font-size: 30px;
+		font-size: 34px;
 		margin: 10px 0 15px 14px;
 	}
 	li{
@@ -22,7 +22,7 @@
 		}
 	}
 	.vote-txt{
-		width: 68%;
+		width: 60%;
 		span{
 			strong{
 				font-weight: normal;
@@ -32,60 +32,30 @@
 			line-height: 20px;
 			a{
 				line-height: 20px;
-				font-size: 15px;
+				font-size: 16px;
+				text-indent: -3px;
 			}
 		}
 		.con{
 			margin-top: 13px;
-			padding-left: 3px;
-			line-height: 20px;
-			color: #9c9c9c;
+			padding-left: 7px;
+		    line-height: 23px;
+		    font-size: 13px;
 		}
 		.relate{
 			margin-top: 7px;	
 		}
 	}
-	.survey-btn{
-		background: transparent;
-		width: 15%;
-		cursor: default;
-		@include transition(width, 0);
-		position: absolute;
-		right: 0;
-		top: 9px;
-		a{
-			margin: 58px auto auto;
-			width: 90px;
-			height: 33px;
-			line-height: 33px;
-			text-align: center;
-			color: #fff;
-			font-size: 12px;
-			@include btn();
-			@include dib();
-			&.disabled{
-				background: #a7a7a7;
-				border: 1px solid #a7a7a7;
-			}
-		}
+	.countdown{
+		top: 43px;
 	}
-	.vote-new{
-		.survey-btn{
-			top: -24px;
-		}
-		.countdown{
-			top: 84px;
-			right: 12px;
-			span{
-				width: 36px;
-			    height: 45px;
-			    line-height: 45px;
-			}
-		}
-	} 
+	.vote-new .tips{
+		top: 33px!important;
+		right: 0!important;
+	}
 }
 .exchange-dynamics{
-	padding: 10px 20px;
+	padding: 10px 20px 15px; 
 	line-height: 24px;
 	.mask{
 		height: 335px;
@@ -101,10 +71,10 @@
 		width: 100%;
 	}
 	h2{
-		padding: 0;
+		padding: 10px 0 0 0;
 	}
 	li{
-		padding: 12px 0;
+		padding: 15px 10px 0 5px;
 		border-bottom: $block-inner-border;
 		b{
 			color: $main-color;
