@@ -67,7 +67,6 @@ $survey-border-color: #f6f6f6;
 		&:hover, &.active{
 			.vote-btn{
 				width: 88px;
-				border: 1px solid #FA3E00;
 				display: inline-block;
 			}
 			.countdown{
@@ -95,8 +94,8 @@ $survey-border-color: #f6f6f6;
 			color: $sub-con-color;
 		}
 		&.last{
-			width: 12%;
-			text-align: right;
+			width: 20%;
+			text-align: left;
 			p{
 				color: #e62200;
 				margin-top: 10px;
