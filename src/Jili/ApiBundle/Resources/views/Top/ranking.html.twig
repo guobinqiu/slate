@@ -1,0 +1,22 @@
+<div class="mask">
+  <div style="left: 0px;" class="all clearfix">
+  <ul class="month">
+    {% for item in rankingMonth %}
+    <li>
+      <em {% if loop.index < 4 %} class="redBg" {% endif %}>{{ loop.index }}</em>
+      <dd>{{ item.0[:3] }}**</dd>
+      <dt><span>{{ item.1 }}</span>累计米粒</dt>
+    </li>
+    {% endfor %}
+  </ul>
+  <ul class="year">
+    {% for item in rankingYear %}
+    <li>
+      <em {% if loop.index < 4 %} class="redBg" {% endif %}>{{ loop.index }}</em>
+      <dd>{{ item.0[:3] }}**</dd>
+      <dt><span>{{ item.1 }}</span>累计米粒</dt>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+</div>
