@@ -81,16 +81,14 @@ $slider-height: 305px;
 	.taskHis, .exchangeHis{
 		color: #e8ebef;
 		@include border-radius(3px);
-		border: 1px solid #e8ebef;
+		border: 1px solid rgba(31, 179, 199, 0.7);
+		background: rgba(30,175,194,0.7);
 		margin-top: 73px;
 		padding: 10px 17px;
 		@include dib();
 	}
 	.taskHis{
 		margin-right: 10px;
-		color: #FFFFFF;
-	    background: rgba(30, 175, 194, 0.7);
-	    border: 1px solid #4ACFE0;
 }
 }
 .main-con-left{
