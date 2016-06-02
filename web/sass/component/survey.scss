@@ -13,7 +13,7 @@ $survey-border-color: #f6f6f6;
 		line-height: 55px;
 		font-size: 24px;
 		color: $head-title-color;
-		padding: 14px 0 12px 8px;
+		padding: 4px 0 12px 8px;
 	}
 	em{
 		width: 24px;
@@ -100,8 +100,8 @@ $survey-border-color: #f6f6f6;
 				color: #e62200;
 				margin-top: 10px;
 				strong{
-					font-size: 26px;
-					vertical-align: -4px;
+					font-size: 24px;
+					vertical-align: -3px;
 					margin-right: 3px;
 				}
 			}
@@ -159,7 +159,7 @@ $survey-border-color: #f6f6f6;
 		cursor: default;
 		position: absolute;
 		right: -60px;
-		top: 77px;
+		top: 70px;
 		a{
 			color: #fff;
 			width: 86px;
@@ -184,15 +184,15 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 	li{
-		padding: 30px 30px 31px;
-		border-bottom: 1px solid #E6EAEA;
+		padding: 27px 30px 19px;
+		border-bottom: 1px solid #E0E5E5;
 		&:last-child{
 			border: none;
 		}
 	}
 	.title{
-		font-size: 19px;
-		height: 36px;
+		font-size: 18px;
+		height: 30px;
 		color: $list-tit-color; 
 	}
 }
@@ -229,7 +229,20 @@ $survey-border-color: #f6f6f6;
 }
 .vote{
 	li{
-		padding: 30px 20px;
+		padding: 30px 20px 10px;
+		&:last-child:after{
+			border-bottom: none;
+		}
+		&:after{
+			content: '';
+		    position: absolute;
+		    width: 79%;
+		    height: 100%;
+		    top: 10px;
+		    left: 130px;
+		    border-bottom: 1px solid #E0E5E5;
+		    z-index: -1;
+		}
 		&.vote-new{
 			.vote-img{
 				width: 15%;
@@ -289,10 +302,9 @@ $survey-border-color: #f6f6f6;
 	line-height: 22px;
 	p{
 		padding-left: 7px;
-		margin-top: 7px;
+		margin-top: 5px;
 		font-size: 13px;
-		line-height: 24px;
-		margin-bottom: 4px;
+		line-height: 23px;
 		color: $sub-con-color;
 	}
 	.relate{
@@ -300,9 +312,6 @@ $survey-border-color: #f6f6f6;
 		span{
 			padding: 0 3px;
 			color: $weak-color;
-			span{
-				color: $main-color;
-			}
 			&.vline{
 				color: $block-line-color;
 			}
