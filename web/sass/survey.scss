@@ -25,8 +25,18 @@
 		border-top: none;
 		border-bottom: $block-inner-border;
 	}
+	li{
+		padding: 25px 30px 17px;
+	}
 	#noSurvey{
 		text-align: center;
+	}
+	.title{
+		font-size: 17px;
+		height: 24px;
+	}
+	.survey-btn{
+		top: 44px;
 	}
 	.survey-btn a{
 		width: 112px;
