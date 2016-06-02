@@ -230,6 +230,9 @@ $survey-border-color: #f6f6f6;
 .vote{
 	li{
 		padding: 30px 20px 10px;
+		&:last-child:after{
+			border-bottom: none;
+		}
 		&:after{
 			content: '';
 		    position: absolute;
