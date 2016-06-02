@@ -491,7 +491,7 @@ class DefaultController extends Controller
         $nick = $session->get('nick');
 
         //send email
-        $subject = "来自非91jili会员的咨询";
+        $subject = "来自91问问帮助中心的咨询";
         if ($nick) {
             $id = $session->get('uid');
             $em = $this->getDoctrine()->getManager();
@@ -501,9 +501,14 @@ class DefaultController extends Controller
 
         $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('account@91jili.com')->setPassword('D8aspring');
         $mailer = \Swift_Mailer :: newInstance($transport);
-        $message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
-            'account@91jili.com' => '91问问'
-        ))->setTo('support@91wenwen.com')->setBody('<html>' .
+        $message = \Swift_Message :: newInstance();
+        $message->setSubject($subject);
+        $message->setFrom(array (
+            'account@91jili.com' => '91问问调查网'
+        ));
+        $message->setTo('support@91wenwen.com');
+        $message->setReplyTo($email);
+        $message->setBody('<html>' .
         '<head></head>' .
         '<body>' .
         '咨询内容<br/>' .
