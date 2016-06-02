@@ -504,7 +504,7 @@ class DefaultController extends Controller
         $message = \Swift_Message :: newInstance();
         $message->setSubject($subject);
         $message->setFrom(array (
-            'account@91jili.com' => '91问问'
+            'account@91jili.com' => '91问问调查网'
         ));
         $message->setTo('support@91wenwen.com');
         $message->setReplyTo($email);
