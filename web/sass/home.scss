@@ -57,8 +57,8 @@ $slider-height: 305px;
 		margin-right: 19px;
 		@include dib();
 		img{
-			border: 2px solid #E0F6FF;
-			border: 2px solid rgba(224,246,255,0.4);
+			// border: 2px solid #E0F6FF;
+			// border: 2px solid rgba(224,246,255,0.4); 
 			border-radius: 50%;
 		}
 	}
@@ -81,24 +81,25 @@ $slider-height: 305px;
 	.taskHis, .exchangeHis{
 		color: #e8ebef;
 		@include border-radius(3px);
-		border: 1px solid #e8ebef;
+		border: 1px solid rgba(31, 179, 199, 0.7);
+		background: rgba(30,175,194,0.7);
 		margin-top: 73px;
 		padding: 10px 17px;
 		@include dib();
 	}
 	.taskHis{
 		margin-right: 10px;
-	}
+}
 }
 .main-con-left{
 	h1{
 		color: $main-title-color;
-		font-size: 28px;
+		font-size: 27px;
 		font-weight: normal;
-		height: 55px;
-		line-height: 55px;
+		height: 49px;
+		line-height: 42px;
 		position: relative;
-		border-bottom: 1px solid #e9eced;
+		border-bottom: 1px solid #E0E5E5;
 		padding-bottom: 10px;
 		.more{
 			position: absolute;
@@ -123,6 +124,9 @@ $slider-height: 305px;
 	.countdown{
 		top: 42px;
 	}
+}
+.main-con-left>div{
+	padding: 10px 25px 23px;
 }
 .main-con-right{
 	.notice{
