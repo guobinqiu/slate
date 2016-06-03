@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['common']);
     require(['jquery', 'mobile'],function($, mobile){
         //表单验证

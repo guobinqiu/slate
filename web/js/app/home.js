@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['/js/config.js'],function(){
     require(['common']);
     // require(['jquery','slider'], function($, slider){
     //    var sliderA = new slider({sliderEle: '.main-slider ul', prevBtn: '.arrowL', nextBtn: '.arrowR', groupBtn: '.btn-group b', config: {

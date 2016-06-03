@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['common']);
     require(['jquery', 'routing'],function($, routing){
         var exchangeForm = $('#exchangeForm');
