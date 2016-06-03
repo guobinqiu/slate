@@ -1,0 +1,27 @@
+<div class="survey-item">
+    <div class="title">
+        {% if fulcrum_research.title|length > 35 %}
+            {{ fulcrum_research.title[:35] }}...
+        {% else %}
+            {{ fulcrum_research.title }}
+        {% endif %}
+    </div>
+    <ul class="con clearfix">
+        <li class="first">
+            <span>问卷编号</span>
+            <p>f{{ fulcrum_research.survey_id }}</p>
+        </li>
+        <li>
+            <span>问卷类型</span>
+            <p title="">商业问卷</p>
+        </li>
+        <li>
+            <span>回答期限</span>
+            <p>--</p>
+        </li>
+        <li class="last">
+            <p><strong>{{ fulcrum_research.extra_info.point.complete }}</strong>积分</p>
+        </li>
+    </ul>
+</div>
+<div class="survey-btn"><a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>

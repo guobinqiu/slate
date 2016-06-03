@@ -10,6 +10,7 @@ return array(
     'Stagehand\\TestRunner\\' => array($vendorDir . '/piece/stagehand-testrunner/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Misd\\GuzzleBundle\\' => array($vendorDir . '/misd/guzzle-bundle'),
     'Knp\\Bundle\\PaginatorBundle\\' => array($vendorDir . '/knplabs/knp-paginator-bundle'),
     'Gregwar\\Captcha\\' => array($vendorDir . '/gregwar/captcha'),
     'Gregwar\\CaptchaBundle\\' => array($vendorDir . '/gregwar/captcha-bundle'),

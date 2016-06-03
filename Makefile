@@ -17,7 +17,7 @@ SUBDOMAIN=${USER}
 WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 
 test:
-	$(PHPUNIT) -c ./app/phpunit.xml.dist --testsuite all -d memory_limit=-1 --debug --verbose
+	$(PHPUNIT) -c ./app/phpunit.xml --testsuite all -d memory_limit=-1 --debug --verbose
 
 test-data: cc-all
 	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
@@ -78,9 +78,6 @@ fix-perms:
 	fi;
 
 create-config:
-	cp -n ${SRC_DIR}/app/config/custom_parameters.yml.dist ${SRC_DIR}/app/config/custom_parameters.yml
-	cp -n ${SRC_DIR}/app/config/config_dev.yml.dist        ${SRC_DIR}/app/config/config_dev.yml
-	cp -n ${SRC_DIR}/app/config/config_test.yml.dist       ${SRC_DIR}/app/config/config_test.yml
 	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:

@@ -125,15 +125,15 @@ $main-ad-color: #eb7020;
 		}
 	}
 }
-.arrowScroll{
-	width: 65px;
-	height: 30px;
-	background: url(../img/home/indexMess.png) no-repeat -6px -45px;
-	position: absolute;
-    bottom: -1px;
-    left: 470px;
-    cursor: pointer;
-}
+// .arrowScroll{
+// 	width: 65px;
+// 	height: 30px;
+// 	background: url(../img/home/indexMess.png) no-repeat -6px -45px;
+// 	position: absolute;
+//     bottom: -1px;
+//     left: 470px;
+//     cursor: pointer;
+// }
 .main-con{
 	h2{
 		margin-bottom: 45px;
@@ -154,7 +154,7 @@ $main-ad-color: #eb7020;
 }
 .main-con-process{
 	height: 586px;
-	background: url(../img/home/adProcess.png) no-repeat center 175px #EFEFEF;
+	background: url(../img/home/adProcess.png) no-repeat center 175px #fff;
 	overflow: hidden;
 	position: relative;
 	padding-bottom: 30px;
@@ -199,7 +199,7 @@ $main-ad-color: #eb7020;
 	}
 }
 .main-con-reward{
-	background: #dedede;
+	// background: #dedede;
 	padding-bottom: 126px;
 	padding-top: 20px;
 	overflow: hidden;
@@ -377,24 +377,24 @@ $main-ad-color: #eb7020;
 }
 .main-con-action{
 	text-align: center;
-	background: url(../img/home/actionBg.png) no-repeat center #323235;
 	height: 200px;
 	padding: 52px 0 0;
 	h1{
 	    font-size: 24px;
 	    font-weight: bold;
-	    color: #fff;
+	    color: #3D4751;
 	    line-height: 46px;
 	}
 	p{
-		color: #fff;
-	    font-size: 12px;
+		color: #747D86;
+	    font-size: 14px;
 	    line-height: 60px;
 	}
 	.button{
 	    color: #ff652b;
-	    border: 1px solid #ff652b;
+	    border: 2px solid #ff652b;
 	    border-radius: 5px;
+        font-weight: bold;	
 	    cursor: pointer;
 	    @include transition(all, 0.4s);
 	    padding: 12px 35px;

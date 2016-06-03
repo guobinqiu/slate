@@ -9,9 +9,9 @@
 <link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
 <link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -42,7 +42,7 @@
                     </dd>
                     {% endfor %}
                 </dl>
-                <wb:share-button class="weiboshare" appkey="17dg2I" addition="simple" type="button" ralateUid="3572980047" default_text="{{vote.title}}"></wb:share-button>
+                <wb:share-button class="weiboshare" appkey="{{appkey}}" addition="simple" type="button" ralateUid="1752291082" default_text="{{vote.title}}"></wb:share-button>
                 <a class="backLink" href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a>
             </div>
         </div>
@@ -52,10 +52,10 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/voteDetail')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/vote/voteDetail.js')}}"></script>
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

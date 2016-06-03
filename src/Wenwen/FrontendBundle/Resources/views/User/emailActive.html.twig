@@ -4,9 +4,9 @@
 {% block stylesheet %}
 <link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
- 
+
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_headerSimple.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -15,10 +15,10 @@
 		<div class="con">
 			<div class="text">
 				<div class="title">就差一步了，快去激活您的账户吧！</div>
-				{% if gotoEmail %}
+				{# {% if gotoEmail %} #}
 					<p>我们已经向您的邮箱{{ email }}发送了一封激活邮件，请点击邮件中的链接完成注册。</p>
 		            <!-- <a href="http://{{ gotoEmail }}" target="_blank">立即进入邮箱</a> -->
-		        {% endif %}
+		        {# {% endif %} #}
 		        <input type='hidden' id='uid' value='xxx'/>
 		        <input type='hidden' id='code' value='xxx'/>
 		        <input type='hidden' id='nick'  value='yyy'/>
@@ -41,9 +41,9 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/emailActive')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/emailActive.js')}}"></script>
 {% endblock %}

@@ -16,7 +16,7 @@ my $logic = Wenwen::Task::GetPerformanceReport->new(
     base_date => Time::Piece->strptime($opt{base_date}, '%Y-%m-%d'));
 
 my $to      = 'rpa-sys-china@d8aspring.com,ds-Product-china@d8aspring.com';
-my $subject = 'Performance Report ' . $logic->base_date->strftime('%Y-%m-%d');
+my $subject = '91wenwen - Performance Report ' . $logic->base_date->strftime('%Y-%m-%d');
 my $body    = $logic->do_task();
 
 my $sender = Wenwen::Email->new();

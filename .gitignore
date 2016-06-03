@@ -10,15 +10,13 @@ app/sessions/*
 app/cache_data/*
 app/logs/*
 app/logs_data/*
-app/config/config_dev.yml
-app/config/config_test.yml
-app/config/custom_parameters.yml
 app/config/parameters.yml
 app/config/parameters.ini
 app/SymfonyRequirements.php
 
 dwsync.xml
 .DS_Store
+._.DS_Store
 
 src/Jili/*/Resources/config/doctrine/*.orm.xml
 src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml

@@ -139,10 +139,6 @@ class ExchangeProcess {
                 $title = $this->getParameter('exchange_finish_mobile_tilte');
                 $content = $this->getParameter('exchange_finish_mobile_content');
                 break;
-            case PointsExchangeType :: TYPE_FLOW :
-                $title = $this->getParameter('exchange_finish_flow_tilte');
-                $content = $this->getParameter('exchange_finish_flow_content');
-                break;
             default :
                 break;
         }
@@ -171,10 +167,6 @@ class ExchangeProcess {
             case PointsExchangeType :: TYPE_MOBILE :
                 $title = $this->getParameter('exchange_fail_mobile_tilte');
                 $content = $this->getParameter('exchange_fail_mobile_content');
-                break;
-            case PointsExchangeType :: TYPE_FLOW :
-                $title = $this->getParameter('exchange_fail_flow_tilte');
-                $content = $this->getParameter('exchange_fail_flow_content');
                 break;
             default :
                 break;

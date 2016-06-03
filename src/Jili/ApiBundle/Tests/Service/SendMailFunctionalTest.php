@@ -27,17 +27,6 @@ class SendMailFunctionalTest extends WebTestCase {
         $this->em->close();
     }
 
-    public function testsendMailForRegisterFromWenwen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $send_mail = $container->get('send_mail');
-
-        $email = 'zhangmm@voyagegroup.com.cn';
-        $url = 'https://localhost/PointMedia/web/app_dev.php/user/setPassFromWenwen/11fe83aa9baac88ce489967a6d0cf0bb/1057703';
-        $result = $send_mail->sendMailForRegisterFromWenwen($email, $url);
-        $this->assertTrue($result);
-    }
-
     /**
      * @group issue_578
      */
@@ -46,7 +35,7 @@ class SendMailFunctionalTest extends WebTestCase {
         $container = $client->getContainer();
         $send_mail = $container->get('send_mail');
 
-        $email = 'zhangmm@voyagegroup.com.cn';
+        $email = 'miaomiao.zhang@d8aspring.com';
         $result = $send_mail->sendMails('mail_subject', $email, "cont");
         $this->assertTrue($result);
     }

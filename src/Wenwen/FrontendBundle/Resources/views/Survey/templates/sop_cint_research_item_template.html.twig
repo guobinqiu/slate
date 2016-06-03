@@ -1,0 +1,33 @@
+<div class="survey-item">
+    <div class="title">
+        {% if cint_research.title|length > 35 %}
+            {{ cint_research.title[:35] }}...
+        {% else %}
+            {{ cint_research.title }}
+        {% endif %}
+    </div>
+    <ul class="con clearfix">
+        <li class="first">
+            <span>问卷编号</span>
+            <p>c{{ cint_research.survey_id }}</p>
+        </li>
+        <li>
+            <span>问卷类型</span>
+            <p title="">商业问卷</p>
+        </li>
+        <li>
+            <span>回答期限</span>
+            <p>--</p>
+        </li>
+        <li class="last">
+            <p><strong>{{ cint_research.extra_info.point.complete }}</strong>积分</p>
+        </li>
+    </ul>
+</div>
+<div class="survey-btn">
+    {% if cint_research.is_answered == 1 %}
+        <span class="disabled">回答完毕</span>
+    {% else %}
+        <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">可回答</a>
+    {% endif %}
+</div>

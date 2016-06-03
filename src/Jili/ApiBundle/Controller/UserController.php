@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\ApiBundle\Form\ForgetPasswordType;
 use Jili\ApiBundle\Form\RegType;
-use Jili\ApiBundle\Form\Type\SignupActivateType;
 use Jili\FrontendBundle\Form\Type\SignupType;
 
 use Jili\ApiBundle\Entity\User;
@@ -1068,14 +1067,14 @@ class UserController extends Controller implements CampaignTrackingController
         $request = $this->get('request');
         $session = $request->getSession();
 
+        if($session->has('uid')){
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+
         $goToUrl =  $session->get('referer');
         if(substr($goToUrl, -10) != 'user/login' && strlen($goToUrl)>0 ){
             $session->set('goToUrl', $goToUrl);
             $session->remove('referer');
-        }
-
-        if($session->has('uid')) {
-            return $this->redirect($this->generateUrl('_homepage'));
         }
 
         $code = '';
@@ -1138,6 +1137,7 @@ class UserController extends Controller implements CampaignTrackingController
             return $this->redirect($this->generateUrl('_default_error'));
         $arr['gotoEmail'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
+        $arr['email'] = $info[0]['email'];
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
     }
 
@@ -1209,14 +1209,14 @@ class UserController extends Controller implements CampaignTrackingController
         $nick = $user[0]->getNick();
         $id = $user[0]->getId();
         $passCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($id);
+        $str = 'jiliforgetpassword';
+        $password_code = md5($id.str_shuffle($str));
         if(empty($passCode)){
-            $str = 'jiliforgetpassword';
-            $code = md5($id.str_shuffle($str));
-            $url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
+            $url = $this->generateUrl('_user_resetPass',array('code'=>$password_code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
                 $setPasswordCode = new SetPasswordCode();
                 $setPasswordCode->setUserId($id);
-                $setPasswordCode->setCode($code);
+                $setPasswordCode->setCode($password_code);
                 $setPasswordCode->setCreateTime(new \DateTime());
                 $setPasswordCode->setIsAvailable($this->container->getParameter('init_one'));
                 $em->persist($setPasswordCode);
@@ -1224,8 +1224,9 @@ class UserController extends Controller implements CampaignTrackingController
                 $code = $this->container->getParameter('init_one');
             }
         }else{
-            $url = $this->generateUrl('_user_resetPass',array('code'=>$passCode[0]->getCode(),'id'=>$id),true);
+            $url = $this->generateUrl('_user_resetPass',array('code'=>$password_code,'id'=>$id),true);
             if($this->sendMail_reset($url, $email,$nick)){
+                $passCode[0]->setCode($password_code);
                 $passCode[0]->setIsAvailable($this->container->getParameter('init_one'));
                 $passCode[0]->setCreateTime(new \DateTime());
                 $em->flush();
@@ -1319,18 +1320,8 @@ class UserController extends Controller implements CampaignTrackingController
         $email = $request->query->get('email');
 
         $send_email = false;
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
-        $email = $user[0]->getEmail();
-        $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
-        $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
-        }else{
-            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
-            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
-            $send_email = $this->sendMail($url, $email,$nick);
-        }
+        $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
+        $send_email = $this->sendMail($url, $email,$nick);
 
         if($send_email){
             $code = $this->container->getParameter('init_one');
@@ -1352,15 +1343,10 @@ class UserController extends Controller implements CampaignTrackingController
 
         $send_email = false;
 
-        if($user[0]->getIsFromWenwen() == $this->container->getParameter('is_from_wenwen_register')){
-        $email = $user[0]->getEmail();
-        $url = $this->generateUrl('_user_setPassFromWenwen',array('code'=>$code,'id'=>$user[0]->getId()),true);
-        $send_email = $this->get('send_mail')->sendMailForRegisterFromWenwen($email, $url);
-        }else{
-            //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
-            $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
-            $send_email = $this->sendMail($url,$email,$user[0]->getNick());
-        }
+        //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$user[0]->getId()),true);
+        $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
+        $send_email = $this->sendMail($url,$email,$user[0]->getNick());
+
         if($send_email){
             $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findByUserId($user[0]->getId());
             $setPasswordCode[0]->setCode($code);
@@ -1625,124 +1611,9 @@ class UserController extends Controller implements CampaignTrackingController
         $email = $session->get('email');
 
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
-           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1), 
-           'email' => $email  
+           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1),
+           'email' => $email
              ) );
-    }
-
-
-    /**
-	 * @Route("/activate/{token}/{uid}", name="_user_signup_activate", requirements={"uid"="\d+"})
-     * @Method({"GET", "POST"})
-	 */
-    public function signupActivateAction($token, $uid)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->getRequest();
-        $vars = array('token'=> $token, 'uid'=> $uid);
-
-        // check the uid
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
-        if( ! $user ) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
-        }
-        // check the token
-        $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneValidateSignUpToken(array('user_id'=> $uid, 'token' => $token )  );
-        if( !$passwordToken  ) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
-        }
-
-        $form  = $this->createForm(new SignupActivateType() );
-        if ($request->getMethod() === 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                // the validation passed, do something with the $author object
-                $this->get('signup_activate.form_handler')->setForm($form)->setParams(array( 'user'=>$user, 'passwordToken'=>  $passwordToken ) )->process( );
-                // set sucessful message flash
-                $this->get('session')->getFlashBag()->add(
-                    'notice',
-                    '恭喜，密码设置成功！'
-                );
-                $this->get('session')->set('email', $user->getEmail() );
-                return $this->redirect($this->generateUrl('_user_regSuccess'));
-            }
-        }
-
-        $vars['form'] = $form->createView();
-        $vars['pwdcode'] = $passwordToken;
-        $vars['user'] = $user;
-
-        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$vars);
-    }
-
-    /**
-     * To compatiable upwards, forward to _user_signup_activate .
-     * @Route("forgetPass/{code}/{id}", name="_user_forgetPass")
-     */
-    public function forgetPassAction($code, $id)
-    {
-        return $this->redirect($this->generateUrl('_user_signup_activate', array('token'=>$code, 'uid'=>$id)));
-    }
-
-    /**
-     * @Route("/setPassFromWenwen/{code}/{id}", name="_user_setPassFromWenwen",requirements={"_scheme"="https"})
-     */
-    public function setPassFromWenwenAction($code,$id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $arr['user'] = $user;
-        $arr['nick'] = "";
-
-        $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByUserId($id);
-        $arr['pwdcode'] = $setPasswordCode;
-
-        $return = $this->checkCodeValid($setPasswordCode, $code);
-        if(!$return){
-            $arr['errorMessage'] = "该链接已经失效，您可能已经激活过。";
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', $arr);
-        }
-
-        $request = $this->get('request');
-        if ($request->getMethod() == 'GET'){
-            $arr['error_message'] = "";
-            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
-        }
-
-        $error_message = $this->checkInputForSetPassFromWenwen($request);
-        if($error_message){
-            $arr['error_message'] = $error_message;
-            $arr['nick'] = $request->request->get('nick');
-            return $this->render('JiliApiBundle:User:setPassWen.html.twig',$arr);
-        }
-
-        //设定密码，自动登录
-        $this->get('login.listener')->initSession($user);
-
-        $user->setPwd($request->request->get('pwd'));
-        $user->setNick($request->request->get('nick'));
-        $setPasswordCode->setIsAvailable($this->container->getParameter('init'));
-        $em->persist($user);
-        $em->persist($setPasswordCode);
-        $em->flush();
-
-        //设置密码之后，注册成功，发邮件2014-01-10
-        $soapMailLister = $this->get('soap.mail.listener');
-        $soapMailLister->setCampaignId($this->container->getParameter('register_success_campaign_id')); //活动id
-        $soapMailLister->setMailingId($this->container->getParameter('register_success_mailing_id')); //邮件id
-        $soapMailLister->setGroup(array ('name' => '积粒网','is_test' => 'false')); //group
-        $recipient_arr = array (
-                array (
-                    'name' => 'email',
-                    'value' => $user->getEmail()
-                )
-            );
-        $soapMailLister->sendSingleMailing($recipient_arr);
-
-        $this->get('login.listener')->checkNewbie($user);
-        $this->get('login.listener')->log($user);
-
-        return $this->render('JiliApiBundle:User:regSuccess.html.twig',$arr);
     }
 
     private function checkCodeValid($setPasswordCode, $code)
@@ -1760,53 +1631,6 @@ class UserController extends Controller implements CampaignTrackingController
         }
 
         return true;
-    }
-
-    private function checkInputForSetPassFromWenwen($request)
-    {
-        $nick = $request->request->get('nick');
-        $pwd = $request->request->get('pwd');
-        $que_pwd = $request->request->get('que_pwd');
-        $error_message = "";
-
-        if($request->request->get('ck')!='1'){
-            $error_message = 'choose agree';
-            return $error_message;
-        }
-
-        if(!$nick){
-            $error_message = $this->container->getParameter('reg_en_nick');
-            return $error_message;
-        }
-
-        if (!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9_]{2,20}$/u",$nick) || ((strlen($nick) + mb_strlen($nick,'UTF8')) / 2 > 20)){
-            $error_message = $this->container->getParameter('reg_wr_nick');
-            return $error_message;
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $user_nick = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
-        if($user_nick){
-            $error_message = $this->container->getParameter('reg_al_nick');
-            return $error_message;
-        }
-
-        if(!$pwd){
-            $error_message = $this->container->getParameter('forget_en_pwd');
-            return $error_message;
-        }
-
-        if(!preg_match("/^[0-9A-Za-z_]{6,20}$/",$pwd)){
-            $error_message = $this->container->getParameter('forget_wr_pwd');
-            return $error_message;
-        }
-
-        if($pwd != $que_pwd){
-            $error_message = $this->container->getParameter('forget_unsame_pwd');
-            return $error_message;
-        }
-
-        return $error_message;
     }
 
     /**
@@ -1929,7 +1753,6 @@ class UserController extends Controller implements CampaignTrackingController
 // 		$request = $this->get('request');
         $email = '278583642@qq.com';
         $nick = '';
-        //$url = $this->generateUrl('_user_forgetPass',array('code'=>$code,'id'=>$id),true);
         $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);

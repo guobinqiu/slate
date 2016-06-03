@@ -122,6 +122,7 @@ class Client
     {
         $login = $this->login_info();
         $client = $this->init_client();
+        $logger = $this->logger;
         try {
             $group = $client->addGroup($login, $this->campaignId, $this->group);
 

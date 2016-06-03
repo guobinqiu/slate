@@ -4,7 +4,6 @@
 <phpunit
     backupGlobals               = "false"
     backupStaticAttributes      = "false"
-    verbose                     = "true" 
     colors                      = "true"
     convertErrorsToExceptions   = "true"
     convertNoticesToExceptions  = "true"
@@ -12,16 +11,76 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "bootstrap.php.test" >
+    bootstrap                   = "bootstrap.php.cache" >
+
+    <listeners>
+        <listener class="Test\Utils\BaseTestListener"></listener>
+    </listeners>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="all">
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
         </testsuite>
 
         <testsuite name="wenwen">
             <directory>../src/Wenwen/*Bundle/Tests</directory>
+        </testsuite>
+
+        <testsuite name="jili">
+            <directory>../src/Jili/*Bundle/Tests</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_command">
+            <directory>../src/Wenwen/AppBundle/Tests/Command</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_controller">
+            <directory>../src/Wenwen/AppBundle/Tests/Controller</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_entity">
+            <directory>../src/Wenwen/AppBundle/Tests/Entity</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_repository">
+            <directory>../src/Wenwen/AppBundle/Tests/Repository</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_services">
+            <directory>../src/Wenwen/AppBundle/Tests/Services</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_app_webservice">
+            <directory>../src/Wenwen/AppBundle/Tests/WebService</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_frontend_controller">
+            <directory>../src/Wenwen/FrontendBundle/Tests/Controller</directory>
+        </testsuite>
+        
+        <testsuite name="wenwen_frontend_form">
+            <directory>../src/Wenwen/FrontendBundle/Tests/Form</directory>
+        </testsuite>
+        
+        <testsuite name="jili_api_command">
+            <directory>../src/Jili/ApiBundle/Tests/Command</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_controller">
+            <directory>../src/Jili/ApiBundle/Tests/Controller</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_entity">
+            <directory>../src/Jili/ApiBundle/Tests/Entity</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_form">
+            <directory>../src/Jili/ApiBundle/Tests/Form</directory>
+        </testsuite>
+
+        <testsuite name="jili_api_repo">
+            <directory>../src/Jili/ApiBundle/Tests/Repository</directory>
         </testsuite>
     </testsuites>
 

@@ -1230,7 +1230,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             if($type == 1)
               $po->setReason($this->container->getParameter('init_eight'));
             if($type == 2)
-              $po->setReason($this->container->getParameter('page_num'));
+              $po->setReason($this->container->getParameter('page_num'));   
             if($type == 3)
               $po->setReason($this->container->getParameter('init_eleven'));
             if($type == 4)
@@ -1263,8 +1263,216 @@ class AdminController extends Controller implements IpAuthenticatedController
         return true;
     }
 
+
+    /**
+    *  Check items
+    *  0. number of items for each line should be 14
+    *  1. data.status must be 'ok' or 'ng'
+    *  2. data.exchange_id must exist in points_exchange.id
+    *  3. points_exchange.status must be NULL
+    *  4. related user_id must exist when data.status is 'ng'
+    *  @return array $error_rtn
+    */
+    public function checkAlipayExchangeResult($data){
+        $logger= $this->get('logger');
+        $logger->info('checkAlipayExchangeResult START ');
+        $em = $this->getDoctrine()->getManager();
+
+        $error_rtn = array();
+
+        foreach ($data as $k=>$v){
+
+            if(sizeof($v) != 14){
+                $logger->error('checkAlipayExchangeResult line=[' . $k . '] number of items=['. sizeof($v) .'] is not correct. should be 14 ');
+                array_push($error_rtn, implode(",", $v) . '改行数据的实际个数为'. sizeof($v) . '个，正确个数为14个');
+                continue;
+            }
+
+            $exchange_id = $v[0];
+            $status = strtolower(trim($v[8]));
+            $finish_time = $v[9];
+            $points = $v[5];
+
+            if($status == 'ok'){
+                
+            } elseif($status == 'ng'){
+                
+            } else {
+                $logger->error('checkAlipayExchangeResult points_exchange.id=[' . $exchange_id . '] status=[' . $status . '] is not right');
+                array_push($error_rtn, implode(",", $v) . '改行数据的状态，只允许是ok或者ng');
+                continue;
+            }
+
+            $points_exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+            if(empty($points_exchange)){
+                // exchange_id should exist in points_exchange.id
+                // if exchange_id not found in points_exchange
+                // end checkfunction and return
+                $logger->error('checkAlipayExchangeResult points_exchange.id=[' . $exchange_id . '] not found in points_exchange');
+                array_push($error_rtn, implode(",", $v) . '改行数据不存在，请检查是否有对应的用户兑换申请');
+                continue;
+            }
+            
+            $current_status = $points_exchange->getStatus();
+            if(!empty($current_status)){
+                // points_exchange.status should be NULL
+                // if points_exchange.status is not NULL, points_exchange.status is already updated
+                // stop and check the situation                    
+                $logger->info('checkAlipayExchangeResult points_exchange.id=[' . $exchange_id . '] already updated. current_status=[' . $current_status . ']');
+                array_push($error_rtn, implode(",", $v) . '改行数据已被使用，数据库中的相关记录已被更新');
+                continue;
+            }
+
+            if($status == 'ng'){
+                $user_id = $points_exchange->getUserId();
+                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                if(empty($user)){
+                    // if exchange_id not found in points_exchange
+                    // end checkfunction and return
+                    $logger->error('checkAlipayExchangeResult points_exchange.id=[' . $exchange_id . '] user_id=[' . $user_id . '] not found in user');
+                    array_push($error_rtn, implode(",", $v).'兑换失败，但是该用户已经不存在，无法通知该用户兑换的结果');
+                    continue;
+                }
+            }
+        }
+
+        $logger->info('checkAlipayExchangeResult END   ');
+
+        return $error_rtn;
+    }
+
+    public function handleAlipayExchangeResult($data){
+        $logger= $this->get('logger');
+        $logger->info('START handleAlipayExchangeResult memory_get_usage()=' . round(memory_get_usage()/1024));
+
+        $ok_count=0;
+        $ng_count=0;
+        foreach ($data as $k=>$v){
+            $exchange_id = $v[0];
+            $status = strtolower(trim($v[8]));
+            $finish_time = $v[9];
+            $points = $v[5];
+            
+            if($status == 'ok'){
+                $this->alipayExchangeOK($exchange_id,$finish_time,$points);
+                $ok_count++;
+            } elseif($status == 'ng'){
+                $this->alipayExchangeNG($exchange_id,$finish_time,$points);
+                $ng_count++;
+            } 
+        }
+        $logger->info('ok_count=[' . $ok_count .'] ng_count=[' . $ng_count . ']');
+        $logger->info('END   handleAlipayExchangeResult memory_get_usage()=' . round(memory_get_usage()/1024));
+        return true;
+    }
+
+    public function alipayExchangeOK($exchange_id, $finish_time, $points){
+        $logger= $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $points_exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+        $user_id = $points_exchange->getUserId();
+        if(!$points_exchange->getStatus()){
+            // Start to update the alipay exchange result if points_exchange.status is NULL(exchange result not updated yet)
+
+            // Prepare the data to update points_exchange.status 
+            $points_exchange->setStatus('1');
+            $points_exchange->setFinishDate(date_create($finish_time));
+
+            // Prepare the data to create a record in point_history0x
+            $po = SequenseEntityClassFactory :: createInstance('PointHistory', $user_id);
+            $po->setUserId($user_id);
+            $po->setPointChangeNum('-'.$points);
+            $po->setReason($this->container->getParameter('point_type.exchange.alipay'));
+
+            // Prepare the data for sendMs
+            $title = $this->container->getParameter('exchange_finish_alipay_tilte');
+            $content = $this->container->getParameter('exchange_finish_alipay_content');
+            $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $user_id);
+            $sm->setSendFrom($this->container->getParameter('init'));
+            $sm->setSendTo($user_id);
+            $sm->setTitle($title);
+            $sm->setContent($content);
+            $sm->setReadFlag($this->container->getParameter('init'));
+            $sm->setDeleteFlag($this->container->getParameter('init'));
+            
+            $em->getConnection()->beginTransaction();
+            try { 
+                // update
+                $em->persist($points_exchange);
+                // insert
+                $em->persist($po);
+                // insert
+                $em->persist($sm);
+                $em->flush();
+                $em->getConnection()->commit();
+                $em->clear();
+            } catch (Exception $e) {
+                $em->getConnection()->rollBack();
+                $logger->error('alipayExchangeOK update failed: ' . $e->getMessage());
+                throw $e;
+            }
+
+        } else {
+            // Do nothing if points_exchange.status is not NULL(exchange result already updated)
+        }
+    }
+
+    public function alipayExchangeNG($exchange_id, $finish_time, $points){
+        $logger= $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $points_exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
+        $user_id = $points_exchange->getUserId();
+        if(!$points_exchange->getStatus()){
+            // Start to update the alipay exchange result if points_exchange.status is NULL(exchange result not updated yet)
+
+            // Prepare the data to update points_exchange.status to 2 (exchange failed)
+            $points_exchange->setStatus('2');
+            $points_exchange->setFinishDate(date_create($finish_time));
+
+            // Prepare the data to create a record in point_history0x
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+            $user->setPoints(intval($user->getPoints() + $points));
+
+            // Prepare the data for sendMs
+            $title = $this->container->getParameter('exchange_fail_alipay_tilte');
+            $content = $this->container->getParameter('exchange_fail_alipay_content');
+            $sm = SequenseEntityClassFactory :: createInstance('SendMessage', $user_id);
+            $sm->setSendFrom($this->container->getParameter('init'));
+            $sm->setSendTo($user_id);
+            $sm->setTitle($title);
+            $sm->setContent($content);
+            $sm->setReadFlag($this->container->getParameter('init'));
+            $sm->setDeleteFlag($this->container->getParameter('init'));
+            
+            $em->getConnection()->beginTransaction();
+            try { 
+                // update
+                $em->persist($points_exchange);
+                // update
+                $em->persist($user);
+                // insert
+                $em->persist($sm);
+                $em->flush();
+                $em->getConnection()->commit();
+                $em->clear();
+            } catch (Exception $e) {
+                $em->getConnection()->rollBack();
+                $logger->error_log('alipayExchangeOK update failed: ' . $e->getMessage());
+                throw $e;
+            }
+
+        } else {
+            // Do nothing if points_exchange.status is not NULL(exchange result already updated)
+        }
+    }
+
+
     public function handleExchange($file,$type)
     {
+        $logger= $this->get('logger');
+        $logger->info('START handleExchange');
        $em = $this->getDoctrine()->getManager();
        if($type == 1 || $type == 3 || $type == 4){
           foreach ($file as $k=>$v){
@@ -1329,6 +1537,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 }
             }
        }
+       $logger->info('END   handleExchange');
        return true;
 
     }
@@ -1734,12 +1943,24 @@ class AdminController extends Controller implements IpAuthenticatedController
                         }
                    }
                    if($exType == 3){
+                      // 页面上选择了【支付宝】
                       if($goods_list[0][2] != 'alipay_user'){
+                        // 导入文件的第一行的第三个字段不是　alipay_user 的时候，返回状态 3
                         $success = $this->container->getParameter('init_three');
                       }else{
+                        // 去掉第一行
                         unset($goods_list[0]);
-                        if($this->handleExchange($goods_list,$exType)){
-                            $success = $this->container->getParameter('init_one');
+                        // 检查文件内容是否正确，是否和数据库中现存数据匹配
+                        $check_result = $this->checkAlipayExchangeResult($goods_list);
+                        if(sizeof($check_result) == 0){
+                            // 开始处理
+                            if($this->handleAlipayExchangeResult($goods_list)){
+                                $success = $this->container->getParameter('init_one');
+                            }
+                        } else {
+                            // 文件内容检查没有通过
+                            $success = '4';
+                            $arr['error_info'] = $check_result;
                         }
                       }
                    }

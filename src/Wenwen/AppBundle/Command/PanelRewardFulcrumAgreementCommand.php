@@ -28,7 +28,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start panel:reward-fulcrum-agreement...');
+        $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
         $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');

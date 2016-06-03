@@ -69,22 +69,7 @@ class HomeController extends Controller
         }
         $this->get('user_sign_up_route.listener')->log();
 
-        # SSI Survey
-
-        $em = $this->getDoctrine()->getManager();
-        $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($session->get('uid'));
-        $ssi_surveys = array();
-        if ($ssi_respondent) {
-            $dbh = $em->getConnection();
-            $ssi_surveys = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
-        }
-
-        return $this->render('WenwenFrontendBundle:Home:home.html.twig',
-          array (
-            'ssi_respondent' => $ssi_respondent,
-            'ssi_surveys' => $ssi_surveys,
-            'ssi_project_config' => $this->container->getParameter('ssi_project_survey'),
-        ));
+        return $this->render('WenwenFrontendBundle:Home:home.html.twig');
     }
 
     /**
@@ -124,7 +109,7 @@ class HomeController extends Controller
         } else {
             $cache_proxy->remove($cache_fn);
             $em = $this->getDoctrine()->getManager();
-            $adExperience = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement();
+            $adExperience = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->getAdvertisement(2);
             $cache_proxy->set($cache_fn, $adExperience);
         }
 
@@ -132,24 +117,4 @@ class HomeController extends Controller
         return $this->render('WenwenFrontendBundle:Advertisement:_hallHome.html.twig', $arr);
     }
 
-    /**
-     * @Route("/vote")
-     * @Template
-     */
-    public function voteAction()
-    {
-        //get vote mark
-        $wenwen_vote_mark = $this->container->getParameter('wenwen_vote_mark');
-
-        //快速问答:从文件中读取
-        $filename = $this->container->getParameter('file_path_wenwen_vote');
-
-        $votes = FileUtil :: readJosnFile($filename);
-        if(! $votes || empty($votes)) {
-            return new Response('<!-- 快速问答 -->');
-        }
-        $vote = array_pop($votes);
-        $vote['vote_url'] = $vote['vote_url'] . "?" . $wenwen_vote_mark;
-        return $this->render('JiliFrontendBundle:Home:vote.html.twig', $vote);
-    }
 }

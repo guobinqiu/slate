@@ -129,7 +129,7 @@ class SignupController extends Controller
         $args = array( 
             '--campaign_id=1',# 91wenwen-signup
             '--group_id=83',# signup-completed-recipients
-            '--mailing_id=2411',# 91wenwen-signup
+            '--mailing_id=3254',# 91wenwen-signup
             '--email='. $user->getEmail(),
             '--title=先生/女士',
             '--name='. $user->getNick());

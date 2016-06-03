@@ -4,7 +4,7 @@
 $header-height: 110px;
 .header{
 	height: $header-height;
-	box-shadow: 0px 1px 5px #d8d8d8;
+	box-shadow: 0px 1px 5px #B8B8B8;
 	li{
 		float: left;
 	}
@@ -19,7 +19,7 @@ $header-height: 110px;
 	}
 }
 $top-font-color: #828285;
-$top-bg-color: #36363c;
+$top-bg-color: #2f343d;
 .header-top{
 	background: $top-bg-color;
 	color: $top-font-color;
@@ -136,7 +136,7 @@ $top-bg-color: #36363c;
 			&:hover{
 				background: #ededed;
 				a{
-					color: $main-color;
+					color: $orange-color;
 				}
 			}
 		}
@@ -205,7 +205,7 @@ $header-nav-height: 80px;
 		vertical-align: middle;
 	}
 	.logo{
-		margin-right: 80px;
+		margin-right: 87px;
 		a{
 			padding-right: 20px;
 		}
@@ -247,26 +247,16 @@ $header-nav-height: 80px;
 		    	@include arrow(top, 5px, rgba(0,0,0,.8));
 		    }
 		}
-		.border{
-			position: absolute;
-			z-index: 1000;
-			left: 0;
-			bottom: 0;
-			height: 6px;
-			width: 115px;
-			background: $main-color;
-			display: none;
-		}
 		a{
 			width: 115px;
-			text-align: center;
+			text-align: right;
 			font-size: $nav-font-size;
 			color: $nav-font-color;
 			@include dib();
 			overflow: hidden;
 			cursor: pointer;
 			&:hover, &.active{
-				color: $main-color;
+				color: #FF6E00;
 			}
 		}
 	}
@@ -282,7 +272,7 @@ $header-nav-height: 80px;
 		a.sign{
 			color: #ff652b;
 			border-left: 1px solid #d0d1d1;
-			padding-left: 40px;
+			padding-left: 26px;
 		}
 
 	}

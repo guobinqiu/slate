@@ -6,8 +6,6 @@ require.config({
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {//设置路径
         'jquery': 'lib/jquery-1.11.1.min',
-        'backbone': 'lib/backbone-1.1.2.min',
-        'underscore': 'lib/underscore-min',
         'jqueryCookie': 'plugin/jquery.cookie',
         'jquery.ui.widget': 'plugin/fileUpload/jquery.ui.widget',
         'fileUpload': 'plugin/fileUpload/jquery.fileupload',
@@ -30,8 +28,6 @@ require.config({
         'autoJump': 'common/autoJump',
         'layer': 'common/layer',
         'exchange': 'common/exchange',
-        'goTop': 'common/backTop',
-        'sopSurvey':'common/sopSurvey',
         'alimama':'common/alimama',
         'googleAnalytics':'common/googleAnalytics',
         'scrollTop':'common/scrollTop',
@@ -60,13 +56,6 @@ require.config({
         routing: {
             deps: ['router'],
             exports: 'routing'
-        },
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        underscore: {
-            exports: '_'
         },
         jqueryCookie: {
             deps: [ 'jquery'],

@@ -8,9 +8,6 @@ use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Utility\PasswordEncoder;
 
-use Jili\FrontendBundle\Mailer\Mailer;
-
-
 /**
  *
  **/
@@ -52,32 +49,42 @@ class SignupHandler
         $data = $this->form->getData();
         $em = $this->em;
 
-        // create user
-        $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
-            'nick'=> $data['nickname'],
-            'email'=>$data['email'],
-            'createdUserAgent' => $this->userAgent,
-            'createdRemoteAddr' => $this->remoteAddress,
-            'campaignCode' => $campaign_code,
-        ));
+        $con = $em->getConnection();
+        $con->beginTransaction();
 
-        $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
-            'user_id' => $user->getId()
-        ));
+        try {
+            // create user
+            $user = $em->getRepository('JiliApiBundle:User')->createOnSignup( array(
+                'nick'=> $data['nickname'],
+                'email'=>$data['email'],
+                'createdUserAgent' => $this->userAgent,
+                'createdRemoteAddr' => $this->remoteAddress,
+                'campaignCode' => $campaign_code,
+            ));
 
-        $password = PasswordEncoder::encode($this->password_crypt_type,$data['password'] , $this->password_salt);;
+            $setPasswordCode = $em->getRepository('JiliApiBundle:SetPasswordCode')->create(array(
+                'user_id' => $user->getId()
+            ));
 
+            $password = PasswordEncoder::encode($this->password_crypt_type,$data['password'] , $this->password_salt);;
 
-        $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array('user_id'=> $user->getId() ,
-            'password' => $password,
-            'crypt_type' => $this->password_crypt_type ,
-            'salt'=> $this->password_salt ));
+            $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array('user_id'=> $user->getId() ,
+                'password' => $password,
+                'crypt_type' => $this->password_crypt_type ,
+                'salt'=> $this->password_salt ));
+
+            $con->commit();
+
+        } catch (\Exception $e) {
+            $con->rollback();
+            $this->logger->err('user signup fail:' . $e->getMessage());
+            throw $e;
+        }
 
         if( false === $data['unsubscribe'] ) {
             $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')
                 ->insertOne( $user->getId());
         }
-
 
         return array( 'user'=> $user, 'setPasswordCode'=> $setPasswordCode);
     }
