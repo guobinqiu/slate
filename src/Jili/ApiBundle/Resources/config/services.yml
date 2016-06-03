@@ -23,10 +23,6 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    bangwoya_api_return.logger.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaApiLogger
-    bangwoya_request.validation.class: Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestValidation
-    bangwoya_request.processor.class:  Jili\ApiBundle\Services\Bangwoya\BangwoyaRequestProcessor
-
     duomai_request.validation.class: Jili\ApiBundle\Services\Duomai\DuomaiRequestValidation
     duomai_request.processor.class:  Jili\ApiBundle\Services\Duomai\DuomaiRequestProcessor
 
@@ -190,25 +186,6 @@ services:
             - [setTaskLogger, ["@general_api.task_history"] ]
             - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    bangwoya_api.init_log:
-        class: %bangwoya_api_return.logger.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    bangwoya_request.validation:
-        class: %bangwoya_request.validation.class%
-        arguments: [ %bangwoya_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-
-    bangwoya_request.processor:
-        class: %bangwoya_request.processor.class%
-        arguments: [ %bangwoya_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setSendMail, ["@send_mail"] ]
 
     duomai_request.validation:
         class: %duomai_request.validation.class%
