@@ -226,9 +226,16 @@ sub get_dead_dogs {
     my $register_from = $register_to - 30 * ONE_DAY;
     my $active_to     = $register_to;
     my $active_from   = $register_from;
-    my $inactive_number
-        = Wenwen::Model::Service::PanelKPI->count_inactive_register($handle, $register_from,
-        $register_to, $active_from, $active_to);
+    # something wrong with the count_active_number()
+    # so change to dead_dog = register_nubmer - active_number
+    #my $inactive_number
+    #    = Wenwen::Model::Service::PanelKPI->count_active_number();count_inactive_register($handle, $register_from,
+    #    $register_to, $active_from, $active_to);
+
+    my $active_number = Wenwen::Model::Service::PanelKPI->count_active_number($handle, $register_from, $register_to, $active_from, $active_to);
+    my $register_number = Wenwen::Model::Service::PanelKPI->count_register_number($handle, $register_from, $register_to, $active_from, $active_to);
+
+    my $inactive_number = $register_number - $active_number;
 
     return $inactive_number;
 }
