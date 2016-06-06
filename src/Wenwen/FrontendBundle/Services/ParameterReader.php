@@ -1,0 +1,23 @@
+<?php
+
+namespace Wenwen\FrontendBundle\Services;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * 读取app/config/parameters.yml文件的配置信息
+ */
+final class ParameterReader
+{
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    public function getParameter($name)
+    {
+        return $this->container->getParameter($name);
+    }
+}

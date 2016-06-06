@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use VendorIntegration\SSI\PC1\Request as SsiRequest;
 use VendorIntegration\SSI\PC1\RequestValidator as SsiRequestValidator;
 use VendorIntegration\SSI\PC1\RequestHandler as SsiRequestHandler;
+use Wenwen\FrontendBundle\Command\DeliveryNotificationCommand;
 
 class SsiApiController extends Controller
 {
@@ -42,13 +43,12 @@ class SsiApiController extends Controller
 
         # send mail
         if (sizeof($handler->getSucceededRespondentIds())) {
-            $notification = new \Wenwen\AppBundle\Services\Notification\SurveyDelivery\SsiProject(
-                $handler->getSucceededRespondentIds(),
-                $em,
-                $this->container
+            $args = array(
+                serialize($handler->getSucceededRespondentIds()),
+                '--type='.DeliveryNotificationCommand::SSI
             );
-            $recipients = $notification->retrieveRecipientsToMail();
-            $notification->sendMailing(100, $recipients);
+            $job = new Job('mail:delivery_notification', $args, true, '91wenwen');
+            $em->persist($job);
         }
 
         return $this->createResponse(

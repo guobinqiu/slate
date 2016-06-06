@@ -126,15 +126,12 @@ class SignupController extends Controller
     */ 
     private function sendRegisterCompleteEmail(User $user){
         $em = $this->getDoctrine()->getManager();
-        $args = array( 
-            '--campaign_id=1',# 91wenwen-signup
-            '--group_id=83',# signup-completed-recipients
-            '--mailing_id=3254',# 91wenwen-signup
-            '--email='. $user->getEmail(),
-            '--title=先生/女士',
-            '--name='. $user->getNick());
-        $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
-        //Todo Should be a try catch here?
+        $args = array(
+            '--subject=[91问问调查网] 恭喜，您的邮箱验证成功，并获得了10积分奖励！',
+            '--email='.$user->getEmail(),
+            '--name='.$user->getNick()
+        );
+        $job = new Job('mail:signup_success', $args, true, '91wenwen_signup');
         $em->persist($job);
         $em->flush($job);
         return true;

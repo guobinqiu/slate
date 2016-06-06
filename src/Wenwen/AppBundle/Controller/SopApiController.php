@@ -14,6 +14,7 @@ use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\WebService\Sop\SopDeliveryNotificationHandler;
+use Wenwen\FrontendBundle\Command\DeliveryNotificationCommand;
 
 /**
  * @Route("/",requirements={"_scheme"="https"})
@@ -125,20 +126,20 @@ class SopApiController extends Controller
     /**
      * @Route("sop/v1_1/deliveryNotificationFor91wenwen", name="sop_delivery_notification_v1_1_91wenwen")
      */
-    public function deliveryNotificationFor91wenwenAction(Request $request)
+    public function deliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_SOP);
+        return $this->doHandleDeliveryNotification(DeliveryNotificationCommand::SOP);
     }
 
     /**
      * @Route("fulcrum/v1_1/deliveryNotificationFor91wenwen", name="fulcrum_delivery_notification_v1_1_91wenwen")
      */
-    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction(Request $request)
+    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_FULCRUM);
+        return $this->doHandleDeliveryNotification(DeliveryNotificationCommand::FULCRUM);
     }
 
-    public function doHandleDeliveryNotification($type)
+    private function doHandleDeliveryNotification($type)
     {
         $request = $this->get('request');
 
@@ -159,32 +160,30 @@ class SopApiController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $handler = new SopDeliveryNotificationHandler($request_data['data']['respondents'], $type, $em, $this->container);
-        $handler->setUpRespondentsToMail();
-        $handler->sendMailingToRespondents();
+        $args = array(
+            serialize($request_data['data']['respondents']),
+            '--type='.$type
+        );
+        $job = new Job('mail:delivery_notification', $args, true, '91wenwen');
+        $em->persist($job);
+        $em->flush($job);
 
-        $unsubscribed_app_mids = $handler->getUnsubscribedAppMids();
         $res = array (
             'meta' => array (
                 'code' => 200,
                 'message' => ''
             )
         );
-        if (sizeof($unsubscribed_app_mids)) {
-            $res['data'] = array (
-                'respondents-not-found' => $unsubscribed_app_mids
-            );
-        }
         return $this->renderJsonResponse($res);
     }
 
     # To test request body
-    public function getRequestBody()
+    private function getRequestBody()
     {
         return $this->get('request')->get('request_body') ? $this->get('request')->get('request_body') : file_get_contents('php://input');
     }
 
-    public function render200Response()
+    private function render200Response()
     {
         $body_array = array (
             'meta' => array (
@@ -194,7 +193,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array);
     }
 
-    public function render400Response($error)
+    private function render400Response($error)
     {
         $body_array = array (
             'meta' => array (
@@ -205,7 +204,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array, 400);
     }
 
-    public function render403Response($error)
+    private function render403Response($error)
     {
         $body_array = array (
             'meta' => array (
@@ -216,7 +215,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array, 403);
     }
 
-    public function renderJSONResponse($body_array, $status_code = 200)
+    private function renderJSONResponse($body_array, $status_code = 200)
     {
         $response = new JsonResponse($body_array, $status_code);
         return $response;

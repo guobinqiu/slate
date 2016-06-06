@@ -5,20 +5,36 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="baseService" class="Wenwen\FrontendBundle\Services\BaseService">
-            <call method="setEntityManager">
-                <argument type="service" id="doctrine.orm.entity_manager" />
-            </call>
-            <call method="setLogger">
-                <argument type="service" id="logger" />
-            </call>
-        </service>
 
-        <service id="guzzleClient" class="%guzzle.client.class%" />
+        <service id="app.http_client" class="Wenwen\FrontendBunde\Services\HttpClient" />
 
-        <service id="surveyService" class="Wenwen\FrontendBundle\Services\SurveyService">
-            <argument type="service" id="guzzleClient" />
+        <service id="app.survey_list_service" class="Wenwen\FrontendBundle\Services\SurveyListService">
+            <argument type="service" id="app.http_client" />
             <argument type="service" id="templating" />
+            <argument type="service" id="logger" />
         </service>
+
+        <service id="app.parameter_reader" class="Wenwen\FrontendBundle\Services\ParameterReader">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="app.send_cloud_mail_service" class="Wenwen\FrontendBundle\Services\SendCloudMailService">
+            <argument type="service" id="app.http_client" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="app.parameter_reader" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="app.listener.exception_listener" class="Wenweb\FrontendBundle\EventListener\ExceptionListener">
+            <argument type="service" id="logger" />
+            <tag name="kernel.event_listener" event="kernel.exception" />
+        </service>
+
+        <service id="app.listener.console_exception_listener" class="Wenwen\FrontendBundle\EventListener\ConsoleExceptionListener">
+            <argument type="service" id="logger" />
+            <tag name="kernel.event_listener" event="console.exception" />
+        </service>
+
     </services>
 </container>

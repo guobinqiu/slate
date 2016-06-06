@@ -2,18 +2,22 @@
 
 namespace Wenwen\FrontendBundle\Services;
 
-use Guzzle\Http\Exception\CurlException;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Templating\EngineInterface;
 
-class SurveyService extends BaseService
+class SurveyListService
 {
-    private $http_client;
+    private $httpClient;
 
     private $templating;
 
-    public function __construct($http_client, $templating)
+    private $logger;
+
+    public function __construct(HttpClient $httpClient, EngineInterface $templating, LoggerInterface $logger)
     {
-        $this->http_client = $http_client;
+        $this->httpClient = $httpClient;
         $this->templating = $templating;
+        $this->logger = $logger;
     }
 
 //        数据结构
@@ -30,20 +34,15 @@ class SurveyService extends BaseService
 //        回答了profiling后research才会有数据
 //        回答了user_agreement[fulcrum]后fulcrum_research才会有数据
 //        回答了user_agreement[cint]后cint_research才有数据
+
     /**
      * @param $sop_api_url
-     * @return string json
-     * @throws 抛网络连接异常
+     * @return string JSON formatted response string
      */
-    public function getSurveyListJson($sop_api_url) {
-        try {
-            $request = $this->http_client->get($sop_api_url);
+    public function getSOPSurveyList($sop_api_url) {
+            $request = $this->httpClient->get($sop_api_url);
             $response = $request->send();
             return $this->extractRealpart($response->getBody());
-        } catch(CurlException $e) {
-            throw $e;
-        }
-
 //          构造一个仿真数据
 //          $dummy_res = '{ "meta" : {"code": "200" },
 //             "data": {
@@ -154,7 +153,7 @@ class SurveyService extends BaseService
     /**
      * @param $arr 一堆乱七八糟的参数，先全部仍进来再按需拿取吧
      * @param int $limit 0全部，>0截取到指定长度
-     * @return array
+     * @return array 排序的问卷列表
      */
     public function getOrderedHtmlServeyList($arr, $limit = 0) {
         $html_survey_list = [];
@@ -170,10 +169,12 @@ class SurveyService extends BaseService
         }
 
         //处理sop
-        $sop = json_decode($this->getSurveyListJson($arr['sop_api_url']), true);
+        $result = $this->getSOPSurveyList($arr['sop_api_url']);
+
+        $sop = json_decode($result, true);
 
         if ($sop['meta']['code'] != 200) {
-            $this->logger->error($sop['meta']['message']);
+            $this->logger->error($result);
             return $html_survey_list;
         }
 

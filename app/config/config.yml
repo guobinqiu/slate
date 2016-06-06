@@ -5,7 +5,8 @@ imports:
     - { resource: security.yml }
     - { resource: mysql.yml }
     - { resource: jms_job.yml }
-    - { resource: point_type.yml}
+    - { resource: point_type.yml }
+    - { resource: secret.yml }
 
 framework:
     esi:             ~

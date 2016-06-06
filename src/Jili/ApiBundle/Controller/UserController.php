@@ -1415,15 +1415,13 @@ class UserController extends Controller implements CampaignTrackingController
               $user = $user_data_inserted['user'];
               $setPasswordCode = $user_data_inserted['setPasswordCode'];
               // send signup confirm email
-              $args = array( '--campaign_id=1',
-                '--group_id=81',
-                '--mailing_id=9',
-                '--email='. $user->getEmail(),
-                '--title=先生/女士',
-                '--name='. $user->getNick(),
-                '--register_key='. $setPasswordCode->getCode() ); //check the verification
-
-              $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
+              $args = array(
+                  '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
+                  '--email='.$user->getEmail(),
+                  '--name='.$user->getNick(),
+                  '--register_key='. $setPasswordCode->getCode()
+              );
+              $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup');
               $em->persist($job);
               $em->flush($job);
 
