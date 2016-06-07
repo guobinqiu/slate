@@ -17,29 +17,8 @@ parameters:
     offer99_com.category_type: 18
     offer99_com.task_type: 5
 
-    bangwoya_com:
-        url: "http://www.bangwoya.com/91jili"  #测试机 :http://demo.bangwoya.com/91jili
-        key: "91jili2bangwoya"
-        name: "体验广告"
-        category_type: 22
-        task_type: 5
-        upper_limit: 5000
-        client_ip: "121.40.71.200" #正式121.40.71.200，测试：121.40.71.200 本机127.0.0.1,::1
-        mail_subject: "91问问-bangwoya体验广告接口数据处理失败"
-        bangwoya_api_log: %jili_app.logs_dir%/api/bangwoya_api.log
-        alertTo_contacts: %cron_alertTo_contacts%
-        validations:
-            1: { errorno: "1001", message: "缺少参数(检查参数是否传递,nonceStr是否为32位)"}
-            2: { errorno: "1002", message: "密码验证不通过" }
-            3: { errorno: "1003", message: "tid重复" }
-            4: { errorno: "1004", message: "vmoney超过最大限额" }
-            5: { errorno: "1005", message: "partnerid不存在" }
-            6: { errorno: "1006", message: "非法IP" }
-            7: { errorno: "1007", message: "指令收到，充值需要等待" }
-
     cpa.category_type:  1 # in table ad_category where category_name='CPA'
     cps.category_type:  1 # in table ad_category where category_name='CPS'
-
 
     emar_com.accountid: '458631' # sid uSer id
     emar_com.91jili_com.websiteid: '732204' # wid Website id
