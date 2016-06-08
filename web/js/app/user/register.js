@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['expand']);
     require(['jquery', 'validate', 'routing'], function($, validate){
         $('#changeCode').on('click', function(){

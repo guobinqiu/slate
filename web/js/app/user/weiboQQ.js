@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['tab'], function(){
     	var href = window.location.href;
     	if(href.indexOf("bind") != -1){

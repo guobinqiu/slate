@@ -153,39 +153,6 @@ class AdvertisermentController extends Controller
     }
 
     /**
-     * @Route("/bangwoya", name="_advertiserment_bangwoya", requirements={"_scheme"="http"})
-     */
-    public function bangwoyaAction()
-    {
-        if(!  $this->get('request')->getSession()->get('uid') ) {
-            $this->get('request')->getSession()->set( 'referer',  $this->generateUrl('_advertiserment_bangwoya') );
-            return  $this->redirect($this->generateUrl('_user_login'));
-        }
-
-        //UserAdvertisermentVisit
-        $day = date('Ymd');
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
-        if (empty ($visit)) {
-            $gameVisit = new UserAdvertisermentVisit();
-            $gameVisit->setUserId($id);
-            $gameVisit->setVisitDate($day);
-            $em->persist($gameVisit);
-            $em->flush();
-
-            // remove from session cache.
-            $taskList = $this->get('session.task_list');
-            $taskList->remove(array( 'adv_visit'));
-        }
-
-        // return $this->render('JiliApiBundle:Advertiserment:bangwoya.html.twig');
-        return $this->render('WenwenFrontendBundle:Advertisement:bangwoya.html.twig');
-    }
-
-
-    /**
      * 签到,记录商家access log
      * @Route("/click", name="_advertiserment_click", options={"expose"=true})
 	 */

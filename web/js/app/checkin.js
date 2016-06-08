@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['/js/config.js'],function(){
     require(['common']);
     require(['jquery', 'loginForm', 'routing'], function($, loginForm, routing){
         var firstUrl = $('#firstUrl').val(), lastUrl = $('#lastUrl').val(), type = $('#type').val(), u = $('#u').val();

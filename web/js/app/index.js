@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['/js/config.js'],function(){
     require(['common', 'scrollTop']);
     // require(['feedbackForm']);
     require(['numScroll'], function(numScroll){
