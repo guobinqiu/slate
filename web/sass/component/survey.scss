@@ -97,7 +97,7 @@ $survey-border-color: #f6f6f6;
 			width: 20%;
 			text-align: left;
 			p{
-				color: #e62200;
+				color: $orange-color;
 				margin-top: 10px;
 				strong{
 					font-size: 24px;
@@ -111,15 +111,15 @@ $survey-border-color: #f6f6f6;
 		height: 50px;
 	}
 	.proTag{
-		width: 42px;
-		height: 41px;
-		background: url(../img/home/importantTag.png) no-repeat center;
+		width: 46px;
+		height: 45px;
+		background: url(../img/home/homeIcons.png) no-repeat -1px -1px;
 		color: #fff;
-	    font-size: 12px;
+	    font-size: 13px;
 	    line-height: 41px;
 	    text-align: center;
 	    vertical-align: 5px;
-        margin-left: 10px;	
+        margin-left: 7px;	
         -o-transform: rotate(-20deg); /* Opera浏览器 */
         -webkit-transform: rotate(-20deg); /* Webkit内核浏览器 */
         -moz-transform: rotate(-20deg); /* Firefox浏览器 */
@@ -128,7 +128,7 @@ $survey-border-color: #f6f6f6;
 	.proRow{
 		color: #A7B2BE;
 	    line-height: 24px;
-	    font-size: 13px;
+	    font-size: 12px;
 	    width: 90%;
 	    margin-bottom: 3px;
 	    .proNum{
@@ -143,13 +143,24 @@ $survey-border-color: #f6f6f6;
 	    	}
 	    }
     	i{
-    		color: $streng-color;
+    		color: $orange-color;
     		font-weight: bold;
     	}
 
 	}
 	.proSec{
 		color: $sub-con-color;
+		background: #fff3eb;
+		border: 1px solid #e8d2c3;
+		padding: 7px 13px;
+		i{
+			width: 20px;
+			height: 12px;
+			background: url(../img/home/homeIcons.png) no-repeat -51px -11px;
+			display: inline-block;
+		    margin-right: 5px;
+			vertical-align: -2px;
+		}
 	}
 }
 .survey {
