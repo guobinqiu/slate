@@ -21,27 +21,27 @@ class HttpClient {
         $this->client = new Client();
     }
 
-    public function get($uri, $headers = null, $options = null)
+    public function get($uri, $headers = null, array $options = array())
     {
         return $this->client->get($uri, $headers, array_merge($this->options, $options));
     }
 
-    public function delete($uri, $headers = null, $body = null, $options = null)
+    public function delete($uri, $headers = null, $body = null, array $options = array())
     {
         return $this->client->delete($uri, $headers, $body, array_merge($this->options, $options));
     }
 
-    public function put($uri, $headers = null, $body = null, $options = null)
+    public function put($uri, $headers = null, $body = null, array $options = array())
     {
         return $this->client->put($uri, $headers, $body, array_merge($this->options, $options));
     }
 
-    public function patch($uri, $headers = null, $body = null, $options = null)
+    public function patch($uri, $headers = null, $body = null, array $options = array())
     {
         return $this->client->patch($uri, $headers, $body, array_merge($this->options, $options));
     }
 
-    public function post($uri, $headers = null, $postBody = null, $options = null)
+    public function post($uri, $headers = null, $postBody = null, array $options = array())
     {
         return $this->client->post($uri, $headers, $postBody, array_merge($this->options, $options));
     }

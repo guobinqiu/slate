@@ -129,7 +129,7 @@ class SignupController extends Controller
         $args = array(
             '--subject=[91问问调查网] 恭喜，您的邮箱验证成功，并获得了10积分奖励！',
             '--email='.$user->getEmail(),
-            '--name='.$user->getNick()
+            '--name='.$user->getNick(),
         );
         $job = new Job('mail:signup_success', $args, true, '91wenwen_signup');
         $em->persist($job);

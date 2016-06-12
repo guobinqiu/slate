@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="app.http_client" class="Wenwen\FrontendBunde\Services\HttpClient" />
+        <service id="app.http_client" class="Wenwen\FrontendBundle\Services\HttpClient" />
 
         <service id="app.survey_list_service" class="Wenwen\FrontendBundle\Services\SurveyListService">
             <argument type="service" id="app.http_client" />
@@ -16,14 +16,6 @@
 
         <service id="app.parameter_reader" class="Wenwen\FrontendBundle\Services\ParameterReader">
             <argument type="service" id="service_container" />
-        </service>
-
-        <service id="app.send_cloud_mail_service" class="Wenwen\FrontendBundle\Services\SendCloudMailService">
-            <argument type="service" id="app.http_client" />
-            <argument type="service" id="templating" />
-            <argument type="service" id="app.parameter_reader" />
-            <argument type="service" id="logger" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
         <service id="app.listener.exception_listener" class="Wenweb\FrontendBundle\EventListener\ExceptionListener">

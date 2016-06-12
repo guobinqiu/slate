@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,12 +10,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Wenwen\AppBundle\Utility\SopValidator;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
-use Wenwen\AppBundle\WebService\Sop\SopDeliveryNotificationHandler;
-use Wenwen\FrontendBundle\Command\DeliveryNotificationCommand;
+use Wenwen\WenwenFrontBundle\Services\DeliveryNotification;
+use Wenwen\WenwenFrontBundle\Services\FulcrumDeliveryNotification;
+use Wenwen\WenwenFrontBundle\Services\SopDeliveryNotification;
 
 /**
  * @Route("/",requirements={"_scheme"="https"})
@@ -128,7 +129,8 @@ class SopApiController extends Controller
      */
     public function deliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(DeliveryNotificationCommand::SOP);
+        $em = $this->getDoctrine()->getManager();
+        return $this->doHandleDeliveryNotification(new SopDeliveryNotification($em));
     }
 
     /**
@@ -136,10 +138,11 @@ class SopApiController extends Controller
      */
     public function deliveryFulcrumDeliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(DeliveryNotificationCommand::FULCRUM);
+        $em = $this->getDoctrine()->getManager();
+        return $this->doHandleDeliveryNotification(new FulcrumDeliveryNotification($em));
     }
 
-    private function doHandleDeliveryNotification($type)
+    public function doHandleDeliveryNotification(DeliveryNotification $notification)
     {
         $request = $this->get('request');
 
@@ -159,14 +162,7 @@ class SopApiController extends Controller
             return $this->render400Response('data.respondents not found!');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $args = array(
-            serialize($request_data['data']['respondents']),
-            '--type='.$type
-        );
-        $job = new Job('mail:delivery_notification', $args, true, '91wenwen');
-        $em->persist($job);
-        $em->flush($job);
+        $unsubscribed_app_mids = $notification->send($request_data['data']['respondents']);
 
         $res = array (
             'meta' => array (
@@ -174,6 +170,11 @@ class SopApiController extends Controller
                 'message' => ''
             )
         );
+        if (sizeof($unsubscribed_app_mids)) {
+            $res['data'] = array (
+                'respondents-not-found' => $unsubscribed_app_mids
+            );
+        }
         return $this->renderJsonResponse($res);
     }
 

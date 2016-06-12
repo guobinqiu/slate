@@ -1419,7 +1419,7 @@ class UserController extends Controller implements CampaignTrackingController
                   '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
                   '--email='.$user->getEmail(),
                   '--name='.$user->getNick(),
-                  '--register_key='. $setPasswordCode->getCode()
+                  '--register_key='. $setPasswordCode->getCode(),
               );
               $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup');
               $em->persist($job);

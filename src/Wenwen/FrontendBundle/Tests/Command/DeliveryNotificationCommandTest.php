@@ -9,12 +9,12 @@ use Wenwen\FrontendBundle\Command\DeliveryNotificationCommand;
 
 class DeliveryNotificationCommandTest extends WebTestCase {
 
-    private $respondents;
-
     public function setUp(){
         static::$kernel = static::createKernel();
-        //static::$kernel->boot();
+        static::$kernel->boot();
+    }
 
+    public function testSOPDeliveryNotification() {
         $request_body = '{
               "app_id": "",
               "data": {
@@ -46,16 +46,13 @@ class DeliveryNotificationCommandTest extends WebTestCase {
                             "complete": "10"
                          }
                     }
-                  },
+                  }
                 ]
               },
               "time": ""
         }';
         $request_data = json_decode($request_body, true);
-        $this->respondents = $request_data['data']['respondents'];
-    }
-
-    public function testSOPDeliveryNotification() {
+        $respondents = $request_data['data']['respondents'];
 
         $application = new Application(static::$kernel);
         $application->add(new DeliveryNotificationCommand());
@@ -63,11 +60,10 @@ class DeliveryNotificationCommandTest extends WebTestCase {
         $command = $application->find('mail:delivery_notification');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
-            'respondents' => serialize($this->respondents),
-            '--survey' => 'sop'
+            'respondents' => serialize($respondents),
+            '--type' => DeliveryNotificationCommand::SOP
         ));
 
-        //$this->assertEquals(array('errors' => 0, 'total' => 2, 'success' => '100%'), $commandTester->getDisplay());
-        $this->assertEquals(0, 0);
+        $this->assertEquals(array('errors' => 0, 'total' => 2, 'success' => '100%'), $commandTester->getDisplay());
     }
 }
