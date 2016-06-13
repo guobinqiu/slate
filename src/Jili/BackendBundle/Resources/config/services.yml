@@ -1,6 +1,5 @@
 parameters:
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
-    month_activity.gathering.class: Jili\BackendBundle\Services\MonthActivity\Gathering
 
 services:
     authentication_ip.action_listener:
@@ -11,8 +10,3 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-    month_activity.gathering:
-        class: %month_activity.gathering.class%
-        arguments: [ %activity_gathering% ]
-        calls:
-            - [ setLogger, [ @logger ] ] 
