@@ -188,10 +188,10 @@ require(['../config'],function(){
             sections.each(function(){
                 arrElement.push($(this));
             });
-
+            $(opts.sections).eq(0).addClass('active');
             return this.each(function(){
                 if(opts.direction == "horizontal"){
-                initLayout();
+                    initLayout();
                 }
 
                 if(opts.pagination){
@@ -288,6 +288,31 @@ require(['../config'],function(){
             return false;
         }
 
+        var s;
+        function initNum(){
+            $('.refNum').find('b').text('0');
+        }
+        function calcNum(endNum, time){
+            var num = { 
+                interval: parseInt(endNum/time), 
+                remainder: endNum%time
+            };
+            return num;
+        }
+
+        function addCon(endNum, ele){
+            var curNum = parseInt($(ele).text());
+            var num = calcNum(endNum, 200);
+            if(curNum >= endNum){ 
+                clearInterval(s); 
+                curNum = curNum + num.remainder - num.interval; 
+                $(ele).text(curNum + '+');
+                return false;
+            }
+            curNum = curNum + num.interval;
+            $(ele).text(curNum + '+');
+        }
+        initNum();
         //渲染效果
         function initEffects(dest,element){
             var transform = ["-webkit-transform","-ms-transform","-moz-transform","transform"],
@@ -311,6 +336,16 @@ require(['../config'],function(){
                 });
             }
             element.addClass("active").siblings().removeClass("active");
+            if($('#section1').hasClass('active')){
+                s = setInterval(function(){
+                    addCon(8457469, '#userNum');
+                    addCon(4874112, '#pointNum');
+                    addCon(548775111, '#surveyNum');
+                }, 20);    
+            }else{
+                // initNum();
+                clearInterval(s); 
+            }
             if(opts.pagination){
                 paginationHandler();
             }
@@ -363,7 +398,6 @@ require(['../config'],function(){
             'loop' : true,
             'keyboard' : true,
         });
-
         
     });
 });
