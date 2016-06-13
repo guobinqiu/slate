@@ -46,7 +46,7 @@ $slider-height: 305px;
 }
 .homeBr{
 	.left{
-		margin-top: 12px;
+		margin-top: 10px;
 		margin-left: 12px;
 	}
 	.right{
@@ -55,7 +55,7 @@ $slider-height: 305px;
 	height: 91px; 
 	background: url(../img/home/homeBrBg.jpg) no-repeat 170px center #465b76;
 	.faceWapper{
-		margin-right: 19px;
+		margin-right: 13px;
 		@include dib();
 		img{
 			border-radius: 50%;
@@ -67,7 +67,7 @@ $slider-height: 305px;
 		.l1{
 			font-size: 16px;
 			height: 56px;
-			line-height: 45px;
+			line-height: 56px;
 			i{
 				width: 16px;
 				height: 18px;
