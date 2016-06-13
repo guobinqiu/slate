@@ -8,41 +8,84 @@
 
 {% block stylesheet %}
 	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/quickLog.css') }} " rel="stylesheet" type="text/css">
-
 {% endblock %}
 
 {% block body %}
 	<div id="container">
-		<div class="section active" id="section0">
-			<div class="intro">
-				{# <h1 class="title">switchPage</h1>
-				<p>Create Beautiful Fullscreen Scrolling Websites</p> #}
+		<div class="section" id="section0">
+			<h1><img src="{{ asset('img/common/logo.png') }}" alt="91问问"></h1>
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！"></h2>
+				<div class="btns"><a href="https://www.91wenwen.net/user/reg" title="注册" target="_blank" class="active">注册</a><br><a href="https://www.91wenwen.net/user/login" title="登录" target="_blank">登录</a></div>
 			</div>
 		</div>
 		<div class="section" id="section1">
-			<div class="intro">
-				{# <h1 class="title">Example</h1>
-				<p>HTML markup example to define 4 sections</p> #}
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一"></h2>
+				<p class="briefIntro">隶属于亚洲调查样本库，拥有100多万会员</p>
 			</div>
-			
+			<div class="refNum">
+				<div class="num"><b id="userNum">8457469+</b><div class="tit">累计注册用户</div></div>
+				<div class="num"><b id="pointNum">4874112+</b><div class="tit">累计发放积分</div></div>
+				<div class="num"><b id="surveyNum">548775111+</b><div class="tit">累计发放问卷</div></div>
+			</div>
 		</div>
 		<div class="section" id="section2">
-			<div class="intro">
-				{# <h1 class="title">Example</h1>
-				<p>The plug-in configuration parameters</p> #}
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text02.png') }}" alt="怎样赚积分"></h2>
+				<div class="scoredPoints">
+					<div class="scoredPointsItem">
+						<div class="icon icon1"></div>
+						<div class="con con1">
+							<h3>免费注册会员</h3>
+							<p>只需两步就可以完成注册，注册即送10积分哦！</p>
+						</div>
+					</div>
+					<div class="scoredPointsItem">
+						<div class="icon icon2"></div>
+						<div class="con con2">
+							<h3>回答问卷赚积分</h3>
+							<p>回答问卷，快速问答投票，做任务，购物都可以赚取积分</p>
+						</div>
+					</div>
+					<div class="scoredPointsItem">
+						<div class="icon icon3"></div>
+						<div class="con con3">
+							<h3>兑换奖品</h3>
+							<p>奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="section" id="section3">
-			<div class="intro">
-				{# <h1 class="title">THE END</h1>
-				<p>Everything will be okay in the end. If it's not okay, it's not the end.</p> #}
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么"></h2>
+				<ul>
+					<li class="item1">
+						<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
+						<div class="personal"><img src="{{ asset('img/landingpage/tx.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
+					</li>
+					<li class="item2 right">
+						<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
+						<div class="personal"><img src="{{ asset('img/landingpage/tx.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
+					</li>
+					<li class="item3">
+						<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
+						<div class="personal"><img src="{{ asset('img/landingpage/tx.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
+					</li>
+					<li class="item4 right">
+						<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
+						<div class="personal"><img src="{{ asset('img/landingpage/tx.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="section" id="section4">
-			<div class="intro">
-				{# <h1 class="title">THE END</h1>
-				<p>Everything will be okay in the end. If it's not okay, it's not the end.</p> #}
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
+				<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，购物返利，开始赚钱咯~</p>
+				<div class="btns"><a href="https://www.91wenwen.net/user/reg" title="注册" target="_blank"class="active">注册</a><br><a href="https://www.91wenwen.net/user/login" title="登录" target="_blank" class="gray">登录</a></div>
 			</div>
 		</div>
 	</div>
