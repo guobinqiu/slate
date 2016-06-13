@@ -68,10 +68,6 @@ top:
     type:     annotation
     prefix:   /
 
-monthActivity:
-    resource: "@JiliApiBundle/Controller/MonthActivityController.php"
-    prefix:   /monthActivity
-    type:     annotation
 qqLogin:
     resource: "@JiliApiBundle/Controller/QQLoginController.php"
     prefix:   /QQLogin
