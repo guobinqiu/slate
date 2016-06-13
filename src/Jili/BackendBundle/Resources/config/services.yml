@@ -1,6 +1,5 @@
 parameters:
     authentication_ip.action_listener.class: Jili\BackendBundle\EventListener\IpListener
-    december_activity.game_eggs_breaker.class: Jili\BackendBundle\Services\GameEggsBreaker\GameEggsBreaker
     month_activity.gathering.class: Jili\BackendBundle\Services\MonthActivity\Gathering
 
 services:
@@ -11,14 +10,6 @@ services:
         arguments: [ [%admin_home_ip%,  %admin_vpn_ip%,  %admin_un_ip% , 127.0.0.1] ]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-
-    december_activity.game_eggs_breaker:
-        class: %december_activity.game_eggs_breaker.class%
-        arguments: [ %game_eggs_breaker% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ] 
-            - [ setLogger, [ @logger ] ] 
-            - [ setRouter, [ @router ] ] 
 
     month_activity.gathering:
         class: %month_activity.gathering.class%
