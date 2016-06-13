@@ -44,40 +44,24 @@ class PointManageProcessor {
         $i = 0;
         fwrite($log_handle, "user_id,email,point,task_name,category_type,task_type\n");
 
-        //加上事务处理
-        $em = $this->em;
-        $db_connection = $em->getConnection();
-        $db_connection->beginTransaction();
-        try {
 
-            while ($data = fgetcsv($handle)) {
-                if ($i != 0 && $data) {
-                    //user_id,email,point,task_name,category_type,task_type
-                    $return = $this->updatePoint($data);
-                    if ($return) {
-                        $code[] = "[ " . $data['0'] . " " . $data['1'] . " ] " . $return;
-                        fwrite($log_handle, implode(",", $data) . "," . $return . "\n");
-                    } else {
-                        fwrite($log_handle, implode(",", $data) . "," . "point import success\n");
-                    }
+
+        while ($data = fgetcsv($handle)) {
+            if ($i != 0 && $data) {
+                //user_id,email,point,task_name,category_type,task_type
+                $return = $this->updatePoint($data);
+                $data_with_line_number = "line=[" . ($i+1 ) . "] [" . implode(",", $data) . "] ";
+                if ($return) {
+                    $code[] = $data_with_line_number . $return;
+                    fwrite($log_handle, $data_with_line_number . "," . $return . "\n");
+                } else {
+                    fwrite($log_handle, $data_with_line_number . "," . "point import success\n");
                 }
-                $i++;
             }
-
-            $db_connection->commit();
-
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-            $db_connection->rollback();
-
-            fwrite($log_handle, $e->getMessage() . "\n");
-            $arr['code'][] = "rollback.导入失败，请查明原因再操作";
-
-            fclose($handle);
-            fclose($log_handle);
-            return $arr;
-
+            $i++;
         }
+
+        
 
         fclose($handle);
         fclose($log_handle);
@@ -108,45 +92,59 @@ class PointManageProcessor {
             return $message;
         }
 
+        //加上事务处理
         $em = $this->em;
-        $user = "";
-        if ($user_id) {
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        } else {
-            $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
+        $db_connection = $em->getConnection();
+        $db_connection->beginTransaction();
+        try {
+
+            $user = "";
+            if ($user_id) {
+                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+            } else {
+                $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
+            }
+            if (!$user) {
+                $message = "account not exist";
+                return $message;
+            }
+
+            //更新user表总分数
+            $userId = $user->getId();
+            $oldPoint = $user->getPoints();
+            $user->setPoints(intval($oldPoint + $point));
+            $em->persist($user);
+            $em->flush();
+
+            //更新point_history表分数
+            $params = array (
+                'userid' => $userId,
+                'point' => $point,
+                'type' => $category_type
+            );
+            $this->getPointHistory($params);
+
+            //更新task_history表分数
+            $params = array (
+                'userid' => $userId,
+                'orderId' => 0,
+                'taskType' => $task_type,
+                'categoryType' => $category_type,
+                'task_name' => $task_name,
+                'point' => $point,
+                'date' => date_create(date('Y-m-d H:i:s')),
+                'status' => 1
+            );
+            $this->initTaskHistory($params);
+        
+            $db_connection->commit();
+            $em->clear();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            $db_connection->rollback();
+            $message = "rollback.导入失败，请查明原因再操作" . $e->getMessage();
+
         }
-        if (!$user) {
-            $message = "account not exist";
-            return $message;
-        }
-
-        //更新user表总分数
-        $userId = $user->getId();
-        $oldPoint = $user->getPoints();
-        $user->setPoints(intval($oldPoint + $point));
-        $em->persist($user);
-        $em->flush();
-
-        //更新point_history表分数
-        $params = array (
-            'userid' => $userId,
-            'point' => $point,
-            'type' => $category_type
-        );
-        $this->getPointHistory($params);
-
-        //更新task_history表分数
-        $params = array (
-            'userid' => $userId,
-            'orderId' => 0,
-            'taskType' => $task_type,
-            'categoryType' => $category_type,
-            'task_name' => $task_name,
-            'point' => $point,
-            'date' => date_create(date('Y-m-d H:i:s')),
-            'status' => 1
-        );
-        $this->initTaskHistory($params);
 
         return $message;
     }

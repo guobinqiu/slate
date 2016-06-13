@@ -52,13 +52,11 @@ $slider-height: 305px;
 		margin-top: 0;
 	}
 	height: 174px;
-	background: url(../img/home/homeBrBg.jpg) no-repeat -1px center #465f79;
+	background: url(../img/home/homeBrBg.jpg) no-repeat -1px center #465b76;
 	.faceWapper{
 		margin-right: 19px;
 		@include dib();
 		img{
-			// border: 2px solid #E0F6FF;
-			// border: 2px solid rgba(224,246,255,0.4); 
 			border-radius: 50%;
 		}
 	}
@@ -67,23 +65,34 @@ $slider-height: 305px;
 		color: #e8ebef;
 		.l1{
 			font-size: 26px;
-			height: 51px;
-			line-height: 46px;
+			height: 56px;
+			line-height: 45px;
 		}
 		.l2{
 			font-size: 14px;
+			i{
+				width: 25px;
+				height: 15px;
+				background: url(../img/home/homeIcons.png) no-repeat -52px -25px;
+				display: inline-block;
+				vertical-align: -2px;
+				margin-right: 5px;
+			}
 		}
 		.point{
-			font-size: 20px;
+			font-size: 14px;
+			@include border-radius(20px);
+			background: #ff781e;
+			padding: 1px 7px;
+			margin-left: 4px;
 		}
 
 	}
 	.taskHis, .exchangeHis{
 		color: #e8ebef;
 		@include border-radius(3px);
-		border: 1px solid rgba(31, 179, 199, 0.7);
-		background: rgba(30,175,194,0.7);
-		margin-top: 73px;
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		margin-top: 73px; 
 		padding: 10px 17px;
 		@include dib();
 	}
