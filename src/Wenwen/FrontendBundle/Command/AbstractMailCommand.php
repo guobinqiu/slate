@@ -15,8 +15,8 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
     {
         $templating = $this->getContainer()->get('templating');
 
-        $html = $templating->render($this->getTemplatePath(), $this->getTemplateVars($input));
-        $result = $this->createMailer()->send($this->getEmail($input), $this->getSubject($input), $html);
+        $html = $templating->render($this->getTemplatePath($input), $this->getTemplateVars($input));
+        $result = $this->createMailer($input)->send($this->getEmail($input), $this->getSubject($input), $html);
 
         $message = $this->stringify($result);
 

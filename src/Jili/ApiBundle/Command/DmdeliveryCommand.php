@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
-use Wenwen\FrontendBundle\Services\Channel;
+use Wenwen\FrontendBundle\Services\SendCloudMailer;
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
@@ -40,15 +40,16 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 180;
-        $templatePath = 'AppBundle:EmailTemplate:pointFailure.html.twig';
+        $templatePath = 'WenwenFrontendBundle:EmailTemplate:point_failure.html.twig';
         $subject = '[系统通知] 注意！您的积分已经失效清零！';
         $this->handleSendPointFail($em, $failTime, $templatePath, $subject, 'pointFailure');
     }
+
     public function pointFailureForWeek($em)
     {
         set_time_limit(0);
         $failTime = 173;
-        $templatePath = 'AppBundle:EmailTemplate:pointFailureForWeek.html.twig';
+        $templatePath = 'WenwenFrontendBundle:EmailTemplate:point_failure_for_week.html.twig';
         $subject = '[系统通知] 注意！您的积分即将在一周后失效清零！';
         $this->handleSendPointFail($em, $failTime, $templatePath, $subject, 'pointFailureForWeek');
     }
@@ -57,7 +58,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
     {
         set_time_limit(0);
         $failTime = 150;
-        $templatePath = 'AppBundle:EmailTemplate:pointFailureForMonth.html.twig';
+        $templatePath = 'WenwenFrontendBundle:EmailTemplate:point_failure_for_month.html.twig';
         $subject = '[系统通知] 注意！您的积分即将在一个月后失效清零！';
         $this->handleSendPointFail($em, $failTime, $templatePath, $subject, 'pointFailureForMonth');
     }
@@ -70,14 +71,14 @@ class DmdeliveryCommand extends ContainerAwareCommand
         if(!empty($user)){
             $send_fail_email_count = 0;
             $templating = $this->getContainer()->get('templating');
-            $ch = $this->createChannel();
+            $mailer = $this->createMailer();
             foreach ($user as $key => $value) {
                 $templateVars = array('nick' => $value['nick']);
                 $html = $templating->render($templatePath, $templateVars);
-                $result = $ch->send($value['email'], $subject, $html);
+                $result = $mailer->send($value['email'], $subject, $html);
                 $sendflag = $result['result'];
                 if ($sendflag){
-                    try{
+                    try {
                         $em->getConnection()->beginTransaction();
                         $this->insertSendPointFail($em, $value['id'],$failTime);
                         if($failTime == 180){
@@ -88,7 +89,6 @@ class DmdeliveryCommand extends ContainerAwareCommand
                         } else {
                             echo 'key :'.$key. ',userid:'.$value['id']."-> send successfully  \n";
                         }
-
                         $em->getConnection()->commit();
                     } catch (\Exception $ex) {
                         $em->getConnection()->rollback();
@@ -158,14 +158,18 @@ class DmdeliveryCommand extends ContainerAwareCommand
         return $content;
     }
 
-    private function createChannel() {
+    private function createMailer()
+    {
+        $mailer = $this->getContainer()->getParameter('mailer');
+        $sendcloud = $mailer['sendcloud'];
+        $account = $sendcloud['channel1'];
 
-        $url = $this->getContainer()->getParameter('mail')['sendcloud']['url'];
-        $accounts = $this->getContainer()->getParameter('mail')['sendcloud']['batch_mode'];
-
-        $httpClient = $this->getContainer()->get('app.http_client');
-        $ch = new Channel($accounts[0]['api_user'], $accounts[0]['api_key'], $url, $accounts[0]['from'], $httpClient);
-
-        return $ch;
+        return new SendCloudMailer(
+            $account['api_user'],
+            $account['api_key'],
+            $sendcloud['url'],
+            $account['from'],
+            $this->getContainer()->get('app.http_client')
+        );
     }
 }

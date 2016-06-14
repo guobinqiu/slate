@@ -50,7 +50,7 @@ class SsiDeliveryNotificationMailCommand extends AbstractMailCommand {
     {
         return array(
             'name1' => $input->getOption('name1'),
-            'survey_title' => $input->getOption('survey_tittle'),
+            'survey_title' => $input->getOption('survey_title'),
             'survey_point' => $input->getOption('survey_point'),
         );
     }

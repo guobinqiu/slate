@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\WenwenFrontBundle\Services;
+namespace Wenwen\FrontendBundle\Services;
 
 interface DeliveryNotification
 {

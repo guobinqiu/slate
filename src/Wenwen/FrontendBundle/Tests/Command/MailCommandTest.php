@@ -18,36 +18,34 @@ class MailCommandTest extends WebTestCase {
         static::$kernel->boot();
     }
 
-    public function testSignupConfirmationMailCommand() {
-        $application = new Application(static::$kernel);
-        $application->add(new SignupConfirmationMailCommand());
-
-        $command = $application->find('mail:signup_confirmation');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            '--subject' => 'signup confirmation',
-            '--email' => 'qracle@126.com',
-            '--name' => 'Guobin',
-            '--register_key' => '1234567890',
-        ));
-
-        echo $commandTester->getDisplay();
-    }
-
-    public function testSignupSuccessMailCommand() {
-        $application = new Application(static::$kernel);
-        $application->add(new SignupSuccessMailCommand());
-
-        $command = $application->find('mail:signup_success');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            '--subject' => 'signup success',
-            '--email' => 'qracle@126.com',
-            '--name' => 'Guobin',
-        ));
-
-        echo $commandTester->getDisplay();
-    }
+//    public function testSignupConfirmationMailCommand() {
+//        $application = new Application(static::$kernel);
+//        $application->add(new SignupConfirmationMailCommand());
+//
+//        $command = $application->find('mail:signup_confirmation');
+//        $commandTester = new CommandTester($command);
+//        $commandTester->execute(array(
+//            'command' => $command->getName(),
+//            '--subject' => 'signup confirmation',
+//            '--email' => 'qracle@126.com',
+//            '--name' => 'Guobin',
+//            '--register_key' => '1234567890',
+//        ));
+//    }
+//
+//    public function testSignupSuccessMailCommand() {
+//        $application = new Application(static::$kernel);
+//        $application->add(new SignupSuccessMailCommand());
+//
+//        $command = $application->find('mail:signup_success');
+//        $commandTester = new CommandTester($command);
+//        $commandTester->execute(array(
+//            'command' => $command->getName(),
+//            '--subject' => 'signup success',
+//            '--email' => 'qracle@126.com',
+//            '--name' => 'Guobin',
+//        ));
+//    }
 
     public function testSopDeliveryNotificationMailCommand() {
         $application = new Application(static::$kernel);
@@ -56,6 +54,7 @@ class MailCommandTest extends WebTestCase {
         $command = $application->find('mail:sop_delivery_notification');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
+            'command' => $command->getName(),
             '--name1' => 'Guobin',
             '--email' => 'qracle@126.com',
             '--survey_title' => 'sop',
@@ -64,96 +63,39 @@ class MailCommandTest extends WebTestCase {
             '--subject' => 'sop delivery notification',
             '--channel' => 'channel2',
         ));
-
-        echo $commandTester->getDisplay();
     }
 
-    public function testFulcrumDeliveryNotificationMailCommand() {
-        $application = new Application(static::$kernel);
-        $application->add(new FulcrumDeliveryNotificationMailCommand());
-
-        $command = $application->find('mail:fulcrum_delivery_notification');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            '--name1' => 'Guobin',
-            '--email' => 'qracle@126.com',
-            '--survey_title' => 'fulcrum',
-            '--survey_point' => 10,
-            '--subject' => 'fulcrum delivery notification',
-            '--channel' => 'channel2',
-        ));
-
-        echo $commandTester->getDisplay();
-    }
-
-    public function testSsiDeliveryNotificationMailCommand() {
-        $application = new Application(static::$kernel);
-        $application->add(new SsiDeliveryNotificationMailCommand());
-
-        $command = $application->find('mail:ssi_delivery_notification');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            '--name1' => 'Guobin',
-            '--email' => 'qracle@126.com',
-            '--survey_title' => 'ssi',
-            '--survey_point' => 10,
-            '--subject' => 'ssi delivery notification',
-            '--channel' => 'channel2',
-        ));
-
-        echo $commandTester->getDisplay();
-    }
-
-//    public function testSOPDeliveryNotification() {
-//        $request_body = '{
-//              "app_id": "",
-//              "data": {
-//                "respondents": [
-//                  {
-//                    "app_mid":    "1",
-//                    "survey_id":  "123",
-//                    "quota_id":   "1234",
-//                    "loi":        "10",
-//                    "ir":         "50",
-//                    "cpi":        "1.50",
-//                    "title":      "Example survey title",
-//                    "extra_info": {
-//                        "point": {
-//                            "complete": "10"
-//                         }
-//                    }
-//                  },
-//                  {
-//                    "app_mid":    "2",
-//                    "survey_id":  "123",
-//                    "quota_id":   "1234",
-//                    "loi":        "10",
-//                    "ir":         "50",
-//                    "cpi":        "1.50",
-//                    "title":      "Example survey title",
-//                    "extra_info": {
-//                        "point": {
-//                            "complete": "10"
-//                         }
-//                    }
-//                  }
-//                ]
-//              },
-//              "time": ""
-//        }';
-//        $request_data = json_decode($request_body, true);
-//        $respondents = $request_data['data']['respondents'];
-//
+//    public function testFulcrumDeliveryNotificationMailCommand() {
 //        $application = new Application(static::$kernel);
-//        $application->add(new DeliveryNotificationCommand());
+//        $application->add(new FulcrumDeliveryNotificationMailCommand());
 //
-//        $command = $application->find('mail:delivery_notification');
+//        $command = $application->find('mail:fulcrum_delivery_notification');
 //        $commandTester = new CommandTester($command);
 //        $commandTester->execute(array(
-//            'respondents' => serialize($respondents),
-//            '--type' => DeliveryNotificationCommand::SOP
+//            'command' => $command->getName(),
+//            '--name1' => 'Guobin',
+//            '--email' => 'qracle@126.com',
+//            '--survey_title' => 'fulcrum',
+//            '--survey_point' => 10,
+//            '--subject' => 'fulcrum delivery notification',
+//            '--channel' => 'channel2',
 //        ));
+//    }
 //
-//        $this->assertEquals(array('errors' => 0, 'total' => 2, 'success' => '100%'), $commandTester->getDisplay());
+//    public function testSsiDeliveryNotificationMailCommand() {
+//        $application = new Application(static::$kernel);
+//        $application->add(new SsiDeliveryNotificationMailCommand());
+//
+//        $command = $application->find('mail:ssi_delivery_notification');
+//        $commandTester = new CommandTester($command);
+//        $commandTester->execute(array(
+//            'command' => $command->getName(),
+//            '--name1' => 'Guobin',
+//            '--email' => 'qracle@126.com',
+//            '--survey_title' => 'ssi',
+//            '--survey_point' => 10,
+//            '--subject' => 'ssi delivery notification',
+//            '--channel' => 'channel2',
+//        ));
 //    }
 }

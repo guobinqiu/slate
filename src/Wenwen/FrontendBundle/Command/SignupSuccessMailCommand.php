@@ -52,7 +52,7 @@ class SignupSuccessMailCommand extends AbstractMailCommand
      */
     protected function getTemplatePath(InputInterface $input)
     {
-        return 'WenwenFrontendBundle:EmailTemplate:signup_confirmation.html.twig';
+        return 'WenwenFrontendBundle:EmailTemplate:signup_success.html.twig';
     }
 
     /**

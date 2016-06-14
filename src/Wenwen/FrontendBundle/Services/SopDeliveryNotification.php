@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\WenwenFrontBundle\Services;
+namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
@@ -9,7 +9,7 @@ class SopDeliveryNotification implements DeliveryNotification
 {
     protected $em;
 
-    public function SopDeliveryNotification(EntityManager $em) {
+    public function __construct(EntityManager $em) {
         $this->em = $em;
     }
 
@@ -35,7 +35,7 @@ class SopDeliveryNotification implements DeliveryNotification
             '--email='.$respondent['recipient']['email'],
             '--survey_title='.$respondent['title'],
             '--survey_point='.$respondent['extra_info']['point']['complete'],
-            '--survey_length'.$respondent['loi'],
+            '--survey_length='.$respondent['loi'],
             '--subject=亲爱的'.$respondent['recipient']['name1'].'，您的新问卷来了！',
             '--channel='.$channel,
         ), true, '91wenwen');
