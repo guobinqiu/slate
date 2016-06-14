@@ -61,11 +61,23 @@ class SopRespondent
     private $createdAt;
 
     /**
+     * 新的主键
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="pk", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $pk;
+
+
+    /**
+     * 老的主键，其实是sop的app_mid，主键不应该带有业务含义
+     *
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -200,5 +212,10 @@ class SopRespondent
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+        return $this;
     }
 }

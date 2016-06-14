@@ -20,6 +20,6 @@ swiftmailer:
 
 doctrine:
     dbal:
-        dbname: jili_db
+        dbname: jili_test
         user: root
         password: Guobin83
