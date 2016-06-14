@@ -54,7 +54,7 @@ class DeliveryNotificationTest extends WebTestCase
                 "loi":        "10",
                 "ir":         "50",
                 "cpi":        "1.50",
-                "title":      "Example",
+                "title":      "Example survey title",
                 "extra_info": {
                     "point": {
                         "complete": "10"
@@ -68,7 +68,7 @@ class DeliveryNotificationTest extends WebTestCase
                 "loi":        "10",
                 "ir":         "50",
                 "cpi":        "1.50",
-                "title":      "Example",
+                "title":      "Example survey title",
                 "extra_info": {
                     "point": {
                         "complete": "10"
