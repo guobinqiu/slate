@@ -53,9 +53,9 @@ define(['jquery'],function($){
                     return false;
                 }
             }else{
-                $(obj.ele).bind('focus', function() {
+                $(obj.ele).bind('focus keydown', function() {
                     _self.eFocus(obj.ele,'');
-                }).bind('blur', function() {
+                }).bind('blur keyup', function() {
                     if(_self.isNull(obj, true)){
                        return _self.checkInputEmail(obj);
                     }

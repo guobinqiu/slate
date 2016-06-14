@@ -23,14 +23,42 @@ require(['../config'],function(){
             },
             type: 'email'
         };
-        new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+        var tips = $('.tips');
+        // new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+        tips.removeClass('active');
+        var lis = $('.login-con li'), inputs = lis.find('input'), labels = lis.find('label');
+        inputs.each(function(i, e){
+            if(!$(this).val()){
+                labels.eq(i).show();
+            }else{
+                labels.eq(i).hide();
+            }
+            $(this).on('keydown', function(){
+                labels.eq(i).hide();
+            });
+            $(this).on('keyup', function(){
+                if(!$(this).val()){
+                    labels.eq(i).show();
+                }else{
+                    labels.eq(i).hide();
+                }
+                var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+                if(loginform.run(true)){
+                    tips.removeClass('active');
+                }else{
+                    tips.addClass('active');
+                }
+            }); 
+        });
         var submitBtn = $("#submit_button");
         submitBtn.on('click', function(e){
+            tips.removeClass('active');
             var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
             if(loginform.run(true)){
                 submitBtn.submit();
             }else{
                 e.preventDefault();
+                tips.addClass('active');
             }
         });
 
@@ -41,30 +69,34 @@ require(['../config'],function(){
         var errorCode = $('#error_code').val();
         if(errorCode != undefined){
             $emailError.html(errorCode).addClass('error').attr('display', 'block');
+            setTimeout(function(){tips.addClass('active');}, 500);
         };
         // 点击登录按钮，呈现输入状态
-        var logFoc = $("a[title='登录']");
-        var surList = $("a[title='问卷列表']");
-        logFoc.add(surList).click(function(){
-            $('#email').focus(); 
-        });
+        // var logFoc = $("a[title='登录']");
+        // var surList = $("a[title='问卷列表']");
+        // logFoc.add(surList).click(function(){
+        //     $('#email').focus(); 
+        // });
+        
 
         //sinaWeibo and QQ quick login prompt
-        var wbLog = $('.weibo-login');
-        var qqLog = $('.qq-login');
+        var wbLog = $('.weibo-login'),qqLog = $('.qq-login');
         var wqClose = $('.quickLCon .closeBtn').add('.quickLCon .cancelBtn');
-        var wbPCon = $('#wbLogCon');
-        var qqPCon = $('#qqLogCon');
+        var wbPCon = $('#wbLogCon'),qqPCon = $('#qqLogCon');
+        var mask = $('.mask');
         wbLog.on('click', function(){
-            wbPCon.show();
-            qqPCon.hide();
+            mask.show();
+            wbPCon.show().addClass('active');
+            qqPCon.hide().removeClass('active');
         });
         qqLog.on('click', function(){
-            qqPCon.show();
-            wbPCon.hide();
+            mask.show();
+            qqPCon.show().addClass('active');
+            wbPCon.hide().removeClass('active');
         });
         wqClose.on('click', function(){
-            wbPCon.add(qqPCon).hide();
+            mask.hide();
+            wbPCon.add(qqPCon).hide().removeClass('active');
         });
 
     });
@@ -256,9 +288,7 @@ require(['../config'],function(){
         //初始化分页
         function initPagination(){
             var length = sections.length;
-            if(length){
-
-            }
+            if(length){ }
             var pageHtml = '<ul id="pages"><li class="active"></li>';
             for(var i=1;i<length;i++){
                 pageHtml += '<li></li>';

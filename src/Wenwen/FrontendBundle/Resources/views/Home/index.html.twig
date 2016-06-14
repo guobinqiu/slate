@@ -14,15 +14,16 @@
 	<div id="container">
 		<div class="section" id="section0">
 			<h1><img src="{{ asset('img/common/logo.png') }}" alt="91问问"></h1>
+			<a href="{{ path('_user_reg') }}" class="btn">注册</a>
 			<div class="sectionCon">
 				<h2><img src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！"></h2>
-				<div class="btns" style="display: none;"><a href="https://www.91wenwen.net/user/reg" title="注册" target="_blank" class="active">注册</a><br><a href="https://www.91wenwen.net/user/login" title="登录" target="_blank">登录</a></div>
+				<div class="btns" style="display: none;"><a href="{{ path('_user_reg') }}" title="注册" target="_blank" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" target="_blank">登录</a></div>
 			    <div class="login">
 			        <div class="login-con">
 			            <form action="" method="post" name="form1" id="form1">
 			            <ul>
-			                <li class="liner"><label for="email">电子邮件</label><input id="email" name="email" type="text" value="{{ email }}"><span id="email_succeed"></span><span id="email_error"></span></li>
-			                <li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+			                <li class="liner"><label for="email">电子邮件</label><input id="email" name="email" type="text" value="{{ email }}"></li>
+			                <li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"></li>
 			            </ul>
 			            {% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
 			            <input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
@@ -30,35 +31,19 @@
 			            {% if code %}
 			            <input type="hidden" id="error_code" class="error" value="{{ code }}">
 			            {% endif %}
+			            <div class="tips">
+				            <span id="email_succeed"></span><span id="email_error"></span>
+				            <span id="pwd_succeed"></span><span id="pwd_error"></span>
+			            </div>
 			            <input type="hidden" value="1" name="remember_me">
 			            <input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
 			            </form>
-			            <p class="clearfix"><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
+			            <p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a></p>
 			            <div class="login-btn-others">
 			                <span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
 			            </div>
 			        </div>
 			    </div>
-			    <div class="quickLogPop" id="wbLogCon" style="display: none;">
-				    <div class="quickLCon">
-				        <div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
-				        <div class="wbText">
-				            <p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
-				            <p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
-				        </div>
-				        <div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
-				    </div>
-				</div>
-				<div class="quickLogPop" id="qqLogCon" style="display: none;">
-				    <div class="quickLCon">
-				        <div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
-				        <div class="wbText">
-				            <p class="l1">QQ登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用QQ快捷登录，您将无法正常登录哟！</p>
-				            <p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
-				        </div>
-				        <div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('qq_api_login') }}" class="continueBtn">继续</a></div>
-				    </div>
-				</div>
 			</div>
 		</div>
 		<div class="section" id="section1">
@@ -129,8 +114,29 @@
 			<div class="sectionCon">
 				<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
 				<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，购物返利，开始赚钱咯~</p>
-				<div class="btns"><a href="https://www.91wenwen.net/user/reg" title="注册" target="_blank"class="active">注册</a><br><a href="https://www.91wenwen.net/user/login" title="登录" target="_blank" class="gray">登录</a></div>
+				<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" target="_blank"class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" target="_blank" class="gray">登录</a></div>
 			</div>
+		</div>
+		<div class="mask"></div>
+	    <div class="quickLogPop" id="wbLogCon" style="display: none;">
+		    <div class="quickLCon">
+		        <div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
+		        <div class="wbText">
+		            <p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
+		            <p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+		        </div>
+		        <div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
+		    </div>
+		</div>
+		<div class="quickLogPop" id="qqLogCon" style="display: none;">
+		    <div class="quickLCon">
+		        <div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
+		        <div class="wbText">
+					<p class="l1">很抱歉，QQ快捷登录功能因维护<strong>暂时关闭</strong>！</p>
+					<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
+					<p class="wbBtnArea"><a class="cancelBtn">我知道了</a></p>
+				</div>
+		    </div>
 		</div>
 	</div>
 {% endblock %}
