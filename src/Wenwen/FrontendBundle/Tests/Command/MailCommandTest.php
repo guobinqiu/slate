@@ -95,7 +95,7 @@ class MailCommandTest extends WebTestCase {
             '--survey_title' => 'ssi',
             '--survey_point' => 10,
             '--subject' => 'ssi delivery notification',
-            '--channel' => 'channel2',
+            '--channel' => 'channel3',
         ));
     }
 }

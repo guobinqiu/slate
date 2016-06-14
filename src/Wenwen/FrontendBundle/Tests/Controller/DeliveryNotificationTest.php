@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Services\SopDeliveryNotification;
+use Wenwen\FrontendBundle\Services\SsiDeliveryNotification;
 
 class DeliveryNotificationTest extends WebTestCase
 {
@@ -18,7 +19,7 @@ class DeliveryNotificationTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    protected function setUp()
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
@@ -26,7 +27,7 @@ class DeliveryNotificationTest extends WebTestCase
         $this->em = $em;
 
         $loader = new Loader();
-        $loader->addFixture(new LoadSopData());
+        $loader->addFixture(new LoadData());
 
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
@@ -40,6 +41,7 @@ class DeliveryNotificationTest extends WebTestCase
     {
         parent::tearDown();
         $this->em->close();
+        $this->em = null;
     }
 
     public function testSopDeliveryNotification() {
@@ -81,18 +83,31 @@ class DeliveryNotificationTest extends WebTestCase
         }';
 
         $request_data = json_decode($request_body, true);
+
+        $sopData = $this->em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $request_data['data']['respondents'][0]['app_mid'] = $sopData[0]->getId();
+        $request_data['data']['respondents'][1]['app_mid'] = $sopData[1]->getId();
+
         $respondents = $request_data['data']['respondents'];
 
         $notification = new SopDeliveryNotification($this->em);
         print_r($notification->send($respondents));
     }
-}
 
+    public function testSsiDeliveryNotification() {
+        $ssiData = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findAll();
+        $notification = new SsiDeliveryNotification($this->em);
+        $notification->send(array(
+            'wwcn-'.$ssiData[0]->getId(),
+            'wwcn-'.$ssiData[1]->getId(),
+        ));
+    }
+}
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadSopData implements FixtureInterface
+class LoadData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -111,8 +126,13 @@ class LoadSopData implements FixtureInterface
 
         $sop_respondent = new \Jili\ApiBundle\Entity\SopRespondent();
         $sop_respondent->setUserId($user->getId());
-        $sop_respondent->setId(1);
         $manager->persist($sop_respondent);
+        $manager->flush();
+
+        $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssi_respondent->setUser($user);
+        $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $manager->persist($ssi_respondent);
         $manager->flush();
 
         $user = new \Jili\ApiBundle\Entity\User();
@@ -130,8 +150,13 @@ class LoadSopData implements FixtureInterface
 
         $sop_respondent = new \Jili\ApiBundle\Entity\SopRespondent();
         $sop_respondent->setUserId($user->getId());
-        $sop_respondent->setId(2);
         $manager->persist($sop_respondent);
+        $manager->flush();
+
+        $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssi_respondent->setUser($user);
+        $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $manager->persist($ssi_respondent);
         $manager->flush();
     }
 }
