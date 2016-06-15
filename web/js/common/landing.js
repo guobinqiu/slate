@@ -114,6 +114,7 @@ define(['jquery'],function($){
             var index = pages.index(this);
             scrollPage(arrElement[index]);
             pages.eq(index).addClass("active").siblings().removeClass("active");
+            iIndex = index;
         });
     }
 

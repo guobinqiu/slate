@@ -281,7 +281,7 @@ h1{
 		padding: 35px 35px 15px;
 		background: url(../img/landingpage/desBg.png) no-repeat;
 		opacity: 0;
-		transition: all 1s ease 1s;
+		transition: all 1s ease 50ms;
 		cursor: pointer;
 		&:hover{
 			z-index: 5;
