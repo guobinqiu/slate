@@ -100,7 +100,7 @@ class SurveyController extends Controller
 
         $arr['sop_params'] = $sop_params;
 
-        $arr['sop_api_url'] = 'https://'.$sop_config['host'].'/api/v1_1/surveys/js?'.http_build_query(array(
+        $arr['sop_api_url'] = 'http://'.$sop_config['host'].'/api/v1_1/surveys/js?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
