@@ -40,6 +40,7 @@ class SurveyListService
      * @return string JSON formatted response string
      */
     public function getSOPSurveyList($sop_api_url) {
+            //$this->httpClient->setDefaultOption('verify', false);
             $request = $this->httpClient->get($sop_api_url);
             $response = $request->send();
             return $this->extractRealpart($response->getBody());

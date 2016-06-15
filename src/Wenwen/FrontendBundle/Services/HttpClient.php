@@ -45,4 +45,9 @@ class HttpClient {
     {
         return $this->client->post($uri, $headers, $postBody, array_merge($this->options, $options));
     }
+
+    public function setDefaultOption($keyOrPath, $value)
+    {
+        return $this->client->setDefaultOption($keyOrPath, $value);
+    }
 }
