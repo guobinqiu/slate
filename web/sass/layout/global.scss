@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-$font-color: #333;
+$font-color: #434546;
 $font-size: 12px;
 $font-family: "Microsoft YaHei", Tohoma, Arial;
 
-$bg-body-color: #f2f3f5;
+$bg-body-color: #e9eded;
 $bg-body-color2: #fff;
 
 $page-width: 1000px;
@@ -14,9 +14,16 @@ $block-line-color: #f6f6f6;
 $block-border: 1px solid #ebedf2;
 $block-inner-border: 1px solid #f6f6f6;
 
-$main-color: #ff6700;
-$main-title-color: #0078b6;
-
+$main-color: #e62200;
+$main-title-color: #ff8738; /* 大标题颜色 */
+$list-tit-color: #475a70; /* 列表标题颜色 */
+$hover-color: #4b94f2; /* hover 颜色 */
+$streng-color: #E62200; /* 加强红色 */
+$orange-color: #f55e00; /* 橙色 */
+$button-blue: #3EB4DB; /* 蓝色按钮 */
+$sub-con-color: #414548; /* 子内容灰色 */
+$weak-color: #98A5B3; /* 弱文字颜色*/
+$head-title-color: #ff8738;  /* 模块标题浅色 */
 $error-color: #ff0000;
 $error-bg-color: #ffebeb;
 $error-border: 1px solid #ffbdbe;
@@ -144,14 +151,14 @@ $title-h2-span: 2px solid #d4d4d4;
 }
 @mixin btn(){
     color: #fff;
-    background: #ff652b;
-    border: 1px solid #ff652b;
+    background: #FF781E;
+    border: 1px solid #FF6905;
     border-radius: 3px;
     cursor: pointer;
     @include transition(all, 0.4s);
     &:hover{
-        background:#f05218;
-        border: 1px solid #f05218;
+        background:#FF531F;
+        border: 1px solid #FA3E00; 
     }
 }
 @mixin tips(){

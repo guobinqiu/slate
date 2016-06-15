@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['jquery'], function(){
         var seconds, s;
         function countdown(){

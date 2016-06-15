@@ -94,7 +94,7 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
         // check the partial
-        $this->assertEquals('/images/headPortBg.jpg', $crawler->filter('img')->attr('src'));
+        $this->assertContains('/images/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
         
        // var_dump($crawler->filter('dd')->eq(0)->text());
@@ -138,7 +138,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals( $user->getId(), $session->get('uid'));
  //       echo $client->getResponse()->getContent(),PHP_EOL;
         // check the partial
-        $this->assertEquals('/images/headPortBg.jpg', $crawler->filter('img')->attr('src'));
+        $this->assertContains('/images/headPortBg.jpg', $crawler->filter('img')->attr('src'));
 
         $this->assertEquals( '当前米粒数',$crawler->filter('li')->eq(0)->text() , $user->getPoints() .' should be render' );
         $this->assertEquals( '500确认中米粒数', $crawler->filter('li')->eq(1)->text() );
@@ -154,7 +154,7 @@ class TopControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
 //        echo $client->getResponse()->getContent(),PHP_EOL;
 
-        $this->assertEquals('/uploads/user/5/1392030971_6586.jpeg', $crawler->filter('img')->attr('src'));
+        $this->assertContains('/uploads/user/5/1392030971_6586.jpeg', $crawler->filter('img')->attr('src'));
 
 //        $task =  $em->getRepository('JiliApiBundle:TaskHistory0'. ( $user->getId() % 10 ) );
 //        $confirmPoints = $task->getConfirmPoints($user->getId());

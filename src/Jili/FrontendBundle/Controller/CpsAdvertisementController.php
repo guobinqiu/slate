@@ -45,7 +45,6 @@ class CpsAdvertisementController extends Controller
             ->findSameCatWebsitesByRandom( array( 'limit'=> 6, 'category'=> $cps->getWebsiteCategory() ) );
 
         return $this->render('WenwenFrontendBundle:Advertisement:shopDetail.html.twig',array('website'=> $cps ,
-            'is_emar_cps'=> $ad_category->getIsEmarCps(),
             'detail' => $shop, 
             'commission_list'=>$commission_list,
             'same_cat_websites' => $same_cat_websites));

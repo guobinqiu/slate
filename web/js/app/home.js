@@ -1,4 +1,4 @@
-require(['../config'],function(){
+require(['/js/config.js'],function(){
     require(['common']);
     // require(['jquery','slider'], function($, slider){
     //    var sliderA = new slider({sliderEle: '.main-slider ul', prevBtn: '.arrowL', nextBtn: '.arrowR', groupBtn: '.btn-group b', config: {
@@ -40,6 +40,10 @@ require(['../config'],function(){
         }else{
             $('#mask, #newguideWrap').hide();
         }
+
+        //set profile survey css
+        $('.survey li:has(.proItem)').css('border-bottom', 'none');
+        $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');
     });
 
 });

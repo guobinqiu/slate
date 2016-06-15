@@ -140,7 +140,7 @@
  	}
 }
 .exchange-dynamics{
-	padding: 10px 20px;
+	padding: 10px 20px 15px; 
 	line-height: 24px;
 	.mask{
 		height: 335px;
@@ -159,7 +159,7 @@
 		padding: 0;
 	}
 	li{
-		padding: 12px 0;
+		padding: 15px 10px 0 5px;
 		border-bottom: $block-inner-border;
 		p{
 			@include ell();

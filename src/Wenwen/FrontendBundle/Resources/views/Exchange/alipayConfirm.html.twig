@@ -14,7 +14,7 @@
 	<div class="main-con-exchange form">
 		<h1>支付宝现金兑换</h1>
 		<div class="main-con-exchangeInfo">
-			<p class="alipay-tips"><em>●</em>您是第一次兑换米粒，我们需要记录并保存您的身份证号码。<br><em>●</em>请您务必认真填写,该号码将在您兑换成功后自动绑定。</p>
+			<p class="alipay-tips"><em>●</em>您是第一次兑换积分，我们需要记录并保存您的身份证号码。<br><em>●</em>请您务必认真填写,该号码将在您兑换成功后自动绑定。</p>
 			<form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
 			<ul>
 				<li>
@@ -38,5 +38,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/alipayConfirm')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/exchange/alipayConfirm.js')}}"></script>
 {% endblock %}

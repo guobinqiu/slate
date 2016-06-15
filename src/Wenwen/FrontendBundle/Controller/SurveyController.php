@@ -40,17 +40,15 @@ class SurveyController extends Controller
 
         $arr = array_merge($arr, $this->getSopParams($sop_config, $sop_respondent->getId()));
 
-        // for preview mode
-        $arr['preview'] = $this->container->get('kernel')->getEnvironment() === 'dev' && $request->query->get('preview') === '1';
+        // for dummy mode (won't access sop's server at dev or test mode)
+        // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
+        $arr['dummy_mode'] = $this->container->get('kernel')->getEnvironment() === 'dev' || $this->container->get('kernel')->getEnvironment() === 'test';
 
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $html_survey_list = [];
 
-        if(!in_array($this->get('kernel')->getEnvironment(), array('test'))){
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyListService = $this->get('app.survey_list_service');
-            $html_survey_list = $surveyListService->getOrderedHtmlServeyList($arr);
-        }
+        $surveyListService = $this->get('app.survey_list_service');
+        $html_survey_list = $surveyListService->getOrderedHtmlServeyList($arr);
 
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
     }
@@ -79,13 +77,16 @@ class SurveyController extends Controller
 
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $html_survey_list = [];
-
-        if(!in_array($this->get('kernel')->getEnvironment(), array('test'))){
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyListService = $this->get('app.survey_list_service');
-            $html_survey_list = $surveyListService->getOrderedHtmlServeyList($arr, 2); //第二个参数指定显示多少个，默认是全部
+        try {
+            if(!in_array($this->get('kernel')->getEnvironment(), array('test'))){
+                // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
+                $surveyService = $this->get('surveyService');
+                $html_survey_list = $surveyService->getOrderedHtmlServeyList($arr, 2); //第2个参数指定显示多少个，默认是全部
+            }
+        } catch (\Exception $e) {
+            //echo $e->getMessage();
+            $this->container->get('logger')->error($e->getMessage());
         }
-
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
 

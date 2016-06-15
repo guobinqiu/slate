@@ -147,7 +147,7 @@ class PointHistoryRepository extends EntityRepository
 
         $query = $query->setFirstResult($pageSize * ($currentPage - 1));
         $query = $query->setMaxResults($pageSize);
-        $query->orderBy('ph.id', 'DESC');
+        $query->orderBy('ph.createTime', 'DESC');
         $query = $query->getQuery();
         return $query->getResult();
     }

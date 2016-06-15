@@ -1,0 +1,22 @@
+<div class="homeBr">
+    <div class="w1000">
+        <div class="left">
+            <div class="faceWapper left">
+            {% if user.iconPath %}
+                <img src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
+            {% else %}
+                <img src="{{ asset('img/home/homeAvr.png') }}" alt="头像" width="52" height="52">
+            {% endif %}
+            </div>
+            <div class="infoText left">
+                <p class="l1">Hi，{{ user.nick[:12] }}，您的当前积分为<strong class="point"><i></i>{{ user.points }}</strong></p>
+                {# <p class="l2"></p>
+                <p class="l2"><i></i>您的当前积分为<strong class="point">{{ user.points }}</strong></p> #}
+            </div>
+        </div>
+        <div class="right">
+            <a href="{{ path('_user_adtaste',{'type':0}) }}" class="taskHis">任务历史</a>
+            <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="exchangeHis">兑换历史</a>
+        </div>
+    </div>
+</div>

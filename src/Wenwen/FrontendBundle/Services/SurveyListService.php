@@ -37,124 +37,132 @@ class SurveyListService
 
     /**
      * @param $sop_api_url
-     * @return string JSON formatted response string
+     * @param $dummy_mode
+     * @return string json格式字符串
      */
     public function getSOPSurveyList($sop_api_url) {
-            //$this->httpClient->setDefaultOption('verify', false);
-            $request = $this->httpClient->get($sop_api_url);
-            $response = $request->send();
-            return $this->extractRealpart($response->getBody());
-//          构造一个仿真数据
-//          $dummy_res = '{ "meta" : {"code": "200" },
-//             "data": {
-//                 "profiling": [
-//                     {
-//                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-//                         "name": "q004",
-//                         "title": "profiling"
-//                     }
-//                 ],
-//                 "research": [
-//                     {
-//                         "date": "2015-07-21",
-//                         "is_answered": "0",
-//                         "cpi": "0.00",
-//                         "is_closed": "0",
-//                         "ir": "0",
-//                         "extra_info": {
-//                             "point": {
-//                                 "screenout": "30",
-//                                 "quotafull": "30",
-//                                 "complete": "670"
-//                             },
-//                             "date": {
-//                                 "end_at": "2015-08-31 00:00:00",
-//                                 "start_at": "2015-07-21 00:00:00"
-//                             },
-//                             "content": "这是一个测试"
-//                         },
-//                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-//                         "loi": "15",
-//                         "title": "Test 4",
-//                         "survey_id": "284",
-//                         "quota_id": "393"
-//                     }
-//                 ],
-//                 "user_agreement":[
-//                   {
-//                     "type": "Fulcrum",
-//                     "url": "http://researchpanelasia.com"
-//                   },
-//                   {
-//                     "type": "Cint",
-//                     "url": "http://www.d8aspring.com"
-//                   }
-//                 ],
-//                 "fulcrum_research":[
-//                   {
-//                     "survey_id": "4",
-//                     "quota_id": "10",
-//                     "cpi": "0.00",
-//                     "ir": "80",
-//                     "loi": "10",
-//                     "title": "来自Fulcrum的调查问卷",
-//                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-//                     "date": "2015-01-01",
-//                     "extra_info": {
-//                         "point": {"complete": "10"}
-//                     }
-//                   }
-//                 ],
-//                 "cint_research": [
-//                     {
-//                       "survey_id": "10000",
-//                       "quota_id": "20000",
-//                       "cpi": "0.00",
-//                       "ir": "80",
-//                       "loi": "10",
-//                       "is_answered": "0",
-//                       "is_closed": "0",
-//                       "title": "Cint Survey",
-//                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-//                       "date": "2015-01-01",
-//                       "extra_info": {
-//                         "point": {
-//                           "complete": "40",
-//                           "screenout": "10",
-//                           "quotafull": "10"
-//                         }
-//                       }
-//                     },
-//                     {
-//                       "survey_id": "10002",
-//                       "quota_id": "20000",
-//                       "cpi": "0.00",
-//                       "ir": "80",
-//                       "loi": "10",
-//                       "is_answered": "1",
-//                       "is_closed": "0",
-//                       "title": "Cint Survey2",
-//                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
-//                       "date": "2015-01-01",
-//                       "extra_info": {
-//                         "point": {
-//                           "complete": "40",
-//                           "screenout": "10",
-//                           "quotafull": "10"
-//                         }
-//                       }
-//                     }
-//                  ]
-//               }
-//            }';
-//
-//        return $dummy_res;
+        if($dummy_mode){
+            return $this->getDummySurveyListJson();
+        }
+        //$this->httpClient->setDefaultOption('verify', false);
+        $request = $this->httpClient->get($sop_api_url);
+        $response = $request->send();
+        return $this->extractRealpart($response->getBody());
+    }
+
+    public function getDummySurveyListJson () {
+
+        //构造一个仿真数据
+        $dummy_res = '{ "meta" : {"code": "200" },
+             "data": {
+                 "profiling": [
+                     {
+                         "url": "http://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                         "name": "q004",
+                         "title": "profiling"
+                     }
+                 ],
+                 "research": [
+                     {
+                         "date": "2015-07-21",
+                         "is_answered": "0",
+                         "cpi": "0.00",
+                         "is_closed": "0",
+                         "ir": "0",
+                         "extra_info": {
+                             "point": {
+                                 "screenout": "30",
+                                 "quotafull": "30",
+                                 "complete": "670"
+                             },
+                             "date": {
+                                 "end_at": "2015-08-31 00:00:00",
+                                 "start_at": "2015-07-21 00:00:00"
+                             },
+                             "content": "这是一个测试"
+                         },
+                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                         "loi": "15",
+                         "title": "SOP Dummy Survey 4",
+                         "survey_id": "284",
+                         "quota_id": "393"
+                     }
+                 ],
+                 "user_agreement":[
+                   {
+                     "type": "Fulcrum",
+                     "url": "http://researchpanelasia.com"
+                   },
+                   {
+                     "type": "Cint",
+                     "url": "http://www.d8aspring.com"
+                   }
+                 ],
+                 "fulcrum_research":[
+                   {
+                     "survey_id": "4",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "10",
+                     "title": "Fulcrum Dummy Survey",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "10"}
+                     }
+                   }
+                 ],
+                 "cint_research": [
+                     {
+                       "survey_id": "10000",
+                       "quota_id": "20000",
+                       "cpi": "0.00",
+                       "ir": "80",
+                       "loi": "10",
+                       "is_answered": "0",
+                       "is_closed": "0",
+                       "title": "Cint Dummy Survey",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "date": "2015-01-01",
+                       "extra_info": {
+                         "point": {
+                           "complete": "40",
+                           "screenout": "10",
+                           "quotafull": "10"
+                         }
+                       }
+                     },
+                     {
+                       "survey_id": "10002",
+                       "quota_id": "20000",
+                       "cpi": "0.00",
+                       "ir": "80",
+                       "loi": "10",
+                       "is_answered": "1",
+                       "is_closed": "0",
+                       "title": "Cint Dummy Survey2",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "date": "2015-01-01",
+                       "extra_info": {
+                         "point": {
+                           "complete": "40",
+                           "screenout": "10",
+                           "quotafull": "10"
+                         }
+                       }
+                     }
+                  ]
+               }
+            }';
+
+        return $dummy_res;
     }
 
     /**
      * @param $arr 一堆乱七八糟的参数，先全部仍进来再按需拿取吧
      * @param int $limit 0全部，>0截取到指定长度
-     * @return array 排序的问卷列表
+     * @return array
      */
     public function getOrderedHtmlServeyList($arr, $limit = 0) {
         $html_survey_list = [];
@@ -170,8 +178,7 @@ class SurveyListService
         }
 
         //处理sop
-        $result = $this->getSOPSurveyList($arr['sop_api_url']);
-
+        $result = $this->getSurveyListJson($arr['sop_api_url'], $arr['dummy_mode']), true);
         $sop = json_decode($result, true);
 
         if ($sop['meta']['code'] != 200) {

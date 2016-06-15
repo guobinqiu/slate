@@ -16,7 +16,7 @@ $slider-height: 305px;
 		width: 1000px;
 	}
 	span{
-		top: 50%;
+		top: 50%; 
 		left: -41px;
 		margin-top: -20px;
 		width: 41px;
@@ -28,7 +28,7 @@ $slider-height: 305px;
 			right: -41px;
 			background: url(../img/home/sliderbtnR.png) no-repeat;
 		}
-		display: none;
+		display: none; 
 	}
 	.btn-group{
 		bottom: 10px;
@@ -44,17 +44,70 @@ $slider-height: 305px;
 		}
 	}
 }
+.homeBr{
+	.left{
+		margin-top: 10px;
+		margin-left: 12px;
+	}
+	.right{
+		margin-top: 0;
+	}
+	height: 91px; 
+	background: url(../img/home/homeBrBg.jpg) no-repeat 170px center #465b76;
+	.faceWapper{
+		margin-right: 13px;
+		@include dib();
+		img{
+			border-radius: 50%;
+		}
+	}
+	.infoText{
+		@include dib();
+		color: #f0f4fa;
+		.l1{
+			font-size: 16px;
+			height: 56px;
+			line-height: 56px;
+			i{
+				width: 16px;
+				height: 18px;
+				background: url(../img/home/homeIcons.png) no-repeat -52px -25px;
+				display: inline-block;
+				vertical-align: -2px;
+			}
+		}
+		.point{
+			font-size: 14px;
+			@include border-radius(20px);
+			background: #ff781e;
+			padding: 1px 7px;
+			margin-left: 4px;
+			text-shadow:0 1px 2px #ed6203;
+		}
+
+	}
+	.taskHis, .exchangeHis{
+		color: #f0f4fa;
+		@include border-radius(3px);
+		border: 1px solid rgba(255, 255, 255, 0.7);
+		margin-top: 29px; 
+		padding: 10px 17px;
+		@include dib();
+	}
+	.taskHis{
+		margin-right: 10px;
+}
+}
 .main-con-left{
 	h1{
-		color: #333;
+		color: $main-title-color;
 		font-size: 22px;
 		font-weight: normal;
-		height: 55px;
-		line-height: 55px;
+		height: 41px;
+		line-height: 42px;
 		position: relative;
-		border-bottom: 1px dotted #e2e2e2;
+		border-bottom: 1px solid #E0E5E5;
 		padding-bottom: 10px;
-		
 		.more{
 			position: absolute;
 			right: 0;
@@ -62,28 +115,38 @@ $slider-height: 305px;
 			color: #666; 
 		}
 	}
-	.vote li.vote-new .tips{
-		top: 42px;	
-		span{
-			width: 13px;
-			height: 13px;
-			line-height: 13px;
-			border-radius: 50%;
-			background: #979797;
-			color: #fff;
-			text-align: center;
-			cursor: pointer;
+	.vote li.vote-new{
+		.tips{
+			top: 42px;	
+			span{
+				width: 13px;
+				height: 13px;
+				line-height: 13px;
+				border-radius: 50%;
+				background: #979797;
+				color: #fff;
+				text-align: center;
+				cursor: pointer;
+			}
 		}
 	}
 	.countdown{
 		top: 42px;
-		right: 20px;
 	}
+	.topTip{
+		position: absolute;
+		top: 98px;
+		right: 20px;
+	}	
+
+}
+.main-con-left>div{
+	padding: 10px 25px 6px;
 }
 .main-con-right{
 	.notice{
 		ul{
-			padding: 0 15px 15px;
+			padding: 0 25px 23px 22px;
 		}
 		li{
 			line-height: 28px;
@@ -98,10 +161,10 @@ $slider-height: 305px;
 		}
 	}
 	.exchange-dynamics{
-		padding: 10px 20px;
+		padding: 18px 20px 15px;
 		line-height: 24px;
 		.mask{
-			height: 335px;
+			height: 208px;
 			overflow: hidden;
 			position: relative;
 			z-index: 1;
@@ -117,7 +180,7 @@ $slider-height: 305px;
 			padding: 0;
 		}
 		li{
-			padding: 12px 0;
+			padding: 15px 10px 0 5px;
 			border-bottom: $block-inner-border;
 			b{
 				color: $main-color;
@@ -164,15 +227,15 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide1.png) no-repeat 0 0;
 		left: 232px;
-		top: -120px;
+		top: -40px;
 	}
 	.newguide2{
 		width: 520px;
 		height: 379px;
 		position: absolute;
 		background: url(../img/home/guide2.png) no-repeat 0 0;
-		right: 58px;
-	    top: -377px;
+		right: 28px;
+	    top: -165px;
 	}
 	.newguide3{
 		width: 493px;
@@ -180,7 +243,7 @@ $slider-height: 305px;
 		position: absolute;
 		background: url(../img/home/guide3.png) no-repeat 0 0;
 		right: -2px;
-	    top: -375px;
+	    top: -165px;
 	}
 	.ngbtn{
 		position: absolute;
@@ -220,42 +283,46 @@ $slider-height: 305px;
 }
 .mainExpTop{
 	width: 100%;
-    height: 265px;
     background: #fff;
 }
 .mainExpTop ul{
-	width: 1000px;
 	margin: 0 auto;
-}
-.mainExpTop ul h2{
-	font-size: 22px;
-	color: #333;
-	padding: 30px 0 20px;
 }
 .mainExpTop ul li{
 	width: 165px;
-	float: left;
-	margin-right: 42px;
-	margin-right: 35px\9;
+	margin-left: 32px;
+	margin-bottom: 30px;
+	display: inline-block;
 }
 .mainExpTop ul li:last-child{
 	margin-right: 0;
 }
-.mainExpTop ul li a{
-	color: #999;
-}
 .mExpTit{
 	display: block;
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 28px;
+    line-height: 21px;
+    margin: 4px 0 5px;
 }
 .mPointNum{
-	color: $main-color;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 16px;
 	vertical-align: -1px;
 	margin-right: 3px;
+}
+.mpUnit,.mPointNum{
+	color: $orange-color;
+}
+.survey{
+	li{
+		padding: 15px 24px 19px;
+	}
+	.survey-btn{
+		top: 39px;
+	}
+	.proBtn{
+		top: 52px;
+	}
+	.proItem{
+		margin-bottom: -12px;
+	}
 }
 @import "layout/footer";
