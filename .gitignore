@@ -44,3 +44,4 @@ app/config/deploy.rb
 
 .settings/org.eclipse.core.resources.prefs
 .idea/
+app/config/secret.yml
