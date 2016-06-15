@@ -301,6 +301,12 @@ require(['../config'],function(){
             }
             pageHtml += '</ul>';
             $("body").append(pageHtml);
+            var pages = $("#pages li");
+            pages.on('click', function(){
+                var index = pages.index(this);
+                scrollPage(arrElement[index]);
+                pages.eq(index).addClass("active").siblings().removeClass("active");
+            });
         }
 
         //分页事件
@@ -426,6 +432,9 @@ require(['../config'],function(){
             });
         }
 
+        $('.arrow-down').on('click', function(){
+            SP.moveSectionDown();
+        });
         $("#container").switchPage({
             'loop' : true,
             'keyboard' : true,
