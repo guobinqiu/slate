@@ -33,22 +33,28 @@ require(['../config'],function(){
             }else{
                 labels.eq(i).hide();
             }
-            $(this).on('keydown', function(){
+            var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+            $(this).on('focus keydown', function(){
                 labels.eq(i).hide();
+                if(loginform.run(true)){
+                    tips.removeClass('active');
+                }else{
+                    tips.addClass('active');
+                }
             });
-            $(this).on('keyup', function(){
+            $(this).on('blur keyup', function(){
                 if(!$(this).val()){
                     labels.eq(i).show();
                 }else{
                     labels.eq(i).hide();
                 }
-                var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
                 if(loginform.run(true)){
                     tips.removeClass('active');
                 }else{
                     tips.addClass('active');
                 }
             }); 
+            new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
         });
         var submitBtn = $("#submit_button");
         submitBtn.on('click', function(e){
@@ -62,10 +68,10 @@ require(['../config'],function(){
             }
         });
 
-        var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
-        $emailError.add($pwdError).on('click', function(){
-            $(this).addClass('fade');
-        });
+        // var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
+        // $emailError.add($pwdError).on('click', function(){
+        //     $(this).addClass('fade');
+        // });
         var errorCode = $('#error_code').val();
         if(errorCode != undefined){
             $emailError.html(errorCode).addClass('error').attr('display', 'block');

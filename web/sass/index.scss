@@ -31,7 +31,7 @@ h1{
 	&.active{
 		.sectionCon{
 			h2{
-				top: 30%;
+				top: 25%;
 				opacity: 1;
 			}
 			.btns{
@@ -179,7 +179,10 @@ h1{
 	&.active{
 		.login{
 			opacity: 1;
-			top: 45%;
+			top: 42%;
+		}
+		.register{
+			top: 38%;
 		}
 	}
 }
@@ -451,8 +454,9 @@ h1{
 	}
 	.tips{
 		margin-top: 0;
+		padding: 0;
 		width: 100%;
-		text-align: center;
+		text-align: left;
 		height: 0;
 		line-height: 0px;
 		color: #fff;
@@ -463,8 +467,9 @@ h1{
 		transition: all 1s ease 50ms;
 		&.active{
 			margin-top: 15px;
-			height: 45px;
-			line-height: 45px;
+			padding: 10px;
+			height: auto;
+			line-height: 22px;
 			opacity: 1;
 		}
 	}
@@ -490,18 +495,19 @@ h1{
 			font-size: 14px;
 			text-align: left;
 		}
-		input[type="text"], input[type="password"]{
+		input[type="text"], input[type="email"], input[type="password"]{
 			width: 94%;
 			height: 45px;
 			line-height: 45px;
 			border: none;
 			padding: 0 3%;
+			font-size: 14px;
 			&:focus, &.active{
 				border: none;
 				box-shadow: none;
+				outline: none;
 			}
 		}
-
 	}
 	p{
 		text-align: center;
@@ -530,5 +536,73 @@ h1{
 				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
 			}
 		}
+	}
+}
+/*-----------rewrite reg style------------*/
+.register{
+	height: 450px;
+	li{
+		span{
+			position: absolute;
+			z-index: 1;
+			right: -355px;
+			opacity: 0;
+			transition: all 1s ease 5ms;
+			display: inline-block;
+			&.error, &.focus{
+				border: none;
+				padding: 0 10px;
+				height: 45px;
+				line-height: 45px;
+				color: #fff;
+				border-radius: 3px;
+				background: rgba(0, 0, 0, .6);
+			}
+			&.error{
+				right: 0;
+				font-size: 12px;
+				opacity: 1;
+			}
+			&.focus{
+				top: 0;
+				opacity: 0;
+				font-size: 0;
+			}
+			&.fade, &.null{
+				right: -355px;
+			}
+			ul{
+				background: transparent;
+				margin-bottom: 0; 
+			}
+		}
+	}
+	.login-btn{
+		span{
+			width: 100%;
+			height: 40px;
+			line-height: 40px;
+			display: inline-block;
+			outline: none;
+		}
+	}
+}
+#vcode{
+	font-size: 12px;
+	.vcodeImg{
+		padding-left: 30px;
+	}
+	.captcha_reload{
+		margin-left: 5px;
+	}
+}	
+.subscribe{
+	padding: 10px;
+	font-size: 12px;
+	&>div{
+		width: 100%;
+		text-align: left;
+		height: 22px;
+		line-height: 22px;
 	}
 }
