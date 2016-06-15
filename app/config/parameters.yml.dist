@@ -50,17 +50,18 @@ parameters:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
 #配置第三方邮件服务
-    mail:
-        sendcloud:
-            url: http://api.sendcloud.net/apiv2/mail/send
-            trigger_mode: #触发邮件（用户注册事件）
-              - api_user: ch01.91wenwen.net
-                api_key: %mail.sendcloud.api_key%
-                from: 91问问调查网<support@ch01.91wenwen.com>
-            batch_mode: #批量邮件（有新功能上线，有新到问卷等通知事件） 参考http://sendcloud.sohu.com/doc/faq/#4-
-              - api_user: ch02.91wenwen.net
-                api_key: %mail.sendcloud.api_key%
-                from: 91问问调查网<support@ch02.91wenwen.com>
-              - api_user: ch03.91wenwen.net
-                api_key: %mail.sendcloud.api_key%
-                from: 91问问调查网<support@ch03.91wenwen.com>
+    mailer:
+            sendcloud:
+                url: http://api.sendcloud.net/apiv2/mail/send
+                channel1:
+                    api_user: ch01_91wenwen_net
+                    api_key: %mailer.sendcloud.api_key%
+                    from: 91问问调查网<support@mail91wenwen.net>
+                channel2:
+                    api_user: ch02_91wenwen_net
+                    api_key: %mailer.sendcloud.api_key%
+                    from: 91问问调查网<support@mail91wenwen.com>
+                channel3:
+                    api_user: ch03_91wenwen_net
+                    api_key: %mailer.sendcloud.api_key%
+                    from: 91问问调查网<support@mail91wenwen.cn>
