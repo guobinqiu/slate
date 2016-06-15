@@ -47,15 +47,6 @@ class SurveyControllerTest extends WebTestCase
         }
     }
 
-    public function testGetSOPSurveyList()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $surveyListService = $container->get('app.survey_list_service');
-        $sop_api_url = 'https://partners.surveyon.com.dev.researchpanelasia.com/api/v1_1/surveys/js?app_id=27&app_mid=1&sig=f0620765bb314ff9903f95aae5b7179030503886d82d1a2d2b717ecb5f5c4d52&time=1465975276&sop_callback=surveylistCallback';
-        echo $surveyListService->getSOPSurveyList($sop_api_url);
-    }
-
     public function testIndexPageWithoutLogin()
     {
         $client = static::createClient();
