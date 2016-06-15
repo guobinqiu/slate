@@ -40,8 +40,8 @@ class SurveyListService
      * @param $dummy_mode
      * @return string json格式字符串
      */
-    public function getSOPSurveyList($sop_api_url) {
-        if($dummy_mode){
+    public function getSurveyListJson($sop_api_url, $dummy_mode = false) {
+        if ($dummy_mode) {
             return $this->getDummySurveyListJson();
         }
         //$this->httpClient->setDefaultOption('verify', false);
@@ -50,9 +50,12 @@ class SurveyListService
         return $this->extractRealpart($response->getBody());
     }
 
-    public function getDummySurveyListJson () {
-
-        //构造一个仿真数据
+    /**
+     * 模拟数据
+     *
+     * @return string
+     */
+    private function getDummySurveyListJson() {
         $dummy_res = '{ "meta" : {"code": "200" },
              "data": {
                  "profiling": [
@@ -178,7 +181,7 @@ class SurveyListService
         }
 
         //处理sop
-        $result = $this->getSurveyListJson($arr['sop_api_url'], $arr['dummy_mode']), true);
+        $result = $this->getSurveyListJson($arr['sop_api_url'], $arr['dummy_mode']);
         $sop = json_decode($result, true);
 
         if ($sop['meta']['code'] != 200) {
