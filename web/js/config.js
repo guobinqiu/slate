@@ -13,7 +13,7 @@ require.config({
         'jcrop': 'plugin/Jcrop/jquery.Jcrop',
         'layDate': 'plugin/layDate/layDate',
         'iframeResizer': 'plugin/iframeResizer/iframeResizer.min',
-        'router': '../bundles/fosjsrouting/js/router',
+        'router': '/bundles/fosjsrouting/js/router',
         'routing':'fos_js_routes',
         'common':'common/common',
         'slider': 'common/slider',
@@ -32,7 +32,8 @@ require.config({
         'googleAnalytics':'common/googleAnalytics',
         'scrollTop':'common/scrollTop',
         'feedbackForm':'common/feedbackForm',
-        'loginForm':'common/loginForm'
+        'loginForm':'common/loginForm', 
+        'landing': 'common/landing'
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
