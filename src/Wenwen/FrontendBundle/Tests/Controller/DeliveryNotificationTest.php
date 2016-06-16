@@ -102,6 +102,11 @@ class DeliveryNotificationTest extends WebTestCase
             'wwcn-'.$ssiData[1]->getId(),
         ));
     }
+
+    public function testUserEdmUnsubscribe() {
+        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail('qracle@126.com');
+        $this->assertCount(1, $userEdmUnsubscribes);
+    }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -124,15 +129,21 @@ class LoadData implements FixtureInterface
         $manager->persist($user);
         $manager->flush();
 
-        $sop_respondent = new \Jili\ApiBundle\Entity\SopRespondent();
-        $sop_respondent->setUserId($user->getId());
-        $manager->persist($sop_respondent);
+        $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $manager->persist($sopRespondent);
         $manager->flush();
 
-        $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
-        $ssi_respondent->setUser($user);
-        $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
-        $manager->persist($ssi_respondent);
+        $ssiRespondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssiRespondent->setUser($user);
+        $ssiRespondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $manager->persist($ssiRespondent);
+        $manager->flush();
+
+        $userEdmUnsubscribe = new \Jili\ApiBundle\Entity\UserEdmUnsubscribe();
+        $userEdmUnsubscribe->setUserId($user->getId());
+        $userEdmUnsubscribe->setCreatedTime(new \DateTime());
+        $manager->persist($userEdmUnsubscribe);
         $manager->flush();
 
         $user = new \Jili\ApiBundle\Entity\User();
@@ -148,15 +159,15 @@ class LoadData implements FixtureInterface
         $manager->persist($user);
         $manager->flush();
 
-        $sop_respondent = new \Jili\ApiBundle\Entity\SopRespondent();
-        $sop_respondent->setUserId($user->getId());
-        $manager->persist($sop_respondent);
+        $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $manager->persist($sopRespondent);
         $manager->flush();
 
-        $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
-        $ssi_respondent->setUser($user);
-        $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
-        $manager->persist($ssi_respondent);
+        $ssiRespondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssiRespondent->setUser($user);
+        $ssiRespondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $manager->persist($ssiRespondent);
         $manager->flush();
     }
 }

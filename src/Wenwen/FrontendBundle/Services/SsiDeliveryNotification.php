@@ -21,7 +21,7 @@ class SsiDeliveryNotification implements DeliveryNotification
         for ($i = 0; $i < count($respondentIds); $i++) {
             $ssiRespondentId = SsiRespondent::parseRespondentId($respondentIds[$i]);
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
-            if ($recipient) {
+            if ($recipient && $this->isSubscribed($recipient)) {
                 $respondent['recipient'] = $recipient;
                 $job = new Job('mail:ssi_delivery_notification', array(
                     '--name1='.$respondent['recipient']['name1'],
@@ -36,6 +36,11 @@ class SsiDeliveryNotification implements DeliveryNotification
                 $this->em->clear();
             }
         }
+    }
+
+    private function isSubscribed($recipient) {
+        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+        return count($userEdmUnsubscribes) == 0;
     }
 
     private function getChannel($i) {
