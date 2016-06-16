@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use VendorIntegration\SSI\PC1\Request as SsiRequest;
 use VendorIntegration\SSI\PC1\RequestValidator as SsiRequestValidator;
 use VendorIntegration\SSI\PC1\RequestHandler as SsiRequestHandler;
-use Wenwen\WenwenFrontBundle\Services\SsiDeliveryNotification;
+use Wenwen\FrontendBundle\Services\SsiDeliveryNotification;
 
 class SsiApiController extends Controller
 {
