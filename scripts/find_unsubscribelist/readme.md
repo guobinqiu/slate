@@ -1,3 +1,4 @@
+- find_unsubscribelist.php
 Input file
 1. sended.csv
   Record all the information of sended emails with email_address.
@@ -15,3 +16,7 @@ Output file
   col1: email_address
   col2: status
 
+- update_unsubscribelist.php
+Input file
+1. unsubscribe.csv
+   output of find_unsubscribelist.php
