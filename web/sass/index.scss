@@ -33,14 +33,17 @@ h1{
 			h2{
 				top: 25%;
 				opacity: 1;
+				visibility: visible;
 			}
 			.btns{
 				top: 45%;
 				opacity: 1;
+				visibility: visible;
 			}
 		}
 		.scoredPoints{
 			opacity: 1;
+			visibility: visible;
 			background: url(../img/landingpage/pc.png) no-repeat right top;
 		}
 	}
@@ -59,6 +62,7 @@ h1{
 		width: 100%;
 		text-align: center;
 		opacity: 0;
+		visibility: hidden;
 		transition: all 2s ease 1s;
 	}
 	.btns{
@@ -69,6 +73,7 @@ h1{
 		margin-left: -141px;
 		top: 65%;
 		opacity: 0;
+		visibility: hidden;
 		transition: all 2s ease 1s;
 		a{
 			margin-top: 20px;
@@ -94,6 +99,7 @@ h1{
 		text-align: center;
 		top: 65%;
 		opacity: 0;
+		visibility: hidden;
 		transition: all 2s ease 1s;
 		font-size: 20px;
 	}
@@ -107,6 +113,7 @@ h1{
 	margin-bottom: -65px;
 	top: 26%;
 	opacity: 0;
+	visibility: hidden;
 	transition: all 3s ease 1s;
 	margin-top: 20px;
 	padding-left: 51px;
@@ -147,6 +154,7 @@ h1{
 		width: 103px;
 		height: 103px;
 		opacity: 0;
+		visibility: hidden;
 		display: inline-block;
 		transform: scale(0, 0);
 	}
@@ -163,6 +171,7 @@ h1{
 	}
 	.con{
 		opacity: 0;
+		visibility: hidden;
 		padding-left: 20px;
 		transition: all 2s ease 1s;
 	}
@@ -179,6 +188,7 @@ h1{
 	&.active{
 		.login{
 			opacity: 1;
+			visibility: visible;
 			top: 42%;
 		}
 		.register{
@@ -221,6 +231,7 @@ h1{
 		.briefIntro{
 			top: 50%;
 			opacity: 1;
+			visibility: visible;
 		}
 	}
 }
@@ -238,6 +249,7 @@ h1{
 			h2{
 				top: 12%;
 				opacity: 1;
+				visibility: visible;
 			}
 		} 
 		.scoredPointsItem{
@@ -247,6 +259,7 @@ h1{
 			}
 			.icon{
 				opacity: 1;
+				visibility: visible;
 				background: url(../img/landingpage/icon1.png) no-repeat;
 				transform: scale(1, 1);
 			}
@@ -258,6 +271,7 @@ h1{
 			}
 			.con{
 				opacity: 1;
+				visibility: visible;
 				padding-left: 120px;
 			}
 		}
@@ -267,20 +281,25 @@ h1{
 	color: #828282;
 	background-image: url(../img/landingpage/4.jpg);
 	ul{
-		width: 100%;
-		text-align: left;
-	}
-	li{
 		position: absolute;
 		z-index: 3;
-		margin-top: 5%;
-		margin-right: 15px;
+		top: 30%;
+		width: 1000px;
+		text-align: left;
+		left: 50%;
+		margin-left: -500px;
+	}
+	li{
+		float: left;
+		margin-bottom: 5%;
 		width: 413px;
+		margin-right: 17px;
 		height: 196px;
 		line-height: 22px;
 		padding: 35px 35px 15px;
 		background: url(../img/landingpage/desBg.png) no-repeat;
 		opacity: 0;
+		visibility: hidden;
 		transition: all 1s ease 50ms;
 		cursor: pointer;
 		&:hover{
@@ -288,21 +307,37 @@ h1{
 			transform: scale(1.2, 1.2);
 		}
 		&.item1{
-			left: 0;
-			top: 20%;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 2s ease 1s;
 		}
 		&.item2{
-			right: 0;
-			top: 20%;
+			transition: all 2s ease 2s;
 		}
 		&.item3{
-			left: 0;
-			top: 50%;
+			transition: all 2s ease 3s;
 		}
 		&.item4{
-			right: 0;
-			top: 50%;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 2s ease 4s;
 		}
+		// &.item1{
+		// 	left: 0;
+		// 	top: 20%;
+		// }
+		// &.item2{
+		// 	right: 0;
+		// 	top: 20%;
+		// }
+		// &.item3{
+		// 	left: 0;
+		// 	top: 50%;
+		// }
+		// &.item4{
+		// 	right: 0;
+		// 	top: 50%;
+		// }
 		.personal{
 			margin-top: 65px;
 			color: #fff;
@@ -319,18 +354,19 @@ h1{
 			}
 			li{
 				opacity: 1;
-				&.item1{
-					left: 22%;
-				}
-				&.item2{
-					right: 22%;
-				}
-				&.item3{
-					left: 22%;
-				}
-				&.item4{
-					right: 22%;
-				}
+				visibility: visible;
+				// &.item1{
+				// 	left: 22%;
+				// }
+				// &.item2{
+				// 	right: 22%;
+				// }
+				// &.item3{
+				// 	left: 22%;
+				// }
+				// &.item4{
+				// 	right: 22%;
+				// }
 			}
 		}
 	}
@@ -356,6 +392,7 @@ h1{
 			font-family: "宋体";
 			top: 40%;
 			opacity: 1;
+			visibility: visible;
 		}
 	}
 }
@@ -391,6 +428,7 @@ h1{
 	bottom: 0;
 	width: 100%;
 	height: 100%;
+	background: #888;
 	background: rgba(0, 0, 0, .8);
 	display: none;
 }
@@ -400,14 +438,17 @@ h1{
 	margin-left: -203px;
 	z-index: 2000;
 	opacity: 0;
+	visibility: hidden;
 	transition: all 1s ease 50ms;
 	&.active{
 		top: 35%;
 		opacity: 1;
+		visibility: visible;
 	}
 	&.unActive{
 		top: 0;
 		opacity: 0;
+		visibility: hidden;
 	}
 }
 .btn{
@@ -421,11 +462,13 @@ h1{
 	height: 35px;
 	line-height: 35px;
 	color: #fff;
+	background: #333;
 	background: rgba(0, 0, 0, .3);
 	border-radius: 3px;
 	@include dib();
 	&:hover{
 		color: $orange-color;
+		background: #fff;
 		background: rgba(255, 255, 255, 1);
 	}
 }
@@ -439,6 +482,7 @@ h1{
 	top: 55%;
 	margin-left: -142px;
 	opacity: 0;
+	visibility: hidden;
 	transition: all 2s ease 1s;
 	.login-btn{
 		margin-top: 15px;
@@ -462,9 +506,11 @@ h1{
 		line-height: 0px;
 		color: #fff;
 		font-size: 14px;
+		background: #666;
 		background: rgba(0, 0, 0, .6);
 		border-radius: 3px;
 		opacity: 0;
+		visibility: hidden;
 		transition: all 1s ease 50ms;
 		&.active{
 			margin-top: 15px;
@@ -472,6 +518,7 @@ h1{
 			height: auto;
 			line-height: 22px;
 			opacity: 1;
+			visibility: visible;
 		}
 	}
 	ul{
@@ -526,14 +573,18 @@ h1{
 		a{
 			width: 100px;
 			color: #fff;
+			background: #635b5b url(../img/home/sinaUnact.png) no-repeat 24px 12px;
 			background: rgba(255, 255, 255, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
 			&.qq-login{
+				background: #635b5b url(../img/home/qqUnact.png) no-repeat 24px 10px;
 				background: rgba(255, 255, 255, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
 				&:hover{
+					background: #635b5b url(../img/home/qq.png) no-repeat 24px 10px; 
 					background: rgba(255, 255, 255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
 				}
 			}
 			&:hover{
+				background: #635b5b url(../img/home/sina.png) no-repeat 24px 12px;
 				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
 			}
 		}
@@ -548,6 +599,7 @@ h1{
 			z-index: 1;
 			right: -355px;
 			opacity: 0;
+			visibility: hidden;
 			transition: all 1s ease 5ms;
 			display: inline-block;
 			&.error, &.focus{
@@ -557,16 +609,19 @@ h1{
 				line-height: 45px;
 				color: #fff;
 				border-radius: 3px;
+				background: #666;
 				background: rgba(0, 0, 0, .6);
 			}
 			&.error{
 				right: 0;
 				font-size: 12px;
 				opacity: 1;
+				visibility: visible;
 			}
 			&.focus{
 				top: 0;
 				opacity: 0;
+				visibility: hidden;
 				font-size: 0;
 			}
 			&.fade, &.null{

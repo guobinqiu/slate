@@ -68,7 +68,7 @@ require(['/js/config.js'],function(){
             }
         });
 
-        // var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
+        var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
         // $emailError.add($pwdError).on('click', function(){
         //     $(this).addClass('fade');
         // });

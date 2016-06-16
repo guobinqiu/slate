@@ -14,6 +14,6 @@ class LandingpageController extends Controller
      */
     public function landingpageAction()
     {
-        return $this->render('WenwenFrontendBundle:Landingpage:index.html.twig');
+        return $this->render('WenwenFrontendBundle:Home:indexStatic.html.twig');
     }
 }
