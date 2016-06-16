@@ -105,6 +105,17 @@ require(['/js/config.js'],function(){
             wbPCon.add(qqPCon).hide().removeClass('active');
         });
 
+        var menu = $('ul.menu');
+        $('.expandBtn').on('click', function(){
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                menu.removeClass('active');    
+            }else{
+                $(this).addClass('active');
+                menu.addClass('active');
+            }
+        });
+
     });
     // require(['jquery'], function($){
     //     var $window = $(window),
