@@ -389,8 +389,7 @@ h1{
 		}
 		.briefIntro{
 			color: #fff;
-			font-family: "宋体";
-			top: 40%;
+			top: 37%;
 			opacity: 1;
 			visibility: visible;
 		}
@@ -400,21 +399,19 @@ h1{
 	position: fixed;
 	z-index: 1000;
 	right: 40px;
-	top: 50%;
+	top: 43%;
 	list-style: none;
 	li{
-		width: 6px;
-	    height: 6px;
-	    border-radius: 50%;
-	    margin: 0 0 10px 2px;
-	    border: 1px solid #fff;
-	    cursor: pointer;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		margin: 0 0 10px 0;
+		border: 3px solid #fff;
+		cursor: pointer;
 	    &.active{
-	    	width: 8px;
-			height: 8px;
-			background: #ff781e;
-			border: 2px solid #fff; 
-			margin-left: 0;
+	    	width: 12px;
+	    	height: 12px;
+	    	background: #fff;
 	    }
 	}
 }
@@ -574,13 +571,13 @@ h1{
 			width: 100px;
 			color: #fff;
 			background: #635b5b url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-			background: rgba(255, 255, 255, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
+			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
 			&.qq-login{
 				background: #635b5b url(../img/home/qqUnact.png) no-repeat 24px 10px;
-				background: rgba(255, 255, 255, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
+				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
 				&:hover{
 					background: #635b5b url(../img/home/qq.png) no-repeat 24px 10px; 
-					background: rgba(255, 255, 255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
+					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
 				}
 			}
 			&:hover{
@@ -671,14 +668,14 @@ h1{
 	bottom: 5%;
 	left:50%;
 	margin-left: -25px;
-	background: #fff url("../img/landingpage/arrow.png") no-repeat center;
+	background: #321e19 url("../img/landingpage/arrow.png") no-repeat center;
 	_background:none;
 	_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../img/landingpage/arrow.png",enabled=true,sizingMethod="crop");
 	border-radius:50%;
 	-moz-border-radius:50%;
 	-webkit-border-radius:50%;
 	-o-border-radius:50%;
-	opacity:.6;
+	opacity:1; 
 	cursor:pointer;
 }
 @keyframes xguide_down{
@@ -696,7 +693,7 @@ h1{
 		-o-transform:scale(1.0);
 		-webkit-transform:scale(1.0);
 		-ms-transform:scale(1.0);
-		opacity:1
+		opacity: .5
 	}
 
 }
@@ -715,7 +712,7 @@ h1{
 		-o-transform:scale(1.0);
 		-ms-transform:scale(1.0);
 		transform:scale(1.0);
-		opacity:1
+		opacity: .5
 	}
 
 }
@@ -734,7 +731,7 @@ h1{
 		-webkit-transform:scale(1.0);
 		-ms-transform:scale(1.0);
 		transform:scale(1.0);
-		opacity:1
+		opacity:.5
 	}
 
 }
@@ -753,7 +750,7 @@ h1{
 		-webkit-transform:scale(1.0);
 		-ms-transform:scale(1.0);
 		transform:scale(1.0);
-		opacity:1
+		opacity:.5
 	}
 
 }
