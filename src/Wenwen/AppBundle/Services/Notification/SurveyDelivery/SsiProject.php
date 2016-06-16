@@ -46,8 +46,10 @@ class SsiProject
 
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
 
-            if ($recipient && $this->isSubscribed($recipient)) {
-                $recipients[] = $recipient;
+            if ($recipient) {
+                if ($this->isSubscribed($recipient)) {
+                    $recipients[] = $recipient;
+                }
             }
         }
 

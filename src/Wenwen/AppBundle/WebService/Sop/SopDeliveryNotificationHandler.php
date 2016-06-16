@@ -61,10 +61,11 @@ class SopDeliveryNotificationHandler
 
             $recipient = $util_class::retrieveValidRecipientData($respondent['app_mid'], $em);
 
-
-            if ($recipient && $this->isSubscribed($recipient)) {
-                $respondent['recipient'] = $recipient;
-                $this->valid_respondents[] = $respondent;
+            if ($recipient) {
+                if ($this->isSubscribed($recipient)) {
+                    $respondent['recipient'] = $recipient;
+                    $this->valid_respondents[] = $respondent;
+                }
             } else {
                 $this->unsubscribed_app_mids[] = $respondent['app_mid'];
             }
