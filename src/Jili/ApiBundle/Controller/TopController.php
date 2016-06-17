@@ -43,6 +43,7 @@ class TopController extends Controller
      */
     public function rankingAction()
     {
+        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         //排行榜 :从文件中读取
         $filename = $this->container->getParameter('file_path_ranking_month');
         $rankingMonth = FileUtil::readCsvContent($filename);
@@ -50,6 +51,7 @@ class TopController extends Controller
         $rankingYear = FileUtil::readCsvContent($filename);
         $arr['rankingMonth'] = $rankingMonth;
         $arr['rankingYear'] = $rankingYear;
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $this->render('JiliApiBundle:Top:ranking.html.twig', $arr);
     }
 
@@ -119,29 +121,6 @@ class TopController extends Controller
         } else {
             return new Response('<!-- already checked in -->');
         }
-    }
-
-    /**
-     * @Route("/advertiseBanner")
-     * @Template
-     */
-    public function advertiseBannerAction()
-    {
-        $cache_fn= $this->container->getParameter('cache_config.api.top_adbanner.key');
-        $cache_duration = $this->container->getParameter('cache_config.api.top_adbanner.duration');
-        $cache_proxy = $this->get('cache.file_handler');
-
-        if($cache_proxy->isValid($cache_fn , $cache_duration) ) {
-            $advertiseBanner= $cache_proxy->get($cache_fn);
-        }  else {
-            $cache_proxy->remove( $cache_fn);
-            //banner,右一
-            $em = $this->getDoctrine()->getManager();
-            $advertiseBanner = $em->getRepository('JiliApiBundle:AdBanner')->getInfoBanner();
-            $cache_proxy->set( $cache_fn, $advertiseBanner);
-        }
-        $arr['advertise_banner'] = $advertiseBanner;
-        return $this->render('JiliApiBundle:Top:adBanner.html.twig', $arr);
     }
 
     /**
