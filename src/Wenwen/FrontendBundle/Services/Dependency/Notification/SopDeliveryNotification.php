@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services\Dependenc\Notification;
+namespace Wenwen\FrontendBundle\Services\Dependency\Notification;
 
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
