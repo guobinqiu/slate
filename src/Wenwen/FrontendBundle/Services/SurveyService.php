@@ -185,7 +185,20 @@ class SurveyService
                      "cpi": "0.00",
                      "ir": "80",
                      "loi": "10",
-                     "title": "Fulcrum Dummy Survey",
+                     "title": "Fulcrum Dummy Survey 4",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "10"}
+                     }
+                   },
+                   {
+                     "survey_id": "3708",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "10",
+                     "title": "Fulcrum Dummy Survey 3708",
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
                      "extra_info": {
@@ -341,6 +354,11 @@ class SurveyService
         $fulcrum_researches = $sop['data']['fulcrum_research'];
         if (count($fulcrum_researches) > 0) {
             foreach ($fulcrum_researches as $fulcrum_research) {
+                // 2016/06/17 临时阻止fulcrum用来招募用户注册别人网站的问卷
+                if($fulcrum_research['survey_id'] === '3708'){
+                    $this->logger->debug(__METHOD__ . ' - block 3708 - ');
+                    continue;
+                }
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                 array_unshift($html_survey_list, $html);
             }
