@@ -1121,7 +1121,7 @@ class UserController extends Controller implements CampaignTrackingController
             }
             return $response;
         }
-        return $this->render('WenwenFrontendBundle:Home:index.html.twig',array('code'=>$code,'email'=>$email));
+        return $this->render('WenwenFrontendBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
     }
 
     /**
