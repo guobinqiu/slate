@@ -49,19 +49,20 @@ parameters:
         sop_point_type:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
+
 #配置第三方邮件服务
     mailer:
-            sendcloud:
-                url: http://api.sendcloud.net/apiv2/mail/send
-                channel1:
-                    api_user: ch01_91wenwen_net
-                    api_key: %mailer.sendcloud.api_key%
-                    from: 91问问调查网<support@mail91wenwen.net>
-                channel2:
-                    api_user: ch02_91wenwen_net
-                    api_key: %mailer.sendcloud.api_key%
-                    from: 91问问调查网<support@mail91wenwen.com>
-                channel3:
-                    api_user: ch03_91wenwen_net
-                    api_key: %mailer.sendcloud.api_key%
-                    from: 91问问调查网<support@mail91wenwen.cn>
+        sendcloud:
+            url: http://220.181.2.50/apiv2/mail/send #http://api.sendcloud.net/apiv2/mail/send
+            channel1:
+                api_user: ch01_91wenwen_net
+                api_key: %mailer.sendcloud.api_key%
+                from: 91问问调查网<support@mail91wenwen.net>
+            channel2:
+                api_user: ch02_91wenwen_net
+                api_key: %mailer.sendcloud.api_key%
+                from: 91问问调查网<support@mail91wenwen.com>
+            channel3:
+                api_user: ch03_91wenwen_net
+                api_key: %mailer.sendcloud.api_key%
+                from: 91问问调查网<support@mail91wenwen.cn>

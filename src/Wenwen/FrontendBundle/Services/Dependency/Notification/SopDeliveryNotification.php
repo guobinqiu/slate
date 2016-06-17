@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services;
+namespace Wenwen\FrontendBundle\Services\Dependenc\Notification;
 
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
@@ -18,10 +18,12 @@ class SopDeliveryNotification implements DeliveryNotification
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $recipient = $this->getRecipient($respondent);
-            if ($recipient && $this->isSubscribed($recipient)) {
-                $respondent['recipient'] = $recipient;
-                $channel = $this->getChannel($i);
-                $this->runJob($respondent, $channel);
+            if ($recipient) {
+                if ($this->isSubscribed($recipient)) {
+                    $respondent['recipient'] = $recipient;
+                    $channel = $this->getChannel($i);
+                    $this->runJob($respondent, $channel);
+                }
             } else {
                 $unsubscribed_app_mids[] = $respondent['app_mid'];
             }

@@ -6,8 +6,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Services\IMailer;
-use Wenwen\FrontendBundle\Services\SendCloudMailer;
+use Wenwen\FrontendBundle\Services\Dependency\Mailer\IMailer;
+use Wenwen\FrontendBundle\Services\Dependency\Mailer\SendCloudMailer;
 
 class SsiDeliveryNotificationMailCommand extends AbstractMailCommand {
 

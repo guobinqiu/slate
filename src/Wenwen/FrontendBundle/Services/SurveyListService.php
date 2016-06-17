@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Wenwen\FrontendBundle\Services\Dependency\HttpClient;
 
 class SurveyListService
 {

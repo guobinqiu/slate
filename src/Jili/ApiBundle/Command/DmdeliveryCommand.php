@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
-use Wenwen\FrontendBundle\Services\SendCloudMailer;
+use Wenwen\FrontendBundle\Services\Dependency\Mailer\SendCloudMailer;
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
@@ -125,6 +125,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $user->setPoints($this->getContainer()->getParameter('init'));
         $em->persist($user);
         $em->flush();
+        $em->clear();
         $params = array('userid'=>$userId,'point'=>'-'.$oldPoint,'type'=>$this->getContainer()->getParameter('init_fifteen'));
         $this->getContainer()->get('general_api.point_history')->get($params);
     }
@@ -136,6 +137,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $sendPoint->setSendType($type);
         $em->persist($sendPoint);
         $em->flush();
+        $em->clear();
     }
     
     private function setALertEmailBody($batch_name, $message, $successflag = false){

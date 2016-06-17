@@ -13,9 +13,9 @@ use Wenwen\AppBundle\Utility\SopValidator;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
-use Wenwen\FrontendBundle\Services\DeliveryNotification;
-use Wenwen\FrontendBundle\Services\FulcrumDeliveryNotification;
-use Wenwen\FrontendBundle\Services\SopDeliveryNotification;
+use Wenwen\FrontendBundle\Services\Dependency\Notification\DeliveryNotification;
+use Wenwen\FrontendBundle\Services\Dependency\Notification\FulcrumDeliveryNotification;
+use Wenwen\FrontendBundle\Services\Dependency\Notification\SopDeliveryNotification;
 
 /**
  * @Route("/",requirements={"_scheme"="https"})

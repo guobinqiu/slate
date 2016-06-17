@@ -6,8 +6,8 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Wenwen\FrontendBundle\Services\SopDeliveryNotification;
-use Wenwen\FrontendBundle\Services\SsiDeliveryNotification;
+use Wenwen\FrontendBundle\Services\Dependency\Notification\SopDeliveryNotification;
+use Wenwen\FrontendBundle\Services\Dependency\Notification\SsiDeliveryNotification;
 
 class DeliveryNotificationTest extends WebTestCase
 {

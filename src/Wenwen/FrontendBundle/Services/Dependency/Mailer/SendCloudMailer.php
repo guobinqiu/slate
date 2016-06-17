@@ -1,8 +1,9 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services;
+namespace Wenwen\FrontendBundle\Services\Dependency\Mailer;
 
 use Guzzle\Http\Exception\RequestException;
+use Wenwen\FrontendBundle\Services\Dependency\HttpClient;
 
 class SendCloudMailer implements IMailer {
     /**
@@ -62,6 +63,9 @@ class SendCloudMailer implements IMailer {
         return json_decode($response->getBody(), true);
     }
 
+    /**
+     * @return string 邮件服务商名
+     */
     public function getName()
     {
         return 'sendcloud';

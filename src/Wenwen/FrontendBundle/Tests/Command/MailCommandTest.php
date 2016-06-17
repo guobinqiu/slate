@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Command\SsiDeliveryNotificationMailCommand;
 
 class MailCommandTest extends WebTestCase {
 
-    public function setUp(){
+    public function setUp() {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
     }

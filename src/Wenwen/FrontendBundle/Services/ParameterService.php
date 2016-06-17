@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * 读取app/config/parameters.yml文件的配置信息
  */
-final class ParameterReader
+final class ParameterService
 {
     private $container;
 

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Services\IMailer;
+use Wenwen\FrontendBundle\Services\Dependency\Mailer\IMailer;
 
 abstract class AbstractMailCommand extends ContainerAwareCommand {
 
@@ -32,7 +32,7 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
     }
 
     protected function stringify($result) {
-        $result['who'] = $this->getName();
+        $result['command'] = $this->getName();
         return json_encode($result);
     }
 

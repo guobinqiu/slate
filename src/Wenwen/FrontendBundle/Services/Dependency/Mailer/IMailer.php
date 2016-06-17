@@ -1,11 +1,11 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services;
+namespace Wenwen\FrontendBundle\Services\Dependency\Mailer;
 
 interface IMailer {
 
     /**
-     * 发送.
+     * Send mailing.
      *
      * @param $to 收件人
      * @param $subject 邮件主题
