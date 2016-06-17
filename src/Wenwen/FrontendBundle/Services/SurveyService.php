@@ -3,17 +3,86 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Guzzle\Http\Exception\CurlException;
+use SOPx\Auth\V1_1\Util;
+use VendorIntegration\SSI\PC1\ProjectSurvey;
+use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
-class SurveyService extends BaseService
+/**
+* 访问外部服务器，获取用户可回答的问卷信息
+*/
+class SurveyService
 {
+    private $logger;
+
+    private $em;
+
+    private $parameter;
+
     private $http_client;
 
     private $templating;
 
-    public function __construct($http_client, $templating)
-    {
+    // 这个service会访问外部的服务器
+    // 开发和测试的过程中没有必要访问服务器
+    // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
+    private $dummy = false;
+
+    public function __construct($logger, $em, $parameter, $http_client, $templating){
+        $this->logger = $logger;
+        $this->em = $em;
+        $this->parameter = $parameter;
         $this->http_client = $http_client;
         $this->templating = $templating;
+    } 
+
+    public function setDummy($dummy){
+        $this->dummy = $dummy;
+    }
+
+    /**
+    * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
+    * @param $user_id 91wenwen的用户ID
+    * @return $app_mid SOP的APP_MID
+    */
+    private function getSOPRespondentID($user_id){
+        $this->logger->debug(__METHOD__ . ' - START - ');
+        // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
+        $sop_respondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
+        $app_mid = $sop_respondent->getId();
+        $this->logger->debug(__METHOD__ . ' - END - sop_respondent_id=' . $app_mid);
+        return $app_mid;
+    }
+
+    /**
+    * 生成该用户用来访问SOP survey list的url
+    * @param $app_mid
+    * @return $sop_api_url
+    */
+    private function getSOPAPIUrl($app_mid){
+        $this->logger->debug(__METHOD__ . ' - START - ');
+
+        $sop_config = $this->parameter->getParameter('sop');
+        $app_id = $sop_config['auth']['app_id'];
+        $host = $sop_config['host'];
+        $app_secret = $sop_config['auth']['app_secret'];
+   
+        $sop_params = array (
+            'app_id' => $app_id,
+            'app_mid' => $app_mid,
+            'time' => time()
+        );
+        $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
+
+        $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
+            'app_id' => $sop_params['app_id'],
+            'app_mid' => $sop_params['app_mid'],
+            'sig' => $sop_params['sig'],
+            'time' => $sop_params['time'],
+            'sop_callback' => 'surveylistCallback',
+        ));
+
+        $this->logger->debug(__METHOD__ . ' - END - ');
+        return $sop_api_url;
     }
 
 //        数据结构
@@ -31,27 +100,37 @@ class SurveyService extends BaseService
 //        回答了user_agreement[fulcrum]后fulcrum_research才会有数据
 //        回答了user_agreement[cint]后cint_research才有数据
     /**
-     * @param $sop_api_url
-     * @param $dummy_mode
+     * @param $user_id
      * @return string json
      * @throws 抛网络连接异常
      */
-    public function getSurveyListJson($sop_api_url, $dummy_mode = false) {
-        if($dummy_mode){
+    private function getSOPSurveyListJson($user_id) {
+        $this->logger->debug(__METHOD__ . ' - START - ');
+        if($this->dummy){
+            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
             return $this->getDummySurveyListJson();
         }
+
+        // 取得app_mid
+        $app_mid = $this->getSOPRespondentID($user_id);
+
+        // 生成sop_api_url
+        $sop_api_url = $this->getSOPAPIUrl($app_mid);
 
         try {
             $request = $this->http_client->get($sop_api_url);
             $response = $request->send();
+            $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
             return $this->extractRealpart($response->getBody());
         } catch(CurlException $e) {
             throw $e;
         }
-
     }
 
-    public function getDummySurveyListJson () {
+    /**
+    * @return json $dummy_res 模拟一个SOP survey list返回的数据
+    */
+    private function getDummySurveyListJson () {
 
        //构造一个仿真数据
           $dummy_res = '{ "meta" : {"code": "200" },
@@ -106,7 +185,20 @@ class SurveyService extends BaseService
                      "cpi": "0.00",
                      "ir": "80",
                      "loi": "10",
-                     "title": "Fulcrum Dummy Survey",
+                     "title": "Fulcrum Dummy Survey 4",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "10"}
+                     }
+                   },
+                   {
+                     "survey_id": "3708",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "10",
+                     "title": "Fulcrum Dummy Survey 3708",
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
                      "extra_info": {
@@ -161,26 +253,99 @@ class SurveyService extends BaseService
     }
 
     /**
-     * @param $arr 一堆乱七八糟的参数，先全部仍进来再按需拿取吧
+    * 返回该用户的可回答问卷数据
+    * @param string $user_id 用户id
+    * @return array $ssi_res
+    */
+    private function getSSiSurveyList($user_id) {
+        $this->logger->debug(__METHOD__ . ' - START - ');
+        if($this->dummy){
+            return $this->getDummySSiSurveyList();
+        }
+
+        $ssi_res = array ();
+        $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
+        // SSI respondent
+        $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+        
+        if ($ssi_respondent) {
+            // ssi_respondent信息不存在 根据用户的回答情况来决定用户是否需要回答prescreen
+            $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
+            if ($ssi_respondent->isActive()) {
+                $dbh = $this->em->getConnection();
+                $ssi_res['ssi_surveys'] = SsiProjectRespondentQuery::retrieveSurveysForRespondent($dbh, $ssi_respondent->getId());
+            }
+        } else {
+            // ssi_respondent信息不存在，要求用户回答 prescreen
+            $ssi_res['needPrescreening'] = true;
+        }
+    
+        foreach($ssi_res['ssi_surveys'] as $key => $value){
+            $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
+        }
+        $this->logger->debug(__METHOD__ . ' - END - ');
+        return $ssi_res;
+    }
+
+    /**
+    * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
+    * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
+    * @return array $ssi_res
+    */
+    private function getDummySSiSurveyList(){
+        $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
+        // 造一个假的ssi project survey数据
+        // *这里需要注意* 2016/06/17
+        // 由于这版修改的时候对于ssi的整体调用设计还不是很清楚
+        // 这里准备的dummy数据仅仅保证的survey list中ssi的cover page正常显示
+        // 但是对应的实际问卷的页面显示会不正常，需要在数据库中准备相应的数据才能正常显示
+        // 理想中，假数据的准备不应该在这里做，应该在ssi的模块中做
+        // 将来ssi的对接考虑重新做，到时候再整体调整
+        $ssi_res = array ();
+        $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
+        $ssi_res['needPrescreening'] = true;
+        $item = [];
+        $item['id'] = '555';
+        $item['ssi_project_id'] = '555';
+        $item['ssi_respondent_id'] = '555';
+        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
+        $item['answer_status'] = '0';
+        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
+        $ssi_surveys = [];
+        $ssi_surveys[] = new ProjectSurvey($item);
+        $ssi_res['ssi_surveys'] = $ssi_surveys;
+        $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
+        return $ssi_res;
+    }
+
+    /**
+     * @param $user_id 用户id
+     * @param $limit 返回的数据个数 0:全部返回
      * @param int $limit 0全部，>0截取到指定长度
      * @return array
      */
-    public function getOrderedHtmlServeyList($arr, $limit = 0) {
+    public function getOrderedHtmlSurveyList($user_id, $limit = 0) {
+        // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
-        //处理ssi ssi要放在列表的最下面所以代码要放在最上面执行
-        $ssi_respondent = $arr['ssi_respondent'];
-        if ($ssi_respondent == null || $ssi_respondent->needPrescreening()) {
-            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $arr);
+        // 获取ssi的问卷数据
+        $ssi_res = $this->getSSiSurveyList($user_id);
+
+        if ($ssi_res['needPrescreening']){
+            // 需要用户去完成 prescreen 
+            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
-        } elseif ($ssi_respondent->isActive() && $arr['ssi_surveys']) {
-            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $arr);
+        } 
+        if($ssi_res['ssi_surveys']){
+            // 该用户有可回答的商业问卷，显示ssi的coverpage
+            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
         }
 
-        //处理sop
-        $sop = json_decode($this->getSurveyListJson($arr['sop_api_url'], $arr['dummy_mode']), true);
+        // 获取sop的数据
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
 
+        // 处理sop的数据
         if ($sop['meta']['code'] != 200) {
             $this->logger->error($sop['meta']['message']);
             return $html_survey_list;
@@ -189,6 +354,11 @@ class SurveyService extends BaseService
         $fulcrum_researches = $sop['data']['fulcrum_research'];
         if (count($fulcrum_researches) > 0) {
             foreach ($fulcrum_researches as $fulcrum_research) {
+                // 2016/06/17 临时阻止fulcrum用来招募用户注册别人网站的问卷
+                if($fulcrum_research['survey_id'] === '3708'){
+                    $this->logger->debug(__METHOD__ . ' - block 3708 - ');
+                    continue;
+                }
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                 array_unshift($html_survey_list, $html);
             }

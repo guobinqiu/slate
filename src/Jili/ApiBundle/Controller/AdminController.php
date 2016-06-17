@@ -70,6 +70,8 @@ use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\ApiBundle\Utility\String;
 
+use Jili\ApiBundle\Entity\AdCategory;
+
 /**
  * @Route( requirements={"_scheme" = "https"})
  */
@@ -1383,7 +1385,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $po = SequenseEntityClassFactory :: createInstance('PointHistory', $user_id);
             $po->setUserId($user_id);
             $po->setPointChangeNum('-'.$points);
-            $po->setReason($this->container->getParameter('point_type.exchange.alipay'));
+            $po->setReason(AdCategory::ID_ALIPAY);
 
             // Prepare the data for sendMs
             $title = $this->container->getParameter('exchange_finish_alipay_tilte');
@@ -1431,7 +1433,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $points_exchange->setStatus('2');
             $points_exchange->setFinishDate(date_create($finish_time));
 
-            // Prepare the data to create a record in point_history0x
+            // Return the point for exchange back to user
             $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
             $user->setPoints(intval($user->getPoints() + $points));
 
