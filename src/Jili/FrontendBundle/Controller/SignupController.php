@@ -43,6 +43,8 @@ class SignupController extends Controller
         // 5. Login this user 
         $rtn = $this->loginUser($user);
 
+        $user_id = $user->getId();
+
         // 6. Get sop's profiling survey infos
         $sop_profiling_info = $this->getSOPProfilingSurveyInfo($user_id);
 
