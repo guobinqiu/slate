@@ -5,18 +5,20 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="baseService" class="Wenwen\FrontendBundle\Services\BaseService">
-            <call method="setEntityManager">
-                <argument type="service" id="doctrine.orm.entity_manager" />
-            </call>
-            <call method="setLogger">
-                <argument type="service" id="logger" />
-            </call>
+        <service 
+            id="parameterService" 
+            class="Wenwen\FrontendBundle\Services\ParameterService">
+            <argument type="service" id="service_container" />
         </service>
 
         <service id="guzzleClient" class="%guzzle.client.class%" />
 
-        <service id="surveyService" class="Wenwen\FrontendBundle\Services\SurveyService">
+        <service 
+            id="surveyService" 
+            class="Wenwen\FrontendBundle\Services\SurveyService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="parameterService" />
             <argument type="service" id="guzzleClient" />
             <argument type="service" id="templating" />
         </service>
