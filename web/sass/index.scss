@@ -367,47 +367,30 @@ ul.menu{
 #section3{
 	color: #828282;
 	background-image: url(../img/landingpage/4.jpg);
-	ul{
+	.item{
 		position: absolute;
 		z-index: 3;
-		top: 30%;
-		width: 1000px;
-		text-align: left;
+		top: 75%;
 		left: 50%;
 		margin-left: -500px;
-	}
-	li{
-		float: left;
-		margin-bottom: 5%;
+		padding: 35px 35px 15px;
 		width: 413px;
-		margin-right: 17px;
+		text-align: left;
 		height: 196px;
 		line-height: 22px;
-		padding: 35px 35px 15px;
 		background: url(../img/landingpage/desBg.png) no-repeat;
 		opacity: 0;
 		visibility: hidden;
 		transition: all 1s ease 50ms;
 		cursor: pointer;
+		&.item3, &.item4{
+			right: 50%;
+			margin-left: 0;
+			margin-right: -500px;
+		}
 		&:hover{
 			z-index: 5;
 			transform: scale(1.2, 1.2);
-		}
-		&.item1{
-			opacity: 0;
-			visibility: hidden;
-			transition: all 2s ease 1s;
-		}
-		&.item2{
-			transition: all 2s ease 2s;
-		}
-		&.item3{
-			transition: all 2s ease 3s;
-		}
-		&.item4{
-			opacity: 0;
-			visibility: hidden;
-			transition: all 2s ease 4s;
 		}
 		.personal{
 			margin-top: 65px;
@@ -418,14 +401,40 @@ ul.menu{
 			}
 		}
 	}
+	.item1{
+		top: 45%;
+		transition: all 2s ease 1s;
+	}
+	.item2{
+		transition: all 2s ease 3s;
+	}
+	.item3{
+		top: 45%;
+		transition: all 2s ease 2s;
+	}
+	.item4{
+		transition: all 2s ease 4s;
+	}
 	&.active{
 		.sectionCon{
-			li{
+			h2{
+				top: 10%;
+			}
+			.item{
 				opacity: 1;
 				visibility: visible;
 			}
-			h2{
-				top: 10%;
+			.item1{
+				top: 30%;
+			}
+			.item2{
+				top: 60%;
+			}
+			.item3{
+				top: 30%;
+			}
+			.item4{
+				top: 60%;
 			}
 		}
 	}

@@ -24,7 +24,6 @@ require(['/js/config.js'],function(){
             type: 'email'
         };
         var tips = $('.tips');
-        // new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
         tips.removeClass('active');
         var lis = $('.login-con li'), inputs = lis.find('input'), labels = lis.find('label');
         inputs.each(function(i, e){
@@ -36,11 +35,7 @@ require(['/js/config.js'],function(){
             var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
             $(this).on('focus keydown', function(){
                 labels.eq(i).hide();
-                if(loginform.run(true)){
-                    tips.removeClass('active');
-                }else{
-                    tips.addClass('active');
-                }
+                tips.removeClass('active');
             });
             $(this).on('blur keyup', function(){
                 if(!$(this).val()){
