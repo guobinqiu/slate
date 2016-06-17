@@ -104,7 +104,7 @@ class SurveyService
      * @return string json
      * @throws 抛网络连接异常
      */
-    private function getSurveyListJson($user_id) {
+    private function getSOPSurveyListJson($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
             $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
@@ -282,6 +282,12 @@ class SurveyService
     private function getDummySSiSurveyList(){
         $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
         // 造一个假的ssi project survey数据
+        // *这里需要注意* 2016/06/17
+        // 由于这版修改的时候对于ssi的整体调用设计还不是很清楚
+        // 这里准备的dummy数据仅仅保证的survey list中ssi的cover page正常显示
+        // 但是对应的实际问卷的页面显示会不正常，需要在数据库中准备相应的数据才能正常显示
+        // 理想中，假数据的准备不应该在这里做，应该在ssi的模块中做
+        // 将来ssi的对接考虑重新做，到时候再整体调整
         $ssi_res = array ();
         $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
         $ssi_res['needPrescreening'] = true;
@@ -305,7 +311,7 @@ class SurveyService
      * @param int $limit 0全部，>0截取到指定长度
      * @return array
      */
-    public function getOrderedHtmlServeyList($user_id, $limit = 0) {
+    public function getOrderedHtmlSurveyList($user_id, $limit = 0) {
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
@@ -324,7 +330,7 @@ class SurveyService
         }
 
         // 获取sop的数据
-        $sop = json_decode($this->getSurveyListJson($user_id), true);
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
 
         // 处理sop的数据
         if ($sop['meta']['code'] != 200) {

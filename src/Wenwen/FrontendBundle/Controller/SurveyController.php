@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SOPx\Auth\V1_1\Util;
 
 
 /**
@@ -32,7 +31,7 @@ class SurveyController extends Controller
                 // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
                 $surveyService->setDummy(true);
             }
-            $html_survey_list = $surveyService->getOrderedHtmlServeyList($user_id);
+            $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
         } catch (\Exception $e) {
             //echo $e->getMessage();
             $this->container->get('logger')->error($e->getMessage());
@@ -60,7 +59,7 @@ class SurveyController extends Controller
                 // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
                 $surveyService->setDummy(true);
             }
-            $html_survey_list = $surveyService->getOrderedHtmlServeyList($user_id, 2); //第2个参数指定显示多少个，默认是全部
+            $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, 2); //第2个参数指定显示多少个，默认是全部
         } catch (\Exception $e) {
             //echo $e->getMessage();
             $this->container->get('logger')->error($e->getMessage());
