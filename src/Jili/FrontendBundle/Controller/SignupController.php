@@ -11,7 +11,6 @@ use JMS\JobQueueBundle\Entity\Job;
 
 class SignupController extends Controller 
 {
-
     /**
      * @Route("/confirmRegister/register_key/{register_key}", name="_signup_confirm_register",requirements={"_scheme"="https"})
      * @Route("/signup/confirmRegister/register_key/{register_key}", name="_signup_confirm_register_2",requirements={"_scheme"="https"})
@@ -19,20 +18,23 @@ class SignupController extends Controller
      */
     public function confirmRegisterAction($register_key )
     {
+        $this->container->get('logger')->debug(__METHOD__ . ' - START - register_key=' . $register_key);
         // 1. Validation
         $passwordToken = $this->validateRegisterKey($register_key);
         if ( !$passwordToken ){
+            $this->container->get('logger')->debug(__METHOD__ . ' - passwordToken is not setted - ');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
 
         // 2. Update register and user information
         $user = $this->updateRegisterInformations($passwordToken);
         if ( !$user ){
+            $this->container->get('logger')->debug(__METHOD__ . ' - user info update failed - ');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
-
+        
         // 3. Send register success email to user 
-        $rtn = $this->sendRegisterCompleteEmail($user);
+        //$rtn = $this->sendRegisterCompleteEmail($user);
         //Todo error handling
 
         // 4. Record the campaign tracking infomation of recruiting to log file
@@ -40,8 +42,12 @@ class SignupController extends Controller
 
         // 5. Login this user 
         $rtn = $this->loginUser($user);
-        
-        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
+
+        // 6. Get sop's profiling survey infos
+        $sop_profiling_info = $this->getSOPProfilingSurveyInfo($user_id);
+
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
+        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig', $sop_profiling_info);
     } 
     
     /**
@@ -49,10 +55,10 @@ class SignupController extends Controller
     * @return object
     */
     private function validateRegisterKey( $register_key){
-        $this->get('logger')->emerg("Start of validateRegisterKey");
+        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $em = $this->getDoctrine()->getManager();
         $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByValidatedToken( $register_key );
-        $this->get('logger')->emerg("End of validateRegisterKey");
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $passwordToken;
     }
 
@@ -167,6 +173,23 @@ class SignupController extends Controller
         $this->get('login.listener')->log($user);
         $this->get('session')->getFlashBag()->clear();
         return true;
+    }
+
+    /**
+    * @param  string $user_id
+    * @return array $sop_profiling_info
+    */ 
+    private function getSOPProfilingSurveyInfo($user_id){
+        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
+        $surveyService = $this->get('surveyService');
+            if( in_array($this->container->get('kernel')->getEnvironment(), array('dev','test'))){
+                // for dummy mode (won't access sop's server at dev or test mode)
+                // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
+                $surveyService->setDummy(true);
+            }
+        $sop_profiling_info = $surveyService->getSOPProfilingSurveyInfo($user_id);
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
+        return $sop_profiling_info;
     }
     
 }

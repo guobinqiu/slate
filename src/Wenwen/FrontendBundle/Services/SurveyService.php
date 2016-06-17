@@ -413,6 +413,30 @@ class SurveyService
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
     }
 
+    /**
+    * 获取指定用户可回答的属性问卷的信息
+    * 获取失败的时候返回一个空array
+    * @param  string $user_id
+    * @return array $sop_profiling_info
+    *               $sop_profiling_info['profiling']['url']   属性问卷的URL
+    *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
+    *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
+    */
+    public function getSOPProfilingSurveyInfo($user_id) {
+        // 获取sop的数据
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
+        $sop_profiling_info = [];
+        // 处理sop的数据
+        if ($sop['meta']['code'] != 200) {
+            $this->logger->error($sop['meta']['message']);
+        } else {
+            $this->logger->debug(__METHOD__ . ' profiling - ' . $sop['data']['profiling'][0]['url'] );
+            $sop_profiling_info['profiling'] = $sop['data']['profiling'][0];
+        }
+        $this->logger->debug(__METHOD__ . ' - END - ');
+        return $sop_profiling_info;
+    }
+
     private function extractRealpart($content) {
         $remove_head = "surveylistCallback(";
         $remove_tail = ");";
