@@ -279,9 +279,11 @@ class SurveyService
             // ssi_respondent信息不存在，要求用户回答 prescreen
             $ssi_res['needPrescreening'] = true;
         }
-    
-        foreach($ssi_res['ssi_surveys'] as $key => $value){
-            $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
+
+        if (isset($ssi_res['ssi_surveys'])) {
+            foreach($ssi_res['ssi_surveys'] as $key => $value){
+                $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
+            }
         }
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $ssi_res;
