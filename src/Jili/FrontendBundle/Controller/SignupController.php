@@ -53,9 +53,9 @@ class SignupController extends Controller
     } 
     
     /**
-    * @param string $register_key
-    * @return object
-    */
+     * @param string $register_key
+     * @return object
+     */
     private function validateRegisterKey( $register_key){
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $em = $this->getDoctrine()->getManager();
@@ -65,9 +65,9 @@ class SignupController extends Controller
     }
 
     /**
-    * @param object $passwordToken
-    * @return object
-    */    
+     * @param object $passwordToken
+     * @return object
+     */
     private function updateRegisterInformations(SetPasswordCode $passwordToken){
         $em = $this->getDoctrine()->getManager();
     
@@ -129,9 +129,9 @@ class SignupController extends Controller
     }
     
     /**
-    * @param object $user
-    * @return boolean
-    */ 
+     * @param object $user
+     * @return boolean
+     */
     private function sendRegisterCompleteEmail(User $user){
         $em = $this->getDoctrine()->getManager();
         $args = array(
@@ -146,9 +146,9 @@ class SignupController extends Controller
     }
     
     /**
-    * @param object $user
-    * @return boolean
-    */ 
+     * @param object $user
+     * @return boolean
+     */
     private function recordRecruitingInformation($user){
         $logger = $this->get('campaign_code.tracking');
         $logger->track( array(
@@ -163,9 +163,9 @@ class SignupController extends Controller
     }
 
     /**
-    * @param object $user
-    * @return boolean
-    */    
+     * @param object $user
+     * @return boolean
+     */
     private function loginUser($user){
         $this->get('login.listener')->initSession($user);
         // The user was insert when regAction
@@ -175,12 +175,12 @@ class SignupController extends Controller
     }
 
     /**
-    * @param  string $user_id
-    * @return array $sop_profiling_info
-    */ 
+     * @param  string $user_id
+     * @return array $sop_profiling_info
+     */
     private function getSOPProfilingSurveyInfo($user_id){
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        $surveyService = $this->get('surveyService');
+        $surveyService = $this->get('app.survey_service');
             if( in_array($this->container->get('kernel')->getEnvironment(), array('dev','test'))){
                 // for dummy mode (won't access sop's server at dev or test mode)
                 // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢

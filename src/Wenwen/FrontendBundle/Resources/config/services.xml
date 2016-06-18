@@ -8,12 +8,12 @@
 
         <service id="app.http_client" class="Wenwen\FrontendBundle\Services\Dependency\HttpClient" />
 
-        <service id="app.survey_list_service" class="Wenwen\FrontendBundle\Services\SurveyListService">
+        <service id="app.survey_service" class="Wenwen\FrontendBundle\Services\SurveyService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
             <argument type="service" id="templating" />
-            <argument type="service" id="logger" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">

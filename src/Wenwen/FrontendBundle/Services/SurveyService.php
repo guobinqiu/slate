@@ -11,8 +11,8 @@ use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 /**
-* 访问外部服务器，获取用户可回答的问卷信息
-*/
+ * 访问外部服务器，获取用户可回答的问卷信息
+ */
 class SurveyService
 {
     private $httpClient;
@@ -44,10 +44,10 @@ class SurveyService
     }
 
     /**
-    * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
-    * @param $user_id 91wenwen的用户ID
-    * @return $app_mid SOP的APP_MID
-    */
+     * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
+     * @param $user_id 91wenwen的用户ID
+     * @return $app_mid SOP的APP_MID
+     */
     private function getSOPRespondentID($user_id){
         $this->logger->debug(__METHOD__ . ' - START - ');
         // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
@@ -58,10 +58,10 @@ class SurveyService
     }
 
     /**
-    * 生成该用户用来访问SOP survey list的url
-    * @param $app_mid
-    * @return $sop_api_url
-    */
+     * 生成该用户用来访问SOP survey list的url
+     * @param $app_mid
+     * @return $sop_api_url
+     */
     private function getSOPAPIUrl($app_mid){
         $this->logger->debug(__METHOD__ . ' - START - ');
 
@@ -132,8 +132,8 @@ class SurveyService
     }
 
     /**
-    * @return json $dummy_res 模拟一个SOP survey list返回的数据
-    */
+     * @return json $dummy_res 模拟一个SOP survey list返回的数据
+     */
     private function getDummySurveyListJson () {
 
        //构造一个仿真数据
@@ -257,10 +257,10 @@ class SurveyService
     }
 
     /**
-    * 返回该用户的可回答问卷数据
-    * @param string $user_id 用户id
-    * @return array $ssi_res
-    */
+     * 返回该用户的可回答问卷数据
+     * @param string $user_id 用户id
+     * @return array $ssi_res
+     */
     private function getSSiSurveyList($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
@@ -292,10 +292,10 @@ class SurveyService
     }
 
     /**
-    * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
-    * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
-    * @return array $ssi_res
-    */
+     * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
+     * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
+     * @return array $ssi_res
+     */
     private function getDummySSiSurveyList(){
         $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
         // 造一个假的ssi project survey数据
@@ -419,14 +419,14 @@ class SurveyService
     }
 
     /**
-    * 获取指定用户可回答的属性问卷的信息
-    * 获取失败的时候返回一个空array
-    * @param  string $user_id
-    * @return array $sop_profiling_info
-    *               $sop_profiling_info['profiling']['url']   属性问卷的URL
-    *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
-    *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
-    */
+     * 获取指定用户可回答的属性问卷的信息
+     * 获取失败的时候返回一个空array
+     * @param  string $user_id
+     * @return array $sop_profiling_info
+     *               $sop_profiling_info['profiling']['url']   属性问卷的URL
+     *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
+     *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
+     */
     public function getSOPProfilingSurveyInfo($user_id) {
         // 获取sop的数据
         $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
