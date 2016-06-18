@@ -264,10 +264,11 @@ class SurveyService
         }
 
         $ssi_res = array ();
+        $ssi_res['ssi_surveys'] = [];
         $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
         // SSI respondent
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
-        
+
         if ($ssi_respondent) {
             // ssi_respondent信息不存在 根据用户的回答情况来决定用户是否需要回答prescreen
             $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
@@ -280,11 +281,10 @@ class SurveyService
             $ssi_res['needPrescreening'] = true;
         }
 
-        if (isset($ssi_res['ssi_surveys'])) {
-            foreach($ssi_res['ssi_surveys'] as $key => $value){
-                $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
-            }
+        foreach($ssi_res['ssi_surveys'] as $key => $value){
+            $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
         }
+
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $ssi_res;
     }
@@ -338,7 +338,7 @@ class SurveyService
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
         } 
-        if($ssi_res['ssi_surveys']){
+        if(!empty($ssi_res['ssi_surveys'])){
             // 该用户有可回答的商业问卷，显示ssi的coverpage
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
