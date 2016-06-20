@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services\Dependency;
+namespace Wenwen\FrontendBundle\ServiceDependency;
 
 use Guzzle\Http\Client;
 

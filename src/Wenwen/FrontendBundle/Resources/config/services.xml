@@ -6,7 +6,7 @@
 
     <services>
 
-        <service id="app.http_client" class="Wenwen\FrontendBundle\Services\Dependency\HttpClient" />
+        <service id="app.http_client" class="Wenwen\FrontendBundle\ServiceDependency\HttpClient" />
 
         <service id="app.survey_service" class="Wenwen\FrontendBundle\Services\SurveyService">
             <argument type="service" id="logger" />

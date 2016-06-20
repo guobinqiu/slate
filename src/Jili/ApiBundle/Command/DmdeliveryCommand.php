@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
-use Wenwen\FrontendBundle\Services\Dependency\Mailer\SendCloudMailer;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailer;
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {

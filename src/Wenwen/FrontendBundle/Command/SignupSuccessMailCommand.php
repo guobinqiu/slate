@@ -5,8 +5,8 @@ namespace Wenwen\FrontendBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Services\Dependency\Mailer\IMailer;
-use Wenwen\FrontendBundle\Services\Dependency\Mailer\SendCloudMailer;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\IMailer;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailerFactory;
 
 class SignupSuccessMailCommand extends AbstractMailCommand
 {
@@ -24,17 +24,9 @@ class SignupSuccessMailCommand extends AbstractMailCommand
      */
     protected function createMailer(InputInterface $input)
     {
-        $mailer = $this->getContainer()->getParameter('mailer');
-        $sendcloud = $mailer['sendcloud'];
-        $account = $sendcloud['channel1'];
-
-        return new SendCloudMailer(
-            $account['api_user'],
-            $account['api_key'],
-            $sendcloud['url'],
-            $account['from'],
-            $this->getContainer()->get('app.http_client')
-        );
+        $parameterService = $this->getContainer()->get('app.parameter_service');
+        $httpClient = $this->getContainer()->get('app.http_client');
+        return SendCloudMailerFactory::createMailer($parameterService, $httpClient, 'channel1');
     }
 
     /**

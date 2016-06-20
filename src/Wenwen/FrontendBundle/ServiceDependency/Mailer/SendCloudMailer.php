@@ -1,9 +1,9 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services\Dependency\Mailer;
+namespace Wenwen\FrontendBundle\ServiceDependency\Mailer;
 
 use Guzzle\Http\Exception\RequestException;
-use Wenwen\FrontendBundle\Services\Dependency\HttpClient;
+use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 
 class SendCloudMailer implements IMailer {
     /**

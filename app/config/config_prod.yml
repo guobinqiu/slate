@@ -23,7 +23,7 @@ monolog:
             type: stream
             path: "%jili_app.logs_dir%/sf2/%kernel.environment%.log"
             level: info
-            channels: [!event]
+            channels: [ !event, !request ]
 
 parameters:
 # NOTICE: product config use demo one.

@@ -6,8 +6,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Services\Dependency\Mailer\IMailer;
-use Wenwen\FrontendBundle\Services\Dependency\Mailer\SendCloudMailer;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\IMailer;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailerFactory;
 
 class SsiDeliveryNotificationMailCommand extends AbstractMailCommand {
 
@@ -20,7 +20,7 @@ class SsiDeliveryNotificationMailCommand extends AbstractMailCommand {
         $this->addOption('survey_title', null, InputOption::VALUE_REQUIRED);
         $this->addOption('survey_point', null, InputOption::VALUE_REQUIRED);
         $this->addOption('subject', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('channel', null, InputOption::VALUE_OPTIONAL, '通道名：channel2｜channel3', 'channel2');
+        $this->addOption('channel', null, InputOption::VALUE_REQUIRED, '可选值：channel2|channel3');
     }
 
     /**
@@ -29,18 +29,9 @@ class SsiDeliveryNotificationMailCommand extends AbstractMailCommand {
     protected function createMailer(InputInterface $input)
     {
         $channel = $input->getOption('channel');
-
-        $mailer = $this->getContainer()->getParameter('mailer');
-        $sendcloud = $mailer['sendcloud'];
-        $account = $sendcloud[$channel];
-
-        return new SendCloudMailer(
-            $account['api_user'],
-            $account['api_key'],
-            $sendcloud['url'],
-            $account['from'],
-            $this->getContainer()->get('app.http_client')
-        );
+        $parameterService = $this->getContainer()->get('app.parameter_service');
+        $httpClient = $this->getContainer()->get('app.http_client');
+        return SendCloudMailerFactory::createMailer($parameterService, $httpClient, $channel);
     }
 
     /**

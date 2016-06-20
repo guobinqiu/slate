@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Services\Dependency\Mailer;
+namespace Wenwen\FrontendBundle\ServiceDependency\Mailer;
 
 interface IMailer {
 

@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
-use Wenwen\FrontendBundle\Services\Dependency\HttpClient;
+use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 use SOPx\Auth\V1_1\Util;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
