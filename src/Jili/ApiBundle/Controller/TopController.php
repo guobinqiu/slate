@@ -101,29 +101,6 @@ class TopController extends Controller
     }
 
     /**
-     * @Route("/checkIn")
-     * @Template
-     */
-    public function checkInAction()
-    {
-        $taskList = $this->get('session.task_list');
-        $arr = array();
-        if( $this->container->getParameter('init_one') ===  $taskList->get('checkin_visit') ) {
-            //获取签到积分
-            $checkInLister = $this->get('check_in.listener');
-            $arr['checkinPoint'] = $checkInLister->getCheckinPoint($this->get('request'));
-
-            //获取签到商家
-            $arr['arrList'] = $this->checkinList();
-
-
-            return $this->render('JiliApiBundle:Top:checkIn.html.twig', $arr);
-        } else {
-            return new Response('<!-- already checked in -->');
-        }
-    }
-
-    /**
      * @Route("/market")
      * @Template
      */
@@ -170,38 +147,4 @@ class TopController extends Controller
         return $this->render('WenwenFrontendBundle:Advertisement:_advShopActivity.html.twig', $arr);
     }
 
-    //签到列表
-    private function checkinList()
-    {
-        $arrList = array();
-        $date = date('Y-m-d H:i:s');
-        $cal_count = "";
-        $campaign_multiple = $this->container->getParameter('campaign_multiple');
-        $request = $this->get('request');
-        $uid = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
-        $reward_multiple = $user->getRewardMultiple();
-
-        $cal = $em->getRepository('JiliApiBundle:CheckinAdverList')->showCheckinList($uid);
-
-        $count_for_checkin =  6;
-        $cal_count = count($cal);
-
-        if ($cal_count > $count_for_checkin) {
-            $calNow = array_rand($cal, $count_for_checkin); //随机取数组中6个键值
-            $cal_count = $count_for_checkin;
-        } else {
-            $calNow = range(0, $cal_count - 1);
-        }
-
-        for ($i = 0; $i < $cal_count; $i++) {
-            $cps_rate = $reward_multiple > $campaign_multiple ? $reward_multiple : $campaign_multiple;
-            $cal[$calNow[$i]]['reward_rate'] = $cal[$calNow[$i]]['incentive_rate'] * $cal[$calNow[$i]]['reward_rate'] * $cps_rate;
-            $cal[$calNow[$i]]['reward_rate'] = round($cal[$calNow[$i]]['reward_rate'] / 10000, 2);
-            $arrList[] = $cal[$calNow[$i]];
-        }
-
-        return $arrList;
-    }
 }
