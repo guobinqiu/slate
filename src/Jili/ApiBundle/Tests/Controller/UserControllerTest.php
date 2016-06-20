@@ -223,9 +223,9 @@ class UserControllerTest extends WebTestCase
     public function testPasswordAction()
     {
         // Stop here and mark this test as incomplete.
-        // $this->markTestIncomplete(
-        //   'This test has not been implemented yet.'
-        // );
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
 
         $client = static::createClient();
         $container = $client->getContainer();
