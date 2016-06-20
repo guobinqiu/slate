@@ -118,7 +118,7 @@ class SurveyService
         $sop_api_url = $this->getSOPAPIUrl($app_mid);
 
         try {
-            $request = $this->http_client->get($sop_api_url);
+            $request = $this->http_client->get($sop_api_url, null, array('timeout' => 10, 'connect_timeout' => 3));
             $response = $request->send();
             $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
             return $this->extractRealpart($response->getBody());
@@ -264,10 +264,11 @@ class SurveyService
         }
 
         $ssi_res = array ();
+        $ssi_res['ssi_surveys'] = [];
         $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
         // SSI respondent
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
-        
+
         if ($ssi_respondent) {
             // ssi_respondent信息不存在 根据用户的回答情况来决定用户是否需要回答prescreen
             $ssi_res['needPrescreening'] = $ssi_respondent->needPrescreening();
@@ -279,10 +280,11 @@ class SurveyService
             // ssi_respondent信息不存在，要求用户回答 prescreen
             $ssi_res['needPrescreening'] = true;
         }
-    
+
         foreach($ssi_res['ssi_surveys'] as $key => $value){
             $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
         }
+
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $ssi_res;
     }
@@ -336,7 +338,7 @@ class SurveyService
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
         } 
-        if($ssi_res['ssi_surveys']){
+        if(!empty($ssi_res['ssi_surveys'])){
             // 该用户有可回答的商业问卷，显示ssi的coverpage
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
@@ -411,6 +413,30 @@ class SurveyService
         }
 
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
+    }
+
+    /**
+    * 获取指定用户可回答的属性问卷的信息
+    * 获取失败的时候返回一个空array
+    * @param  string $user_id
+    * @return array $sop_profiling_info
+    *               $sop_profiling_info['profiling']['url']   属性问卷的URL
+    *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
+    *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
+    */
+    public function getSOPProfilingSurveyInfo($user_id) {
+        // 获取sop的数据
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
+        $sop_profiling_info = [];
+        // 处理sop的数据
+        if ($sop['meta']['code'] != 200) {
+            $this->logger->error($sop['meta']['message']);
+        } else {
+            $this->logger->debug(__METHOD__ . ' profiling - ' . $sop['data']['profiling'][0]['url'] );
+            $sop_profiling_info['profiling'] = $sop['data']['profiling'][0];
+        }
+        $this->logger->debug(__METHOD__ . ' - END - ');
+        return $sop_profiling_info;
     }
 
     private function extractRealpart($content) {
