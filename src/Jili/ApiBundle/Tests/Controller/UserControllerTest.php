@@ -253,7 +253,6 @@ class UserControllerTest extends WebTestCase
 
         //todo: add https
         $url = $container->get('router')->generate('_user_signup_activate', $query ) ;
-        print($url);
         $url_expected = '/user/activate/'. $code. '/'. $uid;
         $this->assertEquals($url_expected, $url);
 
