@@ -73,7 +73,7 @@ class SurveyService
         );
         $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
 
-        $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
+        $sop_api_url = 'http://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
