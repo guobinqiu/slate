@@ -140,7 +140,7 @@ ul.menu{
 		text-align: center;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 2s ease 1s;
+		transition: all 1s ease 1s;
 	}
 	.btns{
 		position: absolute;
@@ -148,10 +148,10 @@ ul.menu{
 		width: 283px;
 		left: 50%;
 		margin-left: -141px;
-		top: 65%;
+		top: 50%;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 2s ease 1s;
+		transition: all 1s ease 2s;
 		a{
 			margin-top: 20px;
 			width: 283px;
@@ -177,7 +177,7 @@ ul.menu{
 		top: 65%;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 2s ease 1s;
+		transition: all 1s ease 1500ms;
 		font-size: 20px;
 	}
 }
@@ -216,11 +216,11 @@ ul.menu{
 		width: 1px;
 		height: 0;
 		border-left: 1px dashed transparent;
-		transition: all 2s ease 2s;
+		transition: all 1s ease 2s;
 	}
 	.liner2{
 		top: 275px;
-		transition: all 2s ease 3s;
+		transition: all 1s ease 3s;
 	}
 	.icon{
 		position: absolute;
@@ -235,32 +235,35 @@ ul.menu{
 		transform: scale(0, 0);
 	}
 	.icon1{
-		transition: all 2s ease 1s;
+		transition: all 1s ease 1s;
 	}
 	.icon2{
 		top: 173px;
-		transition: all 2s ease 2s;
+		transition: all 1s ease 2s;
 	}
 	.icon3{
 		top: 346px;
-		transition: all 2s ease 3s;
+		transition: all 1s ease 3s;
 	}
 	.con{
 		opacity: 0;
 		visibility: hidden;
 		padding-left: 20px;
-		transition: all 2s ease 1s;
+		transition: all 1s ease 1s;
 	}
 	.con2{
-		transition: all 2s ease 2s;
+		transition: all 1s ease 2s;
 	}
 	.con3{
-		transition: all 2s ease 3s;
+		transition: all 1s ease 3s;
 	}
 }
 #section0{
 	background-image: url(../img/landingpage/1.jpg);
 	color: #fff;
+	h2{
+		top: 28%;
+	}
 	&.active{
 		.btns, .login{
 			opacity: 1;
@@ -293,7 +296,10 @@ ul.menu{
 		margin: 0 auto;
 		height: 25%;
 		font-size: 42px;
-		font-weight: bold;
+		b{
+			font-family: "Arial";
+			font-weight: normal;
+		}
 		.num{
 			float: left;
 			margin-top: 7%;
@@ -305,6 +311,9 @@ ul.menu{
 			font-size: 16px;
 			color: #26292e;
 		}
+	}
+	h2{
+		top: 25%;
 	}
 	&.active{
 		.briefIntro{
@@ -370,7 +379,7 @@ ul.menu{
 	.item{
 		position: absolute;
 		z-index: 3;
-		top: 75%;
+		top: 62%;
 		left: 50%;
 		margin-left: -500px;
 		padding: 35px 35px 15px;
@@ -402,18 +411,18 @@ ul.menu{
 		}
 	}
 	.item1{
-		top: 45%;
-		transition: all 2s ease 1s;
+		top: 32%;
+		transition: all 1s ease 1s;
 	}
 	.item2{
-		transition: all 2s ease 3s;
+		transition: all 1s ease 5s;
 	}
 	.item3{
-		top: 45%;
-		transition: all 2s ease 2s;
+		top: 32%;
+		transition: all 1s ease 3s;
 	}
 	.item4{
-		transition: all 2s ease 4s;
+		transition: all 1s ease 7s;
 	}
 	&.active{
 		.sectionCon{
@@ -447,6 +456,15 @@ ul.menu{
 			background-color: #8c7155;
 			background-color: rgba(27, 11, 3, .3);
 		}
+	}
+	h2{
+		top: 22%;
+	}
+	.btns{
+		top: 55%;
+	}
+	.briefIntro{
+		top: 42%;
 	}
 	&.active{
 		.btns, .briefIntro{
@@ -529,7 +547,7 @@ ul.menu{
 	margin-left: -142px;
 	opacity: 0;
 	visibility: hidden;
-	transition: all 2s ease 1s;
+	transition: all 1s ease 1s;
 	.login-btn{
 		margin-top: 15px;
 		background: #17b5e5;
