@@ -20,13 +20,10 @@ framework:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
-            type:  stream
-            path:  %jili_app.logs_dir%/sf2/%kernel.environment%.log
-            level: debug
+            type: stream
+            path: "%jili_app.logs_dir%/sf2/%kernel.environment%.log"
+            level: info
+            channels: [ !event, !request ]
 
 parameters:
 # NOTICE: product config use demo one.

@@ -118,7 +118,7 @@ class SurveyService
         $sop_api_url = $this->getSOPAPIUrl($app_mid);
 
         try {
-            $request = $this->http_client->get($sop_api_url, null, array('timeout' => 10, 'connect_timeout' => 3));
+            $request = $this->http_client->get($sop_api_url, null, array('timeout' => 30, 'connect_timeout' => 30));
             $response = $request->send();
             $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
             return $this->extractRealpart($response->getBody());
