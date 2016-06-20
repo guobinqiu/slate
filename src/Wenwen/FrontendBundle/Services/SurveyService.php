@@ -77,7 +77,7 @@ class SurveyService
         );
         $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
 
-        $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
+        $sop_api_url = 'http://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
@@ -268,6 +268,7 @@ class SurveyService
         }
 
         $ssi_res = array ();
+        $ssi_res['ssi_surveys'] = [];
         $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
         // SSI respondent
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
@@ -287,6 +288,7 @@ class SurveyService
         foreach($ssi_res['ssi_surveys'] as $key => $value){
             $this->logger->debug(__METHOD__ . ' ssi_surveys.ssiProjectId= ' . $value->getSsiProjectId());
         }
+
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $ssi_res;
     }
@@ -340,7 +342,7 @@ class SurveyService
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
         }
-        if($ssi_res['ssi_surveys']){
+        if(!empty($ssi_res['ssi_surveys'])){
             // 该用户有可回答的商业问卷，显示ssi的coverpage
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);

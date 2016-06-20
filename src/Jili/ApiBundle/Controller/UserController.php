@@ -411,34 +411,6 @@ class UserController extends Controller implements CampaignTrackingController
 
     }
 
-
-    /**
-     * @Route("/amazonResult", name="_user_amazonResult")
-     */
-    public function amazonResultAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
-        $couponOd = '';
-        $couponElec = '';
-        $uid = '';
-        $uid = $request->getSession()->get('uid');
-        if($uid){
-            $userCoupon = $em->getRepository('JiliApiBundle:AmazonCoupon')->findByUserid($uid);
-            if(!empty($userCoupon)){
-                $couponOd = $userCoupon[0]->getCouponOd();
-                $couponElec = $userCoupon[0]->getCouponElec();
-            }
-        }else{
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-        return $this->render('JiliApiBundle:User:amazonResult.html.twig',array(
-            'couponOd'=>$couponOd,
-            'couponElec'=>$couponElec,
-            'uid'=>$uid
-        ));
-    }
-
     /**
      * @Route("/isExistInfo", name="_user_isExistInfo",options={"expose"=true})
      * @Method("POST")
