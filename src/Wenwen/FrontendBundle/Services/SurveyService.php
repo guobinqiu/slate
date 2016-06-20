@@ -356,24 +356,25 @@ class SurveyService
         $fulcrum_researches = $sop['data']['fulcrum_research'];
         if (count($fulcrum_researches) > 0) {
             foreach ($fulcrum_researches as $fulcrum_research) {
-                // 2016/06/17 临时阻止fulcrum用来招募用户注册别人网站的问卷
-                if($fulcrum_research['survey_id'] === '3708'){
-                    $this->logger->debug(__METHOD__ . ' - block 3708 - ');
-                    continue;
+                // 屏蔽带有注册URL的问卷
+                if (!$this->hasStopWord($fulcrum_research['url'])) {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
+                    array_unshift($html_survey_list, $html);
                 }
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
-                array_unshift($html_survey_list, $html);
             }
         }
 
         $cint_researches = $sop['data']['cint_research'];
         if (count($cint_researches) > 0) {
             foreach ($cint_researches as $cint_research) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
-                if ($cint_research['is_answered'] == 0) {
-                    array_unshift($html_survey_list, $html);
-                } else {
-                    array_push($html_survey_list, $html);
+                // 屏蔽带有注册URL的问卷
+                if (!$this->hasStopWord($cint_researches['url'])) {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
+                    if ($cint_research['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
+                    }
                 }
             }
         }
@@ -445,5 +446,14 @@ class SurveyService
         $content = substr($content, strlen($remove_head));
         $content = substr($content, 0, 0 - strlen($remove_tail));
         return $content;
+    }
+
+    private function hasStopWord($url) {
+        $patten = "/(\w+)\/(sign|signup|register|registration|sign_up|sign-up)\/(\w*)/i";
+        if (preg_match($patten, $url)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
