@@ -121,14 +121,10 @@ class SurveyService
         // 生成sop_api_url
         $sop_api_url = $this->getSOPAPIUrl($app_mid);
 
-        try {
-            $request = $this->httpClient->get($sop_api_url);
-            $response = $request->send();
-            $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
-            return $this->extractRealpart($response->getBody());
-        } catch(CurlException $e) {
-            throw $e;
-        }
+        $request = $this->httpClient->get($sop_api_url);
+        $response = $request->send();
+        $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
+        return $this->extractRealpart($response->getBody());
     }
 
     /**
@@ -430,12 +426,15 @@ class SurveyService
      *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
      */
     public function getSOPProfilingSurveyInfo($user_id) {
-        // 获取sop的数据
-        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
         $sop_profiling_info = [];
+
+        // 获取sop的数据
+        $result = $this->getSOPSurveyListJson($user_id);
+        $sop = json_decode($result, true);
+
         // 处理sop的数据
         if ($sop['meta']['code'] != 200) {
-            $this->logger->error($sop['meta']['message']);
+            $this->logger->error($result);
         } else {
             $this->logger->debug(__METHOD__ . ' profiling - ' . $sop['data']['profiling'][0]['url'] );
             $sop_profiling_info['profiling'] = $sop['data']['profiling'][0];
