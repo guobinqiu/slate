@@ -23,8 +23,8 @@ require(['/js/config.js'],function(){
             },
             type: 'email'
         };
-        var tips = $('.tips');
-        tips.removeClass('active');
+        var tips = $('.tips'), spans = tips.find('span');
+        // tips.removeClass('active');
         var lis = $('.login-con li'), inputs = lis.find('input'), labels = lis.find('label');
         inputs.each(function(i, e){
             if(!$(this).val()){
@@ -32,25 +32,32 @@ require(['/js/config.js'],function(){
             }else{
                 labels.eq(i).hide();
             }
-            var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
-            $(this).on('focus keydown', function(){
+            $(this).on('keydown', function(){
                 labels.eq(i).hide();
-                tips.removeClass('active');
             });
-            $(this).on('blur keyup', function(){
+            $(this).on('keyup', function(){
                 if(!$(this).val()){
                     labels.eq(i).show();
                 }else{
                     labels.eq(i).hide();
                 }
-                if(loginform.run(true)){
-                    tips.removeClass('active');
-                }else{
-                    tips.addClass('active');
-                }
             }); 
             new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+            $(this).on('focus blur', function(){
+                if(errorShow()){
+                    tips.addClass('active');
+                }else{
+                    tips.removeClass('active');
+                }
+            });
         });
+        function errorShow(){
+            for(var i = 0; i< spans.length; i++){
+                if(spans.eq(i).hasClass('error')){
+                    return true;
+                }
+            }
+        }    
         var submitBtn = $("#submit_button");
         submitBtn.on('click', function(e){
             tips.removeClass('active');

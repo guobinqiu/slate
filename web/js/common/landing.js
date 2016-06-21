@@ -182,13 +182,13 @@ define(['jquery'],function($){
                 canScroll = true;
             });
         }
-        element.addClass("active").siblings().removeClass("active");
+        element.addClass("active");
         if($('#section1').hasClass('active')){
-            s = setInterval(function(){
-                addCon(8457469, '#userNum');
-                addCon(4874112, '#pointNum');
-                addCon(548775111, '#surveyNum');
-            }, 20);    
+            // s = setInterval(function(){
+            //     addCon(8457469, '#userNum');
+            //     addCon(4874112, '#pointNum');
+            //     addCon(548775111, '#surveyNum');
+            // }, 20);    
         }else{
             // initNum();
             clearInterval(s); 

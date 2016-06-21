@@ -174,7 +174,7 @@ ul.menu{
 		z-index: 3;
 		width: 100%;
 		text-align: center;
-		top: 65%;
+		top: 55%;
 		opacity: 0;
 		visibility: hidden;
 		transition: all 1s ease 1500ms;
@@ -208,6 +208,9 @@ ul.menu{
 }
 .scoredPointsItem{
 	padding-bottom: 70px;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 1s ease 2s;
 	.liner{
 		position: absolute;
 		z-index: 5;
@@ -216,11 +219,9 @@ ul.menu{
 		width: 1px;
 		height: 0;
 		border-left: 1px dashed transparent;
-		transition: all 1s ease 2s;
 	}
 	.liner2{
 		top: 275px;
-		transition: all 1s ease 3s;
 	}
 	.icon{
 		position: absolute;
@@ -234,28 +235,14 @@ ul.menu{
 		display: inline-block;
 		transform: scale(0, 0);
 	}
-	.icon1{
-		transition: all 1s ease 1s;
-	}
 	.icon2{
 		top: 173px;
-		transition: all 1s ease 2s;
 	}
 	.icon3{
 		top: 346px;
-		transition: all 1s ease 3s;
 	}
 	.con{
-		opacity: 0;
-		visibility: hidden;
 		padding-left: 20px;
-		transition: all 1s ease 1s;
-	}
-	.con2{
-		transition: all 1s ease 2s;
-	}
-	.con3{
-		transition: all 1s ease 3s;
 	}
 }
 #section0{
@@ -338,17 +325,17 @@ ul.menu{
 		text-align: left;
 	}
 	&.active{
-		.scoredPoints{
-			opacity: 1;
-			visibility: visible;
-		}
 		h2{
 			top: 12%;
 		}
 		.scoredPoints{
+			opacity: 1;
+			visibility: visible;
 			background: url(../img/landingpage/pc.png) no-repeat right top;
 		} 
 		.scoredPointsItem{
+			opacity: 1;
+			visibility: visible;
 			.liner{
 				height: 68px;
 				border-color: #fff;
@@ -566,10 +553,9 @@ ul.menu{
 		padding: 0;
 		width: 100%;
 		text-align: left;
-		height: 0;
-		line-height: 0px;
-		color: #fff;
 		font-size: 14px;
+		color: #fff;
+		height: 0;
 		background: #666;
 		background: rgba(0, 0, 0, .6);
 		border-radius: 3px;
@@ -588,7 +574,6 @@ ul.menu{
 	ul{
 		background: #fff;
 		border-radius: 5px;
-		margin-bottom: -1px;
 	}
 	li{
 		position: relative;
