@@ -26,7 +26,7 @@ class SurveyServiceTest extends WebTestCase
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $container = static::$kernel->getContainer();
 
-        $this->surveyService = $container->get('surveyService');
+        $this->surveyService = $container->get('app.survey_service');
 
         // purge tables
         $purger = new ORMPurger($em);

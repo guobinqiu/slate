@@ -3,24 +3,31 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
     <services>
-        <service 
-            id="parameterService" 
-            class="Wenwen\FrontendBundle\Services\ParameterService">
+
+        <service id="app.http_client" class="Wenwen\FrontendBundle\ServiceDependency\HttpClient" />
+
+        <service id="app.survey_service" class="Wenwen\FrontendBundle\Services\SurveyService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="app.http_client" />
+            <argument type="service" id="templating" />
+        </service>
+
+        <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="guzzleClient" class="%guzzle.client.class%" />
-
-        <service 
-            id="surveyService" 
-            class="Wenwen\FrontendBundle\Services\SurveyService">
+        <service id="app.listener.exception_listener" class="Wenwen\FrontendBundle\EventListener\ExceptionListener">
             <argument type="service" id="logger" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="parameterService" />
-            <argument type="service" id="guzzleClient" />
-            <argument type="service" id="templating" />
+            <tag name="kernel.event_listener" event="kernel.exception" />
         </service>
+
+        <service id="app.listener.console_exception_listener" class="Wenwen\FrontendBundle\EventListener\ConsoleExceptionListener">
+            <argument type="service" id="logger" />
+            <tag name="kernel.event_listener" event="console.exception" />
+        </service>
+
     </services>
 </container>
