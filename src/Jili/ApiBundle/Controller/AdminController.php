@@ -2538,31 +2538,6 @@ class AdminController extends Controller implements IpAuthenticatedController
      }
 
     /**
-     * @Route("/addActivityCategory", name="_admin_addActivityCategory")
-     */
-    public function addActivityCategoryAction()
-    {
-        //todo: add asp fields
-        $codeflag = $this->container->getParameter('init');
-        $actCategory = new ActivityCategory();
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request');
-        $categoryName = $request->request->get('category');
-        if ($request->getMethod() == 'POST') {
-            if($categoryName){
-                $actCategory->setCategory($categoryName);
-                $em->persist($actCategory);
-                $em->flush();
-                return $this->redirect($this->generateUrl('_admin_infoActivityCategory'));
-            }else{
-                $codeflag = $this->container->getParameter('init_one');
-            }
-        }
-        return $this->render('JiliApiBundle:Admin:addActivityCategory.html.twig',array('codeflag'=>$codeflag));
-
-    }
-
-    /**
      * @Route("/editActivityCategory/{id}", name="_admin_editActivityCategory")
      */
     public function editActivityCategoryAction($id)
