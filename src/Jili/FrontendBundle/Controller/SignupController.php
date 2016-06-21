@@ -1,4 +1,5 @@
 <?php
+
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,7 +47,7 @@ class SignupController extends Controller
         $user_id = $user->getId();
 
         // 6. Get sop's profiling survey infos
-        $sop_profiling_info = $this->getSOPProfilingSurveyInfo($user_id);
+        $sop_profiling_info = $this->getSopProfilingSurveyInfo($user_id);
 
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig', $sop_profiling_info);
@@ -181,18 +182,17 @@ class SignupController extends Controller
     * @param  string $user_id
     * @return array $sop_profiling_info
     */ 
-    private function getSOPProfilingSurveyInfo($user_id){
+    private function getSopProfilingSurveyInfo($user_id){
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        $surveyService = $this->get('surveyService');
-            if( in_array($this->container->get('kernel')->getEnvironment(), array('dev','test'))){
-                // for dummy mode (won't access sop's server at dev or test mode)
-                // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-                $surveyService->setDummy(true);
-            }
-        $sop_profiling_info = $surveyService->getSOPProfilingSurveyInfo($user_id);
+        $surveyService = $this->get('app.survey_service');
+        if( in_array($this->container->get('kernel')->getEnvironment(), array('dev','test'))){
+            // for dummy mode (won't access sop's server at dev or test mode)
+            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
+            $surveyService->setDummy(true);
+        }
+        $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
     }
-    
 }
 
