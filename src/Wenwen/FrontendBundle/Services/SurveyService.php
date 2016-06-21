@@ -368,7 +368,7 @@ class SurveyService
         if (count($cint_researches) > 0) {
             foreach ($cint_researches as $cint_research) {
                 // 屏蔽带有注册URL的问卷
-                if (!$this->hasStopWord($cint_researches['url'])) {
+                if (!$this->hasStopWord($cint_research['url'])) {
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                     if ($cint_research['is_answered'] == 0) {
                         array_unshift($html_survey_list, $html);
