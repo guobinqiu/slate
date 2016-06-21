@@ -52,7 +52,7 @@ class SurveyService
      * @param $user_id 91wenwen的用户ID
      * @return $app_mid SOP的APP_MID
      */
-    private function getSopRespondentId($user_id){
+    private function getSopRespondentId($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
         $sop_respondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
@@ -65,9 +65,9 @@ class SurveyService
      * 生成该用户用来访问SOP survey list的url
      * @param $app_mid
      * @return $sop_api_url
-     * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list
+     * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list#json-api-integration
      */
-    private function buildSopSurveListUrl($app_mid){
+    private function buildSopSurveListUrl($app_mid) {
         $this->logger->debug(__METHOD__ . ' - START - ');
 
         $sop_config = $this->parameterService->getParameter('sop');
@@ -134,7 +134,7 @@ class SurveyService
     /**
      * @return json $dummy_res 模拟一个SOP survey list返回的数据
      */
-    private function getDummySurveyListJson () {
+    private function getDummySurveyListJson() {
 
        //构造一个仿真数据
           $dummy_res = '{ "meta" : {"code": "200" },
@@ -298,7 +298,7 @@ class SurveyService
      * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
      * @return array $ssi_res
      */
-    private function getDummySsiSurveyList(){
+    private function getDummySsiSurveyList() {
         $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
         // 造一个假的ssi project survey数据
         // *这里需要注意* 2016/06/17
