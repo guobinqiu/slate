@@ -148,6 +148,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
                             }
 
                             $em->getConnection()->commit();
+                            $em->clear();
                         } catch (\Exception $ex) {
                             $em->getConnection()->rollback();
                             $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
