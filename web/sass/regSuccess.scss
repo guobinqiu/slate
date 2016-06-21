@@ -60,6 +60,7 @@
 			line-height: 26px;
 			list-style-type: circle;
 			list-style-position: inside;
+			font-size: 14px;
 			li{
 				display: list-item;
 				b{
@@ -72,7 +73,8 @@
 			text-align: center;
 			a{
 				padding: 21px 86px 24px 57px;
-				font-size: 18px;
+				font-size: 20px;
+				font-weight: bold;
 				background: #1da18e;
 				color: #fff;
 				display: inline-block;
@@ -80,6 +82,7 @@
 				@include border-radius(3px);
 				em{
 					font-size: 12px;
+					font-weight: normal;
 				}
 				&>span{
 					display: inline-block;
@@ -128,6 +131,13 @@
 			        top: -21px;
 			        left: 20px;
 			    }
+			}
+		}
+		.tips{
+			display: none;
+			p{
+				margin-top: 20px;
+				text-align: center;	
 			}
 		}
 	}
