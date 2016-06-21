@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /**
  * 捕获Controller异常
@@ -19,6 +20,8 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        $this->logger->error($exception);
+        if (!$exception instanceof ResourceNotFoundException) {
+            $this->logger->error($exception);
+        }
     }
 }
