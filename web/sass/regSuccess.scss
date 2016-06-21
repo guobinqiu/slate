@@ -17,19 +17,15 @@
 		font-weight: bold;
 		color: #333;
 		line-height: 40px;
+		text-align: center;
 		b{
 			color: #fe5718;
 		}
 	}
-	p{
-		line-height: 28px;
-	}
 	.con{
-		padding-top: 20px;
+		height: 130px;
 		.text{
-			margin-left: 80px;
-			padding-left: 75px;
-			background: url(../img/common/success_email.png) no-repeat left 10px;
+			background: url(../img/common/success_email.png) no-repeat center 2px;
 		}
 		a{
 			margin-top: 10px;
@@ -43,25 +39,96 @@
 	}
 	.finish{
 		.title{
-			line-height: 75px;
+			line-height: 165px;
+		    height: 75px;
+		    text-align: center;
+		    font-weight: normal;
 		}
 	}
-	.tips{
-		margin-top: 90px;
-		padding: 30px 0 30px 157px;
-		background: #f5f5f6;
-		border-radius: 8px;
-		dl{
-			margin-bottom: 30px;
-		}
-		dt{
+	.profileWrap{
+		padding: 34px 80px 46px;
+		background: #eef2f2;
+		color: #333;
+		.row1{
 			font-size: 16px;
-			line-height: 35px;
-			color: #333;
+			em{
+				font-size: 22px;
+			}
 		}
-		dd{
-			font-size: 12px;
-			line-height: 20px;
+		.row2{
+			margin-top: 13px;
+			line-height: 26px;
+			list-style-type: circle;
+			list-style-position: inside;
+			li{
+				display: list-item;
+				b{
+					color: $main-color;
+				}
+			}
+		}
+		.prBtn{
+			margin-top: 20px;
+			text-align: center;
+			a{
+				padding: 21px 86px 24px 57px;
+				font-size: 18px;
+				background: #1da18e;
+				color: #fff;
+				display: inline-block;
+				text-align: right;
+				@include border-radius(3px);
+				em{
+					font-size: 12px;
+				}
+				&>span{
+					display: inline-block;
+				}
+				&.cancel{
+					margin-left: 15px;
+					background: #ced4d4;
+					color: #333;
+					.triangle:before {
+						background: #808080;
+					}
+					.triangle:after {
+						background: #808080;
+					}
+				}
+				.triangle { 
+			        position: relative;
+			        display: inline-block;
+					margin-left: 4px;
+			    }
+			    .triangle:before {
+			        content: " ";
+			        display: block;
+			        width: 14px;
+			        height: 4px;
+			        background: #fff;
+			        -webkit-transform: rotate(56deg);
+			        -moz-transform: rotate(56deg);
+			        -ms-transform: rotate(56deg);
+			        transform: rotate(-45deg);
+			        position: absolute;
+			        top: -13px;
+			        right: -34px;
+			    }
+			    .triangle:after {
+			        content: " ";
+			        display: block;
+			        width: 14px;
+			        height: 4px;
+			        background: #fff;
+			        -webkit-transform: rotate(-56deg);
+			        -moz-transform: rotate(-56deg);
+			        -ms-transform: rotate(-56deg);
+			        transform: rotate(45deg);
+			        position: absolute;
+			        top: -21px;
+			        left: 20px;
+			    }
+			}
 		}
 	}
 }
