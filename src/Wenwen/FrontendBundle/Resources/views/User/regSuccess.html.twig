@@ -17,15 +17,28 @@
 				{% for flashMessage in app.session.flashbag.get('notice') %}
 				    <h2 class="title">{{ flashMessage }}</h2>
 				{% else %}
-				    <h2 class="title">恭喜！您已成功激活了您的账户，并获得了<b>10</b>积分！</h2>
+				    <h2 class="title">恭喜！您已成功激活了您的账户，并获得了<b>10积分</b>！</h2>
 				{% endfor %}
 			</div>
 		</div>
-		<div class="tips">
-			<dl>
-				<dt>回答完属性问卷，将会帮助您收到更多的高积分问卷哦！</dt>
-				<dd><b>10s</b>后将为您自动跳转……</dd>
-			</dl>
+		<div class="profileWrap">
+			<p class="row1">接下来，推荐您做一份属性问卷，用来帮助您收到更多的<em>高积分问卷</em>。</p>
+			<ul class="row2">
+				<li>每小题1积分，最多可得<b>135积分</b>。</li>
+				<li>中途关闭不会影响下次继续回答该问卷。</li>
+			</ul>
+			<p class="prBtn">
+				<a href="{{ profiling.url }}" class="goto">
+					<span>马上回答<br><em>将会收到更多高积分问卷</em></span>
+					<span class="triangle">
+					</span>
+				</a>
+				<a href="{{ path('_homepage') }}" class="cancel">
+					<span>不用了<br><em>先回到首页吧</em></span>
+					<span class="triangle">
+					</span>
+				</a>
+			</p>
 		</div>
 	</div>
 </div>
@@ -36,5 +49,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/finish.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header.js')}}"></script>
 {% endblock %}
