@@ -102,30 +102,6 @@ class AdminController extends Controller implements IpAuthenticatedController
 
     }
 
-    /**
-     * @Route("/gameAd", name="_admin_gameAd")
-     */
-    public function GameAdAction()
-    {
-        return $this->render('JiliApiBundle:Admin:gameAd.html.twig');
-    }
-
-    /**
-     * @Route("/game", name="_admin_game")
-     */
-    public function GameAction()
-    {
-        return $this->render('JiliApiBundle:Admin:game.html.twig');
-    }
-
-    /**
-     * @Route("/adwAd", name="_admin_adwAd")
-     */
-    public function AdwAdAction()
-    {
-        return $this->render('JiliApiBundle:Admin:adwAd.html.twig');
-    }
-
     //没有通过认证
     private function noCertified($userId,$adid,$ocd,$cps_advertisement = false)
     {
@@ -378,56 +354,6 @@ class AdminController extends Controller implements IpAuthenticatedController
 
     }
 
-
-    /**
-     * @Route("/importAdver", name="_admin_importAdver")
-     */
-    public function importAdverAction()
-    {
-        $code = array();
-        $request = $this->get('request');
-        $success = '';
-        $userId = '';
-        $adid = '';
-        if ($request->getMethod('post') == 'POST') {
-            $success = $this->container->getParameter('init_one');
-            if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name'];
-                $handle = fopen($file,'r');
-                while ($data = fgetcsv($handle)){
-                   $goods_list[] = $data;
-                }
-                unset($goods_list[0]);
-                fclose($handle);
-
-                foreach ($goods_list as $k=>$v){
-                    $status = iconv('gb2312','UTF-8//IGNORE',$v[5]);
-                    $name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
-                    $adid = explode("'",$v[7]);
-                    $userId = explode("'",$v[8]);
-                    $ocd = '';
-                    if($this->getStatus($userId[1],$adid[1],$ocd)){
-                        if($status == $this->container->getParameter('nothrough')){
-                            if(!$this->noCertified($userId[1],$adid[1],$ocd)){
-                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
-                            }
-                        }
-                        if($status == $this->container->getParameter('certified')){
-                            if(!$this->hasCertified($userId[1],$adid[1],$ocd,$v[4])){
-                                $code[] =  '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
-                            }
-                        }
-                    }
-
-                }
-                fclose($handle);
-            }
-        }
-        $arr['success'] = $success;
-        $arr['code'] = $code;
-        return $this->render('JiliApiBundle:Admin:importAdver.html.twig',$arr);
-    }
-
     /**
      * @Route("/delBanner/{id}", name="_admin_delBanner")
      */
@@ -438,50 +364,6 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em->remove($banner);
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoBanner'));
-    }
-
-
-    /**
-     * @Route("/addBanner", name="_admin_addBanner")
-     */
-    public function addBannerAction()
-    {
-        $code ='';
-        $codeflag = '';
-        $banner = new adBanner();
-        $form  = $this->createForm(new EditBannerType(),$banner);
-        $request = $this->get('request');
-        $bannerUrl = $request->request->get('url');
-        $position = $request->request->get('position');
-        $em = $this->getDoctrine()->getManager();
-        $bannerNum = $em->getRepository('JiliApiBundle:AdBanner')->findAll();
-        if ($request->getMethod() == 'POST') {
-            if($bannerUrl && $position){
-                $isPostion = $em->getRepository('JiliApiBundle:AdBanner')->findByPosition($position);
-                if($isPostion){
-                    $codeflag = $this->container->getParameter('init_two');
-                }else{
-                    $form->bind($request);
-                    $path =  $this->container->getParameter('upload_banner_dir');
-                    $banner->setAdUrl($bannerUrl);
-                    $banner->setPosition($position);
-                    $banner->setCreateTime(date_create(date('Y-m-d H:i:s')));
-                    $em->persist($banner);
-                    $code = $banner->upload($path);
-                    if(!$code){
-                        $em->flush();
-                        return $this->redirect($this->generateUrl('_admin_infoBanner'));
-                    }
-                }
-
-            }else{
-                $codeflag = $this->container->getParameter('init_one');
-
-            }
-
-        }
-        return $this->render('JiliApiBundle:Admin:addBanner.html.twig',
-                array('url'=>$bannerUrl,'position'=>$position,'form' => $form->createView(),'code'=>$code,'codeflag'=>$codeflag));
     }
 
     /**
@@ -2487,28 +2369,6 @@ class AdminController extends Controller implements IpAuthenticatedController
     {
         return $this->render('JiliApiBundle:Admin:header.html.twig');
     }
-
-
-    /**
-     * @Route("/advertisermentCheck", name="_admin_advertisermentCheck")
-     */
-    public function advertisermentCheckAction()
-    {
-
-        $filename = $this->container->getParameter('file_path_advertiserment_check');
-        $arr['content'] = "";
-        if (file_exists($filename)) {
-            $file_handle = fopen($filename, "r");
-            if ($file_handle) {
-               if(filesize ($filename)){
-                    $arr['content'] = fread($file_handle, filesize ($filename));
-               }
-            }
-            fclose($file_handle);
-        }
-        return $this->render('JiliApiBundle:Admin:advertisermentCheck.html.twig', $arr);
-    }
-
 
     /**
      * @Route("/saveAdCheck", name="_admin_saveAdCheck")
