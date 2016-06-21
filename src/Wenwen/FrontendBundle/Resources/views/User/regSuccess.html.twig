@@ -28,16 +28,13 @@
 				<li>中途关闭不会影响下次继续回答该问卷。</li>
 			</ul>
 			<p class="prBtn">
-				<a href="{{ profiling.url }}" class="goto">
+				<a href="{{ profiling.url }}" class="goto" target="_blank">
 					<span>马上回答<br><em>将会收到更多高积分问卷</em></span>
-					<span class="triangle">
-					</span>
+					<span class="triangle"></span>
 				</a>
-				<a href="{{ path('_homepage') }}" class="cancel">
-					<span>不用了<br><em>先回到首页吧</em></span>
-					<span class="triangle">
-					</span>
-				</a>
+				<div class="tips">
+	    			<p><b>10s</b>后将为您自动跳转……</p>
+	    		</div>
 			</p>
 		</div>
 	</div>
@@ -49,5 +46,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/regSuccess.js')}}"></script>
 {% endblock %}
