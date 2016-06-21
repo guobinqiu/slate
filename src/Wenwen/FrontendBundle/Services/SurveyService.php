@@ -82,12 +82,11 @@ class SurveyService
         );
         $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
 
-        $sop_api_url = 'http://'.$host.'/api/v1_1/surveys/js?'.http_build_query(array(
+        $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/json?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
             'time' => $sop_params['time'],
-            'sop_callback' => 'surveylistCallback',
         ));
 
         $this->logger->debug(__METHOD__ . ' - END - ');
@@ -129,7 +128,7 @@ class SurveyService
         $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 30, 'connect_timeout' => 30));
         $response = $request->send();
         $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
-        return $this->extractRealpart($response->getBody());
+        return $response->getBody();
     }
 
     /**
@@ -446,17 +445,6 @@ class SurveyService
         }
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
-    }
-
-    /**
-     * 从$content中提取出"..."的部分 ($content = "surveylistCallback(...);")
-     */
-    private function extractRealpart($content) {
-        $remove_head = "surveylistCallback(";
-        $remove_tail = ");";
-        $content = substr($content, strlen($remove_head));
-        $content = substr($content, 0, 0 - strlen($remove_tail));
-        return $content;
     }
 
     /**
