@@ -148,10 +148,12 @@ class DmdeliveryCommand extends ContainerAwareCommand
                             }
 
                             $em->getConnection()->commit();
+                            $em->clear();
                         } catch (\Exception $ex) {
                             $em->getConnection()->rollback();
                             $content = $this->setALertEmailBody($pointType,'something error happend when insert or update)');
                             $this->getContainer()->get('send_mail')->sendMails($this->alertSubject, $this->alertTo, $content);
+                            echo 'DB update failed user_id=>['. $value['id']. ' error message=[' . $ex->getMessage()."] \n";
                             throw $ex;
                         }
                     } else {
@@ -278,6 +280,8 @@ class DmdeliveryCommand extends ContainerAwareCommand
                    );
             return $result;
         } catch (SoapFault $exception) {
+            echo $exception->getTraceAsString();
+            echo "companyId=[". $companyId . "] mailingId=[" . $mailingId . "] groupId=[" . $groupId . "] recipient_arr=[" . $recipient_arr . "]" . PHP_EOL;
             echo $exception;
         }
 

@@ -62,12 +62,19 @@ class SopDeliveryNotificationHandler
             $recipient = $util_class::retrieveValidRecipientData($respondent['app_mid'], $em);
 
             if ($recipient) {
-                $respondent['recipient'] = $recipient;
-                $this->valid_respondents[] = $respondent;
+                if ($this->isSubscribed($recipient)) {
+                    $respondent['recipient'] = $recipient;
+                    $this->valid_respondents[] = $respondent;
+                }
             } else {
                 $this->unsubscribed_app_mids[] = $respondent['app_mid'];
             }
         }
+    }
+
+    private function isSubscribed($recipient) {
+        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+        return count($userEdmUnsubscribes) == 0;
     }
 
     public function sendMailingToRespondents()

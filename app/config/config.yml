@@ -5,7 +5,6 @@ imports:
     - { resource: security.yml }
     - { resource: mysql.yml }
     - { resource: jms_job.yml }
-    - { resource: point_type.yml}
 
 framework:
     esi:             ~
@@ -36,7 +35,7 @@ framework:
     fragments:       ~
     templating:
         engines: ['twig']
-        assets_version: 'v000002'
+        assets_version: 'v000005'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
@@ -58,8 +57,6 @@ twig:
 
         offer99_com:
             pid: %offer99_com.pid%
-
-        bangwoya_com: %bangwoya_com%
 
         cps_rebate_type: %cps_rebate_type%
         tb_self_promot_pic_path: %taobao_self_promotion_picture_uri_path%

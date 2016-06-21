@@ -4,7 +4,6 @@
 $h-font-color: #000;
 $h-font-size: 18px;
 $h-small-font-size: 14px;
-$survey-con-font-color: #4C4D4D;
 $survey-border-color: #f6f6f6;
 
 .main-con-left{
@@ -83,7 +82,7 @@ $survey-border-color: #f6f6f6;
 		float: left;
 		width: 22%;	
 		text-align: left;
-		padding: 5px 10px 0 0;
+		padding: 0 10px 0 0;
 		border: none;
 		span,p{
 			color: $weak-color;
@@ -97,7 +96,7 @@ $survey-border-color: #f6f6f6;
 			width: 20%;
 			text-align: left;
 			p{
-				color: #e62200;
+				color: $orange-color;
 				margin-top: 10px;
 				strong{
 					font-size: 24px;
@@ -111,15 +110,15 @@ $survey-border-color: #f6f6f6;
 		height: 50px;
 	}
 	.proTag{
-		width: 42px;
-		height: 41px;
-		background: url(../img/home/importantTag.png) no-repeat center;
+		width: 46px;
+		height: 45px;
+		background: url(../img/home/homeIcons.png) no-repeat -1px -1px;
 		color: #fff;
-	    font-size: 12px;
+	    font-size: 13px;
 	    line-height: 41px;
 	    text-align: center;
 	    vertical-align: 5px;
-        margin-left: 10px;	
+        margin-left: 7px;	
         -o-transform: rotate(-20deg); /* Opera浏览器 */
         -webkit-transform: rotate(-20deg); /* Webkit内核浏览器 */
         -moz-transform: rotate(-20deg); /* Firefox浏览器 */
@@ -127,9 +126,9 @@ $survey-border-color: #f6f6f6;
 	}
 	.proRow{
 		color: #A7B2BE;
-	    line-height: 24px;
-	    font-size: 13px;
-	    width: 90%;
+	    line-height: 20px;
+	    font-size: 12px;
+	    width: 84%;
 	    margin-bottom: 3px;
 	    .proNum{
 	    	color: $weak-color;
@@ -143,13 +142,25 @@ $survey-border-color: #f6f6f6;
 	    	}
 	    }
     	i{
-    		color: $streng-color;
+    		color: $orange-color;
     		font-weight: bold;
     	}
 
 	}
 	.proSec{
 		color: $sub-con-color;
+		background: #eef6ff;
+		border: 2px dashed #c9e6ff;
+		padding: 5px 13px;
+		@include border-radius(10px);
+		i{
+			width: 20px;
+			height: 12px;
+			background: url(../img/home/homeIcons.png) no-repeat -51px -11px;
+			display: inline-block;
+		    margin-right: 5px;
+			vertical-align: -2px;
+		}
 	}
 }
 .survey {
@@ -184,10 +195,12 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 	li{
-		padding: 27px 30px 19px;
-		border-bottom: 1px solid #E0E5E5;
+		padding: 27px 24px 19px;
 		&:last-child{
-			border: none;
+			border: none!important;
+		}
+		.survey-item li{
+			border-bottom: none!important;
 		}
 	}
 	.title{
@@ -298,7 +311,7 @@ $survey-border-color: #f6f6f6;
 }
 .vote-txt{
 	width: 62%;
-	color: $survey-con-font-color;
+	color: $sub-con-color;
 	line-height: 22px;
 	p{
 		padding-left: 7px;
@@ -306,14 +319,22 @@ $survey-border-color: #f6f6f6;
 		font-size: 13px;
 		line-height: 23px;
 		color: $sub-con-color;
+		height: 49px;
+		overflow: hidden;
 	}
 	.relate{
 		margin-left: 3px;
 		span{
-			padding: 0 3px;
 			color: $weak-color;
 			&.vline{
-				color: $block-line-color;
+				width: 1px;
+				height: 13px;
+				border-right: 1px solid #ccc;
+				vertical-align: -2px;
+				margin: 0 11px;
+			}
+			i{
+				color: $orange-color;
 			}
 		}
 	}
@@ -329,8 +350,8 @@ $count-bg: #f5f5f5;
 	z-index: 1000;
 	top: 61px;
 	right: 5px;
-	height: 52px; 
-	line-height: 52px;
+	height: 42px; 
+	line-height: 42px;
 	span{
 		width: 33px;
 		text-align: center;
@@ -376,4 +397,42 @@ $count-bg: #f5f5f5;
 	right: 0;
 	top: 0; 
 	cursor: pointer;
+}
+.topTip{
+	position: absolute;
+	right: 69px;
+	top: 95px;
+	z-index: 9999;
+	span{
+		position: relative;
+		background: #fff3eb;
+		border: 1px solid #f2d9c9;
+		padding: 3px 7px;
+		line-height: 19px;
+		color: $sub-con-color;
+		@include border-radius(3px);
+		&:after, &:before {
+			bottom: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		&:after {
+			border-color: rgba(255, 243, 235, 0);
+			border-bottom-color: #fff3eb;
+			border-width: 6px;
+			margin-left: -6px;
+		}
+		&:before {
+			border-color: rgba(232, 215, 204, 0);
+			border-bottom-color: #d3dee8;
+			border-width: 7px;
+			margin-left: -7px;
+		}
+	}
 }

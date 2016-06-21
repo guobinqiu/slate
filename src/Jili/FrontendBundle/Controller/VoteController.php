@@ -389,6 +389,7 @@ class VoteController extends Controller
                         ->setSubject($subject)
                         ->setFrom($mail_from, '91问问')
                         ->setTo($mail_to)
+                        ->setReplyTo($user->getEmail())
                         ->setBody($content);
         $mailer = $this->container->get('mailer');
         $mailer->send($message);

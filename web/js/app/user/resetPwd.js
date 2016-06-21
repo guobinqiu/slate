@@ -1,4 +1,4 @@
-require(['../../config'],function(){
+require(['/js/config.js'],function(){
     require(['jquery', 'validate', 'routing'], function($, rpaValidate, routing){
         var emailInput = $('#email'),
             emailSucceed = $('#email_succeed'),

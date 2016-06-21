@@ -33,6 +33,11 @@ class SsiProject
         return $this->respondentIds;
     }
 
+    private function isSubscribed($recipient) {
+        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+        return count($userEdmUnsubscribes) == 0;
+    }
+
     public function retrieveRecipientsToMail()
     {
         $recipients = [];
@@ -42,7 +47,9 @@ class SsiProject
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
 
             if ($recipient) {
-                $recipients[] = $recipient;
+                if ($this->isSubscribed($recipient)) {
+                    $recipients[] = $recipient;
+                }
             }
         }
 

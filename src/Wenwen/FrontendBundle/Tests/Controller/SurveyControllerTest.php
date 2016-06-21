@@ -66,18 +66,14 @@ class SurveyControllerTest extends WebTestCase
         $em = $this->em;
 
         $url = $container->get('router')->generate('_login', array (), true);
-$this->showTimeToMicroseconds('HOHO10');
         $client->request('POST', $url, array (
             'email' => 'user@voyagegroup.com.cn',
             'pwd' => '11111q',
             'remember_me' => '1'
         ));
         //$client->followRedirect();
-$this->showTimeToMicroseconds('HOHO11');
         $url = $container->get('router')->generate('_survey_index');
-$this->showTimeToMicroseconds('HOHO12');
         $crawler = $client->request('GET', $url);
-$this->showTimeToMicroseconds('HOHO13');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("问卷列表")')->count() > 0);
 
@@ -98,14 +94,6 @@ $this->showTimeToMicroseconds('HOHO13');
         $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
     }
 
-public function showTimeToMicroseconds($count = 0) {
-    $t = microtime(true);
-    $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
-    $d = new \DateTime(date('Y-m-d H:i:s.' . $micro, $t));
-
-    echo "\n" . $this->getname() . ' [' . $count .  '] ' .  $d->format("Y-m-d H:i:s.u"); 
-}
-
     /**
      * @group dev-merge-ui-survey-top
      */
@@ -116,18 +104,14 @@ public function showTimeToMicroseconds($count = 0) {
         $em = $this->em;
 
         $url = $container->get('router')->generate('_login', array (), true);
-$this->showTimeToMicroseconds('HOHO10');
         $crawler = $client->request('POST', $url, array (
             'email' => 'user@voyagegroup.com.cn',
             'pwd' => '11111q',
             'remember_me' => '1'
         ));
         //$client->followRedirect();
-$this->showTimeToMicroseconds('HOHO11');
         $url = $container->get('router')->generate('_survey_top');
-$this->showTimeToMicroseconds('HOHO12');
         $crawler = $client->request('GET', $url);
-$this->showTimeToMicroseconds('HOHO13');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 //        $this->assertCount(1, $crawler->filter('#sop_api_url'));
 //        $this->assertCount(1, $crawler->filter('#sop_point'));
@@ -137,28 +121,6 @@ $this->showTimeToMicroseconds('HOHO13');
 //        $this->assertCount(1, $crawler->filter('#sop_time'));
     }
 
-    /**
-     * @group dev-merge-ui-survey-top
-     */
-    public function testGetSopParams()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $controller = new SurveyController();
-        $controller->setContainer($container);
-
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(1);
-        $sop_config = $container->getParameter('sop');
-        $return = $controller->getSopParams($sop_config, $sop_respondent->getId());
-        $this->assertNotEmpty($return['sop_params']['app_id']);
-        $this->assertNotEmpty($return['sop_params']['app_mid']);
-        $this->assertNotEmpty($return['sop_params']['time']);
-        $this->assertNotEmpty($return['sop_api_url']);
-        $this->assertNotEmpty($return['sop_point']);
-        $this->assertNotEmpty($return['sop_params']['sig']);
-    }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
