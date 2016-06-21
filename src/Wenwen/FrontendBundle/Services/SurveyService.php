@@ -41,7 +41,7 @@ class SurveyService
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
-    } 
+    }
 
     public function setDummy($dummy){
         $this->dummy = $dummy;
@@ -74,7 +74,7 @@ class SurveyService
         $app_id = $sop_config['auth']['app_id'];
         $host = $sop_config['host'];
         $app_secret = $sop_config['auth']['app_secret'];
-   
+
         $sop_params = array (
             'app_id' => $app_id,
             'app_mid' => $app_mid,
@@ -83,11 +83,11 @@ class SurveyService
         $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
 
         $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/json?'.http_build_query(array(
-            'app_id' => $sop_params['app_id'],
-            'app_mid' => $sop_params['app_mid'],
-            'sig' => $sop_params['sig'],
-            'time' => $sop_params['time'],
-        ));
+                'app_id' => $sop_params['app_id'],
+                'app_mid' => $sop_params['app_mid'],
+                'sig' => $sop_params['sig'],
+                'time' => $sop_params['time'],
+            ));
 
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $sop_api_url;
@@ -136,8 +136,8 @@ class SurveyService
      */
     private function getDummySurveyListJson() {
 
-       //构造一个仿真数据
-          $dummy_res = '{ "meta" : {"code": "200" },
+        //构造一个仿真数据
+        $dummy_res = '{ "meta" : {"code": "200" },
              "data": {
                  "profiling": [
                      {
@@ -338,7 +338,7 @@ class SurveyService
         $ssi_res = $this->getSsiSurveyList($user_id);
 
         if ($ssi_res['needPrescreening']) {
-            // 需要用户去完成 prescreen 
+            // 需要用户去完成 prescreen
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
             array_unshift($html_survey_list, $html);
         }
