@@ -378,56 +378,6 @@ class AdminController extends Controller implements IpAuthenticatedController
 
     }
 
-
-    /**
-     * @Route("/importAdver", name="_admin_importAdver")
-     */
-    public function importAdverAction()
-    {
-        $code = array();
-        $request = $this->get('request');
-        $success = '';
-        $userId = '';
-        $adid = '';
-        if ($request->getMethod('post') == 'POST') {
-            $success = $this->container->getParameter('init_one');
-            if (isset($_FILES['csv'])) {
-                $file = $_FILES['csv']['tmp_name'];
-                $handle = fopen($file,'r');
-                while ($data = fgetcsv($handle)){
-                   $goods_list[] = $data;
-                }
-                unset($goods_list[0]);
-                fclose($handle);
-
-                foreach ($goods_list as $k=>$v){
-                    $status = iconv('gb2312','UTF-8//IGNORE',$v[5]);
-                    $name = iconv('gb2312','UTF-8//IGNORE',$v[0]);
-                    $adid = explode("'",$v[7]);
-                    $userId = explode("'",$v[8]);
-                    $ocd = '';
-                    if($this->getStatus($userId[1],$adid[1],$ocd)){
-                        if($status == $this->container->getParameter('nothrough')){
-                            if(!$this->noCertified($userId[1],$adid[1],$ocd)){
-                                $code[] = '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
-                            }
-                        }
-                        if($status == $this->container->getParameter('certified')){
-                            if(!$this->hasCertified($userId[1],$adid[1],$ocd,$v[4])){
-                                $code[] =  '[ '.$name.', '.$userId[1].', '.$adid[1].' ] 插入数据失败';
-                            }
-                        }
-                    }
-
-                }
-                fclose($handle);
-            }
-        }
-        $arr['success'] = $success;
-        $arr['code'] = $code;
-        return $this->render('JiliApiBundle:Admin:importAdver.html.twig',$arr);
-    }
-
     /**
      * @Route("/delBanner/{id}", name="_admin_delBanner")
      */
