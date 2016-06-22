@@ -18,32 +18,33 @@ class SignupController extends Controller
      */
     public function confirmRegisterAction($register_key )
     {
-        $this->container->get('logger')->debug(__METHOD__ . ' - START - register_key=' . $register_key);
-        // 1. Validation
-        $passwordToken = $this->validateRegisterKey($register_key);
-        if ( !$passwordToken ){
-            $this->container->get('logger')->debug(__METHOD__ . ' - passwordToken is not setted - ');
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
-        }
+        // $this->container->get('logger')->debug(__METHOD__ . ' - START - register_key=' . $register_key);
+        // // 1. Validation
+        // $passwordToken = $this->validateRegisterKey($register_key);
+        // if ( !$passwordToken ){
+        //     $this->container->get('logger')->debug(__METHOD__ . ' - passwordToken is not setted - ');
+        //     return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
+        // }
 
-        // 2. Update register and user information
-        $user = $this->updateRegisterInformations($passwordToken);
-        if ( !$user ){
-            $this->container->get('logger')->debug(__METHOD__ . ' - user info update failed - ');
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
-        }
+        // // 2. Update register and user information
+        // $user = $this->updateRegisterInformations($passwordToken);
+        // if ( !$user ){
+        //     $this->container->get('logger')->debug(__METHOD__ . ' - user info update failed - ');
+        //     return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
+        // }
         
-        // 3. Send register success email to user 
-        //$rtn = $this->sendRegisterCompleteEmail($user);
-        //Todo error handling
+        // // 3. Send register success email to user 
+        // //$rtn = $this->sendRegisterCompleteEmail($user);
+        // //Todo error handling
 
-        // 4. Record the campaign tracking infomation of recruiting to log file
-        $rtn = $this->recordRecruitingInformation($user);
+        // // 4. Record the campaign tracking infomation of recruiting to log file
+        // $rtn = $this->recordRecruitingInformation($user);
 
-        // 5. Login this user 
-        $rtn = $this->loginUser($user);
+        // // 5. Login this user 
+        // $rtn = $this->loginUser($user);
 
-        $user_id = $user->getId();
+        // $user_id = $user->getId();
+        $user_id = 4564156;
 
         // 6. Get sop's profiling survey infos
         $sop_profiling_info = $this->getSOPProfilingSurveyInfo($user_id);
