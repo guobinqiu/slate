@@ -1,9 +1,20 @@
+<div class="surveyImg cintImg">C</div>
 <div class="survey-item">
     <div class="title">
-        {% if cint_research.title|length > 35 %}
-            {{ cint_research.title[:35] }}...
+        {% if cint_research.is_answered == 1 %}
+            {% if cint_research.title|length > 35 %}
+                {{ cint_research.title[:35] }}...
+            {% else %}
+                {{ cint_research.title }}
+            {% endif %}
         {% else %}
-            {{ cint_research.title }}
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">
+                {% if cint_research.title|length > 35 %}
+                    {{ cint_research.title[:35] }}...
+                {% else %}
+                    {{ cint_research.title }}
+                {% endif %}
+            </a>
         {% endif %}
     </div>
     <ul class="con clearfix">
@@ -19,8 +30,9 @@
             <span>回答期限</span>
             <p>--</p>
         </li>
-        <li class="last">
-            <p><strong>{{ cint_research.extra_info.point.complete }}</strong>积分</p>
+        <li>
+            <span>积分</span>
+            <p class="point"><strong>{{ cint_research.extra_info.point.complete }}</strong></p>
         </li>
     </ul>
 </div>

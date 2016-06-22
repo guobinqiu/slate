@@ -42,8 +42,8 @@ require(['/js/config.js'],function(){
         }
 
         //set profile survey css
-        $('.survey li:has(.proItem)').css('border-bottom', 'none');
-        $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');
+        // $('.survey li:has(.proItem)').css('border-bottom', 'none');
+        // $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');
     });
 
 });
