@@ -19,8 +19,8 @@ class HomeController extends Controller
 {
     /**
      * @Route("/index")
+     * @Route("/")
      * @Method({ "GET"})
-     * @Template
      */
     public function indexAction()
     {
