@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
             new Wenwen\AppBundle\WenwenAppBundle(),
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -19,8 +19,8 @@ class HomeController extends Controller
 {
     /**
      * @Route("/index")
+     * @Route("/")
      * @Method({ "GET"})
-     * @Template
      */
     public function indexAction()
     {
@@ -70,28 +70,6 @@ class HomeController extends Controller
         $this->get('user_sign_up_route.listener')->log();
 
         return $this->render('WenwenFrontendBundle:Home:home.html.twig');
-    }
-
-    /**
-     * @Route("/task")
-     * @Template
-     */
-    public function taskAction()
-    {
-        //任务列表
-        $arr = $this->getTaskList();
-        $arr['wenwen_vote_url'] = $this->container->getParameter('wenwen_vote_url');
-        return $this->render('JiliFrontendBundle:Home:task.html.twig', $arr);
-    }
-
-    public function getTaskList()
-    {
-        //可以做的任务，签到+游戏+91问问+购物 -cpa
-        $taskList = $this->get('session.task_list');
-        $taskList->setRequest($this->get('request'));
-        $arr = $taskList->compose();
-
-        return $arr;
     }
 
     /**
