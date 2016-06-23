@@ -301,38 +301,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/gameVisit", name="_default_gameVisit")
-	 */
-    public function gameVisitAction()
-    {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-            $day = date('Ymd');
-
-            // TODO: use the session value instead of the db query.
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if ( empty ($visit) ) {
-                $gameVisit = new UserGameVisit();
-                $gameVisit->setUserId($id);
-                $gameVisit->setVisitDate($day);
-                $em->persist($gameVisit);
-                $em->flush();
-
-                // remove from session cache.
-                $taskList = $this->get('session.task_list');
-                $taskList->remove(array( 'game_visit'));
-            }
-            $code = $this->container->getParameter('init_one');
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
 	 * @Route("/about", name="_default_about", requirements={"_scheme"="http"})
 	 */
     public function aboutAction()
