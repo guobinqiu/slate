@@ -349,14 +349,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/services", name="_default_services", requirements={"_scheme"="http"})
-	 */
-    public function servicesAction()
-    {
-        return $this->render('JiliApiBundle::onservice.html.twig');
-    }
-
-    /**
 	 * @Route("/support", name="_default_support", requirements={"_scheme"="http"})
 	 */
     public function supportAction()
@@ -394,14 +386,6 @@ class DefaultController extends Controller
     public function finishedAction()
     {
         return $this->render('WenwenFrontendBundle:Help:finished.html.twig');
-    }
-
-    /**
-	 * @Route("/service", name="_default_service", requirements={"_scheme"="http"})
-	 */
-    public function serviceAction()
-    {
-        return $this->render('JiliApiBundle:Default:service.html.twig');
     }
 
     /**
