@@ -1,20 +1,9 @@
-<div class="surveyImg highPtImg">R</div>
 <div class="survey-item">
     <div class="title">
-        {% if research.is_answered == 1 %}
-            {% if research.title|length > 35 %}
-                {{ research.title[:35] }}...
-            {% else %}
-                {{ research.title }}
-            {% endif %}
+        {% if research.title|length > 35 %}
+            {{ research.title[:35] }}...
         {% else %}
-            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">
-                {% if research.title|length > 35 %}
-                    {{ research.title[:35] }}...
-                {% else %}
-                    {{ research.title }}
-                {% endif %}
-            </a>
+            {{ research.title }}
         {% endif %}
     </div>
     <ul class="con clearfix">
@@ -30,9 +19,8 @@
             <span>回答期限</span>
             <p>--</p>
         </li>
-        <li>
-            <span>积分</span>
-            <p class="point"><strong>{{ research.extra_info.point.complete }}</strong></p>
+        <li class="last">
+            <p><strong>{{ research.extra_info.point.complete }}</strong>积分</p>
         </li>
     </ul>
 </div>

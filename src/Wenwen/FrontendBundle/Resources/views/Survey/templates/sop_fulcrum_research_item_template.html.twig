@@ -1,9 +1,6 @@
-<div class="surveyImg fulcrumImg">F</div>
 <div class="survey-item">
     <div class="title">
-        <a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">
-            海外调查问卷
-        </a>
+        海外调查问卷
     </div>
     <ul class="con clearfix">
         <li class="first">
@@ -18,9 +15,8 @@
             <span>回答期限</span>
             <p>--</p>
         </li>
-        <li>
-            <span>积分</span>
-            <p class="point"><strong>{{ fulcrum_research.extra_info.point.complete }}</strong></p>
+        <li class="last">
+            <p><strong>{{ fulcrum_research.extra_info.point.complete }}</strong>积分</p>
         </li>
     </ul>
 </div>

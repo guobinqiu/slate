@@ -40,7 +40,4 @@
 
 {% block javascript %}
 	<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/home.js')}}"></script>
-	<script type="text/javascript">
-		window.location.replace("{{ path('_homepage') }}");
-	</script>
 {% endblock %}
