@@ -1,6 +1,13 @@
+<div class="surveyImg cintImg">C</div>
 <div class="survey-item">
     <div class="title">
-        海外调查问卷
+        {% if cint_research.is_answered == 1 %}
+            海外调查问卷
+        {% else %}
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">
+                海外调查问卷
+            </a>
+        {% endif %}
     </div>
     <ul class="con clearfix">
         <li class="first">
@@ -15,8 +22,9 @@
             <span>回答期限</span>
             <p>--</p>
         </li>
-        <li class="last">
-            <p><strong>{{ cint_research.extra_info.point.complete }}</strong>积分</p>
+        <li>
+            <span>积分</span>
+            <p class="point"><strong>{{ cint_research.extra_info.point.complete }}</strong></p>
         </li>
     </ul>
 </div>
