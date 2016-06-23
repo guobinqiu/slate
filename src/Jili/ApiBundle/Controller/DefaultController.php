@@ -245,62 +245,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/isExistVist", name="_default_isExistVist", options={"expose"=true})
-     * @Method("POST");
-	 */
-    public function isExistVistAction()
-    {
-        $day = date('Ymd');
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if (empty ($visit)) {
-                $code = $this->container->getParameter('init_one');
-            } else {
-                $code = $this->container->getParameter('init');
-            }
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
-	 * @Route("/infoVisit", name="_default_infoVisit", options={"expose"= true})
-     * @Method("POST")
-	 */
-    public function infoVisitAction()
-    {
-        $day = date('Ymd');
-        $logger = $this->get('logger');
-
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-
-            $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->getInfoVisit($id, $day);
-            if (empty ($visit)) {
-                $infoVisit = new UserInfoVisit();
-                $infoVisit->setUserId($id);
-                $infoVisit->setVisitDate($day);
-                $em->persist($infoVisit);
-                $em->flush();
-                $code = $this->container->getParameter('init_one');
-            } else {
-                $code = $this->container->getParameter('init');
-            }
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
 	 * @Route("/about", name="_default_about", requirements={"_scheme"="http"})
 	 */
     public function aboutAction()
