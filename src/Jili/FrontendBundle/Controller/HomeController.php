@@ -8,8 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
-use Jili\ApiBundle\Utility\FileUtil;
-use Jili\ApiBundle\Utility\WenwenToken;
 
 /**
  * @Route("/home",requirements={"_scheme"="http"})
