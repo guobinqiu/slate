@@ -1,5 +1,5 @@
 <?php
-namespace Jili\FrontendBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,14 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 
 /**
- * @Route("/home",requirements={"_scheme"="http"})
+ * 
  */
 class HomeController extends Controller
 {
     /**
-     * @Route("/index")
-     * @Route("/")
-     * @Method({ "GET"})
      */
     public function indexAction()
     {
@@ -70,8 +67,7 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/adExperience")
-     * @Template
+     * 
      */
     public function adExperienceAction()
     {
