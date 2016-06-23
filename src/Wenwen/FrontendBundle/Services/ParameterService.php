@@ -2,18 +2,22 @@
 
 namespace Wenwen\FrontendBundle\Services;
 
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
-class ParameterService
+/**
+ * 读取app/config/parameters.yml文件的配置信息
+ */
+final class ParameterService
 {
     private $container;
-    public function __construct(Container $container)
+
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function getParameter($param_name){
-        return $this->container->getParameter($param_name);
+    public function getParameter($name)
+    {
+        return $this->container->getParameter($name);
     }
 }

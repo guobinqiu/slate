@@ -413,27 +413,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/support/search", name="_default_support_search", requirements={"_scheme"="http"})
-     */
-    public function searchAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:search.html.twig');
-    }
-
-    /**
      * @Route("/feedback", name="_default_feedback", requirements={"_scheme"="http"})
      */
     public function feedbackAction()
     {
         return $this->render('WenwenFrontendBundle:Help:feedback.html.twig');
-    }
-
-    /**
-     * @Route("/feedback/confirm", name="_default_feedback_confirm", requirements={"_scheme"="http"})
-     */
-    public function confirmAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:confirm.html.twig');
     }
 
     /**

@@ -182,13 +182,16 @@ define(['jquery'],function($){
                 canScroll = true;
             });
         }
-        element.addClass("active");
-        if($('#section1').hasClass('active')){
-            // s = setInterval(function(){
-            //     addCon(8457469, '#userNum');
-            //     addCon(4874112, '#pointNum');
-            //     addCon(548775111, '#surveyNum');
-            // }, 20);    
+        element.addClass("active").siblings().removeClass('showNum');
+        if(element.find('.refNum').length >= 1){
+            element.addClass("showNum");
+        }
+        if($('#section1').hasClass('showNum')){
+            s = setInterval(function(){
+                $.each(element.find('.refNum b'), function(i, e){
+                    addCon(refNum[i], e);
+                });
+            }, 20);    
         }else{
             // initNum();
             clearInterval(s); 
@@ -232,9 +235,9 @@ define(['jquery'],function($){
             clearTimeout(keydownId);
             keydownId = setTimeout(function(){
                 var keyCode = e.keyCode;
-                if(keyCode == 37||keyCode == 38){
+                if(keyCode == 38){
                     SP.moveSectionUp();
-                }else if(keyCode == 39||keyCode == 40){
+                }else if(keyCode == 40){
                     SP.moveSectionDown();
                 }
             },150);
@@ -248,4 +251,5 @@ define(['jquery'],function($){
         'loop' : true,
         'keyboard' : true,
     });
+    var refNum = [8457469, 4874112, 548775111];
 });
