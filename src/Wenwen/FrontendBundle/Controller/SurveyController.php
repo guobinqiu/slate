@@ -65,10 +65,14 @@ class SurveyController extends Controller
      * @param $user_id
      * @return array
      */
-    private function getOrderedHtmlSurveyList($user_id) {
-        $redis = $this->get('snc_redis.default');
+    private function getOrderedHtmlSurveyList($user_id, $redisEnabled = true) {
         $surveyService = $this->get('app.survey_service');
+        
+        if (!$redisEnabled) {
+            return $surveyService->getOrderedHtmlSurveyList($user_id);
+        }
 
+        $redis = $this->get('snc_redis.default');
         $cacheKey = $user_id . '_getOrderedHtmlSurveyList';
         $cacheVal = $redis->get($cacheKey);
 
