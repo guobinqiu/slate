@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/project_survey")
@@ -30,16 +31,18 @@ class ProjectSurveyController extends Controller
      */
     public function endlinkAction(Request $request)
     {
-        $survey_id = $request->get('survey_id');
-        $answer_status = $request->get('answer_status');
-
-        if (!$request->getSession()->get('uid')) {
+        $userId = $request->getSession()->get('uid');
+        if (!$userId) {
             $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $arr['answer_status'] = $answer_status;
-        $arr['survey_id'] = $survey_id;
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', $arr);
+        $redis = $this->get('snc_redis.default');
+        $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', array(
+            'answer_status' => $request->get('answer_status'),
+            'survey_id' => $request->get('survey_id'),
+        ));
     }
 }

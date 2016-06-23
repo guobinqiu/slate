@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/survey")
@@ -30,7 +31,7 @@ class SurveyController extends Controller
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id, false);
+        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id);
 
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
     }
@@ -54,7 +55,7 @@ class SurveyController extends Controller
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id, false);
+        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id);
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
@@ -73,14 +74,14 @@ class SurveyController extends Controller
         }
 
         $redis = $this->get('snc_redis.default');
-        $cacheKey = $user_id . '_getOrderedHtmlSurveyList';
+        $cacheKey = CacheKeys::getOrderHtmlSurveyListKey($user_id);
         $cacheVal = $redis->get($cacheKey);
 
         if (is_null($cacheVal)) {
             $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
             if (!empty($html_survey_list)) {
                 $redis->set($cacheKey, serialize($html_survey_list));
-                $redis->expire($cacheKey, 60 * 60 * 24); //缓存24小时
+                $redis->expire($cacheKey, 60 * 60 * 8); //缓存8小时
             }
             return $html_survey_list;
         }
