@@ -289,6 +289,18 @@ ul.menu{
 		b{
 			font-family: "Arial";
 			font-weight: normal;
+			vertical-align: top;
+		}
+		em{
+			font-size: 24px;
+			vertical-align: top;
+			line-height: 45px;
+			@include dib();
+			&.chinese{
+				padding-left: 2px;
+				font-size: 16px;
+				
+			}
 		}
 		.num{
 			float: left;

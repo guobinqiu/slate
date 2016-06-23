@@ -155,11 +155,11 @@ define(['jquery'],function($){
             if(num.remainder != 0){
                 curNum = curNum - num.remainder;     
             }
-            $(ele).text(curNum + '+');
+            $(ele).text(curNum);
             return false;
         }
         curNum = curNum + num.interval;
-        $(ele).text(curNum + '+');
+        $(ele).text(curNum);
     }
     initNum();
     //渲染效果
