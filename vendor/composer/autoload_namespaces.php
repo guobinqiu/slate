@@ -15,6 +15,7 @@ return array(
     'Symfony\\' => array($vendorDir . '/symfony/symfony/src'),
     'Stagehand\\ComponentFactory' => array($vendorDir . '/piece/stagehand-componentfactory/src'),
     'Stagehand\\AlterationMonitor' => array($vendorDir . '/piece/stagehand-alterationmonitor/src'),
+    'Snc\\RedisBundle' => array($vendorDir . '/snc/redis-bundle'),
     'Sensio\\Bundle\\GeneratorBundle' => array($vendorDir . '/sensio/generator-bundle'),
     'Sensio\\Bundle\\FrameworkExtraBundle' => array($vendorDir . '/sensio/framework-extra-bundle'),
     'Sensio\\Bundle\\DistributionBundle' => array($vendorDir . '/sensio/distribution-bundle'),
