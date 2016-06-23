@@ -33,16 +33,16 @@
 						</li>
 						<li id="vcode" class="liner">
 							{{ form_label(form.captcha) }}
-							<div>{{ form_widget(form.captcha) }}<span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span></div>
+							<div class="vcodeImg">{{ form_widget(form.captcha) }}<span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span></div>
 						</li>
 						<li class="subscribe">
-							<div>{{ form_widget(form.unsubscribe) }}我愿意接收91问问发出的会员邮件
+							<div>{{ form_widget(form.unsubscribe) }} <label for="signup_unsubscribe">我愿意接收91问问发出的会员邮件</label>
 								<!-- <div class="tips expand-btn">
 									<b>?</b>
 									<div class="tips-con expand-con"><p>91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。</p><b class="arrow"></b></div>
 								</div> -->
 							</div>
-							<div>{{ form_widget(form.agreement) }}我已阅读并接收<a href="{{ path('_default_about_regulations') }}" id="protocol" title="会员协议">《会员协议》</a></div>
+							<div>{{ form_widget(form.agreement) }}<label for="signup_agreement" class="agreement">我已阅读并接收<a href="{{ path('_default_about_regulations') }}" id="protocol" title="会员协议" target="_blank">《会员协议》</a></label></div>
 						</li>
 					</ul>
 					<div class="login-btn"><span id="submit_button" tabindex="0">注&nbsp;&nbsp;&nbsp;册</span></div>

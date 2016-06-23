@@ -73,7 +73,7 @@ require(['/js/config.js'],function(){
         }
         var tips = $('.tips');
         tips.removeClass('active');
-        var lis = $('.login li'), inputs = lis.find('input'), labels = lis.find('label');
+        var lis = $('.login li'), inputs = lis.find('input[type!="checkbox"]'), labels = lis.find('label');
         inputs.each(function(i, e){
             if(!$(this).val()){
                 labels.eq(i).show();

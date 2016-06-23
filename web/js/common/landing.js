@@ -141,7 +141,7 @@ define(['jquery'],function($){
     }
     function calcNum(endNum, time){
         var num = { 
-            interval: parseInt(endNum/time), 
+            interval: Math.ceil(endNum/time), 
             remainder: endNum%time
         };
         return num;
@@ -149,10 +149,12 @@ define(['jquery'],function($){
 
     function addCon(endNum, ele){
         var curNum = parseInt($(ele).text());
-        var num = calcNum(endNum, 200);
+        var num = calcNum(endNum, 8);
         if(curNum >= endNum){ 
             clearInterval(s); 
-            curNum = curNum + num.remainder - num.interval; 
+            if(num.remainder != 0){
+                curNum = curNum - num.remainder;     
+            }
             $(ele).text(curNum + '+');
             return false;
         }
@@ -191,7 +193,7 @@ define(['jquery'],function($){
                 $.each(element.find('.refNum b'), function(i, e){
                     addCon(refNum[i], e);
                 });
-            }, 20);    
+            }, 200);    
         }else{
             // initNum();
             clearInterval(s); 

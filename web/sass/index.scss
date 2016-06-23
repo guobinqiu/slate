@@ -595,7 +595,7 @@ ul.menu{
 			text-align: left;
 		}
 		input[type="text"], input[type="email"], input[type="password"]{
-			width: 94%;
+			width: 90%;
 			height: 45px;
 			line-height: 45px;
 			border: none;
@@ -607,45 +607,6 @@ ul.menu{
 				outline: none;
 			}
 		}
-	}
-	p{
-		text-align: center;
-		color: $weak-color;
-		a{
-			&.spec{
-				float: none;
-				color: #fff;
-				font-size: 14px;	
-			}
-		}
-	}
-	.login-btn-others{
-		margin-top: 20px;
-		a{
-			width: 100px;
-			color: #fff;
-			background: #635b5b url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-			&.qq-login{
-				background: #635b5b url(../img/home/qqUnact.png) no-repeat 24px 10px;
-				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
-				&:hover{
-					background: #635b5b url(../img/home/qq.png) no-repeat 24px 10px; 
-					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
-				}
-			}
-			&:hover{
-				background: #635b5b url(../img/home/sina.png) no-repeat 24px 12px;
-				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
-			}
-		}
-	}
-}
-/*-----------rewrite reg style------------*/
-.register{
-	width: 346px;
-	height: 450px;
-	li{
 		span{
 			position: absolute;
 			z-index: 1;
@@ -690,6 +651,52 @@ ul.menu{
 			}
 		}
 	}
+	p{
+		text-align: center;
+		color: $weak-color;
+		a{
+			&.spec{
+				float: none;
+				color: #fff;
+				font-size: 14px;	
+			}
+		}
+	}
+	.login-btn-others{
+		margin-top: 20px;
+		a{
+			width: 100px;
+			color: #fff;
+			background: #635b5b url(../img/home/sinaUnact.png) no-repeat 24px 12px;
+			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
+			&.qq-login{
+				background: #635b5b url(../img/home/qqUnact.png) no-repeat 24px 10px;
+				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
+				&:hover{
+					background: #635b5b url(../img/home/qq.png) no-repeat 24px 10px; 
+					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
+				}
+			}
+			&:hover{
+				background: #635b5b url(../img/home/sina.png) no-repeat 24px 12px;
+				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
+			}
+		}
+	}
+}
+/*-----------rewrite reg style------------*/
+.register{
+	height: 450px;
+	li{
+		&.subscribe{
+			label{
+				left: 35px;
+				width: auto;
+				line-height: 24px;
+				@include dib();
+			}
+		}
+	}
 	.login-btn{
 		span{
 			width: 100%;
@@ -703,13 +710,17 @@ ul.menu{
 #vcode{
 	font-size: 12px;
 	.vcodeImg{
-		position: relative;
-		height: 56px;
+		&>div{
+			position: relative;
+			z-index: 3;
+			height: 56px;	
+		}
 	}
 	.captcha_reload{
 		position: absolute;
+		z-index: 5;
 	    top: 16px;
-	    right: 90px;
+	    right: 58px;
 	    background: url(../img/user/change.png) no-repeat;
 	    padding-left: 20px;
 	    height: 14px;
