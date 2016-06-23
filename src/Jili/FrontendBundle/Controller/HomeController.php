@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Jili\ApiBundle\Utility\FileUtil;
