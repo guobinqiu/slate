@@ -37,6 +37,8 @@
 		z-index: 1;
 		img{
 			vertical-align: middle;
+			display: inherit;
+			margin-left: 18px;
 		}
 		span{
 			vertical-align: middle;
@@ -71,7 +73,7 @@
 			&.error, strong{
 				position: absolute;
 				z-index: 1000;
-				right: 0;
+				right: 5px;
 				top: 0;
 				color: #c80000;
 				background: #fff;

@@ -92,15 +92,14 @@ ul.menu{
 	}
 	a{
 		width: 100%;
-		height: 50px;
-		line-height: 50px;
+		height: 48px;
+		line-height: 48px;
 		font-size: 0;
 		cursor: pointer;
 		display: inline-block;
 		&:hover{
 			color: #ff781e;
 		}
-		
 	}
 	&.active{
 		font-size: 14px;
@@ -140,7 +139,7 @@ ul.menu{
 		text-align: center;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 1s ease 1s;
+		transition: all 1s ease 300ms;
 	}
 	.btns{
 		position: absolute;
@@ -163,9 +162,13 @@ ul.menu{
 			color: #2b2b2b;
 			background: #fff;
 			border-radius: 3px;
+			&[title="登录"]{
+				color: #fff;
+				background-color: rgba(255,255,255,0.4);
+			}
 			&.active{
 				color: #fff;
-				background: #ff781e;
+				background: #17b5e5;
 			}
 		}
 	}
@@ -386,7 +389,6 @@ ul.menu{
 		}
 		&:hover{
 			z-index: 5;
-			transform: scale(1.2, 1.2);
 		}
 		.personal{
 			margin-top: 65px;
@@ -402,14 +404,14 @@ ul.menu{
 		transition: all 1s ease 1s;
 	}
 	.item2{
-		transition: all 1s ease 5s;
+		transition: all 1s ease 2s;
 	}
 	.item3{
 		top: 32%;
-		transition: all 1s ease 3s;
+		transition: all 1s ease 1.5s;
 	}
 	.item4{
-		transition: all 1s ease 7s;
+		transition: all 1s ease 2.5s;
 	}
 	&.active{
 		.sectionCon{
@@ -530,11 +532,11 @@ ul.menu{
 	position: absolute;
 	z-index: 6;
 	left: 50%;
-	top: 55%;
+	top: 45%;
 	margin-left: -142px;
 	opacity: 0;
 	visibility: hidden;
-	transition: all 1s ease 1s;
+	transition: all 500ms ease 1s;
 	.login-btn{
 		margin-top: 15px;
 		background: #17b5e5;
@@ -585,7 +587,7 @@ ul.menu{
 		label{
 			position: absolute;
 			z-index: 2;
-			left: 10px;
+			left: 15px;
 			display: block;
 			line-height: 45px;
 			color: #a0a0a0;
@@ -597,7 +599,7 @@ ul.menu{
 			height: 45px;
 			line-height: 45px;
 			border: none;
-			padding: 0 3%;
+			padding: 0 5%;
 			font-size: 14px;
 			&:focus, &.active{
 				border: none;
@@ -641,41 +643,48 @@ ul.menu{
 }
 /*-----------rewrite reg style------------*/
 .register{
+	width: 346px;
 	height: 450px;
 	li{
 		span{
 			position: absolute;
 			z-index: 1;
-			right: -355px;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 1s ease 5ms;
+			// right: -355px;
+			// opacity: 0;
+			// visibility: hidden;
+			// transition: all 1s ease 5ms;
 			display: inline-block;
 			&.error, &.focus{
 				border: none;
-				padding: 0 10px;
-				height: 45px;
-				line-height: 45px;
-				color: #fff;
-				border-radius: 3px;
-				background: #666;
-				background: rgba(0, 0, 0, .6);
+				padding: 0 5px;
+				height: 24px;
+				line-height: 24px;
+				margin: 9px 10px 0 0;
+				
+				// border-radius: 3px;
+				font-size: 12px;
+				// background: #666;
+				// background: rgba(0, 0, 0, .6);
 			}
 			&.error{
-				right: 0;
-				font-size: 12px;
-				opacity: 1;
-				visibility: visible;
+				color: #a94442;
+			    background-color: #f2dede;
+			    border: 1px solid #ebccd1;
 			}
 			&.focus{
 				top: 0;
-				opacity: 0;
-				visibility: hidden;
-				font-size: 0;
+				right: 5px;
+				color: #3c763d;
+				background-color: #dff0d8;
+				border: 1px solid #d6e9c6;
+				@include border-radius(4px);
+				// opacity: 0;
+				// visibility: hidden;
+				// font-size: 0;
 			}
-			&.fade, &.null{
-				right: -355px;
-			}
+			// &.fade, &.null{
+			// 	right: -355px;
+			// }
 			ul{
 				background: transparent;
 				margin-bottom: 0; 
@@ -685,8 +694,8 @@ ul.menu{
 	.login-btn{
 		span{
 			width: 100%;
-			height: 40px;
-			line-height: 40px;
+			height: 46px;
+			line-height: 46px;
 			display: inline-block;
 			outline: none;
 		}
@@ -695,10 +704,16 @@ ul.menu{
 #vcode{
 	font-size: 12px;
 	.vcodeImg{
-		padding-left: 30px;
+		position: relative;
+		height: 56px;
 	}
 	.captcha_reload{
-		margin-left: 5px;
+		position: absolute;
+	    top: 16px;
+	    right: 90px;
+	    background: url(../img/user/change.png) no-repeat;
+	    padding-left: 20px;
+	    height: 14px;
 	}
 }	
 .subscribe{
