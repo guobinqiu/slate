@@ -2,11 +2,7 @@
 <div class="survey-item">
     <div class="title">
         <a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">
-            {% if fulcrum_research.title|length > 35 %}
-                {{ fulcrum_research.title[:35] }}...
-            {% else %}
-                {{ fulcrum_research.title }}
-            {% endif %}
+            海外调查问卷
         </a>
     </div>
     <ul class="con clearfix">

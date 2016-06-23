@@ -2,18 +2,10 @@
 <div class="survey-item">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
-            {% if cint_research.title|length > 35 %}
-                {{ cint_research.title[:35] }}...
-            {% else %}
-                {{ cint_research.title }}
-            {% endif %}
+            海外调查问卷
         {% else %}
             <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">
-                {% if cint_research.title|length > 35 %}
-                    {{ cint_research.title[:35] }}...
-                {% else %}
-                    {{ cint_research.title }}
-                {% endif %}
+                海外调查问卷
             </a>
         {% endif %}
     </div>
