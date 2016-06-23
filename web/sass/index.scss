@@ -660,7 +660,6 @@ ul.menu{
 				height: 24px;
 				line-height: 24px;
 				margin: 9px 10px 0 0;
-				
 				// border-radius: 3px;
 				font-size: 12px;
 				// background: #666;
@@ -678,9 +677,9 @@ ul.menu{
 				background-color: #dff0d8;
 				border: 1px solid #d6e9c6;
 				@include border-radius(4px);
-				// opacity: 0;
-				// visibility: hidden;
-				// font-size: 0;
+				opacity: 0;
+				visibility: hidden;
+				font-size: 0;
 			}
 			// &.fade, &.null{
 			// 	right: -355px;

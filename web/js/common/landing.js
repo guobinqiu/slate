@@ -251,5 +251,5 @@ define(['jquery'],function($){
         'loop' : true,
         'keyboard' : true,
     });
-    var refNum = [8457469, 4874112, 548775111];
+    var refNum = [8, 41500, 5000000];
 });
