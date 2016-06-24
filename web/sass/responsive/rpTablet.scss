@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+
+@media only screen and (min-width: 600px) and (max-width: 768px)  {
+    /* header */
+    .header-nav .nav a{
+        width: 88px;
+    }
+    .navCollapsed{
+        display: none;
+    }
+
+    
+}

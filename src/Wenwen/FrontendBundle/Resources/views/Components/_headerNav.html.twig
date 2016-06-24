@@ -2,7 +2,7 @@
     <div class="header-nav-con w1000 clearfix">
         <div class="logo left">
             <a href="{{ path('_homepage') }}" title="91问问调查网logo">
-            <img src="{{ asset('img/common/logo.png') }}" alt="91问问调查网logo"></a>
+            <img src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo"></a>
             <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
         </div>
         <div class="nav left">
@@ -21,6 +21,11 @@
             <div class="border"></div>
             <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
         </div>
+        <button type="button" class="navCollapsed hiddenDesktop hiddenTablet visiblePhone">
+            <span class="iconBar"></span>
+            <span class="iconBar"></span>
+            <span class="iconBar"></span>
+        </button>
         {% if app.session.has('uid') %}
         {% else %}
         <div class="login-btn right">

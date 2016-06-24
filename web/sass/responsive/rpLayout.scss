@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+@import "rpPhone";
+@import "rpTablet";
+@import "rpDesktop"; 
+
+@media only screen and (max-width: 600px) {
+    /* For mobile phones: */
+    .col-m-1 {width: 8.33%!important;}
+    .col-m-2 {width: 16.66%!important;}
+    .col-m-3 {width: 25%!important;}
+    .col-m-4 {width: 33.33%!important;}
+    .col-m-5 {width: 41.66%!important;}
+    .col-m-6 {width: 50%!important;}
+    .col-m-7 {width: 58.33%!important;}
+    .col-m-8 {width: 66.66%!important;}
+    .col-m-9 {width: 75%!important;}
+    .col-m-10 {width: 83.33%!important;}
+    .col-m-11 {width: 91.66%!important;}
+    .col-m-12 {width: 100%!important;}
+
+    .visiblePhone{
+        display: inherit!important;
+    }
+    .hiddenPhone{
+        display: none!important;
+    }
+    .leftPhone{
+        float: left;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px)  {
+    /* For Tablet: */
+    .col-t-1 {width: 8.33%;}
+    .col-t-2 {width: 16.66%;}
+    .col-t-3 {width: 25%;}
+    .col-t-4 {width: 33.33%;}
+    .col-t-5 {width: 41.66%;}
+    .col-t-6 {width: 50%;}
+    .col-t-7 {width: 58.33%;}
+    .col-t-8 {width: 66.66%;}
+    .col-t-9 {width: 75%;}
+    .col-t-10 {width: 83.33%;}
+    .col-t-11 {width: 91.66%;}
+    .col-t-12 {width: 100%;}
+
+    .visibleTablet{ 
+        display: inherit!important;
+    }
+    .hiddenTablet{
+        display: none!important;
+    }
+    .leftTablet{
+        float: left;
+    }
+    .topRight{
+        & > div{
+            width: 48%;
+        }
+    }
+    .main-con-right .exchange-dynamics{
+        margin-left: 2%;
+    }
+}
+@media only screen and (min-width: 768px)  {
+    /* For Desktop: */
+    .col-d-1 {width: 8.33%;}
+    .col-d-2 {width: 16.66%;}
+    .col-d-3 {width: 25%;}
+    .col-d-4 {width: 33.33%;}
+    .col-d-5 {width: 41.66%;}
+    .col-d-6 {width: 50%;}
+    .col-d-7 {width: 58.33%;}
+    .col-d-8 {width: 66.66%;} 
+    .col-d-9 {width: 75%;}
+    .col-d-10 {width: 83.33%;}
+    .col-d-11 {width: 91.66%;}
+    .col-d-12 {width: 100%;}
+
+    .visibleDesktop{
+        display: inherit!important;
+    }
+    .hiddenDesktop{
+        display: none!important;
+    }
+}
+
+@media only screen and (max-width: 768px)  {
+    /* For Phone&Tablet: */
+    *{
+        box-sizing: border-box;
+    }
+    .w1000{
+        width: auto;
+    }
+    .header-nav .logo span{
+        display: none;
+    }
+    .main-con-left>div{
+        padding: 0;
+    } 
+    .header{
+        height: 52px;
+    }
+
+    /* footer */
+    .footer{
+        padding-top: 20px;
+        background: #EBEBEB;
+        text-align: center;
+        .footer-con{
+            padding-bottom: 0;
+        }
+        .footerMini{
+            background: #E3E3E3;
+            padding: 20px 0;
+            a{
+                text-align: center;
+                width: 50%;
+            }
+        }
+        .copyright{
+            background: #fff;
+            padding: 10px 0;
+        }
+        .footer-nav-group span{{
+            text-align: center;
+        }
+        .footer-con-left{
+            text-align: center;
+            float: none;
+            margin: 0 auto;
+        }
+    }
+   
+    /* homepage */
+    .vote-img{
+        width: auto;
+        a{
+            margin-right: 10px;
+            display: none;
+        }
+    }
+    .homeBr{
+        height: 70px;
+        padding-top: 27px;
+        .left {
+            margin-top: -7px;
+        }
+        .right{
+            display: none;
+        }
+        .faceWapper img{
+            width: 40px;
+            height: 40px;
+        }
+    }
+    .survey{
+        .survey-btn{
+            right: 0;
+            top: 10px;
+            a{
+                width: 82px;
+                height: 26px;
+                line-height: 26px;
+            }
+        }
+        .survey-item{
+            width: 100%;
+            .proRow{
+                width: 100%;
+            }
+            li{
+                width: 25%;
+            }
+            li.last p{
+                white-space: nowrap;
+            }
+        }
+    } 
+    .vote-txt{
+        width: 100%;
+    }
+    .header-nav{
+        height: 52px;
+        line-height: 52px;
+        img{
+            height: 32px;
+            margin: 8px 0 0 15px;
+            vertical-align: initial;
+        }
+    }
+    .vote li:after{
+        width: 100%;
+        left: 0;
+    }
+}
