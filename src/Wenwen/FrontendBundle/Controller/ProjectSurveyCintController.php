@@ -95,7 +95,7 @@ class ProjectSurveyCintController extends Controller
     }
 
     /**
-     * @Route("/endlink/{survey_id}/{answer_status}")
+     * @Route("/endlink/{survey_id}/{answer_status}", name="_cint_project_survey_endlink")
      */
     public function endlinkAction(Request $request)
     {
