@@ -40,7 +40,7 @@ class FulcrumProjectSurveyController extends Controller
             $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
         }
 
-        return $this->render('WenwenFrontendBundle:ProjectSurveyFulcrum:endlink.html.twig');
+        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig');
     }
 
 }
