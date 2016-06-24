@@ -45,4 +45,20 @@ class ProjectSurveyController extends Controller
             'survey_id' => $request->get('survey_id'),
         ));
     }
+
+    /**
+     * @Route("/profile_questionnaire/endlink/complete")
+     */
+    public function profileQuestionnaireEndlinkAction(Request $request) {
+        $userId = $request->getSession()->get('uid');
+        if (!$userId) {
+            $this->get('request')->getSession()->set('referer', $request->getUri());
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $redis = $this->get('snc_redis.default');
+        $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+
+        return $this->redirect($this->generateUrl('_homepage'));
+    }
 }

@@ -64,12 +64,14 @@ class SurveyController extends Controller
      * 读取问卷列表先走缓存
      *
      * @param $user_id
+     * @param bool $useCache
+     * @param int $lifetime How many seconds
      * @return array
      */
-    private function getOrderedHtmlSurveyList($user_id, $redisEnabled = true) {
+    private function getOrderedHtmlSurveyList($user_id, $useCache = true, $lifetime = CacheKeys::LIFETIME) {
         $surveyService = $this->get('app.survey_service');
-        
-        if (!$redisEnabled) {
+
+        if (!$useCache) {
             return $surveyService->getOrderedHtmlSurveyList($user_id);
         }
 
@@ -81,7 +83,7 @@ class SurveyController extends Controller
             $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
             if (!empty($html_survey_list)) {
                 $redis->set($cacheKey, serialize($html_survey_list));
-                $redis->expire($cacheKey, 60 * 60 * 8); //缓存8小时
+                $redis->expire($cacheKey, $lifetime);
             }
             return $html_survey_list;
         }
