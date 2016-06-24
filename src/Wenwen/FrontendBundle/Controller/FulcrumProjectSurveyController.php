@@ -24,7 +24,7 @@ class FulcrumProjectSurveyController extends Controller
     }
 
     /**
-     * @Route("/endlink/{survey_id}/{answer_status}")
+     * @Route("/endlink/{survey_id}/complete")
      */
     public function endlinkAction(Request $request)
     {
@@ -34,8 +34,11 @@ class FulcrumProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $redis = $this->get('snc_redis.default');
-        $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyFulcrum:endlink.html.twig');
     }

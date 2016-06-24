@@ -37,10 +37,13 @@ class ProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $redis = $this->get('snc_redis.default');
-        $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
 
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:complete.html.twig', array(
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
             'answer_status' => $request->get('answer_status'),
             'survey_id' => $request->get('survey_id'),
         ));
@@ -56,8 +59,11 @@ class ProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $redis = $this->get('snc_redis.default');
-        $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
 
         return $this->redirect($this->generateUrl('_homepage'));
     }

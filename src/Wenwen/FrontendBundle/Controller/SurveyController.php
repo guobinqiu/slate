@@ -68,10 +68,11 @@ class SurveyController extends Controller
      * @param int $lifetime How many seconds
      * @return array
      */
-    private function getOrderedHtmlSurveyList($user_id, $useCache = true, $lifetime = CacheKeys::LIFETIME) {
+    private function getOrderedHtmlSurveyList($user_id) {
         $surveyService = $this->get('app.survey_service');
+        $cacheSettings = $this->container->getParameter('cache_settings');
 
-        if (!$useCache) {
+        if (!$cacheSettings['enable']) {
             return $surveyService->getOrderedHtmlSurveyList($user_id);
         }
 
@@ -83,7 +84,7 @@ class SurveyController extends Controller
             $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
             if (!empty($html_survey_list)) {
                 $redis->set($cacheKey, serialize($html_survey_list));
-                $redis->expire($cacheKey, $lifetime);
+                $redis->expire($cacheKey, $cacheSettings['lifetime']);
             }
             return $html_survey_list;
         }
