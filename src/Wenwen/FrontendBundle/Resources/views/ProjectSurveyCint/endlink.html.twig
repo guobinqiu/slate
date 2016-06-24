@@ -17,10 +17,12 @@
             <div class="txt"><h2>亲爱的用户！您好！</h2>
                 感谢您参加并成功完成本次问卷调查。<br>
                 积分会在调查结束审核过后自动累计到您的账户！</div>
-            {% elseif answer_status == 'screenout' or  answer_status == 'quotafull' %}
+            {% elseif answer_status == 'screenout' %}
             <div class="txt sad"><h2>亲爱的用户！您好！</h2>
                 非常感谢您参加本次调查。<br>
                 由于您不符合本次调查内容，您将获得<b>1个积分</b>，积分会在调查结束后自动累计到您的账户！</div>
+            {% elseif answer_status == 'quotafull' %}
+                <div class="txt sad"><h2>亲爱的用户！您好！</h2>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。</div>
             {% elseif answer_status == 'error' %}
             <div class="txt sad"><h2>亲爱的用户！您好！</h2>
                 对不起，您不符合这次问卷的要求，敬请期待下次的高积分问卷。</div>
