@@ -2,28 +2,6 @@
 依赖jquery.js, routing.js
 -------------------*/
 $(function(){
-
-    // var navLinks = $('.header-nav .nav a');
-    // // var navSlider = $('.header-nav .border');
-    // var curIndex = navLinks.parent().find('.active').index();
-
-    // if(curIndex != -1){
-    //    navSlider.show().animate({ left: 115 * curIndex +'px'}, 100);
-    // }
-    // navLinks.hover(function(){
-    //     var i = $(this).index();
-    //     // navSlider.show().animate({ left: 115 * i +'px'}, 100);
-    // }, function(){});
-    
-    // navLinks.parent().hover(function(){
-    // }, function(){
-    //     var i = navLinks.parent().find('.active').index();
-    //     // if(i != -1){
-    //     //     navSlider.show().animate({ left: 115 * i +'px'}, 100);
-    //     // }else{
-    //     //     navSlider.hide();
-    //     // }
-    // });
     var href = window.location.href;
     var nav = $('.header-nav .nav');
     var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验','exchange': '兑换中心'};
