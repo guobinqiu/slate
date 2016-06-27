@@ -3,7 +3,7 @@
 @import "../layout/global";
 @import "rpPhone";
 @import "rpTablet";
-@import "rpDesktop"; 
+@import "rpDesktop";  
 
 @media only screen and (max-width: 600px) {
     /* For mobile phones: */
@@ -125,7 +125,7 @@
             background: #fff;
             padding: 10px 0;
         }
-        .footer-nav-group span{{
+        .footer-nav-group span{
             text-align: center;
         }
         .footer-con-left{
@@ -197,3 +197,4 @@
         left: 0;
     }
 }
+@import "rpPersonal";

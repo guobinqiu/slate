@@ -12,13 +12,13 @@
 {% block body %}
 <div class="main-personal w1000 clearfix">
     {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-    <div class="main-personal-right right">
+    <div class="main-personal-right right rp-main-personal-right">
         <h2>个人资料</h2>
         <div class="main-personal-profile">
             <div class="profile-base">
                 <h3>基本信息</h3>
                 <div class="con clearfix">
-                    <div class="face left">
+                    <div class="face left col-d-3">
                         <div class="face-wapper">
                             {% if user.iconPath %}
                             <img src='{{ asset(user.iconPath) }}' width="90" height="90" />
@@ -31,7 +31,7 @@
                             </form>
                         </div>
                     </div>
-                    <ul class="form text left">
+                    <ul class="form text left col-d-9">
                         <li class="nk">{{ user.nick[:12] }}</li>
                         <li>
                             <label for="">登录账号：</label>
