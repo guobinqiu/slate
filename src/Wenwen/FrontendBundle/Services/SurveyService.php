@@ -2,40 +2,36 @@
 
 namespace Wenwen\FrontendBundle\Services;
 
-use Doctrine\ORM\EntityManager;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Templating\EngineInterface;
-use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
+use Guzzle\Http\Exception\CurlException;
 use SOPx\Auth\V1_1\Util;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 /**
- * 访问外部服务器，获取用户可回答的问卷信息
- */
+* 访问外部服务器，获取用户可回答的问卷信息
+*/
 class SurveyService
 {
-    private $httpClient;
-
-    private $templating;
-
     private $logger;
 
     private $em;
 
-    private $parameterService;
+    private $parameter;
+
+    private $http_client;
+
+    private $templating;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
     private $dummy = false;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em, ParameterService $parameterService, HttpClient $httpClient, EngineInterface $templating)
-    {
+    public function __construct($logger, $em, $parameter, $http_client, $templating){
         $this->logger = $logger;
         $this->em = $em;
-        $this->parameterService = $parameterService;
-        $this->httpClient = $httpClient;
+        $this->parameter = $parameter;
+        $this->http_client = $http_client;
         $this->templating = $templating;
     }
 
@@ -44,10 +40,10 @@ class SurveyService
     }
 
     /**
-     * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
-     * @param $user_id 91wenwen的用户ID
-     * @return $app_mid SOP的APP_MID
-     */
+    * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
+    * @param $user_id 91wenwen的用户ID
+    * @return $app_mid SOP的APP_MID
+    */
     private function getSOPRespondentID($user_id){
         $this->logger->debug(__METHOD__ . ' - START - ');
         // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
@@ -58,14 +54,14 @@ class SurveyService
     }
 
     /**
-     * 生成该用户用来访问SOP survey list的url
-     * @param $app_mid
-     * @return $sop_api_url
-     */
+    * 生成该用户用来访问SOP survey list的url
+    * @param $app_mid
+    * @return $sop_api_url
+    */
     private function getSOPAPIUrl($app_mid){
         $this->logger->debug(__METHOD__ . ' - START - ');
 
-        $sop_config = $this->parameterService->getParameter('sop');
+        $sop_config = $this->parameter->getParameter('sop');
         $app_id = $sop_config['auth']['app_id'];
         $host = $sop_config['host'];
         $app_secret = $sop_config['auth']['app_secret'];
@@ -103,10 +99,10 @@ class SurveyService
 //        回答了profiling后research才会有数据
 //        回答了user_agreement[fulcrum]后fulcrum_research才会有数据
 //        回答了user_agreement[cint]后cint_research才有数据
-
     /**
      * @param $user_id
-     * @return string json格式字符串
+     * @return string json
+     * @throws 抛网络连接异常
      */
     private function getSOPSurveyListJson($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
@@ -121,15 +117,19 @@ class SurveyService
         // 生成sop_api_url
         $sop_api_url = $this->getSOPAPIUrl($app_mid);
 
-        $request = $this->httpClient->get($sop_api_url);
-        $response = $request->send();
-        $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
-        return $this->extractRealpart($response->getBody());
+        try {
+            $request = $this->http_client->get($sop_api_url, null, array('timeout' => 30, 'connect_timeout' => 30));
+            $response = $request->send();
+            $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
+            return $this->extractRealpart($response->getBody());
+        } catch(CurlException $e) {
+            throw $e;
+        }
     }
 
     /**
-     * @return json $dummy_res 模拟一个SOP survey list返回的数据
-     */
+    * @return json $dummy_res 模拟一个SOP survey list返回的数据
+    */
     private function getDummySurveyListJson () {
 
        //构造一个仿真数据
@@ -253,10 +253,10 @@ class SurveyService
     }
 
     /**
-     * 返回该用户的可回答问卷数据
-     * @param string $user_id 用户id
-     * @return array $ssi_res
-     */
+    * 返回该用户的可回答问卷数据
+    * @param string $user_id 用户id
+    * @return array $ssi_res
+    */
     private function getSSiSurveyList($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
@@ -265,7 +265,7 @@ class SurveyService
 
         $ssi_res = array ();
         $ssi_res['ssi_surveys'] = [];
-        $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
+        $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
         // SSI respondent
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
 
@@ -290,10 +290,10 @@ class SurveyService
     }
 
     /**
-     * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
-     * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
-     * @return array $ssi_res
-     */
+    * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
+    * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
+    * @return array $ssi_res
+    */
     private function getDummySSiSurveyList(){
         $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
         // 造一个假的ssi project survey数据
@@ -304,7 +304,7 @@ class SurveyService
         // 理想中，假数据的准备不应该在这里做，应该在ssi的模块中做
         // 将来ssi的对接考虑重新做，到时候再整体调整
         $ssi_res = array ();
-        $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
+        $ssi_res['ssi_project_config'] = $this->parameter->getParameter('ssi_project_survey');
         $ssi_res['needPrescreening'] = true;
         $item = [];
         $item['id'] = '555';
@@ -345,12 +345,11 @@ class SurveyService
         }
 
         // 获取sop的数据
-        $result = $this->getSOPSurveyListJson($user_id);
-        $sop = json_decode($result, true);
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
 
         // 处理sop的数据
         if ($sop['meta']['code'] != 200) {
-            $this->logger->error($result);
+            $this->logger->error($sop['meta']['message']);
             return $html_survey_list;
         }
 
@@ -417,24 +416,21 @@ class SurveyService
     }
 
     /**
-     * 获取指定用户可回答的属性问卷的信息
-     * 获取失败的时候返回一个空array
-     * @param  string $user_id
-     * @return array $sop_profiling_info
-     *               $sop_profiling_info['profiling']['url']   属性问卷的URL
-     *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
-     *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
-     */
+    * 获取指定用户可回答的属性问卷的信息
+    * 获取失败的时候返回一个空array
+    * @param  string $user_id
+    * @return array $sop_profiling_info
+    *               $sop_profiling_info['profiling']['url']   属性问卷的URL
+    *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
+    *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
+    */
     public function getSOPProfilingSurveyInfo($user_id) {
-        $sop_profiling_info = [];
-
         // 获取sop的数据
-        $result = $this->getSOPSurveyListJson($user_id);
-        $sop = json_decode($result, true);
-
+        $sop = json_decode($this->getSOPSurveyListJson($user_id), true);
+        $sop_profiling_info = [];
         // 处理sop的数据
         if ($sop['meta']['code'] != 200) {
-            $this->logger->error($result);
+            $this->logger->error($sop['meta']['message']);
         } else {
             $this->logger->debug(__METHOD__ . ' profiling - ' . $sop['data']['profiling'][0]['url'] );
             $sop_profiling_info['profiling'] = $sop['data']['profiling'][0];

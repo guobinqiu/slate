@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 /**
- * 监视Controller异常
+ * 捕获Controller异常
  */
 class ExceptionListener
 {

@@ -38,24 +38,6 @@ class TopController extends Controller
     }
 
     /**
-     * @Route("/ranking")
-     * @Template
-     */
-    public function rankingAction()
-    {
-        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        //排行榜 :从文件中读取
-        $filename = $this->container->getParameter('file_path_ranking_month');
-        $rankingMonth = FileUtil::readCsvContent($filename);
-        $filename = $this->container->getParameter('file_path_ranking_year');
-        $rankingYear = FileUtil::readCsvContent($filename);
-        $arr['rankingMonth'] = $rankingMonth;
-        $arr['rankingYear'] = $rankingYear;
-        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
-        return $this->render('JiliApiBundle:Top:ranking.html.twig', $arr);
-    }
-
-    /**
      * @Route("/callboard")
      * @Template
      */
@@ -76,28 +58,6 @@ class TopController extends Controller
         $arr['callboard'] = $callboard;
 
         return $this->render('WenwenFrontendBundle:Callboard:_listHome.html.twig', $arr);
-    }
-
-    /**
-     * @Route("/userInfo")
-     * @Template
-     */
-    public function userInfoAction()
-    {
-        //个人中心
-        //确认中的米粒数
-        $arr['confirmPoints'] = $this->get('session.points')->getConfirm();
-
-        // 是否已经签到
-        $taskList = $this->get('session.task_list');
-        if( $this->container->getParameter('init_one') === $taskList->get('checkin_visit') ) {
-            $arr['userCheckin'] = $this->container->getParameter('init_one');
-        }
-        //  签到的操作方式
-        $userConfigs = $this->get('session.user_configs');
-        $arr['checkinOpMethod'] = $userConfigs->getCheckinOpMethod();
-
-        return $this->render('JiliApiBundle:Top:userInfo.html.twig', $arr);
     }
 
     /**

@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 
 /**
- * 监视Command异常
+ * 捕获Command异常
  */
 class ConsoleExceptionListener
 {
@@ -20,6 +20,16 @@ class ConsoleExceptionListener
     {
         $command = $event->getCommand();
         $exception = $event->getException();
-        $this->logger->error($exception);
+
+        $message = sprintf(
+            '%s: %s (uncaught exception) at %s line %s while running console command `%s`',
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine(),
+            $command->getName()
+        );
+
+        $this->logger->error($message, array('exception' => $exception));
     }
 }

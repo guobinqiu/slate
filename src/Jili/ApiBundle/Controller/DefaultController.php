@@ -301,38 +301,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/gameVisit", name="_default_gameVisit")
-	 */
-    public function gameVisitAction()
-    {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-            $day = date('Ymd');
-
-            // TODO: use the session value instead of the db query.
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if ( empty ($visit) ) {
-                $gameVisit = new UserGameVisit();
-                $gameVisit->setUserId($id);
-                $gameVisit->setVisitDate($day);
-                $em->persist($gameVisit);
-                $em->flush();
-
-                // remove from session cache.
-                $taskList = $this->get('session.task_list');
-                $taskList->remove(array( 'game_visit'));
-            }
-            $code = $this->container->getParameter('init_one');
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
 	 * @Route("/about", name="_default_about", requirements={"_scheme"="http"})
 	 */
     public function aboutAction()
@@ -381,14 +349,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/services", name="_default_services", requirements={"_scheme"="http"})
-	 */
-    public function servicesAction()
-    {
-        return $this->render('JiliApiBundle::onservice.html.twig');
-    }
-
-    /**
 	 * @Route("/support", name="_default_support", requirements={"_scheme"="http"})
 	 */
     public function supportAction()
@@ -413,14 +373,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/support/search", name="_default_support_search", requirements={"_scheme"="http"})
-     */
-    public function searchAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:search.html.twig');
-    }
-
-    /**
      * @Route("/feedback", name="_default_feedback", requirements={"_scheme"="http"})
      */
     public function feedbackAction()
@@ -429,27 +381,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/feedback/confirm", name="_default_feedback_confirm", requirements={"_scheme"="http"})
-     */
-    public function confirmAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:confirm.html.twig');
-    }
-
-    /**
      * @Route("/feedback/finished", name="_default_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
      */
     public function finishedAction()
     {
         return $this->render('WenwenFrontendBundle:Help:finished.html.twig');
-    }
-
-    /**
-	 * @Route("/service", name="_default_service", requirements={"_scheme"="http"})
-	 */
-    public function serviceAction()
-    {
-        return $this->render('JiliApiBundle:Default:service.html.twig');
     }
 
     /**

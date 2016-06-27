@@ -1,4 +1,5 @@
 <?php
+
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,7 +17,7 @@ class SignupController extends Controller
      * @Route("/signup/confirmRegister/register_key/{register_key}", name="_signup_confirm_register_2",requirements={"_scheme"="https"})
      * @Method("GET")
      */
-    public function confirmRegisterAction($register_key )
+    public function confirmRegisterAction($register_key)
     {
         $this->container->get('logger')->debug(__METHOD__ . ' - START - register_key=' . $register_key);
         // 1. Validation
@@ -46,16 +47,16 @@ class SignupController extends Controller
         $user_id = $user->getId();
 
         // 6. Get sop's profiling survey infos
-        $sop_profiling_info = $this->getSOPProfilingSurveyInfo($user_id);
+        $sop_profiling_info = $this->getSopProfilingSurveyInfo($user_id);
 
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig', $sop_profiling_info);
     } 
     
     /**
-     * @param string $register_key
-     * @return object
-     */
+    * @param string $register_key
+    * @return object
+    */
     private function validateRegisterKey( $register_key){
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $em = $this->getDoctrine()->getManager();
@@ -65,9 +66,9 @@ class SignupController extends Controller
     }
 
     /**
-     * @param object $passwordToken
-     * @return object
-     */
+    * @param object $passwordToken
+    * @return object
+    */    
     private function updateRegisterInformations(SetPasswordCode $passwordToken){
         $em = $this->getDoctrine()->getManager();
     
@@ -129,26 +130,29 @@ class SignupController extends Controller
     }
     
     /**
-     * @param object $user
-     * @return boolean
-     */
+    * @param object $user
+    * @return boolean
+    */ 
     private function sendRegisterCompleteEmail(User $user){
         $em = $this->getDoctrine()->getManager();
-        $args = array(
-            '--subject=[91问问调查网] 恭喜，您的邮箱验证成功，并获得了10积分奖励！',
-            '--email='.$user->getEmail(),
-            '--name='.$user->getNick(),
-        );
-        $job = new Job('mail:signup_success', $args, true, '91wenwen_signup');
+        $args = array( 
+            '--campaign_id=1',# 91wenwen-signup
+            '--group_id=83',# signup-completed-recipients
+            '--mailing_id=3254',# 91wenwen-signup
+            '--email='. $user->getEmail(),
+            '--title=先生/女士',
+            '--name='. $user->getNick());
+        $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
+        //Todo Should be a try catch here?
         $em->persist($job);
         $em->flush($job);
         return true;
     }
     
     /**
-     * @param object $user
-     * @return boolean
-     */
+    * @param object $user
+    * @return boolean
+    */ 
     private function recordRecruitingInformation($user){
         $logger = $this->get('campaign_code.tracking');
         $logger->track( array(
@@ -163,9 +167,9 @@ class SignupController extends Controller
     }
 
     /**
-     * @param object $user
-     * @return boolean
-     */
+    * @param object $user
+    * @return boolean
+    */    
     private function loginUser($user){
         $this->get('login.listener')->initSession($user);
         // The user was insert when regAction
@@ -175,21 +179,21 @@ class SignupController extends Controller
     }
 
     /**
-     * @param  string $user_id
-     * @return array $sop_profiling_info
-     */
-    private function getSOPProfilingSurveyInfo($user_id){
+    * @param string $user_id
+    * @return array $sop_profiling_info
+    */ 
+    private function getSopProfilingSurveyInfo($user_id) {
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $surveyService = $this->get('app.survey_service');
-            if( in_array($this->container->get('kernel')->getEnvironment(), array('dev','test'))){
-                // for dummy mode (won't access sop's server at dev or test mode)
-                // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-                $surveyService->setDummy(true);
-            }
-        $sop_profiling_info = $surveyService->getSOPProfilingSurveyInfo($user_id);
+        $env = $this->container->get('kernel')->getEnvironment();
+        if (in_array($env, array('dev','test'))) {
+            // for dummy mode (won't access sop's server at dev or test mode)
+            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
+            $surveyService->setDummy(true);
+        }
+        $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
     }
-    
 }
 
