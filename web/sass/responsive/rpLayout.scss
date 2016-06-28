@@ -1,108 +1,89 @@
 @charset "UTF-8";
 
 @import "../layout/global";
-@import "rpPhone";
-@import "rpTablet";
-@import "rpDesktop";  
 
-@media only screen and (max-width: 600px) {
-    /* For mobile phones: */
-    .col-m-1 {width: 8.33%!important;}
-    .col-m-2 {width: 16.66%!important;}
-    .col-m-3 {width: 25%!important;}
-    .col-m-4 {width: 33.33%!important;}
-    .col-m-5 {width: 41.66%!important;}
-    .col-m-6 {width: 50%!important;}
-    .col-m-7 {width: 58.33%!important;}
-    .col-m-8 {width: 66.66%!important;}
-    .col-m-9 {width: 75%!important;}
-    .col-m-10 {width: 83.33%!important;}
-    .col-m-11 {width: 91.66%!important;}
-    .col-m-12 {width: 100%!important;}
-
-    .visiblePhone{
-        display: inherit!important;
-    }
-    .hiddenPhone{
-        display: none!important;
-    }
-    .leftPhone{
-        float: left;
-    }
-}
-
-@media only screen and (min-width: 600px) and (max-width: 768px)  {
-    /* For Tablet: */
-    .col-t-1 {width: 8.33%;}
-    .col-t-2 {width: 16.66%;}
-    .col-t-3 {width: 25%;}
-    .col-t-4 {width: 33.33%;}
-    .col-t-5 {width: 41.66%;}
-    .col-t-6 {width: 50%;}
-    .col-t-7 {width: 58.33%;}
-    .col-t-8 {width: 66.66%;}
-    .col-t-9 {width: 75%;}
-    .col-t-10 {width: 83.33%;}
-    .col-t-11 {width: 91.66%;}
-    .col-t-12 {width: 100%;}
-
-    .visibleTablet{ 
-        display: inherit!important;
-    }
-    .hiddenTablet{
-        display: none!important;
-    }
-    .leftTablet{
-        float: left;
-    }
-    .topRight{
-        & > div{
-            width: 48%;
-        }
-    }
-    .main-con-right .exchange-dynamics{
-        margin-left: 2%;
-    }
-}
-@media only screen and (min-width: 768px)  {
-    /* For Desktop: */
-    .col-d-1 {width: 8.33%;}
-    .col-d-2 {width: 16.66%;}
-    .col-d-3 {width: 25%;}
-    .col-d-4 {width: 33.33%;}
-    .col-d-5 {width: 41.66%;}
-    .col-d-6 {width: 50%;}
-    .col-d-7 {width: 58.33%;}
-    .col-d-8 {width: 66.66%;} 
-    .col-d-9 {width: 75%;}
-    .col-d-10 {width: 83.33%;}
-    .col-d-11 {width: 91.66%;}
-    .col-d-12 {width: 100%;}
-
-    .visibleDesktop{
-        display: inherit!important;
-    }
-    .hiddenDesktop{
-        display: none!important;
-    }
-}
-
-@media only screen and (max-width: 768px)  {
+@media only screen and (max-width: 1024px)  {
     /* For Phone&Tablet: */
     *{
         box-sizing: border-box;
     }
+    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+        font-size: 1rem!important;
+    }
+    h1 {
+      font-size: 1.8rem!important;
+    }
+    h2 {
+      font-size: 1.3rem!important;
+    }
+    h3 {
+      font-size: .8rem!important;
+    }
     .w1000{
-        width: auto;
+        width: auto; 
     }
     .header-nav .logo span{
         display: none;
     }
-    .main-con-left>div{
-        padding: 0;
-    } 
+    .main{
+        &.unlogin{
+            margin-top: 0;
+        }
+        .login{
+            width: 270px;
+            height: 371px;
+            .login-btn-others{
+                display: none;
+            }
+            h2{
+                font-size: 1.2rem;
+                padding: 0 28px;
+            }
+            li{
+                margin-bottom: 6px;
+                span{
+                    &.error, & strong{
+                        top: 35px;
+                    }
+                }
+                input[type="text"],input[type="password"]{
+                    width: 100%;
+                }
+            }
+            .login-con{
+                padding: 14px 28px;
+            }
+        }
+    }
+    .main-adv{
+        width: 100%;
+        height: 418px;
+        .login-wrapper{
+            top: 20px;
+            right: -52px;
+            background-position: 4px bottom;
+        }
+        .more-btn{
+            display: none;
+        }
+    }
+    .main-con-left{
+        width: 100%;
+        &>div{
+            padding: 0;
+            margin-top: 0;
+        } 
+        h1{
+            padding: 13px 0 11px 5px;
+        }
+    }
+
     .header{
         height: 52px;
+        position: initial;
+        &.unlogin{
+            height: 51px;
+        }
     }
 
     /* footer */
@@ -114,11 +95,13 @@
             padding-bottom: 0;
         }
         .footerMini{
-            background: #E3E3E3;
+            background: #ebebeb;
             padding: 20px 0;
             a{
                 text-align: center;
-                width: 50%;
+                width: 49%;
+                display: inline-block;
+                color: $weak-color;
             }
         }
         .copyright{
@@ -138,10 +121,6 @@
     /* homepage */
     .vote-img{
         width: auto;
-        a{
-            margin-right: 10px;
-            display: none;
-        }
     }
     .homeBr{
         height: 70px;
@@ -186,15 +165,231 @@
     .header-nav{
         height: 52px;
         line-height: 52px;
+        .header-nav-con{
+            overflow: hidden;
+        }
+        .login-btn{
+            display: none;
+        }
         img{
             height: 32px;
             margin: 8px 0 0 15px;
             vertical-align: initial;
+        }
+        .nav{
+            float: right;
+            margin-right: 22px;
         }
     }
     .vote li:after{
         width: 100%;
         left: 0;
     }
+
+    /* index page */
+    .main-con-process{
+        background: #fff;
+        height: initial;
+        .topTit{
+            margin: 24px 22px;
+            text-align: left;
+            span{
+                display: none;
+            }
+        }
+    }
+    .coinBack{
+        background: none;
+    }
+    .topTit{
+        margin: 44px 0;
+        text-align: center;
+    }
+    .procDisc{
+        margin-top: -17px;
+        li{
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 0 100px;
+            p{
+                width: 100%;
+            }
+            &.first, &.second, &.third{
+              text-align: center;
+              p{
+                  margin-left: initial;
+                  margin-bottom: 5px!important;
+                  &.pdc{
+                    font-size: .7rem!important;
+                  }
+              }  
+            }
+            &.first{
+                
+                &:before{
+                    content: '';
+                    width: 100px;
+                    height: 100px;
+                    display: inline-block;
+                    background: url(../../img/home/adProcess.png) no-repeat 0 0;
+                    background-size: cover;
+                }
+            }
+            &.second{
+                &:before{
+                    content: '';
+                    width: 100px;
+                    height: 100px;
+                    display: inline-block;
+                    background: url(../../img/home/adProcess.png) no-repeat -349px 0;
+                    background-size: cover;
+                }
+                
+            }
+            &.third{
+                &:before{
+                    content: '';
+                    width: 100px;
+                    height: 100px;
+                    display: inline-block;
+                    background: url(../../img/home/adProcess.png) no-repeat -348px 0;
+                    background-size: cover;
+                }
+            }
+        }
+    }
+    .main-con-reward{
+        padding-bottom: 0;
+        .topTit{
+            text-align: left;
+            margin: 0 0 10px 22px;
+        }
+    }
+    .rewardlist{
+        background: none;
+        @include box-shadow(1px 2px 4px rgba(255,255,255,0));
+        li{
+            width: 80%;
+            height: 176px;
+            background: #fff;
+            margin: 12px 40px;
+            float: none;
+            display: inline-block;
+            .rMes{
+                margin: 34px auto 0;
+                .rTit{
+                    margin-top: 18px;
+                }
+                .rBtn{
+                    display: none;
+                }
+                .rPic1{
+                    width: 50px;
+                    height: 73px;
+                    background-size: cover;
+                    background-position: -93px -4px;
+                }
+                .rPic2{
+                    width: 90px;
+                    height: 73px;
+                    background-size: cover;
+                    background-position: -216px -4px;
+                }
+                .rPic3{
+                    width: 130px;
+                    height: 73px;
+                    background-size: cover;
+                    background-position: -343px -4px;
+                }
+            }
+        }
+        .rLine{
+            border: none!important;
+        }
+    }
+    .main-con-action{
+        height: auto;
+        padding: 22px 0 0;
+        h1{
+            font-size: 1.2rem!important;
+            width: 76%;
+            margin: 0 auto;
+            line-height: 32px;
+
+        }
+    }
+
+    /* feedback page */
+    .main-help-feedback{
+        padding: 30px;
+        li{
+            margin-top: 0!important;
+            label{
+                text-align: left;
+            }
+        }
+        .btn{
+            padding: initial!important;
+        } 
+    }
+    .main-help-feedback li textarea,.main-help-feedback li input{
+        width: 100%!important;
+    }
+
+    /* vote page */
+    .vote{
+        li{
+            padding: 11px 20px 17px;
+            &:after{
+                top: -6px;
+            }
+        }
+    }
+    .vote-sub {
+        .title{
+            line-height: 27px;
+            height: 30px;
+        }
+        .con{
+            margin-top: 0!important;
+        }
+        .relate{  
+            padding: 20px!important;
+            margin: 0 0 0 7px!important;
+            img{
+                display: none;
+            }
+        }
+        .relateVlist{
+            padding: 0!important;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .options {
+            padding: 0 35px;
+            dt{
+                margin-top: 0;
+            }
+            dd{
+                width: 100%!important;
+                margin-top: 2px;
+                margin-bottom: 14px;
+            }
+            .weiboshare{
+                margin-top: 10px;
+            }
+        }
+        .relateText{
+            .description{
+                margin: 14px 0 0;
+            }
+        }
+        .backLink{
+            margin-top: 24px!important;
+        } 
+    }
 }
 @import "rpPersonal";
+@import "rpDesktop";
+@import "rpTablet";
+@import "rpPhone";

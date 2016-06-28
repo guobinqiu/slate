@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 @import "../layout/global";
-
 @media only screen and (max-width: 600px)  {
 	.header{
 		overflow: hidden;
@@ -18,7 +17,7 @@
 	.rp-clearfix:after {
 		content: "";
 		display: table;
-		clear: both;
+		clear: both; 
 	}
 	.main{
 		margin-top: 1px;
@@ -30,7 +29,7 @@
 	.rp-personal-nav, .rp-main-personal-right{
 		width: 100%;
 		float: none;
-	}
+	} 
 	.rp-personal-nav{
 		padding: 0;
 		margin: 0;

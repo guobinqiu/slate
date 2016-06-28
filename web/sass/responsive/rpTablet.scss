@@ -1,11 +1,70 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+@media only screen and (min-width: 668px) and (max-width: 1024px)  {
+	/* For Tablet: */ 
+	.col-t-1 {width: 8.33%;}
+	.col-t-2 {width: 16.66%;}
+	.col-t-3 {width: 25%;}
+	.col-t-4 {width: 33.33%;}
+	.col-t-5 {width: 41.66%;}
+	.col-t-6 {width: 50%;}
+	.col-t-7 {width: 58.33%;}
+	.col-t-8 {width: 66.66%;}
+	.col-t-9 {width: 75%;}
+	.col-t-10 {width: 83.33%;}
+	.col-t-11 {width: 91.66%;}
+	.col-t-12 {width: 100%;}
 
-@media only screen and (min-width: 600px) and (max-width: 768px)  {
+	html{
+	    font-size: 14px;
+	}
+	.visibleTablet{ 
+	    display: inherit!important;
+	}
+	.hiddenTablet{
+	    display: none!important;
+	}
+	.leftTablet{
+	    float: left;
+	}
+	.topRight{
+	    & > div{
+	        width: 48%;
+	    }
+	}
+	.main-con-right .exchange-dynamics{
+	    margin-left: 2%;
+	}
+
     /* header */
-    .header-nav .nav a{
+    .header-nav .nav a{ 
         width: 88px;
     }
     
+    /* index page */
+    .main-adv-con-text{
+        left: 20px;
+        top: 70px;
+        .digits{
+            .pst{
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+        .moreText{
+            margin-top: 17px;
+            font-size: .6rem!important;
+        }
+    }
+    .rewardlist{
+        width: 100%;
+        float: left;
+        li{
+            width: 28%;
+            height: 166px;
+            float: left;
+            margin: 12px 17px;
+        }
+    }
 }

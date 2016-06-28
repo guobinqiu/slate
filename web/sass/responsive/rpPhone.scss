@@ -1,8 +1,34 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+@media only screen and (max-width: 667px) { 
+    /* For mobile phones: */
+    .col-m-1 {width: 8.33%!important;}
+    .col-m-2 {width: 16.66%!important;}
+    .col-m-3 {width: 25%!important;}
+    .col-m-4 {width: 33.33%!important;}
+    .col-m-5 {width: 41.66%!important;}
+    .col-m-6 {width: 50%!important;}
+    .col-m-7 {width: 58.33%!important;}
+    .col-m-8 {width: 66.66%!important;}
+    .col-m-9 {width: 75%!important;}
+    .col-m-10 {width: 83.33%!important;}
+    .col-m-11 {width: 91.66%!important;}
+    .col-m-12 {width: 100%!important;}
 
-@media only screen and (max-width: 600px) {
+    html{
+        font-size: 10px;
+    }
+    .visiblePhone{
+        display: inherit!important;
+    }
+    .hiddenPhone{
+        display: none!important;
+    }
+    .leftPhone{ 
+        float: left;
+    }
+
     /* header */
     .nav{
         display: none;
@@ -35,17 +61,60 @@
         background: #E3E3E3;
         padding: 20px 0;
         a{
-            text-align: center;
+            text-align: center; 
             width: 50%;
+        }
+    }
+
+    /* index page */
+    .main-adv-con-text{
+        display: none;
+        left: 20px;
+        top: 70px;
+        .digits{
+            .pst{
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+        .moreText{
+            margin-top: 17px;
+            font-size: .6rem!important;
         }
     }
 }
 
-@media only screen and (max-width: 600px) and (orientation: portrait) {
+@media only screen and (max-width: 667px) and (orientation: portrait) {
     .survey .survey-btn{
-        display: none;
+        display: none; 
     }
     .vote .vote-btn{
         display: none;
     }
+
+    .login-wrapper{
+        width: 87%;
+        position: initial;
+        margin: 20px auto 10px;
+        padding: initial;
+        .login{
+            width: 100%;
+        }
+    }
 }
+@media only screen and (max-width: 667px) and (orientation: landscape) {
+    .rewardlist{
+        width: 100%;
+        float: left;
+        li{
+            width: 28%;
+            height: 166px;
+            float: left;
+            margin: 12px 17px;
+        }
+    }
+    .main-adv-con-text{
+        display: inherit;
+    }
+}
+

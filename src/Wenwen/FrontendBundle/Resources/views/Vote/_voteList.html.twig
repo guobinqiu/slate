@@ -2,7 +2,7 @@
     {% if vote_list|length > 0 %}
     {% for item in vote_list %}
         <li {% if item.timelimit is defined %} class="vote-new" {% endif %} class="col-m-12">
-            <span class="vote-img col-m-2">
+            <span class="vote-img">
                 {% if (item.sqPath) %}
                 <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
                 {% else %}
@@ -12,7 +12,7 @@
             <span class="vote-txt col-m-8">
                 <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
                 <div class="con">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
-                <div class="relate corWeak">
+                <div class="relate corWeak relateVlist">
                     <span>参与人气：<span>{{ item.answerCount }}</span></span><span class="vline"></span>
                     <span>截止日期：{{ item.endTime|date("Y-m-d") }}</span>
                 </div>
