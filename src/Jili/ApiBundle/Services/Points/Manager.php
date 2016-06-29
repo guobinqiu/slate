@@ -26,6 +26,8 @@ class Manager
             return ;
         }
 
+        $update_time = date_create(date('Y-m-d H:i:s'));
+
         // transaction start
         $dbh = $em->getConnection();
         $dbh->beginTransaction();
@@ -36,27 +38,28 @@ class Manager
             $old_point = $user->getPoints();
             $user->setPoints(intval($old_point + $point));
 
-            //更新point_history表分数
-            $params = array (
-                'userid' => $user_id,
-                'point' => $point,
-                'type' => $ad_category_id,//ad_category.id
-            );
-            $this->point_history->get($params);
-            //更新task_history表分数
-            $params = array (
-                'userid' => $user_id,
-                'orderId' => 0,
-                'taskType' => $task_type_id, // refer to task_history00 entity 
-                'categoryType' => $ad_category_id,
-                'task_name' => $task_name ,
-                'point' => $point,
-                'date' => date_create(date('Y-m-d H:i:s')),
-                'status' => 1
-            );
+            // Create new object of point_history0x
+            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
+            $pointHistory = new $classPointHistory();
+            $pointHistory->setUserId($user_id);
+            $pointHistory->setPointChangeNum($point);
+            $pointHistory->setReason($ad_category_id);
 
-            $this->task_history->init($params);
+            // Create new object of task_history0x
+            $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
+            $taskHistory = new $classTaskHistory();
+            $taskHistory->setUserid($user_id);
+            $taskHistory->setOrderId(0);
+            $taskHistory->setOcdCreatedDate($update_time);
+            $taskHistory->setCategoryType($ad_category_id);
+            $taskHistory->setTaskType($task_type_id);
+            $taskHistory->setTaskName($task_name);
+            $taskHistory->setDate($update_time);
+            $taskHistory->setPoint($point);
+            $taskHistory->setStatus(1);
 
+            $em->persist($pointHistory);
+            $em->persist($taskHistory);
             $em->flush();
             $dbh->commit();
         } catch(\Exception $e) {
