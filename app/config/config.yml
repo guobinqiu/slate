@@ -100,6 +100,7 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
+    default_mailer: webpower_mailer
     mailers:
         webpower_signup_mailer:
             transport:  smtp
