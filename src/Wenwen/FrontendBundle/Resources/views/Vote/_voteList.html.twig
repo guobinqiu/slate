@@ -1,7 +1,7 @@
 <ul>
     {% if vote_list|length > 0 %}
     {% for item in vote_list %}
-        <li {% if item.timelimit is defined %} class="vote-new" {% endif %} class="col-m-12">
+        <li {% if item.timelimit is defined %} class="vote-new" {% endif %}>
             <span class="vote-img">
                 {% if (item.sqPath) %}
                 <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
@@ -9,7 +9,7 @@
                 <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
             </span>
-            <span class="vote-txt col-m-8">
+            <span class="vote-txt">
                 <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
                 <div class="con">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
                 <div class="relate corWeak relateVlist">

@@ -205,7 +205,6 @@ $header-nav-height: 80px;
 		vertical-align: middle;
 	}
 	.logo{
-		margin-right: 87px;
 		a{
 			padding-right: 20px;
 		}
@@ -262,17 +261,17 @@ $header-nav-height: 80px;
 	}
 	.login-btn{
 		a{
-			margin-left: 5px;
-			padding: 0 10px;
-			color: #888;
+			color: $weak-color;
 			&:hover{
-				color: #ff652b;
+				color: $hover-color;
 			}
 		}
 		a.sign{
 			color: #ff652b;
 			border-left: 1px solid #d0d1d1;
-			padding-left: 26px;
+			padding-left: 23px;
+			padding-right: 10px;
+			margin-left: 18px;
 		}
 
 	}

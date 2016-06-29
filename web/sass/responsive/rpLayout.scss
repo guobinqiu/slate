@@ -11,53 +11,72 @@
         font-size: 1rem!important;
     }
     h1 {
-      font-size: 1.8rem!important;
+      font-size: 1.6rem!important;
     }
     h2 {
-      font-size: 1.3rem!important;
+      font-size: 1.4rem!important;
     }
     h3 {
-      font-size: .8rem!important;
+      font-size: 1.2rem!important;
     }
     .w1000{
         width: auto; 
     }
-    .header-nav .logo span{
-        display: none;
-    }
+    .header-nav{
+        .logo{
+            span{
+                display: none;
+            }
+        } 
+    } 
     .main{
         &.unlogin{
             margin-top: 0;
         }
         .login{
             width: 270px;
-            height: 371px;
+            height: 321px;
+            .login-btn{
+                font-size: initial!important;
+                margin-top: 17px;
+            }
             .login-btn-others{
                 display: none;
             }
             h2{
-                font-size: 1.2rem;
+                font-size: 1.3rem!important;
                 padding: 0 28px;
             }
             li{
                 margin-bottom: 6px;
                 span{
                     &.error, & strong{
-                        top: 35px;
+                        top: 26px;
+                        font-size: .7rem!important;
+                        height: 30px;
+                        line-height: 30px;
                     }
                 }
                 input[type="text"],input[type="password"]{
                     width: 100%;
+                    height: 30px;
+                    line-height: 30px;
+                }
+                label{
+                    line-height: 26px;
                 }
             }
             .login-con{
                 padding: 14px 28px;
+                p,p a{
+                    font-size: .7rem!important;
+                }
             }
         }
     }
     .main-adv{
         width: 100%;
-        height: 418px;
+        height: 371px;
         .login-wrapper{
             top: 20px;
             right: -52px;
@@ -69,12 +88,13 @@
     }
     .main-con-left{
         width: 100%;
+        margin-top: 15px;
         &>div{
             padding: 0;
             margin-top: 0;
         } 
         h1{
-            padding: 13px 0 11px 5px;
+            padding: 4px 0 0 5%;
         }
     }
 
@@ -83,6 +103,11 @@
         position: initial;
         &.unlogin{
             height: 51px;
+        }
+        .logo{
+            a{
+                padding: 0;
+            }
         }
     }
 
@@ -95,18 +120,19 @@
             padding-bottom: 0;
         }
         .footerMini{
-            background: #ebebeb;
-            padding: 20px 0;
+            background: #313036;
+            padding: 14px 0;
             a{
                 text-align: center;
                 width: 49%;
                 display: inline-block;
-                color: $weak-color;
+                color: rgba(255,255,255,.5);
             }
         }
         .copyright{
             background: #fff;
             padding: 10px 0;
+            margin: initial;
         }
         .footer-nav-group span{
             text-align: center;
@@ -115,6 +141,13 @@
             text-align: center;
             float: none;
             margin: 0 auto;
+        }
+        .copyright{
+            p{
+                font-size: .7rem!important;
+                line-height: 1.4rem;
+                color: #909498;
+            }
         }
     }
    
@@ -163,22 +196,36 @@
         width: 100%;
     }
     .header-nav{
-        height: 52px;
-        line-height: 52px;
+        height: 100%;
+        line-height: 51px;
         .header-nav-con{
             overflow: hidden;
-        }
+            height: 100%;
+       }
         .login-btn{
-            display: none;
+            margin-right: 20px;   
+            a{
+                font-size: .7rem!important;
+                vertical-align: 2px;
+            }
         }
         img{
             height: 32px;
             margin: 8px 0 0 15px;
             vertical-align: initial;
         }
-        .nav{
-            float: right;
-            margin-right: 22px;
+        .navTit{
+            text-align: center;
+            width: 60%;
+            margin: 0 auto;
+            font-size: 1.2rem!important;
+            color: $sub-con-color;
+        }
+    }
+    .header{
+        p{
+            height: 52px;
+            line-height: 52px;
         }
     }
     .vote li:after{
@@ -263,6 +310,9 @@
         .topTit{
             text-align: left;
             margin: 0 0 10px 22px;
+            span{
+                font-size: .7rem!important;
+            }
         }
     }
     .rewardlist{
@@ -272,7 +322,7 @@
             width: 80%;
             height: 176px;
             background: #fff;
-            margin: 12px 40px;
+            margin: 12px 10%;
             float: none;
             display: inline-block;
             .rMes{
@@ -302,6 +352,11 @@
                     background-position: -343px -4px;
                 }
             }
+            .rTag{
+                font-size: .7rem!important;
+                right: -27px;
+                top: -17px;
+            }
         }
         .rLine{
             border: none!important;
@@ -313,9 +368,15 @@
         h1{
             font-size: 1.2rem!important;
             width: 76%;
-            margin: 0 auto;
-            line-height: 32px;
-
+            margin: 0 auto 10px;
+            line-height: 2rem;
+        }
+        p{
+            line-height: 20px;
+            font-size: .7rem!important;
+        }
+        .button{
+            margin: 20px auto;
         }
     }
 
@@ -339,9 +400,9 @@
     /* vote page */
     .vote{
         li{
-            padding: 11px 20px 17px;
+            padding: 1rem 0;
             &:after{
-                top: -6px;
+                top: -2px;
             }
         }
     }
@@ -350,14 +411,36 @@
             line-height: 27px;
             height: 30px;
         }
-        .con{
-            margin-top: 0!important;
+        ul{
+            padding: 0 5%;
+        }
+        .vote-txt{
+            width: 72%;
+            .con{
+                color: $sub-con-color;
+            }
+            .con,.con span{
+                font-size: .7rem!important;
+                margin-top: 0!important;
+                line-height: 1.5rem!important;
+            }
+            .title{
+                a{
+                    font-size: 1.2rem!important;
+                }
+            }
+        }
+        h1{
+            margin: 0 0 2px 0;
         }
         .relate{  
             padding: 20px!important;
             margin: 0 0 0 7px!important;
             img{
                 display: none;
+            }
+            span{
+                font-size: .7rem!important;
             }
         }
         .relateVlist{
@@ -382,11 +465,130 @@
         .relateText{
             .description{
                 margin: 14px 0 0;
+                div{
+                    font-size: 0.7rem !important;
+                }
+            }
+            h1{
+                margin: initial;
+                padding: initial;
             }
         }
         .backLink{
             margin-top: 24px!important;
         } 
+    }
+
+    /* register page */
+    .main-register{
+        padding: 30px 38px 50px;
+        width: 100%;
+        li{
+            span,& > div,& #protocol{
+                // margin: 5px 0 0 0;
+                font-size: .7rem!important;
+            }
+            input[type='text'],input[type='password'],input[type='email']{
+                width: 100%;
+            }
+        }
+        .subscribe{
+            .tips>b{
+                display: none;
+            }
+        }
+    }
+    .login-others{
+        display: none;
+    }
+
+    /* resetPwd page */
+    .main-resetPwd{
+        padding: initial;
+        .steps{
+            display: none;
+        }
+        .main-resetPwd-con{
+            padding: 50px 20px;
+            input[type='text'],input[type='password']{
+                width: 100%;
+            }
+        }
+    }
+    .form{
+        span{
+            &.error,span{
+                font-size: .7rem!important;
+            }
+            &.succeed{
+                background: none!important;
+            }
+        }
+        input[type='text'],input[type='password'],input[type='email']{
+            height: 30px!important;
+            line-height: 30px!important;
+        }
+    }
+
+    /* exchange page */
+    .main-con-exchange{
+        ul{
+            margin-right: initial;
+            margin-bottom: 20px;
+        }
+        li{
+            margin: 0 5%;
+        }
+        dt{
+            font-size: 1.4rem!important;
+            margin-top: 12px;
+        }
+        dd.text{
+            height: initial;
+        }
+    }
+
+    /* regulations page */
+    .aboutL{
+        display: none;
+    }
+    .aboutR{
+        width: 100%!important;
+        .w732{
+            width: 100%!important;
+        }
+        h2{
+            margin: initial!important;
+        }
+        ul{
+            li{
+                p{
+                    line-height: 2rem;
+                    padding: initial;
+                }
+            }
+        }
+    }
+
+    /* register page */
+    .main-register{
+        li{
+            margin-top: 0;
+            span{
+                line-height: 28px;
+                padding: 0 5px;
+            }
+        }
+        span{
+            &.succeed{
+                height: 24px;
+            }
+        }
+    }
+    form{
+        li{
+            margin-top: 0;
+        }
     }
 }
 @import "rpPersonal";
