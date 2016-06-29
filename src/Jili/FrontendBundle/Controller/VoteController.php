@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
 use Jili\ApiBundle\Entity\AdCategory;
+use Jili\ApiBundle\Entity\TaskHistory00;
 use Jili\FrontendBundle\Form\VoteSuggestType;
 
 /**
@@ -233,46 +234,47 @@ class VoteController extends Controller
             )));
         }
 
+        $point = $this->calcRewardPoint($vote->getPointValue(), $vote->getStartTime());
+
+        //insert vote answer
+        $answer = new VoteAnswer();
+        $answer->setUserId($user_id);
+        $answer->setVoteId($vote_id);
+        $answer->setAnswerNumber($answer_number);
+
+        // Create new object of point_history0x
+        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
+        $pointHistory = new $classPointHistory();
+        $pointHistory->setUserId($user_id);
+        $pointHistory->setPointChangeNum($point);
+        $pointHistory->setReason(AdCategory::ID_QUESTIONNAIRE_EXPENSE);
+
+        $vote_time = date_create();
+        // Create new object of task_history0x
+        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
+        $taskHistory = new $classTaskHistory();
+        $taskHistory->setUserid($user_id);
+        $taskHistory->setOrderId(0);
+        $taskHistory->setOcdCreatedDate($vote_time);
+        $taskHistory->setCategoryType(AdCategory::ID_QUESTIONNAIRE_EXPENSE);
+        $taskHistory->setTaskType(TaskHistory00::TASK_TYPE_CHECKIN);
+        $taskHistory->setTaskName('快速问答');
+        $taskHistory->setDate($vote_time);
+        $taskHistory->setPoint($point);
+        $taskHistory->setStatus(1);
+        $db_connection = $em->getConnection();
+        $db_connection->beginTransaction();
+
+        // update user.point更新user表总分数
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $oldPoint = $user->getPoints();
+        $user->setPoints(intval($oldPoint + $point));
+
         try {
-            $db_connection = $em->getConnection();
-            $db_connection->beginTransaction();
-
-            $point = $this->calcRewardPoint($vote->getPointValue(), $vote->getStartTime());
-
-            //insert vote answer
-            $answer = new VoteAnswer();
-            $answer->setUserId($user_id);
-            $answer->setVoteId($vote_id);
-            $answer->setAnswerNumber($answer_number);
-            $em->persist($answer);
-
-            // insert task_history
-            $task_params = array (
-                'userid' => $user_id,
-                'orderId' => 0,
-                'taskType' => \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_CHECKIN,
-                'categoryType' => AdCategory::ID_QUESTIONNAIRE_EXPENSE,
-                'task_name' => '快速问答',
-                'point' => $point,
-                'date' => date_create(),
-                'status' => 1
-            );
-            $this->get('general_api.task_history')->init($task_params);
-
-            // insert point_history
-            $points_params = array (
-                'userid' => $user_id,
-                'point' => $point,
-                'type' => AdCategory::ID_QUESTIONNAIRE_EXPENSE
-            );
-
-            $this->get('general_api.point_history')->get($points_params);
-
-            // update user.point更新user表总分数
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-            $oldPoint = $user->getPoints();
-            $user->setPoints(intval($oldPoint + $point));
             $em->persist($user);
+            $em->persist($answer);
+            $em->persist($pointHistory);
+            $em->persist($taskHistory);
             $em->flush();
 
             $db_connection->commit();
