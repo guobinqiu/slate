@@ -32,8 +32,9 @@
                 {% if app.session.has('uid') %}
                 <div class="navs">
                     <a href="{{ path('_homepage') }}"><em class="icons1"></em>我的主页<span></span></a>
-                    <a href="{{ path('_advertiserment_list') }}"><em class="icons3"></em>任务中心<span></span></a>
-                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>奖品兑换<span></span></a>
+                    <a href="{{ path('_profile_edit') }}"><em class="icons3"></em>个人中心<span></span></a>
+                    <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
+                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
                     <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
                 </div>
                 <div class="logout"><a href="{{ path('_user_logout') }}"><em class="icons6"></em>退出登录</a></div>
@@ -46,10 +47,9 @@
                     </a>
                 </div>
                 <div class="navs">
-                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>我的主页<span></span></a>
+                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>首页<span></span></a>
                     <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
-                    <a href="{{ path('_advertiserment_list') }}"><em class="icons3"></em>任务中心<span></span></a>
-                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>奖品兑换<span></span></a>
+                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
                     <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
                 </div>
                 {% endif %}
