@@ -14,13 +14,12 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $templating = $this->getContainer()->get('templating');
+        $logger = $this->getContainer()->get('logger');
 
         $html = $templating->render($this->getTemplatePath($input), $this->getTemplateVars($input));
         $result = $this->createMailer($input)->send($this->getEmail($input), $this->getSubject($input), $html);
 
         $message = $this->stringify($result);
-
-        $logger = $this->getContainer()->get('logger');
 
         if (!$result['result']) {
             $logger->error($message);
@@ -31,7 +30,7 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
         $output->write($message);
     }
 
-    protected function stringify($result) {
+    private function stringify($result) {
         $result['command'] = $this->getName();
         return json_encode($result);
     }

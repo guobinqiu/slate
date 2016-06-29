@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\IMailer;
-use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailerFactory;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 
 class SignupConfirmationMailCommand extends AbstractMailCommand
 {
@@ -25,9 +25,14 @@ class SignupConfirmationMailCommand extends AbstractMailCommand
      */
     protected function createMailer(InputInterface $input)
     {
+        // sendcloud
+//        $parameterService = $this->getContainer()->get('app.parameter_service');
+//        $httpClient = $this->getContainer()->get('app.http_client');
+//        return MailerFactory::createSendCloudMailer($parameterService, $httpClient, 'channel1');
+
+        // webpower
         $parameterService = $this->getContainer()->get('app.parameter_service');
-        $httpClient = $this->getContainer()->get('app.http_client');
-        return SendCloudMailerFactory::createMailer($parameterService, $httpClient, 'channel1');
+        return MailerFactory::createWebpowerSignupMailer($parameterService);
     }
 
     /**

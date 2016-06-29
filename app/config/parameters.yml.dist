@@ -5,7 +5,6 @@ parameters:
     database_port:     ~
     database_name:     jili_db
     database_user:     root
-    database_password: ecnavi
     mailer_transport:  smtp
     mailer_host:       smtp.exmail.qq.com
     mailer_user:       account@91jili.com
@@ -60,13 +59,19 @@ parameters:
             url: http://220.181.2.50/apiv2/mail/send #http://api.sendcloud.net/apiv2/mail/send
             channel1:
                 api_user: ch01_91wenwen_net
-                api_key: %mailer.sendcloud.api_key%
+                api_key: %sendcloud.api_key%
                 from: 91问问调查网<support@mail91wenwen.net>
             channel2:
                 api_user: ch02_91wenwen_net
-                api_key: %mailer.sendcloud.api_key%
+                api_key: %sendcloud.api_key%
                 from: 91问问调查网<support@mail91wenwen.com>
             channel3:
                 api_user: ch03_91wenwen_net
-                api_key: %mailer.sendcloud.api_key%
+                api_key: %sendcloud.api_key%
                 from: 91问问调查网<support@mail91wenwen.cn>
+
+    webpower_host: prod-cn-smtp.webpower.asia
+    webpower_signup_username: 91wenwen-signup
+    webpower_signup_sender: 7-3259@91wenwen-signup.webpower.asia
+    webpower_username: 91wenwen
+    webpower_sender: 26-90032@91wenwen.webpower.asia

@@ -403,7 +403,7 @@ class DefaultController extends Controller
        return $response;
     }
 
-    public function checkContact($content, $email)
+    private function checkContact($content, $email)
     {
         $code = 0;
         //check content null
@@ -434,14 +434,9 @@ class DefaultController extends Controller
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $subject = "来自" . $nick . " [" . $user->getEmail() . "] 的咨询";
         }
-
-        $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('account@91jili.com')->setPassword('D8aspring');
-        $mailer = \Swift_Mailer :: newInstance($transport);
-        $message = \Swift_Message :: newInstance();
+        $message = \Swift_Message::newInstance();
         $message->setSubject($subject);
-        $message->setFrom(array (
-            'account@91jili.com' => '91问问调查网'
-        ));
+        $message->setFrom(array('26-90032@91wenwen.webpower.asia' => '91问问调查网'));
         $message->setTo('support@91wenwen.com');
         $message->setReplyTo($email);
         $message->setBody('<html>' .
@@ -454,7 +449,7 @@ class DefaultController extends Controller
         '浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
         '</body>' .
         '</html>', 'text/html');
-        $flag = $mailer->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
         if (!$flag) {
             $code = 4;
         }

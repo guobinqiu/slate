@@ -29,7 +29,7 @@ class SsiDeliveryNotification implements DeliveryNotification
                     '--survey_title=SSI海外调查',
                     '--survey_point=180',
                     '--subject=亲爱的'.$respondent['recipient']['name1'].'，您的新问卷来了！',
-                    '--channel='.$this->getChannel($i),
+                    //'--channel='.$this->getChannel($i),//sendcloud
                 ), true, '91wenwen');
                 $this->em->persist($job);
                 $this->em->flush($job);
@@ -43,7 +43,8 @@ class SsiDeliveryNotification implements DeliveryNotification
         return count($userEdmUnsubscribes) == 0;
     }
 
-    private function getChannel($i) {
-        return $i % 2 == 0 ? 'channel2' : 'channel3';
-    }
+    // sendcloud
+//    private function getChannel($i) {
+//        return $i % 2 == 0 ? 'channel2' : 'channel3';
+//    }
 }

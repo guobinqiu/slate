@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\IMailer;
-use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailerFactory;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 
 class FulcrumDeliveryNotificationMailCommand extends AbstractMailCommand {
 
@@ -20,7 +20,7 @@ class FulcrumDeliveryNotificationMailCommand extends AbstractMailCommand {
         $this->addOption('survey_title', null, InputOption::VALUE_REQUIRED);
         $this->addOption('survey_point', null, InputOption::VALUE_REQUIRED);
         $this->addOption('subject', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('channel', null, InputOption::VALUE_REQUIRED, '可选值：channel2|channel3');
+        //$this->addOption('channel', null, InputOption::VALUE_REQUIRED, '可选值：channel2|channel3');//sendcloud
     }
 
     /**
@@ -28,10 +28,15 @@ class FulcrumDeliveryNotificationMailCommand extends AbstractMailCommand {
      */
     protected function createMailer(InputInterface $input)
     {
-        $channel = $input->getOption('channel');
+        // sendcloud
+//        $channel = $input->getOption('channel');
+//        $parameterService = $this->getContainer()->get('app.parameter_service');
+//        $httpClient = $this->getContainer()->get('app.http_client');
+//        return MailerFactory::createSendCloudMailer($parameterService, $httpClient, $channel);
+
+        // webpower
         $parameterService = $this->getContainer()->get('app.parameter_service');
-        $httpClient = $this->getContainer()->get('app.http_client');
-        return SendCloudMailerFactory::createMailer($parameterService, $httpClient, $channel);
+        return MailerFactory::createWebpowerMailer($parameterService);
     }
 
     /**
