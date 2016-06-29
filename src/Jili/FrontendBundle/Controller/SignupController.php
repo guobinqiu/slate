@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
 use Jili\ApiBundle\Entity\AdCategory;
+
 use JMS\JobQueueBundle\Entity\Job;
 
 class SignupController extends Controller 
@@ -20,6 +21,7 @@ class SignupController extends Controller
     public function confirmRegisterAction($register_key)
     {
         $this->container->get('logger')->debug(__METHOD__ . ' - START - register_key=' . $register_key);
+        $clientIp = $this->getRequest()->getClientIp();
         // 1. Validation
         $passwordToken = $this->validateRegisterKey($register_key);
         if ( !$passwordToken ){
@@ -28,7 +30,7 @@ class SignupController extends Controller
         }
 
         // 2. Update register and user information
-        $user = $this->updateRegisterInformations($passwordToken);
+        $user = $this->updateRegisterInformations($passwordToken, $clientIp);
         if ( !$user ){
             $this->container->get('logger')->debug(__METHOD__ . ' - user info update failed - ');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
@@ -61,72 +63,98 @@ class SignupController extends Controller
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $em = $this->getDoctrine()->getManager();
         $passwordToken = $em->getRepository('JiliApiBundle:SetPasswordCode')->findOneByValidatedToken( $register_key );
-        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ' . isset($passwordToken));
         return $passwordToken;
     }
 
     /**
+    * update 
+    *     user.last_login_date => current_time
+    *     user.last_login_ip => ip address used by user at this login
+    *     user.is_email_confirmed => User::EMAIL_CONFIRMED
+    *     user.register_complete_date => current_time
+    *     user.points => current points + User::POINT_SIGNUP
+    * update
+    *     set_password_code.is_available => 0
+    * create 
+    *     point_history0x.user_id => user.id
+    *     point_history0x.point_change_num => User::POINT_SIGNUP
+    *     point_history0x.reason => $AdCategory::ID_SINGUP
+    * create
+    *     task_history0x.user_id => user.id
+    *     task_history0x.order_id => 0
+    *     task_history0x.ocd_create_date => current_time
+    *     task_history0x.category_type => AdCategory::ID_SINGUP
+    *     task_history0x.task_type => 0
+    *     task_history0x.task_name => '完成注册'
+    *     task_history0x.date => current_time
+    *     task_history0x.point => User::POINT_SIGNUP
+    *     task_history0x.status => 1
     * @param object $passwordToken
+    * @param string $clientIp
     * @return object
     */    
-    private function updateRegisterInformations(SetPasswordCode $passwordToken){
+    private function updateRegisterInformations(SetPasswordCode $passwordToken, $clientIp){
+        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $em = $this->getDoctrine()->getManager();
-    
-        $user = $em->getRepository('JiliApiBundle:User')
-            ->findOneById($passwordToken->getUserId());
+        
+        $user_id = $passwordToken->getUserId();
+
+        $user = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
         if( ! $user ) {
             // Can not find user_id in user table.
             // Todo This is a system error which need log or throw exception
             return $user;
         }
-        $datetime = new \DateTime();
-        $user->setLastLoginDate($datetime);
-        $user->setLastLoginIp($this->getRequest()->getClientIp());
-        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED );
-        $user->setRegisterCompleteDate($datetime);
+        $signupTime = new \DateTime();
+
+        // Update user
+        $user->setLastLoginDate($signupTime);
+        $user->setLastLoginIp($clientIp);
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
+        $user->setRegisterCompleteDate($signupTime);
+        $user->setPoints(intval($user->getPoints() + User::POINT_SIGNUP));
 
         $passwordToken->setToUnavailable();
 
-        // send out register  points, insert point_history
-        $points_for_register = \Jili\ApiBundle\Entity\User::POINT_SIGNUP;
+        // Create new object of point_history0x
+        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
+        $pointHistory = new $classPointHistory();
+        $pointHistory->setUserId($user_id);
+        $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
+        $pointHistory->setReason(AdCategory::ID_SINGUP);
 
-        $points_params = array (
-            'userid' => $user->getId(),
-            'point' => $points_for_register,
-            'type' => AdCategory::ID_SINGUP
-        );
-
-        //更新task_history表分数
-        $task_params = array (
-            'userid' => $user->getId(),
-            'orderId' => 0,
-            'taskType' => 0,
-            'categoryType' => AdCategory::ID_SINGUP,//9:完善资料
-            'task_name' => '完成注册',
-            'point' => $points_for_register,
-            'date' => date_create(date('Y-m-d H:i:s')),
-            'status' => 1
-        );
-
-        $user->setPoints(intval($user->getPoints()+$points_for_register));
+        // Create new object of task_history0x
+        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
+        $taskHistory = new $classTaskHistory();
+        $taskHistory->setUserid($user_id);
+        $taskHistory->setOrderId(0);
+        $taskHistory->setOcdCreatedDate($signupTime);
+        $taskHistory->setCategoryType(AdCategory::ID_SINGUP);
+        $taskHistory->setTaskType(0);
+        $taskHistory->setTaskName('完成注册');
+        $taskHistory->setDate($signupTime);
+        $taskHistory->setPoint(User::POINT_SIGNUP);
+        $taskHistory->setStatus(1);
 
         // transaction
+        
         $em->getConnection()->beginTransaction(); // suspend auto-commit
         try {
-            $this->get('general_api.point_history')->get($points_params);
-            $taskLister = $this->get('general_api.task_history');
-            $taskLister->init($task_params);
             $em->persist($user);
             $em->persist($passwordToken);
+            $em->persist($pointHistory);
+            $em->persist($taskHistory);
             $em->flush();
             $em->getConnection()->commit();
-            return $user;
         } catch (Exception $e) {
             $em->getConnection()->rollBack();
             //Todo improve the log message to clarify the error status
-            $this->get('logger')->emerg($e->getMessage()  );
+            $this->get('logger')->error($e->getMessage());
             return NULL;
         }
+        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
+        return $user;
     }
     
     /**
