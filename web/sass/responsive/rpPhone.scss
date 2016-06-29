@@ -30,6 +30,10 @@
     }
 
     /* header */
+    .header{
+        position: relative;
+        z-index: 2;
+    }
     .nav{
         display: none;
     }
@@ -61,6 +65,134 @@
             padding: 0 10px;
         }
     }
+
+    /*navLayer*/
+    .navLayerBg, .navLayer{
+        position: fixed;
+        top: 54px;
+        left: 0;
+        right: 0;
+        display: none;
+    } 
+    .navbarUn{
+        .navLayerBg, .navLayer{
+            top: 51px;
+            padding-top: 10px;
+            border-top: 1px solid #EBECEE;
+        } 
+    }
+    .navLayerBg{
+        z-index: 19998;
+        top: 54px;
+        bottom: 0;
+        filter:alpha(opacity=60);     
+        opacity: .6;
+        background: #000;
+        
+    } 
+    .navLayer{
+        z-index: 19999;
+        background: #EBECEE;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        a{
+            display: block;
+            margin-bottom: 1px;
+            padding: 0 10px;
+            background: #fff;
+            color: #424D63;
+            height: 55px;;
+            line-height: 55px;
+        }
+        span{
+            float: right;
+            margin-top: 19px;
+            width: 20px;
+            height: 20px;
+            background: url(../../img/common/rightArrow.png) no-repeat 0 0;
+            background-size: contain;
+        }
+        em{
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 17px;
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            &.icons1{
+                background: url(../../img/common/navIcons1.png) no-repeat 0 0;
+                background-size: contain;
+            }
+            &.icons2{
+                background: url(../../img/common/navIcons2.png) no-repeat 0 0;
+                background-size: contain;
+            }
+            &.icons3{
+                background: url(../../img/common/navIcons3.png) no-repeat 0 0;
+                background-size: contain;
+            }
+            &.icons4{
+                background: url(../../img/common/navIcons4.png) no-repeat 0 0;
+                background-size: contain;
+            }
+            &.icons5{
+                background: url(../../img/common/navIcons5.png) no-repeat 0 0;
+                background-size: contain;
+            }
+            &.icons6{
+                background: url(../../img/common/navIcons6.png) no-repeat 0 0;
+                background-size: contain;
+            }
+        }
+    }
+    .navs{
+        margin-bottom: 10px;
+    }
+    .navbarUn{
+        .navs{
+            margin-bottom: 0;   
+        }
+    } 
+    .shortcutButtons{
+        margin-bottom: 10px;
+        margin-right: -1px;
+        a{
+            display: inline-block;
+            vertical-align: middle;
+            padding: 15px 0 10px;
+            width: 50%;
+            height: 150px;
+            text-align: center;
+            color: #FF7C2F;
+            &.regBtn{
+                width: 49%;
+                border-right: 1px solid #EBECEE;
+            }
+        }
+        .regBg, .loginBg{
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            line-height: 80px;
+            margin: 0 auto;
+            background: #F4D468;
+            border-radius: 50%;
+            img{
+                margin: 0;
+                width: 50px;
+                height: 47px;
+                vertical-align: middle;
+            }     
+        }
+        .loginBg{
+            background: #6EE7DE;
+            img{
+                width: 48px;
+                height: 44px;
+            }
+        } 
+    } 
+
 
     /* footer */
     .footerMini{
@@ -178,7 +310,7 @@
         .vote-txt {
             width: 66%;
         }
-        .relateVlist{
+        .relateVlist{ 
             white-space: normal;
         }
     } 

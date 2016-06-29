@@ -1,5 +1,5 @@
 <div class="header-nav">
-    <div class="header-nav-con w1000 clearfix">
+    <div class="header-nav-con w1000 clearfix navbarUn">
         <div class="logo left">
             <a href="{{ path('_homepage') }}" title="91问问调查网logo">
             <img src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo"></a>
@@ -27,55 +27,44 @@
                 <span class="iconBar"></span>
                 <span class="iconBar"></span>
             </button>
-        {# <div class="headDropdown hiddenDesktop hiddenTablet visiblePhone"> #}
-            {# <div class="unlog">
-                <div class="reg">
-                    <img src="{{ asset('img/responsive/regIcon.png') }}" alt="">
-                    <span>注册</span>
+            <div class="navLayerBg hiddenDesktop hiddenTablet"></div>
+            <div class="navLayer hiddenDesktop hiddenTablet">
+                {% if app.session.has('uid') %}
+                <div class="navs">
+                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>我的主页<span></span></a>
+                    <a href="{{ path('_advertiserment_list') }}"><em class="icons3"></em>任务中心<span></span></a>
+                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>奖品兑换<span></span></a>
+                    <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
                 </div>
-                <div class="log">
-                    <img src="{{ asset('img/responsive/logIcon.png') }}" alt="">
-                    <span>登录</span>
-                </div>
-
-            </div>
-            <ul class="">
-                <li>
-                    <a href="#"><i class="ph_hp"></i><span>我的主页</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="ph_tc"></i><span>任务中心</span></a>
-                </li>
-                <li>
-                    <a href="#"><i class="ph_pl"></i><span>奖品兑换</span></a>
-            </ul> #}
-            <div class="navLayer hiddenDesktop hiddenTablet hiddenPhone">
+                <div class="logout"><a href="{{ path('_user_logout') }}"><em class="icons6"></em>退出登录</a></div>
+                {% else %}
                 <div class="shortcutButtons">
-                    <a href="{{ path('_homepage') }}">
-                        <div class="regBg"><img src="{{ asset('mobile/img/common/regIcon.png') }}" alt="注册"></div>注册
-                    </a><a href="{{ path('_homepage') }}">
-                        <div class="loginBg"><img src="{{ asset('mobile/img/common/loginIcon.png') }}" alt="登录"></div>登录
+                    <a href="{{ path('_user_reg') }}" class="regBtn">
+                        <div class="regBg"><img src="{{ asset('img/common/regIcon.png') }}" alt="注册"></div><div>注册</div>
+                    </a><a href="{{ path('_user_login') }}">
+                        <div class="loginBg"><img src="{{ asset('img/common/loginIcon.png') }}" alt="登录"></div><div>登录</div>
                     </a>
                 </div>
                 <div class="navs">
-                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>首页<span></span></a>
-                    <a href="{{ path('jili_frontend_vote_index') }}" title="快速问答"><em class="icons2"></em>快速问答<span></span></a>
-                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
-                    <a href="{{ path('_default_support') }}"><em class="icons5"></em>问题反馈<span></span></a>
+                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>我的主页<span></span></a>
+                    <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
+                    <a href="{{ path('_advertiserment_list') }}"><em class="icons3"></em>任务中心<span></span></a>
+                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>奖品兑换<span></span></a>
+                    <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
                 </div>
-            </div>
-        {# </div> #}
-            {% if app.session.has('uid') %}
-            {% else %}
-            <div class="login-btn right">
+                {% endif %}
+             </div>
+             {% if app.session.has('uid') %}
+             {% else %}
+             <div class="login-btn right">
                 <a href="{{ path('_user_reg') }}" title="注册" class="sign">注册</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                 <a href="javascript: void(0)" title="登录">登录</a>
                 {% else %}
                 <a href="{{ path('_user_login') }}" title="登录">登录</a>
                 {% endif %}
-            </div>
-            {% endif %}
+             </div>
+             {% endif %}
         </div>
         {% if app.request.attributes.get('_route') == '_exchange_index' %}<p class="navTit hiddenDesktop visiblePhone hiddenTablet">兑换中心</p>{% endif %}
     </div>

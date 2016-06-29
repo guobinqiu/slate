@@ -18,7 +18,7 @@
             <div class="profile-base">
                 <h3>基本信息</h3>
                 <div class="con clearfix">
-                    <div class="face left col-d-3">
+                    <div class="face left col-t-3 col-m-12">
                         <div class="face-wapper">
                             {% if user.iconPath %}
                             <img src='{{ asset(user.iconPath) }}' width="90" height="90" />
@@ -31,8 +31,11 @@
                             </form>
                         </div>
                     </div>
-                    <ul class="form text left col-d-9">
+                    <ul class="form text left col-t-9 col-m-12">
                         <li class="nk">{{ user.nick[:12] }}</li>
+                        <li class="hide rp-phone">
+                            <label for="">昵称：</label>
+                            <span>{{ user.nick[:12] }}</span></li>
                         <li>
                             <label for="">登录账号：</label>
                             <span>{{ user.email }}</span>
