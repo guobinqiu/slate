@@ -1,6 +1,6 @@
 {% if html_survey_list|length > 0 %}
 <div class="survey" id="surveyHome">
-	<h1>问卷列表</h1>
+	<h1 class="visibleDesktop hiddenPhone visibleTablet">问卷列表</h1>
 	<ul id="surveyList">
 		{% for html_survey in html_survey_list %}
 			<li class="col-t-12 col-m-12">{{ html_survey | raw }}</li>
