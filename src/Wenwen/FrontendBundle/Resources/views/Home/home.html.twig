@@ -48,7 +48,7 @@
 		{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
-			<h1>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
+			<h1 class="visibleDesktop hiddenPhone visibleTablet">快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
 			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
 		</div>
 	</div>
