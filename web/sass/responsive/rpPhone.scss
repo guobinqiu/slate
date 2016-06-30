@@ -41,21 +41,22 @@
         .login-btn{
             display: none;
         }
+        span{
+            padding: 0;
+        }
     } 
     .header-nav-con{
         position: relative;
     }
     .navCollapsed{
         position: absolute;
-        right: 0;
+        right: 6%;
         top: 0;
-        padding: 0px 10px 6px;
-        margin: 13px 15px 8px 0;
-        background-color: transparent;
-        background-image: none;
-        border: 1px solid transparent;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 13px 0 8px;
         border-radius: 4px;
-        @include box-shadow(0px 0px 6px rgba(0,0,0,0.35));
         .iconBar{
             background-color: #ff781e;
             display: block;
@@ -98,7 +99,7 @@
         a{
             display: block;
             margin-bottom: 1px;
-            padding: 0 10px;
+            padding: 0 5%;
             background: #fff;
             color: #424D63;
             height: 55px;;
@@ -107,8 +108,8 @@
         span{
             float: right;
             margin-top: 19px;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             background: url(../../img/common/rightArrow.png) no-repeat 0 0;
             background-size: contain;
         }
@@ -179,7 +180,6 @@
             border-radius: 50%;
             img{
                 margin: 0;
-                width: 50px;
                 height: 47px;
                 vertical-align: middle;
             }     
@@ -187,7 +187,6 @@
         .loginBg{
             background: #6EE7DE;
             img{
-                width: 48px;
                 height: 44px;
             }
         } 
@@ -385,7 +384,7 @@
         .vote-txt {
             width: 66%;
         }
-        .relateVlist{ 
+        .relateVlist{  
             white-space: normal;
         }
     } 

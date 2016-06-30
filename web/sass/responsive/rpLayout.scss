@@ -481,15 +481,17 @@
 
     /* register page */
     .main-register{
-        padding: 30px 38px 50px;
+        padding: 30px 12%;
         width: 100%;
         li{
             span,& > div,& #protocol{
-                // margin: 5px 0 0 0;
                 font-size: .7rem!important;
             }
             input[type='text'],input[type='password'],input[type='email']{
                 width: 100%;
+            }
+            span{
+                margin-left: 0;
             }
         }
         .subscribe{
@@ -500,6 +502,15 @@
     }
     .login-others{
         display: none;
+    }
+    .main-register-btn{
+        width: 100%;
+        span{
+            width: 100%;
+        }
+        img{
+            display: none;
+        }
     }
 
     /* resetPwd page */
@@ -573,10 +584,16 @@
     /* register page */
     .main-register{
         li{
-            margin-top: 0;
+            margin-top: 10px;
             span{
                 line-height: 28px;
                 padding: 0 5px;
+            }
+            .captcha_reload{
+                font-size: .7rem!important;
+                background: none;
+                padding-left: 0;
+                white-space: nowrap;
             }
         }
         span{
@@ -590,6 +607,38 @@
             margin-top: 0;
         }
     } 
+    .main-register-active{
+        margin: 30px 10%;
+        .con{
+            .text{
+                margin-left: 0;
+                background-position: center 0;
+                padding-top: 70px;
+                padding-left: 0;
+                text-align: center;
+            }
+        }
+        .tips{
+            padding: 10px 10%;
+            margin-top: 30px;
+            dd, b, a{
+                line-height: 1.3rem;
+                font-size: .7rem!important;
+            }
+            dl{
+                margin-bottom: 10px;
+            }
+        }
+        p{
+            line-height: 1.7rem;
+        }
+        .title{
+            line-height: 2rem;
+            font-size: 1.4rem!important;
+            padding: 0 10%;
+            margin-bottom: 10px;
+        }
+    }
 }
 @import "rpPersonal";
 @import "rpDesktop";
