@@ -230,8 +230,16 @@
 
     /* exchange page */
     .main-con-exchange{
+        h1{
+            margin-top: 15px;
+            padding-left: 3%;
+            line-height: 30px;
+        }
         .pic{
             margin: initial;
+        }
+        ul{
+            overflow: hidden;
         }
         li{
             margin-top: 20px;
@@ -249,6 +257,66 @@
         }
         dl{
             width: initial;
+        }
+        .main-con-exchangeInfo{
+            padding: 15px 0 50px;
+            li{
+                padding: 0;
+                margin: 0;
+                margin-top: 20px;
+                label{
+                    width: 34%;
+                }
+                input{
+                    width: 60%;
+                }
+                span{
+                    &.option{
+                        width: 20%;
+                        margin-right: 1%;
+                        .points{
+                            width: 100%;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                    }
+                    &.active{
+                        .points{
+                            visibility: visible;
+                            opacity: 1;
+                        }   
+                    }
+                    &.error{
+                        border: none;
+                        background: none;
+                        padding-left: 35%;
+                    }
+                    &.about{
+                        display: none;
+                    }
+                }
+            }
+            .detail{
+                .text{
+                    margin-top: 40px;
+                    width: 62%;
+                }
+            }
+            .btn{
+                margin-top: 0;
+                &.spec{
+                    padding-left: 35%;
+                }
+            }
+            .alipay-tips{
+                padding: 20px 8%;
+                margin-bottom: 20px;
+            }
+            .backError{
+                &.idCardError{
+                    padding-left: 35%;
+                }
+            }
         }
     }
 }
