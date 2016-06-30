@@ -639,6 +639,15 @@
             margin-bottom: 10px;
         }
     }
+
+    /* error page */
+    .main{
+        .main-error-con{
+            .errorCon{
+                width: auto;
+            }
+        } 
+    } 
 }
 @import "rpPersonal";
 @import "rpDesktop";

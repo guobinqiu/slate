@@ -318,6 +318,35 @@
             }
         }
     }
+
+    /* reg page */
+    .main-register-active{
+        .finish{
+            .title{
+                padding: 0;
+                line-height: 25px;    
+            }
+        }
+        .profileWrap{
+            padding: 25px 5% 30px;
+        }
+    }
+
+    /* error page */
+    .main{
+        .main-error-con{
+            background: url(../../img/404/errorbg.png) no-repeat center bottom;
+            .errorCon{
+                width: auto;
+                height: 518px;
+                margin: 0;
+                .errorText{
+                    padding: 50px 0 0;
+                    width: 80%;
+                }
+            }
+        } 
+    } 
 }
 
 @media only screen and (max-width: 667px) and (orientation: portrait) {
