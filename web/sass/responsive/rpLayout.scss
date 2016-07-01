@@ -36,6 +36,7 @@
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
+                height: 40px;
             }
             .login-btn-others{
                 display: none;
@@ -305,9 +306,25 @@
             }
         }
         img{
-            height: 32px;
-            margin: 8px 0 0 15px;
+            height: 28px;
+            margin: 12px 0 0 15px;
             vertical-align: initial;
+        }
+        .headSimCon{
+            .navTit{
+                margin: -1px auto 0!important;
+                font-size: 1.3rem!important;
+            }
+            p.right, p.right a{
+                font-size: 12px!important;
+            }
+            p.right{
+                margin-right: 5%;
+            }
+            .logo img{
+                height: 32px;
+                margin: 24px 0 0 15px;
+            }
         }
         .navTit{
             text-align: center;
@@ -316,7 +333,7 @@
             font-size: 1.2rem!important;
             color: $sub-con-color;
         }
-        .headSimCon{
+        .headQnCon{
             p{
                 margin-right: 5%;
                 margin-top: 10px!important;
@@ -486,7 +503,7 @@
 
     /* feedback page */
     .main-help-feedback{
-        padding: 40px;
+        padding: 30px 5%;
         li{
             margin-top: 0!important;
             label{
@@ -607,14 +624,11 @@
     }
     .vote-sub {
         li{
-            padding: 14px 0!important;
+            padding: 14px 5%!important;
         }
         .title{
             line-height: 27px;
             height: 30px;
-        }
-        ul{
-            padding: 0 5%;
         }
         .vote-img{
             margin-top: 10px;
@@ -642,8 +656,8 @@
             margin: 0 0 2px 0;
         }
         .relate{  
-            padding: 20px!important;
-            margin: 0 0 0 7px!important;
+            padding: 20px 5%!important;
+            margin: 0 0 0 0!important;
             img{
                 display: none;
             }
@@ -653,13 +667,15 @@
         }
         .relateVlist{
             padding: 0!important;
-            margin: 0;
-            white-space: nowrap;
+            margin: 0 0 0 7px!important;
+            white-space: nowrap; 
         }
         .options {
-            padding: 0 35px;
+            padding: 0 5%;
             dt{
                 margin-top: 0;
+                width: 82%;
+                font-size: .8rem!important;
             }
             dd{
                 width: 100%!important;
@@ -669,10 +685,15 @@
             .weiboshare{
                 margin-top: 10px;
             }
+            li{
+                margin-top: 0px;
+                padding: 14px 0!important;
+            }
         }
         .relateText{
             .description{
                 margin: 14px 0 0;
+                padding: 6px 12px;
                 div{
                     font-size: 0.7rem !important;
                     line-height: 1.5rem !important;
@@ -958,6 +979,10 @@
             .qnConBg{
                 .bottom{
                     line-height: 1.8rem;
+                }
+                .qnConBot{
+                    width: 100%!important;
+                    background: none; 
                 }
             }
         }
