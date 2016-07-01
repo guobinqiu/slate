@@ -767,7 +767,7 @@
     }
     .form{
         span{
-            &.error,span{
+            &.error, &.focus,span{
                 font-size: .7rem!important;
             }
             &.succeed{
@@ -987,8 +987,54 @@
             }
         }
     }
+    .rp-clearfix {
+        zoom: 1;
+    }
+    .rp-clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    /*personal center*/
+    .main-personal{
+        padding: 0;
+    }
+    .rp-personal-nav, .rp-main-personal-right{
+        width: 100%;
+        float: none;
+    } 
+    .rp-personal-nav{
+        padding: 0;
+        margin: 0;
+        h1, em{
+            display: none;
+        }
+        ul{
+            background: #f3f3f3;
+        }
+        li{
+            float: left;
+            width: 20%;
+            text-align: center;
+            margin-top: 0;
+            height: 55px;
+            line-height: 55px;
+        }
+    }
+    .rp-main-personal-right{
+        h2{
+            display: none;
+        }
+    }
+    /*personal center---profiling*/
+    .main-personal-profile{
+        .profile-base{
+            form{
+                display: none;
+            }
+        }
+    }
 }
-@import "rpPersonal";
 @import "rpDesktop";
 @import "rpTablet";
 @import "rpPhone";
