@@ -592,3 +592,45 @@
         }
     } 
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
+    .main-adv-con-text{
+        display: none;
+    }
+    .login-wrapper{
+        width: 90%;
+        padding: 0;
+        margin: 0 5%;
+    }
+    .main-adv{
+        .login-wrapper{
+            right: 0;
+        }
+    }
+    .main{
+        .login{
+            width: 100%;
+        }
+    }
+    .rewardlist{
+        li{
+            margin: 12px 13px;
+            .rMes{
+                width: 100%;
+                .rPic1{
+                    width: 115px;
+                    height: 82px;
+                    background-position: -77px -4px;
+                }
+                .rPic2{
+                    width: 115px;
+                    background-position: -204px -4px;
+                }.rPic3{
+                    width: 115px;
+                    background-position: -358px -4px;
+                }
+
+            }
+        }
+    }
+}

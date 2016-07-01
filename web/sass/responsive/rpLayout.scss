@@ -50,7 +50,7 @@
                 span{
                     &.error, & strong{
                         top: 26px;
-                        font-size: .7rem!important;
+                        font-size: .8rem!important;
                         height: 30px;
                         line-height: 30px;
                     }
@@ -67,7 +67,7 @@
             .login-con{
                 padding: 14px 28px;
                 p,p a{
-                    font-size: .7rem!important;
+                    font-size: .8rem!important;
                 }
             }
         }
@@ -301,7 +301,7 @@
         .login-btn{
             margin-right: 20px;   
             a{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
                 vertical-align: 2px;
             }
         }
@@ -310,7 +310,7 @@
             margin: 12px 0 0 15px;
             vertical-align: initial;
         }
-        .headSimCon{
+        .headQnCon{
             .navTit{
                 margin: -1px auto 0!important;
                 font-size: 1.3rem!important;
@@ -320,10 +320,18 @@
             }
             p.right{
                 margin-right: 5%;
+                margin-top: 15px!important;
             }
             .logo img{
                 height: 32px;
                 margin: 24px 0 0 15px;
+            }
+            p{
+                margin-right: 5%;
+                margin-top: 10px!important;
+            }
+            p,p a{
+                font-size: .8rem!important;
             }
         }
         .navTit{
@@ -332,15 +340,6 @@
             margin: 0 auto;
             font-size: 1.2rem!important;
             color: $sub-con-color;
-        }
-        .headQnCon{
-            p{
-                margin-right: 5%;
-                margin-top: 10px!important;
-            }
-            p,p a{
-                font-size: .8rem!important;
-            }
         }
     }
     .header{
@@ -388,7 +387,7 @@
                   margin-left: initial;
                   margin-bottom: 5px!important;
                   &.pdc{
-                    font-size: .7rem!important;
+                    font-size: .8rem!important;
                   }
               }  
             }
@@ -432,7 +431,7 @@
             text-align: left;
             margin: 0 0 10px 22px;
             span{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
             }
         }
     }
@@ -474,7 +473,7 @@
                 }
             }
             .rTag{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
                 right: -27px;
                 top: -17px;
             }
@@ -494,7 +493,7 @@
         }
         p{
             line-height: 20px;
-            font-size: .7rem!important;
+            font-size: .8rem!important;
         }
         .button{
             margin: 20px auto;
@@ -639,7 +638,7 @@
                 color: $sub-con-color;
             }
             .con,.con span{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
                 margin-top: 0!important;
                 line-height: 1.5rem!important;
             }
@@ -662,7 +661,7 @@
                 display: none;
             }
             span{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
             }
         }
         .relateVlist{
@@ -695,7 +694,7 @@
                 margin: 14px 0 0;
                 padding: 6px 12px;
                 div{
-                    font-size: 0.7rem !important;
+                    font-size: 0.8rem !important;
                     line-height: 1.5rem !important;
                 }
             }
@@ -724,7 +723,7 @@
         width: 100%;
         li{
             span,& > div,& #protocol{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
             }
             input[type='text'],input[type='password'],input[type='email']{
                 width: 100%;
@@ -767,8 +766,8 @@
     }
     .form{
         span{
-            &.error, &.focus,span{
-                font-size: .7rem!important;
+            &.error,&.focus,span{
+                font-size: .8rem!important;
             }
             &.succeed{
                 background: none!important;
@@ -829,7 +828,7 @@
                 padding: 0 5px;
             }
             .captcha_reload{
-                font-size: .7rem!important;
+                font-size: .8rem!important;
                 background: none;
                 padding-left: 0;
                 white-space: nowrap;
@@ -862,7 +861,7 @@
             margin-top: 30px;
             dd, b, a{
                 line-height: 1.3rem;
-                font-size: .7rem!important;
+                font-size: .8rem!important;
             }
             dl{
                 margin-bottom: 10px;
