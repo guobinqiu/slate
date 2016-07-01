@@ -34,7 +34,7 @@ class WebpowerMailer implements IMailer {
         $message->setSubject($subject);
         $message->setFrom(array($this->from => '91问问调查网'));
         $message->setTo($to);
-        $message->setBody($html);
+        $message->setBody($html, 'text/html');
 
         $result = array(
             'email' => $to,
