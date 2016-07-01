@@ -41,11 +41,17 @@ class SendCloudMailer implements IMailer {
     }
 
     /**
+     * Send mailing.
+     *
+     * @param $to 收件人
+     * @param $subject 邮件主题
+     * @param $html 邮件正文
+     * @return array
      *
      * @link http://sendcloud.sohu.com/doc/email_v2/send_email/
      * @throws RequestException
-     * @return string A json string
      *
+     * Responsed data like:
      * {"result":true,"statusCode":200,"message":"请求成功","info":{"emailIdList":["1464924579544_27949_26113_3130.sc-10_10_127_119-inbound0$qracle@126.com"]}}
      * {"result":false,"statusCode":40005,"message":"认证失败","info":{}}
      */

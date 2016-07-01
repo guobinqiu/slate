@@ -10,7 +10,7 @@ interface IMailer {
      * @param $to 收件人
      * @param $subject 邮件主题
      * @param $html 邮件正文
-     * @return mixed
+     * @return array 返回一个hash数组，其中一定要包含一个key为result，value为true|false的键值对
      */
     public function send($to, $subject, $html);
 

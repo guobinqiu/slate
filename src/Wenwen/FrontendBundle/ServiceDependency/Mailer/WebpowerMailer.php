@@ -26,7 +26,7 @@ class WebpowerMailer implements IMailer {
      * @param $to 收件人
      * @param $subject 邮件主题
      * @param $html 邮件正文
-     * @return mixed
+     * @return array
      */
     public function send($to, $subject, $html)
     {
@@ -35,7 +35,18 @@ class WebpowerMailer implements IMailer {
         $message->setFrom(array($this->from => '91问问调查网'));
         $message->setTo($to);
         $message->setBody($html);
-        $this->mailer->send($message);
+
+        $result = array(
+            'email' => $to,
+            'sent_at' => new \DateTime(),
+        );
+
+        if ($this->mailer->send($message) > 0) {
+            $result['result'] = true;
+        } else {
+            $result['result'] = false;
+        }
+        return $result;
     }
 
     /**
