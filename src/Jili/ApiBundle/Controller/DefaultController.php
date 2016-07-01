@@ -436,7 +436,7 @@ class DefaultController extends Controller
         }
         $message = \Swift_Message::newInstance();
         $message->setSubject($subject);
-        $message->setFrom(array('26-90032@91wenwen.webpower.asia' => '91问问调查网'));
+        $message->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'));
         $message->setTo('support@91wenwen.com');
         $message->setReplyTo($email);
         $message->setBody('<html>' .

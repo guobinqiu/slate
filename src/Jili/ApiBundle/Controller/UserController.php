@@ -1240,7 +1240,7 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-帐号密码重置')
-        ->setFrom(array('account@91jili.com'=>'91问问'))
+        ->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'))
         ->setTo($email)
         ->setBody(
                 '<html>' .
@@ -1254,7 +1254,7 @@ class UserController extends Controller implements CampaignTrackingController
                 '</html>',
                 'text/html'
         );
-        $flag = $this->get('mailer')->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
         if($flag===1){
             return true;
         }else{
@@ -1269,7 +1269,7 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-注册激活邮件')
-        ->setFrom(array('account@91jili.com'=>'91问问'))
+        ->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'))
         ->setTo($email)
         ->setBody(
                         '<html>' .
@@ -1283,7 +1283,7 @@ class UserController extends Controller implements CampaignTrackingController
                         '</html>',
                         'text/html'
         );
-        $flag = $this->get('mailer')->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
         if($flag===1){
             return true;
         }else{
