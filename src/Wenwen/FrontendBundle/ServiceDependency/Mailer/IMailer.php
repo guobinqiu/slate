@@ -10,7 +10,7 @@ interface IMailer {
      * @param $to 收件人
      * @param $subject 邮件主题
      * @param $html 邮件正文
-     * @return mixed true|false|string|json
+     * @return mixed
      */
     public function send($to, $subject, $html);
 

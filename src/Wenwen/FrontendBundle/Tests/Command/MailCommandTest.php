@@ -61,7 +61,7 @@ class MailCommandTest extends WebTestCase {
             '--survey_point' => 10,
             '--survey_length' => 10,
             '--subject' => 'sop delivery notification',
-            '--channel' => 'channel2',
+            //'--channel' => 'channel2',//sendcloud
         ));
     }
 
@@ -78,7 +78,7 @@ class MailCommandTest extends WebTestCase {
             '--survey_title' => 'fulcrum',
             '--survey_point' => 10,
             '--subject' => 'fulcrum delivery notification',
-            '--channel' => 'channel2',
+            //'--channel' => 'channel2',//sendcloud
         ));
     }
 

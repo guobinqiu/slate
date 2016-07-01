@@ -8,12 +8,13 @@ class WebpowerMailer implements IMailer {
 
     private $from;
 
-    public function __construct($host, $username, $password, $from)
+    public function __construct($from, $host, $username, $password)
     {
         $transport = \Swift_SmtpTransport::newInstance();
         $transport->setHost($host);
         $transport->setUsername($username);
         $transport->setPassword($password);
+        $transport->setEncryption('tls');
 
         $this->mailer = \Swift_Mailer::newInstance($transport);
         $this->from = $from;
@@ -25,7 +26,7 @@ class WebpowerMailer implements IMailer {
      * @param $to 收件人
      * @param $subject 邮件主题
      * @param $html 邮件正文
-     * @return mixed true|false|string|json|void
+     * @return mixed
      */
     public function send($to, $subject, $html)
     {

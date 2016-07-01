@@ -35,10 +35,10 @@ class MailerFactory {
     public static function createWebpowerSignupMailer(ParameterService $parameterService) {
         if (is_null(self::$webpowerSignupMailer)) {
             self::$webpowerSignupMailer = new WebpowerMailer(
+                $parameterService->getParameter('webpower_signup_sender'),
                 $parameterService->getParameter('webpower_host'),
                 $parameterService->getParameter('webpower_signup_username'),
-                $parameterService->getParameter('webpower_signup_password'),
-                $parameterService->getParameter('webpower_signup_sender')
+                $parameterService->getParameter('webpower_signup_password')
             );
         }
         return self::$webpowerSignupMailer;
@@ -47,10 +47,10 @@ class MailerFactory {
     public static function createWebpowerMailer(ParameterService $parameterService) {
         if (is_null(self::$webpowerMailer)) {
             self::$webpowerMailer = new WebpowerMailer(
+                $parameterService->getParameter('webpower_sender'),
                 $parameterService->getParameter('webpower_host'),
                 $parameterService->getParameter('webpower_username'),
-                $parameterService->getParameter('webpower_password'),
-                $parameterService->getParameter('webpower_sender')
+                $parameterService->getParameter('webpower_password')
             );
         }
         return self::$webpowerMailer;

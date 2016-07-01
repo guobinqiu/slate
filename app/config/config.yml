@@ -107,11 +107,14 @@ swiftmailer:
             host:       %webpower_host%
             username:   %webpower_signup_username%
             password:   %webpower_signup_password%
+            encryption: tls
+
         webpower_mailer:
             transport:  smtp
             host:       %webpower_host%
             username:   %webpower_username%
             password:   %webpower_password%
+            encryption: tls
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control

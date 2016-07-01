@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
+use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailer;
 
 class DmdeliveryCommand extends ContainerAwareCommand
@@ -162,16 +163,13 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     private function createMailer()
     {
-        $mailer = $this->getContainer()->getParameter('mailer');
-        $sendcloud = $mailer['sendcloud'];
-        $account = $sendcloud['channel1'];
+        // sendcloud
+//        $parameterService = $this->getContainer()->get('app.parameter_service');
+//        $httpClient = $this->getContainer()->get('app.http_client');
+//        return MailerFactory::createSendCloudMailer($parameterService, $httpClient, 'channel1');
 
-        return new SendCloudMailer(
-            $account['api_user'],
-            $account['api_key'],
-            $sendcloud['url'],
-            $account['from'],
-            $this->getContainer()->get('app.http_client')
-        );
+        // webpower
+        $parameterService = $this->getContainer()->get('app.parameter_service');
+        return MailerFactory::createWebpowerMailer($parameterService);
     }
 }
