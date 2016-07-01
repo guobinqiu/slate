@@ -5,7 +5,7 @@
             <img src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo"></a>
             <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
         </div>
-        <div class="right">
+        <div class="navR right">
             <div class="nav left">
                 {% set router_current = app.request.attributes.get('_route') %}
                 <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="first active"':'class="first"' }}>首页</a>
@@ -16,12 +16,17 @@
                 {% endif %}
                 <a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="active"':'' }}>快速问答</a>
                 {% if app.session.has('uid') %}
-                <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
+                <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
                 {% endif %}
                 <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
+                <a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="active tabletProfile hiddenDesktop visibleTablet hiddenPhone"':'class="tabletProfile hiddenDesktop visibleTablet hiddenPhone"' }}>个人中心</a>
                 <div class="border"></div>
                 <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
             </div>
+            {% if app.request.attributes.get('_route') == '_user_login' %}
+            {% else %}
+            <a class="tabletQuit hiddenDesktop visibleTablet hiddenPhone" href="{{ path('_user_logout') }}" class="exit">退出</a>
+            {% endif %}
             <button type="button" class="navCollapsed hiddenDesktop hiddenTablet visiblePhone">
                 <span class="iconBar"></span>
                 <span class="iconBar"></span>
@@ -31,7 +36,7 @@
             <div class="navLayer hiddenDesktop hiddenTablet">
                 {% if app.session.has('uid') %}
                 <div class="navs">
-                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>我的主页<span></span></a>
+                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>问卷列表<span></span></a>
                     <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
                     <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
                     <a href="{{ path('_profile_edit') }}"><em class="icons3"></em>个人中心<span></span></a>

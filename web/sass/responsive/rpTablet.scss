@@ -17,7 +17,7 @@
 	.col-t-12 {width: 100%;}
 
 	html{
-	    font-size: 18px!important;
+	    font-size: 16px!important;
 	}
 	.visibleTablet{ 
 	    display: inherit!important;
@@ -38,7 +38,44 @@
 	}
 
     /* header */
-    
+    .header-nav{
+        padding: 0 5%;
+        img{
+            margin: 8px 0 0 0;
+        }
+        .header-nav-con{
+            .logo{
+                width: 10%;
+            }
+            .navR{
+                width: 85%;
+                .tabletQuit{
+                    font-size: .8rem!important;
+                    margin-left: 30px;
+                    padding-left: 30px;
+                    display: inline-block!important;
+                    height: 14px;
+                    line-height: 14px;
+                    border-left: 1px solid #ccc;
+                    color: #A7ABAF;
+                }
+            }
+        }
+        .nav{
+            a{
+                width: 94px;
+                &.tabletProfile{
+                    display: inline-block!important;
+                }
+            }
+        }
+        .headSimCon{
+            p{
+                margin-right: 0;
+            }
+        }
+    }
+
     /* index page */
     .main-adv-con-text{
         left: 50px;
@@ -77,6 +114,16 @@
 			white-space: nowrap;
 		}
 	}
+    
+    /* home page */
+    .survey{
+      .survey-item{
+          .proRow{
+              line-height: 28px;
+          }
+      }  
+    }
+    
 
     /* exchange page */
     .main-con-exchange{

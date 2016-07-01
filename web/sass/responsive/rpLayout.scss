@@ -167,7 +167,6 @@
             display: none;
         }
         .faceWapper{
-            // width: 20%;
             img{
                width: 40px;
                height: 40px;
@@ -180,7 +179,15 @@
             .l1{
                 padding-top: 11px;
                 line-height: 22px;
-                word-break: break-all;
+                white-space: nowrap;
+                .nk{
+                    max-width: 60px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
         }
     }
@@ -252,6 +259,9 @@
             }
         }
     } 
+    .survey-sub h1{
+        margin: 18px 0 0 0;
+    }
     .vote-txt{
         width: 100%;
         p, .relate span, p span{
@@ -306,7 +316,7 @@
             font-size: 1.2rem!important;
             color: $sub-con-color;
         }
-        .w1000{
+        .headSimCon{
             p{
                 margin-right: 5%;
                 margin-top: 10px!important;
@@ -862,6 +872,7 @@
                 width: 100%;
             }
             label{
+                width: 100%;
                 text-align: left;
                 margin-bottom: 8px;
             }
