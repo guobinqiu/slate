@@ -23,7 +23,7 @@
         display: inherit!important;
     }
     .hiddenPhone{
-        display: none!important;
+        display: none!important; 
     }
     .leftPhone{  
         float: left;
@@ -350,6 +350,178 @@
             }
         } 
     } 
+    
+    /*personal center*/
+    .rp-personal-nav{
+        overflow-x: scroll;
+        ul{
+            width: 148%;
+        }       
+    }
+    /*personal center---profiling*/
+    .main-personal-profile{
+        padding: 0;
+        label, input, select, textarea, span{
+            font-size: .9rem !important;
+        }
+        h3{
+            font-size: 1rem !important;
+            b{
+                font-size: .8rem !important;        
+            }
+        }
+        .profile-base{
+            .face{
+                margin-right: 2%;
+                padding: 0;
+                width: 25%;
+                text-align: center;
+                .set{
+                    padding: 0;
+                }
+            }
+            ul{
+                width: 73%;
+            }
+            li{
+                label{
+                    width: 28%;
+                    text-align: right;
+                }
+                &.nk{
+                    display: none;
+                }
+                &.rp-phone{
+                    display: block;
+                }
+            } 
+        }
+        .con{
+            padding: 17px 0 25px;
+        }
+        .profile-detail{
+            padding-bottom: 10px;
+            li{
+                ul{
+                    margin-left: 29%;
+                }
+                label{
+                    width: 28%;
+                    margin-right: 1%;
+                }
+                input[type='text'], textarea, select#profession{
+                    width: 68%;
+                }
+                select{
+                    margin-left: -5px;
+                    &#industry_code, &#work_section_code{
+                        margin-top: 10px;
+                        margin-left: 29%;
+                        display: block;
+                    }
+                }
+            }
+            .btn{
+                padding-left: 29%;
+                span{
+                    width: 30%;
+                    height: 45px;
+                    line-height: 45px;
+                }
+            }
+        }  
+    }
+    /*personal center---my message*/
+    .main-personal-message{
+        padding: 0;
+        li{
+
+            padding: 15px;
+            line-height: 22px;
+            span{
+                width: 35%;
+                height: auto;
+                line-height: normal;
+            }
+            a, strong{
+                margin-left: 0;
+            }
+            &.title{
+                line-height: normal;    
+            }
+        }
+    }
+    /*personal center---task&exchange history*/
+    .main-personal-points{
+        padding: 0;
+        th, td{
+            padding-left: 10px;
+        }
+    }
+    /*personal center---account*/
+    .main-personal-account{
+        padding: 0 10px;
+        #pwdStrength{
+            padding-left: 33%;
+            b{
+                width: auto;
+                padding: 0 2%;
+            }
+        }
+        .con{
+            padding: 10px;
+            li{
+                label{
+                    margin-right: 2%;
+                    width: 30%;
+                }
+                input[type='text'], input[type='password']{
+                    width: 62%;
+                }
+                span{
+                    padding: 0;
+                    border: none;
+                    background: none;
+                    &.succeed{
+                        display: none;
+                    }
+                    &.focus, &.error{
+                        display: block;
+                        margin-left: 33%;
+                    }
+                }
+            }
+            .btn{
+                padding-left: 33%;
+            }
+            &.withdraw{
+                ul{
+                    label{
+                        width: 80%;
+                        text-align: left;
+                    }
+                    &.reason{
+                        span{
+                            margin: 0;
+                            padding: 0;
+                            border: none;
+                            background: none;
+                            &.focus, &.error{
+                                margin: 0;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+                    span#reasons{
+                        span{
+                            display: block;
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 667px) and (orientation: portrait) {
@@ -408,7 +580,6 @@
             top: 40px;
         }
     }
-
 }
 
 @media only screen and (max-width: 360px){
