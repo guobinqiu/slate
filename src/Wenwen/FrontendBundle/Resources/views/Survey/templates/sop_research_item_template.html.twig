@@ -1,4 +1,4 @@
-{% if cint_research.is_answered == 1 %}<div class="survey-item hiddenPhone hiddenTablet">{% else %}<div class="survey-item ">{% endif %}
+{% if research.is_answered == 1 %}<div class="survey-item hiddenPhone hiddenTablet">{% else %}<div class="survey-item ">{% endif %}
     <div class="title">
         {% if research.is_answered == 1 %}
             {% if research.title|length > 35 %}
