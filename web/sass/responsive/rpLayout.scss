@@ -310,7 +310,7 @@
             margin: 12px 0 0 15px;
             vertical-align: initial;
         }
-        .headSimCon{
+        .headQnCon{
             .navTit{
                 margin: -1px auto 0!important;
                 font-size: 1.3rem!important;
@@ -320,10 +320,18 @@
             }
             p.right{
                 margin-right: 5%;
+                margin-top: 15px!important;
             }
             .logo img{
                 height: 32px;
                 margin: 24px 0 0 15px;
+            }
+            p{
+                margin-right: 5%;
+                margin-top: 10px!important;
+            }
+            p,p a{
+                font-size: .8rem!important;
             }
         }
         .navTit{
@@ -332,15 +340,6 @@
             margin: 0 auto;
             font-size: 1.2rem!important;
             color: $sub-con-color;
-        }
-        .headQnCon{
-            p{
-                margin-right: 5%;
-                margin-top: 10px!important;
-            }
-            p,p a{
-                font-size: .8rem!important;
-            }
         }
     }
     .header{
