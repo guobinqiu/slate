@@ -240,7 +240,7 @@
                         height:100%;
                         top:0;
                         left: 0;
-                        z-index: 1;
+                        z-index: 9999;
                    }
                 }
             }
@@ -714,6 +714,7 @@
             padding-right: 5%;
             color: $text-blue;
             margin-top: -7px;
+            font-size: .9rem!important;
         } 
     }
 
@@ -938,13 +939,13 @@
                     width: 100%;
                     .prompt{
                         width: 100%;
-                        padding: 15px 17px;
+                        padding: 7px 10px;
                         font-size: .8rem!important;
                     }
                     .subtit{
                         margin: 10px 0;
                         strong, strong span{
-                            font-size: 1.5rem!important;
+                            font-size: 1.4rem!important;
                             line-height: 2.2rem;
                         }
                     }
@@ -952,7 +953,8 @@
                         margin: 12px 0 14px;
                         p{
                             color: $sub-con-color;
-                            line-height: 1.8rem;
+                            line-height: 1.5rem;
+                            font-size: .8rem!important;
                         }
                     }
                     .tips{

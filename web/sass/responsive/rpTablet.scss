@@ -41,7 +41,7 @@
     .header-nav{
         padding: 0 5%;
         img{
-            margin: 8px 0 0 0;
+            margin: 12px 0 0 0;
         }
         .header-nav-con{
             .logo{
@@ -49,6 +49,7 @@
             }
             .navR{
                 width: 85%;
+                text-align: right;
                 .tabletQuit{
                     font-size: .8rem!important;
                     margin-left: 30px;
@@ -62,6 +63,7 @@
             }
         }
         .nav{
+            width: 100%;
             a{
                 width: 94px;
                 &.tabletProfile{
@@ -73,6 +75,9 @@
             p{
                 margin-right: 0;
             }
+        }
+        .login-btn{
+            display: none;
         }
     }
 
