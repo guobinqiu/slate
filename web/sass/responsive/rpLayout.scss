@@ -306,6 +306,15 @@
             font-size: 1.2rem!important;
             color: $sub-con-color;
         }
+        .w1000{
+            p{
+                margin-right: 5%;
+                margin-top: 10px!important;
+            }
+            p,p a{
+                font-size: .8rem!important;
+            }
+        }
     }
     .header{
         p{
@@ -516,9 +525,6 @@
                 .vote-img{
                     width: auto;
                 }
-                .relate{
-                    display: none;
-                }
                 .tips{
                     display: none;
                 }
@@ -565,6 +571,23 @@
                     border-width: 7px;
                     margin-left: -7px;
                    }
+                }
+                &:hover, &.active{
+                    .vote-btn{
+                        width: 88px;
+                        display: none;
+                    }
+                    .countdown{
+                        width: 140px;
+                        position: initial;
+                        height: 35px;
+                        line-height: 35px;
+                        margin-top: 7px;
+                        float: left;
+                        span{
+                            height: 35px;
+                        }
+                    }
                 }
             }
         }
@@ -642,6 +665,7 @@
                 margin: 14px 0 0;
                 div{
                     font-size: 0.7rem !important;
+                    line-height: 1.5rem !important;
                 }
             }
             h1{
@@ -860,7 +884,7 @@
             }
         }
     }
-    
+
     /* error page */
     .main{
         .main-error-con{
@@ -869,6 +893,64 @@
             }
         } 
     } 
+
+    /* questionnaire */
+    .main{
+        .qnWrap{
+            .qnCon{
+                width: 90%;
+                left: 0;
+                top: 52px!important;
+                margin-left: 5%;
+                margin-right: 5%;
+                .qnTxt{
+                    width: 100%;
+                    .prompt{
+                        width: 100%;
+                        padding: 15px 17px;
+                        font-size: .8rem!important;
+                    }
+                    .subtit{
+                        margin: 10px 0;
+                        strong, strong span{
+                            font-size: 1.5rem!important;
+                            line-height: 2.2rem;
+                        }
+                    }
+                    .notice{
+                        margin: 12px 0 14px;
+                        p{
+                            color: $sub-con-color;
+                            line-height: 1.8rem;
+                        }
+                    }
+                    .tips{
+                        color: $weak-color;
+                    }
+                }
+            }
+            .qnEnd{
+                .qnEndTxt{
+                    padding: 60px 0 0 0;
+                    .txt{
+                        width: 100%;
+                        background-position: center center;
+                        text-align: center;
+                        margin-left: 0;
+                        padding: 155px 0 0 0;
+                        h2{
+                            padding-bottom: 0;
+                        }
+                    }
+                }
+            }
+            .qnConBg{
+                .bottom{
+                    line-height: 1.8rem;
+                }
+            }
+        }
+    }
 }
 @import "rpPersonal";
 @import "rpDesktop";
