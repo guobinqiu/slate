@@ -168,6 +168,51 @@
     			padding: 0 40px;
     		}
     	}
+        .main-con-exchangeInfo{
+            li{
+                span{
+                    &.error{
+                        border: none;
+                        background: none;
+                        padding-left: 35%;
+                    }
+                }
+            }
+        }
+    }
+    .main-con-exchangeInfo{
+        li{
+            width: 100%;
+            margin-top: 10px;
+            padding: 5px 0;
+            label{
+                width: 34%;
+            }
+            span{
+                &.option{
+                    margin-right: 1%;
+                    .points{
+                        width: 100%;
+                        visibility: hidden;
+                        opacity: 0;
+                    }
+                }
+                &.active{
+                    .points{
+                        visibility: visible;
+                        opacity: 1;
+                    }   
+                }
+                &.error{
+                    border: none;
+                    background: none;
+                    padding-left: 35%;
+                }
+                &.about{
+                    display: none;
+                }
+            }
+        }
     }
 
     /* vote page */
