@@ -1,6 +1,10 @@
-<div class="survey-item">
+<div class="survey-item {% if cint_research.is_answered == 1 %} hiddenPhone hiddenTablet {% endif %}">
     <div class="title">
-        <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">海外调查问卷<span></span></a>
+        {% if cint_research.is_answered == 1 %}
+            海外调查问卷
+        {% else %}
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">海外调查问卷<span></span></a>
+       {% endif %}    
     </div>
     <ul class="con clearfix">
         <li class="first">
