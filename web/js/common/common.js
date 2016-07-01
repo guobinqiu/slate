@@ -84,7 +84,7 @@ define(['jquery', 'routing'],function($){
         navbar = $('.navbar'),
         wrap = $('.wrap');
 
-        expandBtn.click(function () {
+        expandBtn.add(navLayerBg).click(function () {
             if(expandCon.is(":hidden")){
                 expandCon.slideDown(600);
                 navLayerBg.show();
