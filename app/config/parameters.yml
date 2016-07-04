@@ -3,19 +3,9 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
     base_url:   ~
 
-    router.request_context.host: www.91jili.com.vag.91jili.com
-    router.request_context.scheme: https
-    router.request_context.base_url: ~
-
-    signup.crypt_method: blowfish
-    signup.salt: dummy
-
     ssi_project_survey:
         title: "SSI海外调查"
         point: 180
-
-    ssi_project_survey_code:
-        api_key: dummy
 
 #SOP
     sop:
