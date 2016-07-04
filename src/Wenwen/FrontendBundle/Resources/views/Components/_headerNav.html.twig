@@ -1,5 +1,5 @@
 <div class="header-nav">
-    <div class="header-nav-con w1000 clearfix navbarUn">
+    <div class="header-nav-con w1000 clearfix">
         <div class="logo left">
             <a href="{{ path('_homepage') }}" title="91问问调查网logo">
             <img src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo"></a>
@@ -35,33 +35,6 @@
                 <span class="iconBar"></span>
                 <span class="iconBar"></span>
             </button>
-            <div class="navLayerBg hiddenDesktop hiddenTablet"></div>
-            <div class="navLayer hiddenDesktop hiddenTablet">
-                {% if app.session.has('uid') %}
-                <div class="navs">
-                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>问卷列表<span></span></a>
-                    <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
-                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
-                    <a href="{{ path('_profile_edit') }}"><em class="icons3"></em>个人中心<span></span></a>
-                    <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
-                </div>
-                <div class="logout"><a href="{{ path('_user_logout') }}"><em class="icons6"></em>退出登录</a></div>
-                {% else %}
-                <div class="shortcutButtons">
-                    <a href="{{ path('_user_reg') }}" class="regBtn">
-                        <div class="regBg"><img src="{{ asset('img/common/regIcon.png') }}" alt="注册"></div><div>注册</div>
-                    </a><a href="{{ path('_user_login') }}">
-                        <div class="loginBg"><img src="{{ asset('img/common/loginIcon.png') }}" alt="登录"></div><div>登录</div>
-                    </a>
-                </div>
-                <div class="navs">
-                    <a href="{{ path('_homepage') }}"><em class="icons1"></em>首页<span></span></a>
-                    <a href="{{ path('jili_frontend_vote_index') }}"><em class="icons2"></em>快速问答<span></span></a>
-                    <a href="{{ path('_exchange_index') }}"><em class="icons4"></em>兑换中心<span></span></a>
-                    <a href="{{ path('_default_feedback') }}"><em class="icons5"></em>问题反馈<span></span></a>
-                </div>
-                {% endif %}
-             </div>
              {% if app.session.has('uid') %}
              {% else %}
              <div class="login-btn right">
