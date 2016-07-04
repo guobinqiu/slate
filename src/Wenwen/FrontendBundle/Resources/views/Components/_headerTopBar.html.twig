@@ -1,4 +1,4 @@
-<div class="header-top">
+<div class="header-top hiddenPhone hiddenTablet">
     {% if app.request.cookies.has('jili_uid') and app.request.cookies.has('jili_nick') %}
         {{  app.session.set('uid',app.request.cookies.get('jili_uid')) }}
         {{  app.session.set('nick',app.request.cookies.get('jili_nick')) }}

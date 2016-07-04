@@ -134,6 +134,7 @@
 		text-align: center;
 		display: block;
 		cursor: pointer;
+		-webkit-appearance: none;
 		&:hover{
 			background:#d34216;
 			border: 1px solid #d34216;
@@ -146,7 +147,7 @@
 	p{
 		line-height: 55px;
 		a{
-			color: #1ca3db;
+			color: $text-blue;
 			&.spec{
 				color: #757982;
 			}
