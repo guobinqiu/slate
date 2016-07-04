@@ -67,9 +67,11 @@ define(['jquery', 'routing'],function($){
     var resizeFooter =function(){
         if($(window).height() > $("body").height()){
             $(".footer").css({"position":"fixed", "bottom":"0"});
+            $(".navLayerBg").add($(".navLayer")).css("position","fixed");
         }
         else{
             $(".footer").css("position","static");
+            $(".navLayerBg").add($(".navLayer")).css("position","absolute");
         }   
     }
     resizeFooter();

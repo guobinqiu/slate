@@ -14,10 +14,12 @@
     .col-m-9 {width: 75%!important;}
     .col-m-10 {width: 83.33%!important;}
     .col-m-11 {width: 91.66%!important;}
-    .col-m-12 {width: 100%!important;}
+    .col-m-12 {width: 100%!important;} 
 
     html{
         font-size: 14px!important;
+        position: relative;
+        z-index: 1;
     }
     .visiblePhone{
         display: inherit!important;
@@ -68,18 +70,16 @@
 
     /*navLayer*/
     .navLayerBg, .navLayer{
-        position: fixed;
+        position: absolute;
         top: 54px;
         left: 0;
         right: 0;
         display: none;
     } 
     .navbarUn{
-        .navLayerBg, .navLayer{
-            top: 51px;
-            padding-top: 10px;
-            border-top: 1px solid #EBECEE;
-        } 
+        top: 51px;
+        padding-top: 10px;
+        border-top: 1px solid #EBECEE;
     }
     .navLayerBg{
         z-index: 19998;
