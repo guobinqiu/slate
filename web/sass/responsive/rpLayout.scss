@@ -27,6 +27,7 @@
         } 
     } 
     .main{
+        margin-top: 0px;
         &.unlogin{
             margin-top: 0;
         }
@@ -187,7 +188,7 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: inline-block;
-                    vertical-align: -6px;
+                    vertical-align: middle;
                 }
             }
         }
@@ -262,6 +263,9 @@
                 height: 38px;
             }
         }
+        .proItem{
+            padding: 10px 5%;
+        }
     } 
     .survey-sub h1{
         margin: 18px 0 0 0;
@@ -309,7 +313,7 @@
             }
         }
         img{
-            height: 28px;
+            height: 29px;
             margin: 12px 0 0 15px;
             vertical-align: initial;
         }
