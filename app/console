@@ -11,6 +11,7 @@ require_once __DIR__.'/bootstrap.php.cache';
 require_once __DIR__.'/AppKernel.php';
 
 use JMS\JobQueueBundle\Console\Application;
+//use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput();

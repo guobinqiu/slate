@@ -2,9 +2,6 @@ parameters:
 # user related
     login.listener.class: Jili\ApiBundle\Services\UserLogin
     logout.service.class: Jili\ApiBundle\Services\UserLogout
-
-    webpower.91wenwen_signup.mailer.class: Jili\ApiBundle\Services\Dmdelivery\Client
-    webpower.91wenwen.mailer.class: Jili\ApiBundle\Services\Dmdelivery\Client
  
     user_sign_up_route.class: Jili\ApiBundle\Services\UserSignUpTracer
     user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
@@ -71,18 +68,6 @@ services:
         calls:
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
             - [ setContainer, [ @service_container ] ]
-
-    webpower.91wenwen.mailer:
-        class: %webpower.91wenwen.mailer.class%
-        arguments: [ %webpower.91wenwen.soap_uri% , %webpower.91wenwen.username%, %webpower.91wenwen.password% ]
-        calls:
-            - [setLogger, ["@logger"]]
-
-    webpower.91wenwen_signup.mailer:
-        class: %webpower.91wenwen_signup.mailer.class%
-        arguments: [ %webpower.91wenwen_signup.soap_uri% , %webpower.91wenwen_signup.username%,%webpower.91wenwen_signup.password% ]
-        calls:
-            - [setLogger, ["@logger"]]
 
     user_sign_up_route.listener:
         class: %user_sign_up_route.class%
@@ -300,18 +285,3 @@ services:
         class: %alerttoslack.class%
         calls:
             - [ setContainer, [ @service_container ] ]
-
-    webpower.91wenwen.mailer:
-        class: %webpower.91wenwen.mailer.class%
-        arguments: [ %webpower.91wenwen.soap_uri% , %webpower.91wenwen.username%, %webpower.91wenwen.password% ]
-        calls:
-             - [ setLogger, ["@logger"] ]
-             - [ setResultsEmail, [ %cron_alertTo_contacts% ] ]
-
-    webpower.91wenwen_signup.mailer:
-        class: %webpower.91wenwen_signup.mailer.class%
-        arguments: [ %webpower.91wenwen_signup.soap_uri% , %webpower.91wenwen_signup.username%,%webpower.91wenwen_signup.password% ]
-        calls:
-             - [ setLogger, ["@logger"] ]
-             - [ setResultsEmail, [ %cron_alertTo_contacts% ] ]
-

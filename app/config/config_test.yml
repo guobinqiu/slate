@@ -1,25 +1,17 @@
 imports:
     - { resource: config_dev.yml }
+    - { resource: secret_test.yml }
 
 framework:
     test: ~
     session:
         storage_id: session.storage.mock_file
     profiler:
-        enabled: true 
+        enabled: false
 
 web_profiler:
     toolbar: false
     intercept_redirects: false
 
 swiftmailer:
-    disable_delivery: false
-    spool:
-        type: file
-        path: '%kernel.root_dir%/cache/%kernel.environment%/spool'
-
-doctrine:
-    dbal:
-        dbname: jili_test
-        user: root
-        password: null
+    disable_delivery: true

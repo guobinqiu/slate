@@ -1,5 +1,7 @@
 <?php
+
 namespace Jili\ApiBundle\Tests\Command;
+
 use Jili\ApiBundle\Command\DmdeliveryCommand;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -23,21 +25,17 @@ class DmdeliveryCommandTest extends KernelTestCase
         static :: $kernel = static :: createKernel();
         static :: $kernel->boot();
         $em = static :: $kernel->getContainer()->get('doctrine')->getManager();
-        
-        $tn = $this->getName();
-        if($tn==='testExecute') {
-            $purger = new ORMPurger($em);
-            $executor = new ORMExecutor($em, $purger);
-            $executor->purge();
-            // load fixtures
-            $container = static :: $kernel->getContainer();
-            $fixture = new LoadDmdeliveryData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-            $executor->execute($loader->getFixtures());
 
-        }
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+        // load fixtures
+        $container = static :: $kernel->getContainer();
+        $fixture = new LoadDmdeliveryData();
+        $fixture->setContainer($container);
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
 
         $this->container = static :: $kernel->getContainer();
         $this->em = $em;
@@ -95,15 +93,5 @@ class DmdeliveryCommandTest extends KernelTestCase
         $sendPointFail = $em->getRepository('JiliApiBundle:SendPointFail')->findByUserId(1110);
         $this->assertEquals(4, count($sendPointFail));
         
-    }
-
-    /**
-     */
-    public function testConfigs() 
-    {
-
-        $container = $this->container;
-        $contacts = $container->getParameter('cron_alertTo_contacts');
-        $this->assertNotEmpty($contacts);
     }
 }

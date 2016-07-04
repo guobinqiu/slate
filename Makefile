@@ -31,7 +31,7 @@ assets-rebuild:
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 
-setup: show-setting setup-submodules create-dir fix-perms create-config setup-databases deploy-js-routing cc-all setup-web-root
+setup: show-setting setup-submodules create-dir fix-perms setup-databases deploy-js-routing cc-all setup-web-root
 
 setup-perl:
 	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
@@ -49,10 +49,7 @@ setup-circle-databases:
 setup-submodules:
 	git submodule update --init;
 
-circle-sed:
-	sed -ie "s/jili_test/circle_test/g" ${SRC_DIR}/app/config/config_test.yml
-
-circle: setup-submodules create-dir create-config fix-perms deploy-js-routing cc-all circle-sed setup-circle-databases
+circle: setup-submodules create-dir fix-perms deploy-js-routing cc-all setup-circle-databases
 
 show-setting:
 	@echo "Setting"
@@ -76,9 +73,6 @@ fix-perms:
 		sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
 		sudo chmod -R g+w app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs ; \
 	fi;
-
-create-config:
-	cp -n ${SRC_DIR}/app/config/parameters.yml.dist        ${SRC_DIR}/app/config/parameters.yml
 
 fix-777:
 	sudo chgrp -R apache app/{cache,cache_data,logs,logs_data,sessions} web/images/actionPic web/images web/uploads /data/91jili/logs
