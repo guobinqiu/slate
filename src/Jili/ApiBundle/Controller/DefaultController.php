@@ -333,7 +333,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="https"})
+	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="http"})
 	 */
     public function contactAction()
     {
