@@ -15,9 +15,9 @@
 
 {% block body %}
 <div class="main-con w1000 clearfix">
-	<div class="main-con-left left">
+	<div class="main-con-left left col-m-12 col-t-12">
 		<div class="vote vote-sub">
-			<h1>快速问答</h1>
+			<h1 class="visibleDesktop hiddenPhone hiddenTablet">快速问答</h1>
             {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
             <div class="page-wrapper">
                 {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}

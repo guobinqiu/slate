@@ -53,7 +53,8 @@ $slider-height: 305px;
 		margin-top: 0;
 	}
 	height: 91px; 
-	background: url(../img/home/homeBrBg.jpg) no-repeat 170px center #465b76;
+	background: url(../img/home/homeBrBg.jpg) no-repeat center center #465b76;
+	background-size: cover;
 	.faceWapper{
 		margin-right: 13px;
 		@include dib();
@@ -66,36 +67,33 @@ $slider-height: 305px;
 		color: #f0f4fa;
 		.l1{
 			font-size: 16px;
-			height: 56px;
-			line-height: 56px;
+			height: 52px;
+			line-height: 52px;
 			i{
 				width: 16px;
 				height: 18px;
 				background: url(../img/home/homeIcons.png) no-repeat -52px -25px;
 				display: inline-block;
-				vertical-align: -2px;
+				vertical-align: -1px;
 			}
 		}
 		.point{
-			font-size: 14px;
-			@include border-radius(20px);
-			background: #ff781e;
-			padding: 1px 7px;
-			margin-left: 4px;
-			text-shadow:0 1px 2px #ed6203;
+			font-size: 18px;
+			padding: 1px 4px;
 		}
 
 	}
 	.taskHis, .exchangeHis{
 		color: #f0f4fa;
-		@include border-radius(3px);
-		border: 1px solid rgba(255, 255, 255, 0.7);
-		margin-top: 29px; 
-		padding: 10px 17px;
+		margin-top: 38px;
+		padding: 0 20px;
+		height: 15px;
+		line-height: 15px;
 		@include dib();
 	}
 	.taskHis{
-		margin-right: 10px;
+		margin-right: 0;
+		border-right: 1px solid #aaaaa3;
 }
 }
 .main-con-left{

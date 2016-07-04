@@ -1,3 +1,10 @@
+_homepage:
+    path: /
+    defaults: { _controller: WenwenFrontendBundle:Home:index }
+    schemes:  [http]
+    options:
+        expose: true
+
 wenwen_app:
     resource: "@WenwenAppBundle/Controller/"
     type:     annotation
@@ -43,13 +50,6 @@ _logout:
     options:
         expose: true
 
-_homepage:
-    path: /
-    defaults: { _controller: JiliFrontendBundle:Home:index }
-    schemes:  [http]
-    options:
-        expose: true
-    
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 

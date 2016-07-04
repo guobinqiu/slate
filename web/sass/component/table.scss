@@ -18,5 +18,8 @@ th{
 	border-bottom: 1px solid #ebebed;
 }
 td{
+	height: auto;
+	line-height: 22px;
+	padding: 10px 0 10px 30px;
 	border-bottom: $block-inner-border;
 }

@@ -19,8 +19,8 @@
 {{ render(controller("WenwenFrontendBundle:Component:homeBar")) }}
 
 {# 新手引导开始 #}
-<div id="mask"></div>
-<div id="newguideWrap">
+<div id="mask" class="hiddenPhone hiddenTablet"></div>
+<div id="newguideWrap" class="hiddenPhone hiddenTablet">
 	<div class="newguide1">
 		<div>
 			<a class="ngbtn ngbtn1"></a>
@@ -42,13 +42,13 @@
 {# 新手引导结束 #}
 
 <div class="main-con w1000 clearfix">
-	<div class="main-con-left left">
+	<div class="main-con-left col-m-12 col-t-12 left">
 		{# 1. 首页问卷默认显示两条 #}
 		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
 		{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
 		<div class="vote">
-			<h1>快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
+			<h1 class="visibleDesktop hiddenPhone hiddenTablet">快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多>></a></h1>
 			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
 		</div>
 	</div>

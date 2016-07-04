@@ -1,10 +1,23 @@
-<div class="survey-item">
+{% if research.is_answered == 1 %}<div class="survey-item hiddenPhone hiddenTablet">{% else %}<div class="survey-item ">{% endif %}
     <div class="title">
-        {% if research.title|length > 35 %}
-            {{ research.title[:35] }}...
+        {% if research.is_answered == 1 %}
+            {% if research.title|length > 35 %}
+                {{ research.title[:35] }}...
+            {% else %}
+                {{ research.title }}
+            {% endif %}
         {% else %}
-            {{ research.title }}
+            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">
+                {% if research.title|length > 35 %}
+                    {{ research.title[:35] }}...
+                {% else %}
+                    {{ research.title }}
+                {% endif %}
+                <span></span>
+            </a>
         {% endif %}
+
+        
     </div>
     <ul class="con clearfix">
         <li class="first">
