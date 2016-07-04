@@ -22,7 +22,6 @@ class SurveyControllerTest extends WebTestCase
         static::$kernel = static::createKernel();
         static::$kernel->boot();
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
 
         // purge tables
         $purger = new ORMPurger($em);
@@ -43,7 +42,9 @@ class SurveyControllerTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+        if ($this->em != null) {
+            $this->em->close();
+        }
     }
 
     public function testIndexPageWithoutLogin()
@@ -125,6 +126,7 @@ class SurveyControllerTest extends WebTestCase
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Wenwen\FrontendBundle\Services\HttpClient;
 
 class SurveyControllerTestFixture implements FixtureInterface
 {

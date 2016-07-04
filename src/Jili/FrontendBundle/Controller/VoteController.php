@@ -380,7 +380,7 @@ class VoteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $mail_to = $this->container->getParameter('vote_suggest_mail_to');
-        $mail_from = $this->container->getParameter('mailer_user');
+        $mail_from = $this->container->getParameter('webpower_sender');
         $engine = $this->container->get('templating');
         $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
             'email' => $user->getEmail(),
@@ -389,11 +389,11 @@ class VoteController extends Controller
         $subject = '[QS] ' . $values['title'];
         $message = \Swift_Message::newInstance()
                         ->setSubject($subject)
-                        ->setFrom($mail_from, '91问问')
+                        ->setFrom(array($mail_from => '91问问调查网'))
                         ->setTo($mail_to)
                         ->setReplyTo($user->getEmail())
                         ->setBody($content);
-        $mailer = $this->container->get('mailer');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
         $mailer->send($message);
     }
 

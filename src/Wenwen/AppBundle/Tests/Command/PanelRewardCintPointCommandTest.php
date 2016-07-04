@@ -9,7 +9,6 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\PanelRewardCintPointCommand;
-use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 
 class PanelRewardCintPointCommandTest extends KernelTestCase
 {
