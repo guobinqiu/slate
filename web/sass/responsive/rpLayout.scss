@@ -17,7 +17,7 @@
       font-size: 1.2rem!important;
     }
     .w1000{
-        width: auto; 
+        width: auto;  
     }
     .header-nav{
         .logo{
@@ -650,7 +650,7 @@
             }
             .con,.con span{
                 font-size: .8rem!important;
-                margin-top: 0!important;
+                margin-top: 0!important; 
                 line-height: 1.5rem!important;
             }
             .title{
@@ -671,7 +671,7 @@
             img{
                 display: none;
             }
-            span{
+            span{ 
                 font-size: .8rem!important;
             }
         }
@@ -698,6 +698,11 @@
             li{
                 margin-top: 0px;
                 padding: 14px 0!important;
+            }
+            .btn{
+                .submit{
+                    -webkit-appearance: none;
+                }
             }
         }
         .relateText{
