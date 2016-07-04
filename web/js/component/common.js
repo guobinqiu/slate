@@ -54,4 +54,30 @@ $(function(){
         }   
     }
     resizeFooter();
+
+    // mobile dropdown
+    var expandBtn = $('.navCollapsed'),
+    expandCon = $('.navLayer'),
+    navLayerBg = $('.navLayerBg'),
+    navbarUn = $('.navbarUn'),
+    navbar = $('.navbar'),
+    wrap = $('.wrap');
+
+    expandBtn.add(navLayerBg).click(function () {
+        if(expandCon.is(":hidden")){
+            expandCon.slideDown(600);
+            navLayerBg.show();
+            expandBtn.parent().find('b').show();
+            navbarUn.addClass('fixed');
+            navbar.addClass('fixed');
+            wrap.addClass('unfixed');
+        } else if(expandCon.is(":visible")){
+            expandCon.slideUp(600);
+            navLayerBg.hide();
+            expandBtn.parent().find('b').hide();
+            navbarUn.removeClass('fixed');
+            navbar.removeClass('fixed');
+            wrap.removeClass('unfixed');
+        }
+    });
 });
