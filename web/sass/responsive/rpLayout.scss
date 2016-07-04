@@ -667,7 +667,7 @@
             img{
                 display: none;
             }
-            span{
+            span{ 
                 font-size: .8rem!important;
             }
         }
@@ -694,6 +694,11 @@
             li{
                 margin-top: 0px;
                 padding: 14px 0!important;
+            }
+            .btn{
+                .submit{
+                    -webkit-appearance: none;
+                }
             }
         }
         .relateText{

@@ -120,28 +120,28 @@
             width: 20px;
             height: 20px;
             &.icons1{
-                background: url(../../img/common/navIcons1.png) no-repeat 0 0;
-                background-size: contain;
+                background: url(../../img/common/navIcons.svg) no-repeat 0 0;
+                background-size: cover;
             }
             &.icons2{
-                background: url(../../img/common/navIcons2.png) no-repeat 0 0;
-                background-size: contain;
+                background: url(../../img/common/navIcons.svg) no-repeat 0 -23px;
+                background-size: cover;
             }
-            &.icons3{
-                background: url(../../img/common/navIcons3.png) no-repeat 0 0;
-                background-size: contain;
+            &.icons3{ 
+                background: url(../../img/common/navIcons.svg) no-repeat 0 -47px;
+                background-size: cover;
             }
             &.icons4{
-                background: url(../../img/common/navIcons4.png) no-repeat 0 0;
-                background-size: contain;
+                background: url(../../img/common/navIcons.svg) no-repeat 0 -72px;
+                background-size: cover;
             }
             &.icons5{
-                background: url(../../img/common/navIcons5.png) no-repeat 0 0;
-                background-size: contain;
+                background: url(../../img/common/navIcons.svg) no-repeat 0 -95px;
+                background-size: cover;
             }
             &.icons6{
-                background: url(../../img/common/navIcons6.png) no-repeat 0 0;
-                background-size: contain;
+                background: url(../../img/common/navIcons.svg) no-repeat 0 -118px;
+                background-size: cover;
             }
         }
     }
