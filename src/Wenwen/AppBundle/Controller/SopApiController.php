@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,11 +10,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Wenwen\AppBundle\Utility\SopValidator;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
-use Wenwen\AppBundle\WebService\Sop\SopDeliveryNotificationHandler;
+use Wenwen\FrontendBundle\ServiceDependency\Notification\DeliveryNotification;
+use Wenwen\FrontendBundle\ServiceDependency\Notification\FulcrumDeliveryNotification;
+use Wenwen\FrontendBundle\ServiceDependency\Notification\SopDeliveryNotification;
 
 /**
  * @Route("/",requirements={"_scheme"="https"})
@@ -125,20 +127,22 @@ class SopApiController extends Controller
     /**
      * @Route("sop/v1_1/deliveryNotificationFor91wenwen", name="sop_delivery_notification_v1_1_91wenwen")
      */
-    public function deliveryNotificationFor91wenwenAction(Request $request)
+    public function deliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_SOP);
+        $em = $this->getDoctrine()->getManager();
+        return $this->doHandleDeliveryNotification(new SopDeliveryNotification($em));
     }
 
     /**
      * @Route("fulcrum/v1_1/deliveryNotificationFor91wenwen", name="fulcrum_delivery_notification_v1_1_91wenwen")
      */
-    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction(Request $request)
+    public function deliveryFulcrumDeliveryNotificationFor91wenwenAction()
     {
-        return $this->doHandleDeliveryNotification(SopDeliveryNotificationHandler::TYPE_FULCRUM);
+        $em = $this->getDoctrine()->getManager();
+        return $this->doHandleDeliveryNotification(new FulcrumDeliveryNotification($em));
     }
 
-    public function doHandleDeliveryNotification($type)
+    public function doHandleDeliveryNotification(DeliveryNotification $notification)
     {
         $request = $this->get('request');
 
@@ -158,12 +162,8 @@ class SopApiController extends Controller
             return $this->render400Response('data.respondents not found!');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $handler = new SopDeliveryNotificationHandler($request_data['data']['respondents'], $type, $em, $this->container);
-        $handler->setUpRespondentsToMail();
-        $handler->sendMailingToRespondents();
+        $unsubscribed_app_mids = $notification->send($request_data['data']['respondents']);
 
-        $unsubscribed_app_mids = $handler->getUnsubscribedAppMids();
         $res = array (
             'meta' => array (
                 'code' => 200,
@@ -179,12 +179,12 @@ class SopApiController extends Controller
     }
 
     # To test request body
-    public function getRequestBody()
+    private function getRequestBody()
     {
         return $this->get('request')->get('request_body') ? $this->get('request')->get('request_body') : file_get_contents('php://input');
     }
 
-    public function render200Response()
+    private function render200Response()
     {
         $body_array = array (
             'meta' => array (
@@ -194,7 +194,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array);
     }
 
-    public function render400Response($error)
+    private function render400Response($error)
     {
         $body_array = array (
             'meta' => array (
@@ -205,7 +205,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array, 400);
     }
 
-    public function render403Response($error)
+    private function render403Response($error)
     {
         $body_array = array (
             'meta' => array (
@@ -216,7 +216,7 @@ class SopApiController extends Controller
         return $this->renderJSONResponse($body_array, 403);
     }
 
-    public function renderJSONResponse($body_array, $status_code = 200)
+    private function renderJSONResponse($body_array, $status_code = 200)
     {
         $response = new JsonResponse($body_array, $status_code);
         return $response;
