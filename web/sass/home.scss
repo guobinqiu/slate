@@ -5,6 +5,9 @@
 @import "component/slider";
 @import "component/survey";
 $slider-height: 305px;
+.header{
+	box-shadow: none;
+}
 .main-slider{
 	height: $slider-height;
 	background: url(../img/home/slideBgx.jpg) repeat-x;
