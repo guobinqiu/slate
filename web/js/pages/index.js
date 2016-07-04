@@ -2,7 +2,7 @@
 引用jquery.js, common.js, scrollTop.js, numScroll.js, loginForm.js
 -------------------*/
 $(function(){
-    new numScroll({ numScrollEle: '.digits b', config: {
+    new RPANumScroll({ numScrollEle: '.digits b', config: {
         digitH : 30,
         num: 3688002,
         animateTimer: 5000
@@ -22,10 +22,10 @@ $(function(){
         },
         type: 'email'
     };
-    new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+    new LoginForm({pwd: loginPwd, email: loginEmail, auto: false});
     var submitBtn = $("#submit_button");
     submitBtn.on('click', function(e){
-        var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+        var loginform = new LoginForm({pwd: loginPwd, email: loginEmail, auto: true});
         if(loginform.run(true)){
             submitBtn.submit();
         }else{

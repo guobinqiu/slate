@@ -5,23 +5,23 @@ $(function(){
     $('#changeCode').on('click', function(){
         $('#verificationImg').prop('src', Routing.generate("_user_captcha") + '?r=' + 100000*Math.random());
     });
-    validate.prompt.pwdRepeat.elements.pwd = "#signup_password_first";
-    $.extend(validate.func, {
+    rpaValidate.prompt.pwdRepeat.elements.pwd = "#signup_password_first";
+    $.extend(rpaValidate.func, {
         regValidate : function() {
-            $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName, true);
-            $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email, true);
-            $("#signup_password_first").RPAValidate(validate.prompt.pwd, validate.func.pwd, true);
-            $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat, true);
-            $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode, true);
-            return validate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
+            $("#signup_nickname").RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName, true);
+            $("#signup_email").RPAValidate(rpaValidate.prompt.email, rpaValidate.func.email, true);
+            $("#signup_password_first").RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd, true);
+            $("#signup_password_second").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat, true);
+            $("#signup_captcha").RPAValidate(rpaValidate.prompt.authCode, rpaValidate.func.authCode, true);
+            return rpaValidate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
         }
     });
     var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $.trim($("#signup_password_first").val())}
-    $("#signup_nickname").RPAValidate(validate.prompt.regName, validate.func.regName);
-    $("#signup_email").RPAValidate(validate.prompt.email, validate.func.email);
-    $("#signup_password_first").bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
-    $("#signup_password_second").RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
-    $("#signup_captcha").RPAValidate(validate.prompt.authCode, validate.func.authCode);
+    $("#signup_nickname").RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName);
+    $("#signup_email").RPAValidate(rpaValidate.prompt.email, rpaValidate.func.email);
+    $("#signup_password_first").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
+    $("#signup_password_second").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
+    $("#signup_captcha").RPAValidate(rpaValidate.prompt.authCode, rpaValidate.func.authCode);
     function checkReadMe() {
         var readme = $("#signup_agreement"),
             protocolError = $("#protocol_error");
@@ -37,7 +37,7 @@ $(function(){
         var regName = $("#signup_nickname"),
             regNameError = $("#signup_nickname_error");
         var loginName = $.trim(regName.val());
-        if (validate.rules.isNull(loginName) || loginName == '') {
+        if (rpaValidate.rules.isNull(loginName) || loginName == '') {
             regName.val("");
             regName.attr({
                 "class": "highlight2"
@@ -54,7 +54,7 @@ $(function(){
         var regNameOk = validateRegName();
         var passed = false;
 
-        passed = validate.func.regValidate() && regNameOk && agreeProtocol;
+        passed = rpaValidate.func.regValidate() && regNameOk && agreeProtocol;
         if (passed) {
             $("#submit_button").attr({
                 "disabled" : "disabled"

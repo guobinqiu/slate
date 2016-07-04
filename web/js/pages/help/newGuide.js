@@ -10,5 +10,14 @@ $(function(){
     }else{
         channel = '';
         $('#survey').show();
-    }        
+    }     
+    var resizeFooter =function(){
+        if($(window).height() > $("body").height()){
+            $(".footer").css({"position":"fixed", "bottom":"0"});
+        }
+        else{
+            $(".footer").css("position","static");
+        }   
+    }
+    resizeFooter(); 
 });

@@ -32,8 +32,8 @@ $(function(){
     /*---set profile survey css---*/
     $('.survey li:has(.proItem)').css('border-bottom', 'none');
     $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');
-        //set answered survey css on Mobile&Tablet
-        if($(window).width() < 1024){
-            $('.survey li:has(.hiddenPhone)').css({'border-bottom':'none','padding':'0'});
-        };
+    /*---set answered survey css on Mobile&Tablet---*/
+    if($(window).width() < 1024){
+        $('.survey li:has(.hiddenPhone)').css({'border-bottom':'none','padding':'0'});
+    };
 });

@@ -83,10 +83,10 @@ $(function(){
             },
             type: 'email'
         };
-        new loginForm({pwd: loginPwd, email: loginEmail, auto: false});
+        new LoginForm({pwd: loginPwd, email: loginEmail, auto: false});
         var submitBtn = $('#submit_button');
 		submitBtn.on('click', function(e){
-			var loginform = new loginForm({pwd: loginPwd, email: loginEmail, auto: true});
+			var loginform = new LoginForm({pwd: loginPwd, email: loginEmail, auto: true});
             if(loginform.run(true)){
                 sendLoginInfo();
                 e.preventDefault();

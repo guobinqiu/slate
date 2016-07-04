@@ -120,11 +120,11 @@ $(function(){
         },
         type: 'email'
     };
-    new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: false});
+    new LoginForm({pwd: withdrawPwd, email: withdrawEmail, auto: false});
     var reasons = $('.reason-options'),
     withdrawSave = $('#withdraw_save');
     withdrawSave.on('click keypress', function(){
-        var loginform = new loginForm({pwd: withdrawPwd, email: withdrawEmail, auto: true});
+        var loginform = new LoginForm({pwd: withdrawPwd, email: withdrawEmail, auto: true});
         if(loginform.run(true)){
             saveWithdraw();
         }

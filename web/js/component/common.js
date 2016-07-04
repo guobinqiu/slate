@@ -26,6 +26,7 @@ $(function(){
     var expandBtn = $('.expand-btn'),
         expandCon = $('.expand-con');
 
+console.log(expandCon.length);
     if(expandCon.length > 0){
         $.each(expandCon, function(i, e){
             expandBtn.eq(i).hover(function(){
@@ -35,7 +36,6 @@ $(function(){
             });
         });
     }
-
 
     //返回顶部
     $('.goTop').click(function() {

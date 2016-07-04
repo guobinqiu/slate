@@ -1,7 +1,7 @@
 /*-------------------
 依赖jquery.js
 -------------------*/
-(function($) {  
+// (function($) {  
     function pwdLevel(value) {
         var pattern_1 = /^.*([\W_])+.*$/i;
         var pattern_2 = /^.*([a-zA-Z])+.*$/i;
@@ -636,4 +636,4 @@
         setting: validateSettings,
         func: validateFunction
     };
-})(jQuery);
+// })(jQuery);

@@ -2,7 +2,7 @@
 引用jquery.js, jqueryCookie.js, common.js, slider.js
 -------------------*/
 $(function(){
-    var sliderA = new slider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', textEle: '.main-slider-text', config: {
+    var sliderA = new RPASlider({sliderEle: '.main-slider ul', groupBtn: '.btn-group b', textEle: '.main-slider-text', config: {
         index: 0,
         stepWid: 520,
         timer: 5000,
