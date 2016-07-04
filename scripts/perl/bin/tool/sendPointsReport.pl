@@ -19,7 +19,7 @@ die "Usage: $0 [--base_date=yyyy-mm-dd]"
 my $logic = Wenwen::Task::GetPointsReport->new(
     base_date => Time::Piece->strptime($opt{base_date}, '%Y-%m-%d'));
 
-my $to      = 'masahiro.takanohashi@d8aspring.com,jin.chiba@d8aspring.com,matsumoto@d8aspring.com,rpa-sys-china@d8aspring.com,ds-Product-china@d8aspring.com';
+my $to      = 'masahiro.takanohashi@d8aspring.com,jin.chiba@d8aspring.com,matsumoto@d8aspring.com,rpa-sys-china@d8aspring.com,ds-Product-china@d8aspring.com,dataspring-china-backoffice@d8aspring.com';
 my $subject = '91wenwen - Points Report ' . $logic->base_date->strftime('%Y-%m-%d');
 my $body    = $logic->do_task();
 
