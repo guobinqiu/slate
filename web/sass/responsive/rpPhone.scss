@@ -435,17 +435,11 @@
     .main-personal-message{
         padding: 0;
         li{
-
-            padding: 15px;
-            line-height: 22px;
             span{
-                width: 35%;
                 height: auto;
                 line-height: normal;
             }
-            a, strong{
-                margin-left: 0;
-            }
+            
             &.title{
                 line-height: normal;    
             }

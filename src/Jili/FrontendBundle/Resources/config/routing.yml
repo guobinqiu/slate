@@ -1,4 +1,0 @@
-home:
-    resource: "@JiliFrontendBundle/Controller/HomeController.php"
-    type:     annotation
-    prefix:   /

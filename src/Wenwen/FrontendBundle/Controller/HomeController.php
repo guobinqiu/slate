@@ -1,26 +1,20 @@
 <?php
-namespace Jili\FrontendBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 
 use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
-use Jili\ApiBundle\Utility\FileUtil;
-use Jili\ApiBundle\Utility\WenwenToken;
 
 /**
- * @Route("/home",requirements={"_scheme"="http"})
+ * 
  */
 class HomeController extends Controller
 {
     /**
-     * @Route("/index")
-     * @Route("/")
-     * @Method({ "GET"})
      */
     public function indexAction()
     {
@@ -73,8 +67,7 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/adExperience")
-     * @Template
+     * 
      */
     public function adExperienceAction()
     {
