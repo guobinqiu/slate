@@ -1049,6 +1049,34 @@
             }
         }
     }
+    .rp-hobby{
+        position: relative;
+        z-index: 1;
+        .rp-hobby-label{
+            position: absolute;
+            z-index: 5;
+        }
+        .rp-hobby-items{
+            padding-left: 29%;
+        }
+    }
+    /*personal center---my message*/
+    .main-personal-message{
+        li{
+            padding: 15px 5%;
+            line-height: 22px;
+            span{
+                width: 35%;
+            }
+            a{
+                width: 60%;
+                @include dib();
+            }
+            a, strong{
+                margin-left: 0;
+            }
+        }
+    }
 }
 @import "rpDesktop";
 @import "rpTablet";

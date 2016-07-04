@@ -127,8 +127,8 @@
                         {% endfor %}
                         </select>
                     </li>
-                    <li><label for="hobby">兴趣爱好：</label>
-                        {% for item in hobbyList %}<input type="checkbox"  name="profile[hobby][]" value="{{ item.id }}" {% if item.id  in userProHobby %} checked = "checked" {% endif %}>{{ item.hobbyName }}{% endfor %}
+                    <li class="rp-hobby"><label for="hobby" class="rp-hobby-label">兴趣爱好：</label>
+                        <span class="rp-hobby-items">{% for item in hobbyList %}<input type="checkbox"  name="profile[hobby][]" value="{{ item.id }}" {% if item.id  in userProHobby %} checked = "checked" {% endif %}>{{ item.hobbyName }}{% endfor %}</span>
                     </li>
                     <li><label for="signature">签名：</label>{{ form_widget(form.personalDes) }}{{ form_errors(form.personalDes) }}</li>
                     <li><label for="music">喜欢的音乐：</label>{{ form_widget(form.favMusic) }}{{ form_errors(form.favMusic) }}</li>
