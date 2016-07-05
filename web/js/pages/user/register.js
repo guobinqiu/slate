@@ -1,5 +1,5 @@
 /*-------------------
-引用jquery.js, routing.js, expand.js, validate.js
+引用jquery.js, routing.js, validate.js
 -------------------*/
 $(function(){
     $('#changeCode').on('click', function(){
