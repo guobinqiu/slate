@@ -414,7 +414,7 @@
                 }
                 select{
                     margin-left: -5px;
-                    &#industry_code, &#work_section_code{
+                    &#industry_code, &#work_section_code, &#city{
                         margin-top: 10px;
                         margin-left: 29%;
                         display: block;
@@ -444,12 +444,22 @@
                 line-height: normal;    
             }
         }
+        .btn{
+            a, .border{
+                width: 50%;
+            }
+        }
     }
     /*personal center---task&exchange history*/
     .main-personal-points{
         padding: 0;
         th, td{
             padding-left: 10px;
+        }
+        th{
+            &.title{
+                width: 35%;
+            }
         }
     }
     /*personal center---account*/
