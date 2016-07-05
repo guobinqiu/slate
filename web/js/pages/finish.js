@@ -2,7 +2,7 @@
 引用common.js, autoJump.js
 -------------------*/
 $(function(){
-    new autoJump({
+    new AutoJump({
         ele: '.tips b',
         secs: 10
     });

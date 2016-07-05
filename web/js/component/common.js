@@ -26,7 +26,6 @@ $(function(){
     var expandBtn = $('.expand-btn'),
         expandCon = $('.expand-con');
 
-console.log(expandCon.length);
     if(expandCon.length > 0){
         $.each(expandCon, function(i, e){
             expandBtn.eq(i).hover(function(){
@@ -48,33 +47,35 @@ console.log(expandCon.length);
     var resizeFooter =function(){
         if($(window).height() > $("body").height()){
             $(".footer").css({"position":"fixed", "bottom":"0"});
+            $(".navLayerBg").add($(".navLayer")).css("position","fixed");
         }
         else{
             $(".footer").css("position","static");
+            $(".navLayerBg").add($(".navLayer")).css("position","absolute");
         }   
     }
     resizeFooter();
 
     // mobile dropdown
-    var expandBtn = $('.navCollapsed'),
-    expandCon = $('.navLayer'),
+    var expandMobileBtn = $('.navCollapsed'),
+    expandMobileCon = $('.navLayer'),
     navLayerBg = $('.navLayerBg'),
     navbarUn = $('.navbarUn'),
     navbar = $('.navbar'),
     wrap = $('.wrap');
 
-    expandBtn.add(navLayerBg).click(function () {
-        if(expandCon.is(":hidden")){
-            expandCon.slideDown(600);
+    expandMobileBtn.add(navLayerBg).click(function () {
+        if(expandMobileCon.is(":hidden")){
+            expandMobileCon.slideDown(600);
             navLayerBg.show();
-            expandBtn.parent().find('b').show();
+            expandMobileBtn.parent().find('b').show();
             navbarUn.addClass('fixed');
             navbar.addClass('fixed');
             wrap.addClass('unfixed');
-        } else if(expandCon.is(":visible")){
-            expandCon.slideUp(600);
+        } else if(expandMobileCon.is(":visible")){
+            expandMobileCon.slideUp(600);
             navLayerBg.hide();
-            expandBtn.parent().find('b').hide();
+            expandMobileBtn.parent().find('b').hide();
             navbarUn.removeClass('fixed');
             navbar.removeClass('fixed');
             wrap.removeClass('unfixed');
