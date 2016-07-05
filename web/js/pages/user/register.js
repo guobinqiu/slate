@@ -22,6 +22,9 @@ $(function(){
     $("#signup_password_first").bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
     $("#signup_password_second").RPAValidate(rpaValidate.prompt.pwdRepeat, rpaValidate.func.pwdRepeat);
     $("#signup_captcha").RPAValidate(rpaValidate.prompt.authCode, rpaValidate.func.authCode);
+    $("#signup_captcha").on('blur', function(){
+        $("#signup_captcha_error").removeClass().addClass("null");
+    });
     function checkReadMe() {
         var readme = $("#signup_agreement"),
             protocolError = $("#protocol_error");

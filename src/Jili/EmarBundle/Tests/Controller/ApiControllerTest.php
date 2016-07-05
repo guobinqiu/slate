@@ -59,6 +59,7 @@ class ApiControllerTest extends WebTestCase
 //        $this->em->close();
     }
 
+/*
     public function HoldTestCallbackValidation()
     {
 
@@ -177,11 +178,12 @@ class ApiControllerTest extends WebTestCase
         $params[$f] = $tmp;
 
     }
-
+*/
     /*
      *
      * callback逻辑测试
      */
+/*
     public function holdTestCallback()
     {
 
@@ -285,10 +287,11 @@ class ApiControllerTest extends WebTestCase
         $url_user_info =  $container->get('router')->generate('_user_info' ) ;
 
     }
-
+*/
     /**
      * @group emar_api
      */
+/*
     public function testCallback()
     {
         $qs = '/jili-jiang/web/emar/api/callback?unique_id=449649582&create_date=2014-02-12+16%3A11%3A01&action_id=254&action_name=%BE%A9%B6%ABCPS&sid=458631&wid=732204&order_no=1062604092&order_time=2014-02-12+16%3A03%3A07&prod_id=&prod_name=&prod_count=1&prod_money=8888.0&feed_back=1094007&status=R&comm_type=0&commision=26.0&chkcode=9b4aba2c618a12bd6395e6a493041d53&prod_type=0&am=0.0&exchange_rate=0.0';
@@ -442,6 +445,7 @@ class ApiControllerTest extends WebTestCase
         $this->assertEquals('0', $client->getResponse()->getContent());
 
     }
+*/
     //
     public function testNoAdvertiserment()
     {

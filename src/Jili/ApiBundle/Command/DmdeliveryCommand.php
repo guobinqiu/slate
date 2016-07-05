@@ -124,11 +124,16 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $user = $em->getRepository('JiliApiBundle:User')->find($userId);
         $oldPoint = $user->getPoints();
         $user->setPoints($this->getContainer()->getParameter('init'));
+        // Create new object of point_history0x
+        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
+        $pointHistory = new $classPointHistory();
+        $pointHistory->setUserId($userId);
+        $pointHistory->setPointChangeNum(-$oldPoint);
+        $pointHistory->setReason($this->getContainer()->getParameter('init_fifteen'));
         $em->persist($user);
+        $em->persist($pointHistory);
         $em->flush();
         $em->clear();
-        $params = array('userid'=>$userId,'point'=>'-'.$oldPoint,'type'=>$this->getContainer()->getParameter('init_fifteen'));
-        $this->getContainer()->get('general_api.point_history')->get($params);
     }
 
     private function insertSendPointFail($em, $userId,$type)
