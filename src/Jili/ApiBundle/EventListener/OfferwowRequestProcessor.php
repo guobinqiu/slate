@@ -49,7 +49,7 @@ class OfferwowRequestProcessor
         $task_type = $config['task_type'];
 
         $eventid = $request->query->get('eventid');
-        $uid = $request->query->get('memberid');
+        $user_id = $request->query->get('memberid');
 
 
         $immediate_request = (int) $request->query->get('immediate');
@@ -71,7 +71,7 @@ class OfferwowRequestProcessor
                 // init offerorder & task history
                 $order = new OfferwowOrder();
                 // update offerorder
-                $order->setUserid($uid); // order
+                $order->setUserid($user_id); // order
                 $order->setEventid($eventid); // order
                 $order->setStatus($this->getParameter('init_two')); //clicked
                 $order->setHappenedAt( $happen_time );
@@ -84,7 +84,7 @@ class OfferwowRequestProcessor
             $em->flush();
 
             $params = array(
-                'userid' => $uid,
+                'userid' => $user_id,
                 'orderId' => $order->getId(),
                 'taskType' => $task_type,
                 'categoryType' => $category_type,
@@ -107,7 +107,7 @@ class OfferwowRequestProcessor
             // init offerorder & task history
             $order = new OfferwowOrder();
             // update offerorder
-            $order->setUserid($uid); // order
+            $order->setUserid($user_id); // order
             $order->setEventid($eventid); // order
             $order->setHappenedAt( $happen_time );
             $order->setStatus($this->getParameter('init_three')); //clicked
@@ -121,7 +121,7 @@ class OfferwowRequestProcessor
             // update user point & point history
 
             $params = array(
-                'userid' => $uid,
+                'userid' => $user_id,
                 'orderId' => $order->getId(),
                 'taskType' => $task_type,
                 'categoryType' => $category_type,
@@ -133,7 +133,7 @@ class OfferwowRequestProcessor
             );
             $this->initTaskHistory($params);
 
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
             $user->setPoints(intval($user->getPoints()) + intval($point));
             $em->persist($user);
             $em->flush();
@@ -151,7 +151,7 @@ class OfferwowRequestProcessor
             $em->flush();
 
             $params = array(
-              'userid' => $uid,
+              'userid' => $user_id,
               'orderId' => $order->getId(),
               'taskType' => $task_type,
               'categoryType' => $category_type,
@@ -170,7 +170,7 @@ class OfferwowRequestProcessor
             $em->flush();
 
             $params = array(
-              'userid' => $uid,
+              'userid' => $user_id,
               'orderId' => $order->getId(),
               'taskType' => $task_type,
               'categoryType' => $category_type,
@@ -182,7 +182,7 @@ class OfferwowRequestProcessor
 
             $point = $taskHistory->getPoint();
 
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
             $user->setPoints(intval($user->getPoints()) +$point);
             $em->persist($user);
             $em->flush();
