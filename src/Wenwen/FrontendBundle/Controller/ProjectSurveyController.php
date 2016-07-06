@@ -69,12 +69,12 @@ class ProjectSurveyController extends Controller
     }
 
     /**
-     * 供外部系统使用的endlink
+     * 供外部系统调用的endlink
      *
      * @Route("/outer/endlink/{answer_status}")
      */
     public function outerEndlinkAction(Request $request) {
-        $answer_status = strtolower($request->get('answer_status'));
+        $answer_status = $request->get('answer_status');
 
         if (!in_array($answer_status, array('complete', 'screenout', 'quotafull'))) {
             throw new \InvalidArgumentException('Wrong status');
