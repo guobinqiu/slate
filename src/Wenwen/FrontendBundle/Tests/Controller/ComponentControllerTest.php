@@ -53,10 +53,10 @@ class ComponentControllerTest extends WebTestCase
     }
 
     /**
-     * @group dev-merge-ui-headertopbar
+     * @group dev-merge-ui-headernav
      *
      */
-    public function testHeaderTopBarAction()
+    public function testHeaderNavAction()
     {
         $client = static::createClient();
         $container = $this->container;
@@ -64,7 +64,7 @@ class ComponentControllerTest extends WebTestCase
         $users = $em->getRepository('JiliApiBundle:User')->findAll();
         $user_id = $users[0]->getId();
 
-        $url = $container->get('router')->generate('_component_headertopbar');
+        $url = $container->get('router')->generate('_component_headerNav');
 
         $crawler = $client->request('GET', $url);
 
@@ -78,7 +78,7 @@ class ComponentControllerTest extends WebTestCase
         $session->set('uid', $user_id);
         $session->save();
 
-        //after login, will show headertopbar page
+        //after login, will show headernav page
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 

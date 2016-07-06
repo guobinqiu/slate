@@ -9,9 +9,9 @@ class ComponentController extends Controller
 {
 
     /**
-     * @Route("/headerTopBar", name="_component_headertopbar")
+     * @Route("/headerNav", name="_component_headernav")
      */
-    public function headerTopBarAction(Request $request)
+    public function headerNavAction(Request $request)
     {
         if (!$request->getSession()->get('uid')) {
             return $this->redirect($this->generateUrl('_user_login'));
@@ -22,7 +22,7 @@ class ComponentController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
 
-        return $this->render('WenwenFrontendBundle:Components:_headerTopBar.html.twig', array (
+        return $this->render('WenwenFrontendBundle:Components:_headerNav.html.twig', array (
             'user' => $user
         ));
     }
