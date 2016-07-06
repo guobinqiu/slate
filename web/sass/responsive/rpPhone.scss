@@ -100,15 +100,16 @@
             margin-bottom: 1px;
             padding: 0 5%;
             background: #fff;
-            color: #424D63;
-            height: 48px;;
-            line-height: 48px;
+            color: #657695;
+            height: 49px;;
+            line-height: 49px;
+            font-size: 1.1rem!important;
         }
         span{
             float: right;
-            margin-top: 19px;
-            width: 15px;
-            height: 15px;
+            margin-top: 16px;
+            width: 16px;
+            height: 16px;
             background: url(../../img/common/rightArrow.png) no-repeat 0 0;
             background-size: contain;
         }
@@ -119,7 +120,7 @@
             margin-right: 10px;
             width: 20px;
             height: 20px;
-            &.icons1{
+            &.icons1{ 
                 background: url(../../img/common/navIcons.svg) no-repeat 0 0;
                 background-size: cover;
             }
@@ -414,7 +415,7 @@
                 }
                 select{
                     margin-left: -5px;
-                    &#industry_code, &#work_section_code{
+                    &#industry_code, &#work_section_code, &#city{
                         margin-top: 10px;
                         margin-left: 29%;
                         display: block;
@@ -444,12 +445,22 @@
                 line-height: normal;    
             }
         }
+        .btn{
+            a, .border{
+                width: 50%;
+            }
+        }
     }
     /*personal center---task&exchange history*/
     .main-personal-points{
         padding: 0;
         th, td{
             padding-left: 10px;
+        }
+        th{
+            &.title{
+                width: 35%;
+            }
         }
     }
     /*personal center---account*/
