@@ -3,6 +3,11 @@
 @import "layout/common";
 @import "layout/header";
 @import "component/survey";
+.vote{
+	li{
+		padding: 22px 22px 2px 22px; 
+	}
+}
 .vote-sub{
  	position: relative;
 	z-index: 1;
@@ -62,6 +67,7 @@
 		}
 		.vote-btn{
 			top: 84px;
+			right: 22px;
 		}
 	}
 }
