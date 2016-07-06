@@ -245,94 +245,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/isExistVist", name="_default_isExistVist", options={"expose"=true})
-     * @Method("POST");
-	 */
-    public function isExistVistAction()
-    {
-        $day = date('Ymd');
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if (empty ($visit)) {
-                $code = $this->container->getParameter('init_one');
-            } else {
-                $code = $this->container->getParameter('init');
-            }
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
-	 * @Route("/infoVisit", name="_default_infoVisit", options={"expose"= true})
-     * @Method("POST")
-	 */
-    public function infoVisitAction()
-    {
-        $day = date('Ymd');
-        $logger = $this->get('logger');
-
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-
-            $visit = $em->getRepository('JiliApiBundle:UserInfoVisit')->getInfoVisit($id, $day);
-            if (empty ($visit)) {
-                $infoVisit = new UserInfoVisit();
-                $infoVisit->setUserId($id);
-                $infoVisit->setVisitDate($day);
-                $em->persist($infoVisit);
-                $em->flush();
-                $code = $this->container->getParameter('init_one');
-            } else {
-                $code = $this->container->getParameter('init');
-            }
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
-	 * @Route("/gameVisit", name="_default_gameVisit")
-	 */
-    public function gameVisitAction()
-    {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $id = $request->getSession()->get('uid');
-        if ($id) {
-            $day = date('Ymd');
-
-            // TODO: use the session value instead of the db query.
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
-            if ( empty ($visit) ) {
-                $gameVisit = new UserGameVisit();
-                $gameVisit->setUserId($id);
-                $gameVisit->setVisitDate($day);
-                $em->persist($gameVisit);
-                $em->flush();
-
-                // remove from session cache.
-                $taskList = $this->get('session.task_list');
-                $taskList->remove(array( 'game_visit'));
-            }
-            $code = $this->container->getParameter('init_one');
-        } else {
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-
-    }
-
-    /**
 	 * @Route("/about", name="_default_about", requirements={"_scheme"="http"})
 	 */
     public function aboutAction()
@@ -381,14 +293,6 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/services", name="_default_services", requirements={"_scheme"="http"})
-	 */
-    public function servicesAction()
-    {
-        return $this->render('JiliApiBundle::onservice.html.twig');
-    }
-
-    /**
 	 * @Route("/support", name="_default_support", requirements={"_scheme"="http"})
 	 */
     public function supportAction()
@@ -429,15 +333,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/service", name="_default_service", requirements={"_scheme"="http"})
-	 */
-    public function serviceAction()
-    {
-        return $this->render('JiliApiBundle:Default:service.html.twig');
-    }
-
-    /**
-	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="https"})
+	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="http"})
 	 */
     public function contactAction()
     {
@@ -451,7 +347,7 @@ class DefaultController extends Controller
        return $response;
     }
 
-    public function checkContact($content, $email)
+    private function checkContact($content, $email)
     {
         $code = 0;
         //check content null
@@ -482,14 +378,9 @@ class DefaultController extends Controller
             $user = $em->getRepository('JiliApiBundle:User')->find($id);
             $subject = "来自" . $nick . " [" . $user->getEmail() . "] 的咨询";
         }
-
-        $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('account@91jili.com')->setPassword('D8aspring');
-        $mailer = \Swift_Mailer :: newInstance($transport);
-        $message = \Swift_Message :: newInstance();
+        $message = \Swift_Message::newInstance();
         $message->setSubject($subject);
-        $message->setFrom(array (
-            'account@91jili.com' => '91问问调查网'
-        ));
+        $message->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'));
         $message->setTo('support@91wenwen.com');
         $message->setReplyTo($email);
         $message->setBody('<html>' .
@@ -502,7 +393,7 @@ class DefaultController extends Controller
         '浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
         '</body>' .
         '</html>', 'text/html');
-        $flag = $mailer->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
         if (!$flag) {
             $code = 4;
         }

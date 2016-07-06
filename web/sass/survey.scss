@@ -3,15 +3,6 @@
 @import "layout/common";
 @import "layout/header";
 @import "component/survey";
-.main-con-left{
-	li{
-		&:hover, &.active{
-			.survey-btn{
-				width: 24%;
-			}
-		}
-	}
-}
 .survey-sub{
 	width: 100%;
 	h1{
@@ -36,12 +27,25 @@
 		height: 24px;
 	}
 	.survey-btn{
-		top: 44px;
+		top: 30px;
+		right: 22px;
+		.disabled{
+			width: 112px;
+			height: 34px;
+			line-height: 34px;
+		}
 	}
 	.survey-btn a{
 		width: 112px;
 	    height: 34px;
 	    line-height: 34px;
+	}
+	.survey-item{
+		li.last{
+			strong{
+				font-size: 18px;
+			}
+		}
 	}
 }
 @import "component/page";

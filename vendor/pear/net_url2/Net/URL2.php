@@ -385,7 +385,7 @@ class Net_URL2
             return $this;
         }
 
-        if (!preg_match('(^(([^\@]*)\@)?(.+?)(:(\d*))?$)', $authority, $matches)) {
+        if (!preg_match('(^(([^@]*)@)?(.+?)(:(\d*))?$)', $authority, $matches)) {
             return $this;
         }
 
@@ -764,7 +764,7 @@ class Net_URL2
     {
         $url = clone $this;
         $url->normalize();
-        return $url->getUrl();
+        return $url->getURL();
     }
 
     /**

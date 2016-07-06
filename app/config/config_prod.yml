@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: secret_prod.yml }
 
 # In production environment you should know that the parameters for URL generation
 # always pass the requirements. Otherwise it would break your link (or even site with
@@ -21,12 +22,9 @@ monolog:
     handlers:
         main:
             type: stream
-            path: "%jili_app.logs_dir%/sf2/%kernel.environment%.log"
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: info
             channels: [ !event, !request ]
 
-parameters:
-# NOTICE: product config use demo one.
-    emar_com.app_AppKey: %emar_com.demo.AppKey%
-    emar_com.app_AppSecret: %emar_com.demo.AppSecret%
+
 

@@ -16,7 +16,13 @@ th{
 	color: #555;	
 	background: #fafafc;
 	border-bottom: 1px solid #ebebed;
+	&.title{
+		width: 45%;
+	} 
 }
-td{
+td{ 
+	height: auto;
+	line-height: 22px;
+	padding: 10px 0 10px 30px;
 	border-bottom: $block-inner-border;
 }

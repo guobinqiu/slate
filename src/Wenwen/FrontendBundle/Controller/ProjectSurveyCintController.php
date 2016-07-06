@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+
 /**
  * @Route("/cint_project_survey")
  */
@@ -97,16 +99,21 @@ class ProjectSurveyCintController extends Controller
      */
     public function endlinkAction(Request $request)
     {
-        $survey_id = $request->get('survey_id');
-        $answer_status = $request->get('answer_status');
-
-        if (!$request->getSession()->get('uid')) {
+        $userId = $request->getSession()->get('uid');
+        if (!$userId) {
             $this->get('request')->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $arr['answer_status'] = $answer_status;
-        $arr['survey_id'] = $survey_id;
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:complete.html.twig', $arr);
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
+
+        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
+            'answer_status' => $request->get('answer_status'),
+            'survey_id' => $request->get('survey_id'),
+        ));
     }
 }

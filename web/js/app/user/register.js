@@ -28,6 +28,9 @@ require(['/js/config.js'],function(){
         $(signupF.pwdF).bind("keyup", function(){ validate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(validate.prompt.pwd, validate.func.pwd);
         $(signupF.pwdS).RPAValidate(validate.prompt.pwdRepeat, validate.func.pwdRepeat);
         $(signupF.captcha).RPAValidate(validate.prompt.authCode, validate.func.authCode);
+        $("#signup_captcha").on('blur', function(){
+            $("#signup_captcha_error").removeClass().addClass("null");
+        });
         function checkReadMe() {
             var readme = $(signupF.agreement),
                 protocolError = $("#protocol_error");

@@ -19,7 +19,7 @@ $header-height: 110px;
 	}
 }
 $top-font-color: #828285;
-$top-bg-color: #2f343d;
+$top-bg-color: #252629;
 .header-top{
 	background: $top-bg-color;
 	color: $top-font-color;
@@ -205,7 +205,7 @@ $header-nav-height: 80px;
 		vertical-align: middle;
 	}
 	.logo{
-		margin-right: 87px;
+		white-space: nowrap;
 		a{
 			padding-right: 20px;
 		}
@@ -262,17 +262,17 @@ $header-nav-height: 80px;
 	}
 	.login-btn{
 		a{
-			margin-left: 5px;
-			padding: 0 10px;
-			color: #888;
+			color: $weak-color;
 			&:hover{
-				color: #ff781e;
+				color: $hover-color;
 			}
 		}
 		a.sign{
 			color: #ff781e;
 			border-left: 1px solid #d0d1d1;
-			padding-left: 26px;
+			padding-left: 23px;
+			padding-right: 10px;
+			margin-left: 18px;
 		}
 
 	}

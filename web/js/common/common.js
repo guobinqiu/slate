@@ -67,10 +67,42 @@ define(['jquery', 'routing'],function($){
     var resizeFooter =function(){
         if($(window).height() > $("body").height()){
             $(".footer").css({"position":"fixed", "bottom":"0"});
+            $(".navLayerBg").add($(".navLayer")).css("position","fixed");
         }
         else{
             $(".footer").css("position","static");
+            $(".navLayerBg").add($(".navLayer")).css("position","absolute");
         }   
     }
     resizeFooter();
+
+    // mobile dropdown
+    $(function(){
+        //此处功能未解决(当展开收缩的时候，底部footer.js能实时起作用)
+        var expandBtn = $('.navCollapsed'),
+        expandCon = $('.navLayer'),
+        navLayerBg = $('.navLayerBg'),
+        navbarUn = $('.navbarUn'),
+        navbar = $('.navbar'),
+        wrap = $('.wrap');
+
+        expandBtn.add(navLayerBg).click(function () {
+            if(expandCon.is(":hidden")){
+                expandCon.slideDown(600);
+                navLayerBg.show();
+                expandBtn.parent().find('b').show();
+                navbarUn.addClass('fixed');
+                navbar.addClass('fixed');
+                wrap.addClass('unfixed');
+            } else if(expandCon.is(":visible")){
+                expandCon.slideUp(600);
+                navLayerBg.hide();
+                expandBtn.parent().find('b').hide();
+                navbarUn.removeClass('fixed');
+                navbar.removeClass('fixed');
+                wrap.removeClass('unfixed');
+            }
+            
+        });
+    });
 });

@@ -42,8 +42,35 @@ require(['/js/config.js'],function(){
         }
 
         //set profile survey css
-        $('.survey li:has(.proItem)').css('border-bottom', 'none');
-        $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');
-    });
+        // $('.survey li:has(.proItem)').css('border-bottom', 'none');
+        // $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');      
 
+        //set answered survey css on Mobile&Tablet
+        if($(window).width() < 1024){
+            $('.survey li:has(.hiddenPhone)').css('padding','0');
+        };
+    });
+    require(['jquery', 'jqueryCookie'], function($){
+        //profile survey prompt popup
+        var surveyList = $('#surveyList');
+        var prop = $.cookie('prop');
+        var proCon = $('.proSurPop');
+        function shouldShow(){
+           var pp  = $.cookie('prop');
+           if (pp == undefined || pp == 1) {
+               return true;
+           } else {
+               return false;
+           }
+        }
+        surveyList.delegate('.proClose','click', function(){
+           $.cookie('prop', 0, { expires: 10000, path: '/' }); 
+           surveyList.find(proCon).hide();    
+        });
+        if(shouldShow()){
+           surveyList.find(proCon).show();
+        }else{
+           surveyList.find(proCon).hide();
+        }
+    });
 });

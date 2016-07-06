@@ -1,7 +1,5 @@
-
 imports:
     - { resource: parameters.yml }
-    - { resource: custom_parameters.yml }
     - { resource: security.yml }
     - { resource: mysql.yml }
     - { resource: jms_job.yml }
@@ -35,7 +33,7 @@ framework:
     fragments:       ~
     templating:
         engines: ['twig']
-        assets_version: 'v000005'
+        assets_version: 'v000006'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
@@ -98,23 +96,22 @@ doctrine:
         auto_mapping: true
 
 # Swiftmailer Configuration
-#swiftmailer:
-    #transport: %mailer_transport%
-    #host:      %mailer_host%
-    #username:  %mailer_user%
-    #password:  %mailer_password%
-    #spool:     { type: memory }
 swiftmailer:
-    transport:  smtp
-    encryption: ~
-    auth_mode:  login
-    host:       %mailer_host%
-    username:   %mailer_user%
-    password:   %mailer_password%
-# Guobin: for what reason we dont enable a mail queue for sending your emails asynchronously?
-#    spool:
-#        type: file
-#        path: %kernel.root_dir%/cache/%kernel.environment%/swiftmailer.emails
+    default_mailer: webpower_mailer
+    mailers:
+        webpower_signup_mailer:
+            transport:  smtp
+            host:       %webpower_host%
+            username:   %webpower_signup_username%
+            password:   %webpower_signup_password%
+            encryption: tls
+
+        webpower_mailer:
+            transport:  smtp
+            host:       %webpower_host%
+            username:   %webpower_username%
+            password:   %webpower_password%
+            encryption: tls
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -173,3 +170,9 @@ gregwar_captcha:
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
 
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost/0

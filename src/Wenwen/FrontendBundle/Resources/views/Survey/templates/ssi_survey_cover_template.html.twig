@@ -1,20 +1,14 @@
 <div class="survey-item">
-    <div class="title">{{ ssi_project_config.title }}</div>
+    <div class="title"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">海外调查问卷<span></span></a></div>
     <ul class="con clearfix">
         <li class="first">
-            <span>问卷编号</span>
-            <p>s{{ ssi_surveys[0].ssiProjectId }}</p>
+            问卷编号：s{{ ssi_surveys[0].ssiProjectId }}
         </li>
         <li>
-            <span>问卷类型</span>
-            <p>商业问卷</p>
-        </li>
-        <li>
-            <span>回答期限</span>
-            <p>--</p>
+            问卷类型：商业问卷
         </li>
         <li class="last">
-            <p><strong>{{ ssi_project_config.point }}</strong>积分</p>
+            奖励积分：<strong>{{ ssi_project_config.point }}</strong>
         </li>
     </ul>
 </div>

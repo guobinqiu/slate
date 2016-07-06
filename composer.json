@@ -27,7 +27,10 @@
         "jms/job-queue-bundle": "^1.2",
         "pear/net_url2": "^2.2",
         "voyagechinagroup/ssi_api": "1.0.2",
-        "misd/guzzle-bundle": "^1.1"
+        "misd/guzzle-bundle": "^1.1",
+        "snc/redis-bundle": "1.1.10",
+        "predis/predis": "^1.0",
+        "pagerfanta/pagerfanta": "1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",
