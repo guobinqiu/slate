@@ -16,6 +16,9 @@ th{
 	color: #555;	
 	background: #fafafc;
 	border-bottom: 1px solid #ebebed;
+	&.title{
+		width: 45%;
+	}
 }
 td{
 	height: auto;
