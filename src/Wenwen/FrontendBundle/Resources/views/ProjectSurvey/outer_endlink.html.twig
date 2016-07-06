@@ -7,15 +7,35 @@
     .center {
         margin-left: auto;
         margin-right: auto;
+        width: 600px;
+        padding: 50px 0;
+    }
+    .center a.moreBtn{
+        background: #ff781e;
+        border: 1px solid #ff6905;
+        color: #fff;
+        padding: 18px 65px;
+        -moz-border-radius: 6px; 
+        -webkit-border-radius: 6px; 
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: inline-block;
     }
 </style>
 
 {% if answer_status == 'complete' %}
-   <div class="center">谢谢您，问卷已完成！</div>
+   <div class="center"><strong>谢谢您，问卷已完成！</strong></div>
 {% elseif answer_status == 'screenout' %}
-    <div class="center">很抱歉您不符合此次问卷的条件！</div>
+    <div class="center"><strong>很抱歉您不符合此次问卷的条件！</strong></div>
 {% elseif answer_status == 'quotafull' %}
-    <div class="center">很抱歉您所在的配额组已满,期待你的下次参与！</div>
+    <div class="center"><strong>很抱歉您所在的配额组已满,期待你的下次参与！</strong></div>
 {% endif %}
 
-<div class="center"><br/><a href="https://www.91wenwen.net/user/reg">更多问卷>></a></div>
+<div class="center">
+   
+    <a class="moreBtn" href="https://www.91wenwen.net/user/reg">点击这里</a>
+    <br/>
+    您可以回答更多问卷哦！
+</div>
