@@ -19,6 +19,11 @@
     .w1000{
         width: auto;  
     }
+    .page{
+        span{
+            margin-bottom: 10px;
+        }
+    }
     .header-nav{
         .logo{
             span{
@@ -338,11 +343,11 @@
             }
         }
         .navTit{
-            text-align: center;
+            text-align: center; 
             width: 60%;
             margin: 0 auto;
             font-size: 1.2rem!important;
-            color: $sub-con-color;
+            color: #7A8190;
         }
     }
     .header{
@@ -964,7 +969,7 @@
                         margin: 10px 0;
                         strong, strong span{
                             font-size: 1.4rem!important;
-                            line-height: 2.2rem;
+                            line-height: 2.4rem;
                         }
                     }
                     .notice{
@@ -985,19 +990,34 @@
                     padding: 60px 0 0 0;
                     .txt{
                         width: 100%;
-                        background-position: center center;
+                        background-position: center 56px;
                         text-align: center;
                         margin-left: 0;
                         padding: 155px 0 0 0;
                         h2{
                             padding-bottom: 0;
                         }
+                        &.sad{
+                            background-position: center 56px;
+                        }
+                    }
+                    .refer{
+                        width: 100%;
+                        padding: 20px;
+                        font-size: .8rem!important;
+                    }
+                    .confirmBtn{
+                        width: 50%;
+                        height: 40px;
+                        line-height: 40px;
                     }
                 }
             }
             .qnConBg{
                 .bottom{
                     line-height: 1.8rem;
+                    font-size: .8rem!important;
+                    color: #A1A1A1;
                 }
                 .qnConBot{
                     width: 100%!important;
