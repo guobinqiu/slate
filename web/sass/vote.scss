@@ -12,6 +12,7 @@
 	}
 	li{
 		border-top: none;
+		padding-bottom: 16px;
 		&.vote-txt{
 			width: 94%;
 			.relate{
@@ -19,9 +20,15 @@
 				margin-top: 10px;	
 			}
 		}
+		&:after{
+			width: 100%;
+		}
+	}
+	.vote-btn{
+		top: 32px;
 	}
 	.vote-txt{
-		width: 60%;
+		width: 62%;
 		span{
 			strong{
 				font-weight: normal;
@@ -36,21 +43,26 @@
 			}
 		}
 		.con{
-			margin-top: 8px;
 			padding-left: 7px;
 		    line-height: 23px;
 		    font-size: 13px;
 		}
 		.relate{
-			margin-top: 4px;	
+			margin-top: 4px;
+		    margin-left: 7px;	
 		}
 	}
 	.countdown{
 		top: 43px;
 	}
-	.vote-new .tips{
-		top: 33px!important;
-		right: 0!important;
+	.vote-new{
+		.tips{
+			top: 29px!important;
+			right: 0!important;
+		}
+		.vote-btn{
+			top: 84px;
+		}
 	}
 }
 .exchange-dynamics{
