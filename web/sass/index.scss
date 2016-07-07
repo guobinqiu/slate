@@ -40,7 +40,6 @@ h1{
 	transition: all 500ms ease 50ms;
 	@include dib();
 	&:hover{
-		// color: $orange-color;
 		background: rgba(0, 0, 0, .5);
 	}
 }
@@ -69,7 +68,7 @@ h1{
 	background: #333 url(../img/landingpage/lines.png) no-repeat center;
 	background: rgba(0, 0, 0, .15) url(../img/landingpage/lines.png) no-repeat center;
 	&:hover, &.active{
-		background: #fff url(../img/landingpage/linesActive.png) no-repeat center;
+		background: rgba(0, 0, 0, .5) url(../img/landingpage/lines.png) no-repeat center;
 	}
 }
 ul.menu{
@@ -150,7 +149,7 @@ ul.menu{
 		top: 50%;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 1s ease 2s;
+		transition: all 1s ease 1s;
 		a{
 			margin-top: 20px;
 			width: 283px;
@@ -180,7 +179,7 @@ ul.menu{
 		top: 55%;
 		opacity: 0;
 		visibility: hidden;
-		transition: all 1s ease 1500ms;
+		transition: all 1s ease 400ms;
 		font-size: 20px;
 	}
 }
@@ -207,6 +206,7 @@ ul.menu{
 		line-height: 22px;
 		text-align: left;
 		width: 170px;
+		font-family: '宋体';
 	}
 }
 .scoredPointsItem{
@@ -294,7 +294,8 @@ ul.menu{
 		em{
 			font-size: 24px;
 			vertical-align: top;
-			line-height: 45px;
+			line-height: 25px;
+			margin-left: 3px;
 			@include dib();
 			&.chinese{
 				padding-left: 2px;
@@ -408,7 +409,12 @@ ul.menu{
 			span{
 				margin-left: 20px;
 				display: inline-block;
+				font-family: '宋体';
 			}
+		}
+		.talkCon{
+			font-family: '宋体';
+			color: #696969;
 		}
 	}
 	.item1{
@@ -596,6 +602,9 @@ ul.menu{
 		&.liner{
 			border-bottom: 1px solid #e3e3e3;	
 		}
+		span.null{
+			display: none;
+		}
 		label{
 			position: absolute;
 			z-index: 2;
@@ -630,9 +639,9 @@ ul.menu{
 			&.error, &.focus{
 				border: none;
 				padding: 0 5px;
-				height: 24px;
-				line-height: 24px;
-				margin: 9px 10px 0 0;
+				height: 30px;
+				line-height: 30px;
+				margin: 6px 2px 0 0;
 				// border-radius: 3px;
 				font-size: 12px;
 				// background: #666;
