@@ -46,9 +46,9 @@ require(['/js/config.js'],function(){
         // $(".survey li").not(":has(.proItem)").css('border-bottom', 'solid 1px #E0E5E5');      
 
         //set answered survey css on Mobile&Tablet
-        if($(window).width() < 1024){
-            $('.survey li:has(.hiddenPhone)').css('padding','0');
-        };
+        // if($(window).width() < 1024){
+        //     $('.survey li:has(.hiddenPhone)').css('padding','0');
+        // };
     });
     require(['jquery', 'jqueryCookie'], function($){
         //profile survey prompt popup

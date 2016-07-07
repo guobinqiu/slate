@@ -527,16 +527,75 @@
             }
         }
     }
+    .vote-sub{
+        .vote-btn{
+            display: none;
+        }
+    }
 }
 
 @media only screen and (max-width: 667px) and (orientation: portrait) {
-    .survey .survey-btn{
-        display: none; 
+    .visiblePhonePor{
+        display: inherit!important;
     }
-    .vote .vote-btn{
-        display: none;
+    .hiddenPhonePor{
+        display: none!important; 
     }
-
+    .survey{
+        .survey-item{
+            li{
+                width: 100%!important;
+                &.last{
+                    text-align: left;
+                }
+                &:after{
+                    border: none;
+                }
+            }
+            .proRow{
+                .proNum{
+                    &:after{
+                        border: none;
+                    }
+                }
+            }
+        }
+        .survey-btn{
+            top: 47px;
+        }
+        li{
+            padding: 4px 5% 10px;
+        }
+    }
+    .main-con-left .vote .vote-btn{
+        top: 47px;
+    }
+    .vote{
+        li{
+            padding: 0px 5% 15px;
+        }
+    }
+    .vote-txt{
+        .relate{
+            & > div{
+                color: $weak-color;
+                font-size: .9rem!important;
+                height: 1.4rem;
+                line-height: 1.4rem;
+                i{
+                    font-size: .9rem!important;
+                    strong{
+                        color: #f55e00;
+                    }
+                }
+            }
+            span{
+                &.vline{
+                    border: none;
+                }
+            }
+        }
+    }
     .login-wrapper{
         width: 88%;
         position: initial;
@@ -560,6 +619,12 @@
     }
 }
 @media only screen and (max-width: 667px) and (orientation: landscape) {
+    .visiblePhoneLan{
+        display: inherit!important;
+    }
+    .hiddenPhoneLan{
+        display: none!important; 
+    }
     .rewardlist{
         width: 100%;
         float: left;
@@ -590,7 +655,7 @@
 @media only screen and (max-width: 360px){
     .vote-sub{
         .vote-txt {
-            width: 66%;
+            width: 64%;
         }
         .relateVlist{  
             white-space: normal;
@@ -639,3 +704,4 @@
         }
     }
 }
+
