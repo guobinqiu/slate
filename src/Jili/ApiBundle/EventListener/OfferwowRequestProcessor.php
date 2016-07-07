@@ -51,12 +51,17 @@ class OfferwowRequestProcessor
         $eventid = $request->query->get('eventid');
         $user_id = $request->query->get('memberid');
 
+//  20160607 从这里的逻辑上看，最初的设计思想非常混乱而且对于订单的处理不正确，需要动大刀
 
         $immediate_request = (int) $request->query->get('immediate');
-        if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ||  $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
-            $point = (int) $request->query->get('point', 0);
-            $point = $this->rebate_point_caculator->calcPointByCategory( $point, $category_type);
-        }
+        // 20160607 point这个参数是必然存在的，没有必要根据immediate这个参数的值来判断
+        $point = (int) $request->query->get('point', 0);
+
+        //if ($immediate_status['HANGUP_SUSPEND'] ===  $immediate_request ||  $immediate_status['INSTANT_PASSED'] === $immediate_request ) {
+            //$point = (int) $request->query->get('point', 0);
+            // 20160607 简单的事情做复杂了，把这里的积分数重新计算这块给去掉，尝试解放一些没有存在必要的数据表
+            // $point = $this->rebate_point_caculator->calcPointByCategory( $point, $category_type);
+        //}
 
         $happen_time = date_create();
         $em = $this->em;
