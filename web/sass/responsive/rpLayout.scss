@@ -208,22 +208,30 @@
                 }
             }
         }
+        .title{
+            font-size: 1.1rem!important;
+            height: 2.6rem !important;
+            line-height: 2.6rem !important;
+            color: #51718A!important; 
+        }
         #surveyList{
             margin-bottom: -3px;
-        }
-        .survey-btn{
-            display: none;
         }
         .survey-item{
             width: 100%;
             .proRow{
                 width: 100%;
+                .proNum{
+                    color: $weak-color;
+                }
             }
             li{
                 width: auto!important;
                 padding-right: 15px;
                 margin-right: 15px;
                 font-size: .9rem!important;
+                height: 1.4rem;
+                line-height: 1.4rem;
                 span, p{
                     font-size: .9rem!important;
                     line-height: 1.5rem;
@@ -241,7 +249,7 @@
             }
             .title{
                 a{
-                   font-size: 1.2rem!important;
+                   font-size: 1.1rem!important; 
                    height: 2.6rem!important;
                    line-height: 2.6rem!important;
                    color: #51718A!important; 
@@ -265,8 +273,14 @@
                 height: 38px;
             }
         }
-        .proItem{
-            padding: 10px 5%;
+        // .proItem{
+        //     padding: 10px 5%;
+        // }
+        .survey-btn{
+            right: 5%;
+        }
+        .proBtn{
+            top: 40px;
         }
     } 
     .survey-sub h1{
@@ -284,18 +298,20 @@
         p{
             padding-left: 0;
         }
-        .title a{
-            font-size: 1.2rem!important;
-            color: #51718A!important;
+        .title{
             height: 2.6rem!important;
             line-height: 2.6rem!important;
-            span{
-                 position:absolute; 
-                 width:100%;
-                 height:100%;
-                 top:0;
-                 left: 0;
-                 z-index: 1;
+            a{
+               font-size: 1.1rem!important;
+               color: #51718A!important;
+               span{
+                    position:absolute; 
+                    width:100%;
+                    height:100%;
+                    top:0;
+                    left: 0;
+                    z-index: 1;
+               } 
             }
         }
     }
@@ -416,7 +432,7 @@
                     width: 100px;
                     height: 100px;
                     display: inline-block;
-                    background: url(../../img/home/adProcess.png) no-repeat -349px 0;
+                    background: url(../../img/home/adProcess.png) no-repeat -176px 0;
                     background-size: cover;
                 }
                 
@@ -556,6 +572,8 @@
     .vote{
         li{
             padding: 13px 5%;
+            margin-left: -4px;
+            margin-top: 4px;    
             &:after{
                 top: -2px;
             }
@@ -613,7 +631,6 @@
                 &:hover, &.active{
                     .vote-btn{
                         width: 88px;
-                        display: none;
                     }
                     .countdown{
                         width: 140px;
@@ -630,7 +647,7 @@
             }
         }
         .vote-btn{
-            display: none;
+            right: 5%;
         }
     }
     .vote-sub {
@@ -658,7 +675,7 @@
                 line-height: 2.6rem!important;
                 height: 2.6rem!important;
                 a{
-                    font-size: 1.2rem!important;
+                    font-size: 1.1rem!important;
                 }
             }
         }
