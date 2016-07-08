@@ -1,4 +1,4 @@
-{% if research.is_answered == 1 %}<div class="survey-item hiddenPhone hiddenTablet">{% else %}<div class="survey-item ">{% endif %}
+<div class="survey-item ">
     <div class="title">
         {% if research.is_answered == 1 %}
             {% if research.title|length > 35 %}
@@ -21,19 +21,13 @@
     </div>
     <ul class="con clearfix">
         <li class="first">
-            <span>问卷编号</span>
-            <p>r{{ research.survey_id }}</p>
+            问卷编号：r{{ research.survey_id }}
         </li>
         <li>
-            <span>问卷类型</span>
-            <p title="高积分问卷，基于您回答的属性问卷发送给您。有名额和日期限制，请尽快回答">商业问卷</p>
-        </li>
-        <li>
-            <span>回答期限</span>
-            <p>--</p>
+            问卷类型：商业问卷
         </li>
         <li class="last">
-            <p><strong>{{ research.extra_info.point.complete }}</strong>积分</p>
+            奖励积分：<strong>{{ research.extra_info.point.complete }}</strong>
         </li>
     </ul>
 </div>

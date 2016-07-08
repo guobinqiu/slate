@@ -1,4 +1,4 @@
-{% if cint_research.is_answered == 1 %}<div class="survey-item hiddenPhone hiddenTablet">{% else %}<div class="survey-item">{% endif %}
+<div class="survey-item">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
             海外调查问卷
@@ -8,19 +8,13 @@
     </div>
     <ul class="con clearfix">
         <li class="first">
-            <span>问卷编号</span>
-            <p>c{{ cint_research.survey_id }}</p>
+            问卷编号：c{{ cint_research.survey_id }}
         </li>
         <li>
-            <span>问卷类型</span>
-            <p title="">商业问卷</p>
-        </li>
-        <li>
-            <span>回答期限</span>
-            <p>--</p>
+            问卷类型：商业问卷
         </li>
         <li class="last">
-            <p><strong>{{ cint_research.extra_info.point.complete }}</strong>积分</p>
+            奖励积分：<strong>{{ cint_research.extra_info.point.complete }}</strong>
         </li>
     </ul>
 </div>
