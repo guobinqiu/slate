@@ -41,6 +41,17 @@ class OrderBase
         return $ret;
     }
 
+    /**
+    *   你妹的 isCompleted 写的什么狗屎啊，判断个状态干嘛要传整个object进去?吃大便长大的
+    */
+    public static function isCompleteStatus($status){
+        if(self::$CONFIG['COMPLETED_SUCCEEDED'] ===  $status || self::$CONFIG['COMPLETED_FAILED'] ===  $status ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function getStatusList()
     {
         return self::$CONFIG;

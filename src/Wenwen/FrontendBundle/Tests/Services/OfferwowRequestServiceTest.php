@@ -24,22 +24,9 @@ class OfferwowRequestServiceTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $this->offerwowRequestService = static::$kernel->getContainer()->get('app.offerwow_request_service');
 
-        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
-
-        /*
-        // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-
-        $fixture = new SurveyServiceTestFixture();
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
-        */
     }
 
     /**
@@ -132,7 +119,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 为空
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1006q'; // 随意，有值就好
+        $eventid = '1006'; // 随意，有值就好
         $websiteid = '97'; // 随意，有值就好
         $immediate = '0'; // 随意，有值就好
         $sign = NULL; 
@@ -150,7 +137,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // websiteid 跟配置文件中的 websiteid不一致
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1011'; // 随意，有值就好
         $websiteid = '97'; // 随意，跟配置文件中的offerwow_com.websiteid的值不一致就行
         $immediate = '0'; // 随意，有值就好
         $sign = 'ahaha'; // 随意，有值就好
@@ -168,7 +155,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1021'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '0'; // 随意，有值就好
         $sign = 'ahaha'; // 随意，有值就好
@@ -187,7 +174,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1031'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '0'; // 随意，有值就好
         $hash = array(
@@ -221,7 +208,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1041'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '0'; // 0
         $hash = array(
@@ -285,7 +272,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1051'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '1'; // 1
         $hash = array(
@@ -321,7 +308,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($memberid); 
         $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus($immediate); 
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus($immediate)); 
         $offerwowOrder->setHappenedAt($happen_time);
         $offerwowOrder->setCreatedAt($happen_time);
         $offerwowOrder->setDeleteFlag(0);
@@ -349,7 +336,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
+        $eventid = '1061'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '2'; // 2
         $hash = array(
@@ -385,7 +372,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($memberid); 
         $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus('1');   // 不能是0
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('1'));   // 不能是0
         $offerwowOrder->setHappenedAt($happen_time);
         $offerwowOrder->setCreatedAt($happen_time);
         $offerwowOrder->setDeleteFlag(0);
@@ -449,7 +436,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($memberid); 
         $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus('1');   // 不能是0
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('1'));   // 不能是0
         $offerwowOrder->setHappenedAt($happen_time);
         $offerwowOrder->setCreatedAt($happen_time);
         $offerwowOrder->setDeleteFlag(0);
@@ -526,7 +513,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($memberid); 
         $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus('0');   // 不能是0
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('0'));   
         $offerwowOrder->setHappenedAt($happen_time);
         $offerwowOrder->setCreatedAt($happen_time);
         $offerwowOrder->setDeleteFlag(0);
@@ -622,13 +609,13 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertTrue(!is_null($offerwow_order),'eventid=[' . $eventid . '] offerwow_order is not existed.');
         $this->assertEquals($memberid, $offerwow_order->getUserId());
         $this->assertEquals($eventid, $offerwow_order->getEventId());
-        $this->assertEquals($immediate, $offerwow_order->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
         $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
         $this->assertEquals($memberid, $taskHistory->getUserId());
         $this->assertEquals($programname, $taskHistory->getTaskName());
         $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals($immediate, $taskHistory->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
     }
 
     public function testProcessEventImmediate1()
@@ -685,13 +672,13 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertTrue(!is_null($offerwow_order),'eventid=[' . $eventid . '] offerwow_order is not existed.');
         $this->assertEquals($memberid, $offerwow_order->getUserId());
         $this->assertEquals($eventid, $offerwow_order->getEventId());
-        $this->assertEquals($immediate, $offerwow_order->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
         $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
         $this->assertEquals($memberid, $taskHistory->getUserId());
         $this->assertEquals($eventid, $taskHistory->getTaskName());
         $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals($immediate, $taskHistory->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
@@ -752,13 +739,13 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertTrue(!is_null($offerwow_order),'eventid=[' . $eventid . '] offerwow_order is not existed.');
         $this->assertEquals($memberid, $offerwow_order->getUserId());
         $this->assertEquals($eventid, $offerwow_order->getEventId());
-        $this->assertEquals($immediate, $offerwow_order->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
         $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
         $this->assertEquals($memberid, $taskHistory->getUserId());
         $this->assertEquals($programname, $taskHistory->getTaskName());
         $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals($immediate, $taskHistory->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
@@ -819,13 +806,13 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertTrue(!is_null($offerwow_order),'eventid=[' . $eventid . '] offerwow_order is not existed.');
         $this->assertEquals($memberid, $offerwow_order->getUserId());
         $this->assertEquals($eventid, $offerwow_order->getEventId());
-        $this->assertEquals($immediate, $offerwow_order->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
         $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
         $this->assertEquals($memberid, $taskHistory->getUserId());
         $this->assertEquals($programname, $taskHistory->getTaskName());
         $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals($immediate, $taskHistory->getStatus());
+        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
 
         $this->assertTrue(is_null($pointHistory),'eventid=[' . $eventid . '] point_history exist.');
 

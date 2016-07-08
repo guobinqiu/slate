@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Jili\ApiBundle\Entity\OfferwowOrder;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Component\OrderBase;
 
 /**
  * 处理offerwow的数据回传
@@ -123,21 +124,29 @@ class OfferwowRequestService
                 $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                 return $result;
             } elseif(self::IMMEDIATE_2 === $immediate){
-                if(self::IMMEDIATE_0 !== $offerwow_order->getStatus()){
+                // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
+                $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $offerwow_order->getStatus() .']');
+                if(OrderBase::isCompleteStatus($offerwow_order->getStatus())){
                     // 2 为终结状态，只允许从 0 -> 2
                     $result['status'] = 'failure';
                     $result['errno'] = 'offerwow-04';
                     $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                     return $result;
                 }
-            }elseif(self::IMMEDIATE_3 === $immediate){
-                if(self::IMMEDIATE_0 !== $offerwow_order->getStatus()){
+            } elseif(self::IMMEDIATE_3 === $immediate){
+                // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
+                if(OrderBase::isCompleteStatus($offerwow_order->getStatus())){
                     // 3 为终结状态，只允许从 0 -> 3
                     $result['status'] = 'failure';
                     $result['errno'] = 'offerwow-06';
                     $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                     return $result;
                 }
+            } else{
+                $result['status'] = 'failure';
+                $result['errno'] = 'unknown immediate';
+                $this->logger->warn(__METHOD__ . ' unknown immediate. eventid=[' . $eventid . '] ' . $result['errno']);
+                return $result;
             }
         }
         $result['status'] = 'success';
@@ -152,6 +161,7 @@ class OfferwowRequestService
     public function processEvent($user_id, $point, $eventid, $immediate, $programname){
         $happen_time = date_create();
         $task_name = trim($programname);
+        $status = self::convertStatus($immediate);
         if(!$task_name){
             // 万一 programname 没有设值的话，就用订单号代替任务名
             $task_name = $eventid;
@@ -164,12 +174,12 @@ class OfferwowRequestService
             $offerwowOrder = new OfferwowOrder();
             $offerwowOrder->setUserid($user_id); 
             $offerwowOrder->setEventid($eventid); 
-            $offerwowOrder->setStatus($immediate); 
+            $offerwowOrder->setStatus($status); 
             $offerwowOrder->setHappenedAt($happen_time);
             $offerwowOrder->setCreatedAt($happen_time);
             $offerwowOrder->setDeleteFlag(0);
         } else {
-            $offerwowOrder->setStatus($immediate); 
+            $offerwowOrder->setStatus($status); 
             $offerwowOrder->setConfirmedAt($happen_time);
         }
         // 更新订单信息
@@ -191,9 +201,9 @@ class OfferwowRequestService
             $taskHistory->setTaskName($task_name);
             $taskHistory->setDate($happen_time);
             $taskHistory->setPoint($point);
-            $taskHistory->setStatus($immediate);
+            $taskHistory->setStatus($status);
         } else {
-            $taskHistory->setStatus($immediate);
+            $taskHistory->setStatus($status);
             $taskHistory->setDate($happen_time);
             $taskHistory->setPoint($point);
         }
@@ -203,7 +213,7 @@ class OfferwowRequestService
         try{
             // 20160707 更新task_history
             $this->em->persist($taskHistory);
-
+            $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $status .'] ' . OrderBase::isCompleteStatus($status));
             // 20160707 给用户发放积分
             if(self::IMMEDIATE_1 === $immediate || self::IMMEDIATE_2 === $immediate){
                 $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
@@ -224,5 +234,22 @@ class OfferwowRequestService
             return false;
         }
         return true;
+    }
+
+
+    /**
+    *  无奈之举，暂时沿用原有的结构设计 offerwow_order里记录的状态沿用现在的变化
+    *  注意，这其实只是一个private函数，供这个service用的，为了测试的时候准备测试数据方便，做成了public，偷懒了
+    */
+    public static function convertStatus($immediate){
+        if(self::IMMEDIATE_0 === $immediate){
+            return OrderBase::getPendingStatus();
+        } elseif(self::IMMEDIATE_1 === $immediate){
+            return OrderBase::getSuccessStatus();
+        } elseif(self::IMMEDIATE_2 === $immediate){
+            return OrderBase::getSuccessStatus();
+        } elseif(self::IMMEDIATE_3 === $immediate){
+            return OrderBase::getFailedStatus();
+        }
     }
 }
