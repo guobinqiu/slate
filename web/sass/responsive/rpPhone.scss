@@ -352,6 +352,22 @@
         } 
     } 
     
+    /*ssi permission page*/
+    .main{
+        .qnWrap{
+            .qnConBg{
+                height: 135%;
+            }
+        } 
+    }
+    .ssi-permission{
+        width: 100%;
+        p{
+            text-align: center;
+            float: none;
+        }
+    } 
+
     /*personal center*/
     .rp-personal-nav{
         overflow-x: scroll;
