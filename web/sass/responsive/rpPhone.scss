@@ -578,6 +578,19 @@
               margin-top: 13%;
           }     
        } 
+       .sectionCon{
+            h2{
+                img{
+                    width: 90%;
+                }
+            }
+       }
+       &.active{
+            .briefIntro{
+                top: 52%;
+                font-size: .8rem!important;
+            }
+       }
     } 
     #section2{
         &.active{
@@ -610,9 +623,9 @@
     }
     #section3{
         .item{
-            width: 86%;
-            height: initial;
-            margin-left: 7%;
+            width: 84%;
+            height: inherit;
+            margin-left: 8%;
             background-size: contain;
             left: initial;
             padding: 10px;
@@ -633,7 +646,7 @@
             }
             .talkCon{
                 font-size: .8rem!important;
-                line-height: 1.3rem;
+                line-height: 1.2rem;
             }
         }
         &.active{
@@ -650,7 +663,7 @@
 }
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) { 
     .scoredPoints{
-        top: 26%;
+        top: 24%;
         h3{
             font-size: 1.4rem !important;
             line-height: 2rem;
@@ -698,10 +711,13 @@
                 height: 28px;    
              }
            } 
+           h2{
+            top: 12%;
+           }
         }  
         h2{
             img{
-                width: 250px;
+                width: 200px;
             }
         }
     }
@@ -750,10 +766,11 @@
     #section2{
         h2{
             width: 190px;
+            margin-left: 30px;
         }
         &.active{
             h2{
-                top: 6%;
+                top: 12%;
             }
             .scoredPoints{
                 height: 200px;
@@ -771,17 +788,18 @@
         }
     }
     .scoredPoints{
-        top: 18%;
+        top: 24%;
         h3{
             font-size: 1.2rem !important;
             line-height: 2rem;
+            height: 32px;
         }
         p{
             width: 280px;
         }
     }
     .scoredPointsItem{
-        padding-bottom: 44px;
+        padding-bottom: 40px;
         .icon{
             width: 53px;
             height: 53px;
@@ -806,9 +824,29 @@
         }
     }
     #section3{
+        .item{
+            width: 300px;
+            background-size: contain;
+            margin: 0 auto;
+            padding: 10px;
+            top: 35%!important;
+            .talkCon{
+                font-size: .8rem!important;
+                line-height: 1.3rem;
+            }
+            .personal{
+                margin-top: 36px;
+            }
+        }
+        .item1{
+            left: 5%;
+        }
+        .item3{
+            right: 5%;
+        }
         &.active{
             .sectionCon{
-                .item3,.item4{
+                .item2,.item4{
                     display: none;
                 }
             }
@@ -878,11 +916,6 @@
     .main-adv{
         .login-wrapper{
             right: 0;
-        }
-    }
-    .main{
-        .login{
-            width: 100%;
         }
     }
     .rewardlist{

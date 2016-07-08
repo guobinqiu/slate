@@ -735,38 +735,38 @@
     }
 
     /* register page */
-    .main-register{
-        padding: 30px 12%;
-        width: 100%;
-        li{
-            span,& > div,& #protocol{
-                font-size: .8rem!important;
-            }
-            input[type='text'],input[type='password'],input[type='email']{
-                width: 100%;
-            }
-            span{
-                margin-left: 0;
-            }
-        }
-        .subscribe{
-            .tips>b{
-                display: none;
-            }
-        }
-    }
-    .login-others{
-        display: none;
-    }
-    .main-register-btn{
-        width: 100%;
-        span{
-            width: 100%;
-        }
-        img{
-            display: none;
-        }
-    }
+    // .main-register{
+    //     padding: 30px 12%;
+    //     width: 100%;
+    //     li{
+    //         span,& > div,& #protocol{
+    //             font-size: .8rem!important;
+    //         }
+    //         input[type='text'],input[type='password'],input[type='email']{
+    //             width: 100%;
+    //         }
+    //         span{
+    //             margin-left: 0;
+    //         }
+    //     }
+    //     .subscribe{
+    //         .tips>b{
+    //             display: none;
+    //         }
+    //     }
+    // }
+    // .login-others{
+    //     display: none;
+    // }
+    // .main-register-btn{
+    //     width: 100%;
+    //     span{
+    //         width: 100%;
+    //     }
+    //     img{
+    //         display: none;
+    //     }
+    // }
 
     /* resetPwd page */
     .main-resetPwd{
@@ -1123,7 +1123,7 @@
             width: 80%;
             margin-left: 10%;
             img{
-                width: 100%;
+                width: 80%;
             }
         }
         .btns{
@@ -1162,7 +1162,9 @@
                 }
             }
             .tit{
-                margin-top: 10px;
+                margin-top: 6px;
+                font-size: .8rem!important;
+                color: #97A0A1;
             }
         }
     }
@@ -1199,7 +1201,7 @@
         margin-left: initial;
         margin-bottom: initial;
         h3{
-            font-size: 1.5rem!important;
+            font-size: 1.3rem!important;
         }
         p{
             font-size: .8rem!important;
@@ -1233,6 +1235,114 @@
             h2{
                 width: 60%;
                 margin-left: 20%;
+                img{
+                    width: 80%;
+                }
+            }
+        }
+    }
+}
+.main{
+    .login{
+        width: 80%;
+        left: 10%;
+        margin-left: initial;
+    }
+}
+@media only screen and (max-width: 1024px) and (orientation: portrait) {
+    #section0{
+        .sectionCon{
+            h2{
+                width: 90%;
+                margin-left: 5%;
+            }
+        }
+        &.active{
+            .register{
+                top: 16%;
+            }
+            .login{
+                top: 30%;
+            }
+        }
+    }
+    #section2{
+        .sectionCon{
+            h2{
+                img{
+                    width: 100%;
+                }
+            }
+        }
+    }
+    #section3{
+        .sectionCon{
+            h2{
+                img{
+                    width: 70%;
+                }
+            }
+        }
+    }
+    .main{
+        .login{
+            li{
+                padding-top: 4px;
+                input[type="text"],input[type="email"],input[type="password"]{
+                    height: 30px;
+                    line-height: 30px;
+                    padding: 0 5%;
+                }
+                input[type="email"]{
+                    padding: 0;
+                }
+                span{
+                    &.error,strong{
+                        top: -4px;
+                        font-size: .8rem!important;
+                    }
+                }
+                label{
+                    line-height: 26px;
+                }
+                #signup_captcha_error{
+                    li{
+                        padding-top: 0;
+                    }
+                }
+            }
+        }
+    }
+    .login{
+        .login-btn-others{
+            a{
+                width: 134px;
+                font-size: .8rem!important;
+                background-position: 15px 12px;
+                padding-left: 41px;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+    #section4{
+        .sectionCon{
+            h2{
+                img{
+                    width: 50%;
+                }
+            }
+        }
+    } 
+    .main{
+        .login{
+            li{
+                span{
+                    &.error,strong{
+                        top: -6px;
+                        right: -2px;
+                    }
+                }
             }
         }
     }
