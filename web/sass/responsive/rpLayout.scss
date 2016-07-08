@@ -1072,7 +1072,7 @@
                 display: none;
             }
         }
-    }
+    } 
     .rp-hobby{
         position: relative;
         z-index: 1;
@@ -1082,7 +1082,7 @@
         }
         .rp-hobby-items{
             padding-left: 29%;
-        }
+        } 
     }
     /*personal center---my message*/
     .main-personal-message{
@@ -1098,6 +1098,141 @@
             }
             a, strong{
                 margin-left: 0;
+            }
+        }
+    }
+
+    /* landing page */
+    #section0{
+        h1{
+            margin-left: -39%;
+            a{
+                img{
+                    height: 36px;
+                }
+            }
+        }
+        &.active{
+            h2{
+                top: 30%!important;
+            }
+        }
+    }
+    .sectionCon{
+        h2{
+            width: 80%;
+            margin-left: 10%;
+            img{
+                width: 100%;
+            }
+        }
+        .btns{
+            a{
+                width: 213px;
+                height: 46px;
+                line-height: 46px;
+            }
+        }
+    }
+    #pages{
+        right: 12px;
+        li{
+            width: 8px;
+            height: 8px;
+            border: 2px solid #fff;
+            &.active{
+                width: 10px;
+                height: 10px;
+                margin-left: -1px; 
+            }
+        }
+    }
+    #section1{
+        .refNum{
+            width: 100%;
+            b{
+                font-size: 1.5rem!important;
+                font-weight: bold;
+            }
+            em{
+                margin-top: -6px;
+                &.chinese{
+                    font-size: .8rem!important;
+                    margin-top: -4px;
+                }
+            }
+            .tit{
+                margin-top: 10px;
+            }
+        }
+    }
+    #section2{
+        h2{
+            width: 60%;
+            left: initial;
+            margin-left: 20px;
+        }
+        &.active{
+            .scoredPointsItem{
+                .icon{
+                    background-size: cover;
+                }
+                .con{
+                    padding-left: 72px;
+                    margin-top: -16px;
+                }
+                .con1{
+                    margin-top: -14px;
+                }
+                .con2{
+                    margin-top: -17px;
+                }
+                .con3{
+                    margin-top: -20px;
+                }
+            }
+        }
+    }
+    .scoredPoints{
+        width: 100%;
+        left: initial;
+        margin-left: initial;
+        margin-bottom: initial;
+        h3{
+            font-size: 1.5rem!important;
+        }
+        p{
+            font-size: .8rem!important;
+        }
+    }
+    .scoredPointsItem{
+        .con{
+            padding-left: 70px;
+        }
+        .icon{
+            width: 83px;
+            height: 83px;
+            left: 20px;
+        }
+        .liner{
+            left: 61px;
+            top: 83px;  
+        }
+        .icon2{
+            top: 152px
+        }
+        .liner2{
+            top: 235px;
+        }
+        .icon3{
+            top: 303px;
+        }
+    }
+    #section4{
+        .sectionCon{
+            h2{
+                width: 60%;
+                margin-left: 20%;
             }
         }
     }

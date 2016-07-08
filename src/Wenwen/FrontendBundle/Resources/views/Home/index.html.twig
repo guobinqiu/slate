@@ -13,7 +13,7 @@
 {% block body %}
 	<div id="container" class="sta">
 		<div class="section" id="section0">
-			<h1><a href="{{ path('_homepage') }}" title="首页"><img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a></h1>
+			<h1><a href="{{ path('_homepage') }}" title="首页"><img src="{{ asset('img/common/logo.svg') }}" alt="91问问"></a></h1>
 			<a href="javascript:void(0)" class="btn expandBtn"></a>
 			<ul class="menu">
 				<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
@@ -22,7 +22,10 @@
 				<li><a href="{{ path('_default_feedback') }}" title="问题反馈">问题反馈</a></li>
 			</ul>
 			<div class="sectionCon">
-				<h2><img src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！"></h2>
+				<h2>
+					<img class="visibleDesktop visiblePhoneLan hiddenPhonePor visibleTablet" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
+					<img class="visiblePhonePor hiddenPhoneLan hiddenTablet hiddenDesktop" src="{{ asset('img/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
+				</h2>
 				<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录">登录</a></div>
 				<div class="arrow">
 			    	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
@@ -32,7 +35,10 @@
 		</div>
 		<div class="section" id="section1">
 			<div class="sectionCon">
-				<h2><img src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一"></h2>
+				<h2>
+					<img class="visibleDesktop visiblePhoneLan hiddenPhonePor hiddenTablet" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+					<img class="visiblePhonePor hiddenPhoneLan visibleTablet hiddenDesktop" src="{{ asset('img/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
+				</h2>
 				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
 			</div>
 			<div class="refNum">
@@ -73,7 +79,10 @@
 		</div>
 		<div class="section" id="section3">
 			<div class="sectionCon">
-				<h2><img src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么"></h2>
+				<h2>
+					<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
+					<img class="visiblePhonePor hiddenPhoneLan hiddenTablet hiddenDesktop" src="{{ asset('img/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
+				</h2>
 				<div class="item item1">
 					<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
 					<div class="personal"><img src="{{ asset('img/landingpage/tx1.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
