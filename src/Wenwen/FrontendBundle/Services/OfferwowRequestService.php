@@ -22,7 +22,7 @@ class OfferwowRequestService
 
     private $parameterService;
 
-    private $offerwow_params;
+    private $offerwowParams;
 
     // Todo 20160707 统一到别处
     const TASK_TYPE_OFFERWOW = '5';
@@ -41,7 +41,7 @@ class OfferwowRequestService
         $this->em = $em;
         $this->parameterService = $parameterService;
 
-        $this->offerwow_params = $this->parameterService->getParameter('offerwow_com');
+        $this->offerwowParams = $this->parameterService->getParameter('offerwow_com');
     }
 
     /**
@@ -70,7 +70,7 @@ class OfferwowRequestService
         }
 
         // b, 检查websiteid 是否匹配，如果不匹配的话，返回错误信息[offerwow-02]"网站id不存在" 
-        if($this->offerwow_params['websiteid'] !== $websiteid){
+        if($this->offerwowParams['websiteid'] !== $websiteid){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-02';
             $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
@@ -84,7 +84,7 @@ class OfferwowRequestService
             $eventid,
             $websiteid,
             $immediate,
-            $this->offerwow_params['key']
+            $this->offerwowParams['key']
             );
 
         if( strtoupper(md5(implode($hash) )) !==  $sign ) {
@@ -109,8 +109,8 @@ class OfferwowRequestService
         //         immediate为0的话，返回错误信息[offerwow-05]
         //         immediate为3的话，返回错误信息[offerwow-06]
         // 20160707 该表的eventid 似乎没有加index，记得加index
-        $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
-        if($offerwow_order){
+        $offerwowOrder = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
+        if($offerwowOrder){
             if(self::IMMEDIATE_0 === $immediate) {
                 // 无论已经存在的offerwow_order的状态是什么，这条数据回传都不用再处理了
                 $result['status'] = 'failure';
@@ -125,8 +125,8 @@ class OfferwowRequestService
                 return $result;
             } elseif(self::IMMEDIATE_2 === $immediate){
                 // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
-                $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $offerwow_order->getStatus() .']');
-                if(OrderBase::isCompleteStatus($offerwow_order->getStatus())){
+                $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $offerwowOrder->getStatus() .']');
+                if(OrderBase::isCompleteStatus($offerwowOrder->getStatus())){
                     // 2 为终结状态，只允许从 0 -> 2
                     $result['status'] = 'failure';
                     $result['errno'] = 'offerwow-04';
@@ -135,7 +135,7 @@ class OfferwowRequestService
                 }
             } elseif(self::IMMEDIATE_3 === $immediate){
                 // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
-                if(OrderBase::isCompleteStatus($offerwow_order->getStatus())){
+                if(OrderBase::isCompleteStatus($offerwowOrder->getStatus())){
                     // 3 为终结状态，只允许从 0 -> 3
                     $result['status'] = 'failure';
                     $result['errno'] = 'offerwow-06';
@@ -158,79 +158,79 @@ class OfferwowRequestService
     *   2, 更新或者新建 task_history 记录任务信息
     *   3, $immediate 是 1 or 2 的时候， 新建point_history，更新user.point 
     */
-    public function processEvent($user_id, $point, $eventid, $immediate, $programname){
-        $happen_time = date_create();
-        $task_name = trim($programname);
+    public function processEvent($userId, $point, $eventid, $immediate, $programname){
+        $happenTime = date_create();
+        $taskName = trim($programname);
         $status = self::convertStatus($immediate);
-        if(!$task_name){
+        if(!$taskName){
             // 万一 programname 没有设值的话，就用订单号代替任务名
-            $task_name = $eventid;
+            $taskName = $eventid;
         }
 
         // 更新或者新建 offerwow_order
-        $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
-        if(! $offerwow_order) {
+        $offerwowOrder = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
+        if(! $offerwowOrder) {
             // offerwow_order表里不存在这个eventid，记录下该条eventid
             $offerwowOrder = new OfferwowOrder();
-            $offerwowOrder->setUserid($user_id); 
+            $offerwowOrder->setUserid($userId); 
             $offerwowOrder->setEventid($eventid); 
             $offerwowOrder->setStatus($status); 
-            $offerwowOrder->setHappenedAt($happen_time);
-            $offerwowOrder->setCreatedAt($happen_time);
+            $offerwowOrder->setHappenedAt($happenTime);
+            $offerwowOrder->setCreatedAt($happenTime);
             $offerwowOrder->setDeleteFlag(0);
         } else {
             $offerwowOrder->setStatus($status); 
-            $offerwowOrder->setConfirmedAt($happen_time);
+            $offerwowOrder->setConfirmedAt($happenTime);
         }
         // 更新订单信息
         $this->em->persist($offerwowOrder);
         $this->em->flush();
 
-        $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($user_id % 10));
+        $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10));
         // 20160707 offerwow 在 task_history中的 task_type = 5
         //          没有必要把这个写在paramter里面，统一在代码里就可以，暂时先这样写死
         $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwowOrder->getId(),'taskType'=> self::TASK_TYPE_OFFERWOW) );
         if(! $taskHistory){
-            $taskHistoryClass = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user_id % 10);
+            $taskHistoryClass = 'Jili\ApiBundle\Entity\TaskHistory0'. ($userId % 10);
             $taskHistory = new $taskHistoryClass();
-            $taskHistory->setUserid($user_id);
+            $taskHistory->setUserid($userId);
             $taskHistory->setOrderId($offerwowOrder->getId());
-            $taskHistory->setOcdCreatedDate($happen_time);
+            $taskHistory->setOcdCreatedDate($happenTime);
             $taskHistory->setCategoryType(self::CATEGORY_TYPE_OFFERWOW);
             $taskHistory->setTaskType(self::TASK_TYPE_OFFERWOW);
-            $taskHistory->setTaskName($task_name);
-            $taskHistory->setDate($happen_time);
+            $taskHistory->setTaskName($taskName);
+            $taskHistory->setDate($happenTime);
             $taskHistory->setPoint($point);
             $taskHistory->setStatus($status);
         } else {
             $taskHistory->setStatus($status);
-            $taskHistory->setDate($happen_time);
+            $taskHistory->setDate($happenTime);
             $taskHistory->setPoint($point);
         }
 
-        $db_connection = $this->em->getConnection();
-        $db_connection->beginTransaction();
+        $dbConnection = $this->em->getConnection();
+        $dbConnection->beginTransaction();
         try{
             // 20160707 更新task_history
             $this->em->persist($taskHistory);
             $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $status .'] ' . OrderBase::isCompleteStatus($status));
             // 20160707 给用户发放积分
             if(self::IMMEDIATE_1 === $immediate || self::IMMEDIATE_2 === $immediate){
-                $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
+                $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
                 $pointHistory = new $pointHistoryClass();
-                $pointHistory->setUserId($user_id);
+                $pointHistory->setUserId($userId);
                 $pointHistory->setPointChangeNum($point);
                 $pointHistory->setReason(self::CATEGORY_TYPE_OFFERWOW);
-                $user = $this->em->getRepository('JiliApiBundle:User')->find($user_id);
+                $user = $this->em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()) + intval($point));
                 $this->em->persist($pointHistory);
                 $this->em->persist($user);
             }
             $this->em->flush();
-            $db_connection->commit();
+            $dbConnection->commit();
         } catch (\Exception $e) {
-            $db_connection->rollback();
-            $this->logger->error(__METHOD__ . 'eventid=[' . $eventid . '] user_id=[' . $user_id . '] ' . $e->getMessage());
+            $dbConnection->rollback();
+            $this->logger->error(__METHOD__ . 'eventid=[' . $eventid . '] user_id=[' . $userId . '] ' . $e->getMessage());
             return false;
         }
         return true;
