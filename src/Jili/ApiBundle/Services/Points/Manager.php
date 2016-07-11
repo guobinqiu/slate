@@ -1,8 +1,6 @@
 <?php
 namespace Jili\ApiBundle\Services\Points; 
 
-use Jili\ApiBundle\EventListener\TaskHistory;
-use Jili\ApiBundle\EventListener\PointHistory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
