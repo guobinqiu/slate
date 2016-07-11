@@ -8,8 +8,6 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class Manager
 {
-    private $point_history;
-    private $task_history;
     private $em;
 
     /**
@@ -69,16 +67,6 @@ class Manager
 
     }
 
-    public function setTaskHistory( TaskHistory $th) 
-    {
-        $this->task_history = $th;
-        return $this;
-    }
-    public function setPointHistory(PointHistory  $ph) 
-    {
-        $this->point_history = $ph;
-        return $this;
-    }
     public function  setEntityManager(EntityManager $em)
     {
         $this->em = $em;

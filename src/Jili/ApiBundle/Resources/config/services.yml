@@ -132,8 +132,6 @@ services:
         calls:
             - [setLogger, ["@logger"]]
             - [setEntityManager, ["@doctrine.orm.entity_manager"] ]
-            - [setPointHistory, ["@general_api.point_history"] ]
-            - [setTaskHistory, ["@general_api.task_history"] ]
 
     general_api.point_history:
         class: %general_api.point_history.class%
