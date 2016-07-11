@@ -53,11 +53,6 @@ topcron:
     prefix:   /topcron
     type:     annotation
 
-api-offerwow:
-    resource: "@JiliApiBundle/Controller/OfferwowController.php"
-    type:     annotation
-    prefix:   /
-
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation

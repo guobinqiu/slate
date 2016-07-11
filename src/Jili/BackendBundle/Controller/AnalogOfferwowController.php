@@ -12,12 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * @Route("/analog/offerwow",requirements={"_scheme"="https"})
+ * 这个是测试用的代码，不能公开
  */
 class AnalogOfferwowController extends Controller implements  IpAuthenticatedController
 {
     /**
-     * @Route("/api")
+     * 
      */
     public function apiAction()
     {
@@ -44,7 +44,7 @@ class AnalogOfferwowController extends Controller implements  IpAuthenticatedCon
 
             //todo: check memberid exits in user table.
 
-            $sub_request_uri = $this->get('router')->getRouteCollection()->get('_api_offerwow_getinfo')->getPath();
+            $sub_request_uri = $this->get('router')->getRouteCollection()->get('api_offerwow_getinfo')->getPath();
 
             $subRequest =  Request::create($sub_request_uri,'GET', $params );
             $httpKernel = $this->container->get('http_kernel');

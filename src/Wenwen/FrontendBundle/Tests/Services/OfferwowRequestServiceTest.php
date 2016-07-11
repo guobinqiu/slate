@@ -17,6 +17,8 @@ class OfferwowRequestServiceTest extends WebTestCase
 
     private $offerwowRequestService;
 
+    private $container;
+
     /**
      * {@inheritDoc}
      */
@@ -25,6 +27,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         static::$kernel = static::createKernel();
         static::$kernel->boot();
         $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->container = self::$kernel->getContainer();
         $this->offerwowRequestService = static::$kernel->getContainer()->get('app.offerwow_request_service');
 
     }
@@ -151,7 +154,6 @@ class OfferwowRequestServiceTest extends WebTestCase
 
     public function testValidateParamsSignNotCorrect()
     {
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -170,7 +172,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsMemberidNotExist()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -204,7 +205,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsExistImmediate0()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -268,7 +268,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsExistImmediate1()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -332,7 +331,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsExistImmediate2()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -396,7 +394,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsExistImmediate3()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -460,7 +457,6 @@ class OfferwowRequestServiceTest extends WebTestCase
     public function testValidateParamsOK()
     {
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = 123; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -569,7 +565,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         
 
         // prepare test datas
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
@@ -628,7 +623,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '152'; // 随意，有值就好
@@ -697,7 +691,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '152'; // 随意，有值就好
@@ -764,7 +757,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        $this->container = self::$kernel->getContainer();
         // sign 不对
         $memberid = '123'; // 随意，有值就好
         $point = '152'; // 随意，有值就好
