@@ -63,16 +63,16 @@ class OfferwowRequestControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $json_response_content = $response->getContent();
-        print $json_response_content . PHP_EOL;
-        $response_content = json_decode($json_response_content, true);
+        $jsonResponseContent = $response->getContent();
+        print $jsonResponseContent . PHP_EOL;
+        $responseContent = json_decode($jsonResponseContent, true);
 
-        $expect_status = 'failure';
-        $expect_errno = 'offerwow-02';
+        $expectStatus = 'failure';
+        $expectErrno = 'offerwow-02';
 
         $this->assertEquals('403', $response->getStatusCode());
-        $this->assertEquals($expect_status, $response_content['status']);
-        $this->assertEquals($expect_errno, $response_content['errno']);
+        $this->assertEquals($expectStatus, $responseContent['status']);
+        $this->assertEquals($expectErrno, $responseContent['errno']);
 
     }
 
@@ -116,13 +116,13 @@ class OfferwowRequestControllerTest extends WebTestCase
         $this->em->persist($user);
         $this->em->flush();
 
-        $happen_time = date_create();
+        $happenTime = date_create();
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($parameter['memberid']); 
         $offerwowOrder->setEventid($parameter['eventid']);
         $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('0'));   
-        $offerwowOrder->setHappenedAt($happen_time);
-        $offerwowOrder->setCreatedAt($happen_time);
+        $offerwowOrder->setHappenedAt($happenTime);
+        $offerwowOrder->setCreatedAt($happenTime);
         $offerwowOrder->setDeleteFlag(0);
 
         // test request 
@@ -133,14 +133,14 @@ class OfferwowRequestControllerTest extends WebTestCase
         );
 
         $response = $this->client->getResponse();
-        $json_response_content = $response->getContent();
-        print $json_response_content . PHP_EOL;
-        $response_content = json_decode($json_response_content, true);
+        $jsonResponseContent = $response->getContent();
+        print $jsonResponseContent . PHP_EOL;
+        $responseContent = json_decode($jsonResponseContent, true);
 
 
-        $expect_status = 'success';
+        $expectStatus = 'success';
         $this->assertEquals('200', $response->getStatusCode());
-        $this->assertEquals($expect_status, $response_content['status']);
+        $this->assertEquals($expectStatus, $responseContent['status']);
 
     }
 

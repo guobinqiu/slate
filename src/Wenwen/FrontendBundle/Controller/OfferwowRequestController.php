@@ -37,9 +37,9 @@ class OfferwowRequestController extends Controller
         $response['eventid'] = $eventid;
         $response['immediate'] = $immediate;
 
-        $offerwow_request_service = $this->get('app.offerwow_request_service');
+        $offerwowRequestService = $this->get('app.offerwow_request_service');
         // 参数检查
-        $result = $offerwow_request_service->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
+        $result = $offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
         if($result['status'] === 'failure'){
             // 参数检查不通过时，返回错误信息给offerwow
             $response['status'] = $result['status'];
@@ -51,7 +51,7 @@ class OfferwowRequestController extends Controller
         }
 
         // 数据处理
-        $result = $offerwow_request_service->processEvent($memberid, $point, $eventid, $immediate, $programname);
+        $result = $offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         if($result){
             // 内部处理完成后，返回成功信息给offerwow
             $response['status'] = 'success';
