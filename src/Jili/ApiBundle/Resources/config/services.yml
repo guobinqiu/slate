@@ -148,10 +148,6 @@ services:
 
     offer99_request.processor:
         class: %offer99_request.processor.class%
-        calls:
-            - [setContainer, ["@service_container"] ]
-            - [setTaskLogger, ["@general_api.task_history"] ]
-            - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     duomai_request.validation:
