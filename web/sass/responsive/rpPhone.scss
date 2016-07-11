@@ -352,6 +352,22 @@
         } 
     } 
     
+    /*ssi permission page*/
+    .main{
+        .qnWrap{
+            .qnConBg{
+                height: 135%;
+            }
+        } 
+    }
+    .ssi-permission{
+        width: 100%;
+        p{
+            text-align: center;
+            float: none;
+        }
+    } 
+
     /*personal center*/
     .rp-personal-nav{
         overflow-x: scroll;
@@ -527,6 +543,11 @@
             }
         }
     }
+    .vote-sub{
+        .vote-btn{
+            display: none;
+        }
+    }
 }
 
 @media only screen and (max-width: 736px) and (orientation: portrait) {
@@ -536,13 +557,61 @@
     .hiddenPhonePor{
         display: none!important; 
     }
-    .survey .survey-btn{
-        display: none; 
+    .survey{
+        .survey-item{
+            li{
+                width: 100%!important;
+                &.last{
+                    text-align: left;
+                }
+                &:after{
+                    border: none;
+                }
+            }
+            .proRow{
+                .proNum{
+                    &:after{
+                        border: none;
+                    }
+                }
+            }
+        }
+        .survey-btn{
+            top: 47px;
+        }
+        li{
+            padding: 4px 5% 10px;
+        }
     }
-    .vote .vote-btn{
-        display: none;
+    .main-con-left .vote .vote-btn{
+        top: 47px;
     }
-
+    .vote{
+        li{
+            padding: 0px 5% 15px;
+        }
+    }
+    .vote-txt{
+        .relate{
+            & > div{
+                color: $weak-color;
+                font-size: .9rem!important;
+                height: 1.4rem;
+                line-height: 1.4rem;
+                i{
+                    font-size: .9rem!important;
+                    strong{
+                        color: #f55e00;
+                    }
+                }
+            }
+            span{
+                &.vline{
+                    border: none;
+                }
+            }
+        }
+    }
     .login-wrapper{
         width: 88%;
         position: initial;
@@ -887,7 +956,7 @@
 @media only screen and (max-width: 360px){
     .vote-sub{
         .vote-txt {
-            width: 66%;
+            width: 64%;
         }
         .relateVlist{  
             white-space: normal;
@@ -1007,50 +1076,6 @@
                 }
 
             }
-        }
-    }
-    #section2{
-        &.active{
-            .scoredPoints{
-                background: none;
-            }
-        }
-    }
-    .scoredPoints{
-        p{
-            width: 350px;
-        }
-    }
-    #section2{
-        &.active{
-            .scoredPointsItem{
-                .con{
-                    margin-top: -2px;
-                }
-                .liner{
-                    height: 27px;
-                }
-            }
-        }
-    }
-    .scoredPointsItem{
-        padding-bottom: 29px;
-        .icon{
-            width: 50px;
-            height: 50px;
-        }
-        .icon2{
-            top: 78px;
-        }
-        .icon3{
-            top: 156px;
-        }
-        .liner{
-            left: 85px;
-            top: 51px;
-        }
-        .liner2{
-            top: 128px;
         }
     }
 }

@@ -31,15 +31,15 @@
                 注册后，您可以随时和我们的客服联系退出SSI市场调查。<br>
                 如果您选择了是，那么您将会被导向SSI属性问卷页面。
               </div>
-              <form action="{{ path('_ssi_partner_commit') }}" method="post" style="margin:20px 0 0 0;" id="ssi_permission_form">
-                <div style="width:470px; height:30px; margin:0 auto;">
-                  <p style="width:240px; float:left; ">
-                    <input style="vertical-align: -2px;" type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ok" value="1" />
-                    <label for="permission-ok" style="font-size:86%;"> 是，我同意并愿意完成SSI属性问卷 </label>
+              <form action="{{ path('_ssi_partner_commit') }}" method="post" id="ssi_permission_form">
+                <div class="ssi-permission clearfix">
+                  <p>
+                    <input type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ok" value="1" />
+                    <label for="permission-ok"> 是，我同意并愿意完成SSI属性问卷 </label>
                   </p>
-                  <p style="float:left; margin:0 0 0 10px;">
-                    <input style="vertical-align: -2px;" type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ng" value="0" />
-                    <label for="permission-ng" style="font-size:86%;"> 否，我不愿意加入SSI市场调查活动 </label>
+                  <p>
+                    <input type="radio" name="SsiPartnerPermission[permission_flag]" id="permission-ng" value="0" />
+                    <label for="permission-ng"> 否，我不愿意加入SSI市场调查活动 </label>
                   </p>
                 </div>
                 <div class="prmError">{{ form_errors(form.permission_flag) }}</div>
