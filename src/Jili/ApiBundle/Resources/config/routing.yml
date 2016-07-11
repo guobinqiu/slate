@@ -43,11 +43,6 @@ marketActivity:
     prefix:   /marketActivity
     type:     annotation
 
-checkin:
-    resource: "@JiliApiBundle/Controller/CheckinController.php"
-    prefix:   /checkin
-    type:     annotation
-
 topcron:
     resource: "@JiliApiBundle/Controller/TopCronController.php"
     prefix:   /topcron
