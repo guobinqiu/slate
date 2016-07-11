@@ -13,8 +13,6 @@ parameters:
     points_manager.class: Jili\ApiBundle\Services\Points\Manager
 
     offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
-    offerwow_request.validation.class: Jili\ApiBundle\EventListener\OfferwowRequestValidation
-    offerwow_request.processor.class:  Jili\ApiBundle\EventListener\OfferwowRequestProcessor
 
     offer99_api_return.logger.class: Jili\ApiBundle\EventListener\Offer99ApiLogger
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
@@ -126,20 +124,6 @@ services:
 
     offerwow_api.init_log:
         class: %offerwow_api_return.logger.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    offerwow_request.validation:
-        class: %offerwow_request.validation.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    offerwow_request.processor:
-        class: %offerwow_request.processor.class%
-        calls:
-            - [setContainer, ["@service_container"] ]
-            - [setTaskLogger, ["@general_api.task_history"] ]
-            - [setPointLogger, ["@general_api.point_history"] ]
-            - [setRebatePointCaculator, ["@rebate_point.caculator"] ]
-
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     cps_access_history.logger:

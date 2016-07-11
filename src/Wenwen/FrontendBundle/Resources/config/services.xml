@@ -29,5 +29,11 @@
             <tag name="kernel.event_listener" event="console.exception" />
         </service>
 
+        <service id="app.offerwow_request_service" class="Wenwen\FrontendBundle\Services\OfferwowRequestService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+        </service>
+
     </services>
 </container>
