@@ -100,6 +100,7 @@ define(['jquery', 'touchSwipe'],function($){
                 }else if(direction == "down"){
                     SP.moveSectionUp();
                 }
+                $.event.special.swipe.verticalDistanceThreshold = 5;
             }
         });                   
     });
