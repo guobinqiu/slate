@@ -37,8 +37,8 @@
             margin-top: 0;
         }
         .login{
-            width: 270px;
-            height: 321px;
+            // width: 270px;
+            // height: 321px;
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
@@ -71,7 +71,7 @@
                 }
             }
             .login-con{
-                padding: 14px 28px;
+                // padding: 14px 28px;
                 p,p a{
                     font-size: .8rem!important;
                 }
@@ -1241,12 +1241,10 @@
             }
         }
     }
-}
-.main{
-    .login{
-        width: 80%;
-        left: 10%;
-        margin-left: initial;
+    .arrow-down{
+        width: 8px;
+        height: 8px;
+        padding: 20px;
     }
 }
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
@@ -1262,7 +1260,7 @@
                 top: 16%;
             }
             .login{
-                top: 30%;
+                top: 33%;
             }
         }
     }
@@ -1289,12 +1287,10 @@
             li{
                 padding-top: 4px;
                 input[type="text"],input[type="email"],input[type="password"]{
+                    width: 90%;
                     height: 30px;
                     line-height: 30px;
                     padding: 0 5%;
-                }
-                input[type="email"]{
-                    padding: 0;
                 }
                 span{
                     &.error,strong{

@@ -263,16 +263,16 @@ ul.menu{
 			visibility: visible;
 		}
 		h2{
-			top: 25%;
+			top: 17%;
 		}
 		.btns{
 			top: 45%;
 		}
 		.login{
-			top: 42%;
+			top: 28%;
 		}
 		.register{
-			top: 38%;
+			top: 20%;
 		}
 	}
 }
@@ -546,6 +546,17 @@ ul.menu{
 		visibility: hidden;
 	}
 }
+.main{
+    .login{
+        width: 80%;
+        left: 10%;
+        margin-left: initial;
+        form{
+            width: 285px;
+            margin: 0 auto;
+        }
+    }
+}
 .login{
 	background: none;
 	width: 285px;
@@ -619,12 +630,12 @@ ul.menu{
 			text-align: left;
 		}
 		input[type="text"], input[type="email"], input[type="password"]{
-			width: 90%;
 			height: 45px;
 			line-height: 45px;
 			border: none;
 			padding: 0 5%;
 			font-size: 14px;
+			display: block;
 			&:focus, &.active{
 				border: none;
 				box-shadow: none;

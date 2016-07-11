@@ -651,12 +651,15 @@
         }
         &.active{
            .sectionCon{
-               .item1{
-                    top: 38%;
-               }
-               .item2{
-                    top: 66%;
-               }
+                h2{
+                    top: 6%;
+                }
+                .item1{
+                    top: 32%;
+                }
+                .item2{
+                    top: 62%;
+                }
            } 
         }  
     }
@@ -756,6 +759,33 @@
     }
 
     /* landing page */
+    .main{
+        .login{
+            form{
+                li{
+                    input[type="text"], input[type="email"], input[type="password"]{
+                        height: 22px;
+                        line-height: 22px;
+                    }
+                    label{
+                        line-height: 22px;
+                    }
+                    span{
+                        &.error, strong{
+                            top: -11px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    #section0{
+        &.active{
+            .login{
+                top: 13%;
+            }
+        }
+    }
     #section1{
        .refNum{
           .num{
@@ -864,7 +894,36 @@
         }
     } 
 }
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+    .main{
+        .login{
+            form{
+                width: 100%;
+                li{
+                    input[type="text"], input[type="email"], input[type="password"]{
+                        height: 22px;
+                        line-height: 22px;
+                    }
+                    label{
+                        line-height: 22px;
+                    }
+                    span{
+                        &.error, strong{
+                            top: -11px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    #section0{
+        &.active{
+            .login{
+                top: 13%;
+            }
+        }
+    }
     #section2{
         &.active{
             .scoredPointsItem{
@@ -901,6 +960,16 @@
         }
         .liner2{
             top: 185px;
+        }
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+    #section0{
+        &.active{
+            .login{
+                top: 17%;
+            }
         }
     }
 }

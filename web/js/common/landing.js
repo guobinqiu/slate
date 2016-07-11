@@ -1,4 +1,4 @@
-define(['jquery'],function($){
+define(['jquery', 'touchSwipe'],function($){
     var defaults = {
         'container' : '#container',//容器
         'sections' : '.section',//子容器
@@ -89,6 +89,20 @@ define(['jquery'],function($){
         }
         return false;
     }
+
+    // 触摸手机全屏上下滑动滚屏
+     // $(document).ready(function(){
+     $(document).on("touchmove", function(){
+        $('#container').swipe({
+            swipe: function(event, direction, distance, duration, fingerCount){
+                if(direction == "up"){
+                    SP.moveSectionDown();
+                }else if(direction == "down"){
+                    SP.moveSectionUp();
+                }
+            }
+        });                   
+    });
 
     //横向布局初始化
     function initLayout(){

@@ -33,7 +33,9 @@ require.config({
         'scrollTop':'common/scrollTop',
         'feedbackForm':'common/feedbackForm',
         'loginForm':'common/loginForm', 
-        'landing': 'common/landing'
+        'landing': 'common/landing',
+        'touchSwipe': 'plugin/jquery.touchSwipe.min'
+
     },
      // map里面的js意味着 在加载requirejs配置里面的所有js加载前加载。
     map: {
