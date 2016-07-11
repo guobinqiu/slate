@@ -109,7 +109,7 @@ class MailCommandTest extends WebTestCase {
             ->setSubject($subject)
             ->setFrom(array('account@91jili.com' => '91问问调查网'))
             ->setTo($this->recipients())
-            ->setBody('你好你好你好', 'text/html');
+            ->setBody('testQQ testQQ testQQ', 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.qq');
         $count = $mailer->send($message);
         $this->assertEquals(5, $count);
@@ -121,7 +121,7 @@ class MailCommandTest extends WebTestCase {
             ->setSubject($subject)
             ->setFrom(array('support@91wenwen.com' => '91问问调查网'))
             ->setTo($this->recipients())
-            ->setBody('你好你好你好', 'text/html');
+            ->setBody('testWebpowerSys testWebpowerSys testWebpowerSys', 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $count = $mailer->send($message);
         $this->assertEquals(5, $count);
@@ -133,7 +133,7 @@ class MailCommandTest extends WebTestCase {
             ->setSubject($subject)
             ->setFrom(array('support@91wenwen.com' => '91问问调查网'))
             ->setTo($this->recipients())
-            ->setBody('', 'text/html');
+            ->setBody('testWebpowerMkt testWebpowerMkt testWebpowerMkt', 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
         $count = $mailer->send($message);
         $this->assertEquals(5, $count);
