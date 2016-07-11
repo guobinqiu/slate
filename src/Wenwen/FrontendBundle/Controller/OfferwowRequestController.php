@@ -10,13 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * @Route("/api/offerwow")
+ * Offerwow 数据回传用Controller
  */
 class OfferwowRequestController extends Controller
 {
     /**
-     * @Route("/getInfo", name="api_offerwow_getinfo");
-     * @Method({"GET","POST"});
+     * Offerwow 数据回传用Action
      */
     public function getInfoAction()
     {

@@ -5,6 +5,12 @@ _homepage:
     options:
         expose: true
 
+# offerwow 的数据回传接口
+api_offerwow_getinfo:
+    path: /api/offerwow/getInfo
+    defaults: { _controller: WenwenFrontendBundle:OfferwowRequest:getInfo}
+    methods:  [GET]
+
 wenwen_app:
     resource: "@WenwenAppBundle/Controller/"
     type:     annotation
