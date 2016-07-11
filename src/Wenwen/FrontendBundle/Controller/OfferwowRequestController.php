@@ -49,6 +49,7 @@ class OfferwowRequestController extends Controller
             $response['status'] = $result['status'];
             $response['errno'] = $result['errno'];
             $resp = new Response(json_encode($response));
+            $resp->setStatusCode(403);
             $resp->headers->set('Content-Type', 'application/json');
             return $resp;
         }

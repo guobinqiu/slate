@@ -62,15 +62,17 @@ class OfferwowRequestControllerTest extends WebTestCase
             $parameter
         );
 
-        $response = json_decode($this->client->getResponse()->getContent(), true);
-
-        print $response['memberid'];
+        $response = $this->client->getResponse();
+        $json_response_content = $response->getContent();
+        print $json_response_content . PHP_EOL;
+        $response_content = json_decode($json_response_content, true);
 
         $expect_status = 'failure';
         $expect_errno = 'offerwow-02';
 
-        $this->assertEquals($expect_status, $response['status']);
-        $this->assertEquals($expect_errno, $response['errno']);
+        $this->assertEquals('403', $response->getStatusCode());
+        $this->assertEquals($expect_status, $response_content['status']);
+        $this->assertEquals($expect_errno, $response_content['errno']);
 
     }
 
@@ -130,13 +132,15 @@ class OfferwowRequestControllerTest extends WebTestCase
             $parameter
         );
 
-        $json_response = $this->client->getResponse()->getContent();
-        print $json_response . PHP_EOL;
-        $response = json_decode($json_response, true);
+        $response = $this->client->getResponse();
+        $json_response_content = $response->getContent();
+        print $json_response_content . PHP_EOL;
+        $response_content = json_decode($json_response_content, true);
 
 
         $expect_status = 'success';
-        $this->assertEquals($expect_status, $response['status']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $this->assertEquals($expect_status, $response_content['status']);
 
     }
 
