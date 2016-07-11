@@ -13,9 +13,12 @@ use Wenwen\FrontendBundle\Command\SsiDeliveryNotificationMailCommand;
 
 class MailCommandTest extends WebTestCase {
 
+    private $container;
+
     public function setUp() {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
+        $this->container = static::$kernel->getContainer();
     }
 
     public function testSignupConfirmationMailCommand() {
@@ -97,5 +100,53 @@ class MailCommandTest extends WebTestCase {
             '--subject' => 'ssi delivery notification',
             //'--channel' => 'channel3',//sendcloud
         ));
+    }
+
+    public function testQQ()
+    {
+        $subject = 'testQQ';
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array('account@91jili.com' => '91问问调查网'))
+            ->setTo($this->recipients())
+            ->setBody('你好你好你好', 'text/html');
+        $mailer = $this->container->get('swiftmailer.mailer.qq');
+        $count = $mailer->send($message);
+        $this->assertEquals(5, $count);
+    }
+
+    public function testWebpowerSys() {
+        $subject = 'testWebpowerSys';
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array('support@91wenwen.com' => '91问问调查网'))
+            ->setTo($this->recipients())
+            ->setBody('你好你好你好', 'text/html');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
+        $count = $mailer->send($message);
+        $this->assertEquals(5, $count);
+    }
+
+    public function testWebpowerMkt() {
+        $subject = 'testWebpowerMkt';
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array('support@91wenwen.com' => '91问问调查网'))
+            ->setTo($this->recipients())
+            ->setBody('', 'text/html');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
+        $count = $mailer->send($message);
+        $this->assertEquals(5, $count);
+    }
+
+    //添加收件人here
+    private function recipients() {
+        return array(
+            'support@91wenwen.com',
+            'qracle@126.com',
+            'xiaoyi.chai@d8aspring.com',
+            '9615841@qq.com',
+            'mercurylovesea@163.com',
+        );
     }
 }

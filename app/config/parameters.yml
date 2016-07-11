@@ -51,7 +51,6 @@ parameters:
 
     #From the removed custom_parameters.yml
     domain: www.91wenwen.net
-    wenwen_support_email_address:  support@91wenwen.com
     cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
     alert_subject: '91问问-定时任务提醒邮件'
     jili_app.logs_dir: /data/91jili/logs
@@ -379,7 +378,6 @@ parameters:
             FAILED: -1            #-1 表示推送失败
 
     admin_vote_log_path: %jili_app.logs_dir%/admin/admin_vote.log
-    vote_suggest_mail_to: %wenwen_support_email_address%
 
 #生日错误
     birthday_error: "您选择的生日不正确"

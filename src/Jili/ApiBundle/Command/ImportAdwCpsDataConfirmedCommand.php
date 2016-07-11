@@ -155,11 +155,10 @@ EOT
             $body .= PHP_EOL;
             $body .= implode(PHP_EOL, $code);
 
-            $mailer_user = $this->getContainer()->getParameter('webpower_sender');
             $message = \Swift_Message::newInstance()
                 ->setSubject('成果确认数据导入结果 '. $env)
-                ->setFrom(array($mailer_user => '91问问调查网'))
-                ->setTo( $container->getParameter('cron_alertTo_contacts'))
+                ->setFrom(array($this->getContainer()->getParameter('webpower_sender') => '91问问调查网'))
+                ->setTo($container->getParameter('cron_alertTo_contacts'))
                 ->setBody($body);
 
             $container = $this->getContainer();
