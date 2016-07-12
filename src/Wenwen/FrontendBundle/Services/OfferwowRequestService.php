@@ -216,7 +216,7 @@ class OfferwowRequestService
             $this->em->persist($taskHistory);
             $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $status .'] ' . OrderBase::isCompleteStatus($status));
             // 20160707 给用户发放积分
-            if(self::IMMEDIATE_1 === $immediate || self::IMMEDIATE_2 === $immediate){
+            if(self::IMMEDIATE_1 == $immediate || self::IMMEDIATE_2 == $immediate){
                 $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
                 $pointHistory = new $pointHistoryClass();
                 $pointHistory->setUserId($userId);
@@ -243,13 +243,13 @@ class OfferwowRequestService
     *  注意，这其实只是一个private函数，供这个service用的，为了测试的时候准备测试数据方便，做成了public，偷懒了
     */
     public static function convertStatus($immediate){
-        if(self::IMMEDIATE_0 === $immediate){
+        if(self::IMMEDIATE_0 == $immediate){
             return OrderBase::getPendingStatus();
-        } elseif(self::IMMEDIATE_1 === $immediate){
+        } elseif(self::IMMEDIATE_1 == $immediate){
             return OrderBase::getSuccessStatus();
-        } elseif(self::IMMEDIATE_2 === $immediate){
+        } elseif(self::IMMEDIATE_2 == $immediate){
             return OrderBase::getSuccessStatus();
-        } elseif(self::IMMEDIATE_3 === $immediate){
+        } elseif(self::IMMEDIATE_3 == $immediate){
             return OrderBase::getFailedStatus();
         }
     }
