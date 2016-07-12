@@ -22,7 +22,9 @@ class OfferwowRequestService
 
     private $parameterService;
 
-    private $offerwowParams;
+    private $offerwowParamsWebsiteid;
+
+    private $offerwowParamsKey;
 
     // Todo 20160707 统一到别处
     const TASK_TYPE_OFFERWOW = '5';
@@ -41,7 +43,8 @@ class OfferwowRequestService
         $this->em = $em;
         $this->parameterService = $parameterService;
 
-        $this->offerwowParams = $this->parameterService->getParameter('offerwow_com');
+        $this->offerwowParamsWebsiteid = $this->parameterService->getParameter('offerwow_com.websiteid');
+        $this->offerwowParamsKey = $this->parameterService->getParameter('offerwow_com.key');
     }
 
     /**
@@ -70,11 +73,11 @@ class OfferwowRequestService
         }
 
         // b, 检查websiteid 是否匹配，如果不匹配的话，返回错误信息[offerwow-02]"网站id不存在" 
-        if($this->offerwowParams['websiteid'] != $websiteid){
-            $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] param->websiteid=[' . $this->offerwowParams['websiteid'] . ']');
+        if($this->offerwowParamsWebsiteid != $websiteid){
+            $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] param->websiteid=[' . $this->offerwowParamsWebsiteid . ']');
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-02';
-            $this->logger->warn(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . ']'. $result['errno'] . ' param->websiteid=[' . $this->offerwowParams['websiteid'] . '] websiteid=[' . $websiteid . ']');
+            $this->logger->warn(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . ']'. $result['errno'] . ' param->websiteid=[' . $this->offerwowParamsWebsiteid . '] websiteid=[' . $websiteid . ']');
             return $result;
         }
 
@@ -85,7 +88,7 @@ class OfferwowRequestService
             $eventid,
             $websiteid,
             $immediate,
-            $this->offerwowParams['key']
+            $this->offerwowParamsKey
             );
 
         if( strtoupper(md5(implode($hash) )) !=  $sign ) {
