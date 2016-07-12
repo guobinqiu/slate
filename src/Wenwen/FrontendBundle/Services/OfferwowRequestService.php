@@ -65,7 +65,7 @@ class OfferwowRequestService
         if(is_null($memberid) || is_null($point) || is_null($eventid) || is_null($websiteid) || is_null($immediate) || is_null($sign) ){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-01';
-            $this->logger->debug(__METHOD__ . ' parameter is not enough. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' parameter is not enough. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
@@ -73,7 +73,7 @@ class OfferwowRequestService
         if($this->offerwowParams['websiteid'] !== $websiteid){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-02';
-            $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
@@ -90,7 +90,7 @@ class OfferwowRequestService
         if( strtoupper(md5(implode($hash) )) !==  $sign ) {
             $result['status'] = 'failure';
             $result['errno'] = 'signature error';
-            $this->logger->debug(__METHOD__ . ' sign is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' sign is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
@@ -99,7 +99,7 @@ class OfferwowRequestService
         if(!$user){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-03';
-            $this->logger->debug(__METHOD__ . ' memberid is not exist. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' memberid is not exist. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
