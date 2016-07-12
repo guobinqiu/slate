@@ -25,7 +25,8 @@ class HomeController extends Controller
         $session = $request->getSession();
 
         if(!$session->has('uid')){
-            return $this->redirect($this->generateUrl('_user_login' ));
+            // return $this->redirect($this->generateUrl('_user_login' ));
+            return $this->render('WenwenFrontendBundle:Home:index.html.twig');;
         }
 
         //记住我

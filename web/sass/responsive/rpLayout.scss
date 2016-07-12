@@ -37,8 +37,7 @@
             margin-top: 0;
         }
         .login{
-            width: 270px;
-            height: 321px;
+            padding-right: 0;
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
@@ -71,7 +70,6 @@
                 }
             }
             .login-con{
-                padding: 14px 28px;
                 p,p a{
                     font-size: .8rem!important;
                 }
@@ -273,9 +271,6 @@
                 height: 38px;
             }
         }
-        // .proItem{
-        //     padding: 10px 5%;
-        // }
         .survey-btn{
             right: 5%;
         }
@@ -751,40 +746,6 @@
         } 
     }
 
-    /* register page */
-    .main-register{
-        padding: 30px 12%;
-        width: 100%;
-        li{
-            span,& > div,& #protocol{
-                font-size: .8rem!important;
-            }
-            input[type='text'],input[type='password'],input[type='email']{
-                width: 100%;
-            }
-            span{
-                margin-left: 0;
-            }
-        }
-        .subscribe{
-            .tips>b{
-                display: none;
-            }
-        }
-    }
-    .login-others{
-        display: none;
-    }
-    .main-register-btn{
-        width: 100%;
-        span{
-            width: 100%;
-        }
-        img{
-            display: none;
-        }
-    }
-
     /* resetPwd page */
     .main-resetPwd{
         padding: initial;
@@ -1094,7 +1055,7 @@
                 display: none;
             }
         }
-    }
+    } 
     .rp-hobby{
         position: relative;
         z-index: 1;
@@ -1104,7 +1065,7 @@
         }
         .rp-hobby-items{
             padding-left: 29%;
-        }
+        } 
     }
     /*personal center---my message*/
     .main-personal-message{
@@ -1123,6 +1084,319 @@
             }
         }
     }
+
+    /* landing page */
+    #section0{
+        h1{
+            margin-left: -39%;
+            a{
+                img{
+                    height: 36px;
+                }
+            }
+        }
+        &.active{
+            h2{
+                top: 30%!important;
+            }
+        }
+    }
+    .sectionCon{
+        h2{
+            width: 80%;
+            margin-left: 10%;
+            img{
+                width: 80%;
+            }
+        }
+        .btns{
+            a{
+                width: 213px;
+                height: 46px;
+                line-height: 46px;
+            }
+        }
+    }
+    #pages{
+        right: 12px;
+        li{
+            width: 8px;
+            height: 8px;
+            border: 2px solid #fff;
+            &.active{
+                width: 10px;
+                height: 10px;
+                margin-left: -1px; 
+            }
+        }
+    }
+    #section1{
+        .refNum{
+            width: 100%;
+            b{
+                font-size: 1.5rem!important;
+                font-weight: bold;
+            }
+            em{
+                margin-top: -6px;
+                &.chinese{
+                    font-size: .8rem!important;
+                    margin-top: -4px;
+                }
+            }
+            .tit{
+                margin-top: 6px;
+                font-size: .8rem!important;
+                color: #97A0A1;
+            }
+        }
+    }
+    #section2{
+        h2{
+            width: 60%;
+            left: initial;
+            margin-left: 20px;
+        }
+        &.active{
+            .scoredPointsItem{
+                .icon{
+                    background-size: cover;
+                }
+                .con{
+                    padding-left: 72px;
+                    margin-top: -6px;
+                }
+                .con1{
+                    margin-top: -14px;
+                }
+                .con2{
+                    margin-top: -17px;
+                }
+                .con3{
+                    margin-top: -20px;
+                }
+            }
+        }
+    }
+    .scoredPoints{
+        width: 100%;
+        left: initial;
+        margin-left: initial;
+        margin-bottom: initial;
+        h3{
+            font-size: 1.3rem!important;
+        }
+        p{
+            font-size: .8rem!important;
+        }
+    }
+    .scoredPointsItem{
+        .con{
+            padding-left: 70px;
+        }
+        .icon{
+            width: 83px;
+            height: 83px;
+            left: 20px;
+        }
+        .liner{
+            left: 61px;
+            top: 83px;  
+        }
+        .icon2{
+            top: 152px
+        }
+        .liner2{
+            top: 235px;
+        }
+        .icon3{
+            top: 303px;
+        }
+    }
+    #section4{
+        .sectionCon{
+            h2{
+                width: 60%;
+                margin-left: 20%;
+                img{
+                    width: 80%;
+                }
+            }
+        }
+    }
+    .arrow-down{
+        width: 8px;
+        height: 8px;
+        padding: 20px;
+    }
+}
+@media only screen and (max-width: 1024px) and (orientation: portrait) {
+    #section0{
+        .sectionCon{
+            h2{
+                width: 90%;
+                margin-left: 5%;
+            }
+        }
+        &.active{
+            .register{
+                top: 16%;
+            }
+            .login{
+                top: 33%;
+            }
+        }
+    }
+    #section2{
+        .sectionCon{
+            h2{
+                img{
+                    width: 100%;
+                }
+            }
+        }
+    }
+    #section3{
+        .sectionCon{
+            h2{
+                img{
+                    width: 70%;
+                }
+            }
+        }
+    }
+    .main{
+        .login{
+            li{
+                padding-top: 4px;
+                input[type="text"],input[type="email"],input[type="password"]{
+                    width: 90%;
+                    height: 30px;
+                    line-height: 30px;
+                    padding: 0 5%;
+                }
+                span{
+                    &.error,strong{
+                        top: -4px;
+                        font-size: .8rem!important;
+                    }
+                }
+                label{
+                    line-height: 26px;
+                }
+                #signup_captcha_error{
+                    li{
+                        padding-top: 0;
+                    }
+                }
+            }
+        }
+    }
+    .login{
+        .login-btn-others{
+            a{
+                width: 134px;
+                font-size: .8rem!important;
+                background-position: 15px 12px;
+                padding-left: 41px;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+    #section4{
+        .sectionCon{
+            h2{
+                img{
+                    width: 50%;
+                }
+            }
+        }
+    } 
+    .main{
+        .login{
+            li{
+                span{
+                    &.error,strong{
+                        top: -6px;
+                        right: -2px;
+                    }
+                }
+            }
+        }
+    }
+}
+@media only screen and (max-height: 800px) and (min-width: 1024px){
+    #section3{
+        &.active{
+            .sectionCon{
+                .item2,.item4{
+                    display: none;
+                }
+                .item1,.item3{
+                    top: 40%;
+                }
+
+            }
+        }
+    }
+}
+@media only screen and (max-height: 768px){
+    #section1{
+        .refNum{
+            .num{
+                margin-top: 3%;
+            }
+        }
+    } 
+    #section2{
+        &.active{
+            .scoredPoints{
+                top: 29%;
+                background-size: contain;
+                h3{
+                    font-size: 1.4rem;
+                    line-height: 40px;
+                }
+            }
+            .scoredPointsItem{
+                display: table-row;
+                height: 110px;
+                .con{
+                    padding-left: 80px;
+                }
+                .icon{
+                    width: 73px;
+                    height: 73px;
+                    background-size: cover;
+                }
+                .icon2{
+                    top: 115px;
+                }
+                .icon3{
+                    top: 230px;
+                }
+                .liner{
+                    left: 35px;
+                        top: 73px;
+                        height: 42px;
+                }
+                .liner2{
+                    top: 188px;
+                }
+            }
+        }
+    }
+    #section4{
+        &.active{
+            h2{
+                top: 25%;
+            }
+            .briefIntro{
+                top: 40%;
+            }
+        }
+    } 
 }
 @import "rpDesktop";
 @import "rpTablet";

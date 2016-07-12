@@ -165,7 +165,7 @@ define(['jquery'],function($){
                 regName: "#signup_nickname",
                 pwdStrength: "#pwdStrength"
              },
-            onFocus: "5-100位字符，密码至少包含1位字母和1位数字",
+            onFocus: "5-100位字符，至少包含1位字母和1位数字",
             succeed: "OK!",
             isNull: "请输入密码",
             error: {
@@ -297,7 +297,7 @@ define(['jquery'],function($){
             var regName = $(option.prompts.elements.regName).val();
             if((regName != undefined) && (validateRules.isNull(regName) == false) && (regName != "") && ($.trim(regName)) ==str1){
                 pwdStrength.hide();
-                validateSettings.error.run(option, "您的密码与昵称重合度太高，有被盗风险，请换一个密码");
+                validateSettings.error.run(option, "您的密码与昵称重合度太高，请换一个密码");
                 return;
             }
             var format = validateRules.isPwd(option.value);

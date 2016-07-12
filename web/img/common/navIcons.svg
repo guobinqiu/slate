@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="30px" height="209.698px" viewBox="0 0 30 209.698" enable-background="new 0 0 30 209.698" xml:space="preserve">
 <g>
@@ -93,4 +95,109 @@
 	v0.001c0,0.743,0.603,1.346,1.343,1.346h9.471l0.002-0.005h4.501c0.745,0,1.346-0.603,1.346-1.342v-2.46"/>
 <path fill="#9FADC7" d="M27.96,192.572l-4.845-4.846c-0.258-0.256-0.673-0.255-0.93,0v3.088H11.844c-0.552,0-1,0.447-1,1v2.445
 	c0,0.553,0.448,1,1,1h10.342v3.087c0.257,0.256,0.672,0.258,0.93,0l4.845-4.846C28.218,193.245,28.218,192.829,27.96,192.572z"/>
+=======
+=======
+>>>>>>> Stashed changes
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px"
+	 height="209.875px" viewBox="0 0 30 209.875" enable-background="new 0 0 30 209.875" xml:space="preserve">
+<g id="图层_1">
+	<g>
+		<g>
+			<defs>
+				<rect id="SVGID_20_" x="33.188" y="-139.75" width="353" height="150"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_20_"  overflow="visible"/>
+			</clipPath>
+			<g clip-path="url(#SVGID_2_)">
+				<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="295.3262" y1="5.4355" x2="295.3262" y2="-144.3809">
+					<stop  offset="0" style="stop-color:#4C94E3"/>
+					<stop  offset="1" style="stop-color:#407FC4"/>
+				</linearGradient>
+				<rect x="-132.899" y="-144.381" fill="url(#SVGID_3_)" width="856.452" height="149.816"/>
+				
+					<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-1377.2456" y1="10.417" x2="-1377.2456" y2="0.2578" gradientTransform="matrix(-1 0 0 1 -1084.5586 0)">
+					<stop  offset="0" style="stop-color:#3267A1;stop-opacity:0.7"/>
+					<stop  offset="0.2809" style="stop-color:#3871B0;stop-opacity:0.5023"/>
+					<stop  offset="0.671" style="stop-color:#3E7CBF;stop-opacity:0.2278"/>
+					<stop  offset="0.9946" style="stop-color:#407FC4;stop-opacity:0"/>
+				</linearGradient>
+				<polygon fill="url(#SVGID_4_)" points="-140.156,10.416 719.531,10.416 725.531,0.257 -134.156,0.257 				"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<path fill="none" stroke="#9FADC7" stroke-width="3.1632" stroke-miterlimit="10" d="M18.906,63.295H7.289
+			c-0.988,0-1.788-0.788-1.788-1.76V43.072c0-0.972,0.8-1.759,1.788-1.759h16.53c0.99,0,1.788,0.787,1.788,1.759v13.227"/>
+		
+			<line fill="none" stroke="#9FADC7" stroke-width="1.5689" stroke-linecap="round" stroke-miterlimit="10" x1="10.273" y1="48.566" x2="20.261" y2="48.566"/>
+		
+			<line fill="none" stroke="#9FADC7" stroke-width="1.5689" stroke-linecap="round" stroke-miterlimit="10" x1="10.273" y1="52.271" x2="20.261" y2="52.271"/>
+		
+			<line fill="none" stroke="#9FADC7" stroke-width="1.5689" stroke-linecap="round" stroke-miterlimit="10" x1="10.273" y1="55.79" x2="16.808" y2="55.79"/>
+		<g>
+			<path fill="#9FADC7" d="M23.448,57.877l-2.99,3.085v-2.8c0-0.157,0.138-0.285,0.308-0.285H23.448 M27.176,56.299h-6.41
+				c-1.041,0-1.886,0.835-1.886,1.863v6.695L27.176,56.299L27.176,56.299z"/>
+		</g>
+		<path fill="#FFFFFF" stroke="#9FADC7" stroke-width="1.8827" stroke-miterlimit="10" d="M20.839,39.539h-1.561v-0.878
+			c0-0.455-0.463-0.441-0.923-0.441h-2.721h-0.096h-2.717c-0.453,0-0.909-0.014-0.909,0.441v0.878h-1.538
+			c-0.73,0-1.541,0.37-1.541,1.097v1.572c0,0.729,0.811,1.538,1.541,1.538h5.164h0.096h5.204c0.742,0,1.564-0.809,1.564-1.538
+			v-1.572C22.403,39.909,21.581,39.539,20.839,39.539z"/>
+	</g>
+	<g>
+		
+			<rect x="5.043" y="121.8" fill="none" stroke="#9FADC7" stroke-width="2.824" stroke-miterlimit="10" width="20.957" height="13.185"/>
+		<path fill="#FFFFFF" stroke="#9FADC7" stroke-width="2.824" stroke-miterlimit="10" d="M27.239,124.252
+			c0,0.727-0.555,1.317-1.239,1.317H5.043c-0.705,0-1.271-0.591-1.271-1.317v-3.955c0-0.728,0.566-1.319,1.271-1.319H26
+			c0.685,0,1.239,0.592,1.239,1.319V124.252z"/>
+		
+			<line fill="none" stroke="#9FADC7" stroke-width="2.1646" stroke-miterlimit="10" x1="15.578" y1="118.533" x2="15.578" y2="134.325"/>
+		<path fill="none" stroke="#9FADC7" stroke-width="2.1646" stroke-miterlimit="10" d="M15.578,116.658c0,0,1.429-6.426,4.614-6.1
+			c3.188,0.333,2.86,2.203,2.311,3.182c-0.438,0.781-4.946,3.468-5.604,3.468C13.934,117.208,16.896,117.755,15.578,116.658z"/>
+		<path fill="none" stroke="#9FADC7" stroke-width="2.1646" stroke-miterlimit="10" d="M13.221,117.1c0,0-3.572-2.171-3.317-3.622
+			c0.221-1.263,1.826-1.87,2.813-1.433c0.987,0.437,2.861,3.403,2.861,4.613S13.221,117.1,13.221,117.1z"/>
+	</g>
+	<g>
+		
+			<path fill="none" stroke="#9FADC7" stroke-width="3.1378" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+			M3.349,16.442c0,0,10.166-12.649,12.108-12.649c2.372,0,11.893,12.573,11.893,12.573"/>
+		<g>
+			
+				<path fill="none" stroke="#9FADC7" stroke-width="3.1378" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+				M6.017,13.702v13.497c0,0.474,0.383,0.858,0.858,0.858h4.168c0.472,0,0.858-0.385,0.858-0.858v-7.588h7.095v7.588
+				c0,0.474,0.386,0.858,0.857,0.858h4.171c0.474,0,0.858-0.385,0.858-0.858V13.613"/>
+		</g>
+	</g>
+	
+		<path fill="none" stroke="#9FADC7" stroke-width="3.1584" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+		M27.52,96.077c-0.231-2.131-8.298-4.45-8.298-4.45l-0.119-1.085c0,0,0.446-0.938,1.182-1.972c0.909-1.272,1.944-2.953,1.902-4.892
+		v-2.288c0-3.886-2.897-7.032-6.472-7.032c-0.05,0-0.1,0.007-0.152,0.007c-0.052,0-0.102-0.007-0.152-0.007
+		c-3.573,0-6.469,3.146-6.469,7.032v2.771c0.047,1.225,0.993,3.137,1.9,4.409c0.735,1.033,1.179,1.975,1.179,1.975l-0.121,1.082
+		c0,0-8.062,2.319-8.293,4.45c-0.055,0.501-0.11,0.517-0.046,3.04c0,0,0.044,0.834,0.889,0.829c0.495,0,21.734,0,22.229,0
+		c0.845,0.005,0.891-0.829,0.891-0.829C27.631,96.594,27.574,96.578,27.52,96.077z"/>
+	<g>
+		
+			<path fill="none" stroke="#9FADC7" stroke-width="2.5102" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+			M15.878,162.321c-0.229,0.084-4.634,0.972-4.634,0.972l0.735-5.111l12.229-11.519c0.683-0.644,1.906-0.456,2.729,0.419
+			l0.918,0.973c0.822,0.873,0.933,2.104,0.252,2.749L15.878,162.321z"/>
+		
+			<path fill="none" stroke="#9FADC7" stroke-width="3.1378" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+			M24.895,159.502v9.446c0,0.844-0.685,1.53-1.532,1.53H5.693c-0.843,0-1.529-0.687-1.529-1.53v-19.175
+			c0-0.846,0.687-1.532,1.529-1.532h10.791"/>
+	</g>
+	<g>
+		
+			<path fill="none" stroke="#9FADC7" stroke-width="3.1378" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" d="
+			M21.192,183.527c3.496,2.107,5.832,5.94,5.832,10.318c0,6.648-5.395,12.041-12.045,12.041c-6.649,0-12.04-5.393-12.04-12.041
+			c0-4.375,2.329-8.204,5.819-10.313"/>
+		
+			<line fill="none" stroke="#9FADC7" stroke-width="3.1378" stroke-linecap="round" stroke-linejoin="bevel" stroke-miterlimit="10" x1="14.809" y1="178.712" x2="14.809" y2="191.494"/>
+	</g>
+</g>
+<g id="图层_2">
+</g>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 </svg>

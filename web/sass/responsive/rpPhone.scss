@@ -53,7 +53,7 @@
     .navCollapsed{
         position: absolute;
         right: 6%;
-        top: 0;
+        top: 0; 
         background: none;
         border: none;
         padding: 0;
@@ -120,7 +120,7 @@
             margin-right: 10px;
             width: 20px;
             height: 20px;
-            &.icons1{ 
+            &.icons1{
                 background: url(../../img/common/navIcons.svg) no-repeat 0 0;
                 background-size: cover;
             }
@@ -128,7 +128,7 @@
                 background: url(../../img/common/navIcons.svg) no-repeat 0 -23px;
                 background-size: cover;
             }
-            &.icons3{ 
+            &.icons3{
                 background: url(../../img/common/navIcons.svg) no-repeat 0 -47px;
                 background-size: cover;
             }
@@ -550,7 +550,7 @@
     }
 }
 
-@media only screen and (max-width: 667px) and (orientation: portrait) {
+@media only screen and (max-width: 736px) and (orientation: portrait) {
     .visiblePhonePor{
         display: inherit!important;
     }
@@ -633,6 +633,166 @@
             margin-bottom: 12px;
         }
     }
+
+    /* landing page */
+    .scoredPoints{
+        top: 23%;
+        p{
+            width: 190px;
+        }
+    }
+    #section1{
+       .refNum{
+          .num{
+              margin-top: 13%;
+          }     
+       } 
+       .sectionCon{
+            h2{
+                img{
+                    width: 90%;
+                }
+            }
+       }
+       &.active{
+            .briefIntro{
+                top: 52%;
+                font-size: .8rem!important;
+            }
+       }
+    } 
+    #section2{
+        &.active{
+            h2{
+                top: 9%;
+            }
+            .scoredPoints{
+                background: none;
+            }
+            .scoredPointsItem{
+                .liner{
+                    height: 77px;
+                }
+            }
+        }
+    }
+    .scoredPointsItem{
+        padding-bottom: 70px;
+        .icon2{
+            top: 141px;
+        }
+        .icon3{
+            top: 280px;
+        }
+        .liner{
+        }
+        .liner2{
+            top: 203px;
+        }
+    }
+    #section3{
+        .item{
+            width: 84%;
+            height: inherit;
+            margin-left: 8%;
+            background-size: contain;
+            left: initial;
+            padding: 10px;
+            &.item3,&.item4{
+                display: none;
+            }
+            .personal{
+                margin-top: 46px;
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
+                span{
+                    margin-left: 12px;
+                    font-size: .8rem!important;
+                    line-height: 1.2rem;
+                }
+            }
+            .talkCon{
+                font-size: .8rem!important;
+                line-height: 1.2rem;
+            }
+        }
+        &.active{
+           .sectionCon{
+                h2{
+                    top: 6%;
+                }
+                .item1{
+                    top: 32%;
+                }
+                .item2{
+                    top: 62%;
+                }
+           } 
+        }  
+    }
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) { 
+    .scoredPoints{
+        top: 24%;
+        h3{
+            font-size: 1.4rem !important;
+            line-height: 2rem;
+            height: 40px;
+        }
+        p{
+            width: 480px;
+            font-size: .8rem !important;
+        }
+    }
+    .scoredPointsItem{
+        padding-bottom: 32px;
+        .icon{
+            width: 63px;
+            height: 63px;
+            left: 60px;
+        }
+        .icon2{
+            top: 91px;
+        }
+        .icon3{
+            top: 182px;
+        }
+        .liner{
+            height: 38px;
+            left: 91px;
+            top: 63px;
+        }
+        .liner2{
+            top: 154px;
+        }
+        .con{
+            margin-top: -6px;
+            padding-left: 86px;
+        }
+    }
+    #section2{
+        &.active{
+           .scoredPointsItem{
+             .con{
+                padding-left: 91px;
+                margin-top: -2px;
+             }
+             .liner{
+                height: 28px;    
+             }
+           } 
+           h2{
+            top: 12%;
+           }
+        }  
+        h2{
+            img{
+                width: 200px;
+            }
+        }
+    }
 }
 @media only screen and (max-width: 667px) and (orientation: landscape) {
     .visiblePhoneLan{
@@ -666,6 +826,131 @@
             top: 40px;
         }
     }
+
+    /* landing page */
+    .main{
+        .login{
+            form{
+                li{
+                    input[type="text"], input[type="email"], input[type="password"]{
+                        height: 22px;
+                        line-height: 22px;
+                    }
+                    label{
+                        line-height: 22px;
+                    }
+                    span{
+                        &.error, strong{
+                            top: -11px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    #section0{
+        &.active{
+            .login{
+                top: 13%;
+            }
+        }
+    }
+    #section1{
+       .refNum{
+          .num{
+              margin-top: 3%;
+          }     
+       } 
+    }   
+    #section2{
+        h2{
+            width: 190px;
+            margin-left: 30px;
+        }
+        &.active{
+            h2{
+                top: 12%;
+            }
+            .scoredPoints{
+                height: 200px;
+                background-size: contain;
+                right: 5%;
+            }
+            .scoredPointsItem{
+                .liner{
+                    height: 38px;
+                }
+                .con{
+                    margin-top: -4px;
+                }
+            }
+        }
+    }
+    .scoredPoints{
+        top: 24%;
+        h3{
+            font-size: 1.2rem !important;
+            line-height: 2rem;
+            height: 32px;
+        }
+        p{
+            width: 280px;
+        }
+    }
+    .scoredPointsItem{
+        padding-bottom: 40px;
+        .icon{
+            width: 53px;
+            height: 53px;
+            left: 60px;
+        }
+        .icon2{
+            top: 92px;
+        }
+        .icon3{
+            top: 183px;
+        }
+        .liner{
+            height: 38px;
+            left: 85px;
+            top: 53px;
+        }
+        .liner2{
+            top: 145px;
+        }
+        .con{
+            margin-top: -6px;
+        }
+    }
+    #section3{
+        .item{
+            width: 300px;
+            background-size: contain;
+            margin: 0 auto;
+            padding: 10px;
+            top: 35%!important;
+            .talkCon{
+                font-size: .8rem!important;
+                line-height: 1.3rem;
+            }
+            .personal{
+                margin-top: 36px;
+            }
+        }
+        .item1{
+            left: 5%;
+        }
+        .item3{
+            right: 5%;
+        }
+        &.active{
+            .sectionCon{
+                .item2,.item4{
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 360px){
@@ -679,6 +964,84 @@
     } 
 }
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+    .main{
+        .login{
+            form{
+                width: 100%;
+                li{
+                    input[type="text"], input[type="email"], input[type="password"]{
+                        height: 22px;
+                        line-height: 22px;
+                    }
+                    label{
+                        line-height: 22px;
+                    }
+                    span{
+                        &.error, strong{
+                            top: -11px;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    #section0{
+        &.active{
+            .login{
+                top: 13%;
+            }
+        }
+    }
+    #section2{
+        &.active{
+            .scoredPointsItem{
+                .con{
+                    padding-left: 51px;
+                }
+                .liner{
+                    height: 58px;
+                    
+                }
+            }
+        }
+    }
+    .scoredPoints{
+        h3{
+            line-height: 42px;
+        }
+    }
+    .scoredPointsItem{
+        padding-bottom: 52px;
+        .icon{
+            width: 63px;
+            height: 63px;
+        }
+        .icon2{
+            top: 122px;
+        }
+        .icon3{
+            top: 243px;
+        }
+        .liner{
+            left: 50px;
+            top: 64px;
+        }
+        .liner2{
+            top: 185px;
+        }
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+    #section0{
+        &.active{
+            .login{
+                top: 17%;
+            }
+        }
+    }
+}
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
     .main-adv-con-text{
         display: none;
@@ -691,11 +1054,6 @@
     .main-adv{
         .login-wrapper{
             right: 0;
-        }
-    }
-    .main{
-        .login{
-            width: 100%;
         }
     }
     .rewardlist{
@@ -711,7 +1069,8 @@
                 .rPic2{
                     width: 115px;
                     background-position: -204px -4px;
-                }.rPic3{
+                }
+                .rPic3{
                     width: 115px;
                     background-position: -358px -4px;
                 }
@@ -720,4 +1079,3 @@
         }
     }
 }
-
