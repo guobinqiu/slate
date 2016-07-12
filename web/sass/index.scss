@@ -163,6 +163,7 @@ ul.menu{
 			font-size: 16px;
 			color: #2b2b2b;
 			background: #fff;
+			background: #ccc\9;
 			border-radius: 3px;
 			&[title="登录"]{
 				color: #fff;
@@ -254,6 +255,13 @@ ul.menu{
 #section0{
 	background-image: url(../img/landingpage/1.jpg);
 	color: #fff;
+	h1{
+		a{
+			img.logo{
+				display: none\9;
+			}
+		}
+	}
 	h2{
 		top: 28%;
 	}
@@ -308,7 +316,7 @@ ul.menu{
 		}
 		.num{
 			float: left;
-			margin-top: 7%;
+			margin-top: 5%;
 			width: 33.3333%;
 			text-align: center;
 		}
@@ -548,8 +556,9 @@ ul.menu{
 }
 .main{
     .login{
-        width: 80%;
-        left: 10%;
+        width: 100%;
+        // left: 50%;
+        padding-right: 142px;
         margin-left: initial;
         form{
             width: 285px;
@@ -563,9 +572,9 @@ ul.menu{
 	height: 360px;
 	position: absolute;
 	z-index: 6;
-	left: 50%;
+	// left: 50%;
 	top: 45%;
-	margin-left: -142px;
+	// margin-left: -142px;
 	opacity: 0;
 	visibility: hidden;
 	transition: all 500ms ease 1s;

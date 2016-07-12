@@ -13,7 +13,14 @@
 {% block body %}
 	<div id="container" class="sta">
 		<div class="section" id="section0">
-			<h1><a href="{{ path('_homepage') }}" title="首页"><img src="{{ asset('img/common/logo.svg') }}" alt="91问问"></a></h1>
+			<h1>
+				<a href="{{ path('_homepage') }}" title="首页">
+					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+					<!--[if lt IE 9]>
+						<img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+					<![endif]-->
+				</a>
+			</h1>
 			<a href="javascript:void(0)" class="btn expandBtn"></a>
 			<ul class="menu">
 				<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
@@ -113,4 +120,8 @@
 
 {% block javascript %}
 <script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index.js')}}"></script>
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="{{ asset('js/lib/respond.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>
+<![endif]-->
 {% endblock %}

@@ -51,7 +51,7 @@ define(['jquery', 'touchSwipe'],function($){
         if(iIndex){
             iIndex--;
         }else if(opts.loop){
-            iIndex = arrElement.length-1;
+            iIndex = 0;
         }
         scrollPage(arrElement[iIndex]);
     };
@@ -61,7 +61,7 @@ define(['jquery', 'touchSwipe'],function($){
         if(iIndex<(arrElement.length-1)){
             iIndex++;
         }else if(opts.loop){
-            iIndex = 0;
+            iIndex = arrElement.length-1;
         }
         scrollPage(arrElement[iIndex]);
     };
@@ -92,7 +92,7 @@ define(['jquery', 'touchSwipe'],function($){
 
     // 触摸手机全屏上下滑动滚屏
      // $(document).ready(function(){
-     $(document).on("touchmove", function(){
+     $(document).bind("touchmove", function(e){
         $('#container').swipe({
             swipe: function(event, direction, distance, duration, fingerCount){
                 if(direction == "up"){
@@ -100,8 +100,8 @@ define(['jquery', 'touchSwipe'],function($){
                 }else if(direction == "down"){
                     SP.moveSectionUp();
                 }
-                $.event.special.swipe.verticalDistanceThreshold = 5;
-            }
+            }, threshold:2,
+            maxTimeThreshold:2500
         });                   
     });
 
@@ -245,6 +245,9 @@ define(['jquery', 'touchSwipe'],function($){
         }
     }
 
+    //form定位
+    // $('.main .login').css('left','(100%-285px)/2');
+
     //绑定键盘事件
     function keyDown(){
         var keydownId;
@@ -265,7 +268,7 @@ define(['jquery', 'touchSwipe'],function($){
         SP.moveSectionDown();
     });
     $("#container").switchPage({
-        'loop' : true,
+        'loop' : false,
         'keyboard' : true,
     });
     var refNum = [8, 41500, 5000000];
