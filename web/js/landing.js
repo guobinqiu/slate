@@ -5,7 +5,7 @@ define(['jquery', 'touchSwipe'],function($){
         'easing' : 'ease',//特效方式，ease-in,ease-out,linear
         'duration' : 1000,//每次动画执行的时间
         'pagination' : true,//是否显示分页
-        'loop' : true,//是否循环
+        'loop' : false,//是否循环
         'keyboard' : true,//是否支持键盘
         'direction' : 'vertical',//滑动的方向 horizontal,vertical,
         'onpageSwitch' : function(pagenum){}
@@ -51,7 +51,7 @@ define(['jquery', 'touchSwipe'],function($){
         if(iIndex){
             iIndex--;
         }else if(opts.loop){
-            iIndex = arrElement.length-1;
+            iIndex = 0;
         }
         scrollPage(arrElement[iIndex]);
     };
@@ -61,7 +61,7 @@ define(['jquery', 'touchSwipe'],function($){
         if(iIndex<(arrElement.length-1)){
             iIndex++;
         }else if(opts.loop){
-            iIndex = 0;
+            iIndex = arrElement.length-1;
         }
         scrollPage(arrElement[iIndex]);
     };
@@ -268,7 +268,7 @@ define(['jquery', 'touchSwipe'],function($){
         SP.moveSectionDown();
     });
     $("#container").switchPage({
-        'loop' : true,
+        'loop' : false,
         'keyboard' : true,
     });
     var refNum = [8, 41500, 5000000];
