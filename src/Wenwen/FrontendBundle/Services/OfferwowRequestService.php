@@ -65,15 +65,16 @@ class OfferwowRequestService
         if(is_null($memberid) || is_null($point) || is_null($eventid) || is_null($websiteid) || is_null($immediate) || is_null($sign) ){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-01';
-            $this->logger->debug(__METHOD__ . ' parameter is not enough. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' parameter is not enough. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
         // b, 检查websiteid 是否匹配，如果不匹配的话，返回错误信息[offerwow-02]"网站id不存在" 
-        if($this->offerwowParams['websiteid'] !== $websiteid){
+        if($this->offerwowParams['websiteid'] != $websiteid){
+            $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] param->websiteid=[' . $this->offerwowParams['websiteid'] . ']');
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-02';
-            $this->logger->debug(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' websiteid is not correct. eventid=[' . $eventid . ']'. $result['errno'] . ' param->websiteid=[' . $this->offerwowParams['websiteid'] . '] websiteid=[' . $websiteid . ']');
             return $result;
         }
 
@@ -87,10 +88,10 @@ class OfferwowRequestService
             $this->offerwowParams['key']
             );
 
-        if( strtoupper(md5(implode($hash) )) !==  $sign ) {
+        if( strtoupper(md5(implode($hash) )) !=  $sign ) {
             $result['status'] = 'failure';
             $result['errno'] = 'signature error';
-            $this->logger->debug(__METHOD__ . ' sign is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' sign is not correct. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
@@ -99,7 +100,7 @@ class OfferwowRequestService
         if(!$user){
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-03';
-            $this->logger->debug(__METHOD__ . ' memberid is not exist. eventid=[' . $eventid . '] ' . $result['errno']);
+            $this->logger->warn(__METHOD__ . ' memberid is not exist. eventid=[' . $eventid . '] ' . $result['errno']);
             return $result;
         }
 
@@ -111,19 +112,19 @@ class OfferwowRequestService
         // 20160707 该表的eventid 似乎没有加index，记得加index
         $offerwowOrder = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
         if($offerwowOrder){
-            if(self::IMMEDIATE_0 === $immediate) {
+            if(self::IMMEDIATE_0 == $immediate) {
                 // 无论已经存在的offerwow_order的状态是什么，这条数据回传都不用再处理了
                 $result['status'] = 'failure';
                 $result['errno'] = 'offerwow-05';
                 $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                 return $result;
-            } elseif(self::IMMEDIATE_1 === $immediate){
+            } elseif(self::IMMEDIATE_1 == $immediate){
                 // 无论已经存在的offerwow_order的状态是什么，这条数据回传都不用再处理了
                 $result['status'] = 'failure';
                 $result['errno'] = 'offerwow-04';
                 $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                 return $result;
-            } elseif(self::IMMEDIATE_2 === $immediate){
+            } elseif(self::IMMEDIATE_2 == $immediate){
                 // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
                 $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $offerwowOrder->getStatus() .']');
                 if(OrderBase::isCompleteStatus($offerwowOrder->getStatus())){
@@ -133,7 +134,7 @@ class OfferwowRequestService
                     $this->logger->warn(__METHOD__ . ' already processed request. eventid=[' . $eventid . '] ' . $result['errno']);
                     return $result;
                 }
-            } elseif(self::IMMEDIATE_3 === $immediate){
+            } elseif(self::IMMEDIATE_3 == $immediate){
                 // 原有的设计更改了初始状态，没法比较，只能先留用原有的方法，来判断是否complete
                 if(OrderBase::isCompleteStatus($offerwowOrder->getStatus())){
                     // 3 为终结状态，只允许从 0 -> 3
@@ -215,7 +216,7 @@ class OfferwowRequestService
             $this->em->persist($taskHistory);
             $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=['. $status .'] ' . OrderBase::isCompleteStatus($status));
             // 20160707 给用户发放积分
-            if(self::IMMEDIATE_1 === $immediate || self::IMMEDIATE_2 === $immediate){
+            if(self::IMMEDIATE_1 == $immediate || self::IMMEDIATE_2 == $immediate){
                 $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
                 $pointHistory = new $pointHistoryClass();
                 $pointHistory->setUserId($userId);
@@ -242,13 +243,13 @@ class OfferwowRequestService
     *  注意，这其实只是一个private函数，供这个service用的，为了测试的时候准备测试数据方便，做成了public，偷懒了
     */
     public static function convertStatus($immediate){
-        if(self::IMMEDIATE_0 === $immediate){
+        if(self::IMMEDIATE_0 == $immediate){
             return OrderBase::getPendingStatus();
-        } elseif(self::IMMEDIATE_1 === $immediate){
+        } elseif(self::IMMEDIATE_1 == $immediate){
             return OrderBase::getSuccessStatus();
-        } elseif(self::IMMEDIATE_2 === $immediate){
+        } elseif(self::IMMEDIATE_2 == $immediate){
             return OrderBase::getSuccessStatus();
-        } elseif(self::IMMEDIATE_3 === $immediate){
+        } elseif(self::IMMEDIATE_3 == $immediate){
             return OrderBase::getFailedStatus();
         }
     }
