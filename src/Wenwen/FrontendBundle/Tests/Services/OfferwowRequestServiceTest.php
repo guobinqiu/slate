@@ -158,7 +158,8 @@ class OfferwowRequestServiceTest extends WebTestCase
         $memberid = '123'; // 随意，有值就好
         $point = '100'; // 随意，有值就好
         $eventid = '1021'; // 随意，有值就好
-        $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
+        //$websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
+        $websiteid = '1162'; // 跟配置文件中的offerwow_com.websiteid的值一致
         $immediate = '0'; // 随意，有值就好
         $sign = 'ahaha'; // 随意，有值就好
 
