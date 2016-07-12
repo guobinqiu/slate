@@ -112,33 +112,33 @@ class MailCommandTest extends WebTestCase {
 //            ->setBody('testQQ testQQ testQQ', 'text/html');
 //        $mailer = $this->container->get('swiftmailer.mailer.qq');
 //        $count = $mailer->send($message);
-//        $this->assertEquals(count($this->recipients), $count);
+//        $this->assertEquals(count($this->recipients()), $count);
 //    }
 
     public function testWebpowerSys() {
         $subject = 'testWebpowerSys';
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($this->container->getParamater('webpower_from') => '91问问调查网'))
+            ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
             ->setSender($this->container->getParameter('webpower_signup_sender'))
             ->setTo($this->recipients())
             ->setBody('testWebpowerSys testWebpowerSys testWebpowerSys', 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $count = $mailer->send($message);
-        $this->assertEquals(count($this->recipients), $count);
+        $this->assertEquals(count($this->recipients()), $count);
     }
 
     public function testWebpowerMkt() {
         $subject = 'testWebpowerMkt';
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($this->container->getParamater('webpower_from') => '91问问调查网'))
+            ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
             ->setSender($this->container->getParameter('webpower_sender'))
             ->setTo($this->recipients())
             ->setBody('testWebpowerMkt testWebpowerMkt testWebpowerMkt', 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
         $count = $mailer->send($message);
-        $this->assertEquals(count($this->recipients), $count);
+        $this->assertEquals(count($this->recipients()), $count);
     }
 
     //添加收件人here
