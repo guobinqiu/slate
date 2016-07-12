@@ -144,7 +144,6 @@ class MailCommandTest extends WebTestCase {
     //添加收件人here
     private function recipients() {
         return array(
-            'support@91wenwen.com',
             'qracle@126.com',
             'xiaoyi.chai@d8aspring.com',
             '9615841@qq.com',
