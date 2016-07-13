@@ -639,7 +639,8 @@ ul.menu{
 			text-align: left;
 		}
 		input[type="text"], input[type="email"], input[type="password"]{
-			height: 45px;
+			width: 90%;
+			height: 45px; 
 			line-height: 45px;
 			border: none;
 			padding: 0 5%;
