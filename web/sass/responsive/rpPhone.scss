@@ -250,7 +250,6 @@
             float: initial;
             & > div{
                 margin: 0 auto;
-                // width: 50%;
                 text-align: center;
             }
             & .pic, & dl{
@@ -904,13 +903,6 @@
             }
         }
     } 
-    #section0{
-        &.active{
-            .login{
-                top: 13%;
-            }
-        }
-    }
     #section1{
        .refNum{
           .num{
@@ -1019,15 +1011,6 @@
         }
     } 
 }
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
-    #section0{
-        &.active{
-            .login{
-                top: 17%;
-            }
-        }
-    }
-}
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
     .main{
         .login{
@@ -1035,28 +1018,15 @@
                 width: 100%;
                 li{
                     input[type="text"], input[type="email"], input[type="password"]{
-                        height: 22px;
-                        line-height: 22px;
-                    }
-                    label{
-                        line-height: 22px;
                     }
                     span{
                         &.error, strong{
-                            top: -11px;
                         }
                     }
                 }
             }
         }
     } 
-    #section0{
-        &.active{
-            .login{
-                top: 13%;
-            }
-        }
-    }
     #section2{
         &.active{
             .scoredPointsItem{
