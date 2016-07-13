@@ -266,7 +266,7 @@ ul.menu{
 		top: 28%;
 	}
 	&.active{
-		.btns, .login{
+		.btns{
 			opacity: 1;
 			visibility: visible;
 		}
@@ -573,10 +573,8 @@ ul.menu{
 	position: absolute;
 	z-index: 6;
 	// left: 50%;
-	top: 45%;
+	top: 28%;
 	// margin-left: -142px;
-	opacity: 0;
-	visibility: hidden;
 	// transition: all 500ms ease 1s;
 	.login-btn{
 		margin-top: 15px;
@@ -732,6 +730,7 @@ ul.menu{
 /*-----------rewrite reg style------------*/
 .register{
 	height: 450px;
+	top: 20%;
 	li{
 		&.subscribe{
 			text-align: left;
