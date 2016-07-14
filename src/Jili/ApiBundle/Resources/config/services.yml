@@ -181,8 +181,6 @@ services:
         class: %point_manage.processor.class%
         calls:
             - [setContainer, ["@service_container"] ]
-            - [setTaskLogger, ["@general_api.task_history"] ]
-            - [setPointLogger, ["@general_api.point_history"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     session.task_list:
