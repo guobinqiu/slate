@@ -98,6 +98,7 @@ i, cite, em, var, address, dfn {
     font-style: normal;
 }
 .main{
+    overflow: auto\9;
     margin-top: 2px;
     &.unlogin{
     	margin-top: 0px;

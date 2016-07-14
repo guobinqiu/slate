@@ -33,7 +33,7 @@ framework:
     fragments:       ~
     templating:
         engines: ['twig']
-        assets_version: 'v000008'
+        assets_version: 'v000009'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
