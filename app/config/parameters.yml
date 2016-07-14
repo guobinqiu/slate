@@ -4,7 +4,7 @@ parameters:
     base_url:   ~
 
     ssi_project_survey:
-        title: "SSI海外调查"
+        title: "高积分海外调查"
         point: 180
 
 #SOP
