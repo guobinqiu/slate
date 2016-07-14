@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}问卷结束：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}出错啦{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
@@ -15,7 +15,7 @@
         <div class="qnEndTxt">
             {# ログインしていない場合 #}
             {% if errors.panelist_is_not_authenticated is defined and errors.panelist_is_not_authenticated %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>请您先登陆您的账户再访问此页。</div>
+            <div class="txt"><h2>亲爱的用户！您好！</h2>请您先登录您的账户再访问此页。</div>
             {# 既に回答済み・未配信などで 回答権利をもっていない場合  #}
             {% elseif errors.panelist_has_already_answered is defined and errors.panelist_has_already_answered %}
             <div class="txt"><h2>亲爱的用户！您好！</h2>您已经参加过本次调查活动，谢谢您的参加！</div>
