@@ -58,6 +58,7 @@ $slider-height: 305px;
 	height: 91px; 
 	background: url(../img/home/homeBrBg.jpg) no-repeat center center #465b76;
 	background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg',sizingMethod='scale');
 	.faceWapper{
 		margin-right: 13px;
 		@include dib();
