@@ -380,8 +380,9 @@ class DefaultController extends Controller
         }
         $message = \Swift_Message::newInstance();
         $message->setSubject($subject);
-        $message->setFrom(array($this->container->getParameter('qqmail_sender') => '91问问调查网'));
-        $message->setTo('support@91wenwen.com');
+        $message->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'));
+        $message->setSender($this->container->getParameter('webpower_signup_sender'));
+        $message->setTo($this->container->getParameter('cs_mail'));
         $message->setReplyTo($email);
         $message->setBody('<html>' .
         '<head></head>' .
@@ -393,7 +394,7 @@ class DefaultController extends Controller
         '浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
         '</body>' .
         '</html>', 'text/html');
-        $flag = $this->get('swiftmailer.mailer.qq')->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_signup_mailer')->send($message);
         if (!$flag) {
             $code = 4;
         }

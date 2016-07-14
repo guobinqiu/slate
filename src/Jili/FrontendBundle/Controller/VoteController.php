@@ -387,11 +387,12 @@ class VoteController extends Controller
         $subject = '[QS] ' . $values['title'];
         $message = \Swift_Message::newInstance()
                         ->setSubject($subject)
-                        ->setFrom(array($this->container->getParameter('qqmail_sender') => '91问问调查网'))
-                        ->setTo('support@91wenwen.com')
+                        ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+                        ->setSender($this->container->getParameter('webpower_signup_sender'))
+                        ->setTo($this->container->getParameter('cs_mail'))
                         ->setReplyTo($user->getEmail())
                         ->setBody($content);
-        $mailer = $this->container->get('swiftmailer.mailer.qq');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $mailer->send($message);
     }
 

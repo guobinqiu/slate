@@ -463,4 +463,5 @@ parameters:
           active: 1
           agreed: 10
 
-
+    #客服邮箱
+    cs_mail: cs@91wenwen.net

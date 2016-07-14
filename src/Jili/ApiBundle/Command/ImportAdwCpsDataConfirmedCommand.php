@@ -157,12 +157,12 @@ EOT
 
             $message = \Swift_Message::newInstance()
                 ->setSubject('成果确认数据导入结果 '. $env)
-                ->setFrom(array($this->getContainer()->getParameter('webpower_sender') => '91问问调查网'))
+                ->setFrom(array($container->getParameter('webpower_from') => '91问问调查网'))
+                ->setSender($container->getParameter('webpower_signup_sender'))
                 ->setTo($container->getParameter('cron_alertTo_contacts'))
                 ->setBody($body);
 
-            $container = $this->getContainer();
-            $mailer = $container->get('swiftmailer.mailer.webpower_mailer');
+            $mailer = $container->get('swiftmailer.mailer.webpower_signup_mailer');
             $mailer->send($message);
 
         } else {
