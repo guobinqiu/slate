@@ -391,7 +391,7 @@ class VoteController extends Controller
                         ->setSender($this->container->getParameter('webpower_signup_sender'))
                         ->setTo($this->container->getParameter('cs_mail'))
                         ->setReplyTo($user->getEmail())
-                        ->setBody($content);
+                        ->setBody($content, 'text/html');
         $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $mailer->send($message);
     }
