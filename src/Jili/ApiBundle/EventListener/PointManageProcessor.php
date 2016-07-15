@@ -14,9 +14,6 @@ class PointManageProcessor {
     private $logger;
     private $container_;
 
-    private $task_logger;
-    private $point_logger;
-
     public function __construct(LoggerInterface $logger, EntityManager $em) {
         $this->logger = $logger;
         $this->em = $em;
@@ -122,7 +119,7 @@ class PointManageProcessor {
                 'point' => $point,
                 'type' => $category_type
             );
-            $this->getPointHistory($params);
+            $this->createPointHistory($params);
 
             //更新task_history表分数
             $params = array (
@@ -135,7 +132,7 @@ class PointManageProcessor {
                 'date' => date_create(date('Y-m-d H:i:s')),
                 'status' => 1
             );
-            $this->initTaskHistory($params);
+            $this->createTaskHistory($params);
         
             $db_connection->commit();
             $em->clear();
@@ -149,13 +146,45 @@ class PointManageProcessor {
         return $message;
     }
 
-    private function initTaskHistory($params = array ()) {
+    public function createPointHistory(array $params = array() )
+    {
         extract($params);
-        return $this->task_logger->init($params);
+
+        $point_history = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10);
+
+        $po = new $point_history();
+
+        $em = $this->em;
+        $po->setUserId($userid);
+        $po->setPointChangeNum($point);
+        $po->setReason($type);
+        $em->persist($po);
+        $em->flush();
     }
 
-    private function getPointHistory($params = array ()) {
-        $this->point_logger->get($params);
+    public function createTaskHistory( array $params=array())
+    {
+        extract($params);
+        $em = $this->em;
+        $flag =  $userid % 10;
+        $task_history = 'Jili\ApiBundle\Entity\TaskHistory0'. $flag;
+        $po = new $task_history();
+        $po->setUserid($userid);
+        $po->setOrderId($orderId);
+        $po->setOcdCreatedDate($date);
+        $po->setCategoryType($categoryType);
+        $po->setTaskType($taskType);
+        $po->setTaskName(trim($task_name));
+        $po->setDate($date);
+        $po->setPoint( $point);
+        $po->setStatus($status);
+
+        if(isset($reward_percent)) {
+            $po->setRewardPercent( $reward_percent );
+        }
+
+        $em->persist($po);
+        $em->flush();
     }
 
     public function getParameter($key) {
@@ -164,13 +193,5 @@ class PointManageProcessor {
 
     public function setContainer($c) {
         $this->container_ = $c;
-    }
-
-    public function setTaskLogger(TaskHistory $task_logger) {
-        $this->task_logger = $task_logger;
-    }
-
-    public function setPointLogger(PointHistory $point_logger) {
-        $this->point_logger = $point_logger;
     }
 }

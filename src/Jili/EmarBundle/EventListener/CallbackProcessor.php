@@ -164,9 +164,9 @@ class CallbackProcessor
             );
 
             if ( $is_new) {
-                $this->taskLogger->init($task_logger_params);
+                $this->createTaskHistory($task_logger_params);
             } else {
-                $this->taskLogger->update($task_logger_params);
+                $this->updateTaskHistory($task_logger_params);
             }
 
         } elseif ($request_status === $config_of_order_status['valid'] || $request_status === $config_of_order_status['invalid'] ) {
@@ -196,7 +196,7 @@ class CallbackProcessor
                 'status' => $status
             );
 
-            $taskHistory = $this->taskLogger->update($params);
+            $taskHistory = $this->updateTaskHistory($params);
             // 修改积分
             if( $is_order_valid) {
 
@@ -208,13 +208,88 @@ class CallbackProcessor
                 $em->persist($user);
                 $em->flush();
 
-                $this->pointLogger->get( array( 'userid'=>$uid, 'point'=>$point, 'type'=>$category_id ));
+                $this->createPointHistory( array( 'userid'=>$uid, 'point'=>$point, 'type'=>$category_id ));
             }
         }
 
         $return = array('value'=>true, 'code'=> $config_of_return_codes['finished'] );
         return $return;
     }
+
+    public function createPointHistory(array $params = array() )
+    {
+        extract($params);
+
+        $point_history = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userid % 10);
+
+        $po = new $point_history();
+
+        $em = $this->em;
+        $po->setUserId($userid);
+        $po->setPointChangeNum($point);
+        $po->setReason($type);
+        $em->persist($po);
+        $em->flush();
+
+    }
+
+    public function createTaskHistory( array $params=array())
+    {
+        extract($params);
+        $em = $this->em;
+        $flag =  $userid % 10;
+        $task_history = 'Jili\ApiBundle\Entity\TaskHistory0'. $flag;
+        $po = new $task_history();
+        $po->setUserid($userid);
+        $po->setOrderId($orderId);
+        $po->setOcdCreatedDate($date);
+        $po->setCategoryType($categoryType);
+        $po->setTaskType($taskType);
+        $po->setTaskName(trim($task_name));
+        $po->setDate($date);
+        $po->setPoint( $point);
+        $po->setStatus($status);
+
+        if(isset($reward_percent)) {
+            $po->setRewardPercent( $reward_percent );
+        }
+
+        $em->persist($po);
+        $em->flush();
+    }
+
+    public function updateTaskHistory( array $params=array())
+    {
+        $em = $this->em;
+        extract($params);
+
+        $flag =  $userid % 10;
+        $taskRepository = $em->getRepository('JiliApiBundle:TaskHistory0'. $flag);
+
+        //TODO: update more simplicity.
+        $taskHistory= $taskRepository->findOneBy(array( 'orderId'=> $orderId,'taskType'=> $taskType) );
+
+        if($taskHistory) {
+            $po = $taskRepository->findOneById($taskHistory->getId() );
+            $po->setDate($date);
+
+            if(isset($point)) {
+                $po->setPoint( $point );
+            }
+            if(isset($reward_percent)) {
+                $po->setRewardPercent( $reward_percent );
+            }
+
+            $po->setStatus($status);
+            $em->persist($po);
+            $em->flush();
+        } else {
+            $po = null;
+        }
+        return $po;
+
+    }
+
 
     public function getParameter($key)
     {
@@ -224,16 +299,6 @@ class CallbackProcessor
     public function setContainer($c)
     {
         $this->container_ = $c;
-    }
-
-    public function setTaskLogger(TaskHistory $taskLogger)
-    {
-        $this->taskLogger = $taskLogger;
-    }
-
-    public function setPointLogger(PointHistory $pointLogger)
-    {
-        $this->pointLogger = $pointLogger;
     }
 
     public function setRebatePointCaculator(RebateActivity $calc)
