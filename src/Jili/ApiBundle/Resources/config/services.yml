@@ -8,8 +8,6 @@ parameters:
     monolog.logger.import_adw_cps.class: Jili\ApiBundle\Services\Logger\ImportAdwCpsLogger
     monolog.processor.session_request.class: Jili\ApiBundle\Services\Session\SessionRequestProcessor
 
-    general_api.task_history.class: Jili\ApiBundle\EventListener\TaskHistory
-    general_api.point_history.class: Jili\ApiBundle\EventListener\PointHistory
     points_manager.class: Jili\ApiBundle\Services\Points\Manager
 
     offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
@@ -106,19 +104,11 @@ services:
         calls:
             - [setContainer, ["@service_container"] ]
 
-    general_api.task_history:
-        class: %general_api.task_history.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
     points_manager:
         class: %points_manager.class%
         calls:
             - [setLogger, ["@logger"]]
             - [setEntityManager, ["@doctrine.orm.entity_manager"] ]
-
-    general_api.point_history:
-        class: %general_api.point_history.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     offerwow_api.init_log:
         class: %offerwow_api_return.logger.class%
