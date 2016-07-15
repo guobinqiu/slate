@@ -54,8 +54,6 @@ services:
         arguments: [ @logger,@doctrine.orm.entity_manager ]
         calls:
             - [setContainer, [@service_container] ] 
-            - [setTaskLogger, [@general_api.task_history] ]
-            - [setPointLogger, [@general_api.point_history] ]
             - [setRebatePointCaculator, [@rebate_point.caculator] ]
             - [setConfig, [%emar%] ] 
 
