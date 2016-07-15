@@ -9,7 +9,7 @@ _homepage:
 api_offerwow_getinfo:
     path: /api/offerwow/getInfo
     defaults: { _controller: WenwenFrontendBundle:OfferwowRequest:getInfo}
-    methods:  [GET]
+    methods:  [GET, POST]
 
 wenwen_app:
     resource: "@WenwenAppBundle/Controller/"
