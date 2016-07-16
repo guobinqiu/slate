@@ -164,7 +164,8 @@ class UserLogin
             $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
             $this->initSession($user);
             $this->updateInfoSession($user);
-            $this->user_config->updateCheckinOpMethod();
+            // 20160716 二逼做的东西，为了提高一点访问速度，去掉不必要的操作(autocheckin)
+            //$this->user_config->updateCheckinOpMethod();
         }
     }
 
