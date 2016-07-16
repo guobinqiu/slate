@@ -33,6 +33,9 @@ class Offer99RequestProcessor
         $tid = $request->query->get('tid');
         $user_id = $request->query->get('uid');
         $point = $request->query->get('vcpoints');
+        // 20160716 暂时懒得重构这块的代码，先把需要的数据补齐
+        // 记录offer99那边回传的任务名称，因为现在没有检查这个任务名称的参数是否存在，万一没有的话用固定名称
+        $offer_name = $request->query->get('offer_name', $task_name);
         $happen_time = date_create();
 
         $em = $this->em;
@@ -71,7 +74,7 @@ class Offer99RequestProcessor
         $taskHistory->setCategoryType($category_type);
         $taskHistory->setTaskType($task_type);
         $taskHistory->setRewardPercent(0);
-        $taskHistory->setTaskName($task_name);
+        $taskHistory->setTaskName($offer_name);
         $taskHistory->setDate($happen_time);
         $taskHistory->setPoint($point);
         $taskHistory->setStatus(1);
