@@ -17,18 +17,15 @@ html,body{
 h1{
 	position: absolute;
 	z-index: 5;
-	top: 15px;
-	width: 1000px;
-	left: 50%;
-	margin-left: -500px;
+	top: 30px;
+	left: 5%;
 	text-align: left;
 }
 .btn{
 	position: absolute;
 	z-index: 6;
 	top: 20px;
-	right: 50%;
-	margin-right: -500px;
+	right: 5%;
 	text-align: center;
 	width: 65px;
 	height: 35px;
@@ -76,7 +73,7 @@ ul.menu{
 	z-index: 7;
 	top: 75px;
 	right: 50%;
-	margin-right: -500px; 
+	// margin-right: -500px; 
 	width: 0;
 	text-align: center;
 	background: #fff;
@@ -504,7 +501,7 @@ ul.menu{
 #pages{
 	position: fixed;
 	z-index: 1000;
-	right: 40px;
+	right: 3%;
 	top: 43%;
 	list-style: none;
 	li{
@@ -789,6 +786,14 @@ ul.menu{
 		line-height: 22px;
 	}
 }
+/* drop menu */
+.dropMenu{
+	position: fixed;
+	top: 10px;
+	right: 5%;
+	z-index: 2;
+}
+
 /*-----------arrow style------------*/
 .arrow{
 	position: fixed;

@@ -118,7 +118,7 @@ define(['jquery', 'touchSwipe'],function($){
     function initPagination(){
         var length = sections.length;
         if(length){ }
-        var pageHtml = '<ul id="pages"><li class="active"></li>';
+        var pageHtml = '<ul id="pages" class="hiddenPhone visibleDesktop visibleTablet"><li class="active"></li>';
         for(var i=1;i<length;i++){
             pageHtml += '<li></li>';
         }
