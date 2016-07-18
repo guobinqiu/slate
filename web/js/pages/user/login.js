@@ -53,13 +53,13 @@ $(function(){
     var errorCode = $('#error_code').val();
     if(errorCode != undefined){
         $emailError.html(errorCode).addClass('error').attr('display', 'block');
-        setTimeout(function(){tips.addClass('active');}, 500);
     };
 
     /*---sinaWeibo and QQ quick login prompt---*/
     var wbLog = $('.weibo-login'),qqLog = $('.qq-login');
     var wqClose = $('.quickLCon .closeBtn').add('.quickLCon .cancelBtn');
     var wbPCon = $('#wbLogCon'),qqPCon = $('#qqLogCon');
+    var mask = $('.mask');
     wbLog.on('click', function(){
         mask.show();
         wbPCon.show().addClass('active');
