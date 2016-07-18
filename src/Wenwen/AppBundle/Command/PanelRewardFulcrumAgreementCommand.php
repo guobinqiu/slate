@@ -12,6 +12,7 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
+    const POINT_TYPE_COST = 11;
     const USER_AGREEMENT_ACTIVE = 'ACTIVE';
     private $comment = '';
     private $point   = 0;
