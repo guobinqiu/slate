@@ -12,8 +12,6 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
-    const POINT_TYPE_COST = 11;
-    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
     private $comment = '';
     private $point   = 0;
 
@@ -68,9 +66,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
-            return true;
-        }
         return false;
     }
 
