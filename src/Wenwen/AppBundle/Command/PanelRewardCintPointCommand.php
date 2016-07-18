@@ -6,13 +6,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\CintResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardCintPointCommand extends PanelRewardCommand
 {
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
-
     protected function configure()
     {
         $this->setName('panel:reward-cint-point')->setDescription('request SOP API and reward points based on retrived data')->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
@@ -37,12 +36,12 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return $this->sop_configure['sop_point_type'][$history['extra_info']['point_type']];
+        return CategoryType::CINT;
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)

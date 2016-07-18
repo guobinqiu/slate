@@ -11,11 +11,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Wenwen\AppBundle\Utility\SopValidator;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
-use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\DeliveryNotification;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\FulcrumDeliveryNotification;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\SopDeliveryNotification;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/",requirements={"_scheme"="https"})
@@ -101,8 +101,8 @@ class SopApiController extends Controller
 
             // add point
             $service = $this->container->get('points_manager');
-            $ad_category_id = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-            $task_type_id = TaskHistory00::TASK_TYPE_SURVEY;
+            $ad_category_id = CategoryType::PROFILING;
+            $task_type_id = TaskType::RENTENTION;
             $service->updatePoints($user_id, $point_value, $ad_category_id, $task_type_id, $name . ' 属性问卷');
 
             $em->getConnection()->commit();

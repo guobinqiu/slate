@@ -7,6 +7,8 @@ use Psr\Log\LoggerInterface;
 use Jili\ApiBundle\Entity\OfferwowOrder;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Component\OrderBase;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * 处理offerwow的数据回传
@@ -25,10 +27,6 @@ class OfferwowRequestService
     private $offerwowParamsWebsiteid;
 
     private $offerwowParamsKey;
-
-    // Todo 20160707 统一到别处
-    const TASK_TYPE_OFFERWOW = '5';
-    const CATEGORY_TYPE_OFFERWOW = '17';
 
     const IMMEDIATE_0 = '0'; // 非即时返利活动,处于待审核状态
     const IMMEDIATE_1 = '1'; // 即时返利活动，需发放奖励给会员
@@ -200,8 +198,8 @@ class OfferwowRequestService
             $taskHistory->setUserid($userId);
             $taskHistory->setOrderId($offerwowOrder->getId());
             $taskHistory->setOcdCreatedDate($happenTime);
-            $taskHistory->setCategoryType(self::CATEGORY_TYPE_OFFERWOW);
-            $taskHistory->setTaskType(self::TASK_TYPE_OFFERWOW);
+            $taskHistory->setCategoryType(CategoryType::OFFERWOW);
+            $taskHistory->setTaskType(TaskType::CPA);
             $taskHistory->setTaskName($taskName);
             $taskHistory->setDate($happenTime);
             $taskHistory->setPoint($point);
@@ -224,7 +222,7 @@ class OfferwowRequestService
                 $pointHistory = new $pointHistoryClass();
                 $pointHistory->setUserId($userId);
                 $pointHistory->setPointChangeNum($point);
-                $pointHistory->setReason(self::CATEGORY_TYPE_OFFERWOW);
+                $pointHistory->setReason(CategoryType::OFFERWOW);
                 $user = $this->em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()) + intval($point));
                 $this->em->persist($pointHistory);

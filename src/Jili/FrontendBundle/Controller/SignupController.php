@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
 use Jili\ApiBundle\Entity\AdCategory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 use JMS\JobQueueBundle\Entity\Job;
 
@@ -122,7 +124,7 @@ class SignupController extends Controller
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($user_id);
         $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
-        $pointHistory->setReason(AdCategory::ID_SINGUP);
+        $pointHistory->setReason(CategoryType::SINGUP);
 
         // Create new object of task_history0x
         $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
@@ -130,8 +132,8 @@ class SignupController extends Controller
         $taskHistory->setUserid($user_id);
         $taskHistory->setOrderId(0);
         $taskHistory->setOcdCreatedDate($signupTime);
-        $taskHistory->setCategoryType(AdCategory::ID_SINGUP);
-        $taskHistory->setTaskType(0);
+        $taskHistory->setCategoryType(CategoryType::SINGUP);
+        $taskHistory->setTaskType(TaskType::RENTENTION);
         $taskHistory->setTaskName('完成注册');
         $taskHistory->setDate($signupTime);
         $taskHistory->setPoint(User::POINT_SIGNUP);

@@ -6,14 +6,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
-
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
-
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-point')
@@ -37,13 +35,12 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        $point_exec_type = $history['extra_info']['point_type'];
-        return $this->sop_configure['sop_point_type'][$point_exec_type];
+        return CategoryType::FULCRUM;
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)

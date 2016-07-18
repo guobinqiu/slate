@@ -7,6 +7,8 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Jili\ApiBundle\Entity\OfferwowOrder;
 use Jili\ApiBundle\Entity\User;
 use Wenwen\FrontendBundle\Services\OfferwowRequestService;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class OfferwowRequestServiceTest extends WebTestCase
 {
@@ -598,7 +600,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
         $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($memberid % 10));
-        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> OfferwowRequestService::TASK_TYPE_OFFERWOW) );
+        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> TaskType::CPA) );
 
         // 检查数据
         $this->assertTrue($result, 'eventid=[' . $eventid . '] is not properly processed.');
@@ -657,7 +659,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
         $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($memberid % 10));
-        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> OfferwowRequestService::TASK_TYPE_OFFERWOW) );
+        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> TaskType::CPA) );
         $pointHistoryRepository = $this->em->getRepository('JiliApiBundle:PointHistory0'. ($memberid % 10));
         $pointHistory = $pointHistoryRepository->findOneByUserId($memberid);
         $user = $this->em->getRepository('JiliApiBundle:User')->find($memberid);
@@ -677,7 +679,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
-        $this->assertEquals(OfferwowRequestService::CATEGORY_TYPE_OFFERWOW, $pointHistory->getReason());
+        $this->assertEquals(CategoryType::OFFERWOW, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints());
     }
@@ -724,7 +726,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
         $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($memberid % 10));
-        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> OfferwowRequestService::TASK_TYPE_OFFERWOW) );
+        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> TaskType::CPA) );
         $pointHistoryRepository = $this->em->getRepository('JiliApiBundle:PointHistory0'. ($memberid % 10));
         $pointHistory = $pointHistoryRepository->findOneByUserId($memberid);
 
@@ -743,7 +745,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
-        $this->assertEquals(OfferwowRequestService::CATEGORY_TYPE_OFFERWOW, $pointHistory->getReason());
+        $this->assertEquals(CategoryType::OFFERWOW, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints(), 'user point is not properly updated');
     }
@@ -790,7 +792,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
         $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($memberid % 10));
-        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> OfferwowRequestService::TASK_TYPE_OFFERWOW) );
+        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> TaskType::CPA) );
         $pointHistoryRepository = $this->em->getRepository('JiliApiBundle:PointHistory0'. ($memberid % 10));
         $pointHistory = $pointHistoryRepository->findOneByUserId($memberid);
 

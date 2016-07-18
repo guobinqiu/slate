@@ -6,10 +6,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/cint_project_survey")
@@ -17,9 +17,7 @@ use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 class ProjectSurveyCintController extends Controller
 {
     const AGREEMENT_POINT = 1;
-    const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-    const TASK_TYPE_ID = TaskHistory00::TASK_TYPE_SURVEY;
-    const COMMENT = '同意Cint问卷';
+    const COMMENT = '同意参与海外市场调查项目';
 
     /**
      * @Route("/agreement_complete", name="_cint_project_survey_agreement_complete")
@@ -68,7 +66,7 @@ class ProjectSurveyCintController extends Controller
 
             // add point
             $service = $this->container->get('points_manager');
-            $service->updatePoints($user_id, self::AGREEMENT_POINT, self::TYPE_EXPENSE, self::TASK_TYPE_ID, self::COMMENT);
+            $service->updatePoints($user_id, self::AGREEMENT_POINT, CategoryType::AGREEMENT_CINT, TaskType::RENTENTION, self::COMMENT);
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {

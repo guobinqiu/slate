@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Entity\Offer99Order;
 use Jili\ApiBundle\Util\String;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  *
@@ -24,7 +26,6 @@ class Offer99RequestProcessor
 
     public function process(Request $request, array $config)
     {
-        $category_type = $config['category_type'];
         $task_name = $config['name'];
         $task_type = $config['task_type'];
 
@@ -62,7 +63,7 @@ class Offer99RequestProcessor
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($user_id);
         $pointHistory->setPointChangeNum($point);
-        $pointHistory->setReason($category_type);
+        $pointHistory->setReason(CategoryType::OFFER99);
 
         $vote_time = date_create();
         // Create new object of task_history0x
@@ -71,8 +72,8 @@ class Offer99RequestProcessor
         $taskHistory->setUserid($user_id);
         $taskHistory->setOrderId($order->getId());
         $taskHistory->setOcdCreatedDate($happen_time);
-        $taskHistory->setCategoryType($category_type);
-        $taskHistory->setTaskType($task_type);
+        $taskHistory->setCategoryType(CategoryType::OFFER99);
+        $taskHistory->setTaskType(TaskType::CPA);
         $taskHistory->setRewardPercent(0);
         $taskHistory->setTaskName($offer_name);
         $taskHistory->setDate($happen_time);
