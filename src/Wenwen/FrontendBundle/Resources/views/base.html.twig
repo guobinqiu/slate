@@ -30,8 +30,13 @@
         <!-- baidu statistics -->
         <div style="display:none;">
             <script type="text/javascript">
-                var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-                document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F878d6a1fecf76315390d7c5db8779bef' type='text/javascript'%3E%3C/script%3E"));
+                var _hmt = _hmt || [];
+                (function() {
+                    var hm = document.createElement("script");
+                    hm.src = "//hm.baidu.com/hm.js?878d6a1fecf76315390d7c5db8779bef";
+                    var s = document.getElementsByTagName("script")[0]; 
+                    s.parentNode.insertBefore(hm, s);
+                })();
             </script>
         </div>
         <!--[if lte IE 9]>
