@@ -67,6 +67,9 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
+            return true;
+        }
         return false;
     }
 

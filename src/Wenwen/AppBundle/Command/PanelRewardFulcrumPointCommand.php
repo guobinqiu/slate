@@ -39,20 +39,12 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     {
         // https://github.com/researchpanelasia/rpa-dominance/wiki/Fulcrum
         // 据说只有 cost(11) 
-        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            return CategoryType::FULCRUM_COST;
-        } else {
-            return 999;
-        }
+        return CategoryType::FULCRUM_COST;
     }
 
     protected function task($history)
     {
-        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            return TaskType::SURVEY;
-        } else {
-            return 999;
-        }
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)
@@ -76,10 +68,17 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if ($history['answer_status'] === 'COMPLETE') {
-            return false;
+        if ($history['answer_status'] != 'COMPLETE') {
+            // 20160718
+            // 状态不为 COMPLETE的不处理
+            // 老实说，这样做很不干净
+            // 状态不为 COMPLETE的不发积分，但是记录得要啊
+            return true;
         }
-        return true;
+        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
+            return true;
+        }
+        return false;
     }
 
     protected function skipRewardAlreadyExisted($history)

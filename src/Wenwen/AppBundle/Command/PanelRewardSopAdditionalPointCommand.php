@@ -42,32 +42,20 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        $categoryType = 999; //先来个扯淡的值
         if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
-            $categoryType = CategoryType::SOP_EXPENSE;
+            return CategoryType::SOP_EXPENSE;
         } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            $categoryType = CategoryType::SOP_COST;
-        } else {
-            // 据SOP的API说，肯定没有 11 和 61之外的值
-            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
-            // 以后得加上值的检查
+            return CategoryType::SOP_COST;
         }
-        return $categoryType;
     }
 
     protected function task($history)
     {
-        $taskType = 999; //先来个扯淡的值
         if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
-            $taskType = TaskType::RENTENTION;
+            return TaskType::RENTENTION;
         } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            $taskType = TaskType::SURVEY;
-        } else {
-            // 据SOP的API说，肯定没有 11 和 61之外的值
-            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
-            // 以后得加上值的检查
+            return TaskType::SURVEY;
         }
-        return $taskType;
     }
 
     protected function comment($history)
@@ -98,6 +86,14 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
+
+        } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+
+        } else {
+            // point_type 不是 11 or 61 的时候不处理
+            return true;
+        }
         return false;
     }
 

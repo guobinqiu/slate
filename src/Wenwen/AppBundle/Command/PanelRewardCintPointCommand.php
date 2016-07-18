@@ -38,27 +38,12 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        // 据说Cint只有cost类型
-        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            return CategoryType::CINT_COST;
-        } else {
-            // 据SOP的API说，肯定没有 11 和 61之外的值
-            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
-            // 以后得加上值的检查
-            return 999;
-        }
+        return CategoryType::CINT_COST;
     }
 
     protected function task($history)
     {
-        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            return TaskType::SURVEY;
-        } else {
-            // 据SOP的API说，肯定没有 11 和 61之外的值
-            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
-            // 以后得加上值的检查
-            return 999;
-        }
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)
@@ -92,6 +77,12 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            
+        } else {
+            // Cint 只有 61 类型，除此之外不处理
+            return true;
+        }
         return false;
     }
 
