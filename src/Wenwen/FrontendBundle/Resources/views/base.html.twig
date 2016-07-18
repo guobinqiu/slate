@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}91问问调查网{% endblock %}</title>
+    <title>{% block title %}91问问 - {% endblock %}</title>
     {# <meta name="viewport" content="width=1000"> #}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% block meta %}{% endblock %}
     <meta name="baidu_union_verify" content="464e52f63986636f61f6710be25148b2" />
+    <meta name="mobile-web-app-capable" content="yes">
     <link href="{{ asset('img/common/favicon.ico') }} " rel="shortcut icon" type="image/x-icon" />
-    <link href="apple-touch-icon-iphone.png" rel="apple-touch-icon-precomposed" />
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
     {% block stylesheet %}{% endblock %}
     {% block global_css %}
         <link href="{{ asset('css/responsive/rpLayout.css') }} " rel="stylesheet" type="text/css">
@@ -35,6 +38,10 @@
                 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F878d6a1fecf76315390d7c5db8779bef' type='text/javascript'%3E%3C/script%3E"));
             </script>
         </div>
+        <!--[if lte IE 9]>
+            <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('js/lib/respond.min.js')}}"></script>
+        <![endif]-->
     {% endblock %}
     {% block javascript %}
     {% endblock %}

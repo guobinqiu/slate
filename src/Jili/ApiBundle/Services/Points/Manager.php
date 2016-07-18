@@ -1,30 +1,28 @@
 <?php
 namespace Jili\ApiBundle\Services\Points; 
 
-use Jili\ApiBundle\EventListener\TaskHistory;
-use Jili\ApiBundle\EventListener\PointHistory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class Manager
 {
-    private $point_history;
-    private $task_history;
     private $em;
 
     /**
      * 更新point: user, point_history , task_history
      */
-    public function updatePoints($user_id, $point,  $ad_category_id, $task_type_id, $task_name)
+    public function updatePoints($userId, $point,  $adCategoryId, $taskTypeId, $taskName)
     {
 
         $em = $this->em;//getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
 
         if( ! isset($user ) ) {
-            $this->logger->info('UpdatePoints , user not exists user.id='.var_export($user_id,true));
+            $this->logger->info('UpdatePoints , user not exists user.id='.var_export($userId,true));
             return ;
         }
+
+        $updateTime = date_create(date('Y-m-d H:i:s'));
 
         // transaction start
         $dbh = $em->getConnection();
@@ -36,27 +34,29 @@ class Manager
             $old_point = $user->getPoints();
             $user->setPoints(intval($old_point + $point));
 
-            //更新point_history表分数
-            $params = array (
-                'userid' => $user_id,
-                'point' => $point,
-                'type' => $ad_category_id,//ad_category.id
-            );
-            $this->point_history->get($params);
-            //更新task_history表分数
-            $params = array (
-                'userid' => $user_id,
-                'orderId' => 0,
-                'taskType' => $task_type_id, // refer to task_history00 entity 
-                'categoryType' => $ad_category_id,
-                'task_name' => $task_name ,
-                'point' => $point,
-                'date' => date_create(date('Y-m-d H:i:s')),
-                'status' => 1
-            );
+            // Create new object of point_history0x
+            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
+            $pointHistory = new $classPointHistory();
+            $pointHistory->setUserId($userId);
+            $pointHistory->setPointChangeNum($point);
+            $pointHistory->setReason($adCategoryId);
 
-            $this->task_history->init($params);
+            // Create new object of task_history0x
+            $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userId % 10);
+            $taskHistory = new $classTaskHistory();
+            $taskHistory->setUserid($userId);
+            $taskHistory->setOrderId(0);
+            $taskHistory->setOcdCreatedDate($updateTime);
+            $taskHistory->setCategoryType($adCategoryId);
+            $taskHistory->setTaskType($taskTypeId);
+            $taskHistory->setTaskName($taskName);
+            $taskHistory->setDate($updateTime);
+            $taskHistory->setPoint($point);
+            $taskHistory->setStatus(1);
 
+            $em->persist($user);
+            $em->persist($pointHistory);
+            $em->persist($taskHistory);
             $em->flush();
             $dbh->commit();
         } catch(\Exception $e) {
@@ -66,16 +66,6 @@ class Manager
 
     }
 
-    public function setTaskHistory( TaskHistory $th) 
-    {
-        $this->task_history = $th;
-        return $this;
-    }
-    public function setPointHistory(PointHistory  $ph) 
-    {
-        $this->point_history = $ph;
-        return $this;
-    }
     public function  setEntityManager(EntityManager $em)
     {
         $this->em = $em;

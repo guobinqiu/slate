@@ -33,7 +33,7 @@ framework:
     fragments:       ~
     templating:
         engines: ['twig']
-        assets_version: 'v000007'
+        assets_version: 'v000010'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
@@ -105,6 +105,7 @@ swiftmailer:
             username:   %webpower_signup_username%
             password:   %webpower_signup_password%
             encryption: tls
+            sender_address: %webpower_signup_sender%
 
         webpower_mailer:
             transport:  smtp
@@ -112,6 +113,15 @@ swiftmailer:
             username:   %webpower_username%
             password:   %webpower_password%
             encryption: tls
+            sender_address: %webpower_sender%
+
+#        qq:
+#            transport:  smtp
+#            encryption: ~
+#            auth_mode:  login
+#            host:       %qqmail_host%
+#            username:   %qqmail_username%
+#            password:   %qqmail_password%
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control

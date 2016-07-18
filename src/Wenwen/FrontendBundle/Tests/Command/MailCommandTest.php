@@ -13,9 +13,12 @@ use Wenwen\FrontendBundle\Command\SsiDeliveryNotificationMailCommand;
 
 class MailCommandTest extends WebTestCase {
 
+    private $container;
+
     public function setUp() {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
+        $this->container = static::$kernel->getContainer();
     }
 
     public function testSignupConfirmationMailCommand() {
@@ -97,5 +100,55 @@ class MailCommandTest extends WebTestCase {
             '--subject' => 'ssi delivery notification',
             //'--channel' => 'channel3',//sendcloud
         ));
+    }
+
+//    public function testQQ()
+//    {
+//        $subject = 'testQQ';
+//        $message = \Swift_Message::newInstance()
+//            ->setSubject($subject)
+//            ->setFrom(array('account@91jili.com' => '91问问调查网'))
+//            ->setTo($this->recipients())
+//            ->setBody('testQQ testQQ testQQ', 'text/html');
+//        $mailer = $this->container->get('swiftmailer.mailer.qq');
+//        $count = $mailer->send($message);
+//        $this->assertEquals(count($this->recipients()), $count);
+//    }
+
+    public function testWebpowerSys() {
+        $subject = 'testWebpowerSys';
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+            ->setSender($this->container->getParameter('webpower_signup_sender'))
+            ->setTo($this->recipients())
+            ->setBody('testWebpowerSys testWebpowerSys testWebpowerSys', 'text/html');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
+        $count = $mailer->send($message);
+        $this->assertEquals(count($this->recipients()), $count);
+    }
+
+    public function testWebpowerMkt() {
+        $subject = 'testWebpowerMkt';
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+            ->setSender($this->container->getParameter('webpower_sender'))
+            ->setTo($this->recipients())
+            ->setBody('testWebpowerMkt testWebpowerMkt testWebpowerMkt', 'text/html');
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
+        $count = $mailer->send($message);
+        $this->assertEquals(count($this->recipients()), $count);
+    }
+
+    //添加收件人here
+    private function recipients() {
+        return array(
+            'qracle@126.com',
+            'xiaoyi.chai@d8aspring.com',
+            '9615841@qq.com',
+            'mercurylovesea@163.com',
+            'cs@91wenwen.net',
+        );
     }
 }

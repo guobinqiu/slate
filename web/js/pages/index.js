@@ -2,11 +2,6 @@
 引用jquery.js, common.js, scrollTop.js, numScroll.js, loginForm.js
 -------------------*/
 $(function(){
-    new RPANumScroll({ numScrollEle: '.digits b', config: {
-        digitH : 30,
-        num: 3688002,
-        animateTimer: 5000
-    }});
     /*---登录表单校验---*/
     var loginPwd = {
         ele: '#pwd',
@@ -23,6 +18,24 @@ $(function(){
         type: 'email'
     };
     new LoginForm({pwd: loginPwd, email: loginEmail, auto: false});
+    var lis = $('.login-con li'), inputs = lis.find('input'), labels = lis.find('label');
+    inputs.each(function(i, e){
+        if(!$(this).val()){
+            labels.eq(i).show();
+        }else{
+            labels.eq(i).hide();
+        }
+        $(this).on('keydown', function(){
+            labels.eq(i).hide();
+        });
+        $(this).on('keyup', function(){
+            if(!$(this).val()){
+                labels.eq(i).show();
+            }else{
+                labels.eq(i).hide();
+            }
+        }); 
+    });
     var submitBtn = $("#submit_button");
     submitBtn.on('click', function(e){
         var loginform = new LoginForm({pwd: loginPwd, email: loginEmail, auto: true});
@@ -40,75 +53,36 @@ $(function(){
     var errorCode = $('#error_code').val();
     if(errorCode != undefined){
         $emailError.html(errorCode).addClass('error').attr('display', 'block');
+        setTimeout(function(){tips.addClass('active');}, 500);
     };
-    /*---点击登录按钮，呈现输入状态---*/
-    var logFoc = $("a[title='登录']");
-    var surList = $("a[title='问卷列表']");
-    logFoc.add(surList).click(function(){
-        $('#email').focus(); 
-    });
 
     /*---sinaWeibo and QQ quick login prompt---*/
-    var wbLog = $('.weibo-login');
-    var qqLog = $('.qq-login');
+    var wbLog = $('.weibo-login'),qqLog = $('.qq-login');
     var wqClose = $('.quickLCon .closeBtn').add('.quickLCon .cancelBtn');
-    var wbPCon = $('#wbLogCon');
-    var qqPCon = $('#qqLogCon');
+    var wbPCon = $('#wbLogCon'),qqPCon = $('#qqLogCon');
     wbLog.on('click', function(){
-        wbPCon.show();
-        qqPCon.hide();
+        mask.show();
+        wbPCon.show().addClass('active');
+        qqPCon.hide().removeClass('active');
     });
     qqLog.on('click', function(){
-        qqPCon.show();
-        wbPCon.hide();
+        mask.show();
+        qqPCon.show().addClass('active');
+        wbPCon.hide().removeClass('active');
     });
     wqClose.on('click', function(){
-        wbPCon.add(qqPCon).hide();
+        mask.hide();
+        wbPCon.add(qqPCon).hide().removeClass('active');
     });
 
-    /*---点击问卷列表提示先登录---*/
-    $('.surUnlog').on('click', function(){
-        $('.logFirst').fadeIn().delay(4000).fadeOut();
+    var menu = $('ul.menu');
+    $('.expandBtn').on('click', function(){
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            menu.removeClass('active');    
+        }else{
+            $(this).addClass('active');
+            menu.addClass('active');
+        }
     });
-
-    var $window = $(window),
-        win_height_padded = $window.height() * 1.1;
-
-    $window.on('scroll', revealOnScroll);
-
-    function revealOnScroll() {
-        var scrolled = $window.scrollTop(),
-            win_height_padded = $window.height() * 1.1;
-
-        /*---Showed...---*/
-        $(".party:not(.animateing)").each(function() {
-            var $this = $(this),
-                offsetTop = $this.offset().top;
-
-            if (scrolled + win_height_padded > offsetTop) {
-                if ($this.data('timeout')) {
-                    window.setTimeout(function() {
-                        $this.addClass('animateing ' + $this.data('animation'));
-                    }, parseInt($this.data('timeout'), 10));
-                } else {
-                    $this.addClass('animateing ' + $this.data('animation'));
-                }
-            }
-        });
-    }
-    revealOnScroll();
-
-    /*---scroll down to certain position while click---*/
-    $('.arrowScroll').on('click', function(e){
-        e.preventDefault();
-        $('html, body').animate({
-            scrollTop: $($(this).attr('href')).offset().top
-        }, 800);
-     });
-
-    /*---resize coin background---*/
-    window.onresize = function(event){
-        $(".coinBack").css("width", $(window).width());
-    }
-
 });

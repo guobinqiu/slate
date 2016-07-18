@@ -20,10 +20,10 @@
 	    font-size: 16px!important;
 	}
 	.visibleTablet{ 
-	    display: inherit!important;
+        display: inherit!important;
 	}
 	.hiddenTablet{
-	    display: none!important; 
+        display: none!important; 
 	}
 	.leftTablet{
 	    float: left; 
@@ -215,6 +215,16 @@
         }
     }
 
+    /*ssi permission page*/
+    .ssi-permission{
+        width: 100%;
+        p{
+            text-align: center;
+            width: 50%;
+            margin-right: 0;
+        }
+    }
+
     /* vote page */
     .vote{
     	.vote-btn{
@@ -305,6 +315,123 @@
                     }
                 }
             }
+        }
+    }
+
+    /* landing page */
+    .sectionCon{
+        h2{
+            img{
+                width: 600px;
+            }
+        }
+    }
+    #section1{
+        &.active{
+            .briefIntro{
+                top: 57%;
+            }
+        }
+        .refNum{
+            b{
+                font-size: 1.8rem !important;
+            }
+        }
+    }  
+    #section2{
+        h2{
+            img{
+                width: 420px;
+            }
+        }
+        &.active{
+            .scoredPoints{
+                background: none;
+            }
+        }
+    }
+    #section3{
+        .item{
+            width: 76%;
+            height: 190px;
+            margin-left: 12%;
+            background-size: cover;
+            left: initial;
+            padding: 20px 30px;
+            &.item3,&.item4{
+                display: none;
+            }
+            .personal{
+                margin-top: 65px;
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
+                span{
+                    margin-left: 12px;
+                    line-height: 1.2rem;
+                    margin-top: -7px;
+                }
+            }
+            .talkCon{
+                line-height: 1.9rem;
+                    font-size: 1.2rem!important;
+            }
+        }  
+        &.active{
+           .sectionCon{
+               .item1{
+                    top: 30%;
+               }
+               .item2{
+                    top: 60%;
+               }
+           } 
+        }  
+    }
+    .scoredPointsItem{
+        padding-bottom: 66px;
+        .icon{
+            width: 103px;
+            height: 103px;
+            left: 55px;
+        }
+        .icon2{
+            top: 173px;
+        }
+        .icon3{
+            top: 346px;
+        }
+        .liner{
+            left: 108px;
+                top: 104px;
+        }
+        .liner2{
+            top: 277px;
+        }
+    }
+    #section2{
+        h2{
+            margin-left: 39px
+        }
+        &.active{
+            .scoredPointsItem{
+                .con{
+                    padding-left: 134px;
+                    margin-top: 6px;
+                }
+            }
+        }
+    }
+    .scoredPoints{
+        h3{
+            height: 68px;
+            line-height: 68px;
+            font-size: 1.8rem !important;
+        }
+        p{
+            width: 480px;
+            font-size: 1rem !important;
         }
     }
 }

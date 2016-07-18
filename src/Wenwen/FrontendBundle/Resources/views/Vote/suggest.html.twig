@@ -1,9 +1,9 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}快速问答出题：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}有奖出题{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，有奖出题，快速问答出题，热门出题，征询网友意见" />
 <meta name="description" content="在出题页面您可以提供您感兴趣的话题，征询广大91问问网友的意见，热点新闻，社会话题，甚至当你犹豫不决该买哪个产品，都可以成为“快速问答”的主题，同时还有机会获得200积分奖励。" />
-<meta name="title" content="快速问答出题:91问问调查网" />
+<meta name="title" content="91问问调查网 - 有奖出题" />
 {% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/suggest.css') }} " rel="stylesheet" type="text/css">
@@ -20,7 +20,8 @@
 		<div class="abstract">
 			<p><em>●</em>每个人都是社会的决策者，现在开始您将有机会成为91问问调查网“快速问答”栏目的出题者。</p>
 			<p><em>●</em>您可以提供您感兴趣的话题，征询广大91问问网友的意见，热点新闻，社会话题，甚至当你犹豫不决该买哪个产品，都可以成为“快速问答”的主题。</p>
-			<p><em>●</em>一旦您提供的“快速问答”被采用，您将获得<strong>200积分</strong>的奖励，并且您的名字将显示在该题“出题者”一栏，让更多91问问的网友来认识你！</p>
+            <p><em>●</em>一旦您提供的“快速问答”被采用，您将获得<strong>200积分</strong>的奖励，并且您的名字将显示在该题“出题者”一栏，让更多91问问的网友来认识你！</p>
+			<p><em>●</em>奖励的积分将于每周五统一发放（如遇节假日积分奖励会顺延） 。</p>
 		</div>
 		<div class="form">
 			<form action="{{ path('jili_frontend_vote_suggest') }}" id="suggest_form" method="post" >

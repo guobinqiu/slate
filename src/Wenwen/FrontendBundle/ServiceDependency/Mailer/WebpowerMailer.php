@@ -8,7 +8,9 @@ class WebpowerMailer implements IMailer {
 
     private $from;
 
-    public function __construct($from, $host, $username, $password)
+    private $sender;
+
+    public function __construct($from, $host, $username, $password, $sender)
     {
         $transport = \Swift_SmtpTransport::newInstance();
         $transport->setHost($host);
@@ -18,6 +20,7 @@ class WebpowerMailer implements IMailer {
 
         $this->mailer = \Swift_Mailer::newInstance($transport);
         $this->from = $from;
+        $this->sender = $sender;
     }
 
     /**
@@ -33,6 +36,7 @@ class WebpowerMailer implements IMailer {
         $message = \Swift_Message::newInstance();
         $message->setSubject($subject);
         $message->setFrom(array($this->from => '91问问调查网'));
+        $message->setSender($this->sender);
         $message->setTo($to);
         $message->setBody($html, 'text/html');
 

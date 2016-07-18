@@ -5,19 +5,20 @@ $(function(){
    	var navLinks = $('.main-personal-message .btn a');
     var navSlider = $('.main-personal-message .btn .border');
 	var curIndex = navLinks.parent().find('.active').index();
-
+	var flag = 0;
+	if(navLinks.css('width')=="110px"){ flag = 1;}
     if(curIndex != -1){
-        navSlider.show().animate({ left: 50 * curIndex +'%'}, 100);
+        flag?navSlider.show().animate({ left: 110 * curIndex +'px'}, 100):navSlider.show().animate({ left: 50 * curIndex +'%'}, 100);
     }
     navLinks.hover(function(){
         var i = $(this).index();
-        navSlider.show().animate({ left: 50 * i +'%'}, 100);
+        flag?navSlider.show().animate({ left: 110 * i +'px'}, 100):navSlider.show().animate({ left: 50 * i +'%'}, 100);
     }, function(){});
     navLinks.parent().hover(function(){
     }, function(){
         var i = navLinks.parent().find('.active').index();
         if(i != -1){
-	        navSlider.show().animate({ left: 50 * i +'%'}, 100);
+	        flag?navSlider.show().animate({ left: 110 * i +'px'}, 100):navSlider.show().animate({ left: 50 * i +'%'}, 100);
 	    }else{
 	    	navSlider.hide();
 	    }

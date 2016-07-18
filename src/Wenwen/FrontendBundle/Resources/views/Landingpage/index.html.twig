@@ -1,0 +1,148 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }} - 资深问卷调查网{% endblock %}
+{% block meta %}
+<meta name="keywords" content="问卷网，调查网，调查赚钱，在线调查，调查问卷，问卷调查，91问问" />
+<meta name="description" content="每个人都是社会的决策者！欢迎来到91问问调查网。现在注册会员，在线参加全球市场调查，轻轻松松赢取现金,并用您的意见改变世界。另有任务体验让您乐赚不停；购物返利让你省得多，赚得也更多" />
+<meta name="title" content="91问问着陆页:91问问调查网" />
+{% endblock %}
+
+{% block stylesheet %}
+	<link href="{{ asset('css/landingpage.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+	{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="lpBr">
+		<div class="lpBrCon w1000">
+			<div class="lpBrTit">
+				<h1>动动手指就能<strong>赚钱</strong></h1>
+				<p class="digits"><em class="pst">当前已发放人民币</em><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
+			</div>
+			<div class="lpBrTxt">
+				完成问卷最高可获得人民币<span class="n1">￥</span><span class="n2">100</span><br>
+				国内最活跃的调查社区之一<br>
+				用您的声音改变我们的世界
+			</div>
+			<div class="form regWrapper">
+				<h2>快速注册</h2>
+				<div class="regCon">
+					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
+					<ul>
+						<li><i class="globIcon iconName"></i><input id="nickname" name="nickname" type="text" placeholder="昵称"><span id="nickname_succeed"></span><span id="nickname_error"></span></li>
+						<li><i class="globIcon iconEmail"></i><input id="email" name="email" type="text" placeholder="电子邮件"><span id="email_succeed"></span><span id="email_error"></span></li>
+						<li><i class="globIcon iconPwd"></i><input id="pwd" name="pwd" type="password" placeholder="密码"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
+						<li><i class="globIcon iconPwd"></i><input id="pwd_repeat" name="pwd_repeat" type="password" placeholder="再次输入密码"><span id="pwd_repeat_succeed"></span><span id="pwd_repeat_error"></span></li>
+						<li><i class="globIcon iconCapt"></i><input id="captcha" name="captcha" type="text" placeholder="请填写右边的符号"><img src="{{ asset('img/landingpage/temp1.png') }}" alt="captcha"><span id="captcha_succeed"></span><span id="captcha_error"></span></li>
+						<li>
+							<div class="subscribe"><input type="checkbox" checked="checked">愿意接收会员邮件
+								<div class="tips expand-btn">
+									<b>?</b>
+									<div class="tips-con expand-con">91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。<b class="arrow"></b></div>
+								</div>
+							</div>
+							<div class="agreement"><input type="checkbox" checked="checked">已阅读并接收<a href="{{ path('_default_about_regulations') }}" id="protocol" title="会员协议">《会员协议》</a></div>
+						</li>
+						<li><input type="submit" class="regBtn" id="submit_button" tabindex="0" value="登录"/></li>
+
+					</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+</div>
+<div class="main-con-process" id="process">
+	<div class="w1000">
+		<div class="topTit"><h1>只需三步</h1><span>轻松玩转91问问</span></div>
+		<ul class="procDisc">
+			<li class="first"><p class="icon"></p><p class="pdt">免费注册会员</p><p class="pdc">只需两步就可以完成注册，<br>注册即送10积分哦！</p></li>
+			<li class="second"><p class="icon"></p><p class="pdt">做任务赚积分</p><p class="pdc">回答问卷，快速问答投票，做任务，<br>购物都可以赚取积分</p></li>
+			<li class="third"><p class="icon"></p><p class="pdt">兑换奖品</p><p class="pdc">奖品有支付宝现金，亚马逊礼品卡，<br>手机话费，上网流量包等</p></li>
+		</ul>
+	</div>
+</div>
+<div class="main-con-reward">
+	<div class="w1000">
+		<div class="topTit"><h1>奖励礼品</h1><a href="{{ path('_exchange_index') }}" title="兑换中心" target="_blank"><span>查看详情>></span></a></div>
+		<ul class="rewardlist">
+			<li>
+				<div class="rMes">
+					<p class="rPic1"></p>
+					<p class="rTit">手机话费</p>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2010积分<br>起兑</div>
+				<div class="rLine"></div>
+			</li>
+			<li>
+				<div class="rMes">
+					<span class="rPic2"></span>
+					<span class="rTit">支付宝现金</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">2050积分<br>起兑</div>
+				<div class="rLine"></div>
+			</li> 
+			<li class="last">
+				<div class="rMes">
+					<span class="rPic3"></span>
+					<span class="rTit">上网流量包</span>
+					<a href="#" class="rBtn">立即兑换</a>
+				</div>
+				<div class="rTag">1590积分<br>起兑</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="main-con-detail">
+
+	<div class="topTit"><h1>会员心声</h1><span>他们在91问问做什么</span></div>
+	<ul class="heartfelt w1000">
+		<li>
+			<div class="hfL p1"></div>
+			<div class="hfR">
+				<p class="tit"><span class="name">小珍</span><span class="post">大二学生</span></p>
+				<p class="text">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</p>
+			</div>
+		</li>
+		<li>
+			<div class="hfL p2"></div>
+			<div class="hfR">
+				<p class="tit"><span class="name">小夏</span><span class="post">上班族</span></p>
+				<p class="text">我刚开始工作才1年，常常感觉自己的世界观与外界有些脱轨，无意中发现91问问这个网站，在这里，我不仅可以赚点零花钱，快速问答这个栏目让我了解了大家对不同事物的观点，增长了我的见识。</p>
+			</div>
+		</li>
+		<li>
+			<div class="hfL p3"></div>
+			<div class="hfR">
+				<p class="tit"><span class="name">Vivian</span><span class="post">孕妈</span></p>
+				<p class="text">我是一位孕妈妈，辞职在家专心等待宝宝的出生，天天闲着太无聊了，于是，我没事就打开91问问做做问卷和投票，通过它，我获取到了很多生活常识和一些社会上最新的热点消息，真的很棒！</p>
+			</div>
+		</li>
+		<li>
+			<div class="hfL p4"></div>
+			<div class="hfR">
+				<p class="tit"><span class="name">老顾</span><span class="post">退休老人</span></p>
+				<p class="text">我退休在家好些年了，平时又不爱出门，唯一的兴趣爱好就是打开91问问，做做问卷和投票，打发打发时间，重点是既可以赚钱还可以学到平时没听到过的知识。</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="main-con-action">
+	<div class="w1000">
+		<h1>马上开启91问问之旅，加入小伙伴们赚钱的队伍中来吧！</h1>
+		<p>点击以下按钮完成5秒注册</p>
+		<a href="{{ path('_user_reg') }}" class="button">现在注册</a>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/index')}}"></script>	
+{% endblock %}

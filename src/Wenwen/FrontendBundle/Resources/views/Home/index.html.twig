@@ -1,195 +1,126 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}_资深问卷调查网，在线调查，商业调查，免费，市场调查，调查问卷{% endblock %}
+{% block title %}{{ parent() }}专业在线调研网站{% endblock %}
 {% block meta %}
-<meta name="keywords" content="问卷网，调查网，调查赚钱，在线调查，调查问卷，问卷调查，91问问" />
-<meta name="description" content="每个人都是社会的决策者！欢迎来到91问问调查网。现在注册会员，在线参加全球市场调查，轻轻松松赢取现金,并用您的意见改变世界。另有任务体验让您乐赚不停；购物返利让你省得多，赚得也更多" />
-<meta name="title" content="首页:91问问调查网" />
+<meta name="keywords" content="调查,调研,问卷,赚钱,在线样本服务,消费者调查" />
+<meta name="description" content="欢迎访问91问问调查网，隶属于一家专业的全球在线调研服务公司，提供在线调查、市场调查、问卷调查、市场调研，在线样本服务等服务。如有任何需求请访问www.d8aspring.com与我们取得联系。" />
+<meta name="title" content="91问问调查网" />
 {% endblock %}
 
 {% block stylesheet %}
 	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/quickLog.css') }} " rel="stylesheet" type="text/css">
-
-{% endblock %}
-
-{% block header %}
-	{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
-<div class="main-adv">
-	<div class="coinBg">
-		<div class="coinBack">
-			<div class="main-adv-con w1000">
-				<div class="main-adv-con-text">
-					<h1>动动手指就能赚钱</h1>
-					<p class="digits"><em class="pst">当前已发放人民币</em><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span><span><b></b></span></p>
-					<div class="moreText">
-						<p><em></em>完成问卷最高可获得人民币<span class="corYellow">￥100</span></p>
-						<p><em></em>国内最活跃的调查社区之一</p>
-						<p><em></em>用您的声音改变我们的世界</p> 
+	<div id="container" class="sta">
+		<div class="section" id="section0">
+			<h1>
+				<a href="{{ path('_homepage') }}" title="首页">
+					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+					<!--[if lte IE 9]>
+						<img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+					<![endif]-->
+				</a>
+			</h1>
+			<a href="javascript:void(0)" class="btn expandBtn"></a>
+			<ul class="menu">
+				<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
+				<li class="liner"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
+				<li class="liner"><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+				<li><a href="{{ path('_default_feedback') }}" title="问题反馈">问题反馈</a></li>
+			</ul>
+			<div class="sectionCon">
+				<h2>
+					<img class="visibleDesktop visiblePhoneLan hiddenPhonePor visibleTablet" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
+					<img class="visiblePhonePor hiddenPhoneLan hiddenTablet hiddenDesktop" src="{{ asset('img/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
+				</h2>
+				<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录">登录</a></div>
+			</div>
+		</div>
+		<div class="section" id="section1">
+			<div class="sectionCon">
+				<h2>
+					<img class="visibleDesktop visiblePhoneLan hiddenPhonePor hiddenTablet" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+					<img class="visiblePhonePor hiddenPhoneLan visibleTablet hiddenDesktop" src="{{ asset('img/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
+				</h2>
+				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
+			</div>
+			<div class="refNum">
+				<div class="num"><b id="userNum"></b><em class="chinese">年</em><div class="tit">在线调研</div></div>
+				<div class="num"><b id="pointNum"></b><em>+</em><div class="tit">累计发放任务</div></div>
+				<div class="num"><b id="surveyNum"></b><em>+</em><div class="tit">累计发放奖励</div></div>
+			</div>
+		</div>
+		<div class="section" id="section2">
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text02.png') }}" alt="怎样赚积分"></h2>
+				<div class="scoredPoints">
+					<div class="scoredPointsItem">
+						<div class="icon"></div>
+						<div class="liner"></div>
+						<div class="con">
+							<h3>免费注册会员</h3>
+							<p>只需两步就可以完成注册。</p>
+						</div>
 					</div>
-					<div class="more-btn"><a href="{{ path('_default_support_newGuide') }}" title="了解更多">了解更多</a></div>
-				</div>
-				<div class="login-wrapper">
-					<div class="login">
-						<h2>用户登录</h2>
-						<div class="login-con">
-							<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1">
-							<ul>
-								<li><label for="email">邮箱</label><input id="email" name="email" type="text"><span id="email_succeed"></span><span id="email_error"></span></li>
-								<li><label for="pwd">密码</label><input id="pwd" name="pwd" type="password"><span id="pwd_succeed"></span><span id="pwd_error"></span></li>
-							</ul>
-							{% if app.session.has('goToUrl') and app.session.get('goToUrl')|length > 0  %}
-							<input name="referer" type="hidden" value="{{ app.session.get('goToUrl') }}">
-							{% endif %}
-							{% if code %}
-		            		<input type="hidden" id="error_code" class="error" value="{{ code }}">
-		       				{% endif %}
-							<input type="submit" class="login-btn" id="submit_button" tabindex="0" value="登录"/>
-							</form>
-							<p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a>还没账号，<a href="{{ path('_user_reg') }}">马上注册</a></p>
-							<div class="login-btn-others">
-								<span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
-							</div>
+					<div class="scoredPointsItem">
+						<div class="icon icon2"></div>
+						<div class="liner liner2"></div>
+						<div class="con">
+							<h3>回答问卷赚积分</h3>
+							<p>回答问卷，快速问答投票，做任务都可以赚取积分。</p>
+						</div>
+					</div>
+					<div class="scoredPointsItem">
+						<div class="icon icon3"></div>
+						<div class="con">
+							<h3>兑换奖品</h3>
+							<p>1元=100积分，奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等。</p>
 						</div>
 					</div>
 				</div>
-				<div class="arrowScroll" href="#process"></div>
-			</div>
+			</div> 
 		</div>
-	</div>
-</div>
-<div class="quickLogWrap w1000">
-	<div class="quickLogPop" id="wbLogCon" style="display: none;">
-		<div class="quickLCon">
-			<div class="wbTit"><span class="wbIco"></span>微博登录提示<span class="closeBtn"></span></div>
-			<div class="wbText">
-				<p class="l1">微博登录现在仅<strong>对老用户开放</strong>，如果您是第一次在我站使用微博快捷登录，您将无法正常登录哟！</p>
-				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
-			</div>
-			<div class="wbBtnArea"><a class="cancelBtn">取消</a><a href="{{ path('weibo_api_login') }}" class="continueBtn">继续</a></div>
-		</div>
-	</div>
-</div>
-<div class="quickLogWrap w1000">
-	<div class="quickLogPop" id="qqLogCon" style="display: none;">
-		<div class="quickLCon">
-			<div class="wbTit"><span class="qqIco"></span>QQ登录提示<span class="closeBtn"></span></div>
-			<div class="wbText">
-				<p class="l1">很抱歉，QQ快捷登录功能因维护<strong>暂时关闭</strong>！</p>
-				<p class="l2">如果您没有账号，请到注册页面进行正常的注册流程。我们的开发人员正在抓紧对此功能进行修复，感谢您的配合！</p>
-				<p class="wbBtnArea"><a class="cancelBtn">我知道了</a></p>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="main-con-process" id="process">
-	<div class="w1000">
-		<div class="topTit"><h1>只需三步</h1><span>轻松玩转91问问</span></div>
-		<ul class="procDisc">
-			<li class="first"><p class="pdt">免费注册会员</p><p class="pdc">只需两步就可以完成注册，注册即送10积分哦！</p></li>
-			<li class="second"><p class="pdt">做任务赚积分</p><p class="pdc">回答问卷，快速问答投票，做任务，购物都可以赚取积分</p></li>
-			<li class="third"><p class="pdt">兑换奖品</p><p class="pdc">奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等</p></li>
-		</ul>
-	</div>
-</div>
-<div class="main-con-reward">
-	<div class="w1000">
-		<div class="topTit"><h1>奖励礼品</h1><a href="{{ path('_exchange_index') }}" title="兑换中心"><span>查看详情>></span></a></div>
-		<ul class="rewardlist">
-			<li>
-				<div class="rMes">
-					<p class="rPic1"></p>
-					<p class="rTit">手机话费</p>
-					<a href="#" class="rBtn">立即兑换</a>
+		<div class="section" id="section3">
+			<div class="sectionCon">
+				<h2>
+					<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
+					<img class="visiblePhonePor hiddenPhoneLan hiddenTablet hiddenDesktop" src="{{ asset('img/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
+				</h2>
+				<div class="item item1">
+					<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
+					<div class="personal"><img src="{{ asset('img/landingpage/tx1.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
 				</div>
-				<div class="rTag">2010积分<br>起兑</div>
-				<div class="rLine"></div>
-			</li>
-			<li>
-				<div class="rMes">
-					<span class="rPic2"></span>
-					<span class="rTit">支付宝现金</span>
-					<a href="#" class="rBtn">立即兑换</a>
+				<div class="item item2">
+					<div class="talkCon">我刚开始工作才1年，常常感觉自己的世界观与外界有些脱轨，无意中发现91问问这个网站，在这里，我不仅可以赚点零花钱，快速问答这个栏目让我了解了大家对不同事物的观点，增长了我的见识。</div>
+					<div class="personal"><img src="{{ asset('img/landingpage/tx2.png') }}" alt="头像"><span>小夏<br>上班族</span></div>
 				</div>
-				<div class="rTag">2050积分<br>起兑</div>
-				<div class="rLine"></div>
-			</li> 
-			<li class="last">
-				<div class="rMes">
-					<span class="rPic3"></span>
-					<span class="rTit">上网流量包</span>
-					<a href="#" class="rBtn">立即兑换</a>
+				<div class="item item3">
+					<div class="talkCon">我是一位孕妈妈，辞职在家专心等待宝宝的出生，天天闲着太无聊了，于是，我没事就打开91问问做做问卷和投票，通过它，我获取到了很多生活常识和一些社会上最新的热点消息，真的很棒！</div>
+					<div class="personal"><img src="{{ asset('img/landingpage/tx3.png') }}" alt="头像"><span>Vivian<br>孕妈</span></div>
 				</div>
-				<div class="rTag">1590积分<br>起兑</div>
-			</li>
-		</ul>
-	</div>
-</div>
-<div class="main-con-detail hiddenPhone hiddenTablet">
-	<div class="topTit"><h1>大家在</h1><span>91问问做什么...</span></div>
-	<div class="party" data-timeout="500">
-		<em class="party-item party01 js-item"></em>
-        <em class="party-item party02 js-item"></em>
-        <em class="party-item party03 js-item"></em>
-        <em class="party-item party04 js-item"></em>
-        <em class="party-item party05 js-item"></em>
-        <em class="party-item party06 js-item"></em>
-	</div>
-</div>
-<div class="main-con-action">
-	<div class="w1000">
-		<h1>马上开启91问问之旅，加入小伙伴们赚钱的队伍中来吧！</h1>
-		<p>点击以下按钮完成5秒注册</p>
-		<a href="{{ path('_user_reg') }}" class="button">现在注册</a>
-	</div>
-</div>
-{# Feedback Start #}
-<div class="fbCon">
-	<div class="fdWrap">
-		<div class="fdBox">
-			<div class="closeTag" title="不再显示该窗口"></div>
-		</div>
-	</div>
-	<div class="unfdWrap">
-		<div class="unfdBox">
-			<form id="feedback_form">
-			<ul>
-				<li>
-					<div class="feedback-con"><label for="content"><em>*</em>您想咨询的内容：</label><textarea id="content" name="content"></textarea></div>
-					<div class="feedback-error"><span id="content_succeed"></span><span id="content_error"></span></div>
-				</li>
-				<li>
-					<div class="feedback-email"><label for="feedbackEmail"><em>*</em>91问问注册邮箱：</label><input type="text" id="feedbackEmail" name="feedbackEmail"></div>
-					<div class="feedback-error"><span id="feedbackEmail_succeed"></span><span id="feedbackEmail_error"></span></div>
-				</li>
-				<li>
-					<a href="javascript:void(0)" id="feedback_save" class="btn">提交问题</a>
-				</li>
-			</ul>
-			</form>
-			<div id="sys_error"></div>
-			<div class="submitSucceed">
-				<div class="img"><img src="{{ asset('img/common/finished.png') }}" alt="提交成功"></div>
-				<p>您已提交成功，感谢您的意见，我们的客服小问将根据您的问题，尽快联系您。</p>
-				<div id="secs"></div>
+				<div class="item item4">
+					<div class="talkCon">我退休在家好些年了，平时又不爱出门，唯一的兴趣爱好就是打开91问问，做做问卷和投票，打发打发时间，重点是既可以赚钱还可以学到平时没听到过的知识。</div>
+					<div class="personal"><img src="{{ asset('img/landingpage/tx4.png') }}" alt="头像"><span>老顾<br>退休老人</span></div>
+				</div>
 			</div>
-			<div class="closeTag" title="不再显示该窗口"></div>
-			<div class="closeBtn"></div>		
+		</div>
+		<div class="section" id="section4">
+			<div class="sectionCon">
+				<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
+				<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
+				<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
+			</div>
 		</div>
 	</div>
-</div>	
-{# Feedback End #}
-{% endblock %}
-
-{% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+	<div class="arrow">
+    	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
+		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
+    </div>
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/scrollTop.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/numScroll.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
 <script type="text/javascript" src="{{ asset('js/component/loginForm.js')}}" defer></script>
 <script type="text/javascript" src="{{ asset('js/pages/index.js')}}" defer></script>
 {% endblock %}
