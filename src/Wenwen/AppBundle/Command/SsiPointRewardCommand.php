@@ -94,7 +94,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
-                    CategoryType::SSI,
+                    CategoryType::SSI_COST,
                     TaskType::SURVEY,
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );

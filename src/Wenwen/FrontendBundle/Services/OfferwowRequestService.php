@@ -191,7 +191,7 @@ class OfferwowRequestService
         $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0'. ($userId % 10));
         // 20160707 offerwow 在 task_history中的 task_type = 5
         //          没有必要把这个写在paramter里面，统一在代码里就可以，暂时先这样写死
-        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwowOrder->getId(),'taskType'=> self::TASK_TYPE_OFFERWOW) );
+        $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwowOrder->getId(),'taskType'=> TaskType::CPA) );
         if(! $taskHistory){
             $taskHistoryClass = 'Jili\ApiBundle\Entity\TaskHistory0'. ($userId % 10);
             $taskHistory = new $taskHistoryClass();

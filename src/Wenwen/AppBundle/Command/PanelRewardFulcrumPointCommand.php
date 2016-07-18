@@ -12,6 +12,8 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
+    const POINT_TYPE_COST = 11;
+
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-point')
@@ -35,12 +37,22 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return CategoryType::FULCRUM;
+        // https://github.com/researchpanelasia/rpa-dominance/wiki/Fulcrum
+        // 据说只有 cost(11) 
+        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return CategoryType::FULCRUM_COST;
+        } else {
+            return 999;
+        }
     }
 
     protected function task($history)
     {
-        return TaskType::SURVEY;
+        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return TaskType::SURVEY;
+        } else {
+            return 999;
+        }
     }
 
     protected function comment($history)

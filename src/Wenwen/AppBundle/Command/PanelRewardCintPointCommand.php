@@ -12,6 +12,8 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardCintPointCommand extends PanelRewardCommand
 {
+    const POINT_TYPE_COST = 11;
+
     protected function configure()
     {
         $this->setName('panel:reward-cint-point')->setDescription('request SOP API and reward points based on retrived data')->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
@@ -36,12 +38,27 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return CategoryType::CINT;
+        // 据说Cint只有cost类型
+        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return CategoryType::CINT_COST;
+        } else {
+            // 据SOP的API说，肯定没有 11 和 61之外的值
+            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
+            // 以后得加上值的检查
+            return 999;
+        }
     }
 
     protected function task($history)
     {
-        return TaskType::SURVEY;
+        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return TaskType::SURVEY;
+        } else {
+            // 据SOP的API说，肯定没有 11 和 61之外的值
+            // 原有的逻辑没有判断这里，估计要是出现了这两个之外的值就该扔例外了先不画蛇添足了，
+            // 以后得加上值的检查
+            return 999;
+        }
     }
 
     protected function comment($history)

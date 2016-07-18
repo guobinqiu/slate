@@ -66,7 +66,7 @@ class ProjectSurveyCintController extends Controller
 
             // add point
             $service = $this->container->get('points_manager');
-            $service->updatePoints($user_id, self::AGREEMENT_POINT, CategoryType::AGREEMENT_CINT, TaskType::RENTENTION, self::COMMENT);
+            $service->updatePoints($user_id, self::AGREEMENT_POINT, CategoryType::CINT_EXPENSE, TaskType::RENTENTION, self::COMMENT);
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {

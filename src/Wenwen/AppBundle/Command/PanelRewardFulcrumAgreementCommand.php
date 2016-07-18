@@ -42,7 +42,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return CategoryType::AGREEMENT_FULCRUM;
+        return CategoryType::FULCRUM_EXPENSE;
     }
 
     protected function task($history)

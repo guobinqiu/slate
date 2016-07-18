@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Controller\ProjectSurveyCintController;
 
 class ProjectSurveyCintControllerTest extends WebTestCase
 {
@@ -188,7 +189,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
             $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
             $this->assertEquals(1, $task->getPoint());
-            $this->assertEquals('同意Cint问卷', $task->getTaskName());
+            $this->assertEquals(ProjectSurveyCintController::COMMENT, $task->getTaskName());
 
             $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
             $this->assertEquals(1, $point->getPointChangeNum());

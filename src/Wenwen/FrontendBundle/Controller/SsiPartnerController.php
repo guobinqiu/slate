@@ -109,7 +109,7 @@ class SsiPartnerController extends Controller
                 $point_value = 1;
                 $this->get('points_manager')->updatePoints($user->getId(), 
                     $point_value, 
-                    CategoryType::AGREEMENT_SSI, 
+                    CategoryType::SSI_EXPENSE, 
                     TaskType::RENTENTION, 
                     '同意参与海外市场调查项目'
                     );
@@ -210,7 +210,7 @@ class SsiPartnerController extends Controller
                 $user_id = $request->getSession()->get('uid');
                 $this->get('points_manager')->updatePoints($user_id, 
                     $point_value, 
-                    CategoryType::PRESCREEN_SSI, 
+                    CategoryType::SSI_EXPENSE, 
                     TaskType::RENTENTION, 
                     '完成海外市场调查项目Prescreen'
                     );

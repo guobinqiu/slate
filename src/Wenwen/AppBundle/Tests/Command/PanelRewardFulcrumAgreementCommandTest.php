@@ -168,7 +168,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $this->assertNotEmpty($task_history,'1 task history record');
         $this->assertCount(1, $task_history,'1 task history record');
 
-        $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
+        $this->assertEquals(4, $task_history[0]['task_type'],'suvey task4');
         $this->assertEquals(93, $task_history[0]['category_type'],'ad_cateogry 93');
         $this->assertEquals('同意Fulcrum问卷调查', $task_history[0]['task_name'],'task name');
 
@@ -177,7 +177,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
          $task_history =$task_stm->fetchAll();     
          $this->assertNotEmpty($task_history,'1 task history record');     
          $this->assertCount(1, $task_history,'1 task history record');     
-         $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');      
+         $this->assertEquals(4, $task_history[0]['task_type'],'suvey task4');      
          $this->assertEquals(93, $task_history[0]['category_type'],'ad_cateogry 93');      
          $this->assertEquals('同意Fulcrum问卷调查', $task_history[0]['task_name'],'task name');
         // points history
