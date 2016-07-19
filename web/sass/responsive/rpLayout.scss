@@ -1094,9 +1094,17 @@
     }
 
     /* landing page */
+    .dropMenu{
+        top: 2px;
+    }
+    .section{
+        .btn{
+            top: 28px;
+        }
+    }
     #section0{
         h1{
-            margin-left: -39%;
+            // margin-left: -39%;
             a{
                 img{
                     height: 36px;
@@ -1334,7 +1342,7 @@
                     top: 40%;
                 }
 
-            }
+            } 
         }
     }
 }

@@ -16,19 +16,16 @@ html,body{
 }
 h1{
 	position: absolute;
-	z-index: 5; 
-	top: 15px;
-	width: 1000px;
-	left: 50%;
-	margin-left: -500px;
+	z-index: 5;
+	top: 30px;
+	left: 5%;
 	text-align: left;
 }
 .btn{
 	position: absolute;
 	z-index: 6;
 	top: 20px;
-	right: 50%;
-	margin-right: -500px;
+	right: 5%;
 	text-align: center;
 	width: 65px;
 	height: 35px;
@@ -76,7 +73,7 @@ ul.menu{
 	z-index: 7;
 	top: 75px;
 	right: 50%;
-	margin-right: -500px; 
+	// margin-right: -500px; 
 	width: 0;
 	text-align: center;
 	background: #fff;
@@ -131,6 +128,17 @@ ul.menu{
 	*text-align: initial;
 	height: 100%;
 	top: 0;
+	&:before{
+	  content: "";
+	  position: absolute;
+	  z-index: -1;
+	  top: 0;
+	  bottom: 0;
+	  left: 0;
+	  right: 0;
+	  background: url(../../img/common/bg-dot-pattern.png) repeat;
+	  opacity: .3;
+	}
 	h2{
 		position: absolute;
 		*position: relative;
@@ -169,7 +177,7 @@ ul.menu{
 			border-radius: 3px;
 			&[title="登录"]{
 				color: #fff;
-				background-color: rgba(255,255,255,0.4);
+				background-color: rgba(255,255,255,0.25);
 			}
 			&.active{
 				color: #fff;
@@ -506,7 +514,7 @@ ul.menu{
 #pages{
 	position: fixed;
 	z-index: 1000;
-	right: 40px;
+	right: 3%;
 	top: 43%;
 	list-style: none;
 	li{
@@ -693,8 +701,8 @@ ul.menu{
 			}
 		}
 		#signup_email_error{ 
-		 	white-space: nowrap;
-		}
+	 	 	white-space: nowrap;
+	 	}
 	}
 	p{
 		text-align: center;
@@ -745,8 +753,8 @@ ul.menu{
 			}
 		}
 		input[type="text"], input[type="email"], input[type="password"]{
-			*height: 20px; 
-			*line-height: 10px;
+		 	*height: 20px; 
+		 	*line-height: 10px;
 		}
 	}
 	.login-btn{
@@ -796,6 +804,14 @@ ul.menu{
 		line-height: 22px;
 	}
 }
+/* drop menu */
+.dropMenu{
+	position: fixed;
+	top: 10px;
+	right: 5%;
+	z-index: 2;
+}
+
 /*-----------arrow style------------*/
 .arrow{
 	position: fixed;
