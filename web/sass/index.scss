@@ -125,6 +125,7 @@ ul.menu{
 	z-index: 2;
 	width: 100%;
 	text-align: center;
+	*text-align: initial
 	height: 100%;
 	top: 0;
 	&:before{
@@ -140,6 +141,7 @@ ul.menu{
 	}
 	h2{
 		position: absolute;
+		*position: relative;
 		z-index: 3;
 		top: 5%;
 		width: 100%;
@@ -693,14 +695,14 @@ ul.menu{
 				visibility: hidden;
 				font-size: 0;
 			}
-			// &.fade, &.null{
-			// 	right: -355px;
-			// }
 			ul{
 				background: transparent;
 				margin-bottom: 0; 
 			}
 		}
+		#signup_email_error{ 
+	 	 	white-space: nowrap;
+	 	}
 	}
 	p{
 		text-align: center;
@@ -715,6 +717,7 @@ ul.menu{
 	}
 	.login-btn-others{
 		margin-top: 20px;
+		*text-align: center;
 		a{
 			width: 100px;
 			color: #fff;
@@ -748,6 +751,10 @@ ul.menu{
 				line-height: 24px;
 				@include dib();
 			}
+		}
+		input[type="text"], input[type="email"], input[type="password"]{
+		 	*height: 20px; 
+		 	*line-height: 10px;
 		}
 	}
 	.login-btn{
