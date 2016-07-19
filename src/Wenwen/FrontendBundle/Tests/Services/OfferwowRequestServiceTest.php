@@ -32,6 +32,10 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->container = self::$kernel->getContainer();
         $this->offerwowRequestService = static::$kernel->getContainer()->get('app.offerwow_request_service');
 
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
     }
 
     /**
@@ -287,10 +291,7 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
+        
 
         $connection = $this->em->getConnection();
         $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
@@ -350,11 +351,6 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
-
         $connection = $this->em->getConnection();
         $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
 
@@ -413,11 +409,6 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
-
         $connection = $this->em->getConnection();
         $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
 
@@ -475,11 +466,6 @@ class OfferwowRequestServiceTest extends WebTestCase
             $this->container->getParameter('offerwow_com.key')
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
-
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
 
         // 准备user数据
         $connection = $this->em->getConnection();
@@ -574,10 +560,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $eventid = '1001'; // 随意，有值就好
         $immediate = '0'; // immediate 0
         $programname = '任务TEST';
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
 
         // 准备user数据
         $connection = $this->em->getConnection();
@@ -633,10 +615,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $immediate = '1'; // immediate 3
         // programname不存在的时候，task_history.task_name = eventid
         $programname = NULL;
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
 
         // 准备user数据
         $connection = $this->em->getConnection();
@@ -700,10 +678,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $eventid = '1001'; // 随意，有值就好
         $immediate = '2'; // immediate 3
         $programname = '任务TEST';
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
 
         // 准备user数据
         $connection = $this->em->getConnection();
@@ -766,10 +740,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $eventid = '1001'; // 随意，有值就好
         $immediate = '3'; // immediate 3
         $programname = '任务TEST';
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
 
         // 准备user数据
         $connection = $this->em->getConnection();
