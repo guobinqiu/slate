@@ -25,6 +25,7 @@ test:
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite wenwen_app_services -d memory_limit=-1 --debug --verbose
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite wenwen_app_webservice -d memory_limit=-1 --debug --verbose
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite wenwen_frontend_controller -d memory_limit=-1 --debug --verbose
+    - ./bin/phpunit -c ./app/phpunit.xml --testsuite wenwen_frontend_services -d memory_limit=-1 --debug --verbose
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite wenwen_frontend_form -d memory_limit=-1 --debug --verbose
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite jili_api_command -d memory_limit=-1 --debug --verbose
     - ./bin/phpunit -c ./app/phpunit.xml --testsuite jili_api_controller -d memory_limit=-1 --debug --verbose

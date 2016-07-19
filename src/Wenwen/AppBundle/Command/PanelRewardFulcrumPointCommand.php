@@ -6,13 +6,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
-
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+    const POINT_TYPE_COST = 11;
 
     protected function configure()
     {
@@ -37,13 +37,14 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        $point_exec_type = $history['extra_info']['point_type'];
-        return $this->sop_configure['sop_point_type'][$point_exec_type];
+        // https://github.com/researchpanelasia/rpa-dominance/wiki/Fulcrum
+        // 据说只有 cost(11) 
+        return CategoryType::FULCRUM_COST;
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)
@@ -67,10 +68,17 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if ($history['answer_status'] === 'COMPLETE') {
-            return false;
+        if ($history['answer_status'] != 'COMPLETE') {
+            // 20160718
+            // 状态不为 COMPLETE的不处理
+            // 老实说，这样做很不干净
+            // 状态不为 COMPLETE的不发积分，但是记录得要啊
+            return true;
         }
-        return true;
+        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
+            return true;
+        }
+        return false;
     }
 
     protected function skipRewardAlreadyExisted($history)

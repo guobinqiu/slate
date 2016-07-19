@@ -84,7 +84,7 @@ $(function(){
             success : function(data) {
                 var msg = data.message;
                 if(data.status == 1){
-                    $('.backError').hide();
+                    $('.pwdBackError').hide();
                     $('.successMess').html(msg).show(1000, function(){
                         setTimeout(closeSlider, 3000); 
                     });
@@ -97,7 +97,7 @@ $(function(){
                             // 跳转到账户设置首页画面
                             window.location.href = Routing.generate('_profile_index');
                         }else{
-                            $('.backError').html(msg).show();
+                            $('.pwdBackError').html(msg).show();
                             $('.successMess').hide();
                         }
                     }

@@ -221,7 +221,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
             'COMPLETE',
             'APPROVED',
             '2015-02-14 06:00:06',
-            '{"point":"100","point_type":"61"}'
+            '{"point":"100","point_type":"11"}'
         );
         $footer = array (
             'EOF',
@@ -272,7 +272,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $this->assertEquals('20002', $history_list[1]->getCintProjectQuotaID());
         $this->assertEquals($app_mid, $history_list[1]->getAppMemberID());
         $this->assertEquals('100', $history_list[1]->getPoint());
-        $this->assertEquals('93', $history_list[1]->getType());
+        $this->assertEquals('92', $history_list[1]->getType());
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
@@ -286,13 +286,13 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $this->assertEquals(100, $task[1]->getPoint());
         $this->assertEquals('c20001 This is a title2', $task[1]->getTaskName());
-        $this->assertEquals('93', $task[1]->getCategoryType());
+        $this->assertEquals('92', $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $point[0]->getPointChangeNum());
         $this->assertEquals(92, $point[0]->getReason());
         $this->assertEquals(100, $point[1]->getPointChangeNum());
-        $this->assertEquals(93, $point[1]->getReason());
+        $this->assertEquals(92, $point[1]->getReason());
 
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());

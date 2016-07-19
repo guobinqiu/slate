@@ -58,6 +58,10 @@
         <testsuite name="wenwen_frontend_controller">
             <directory>../src/Wenwen/FrontendBundle/Tests/Controller</directory>
         </testsuite>
+
+        <testsuite name="wenwen_frontend_services">
+            <directory>../src/Wenwen/FrontendBundle/Tests/Services</directory>
+        </testsuite>
         
         <testsuite name="wenwen_frontend_form">
             <directory>../src/Wenwen/FrontendBundle/Tests/Form</directory>

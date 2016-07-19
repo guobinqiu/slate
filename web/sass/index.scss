@@ -16,7 +16,7 @@ html,body{
 }
 h1{
 	position: absolute;
-	z-index: 5;
+	z-index: 5; 
 	top: 15px;
 	width: 1000px;
 	left: 50%;
@@ -687,13 +687,13 @@ ul.menu{
 				visibility: hidden;
 				font-size: 0;
 			}
-			// &.fade, &.null{
-			// 	right: -355px;
-			// }
 			ul{
 				background: transparent;
 				margin-bottom: 0; 
 			}
+		}
+		#signup_email_error{ 
+		 	white-space: nowrap;
 		}
 	}
 	p{

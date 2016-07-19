@@ -6,12 +6,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardSopPointCommand extends PanelRewardCommand
 {
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+    const POINT_TYPE_COST = 11;
+    const POINT_TYPE_EXPENSE = 61;
 
     protected function configure()
     {
@@ -40,12 +42,20 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return $this->sop_configure['sop_point_type'][$history['extra_info']['point_type']];
+        if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
+            return CategoryType::SOP_EXPENSE;
+        } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return CategoryType::SOP_COST;
+        }
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
+            return TaskType::RENTENTION;
+        } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+            return TaskType::SURVEY;
+        }
     }
 
     protected function comment($history)
@@ -81,6 +91,15 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        if(self::POINT_TYPE_EXPENSE == $history['extra_info']['point_type']){
+
+        } elseif(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
+
+        } else {
+            // 据SOP的API说，肯定没有 11 和 61之外的值
+            // 所以，当point_type 不是11 or 61时，skip
+            return true;
+        }
         return false;
     }
 
