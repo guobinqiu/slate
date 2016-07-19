@@ -272,7 +272,7 @@ $(function(){
     });
     $("#container").switchPage({
         'loop' : true,
-        'keyboard' : true,
+        'keyboard' : true
     });
     var refNum = [8, 41500, 5000000];
 });
