@@ -19,8 +19,8 @@ class CategoryType
     const EXPIRE = 15;           // (-) 积分过期清零
     
     // TaskType.CPA
-    const OFFERWOW = 17;         // (+) 完成offerwow任务获得积分 
-    const OFFER99 = 18;          // (+) 完成offer99任务获得积分
+    const OFFERWOW_COST = 17;         // (+) 完成offerwow任务获得积分 
+    const OFFER99_COST = 18;          // (+) 完成offer99任务获得积分
 
     // TaskType.RENTENTION
     const SINGUP = 32;           // (+) 完成注册获得积分
@@ -36,7 +36,7 @@ class CategoryType
     // TaskType.SURVEY
     // 这里，将来希望分成 自己公司的问卷，各类对接API的类型（Cint SSI Fulcrum）
     // *要注意* 修改实际的类型值的时候，积分统计的脚本也需要对应修改
-    const SURVEY = 92;           // (+) 回答商业问卷            获得积分 (问卷回答  ,アンケート回答11)
+    const SURVEY = 92;           // (+) 回答商业问卷            获得积分 (问卷回答  ,アンケート回答11) 将来不要了
     const SOP_COST = 92;         // (+) 回答SOP的实际商业问卷  
     const SSI_COST = 92;         // (+) 回答SSI的实际商业问卷  
     const CINT_COST = 92;        // (+) 回答Cint的实际商业问卷

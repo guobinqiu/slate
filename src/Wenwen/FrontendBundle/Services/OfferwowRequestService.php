@@ -198,7 +198,7 @@ class OfferwowRequestService
             $taskHistory->setUserid($userId);
             $taskHistory->setOrderId($offerwowOrder->getId());
             $taskHistory->setOcdCreatedDate($happenTime);
-            $taskHistory->setCategoryType(CategoryType::OFFERWOW);
+            $taskHistory->setCategoryType(CategoryType::OFFERWOW_COST);
             $taskHistory->setTaskType(TaskType::CPA);
             $taskHistory->setTaskName($taskName);
             $taskHistory->setDate($happenTime);
@@ -222,7 +222,7 @@ class OfferwowRequestService
                 $pointHistory = new $pointHistoryClass();
                 $pointHistory->setUserId($userId);
                 $pointHistory->setPointChangeNum($point);
-                $pointHistory->setReason(CategoryType::OFFERWOW);
+                $pointHistory->setReason(CategoryType::OFFERWOW_COST);
                 $user = $this->em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()) + intval($point));
                 $this->em->persist($pointHistory);

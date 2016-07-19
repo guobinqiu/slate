@@ -63,7 +63,7 @@ class Offer99RequestProcessor
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($user_id);
         $pointHistory->setPointChangeNum($point);
-        $pointHistory->setReason(CategoryType::OFFER99);
+        $pointHistory->setReason(CategoryType::OFFER99_COST);
 
         $vote_time = date_create();
         // Create new object of task_history0x
@@ -72,7 +72,7 @@ class Offer99RequestProcessor
         $taskHistory->setUserid($user_id);
         $taskHistory->setOrderId($order->getId());
         $taskHistory->setOcdCreatedDate($happen_time);
-        $taskHistory->setCategoryType(CategoryType::OFFER99);
+        $taskHistory->setCategoryType(CategoryType::OFFER99_COST);
         $taskHistory->setTaskType(TaskType::CPA);
         $taskHistory->setRewardPercent(0);
         $taskHistory->setTaskName($offer_name);
