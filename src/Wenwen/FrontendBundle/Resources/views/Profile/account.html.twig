@@ -93,5 +93,7 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/account.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/component/loginForm.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/pages/personal/account.js')}}" defer></script>
 {% endblock %}
