@@ -13,8 +13,8 @@ check_env(){
         echo "Log directory does not exist. Check your config and create the backup directory"
         exit 1
     fi
-    if [ -f innobackup.conf ];then
-        source innobackup.conf
+    if [ -f ./innobackup.conf ];then
+        source ./innobackup.conf
     else
         echo "Missing Config file, Please check"
         exit 1
@@ -64,8 +64,8 @@ del_old_backup(){
     fi
 }
 
-del_old_backup
 check_env
+del_old_backup
 get_full
 get_incremental
 

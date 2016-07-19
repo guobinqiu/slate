@@ -32,7 +32,7 @@ restore(){
     done
     innobackupex --apply-log $backup_full --incremental-dir=$backup_incremental/$restore_date
     innobackupex --apply-log $backup_full
-    mv $db_dir $db_dir.old
+    mv $db_dir $db_dir.old-$date
     innobackupex --copy-back $backup_full
     chown -R mysql:mysql $db_dir
     service mysqld restart
