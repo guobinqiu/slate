@@ -31,11 +31,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $this->container = self::$kernel->getContainer();
         $this->offerwowRequestService = static::$kernel->getContainer()->get('app.offerwow_request_service');
-
-        // 清空数据库
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
     }
 
     /**
@@ -211,9 +206,28 @@ class OfferwowRequestServiceTest extends WebTestCase
 
     public function testValidateParamsExistImmediate0()
     {
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $user = new User();
+        $user->setNick('test');
+        $user->setEmail('test@test.com');
+        $user->setPoints(100);
+        $user->setIsInfoSet(0);
+        $user->setIconPath('test/test_icon.jpg');
+        $user->setRewardMultiple(1);
+        $user->setPwd('11111q');
+        $user->setIsEmailConfirmed(1);
+        $user->setRegisterDate(new \DateTime());
+
+        $this->em->persist($user);
+        $this->em->flush();
+
         // prepare test datas
         // sign 不对
-        $memberid = 123; // 随意，有值就好
+        $memberid = $user->getId(); // 配合测试数据，先生成一条user数据，然后取出user_id
         $point = '100'; // 随意，有值就好
         $eventid = '1041'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
@@ -228,13 +242,35 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
+        $happen_time = date_create();
+        $offerwowOrder = new OfferwowOrder();
+        $offerwowOrder->setUserid($memberid); 
+        $offerwowOrder->setEventid($eventid);
+        $offerwowOrder->setStatus($immediate); 
+        $offerwowOrder->setHappenedAt($happen_time);
+        $offerwowOrder->setCreatedAt($happen_time);
+        $offerwowOrder->setDeleteFlag(0);
+
+        $this->em->persist($offerwowOrder);
+        $this->em->flush();
+        $this->em->clear();
+
+        // execute test
+        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
+
+        // expectations
+        $expect_status = 'failure';
+        $expect_errno = 'offerwow-05';
+        $this->assertEquals($expect_status, $result['status'], 'status is not correct');
+        $this->assertEquals($expect_errno, $result['errno'], 'errno is not correct');
+    }
+
+    public function testValidateParamsExistImmediate1()
+    {
         // 清空数据库
         $purger = new ORMPurger($this->em);
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
-
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
 
         $user = new User();
         $user->setNick('test');
@@ -247,36 +283,12 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setIsEmailConfirmed(1);
         $user->setRegisterDate(new \DateTime());
 
-        $happen_time = date_create();
-        $offerwowOrder = new OfferwowOrder();
-        $offerwowOrder->setUserid($memberid); 
-        $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus($immediate); 
-        $offerwowOrder->setHappenedAt($happen_time);
-        $offerwowOrder->setCreatedAt($happen_time);
-        $offerwowOrder->setDeleteFlag(0);
-
-
         $this->em->persist($user);
-        $this->em->persist($offerwowOrder);
         $this->em->flush();
-        $this->em->clear();
 
-        // execute test
-        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
-
-        // expectations
-        $expect_status = 'failure';
-        $expect_errno = 'offerwow-05';
-        $this->assertEquals($expect_status, $result['status']);
-        $this->assertEquals($expect_errno, $result['errno']);
-    }
-
-    public function testValidateParamsExistImmediate1()
-    {
         // prepare test datas
         // sign 不对
-        $memberid = 123; // 随意，有值就好
+        $memberid = $user->getId(); // 配合测试数据，先生成一条user数据，然后取出user_id
         $point = '100'; // 随意，有值就好
         $eventid = '1051'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
@@ -291,10 +303,35 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        
+        $happen_time = date_create();
+        $offerwowOrder = new OfferwowOrder();
+        $offerwowOrder->setUserid($memberid); 
+        $offerwowOrder->setEventid($eventid);
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus($immediate)); 
+        $offerwowOrder->setHappenedAt($happen_time);
+        $offerwowOrder->setCreatedAt($happen_time);
+        $offerwowOrder->setDeleteFlag(0);
 
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
+        $this->em->persist($offerwowOrder);
+        $this->em->flush();
+        $this->em->clear();
+
+        // execute test
+        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
+
+        // expectations
+        $expect_status = 'failure';
+        $expect_errno = 'offerwow-04';
+        $this->assertEquals($expect_status, $result['status'], 'status is not correct');
+        $this->assertEquals($expect_errno, $result['errno'], 'errno is not correct');
+    }
+
+    public function testValidateParamsExistImmediate2()
+    {
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
 
         $user = new User();
         $user->setNick('test');
@@ -307,36 +344,13 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setIsEmailConfirmed(1);
         $user->setRegisterDate(new \DateTime());
 
-        $happen_time = date_create();
-        $offerwowOrder = new OfferwowOrder();
-        $offerwowOrder->setUserid($memberid); 
-        $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus($immediate)); 
-        $offerwowOrder->setHappenedAt($happen_time);
-        $offerwowOrder->setCreatedAt($happen_time);
-        $offerwowOrder->setDeleteFlag(0);
-
-
         $this->em->persist($user);
-        $this->em->persist($offerwowOrder);
         $this->em->flush();
-        $this->em->clear();
 
-        // execute test
-        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
 
-        // expectations
-        $expect_status = 'failure';
-        $expect_errno = 'offerwow-04';
-        $this->assertEquals($expect_status, $result['status']);
-        $this->assertEquals($expect_errno, $result['errno']);
-    }
-
-    public function testValidateParamsExistImmediate2()
-    {
         // prepare test datas
         // sign 不对
-        $memberid = 123; // 随意，有值就好
+        $memberid = $user->getId(); // 随意，有值就好
         $point = '100'; // 随意，有值就好
         $eventid = '1061'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
@@ -351,20 +365,6 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
-
-        $user = new User();
-        $user->setNick('test');
-        $user->setEmail('test@test.com');
-        $user->setPoints(100);
-        $user->setIsInfoSet(0);
-        $user->setIconPath('test/test_icon.jpg');
-        $user->setRewardMultiple(1);
-        $user->setPwd('11111q');
-        $user->setIsEmailConfirmed(1);
-        $user->setRegisterDate(new \DateTime());
-
         $happen_time = date_create();
         $offerwowOrder = new OfferwowOrder();
         $offerwowOrder->setUserid($memberid); 
@@ -374,8 +374,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $offerwowOrder->setCreatedAt($happen_time);
         $offerwowOrder->setDeleteFlag(0);
 
-
-        $this->em->persist($user);
         $this->em->persist($offerwowOrder);
         $this->em->flush();
         $this->em->clear();
@@ -387,30 +385,15 @@ class OfferwowRequestServiceTest extends WebTestCase
         $expect_status = 'failure';
         $expect_errno = 'offerwow-04';
         $this->assertEquals($expect_status, $result['status']);
-        $this->assertEquals($expect_errno, $result['errno']);
+        $this->assertEquals($expect_errno, $result['errno'], 'errno is not correct');
     }
 
     public function testValidateParamsExistImmediate3()
     {
-        // prepare test datas
-        // sign 不对
-        $memberid = 123; // 随意，有值就好
-        $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
-        $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
-        $immediate = '3'; // immediate 3
-        $hash = array(
-            $memberid,
-            $point,
-            $eventid,
-            $websiteid,
-            $immediate,
-            $this->container->getParameter('offerwow_com.key')
-            );
-        $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
-
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
 
         $user = new User();
         $user->setNick('test');
@@ -423,36 +406,12 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setIsEmailConfirmed(1);
         $user->setRegisterDate(new \DateTime());
 
-        $happen_time = date_create();
-        $offerwowOrder = new OfferwowOrder();
-        $offerwowOrder->setUserid($memberid); 
-        $offerwowOrder->setEventid($eventid);
-        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('1'));   // 不能是0
-        $offerwowOrder->setHappenedAt($happen_time);
-        $offerwowOrder->setCreatedAt($happen_time);
-        $offerwowOrder->setDeleteFlag(0);
-
-
         $this->em->persist($user);
-        $this->em->persist($offerwowOrder);
         $this->em->flush();
-        $this->em->clear();
 
-        // execute test
-        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
-
-        // expectations
-        $expect_status = 'failure';
-        $expect_errno = 'offerwow-06';
-        $this->assertEquals($expect_status, $result['status']);
-        $this->assertEquals($expect_errno, $result['errno']);
-    }
-
-    public function testValidateParamsOK()
-    {
         // prepare test datas
         // sign 不对
-        $memberid = 123; // 随意，有值就好
+        $memberid = $user->getId(); // 随意，有值就好
         $point = '100'; // 随意，有值就好
         $eventid = '1001'; // 随意，有值就好
         $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
@@ -467,9 +426,36 @@ class OfferwowRequestServiceTest extends WebTestCase
             );
         $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
 
-        // 准备user数据
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
+        $happen_time = date_create();
+        $offerwowOrder = new OfferwowOrder();
+        $offerwowOrder->setUserid($memberid); 
+        $offerwowOrder->setEventid($eventid);
+        $offerwowOrder->setStatus(OfferwowRequestService::convertStatus('1'));   // 不能是0
+        $offerwowOrder->setHappenedAt($happen_time);
+        $offerwowOrder->setCreatedAt($happen_time);
+        $offerwowOrder->setDeleteFlag(0);
+
+        
+        $this->em->persist($offerwowOrder);
+        $this->em->flush();
+        $this->em->clear();
+
+        // execute test
+        $result = $this->offerwowRequestService->validateParams($memberid, $point, $eventid, $websiteid, $immediate, $sign);
+
+        // expectations
+        $expect_status = 'failure';
+        $expect_errno = 'offerwow-06';
+        $this->assertEquals($expect_status, $result['status']);
+        $this->assertEquals($expect_errno, $result['errno'], 'errno is not correct');
+    }
+
+    public function testValidateParamsOK()
+    {
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
 
         $user = new User();
         $user->setNick('test');
@@ -483,6 +469,24 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setRegisterDate(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+
+        // prepare test datas
+        // sign 不对
+        $memberid = $user->getId(); // 随意，有值就好
+        $point = '100'; // 随意，有值就好
+        $eventid = '1001'; // 随意，有值就好
+        $websiteid = $this->container->getParameter('offerwow_com.websiteid'); // 跟配置文件中的offerwow_com.websiteid的值一致
+        $immediate = '3'; // immediate 3
+        $hash = array(
+            $memberid,
+            $point,
+            $eventid,
+            $websiteid,
+            $immediate,
+            $this->container->getParameter('offerwow_com.key')
+            );
+        $sign = strtoupper(md5(implode($hash))); // 计算md5的sign
+
         
 
         // execute test OK 1 offerwow_order不存在
@@ -551,19 +555,11 @@ class OfferwowRequestServiceTest extends WebTestCase
         // 数据回传 immediate = 0
         // 没有已经存在的offerwow_order
         // 新建一个offerwow_order 和 task_history
-        
-
-        // prepare test datas
-        // sign 不对
-        $memberid = '123'; // 随意，有值就好
-        $point = '100'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
-        $immediate = '0'; // immediate 0
-        $programname = '任务TEST';
-
-        // 准备user数据
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
+     
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
 
         $user = new User();
         $user->setNick('test');
@@ -577,6 +573,16 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setRegisterDate(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+
+
+        // prepare test datas
+        // sign 不对
+        $memberid = $user->getId(); 
+        $point = '100'; // 随意，有值就好
+        $eventid = '1001'; // 随意，有值就好
+        $immediate = '0'; // immediate 0
+        $programname = '任务TEST';
+
 
         // 执行测试对象函数
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
@@ -604,21 +610,16 @@ class OfferwowRequestServiceTest extends WebTestCase
         // 没有已经存在的offerwow_order
         // 新建一个offerwow_order 和 task_history point_history
         // 更新 user
-        
+
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        // 准备user数据
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        // sign 不对
-        $memberid = '123'; // 随意，有值就好
-        $point = '152'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
-        $immediate = '1'; // immediate 3
-        // programname不存在的时候，task_history.task_name = eventid
-        $programname = NULL;
-
-        // 准备user数据
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
 
         $user = new User();
         $user->setNick('test');
@@ -632,7 +633,16 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setRegisterDate(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+        
+        // sign 不对
+        $memberid = $user->getId(); // 随意，有值就好
+        $point = '152'; // 随意，有值就好
+        $eventid = '1001'; // 随意，有值就好
+        $immediate = '1'; // immediate 3
+        // programname不存在的时候，task_history.task_name = eventid
+        $programname = NULL;
 
+    
         // 执行测试对象函数
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
         $offerwow_order = $this->em->getRepository("JiliApiBundle:OfferwowOrder")->findOneByEventid($eventid);
@@ -672,16 +682,11 @@ class OfferwowRequestServiceTest extends WebTestCase
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        // sign 不对
-        $memberid = '123'; // 随意，有值就好
-        $point = '152'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
-        $immediate = '2'; // immediate 3
-        $programname = '任务TEST';
 
-        // 准备user数据
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
 
         $user = new User();
         $user->setNick('test');
@@ -695,6 +700,16 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setRegisterDate(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+
+        
+        // sign 不对
+        $memberid = $user->getId(); // 随意，有值就好
+        $point = '152'; // 随意，有值就好
+        $eventid = '1001'; // 随意，有值就好
+        $immediate = '2'; // immediate 3
+        $programname = '任务TEST';
+
+        
 
         // 执行测试对象函数
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
@@ -734,17 +749,11 @@ class OfferwowRequestServiceTest extends WebTestCase
         // prepare test datas
         // 该用户的现有积分数
         $current_point = 100;
-        // sign 不对
-        $memberid = '123'; // 随意，有值就好
-        $point = '152'; // 随意，有值就好
-        $eventid = '1001'; // 随意，有值就好
-        $immediate = '3'; // immediate 3
-        $programname = '任务TEST';
-
+        // 清空数据库
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
         // 准备user数据
-        $connection = $this->em->getConnection();
-        $connection->exec("ALTER TABLE user AUTO_INCREMENT = ". $memberid .";");
-
         $user = new User();
         $user->setNick('test');
         $user->setEmail('test@test.com');
@@ -757,6 +766,14 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setRegisterDate(new \DateTime());
         $this->em->persist($user);
         $this->em->flush();
+
+        
+        // sign 不对
+        $memberid = $user->getId(); // 随意，有值就好
+        $point = '152'; // 随意，有值就好
+        $eventid = '1001'; // 随意，有值就好
+        $immediate = '3'; // immediate 3
+        $programname = '任务TEST';
 
         // 执行测试对象函数
         $result = $this->offerwowRequestService->processEvent($memberid, $point, $eventid, $immediate, $programname);
