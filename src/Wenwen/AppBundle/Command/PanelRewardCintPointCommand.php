@@ -77,10 +77,8 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if(self::POINT_TYPE_COST == $history['extra_info']['point_type']){
-            
-        } else {
-            // Cint 只有 61 类型，除此之外不处理
+        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
+            // Cint 只有 11(商业问卷 cost) 类型，除此之外不处理
             return true;
         }
         return false;
