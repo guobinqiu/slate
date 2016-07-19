@@ -23,7 +23,7 @@ class CategoryType
     const OFFER99_COST = 18;          // (+) 完成offer99任务获得积分
 
     // TaskType.RENTENTION
-    const SINGUP = 32;           // (+) 完成注册获得积分
+    const SIGNUP = 32;           // (+) 完成注册获得积分
     // 这里将来希望进一步分开 属性问卷，快速问答，AGREEMENT，网站活动 
     // *要注意* 修改实际的类型值的时候，积分统计的脚本也需要对应修改
     const QUICK_POLL = 93;       // (+) 快速问答
