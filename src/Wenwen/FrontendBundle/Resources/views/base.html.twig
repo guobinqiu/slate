@@ -27,11 +27,16 @@
         {% block footer %}{% endblock %}
     </div>
     {% block global_js %}
+        <script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" defer></script>
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js')}}" defer></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}" defer></script>
+        <script type="text/javascript" src="{{ asset('js/component/common.js')}}" defer></script>
         <!--[if lte IE 9]>
             <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>
             <script type="text/javascript" src="{{ asset('js/lib/respond.min.js')}}"></script>
         <![endif]-->
     {% endblock %}
-    {% block javascript %}{% endblock %}
+    {% block javascript %}
+    {% endblock %}
 </body>
 </html>

@@ -43,6 +43,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script type="text/javascript" src="{{ asset('js/pages/user/regSuccess.js')}}" defer></script>
 <!-- baidu promotion -->
 <div style="display:none;">
     <script type="text/javascript">
@@ -55,5 +56,4 @@
         })();
     </script>
 </div>
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/regSuccess.js')}}"></script>
 {% endblock %}
