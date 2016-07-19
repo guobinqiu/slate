@@ -59,7 +59,8 @@ body{
 				width: 100%;
 				text-align: center;
 				margin-bottom: 40px;
-				color: #666;
+				color: #9E9E9E;
+				line-height: 22px;
 			}
 		}
 		.qnCon{
@@ -213,10 +214,14 @@ body{
 }
 .prmPrompt{
 	background: #ebeced;
-	padding: 20px 28px;
+	padding: 20px 28px 20px 47px;
 	margin: 20px 0;
 	line-height: 22px;
 	color: #858585;
+	li{
+		list-style: initial;
+		margin-bottom: 8px;
+	}
 }
 .prmBtn{
 	text-align: center;
@@ -261,7 +266,7 @@ body{
     margin-top: 20px;
 }
 .ssi-permission{
-    width:470px; 
+    width:236px; 
     margin:0 auto;
     p{
         float: left;

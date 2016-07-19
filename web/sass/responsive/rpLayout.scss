@@ -1014,6 +1014,9 @@
             font-size: 1.6rem!important;
         }
     }
+    .prmPrompt li, .ssi-permission label{
+        font-size: .8rem!important;
+    }
     .rp-clearfix {
         zoom: 1;
     }
@@ -1307,7 +1310,7 @@
             }
         }
     } 
-    .main{
+    .main{ 
         .login{
             li{
                 span{
