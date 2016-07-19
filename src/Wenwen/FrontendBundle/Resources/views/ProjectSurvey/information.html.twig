@@ -19,7 +19,7 @@
                 <strong>积分数：<span class="point" id="point">{{ research.extra_info.point.complete }}分</span></strong>
             </div>
             {% set note = '※ 积分会在本次问卷回答期间完全结束后自动累计<br>※ 如果超过了回答期限将无法参加本次调查' %}
-            {% if research.extra_info.content is defined %}
+            {% if research.extra_info.content is defined and research.extra_info.content != '' %}
                 {% set note = "#{note}<br>※ #{research.extra_info.content}" %}
             {% endif %}
             <div class="prompt" id="note">{{ note|raw }}</div>
