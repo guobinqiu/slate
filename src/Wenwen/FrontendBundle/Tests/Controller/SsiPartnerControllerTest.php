@@ -244,35 +244,6 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @group dev-merge-ui-survey-list-ssi-agreement
-     */
-    public function testGivePoint()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
-        $user_id = $users[0]->getId();
-
-        $controller = new SsiPartnerController();
-        $controller->givePoint($container->get('points_manager'), $user_id, 1, '申请参与SSI市场调查项目');
-
-        //check db
-        $em->clear();
-        $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-        $this->assertEquals(1, $task->getPoint());
-        $this->assertEquals('申请参与SSI市场调查项目', $task->getTaskName());
-
-        $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-        $this->assertEquals(1, $point->getPointChangeNum());
-        $this->assertEquals(93, $point->getReason());
-
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $this->assertEquals($users[0]->getPoints() + 1, $user->getPoints());
-    }
-
     private function login($client)
     {
         $container = $client->getContainer();

@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use VendorIntegration\SSI\PC1\WebService\StatClient;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class SsiPointRewardCommand extends ContainerAwareCommand
 {
@@ -92,8 +94,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $this->getContainer()->get('points_manager')->updatePoints(
                     $user->getId(),
                     $ssiProjectConfig['point'],
-                    \Jili\ApiBundle\Entity\AdCategory::ID_QUESTIONNAIRE_COST,
-                    \Jili\ApiBundle\Entity\TaskHistory00::TASK_TYPE_SURVEY,
+                    CategoryType::SSI_COST,
+                    TaskType::SURVEY,
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
                 );
 

@@ -71,6 +71,7 @@ use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\ApiBundle\Utility\String;
 
 use Jili\ApiBundle\Entity\AdCategory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -1032,11 +1033,11 @@ class AdminController extends Controller implements IpAuthenticatedController
             if($type == 1)
               $po->setReason($this->container->getParameter('init_eight'));
             if($type == 2)
-              $po->setReason($this->container->getParameter('page_num'));   
+              $po->setReason(10); //随便啦，amazon 根本用不到   
             if($type == 3)
               $po->setReason($this->container->getParameter('init_eleven'));
             if($type == 4)
-              $po->setReason($this->container->getParameter('init_twelve'));
+              $po->setReason(CategoryType::MOBILE);
             $em->persist($po);
             $em->flush();
             $exchanges->setStatus($this->container->getParameter('init_one'));
@@ -1185,7 +1186,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $po = SequenseEntityClassFactory :: createInstance('PointHistory', $user_id);
             $po->setUserId($user_id);
             $po->setPointChangeNum('-'.$points);
-            $po->setReason(AdCategory::ID_ALIPAY);
+            $po->setReason(CategoryType::ALIPAY);
 
             // Prepare the data for sendMs
             $title = $this->container->getParameter('exchange_finish_alipay_tilte');

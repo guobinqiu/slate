@@ -6,12 +6,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\CintResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardCintPointCommand extends PanelRewardCommand
 {
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+    const POINT_TYPE_COST = 11;
 
     protected function configure()
     {
@@ -37,12 +38,12 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return $this->sop_configure['sop_point_type'][$history['extra_info']['point_type']];
+        return CategoryType::CINT_COST;
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        return TaskType::SURVEY;
     }
 
     protected function comment($history)
@@ -76,6 +77,10 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
+        if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
+            // Cint 只有 11(商业问卷 cost) 类型，除此之外不处理
+            return true;
+        }
         return false;
     }
 
