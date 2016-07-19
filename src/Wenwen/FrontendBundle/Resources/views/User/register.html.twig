@@ -144,5 +144,8 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/register.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}" defer></script>
 {% endblock %}

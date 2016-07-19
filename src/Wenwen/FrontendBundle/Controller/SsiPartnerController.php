@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Wenwen\FrontendBundle\Form\SsiPartnerPermissionType;
 use Wenwen\AppBundle\Entity\SsiRespondent;
-use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Entity\TaskHistory00;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/ssi_partner",requirements={"_scheme"="http"})
@@ -107,8 +107,12 @@ class SsiPartnerController extends Controller
             } else {
                 // permission no : add point
                 $point_value = 1;
-                $service = $this->get('points_manager');
-                $this->givePoint($service, $user->getId(), $point_value, '申请参与SSI市场调查项目');
+                $this->get('points_manager')->updatePoints($user->getId(), 
+                    $point_value, 
+                    CategoryType::SSI_EXPENSE, 
+                    TaskType::RENTENTION, 
+                    '同意参与海外市场调查项目'
+                    );
 
                 return $this->redirect($this->generateUrl('_ssi_partner_complete'));
             }
@@ -204,8 +208,12 @@ class SsiPartnerController extends Controller
                 // add point
                 $point_value = 1;
                 $user_id = $request->getSession()->get('uid');
-                $service = $this->get('points_manager');
-                $this->givePoint($service, $user_id, $point_value, '申请参与SSI市场调查项目');
+                $this->get('points_manager')->updatePoints($user_id, 
+                    $point_value, 
+                    CategoryType::SSI_EXPENSE, 
+                    TaskType::RENTENTION, 
+                    '完成海外市场调查项目Prescreen'
+                    );
 
                 $db_connection->commit();
             } catch (\Exception $e) {
@@ -261,10 +269,4 @@ class SsiPartnerController extends Controller
         ), $response);
     }
 
-    public function givePoint($service, $user_id, $point_value, $comment)
-    {
-        $ad_category_id = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-        $task_type_id = TaskHistory00::TASK_TYPE_SURVEY;
-        $service->updatePoints($user_id, $point_value, $ad_category_id, $task_type_id, $comment);
-    }
 }

@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
 use Jili\ApiBundle\Entity\AdCategory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 use JMS\JobQueueBundle\Entity\Job;
 
@@ -79,13 +81,13 @@ class SignupController extends Controller
     * create 
     *     point_history0x.user_id => user.id
     *     point_history0x.point_change_num => User::POINT_SIGNUP
-    *     point_history0x.reason => $AdCategory::ID_SINGUP
+    *     point_history0x.reason => CategoryType::SIGNUP
     * create
     *     task_history0x.user_id => user.id
     *     task_history0x.order_id => 0
     *     task_history0x.ocd_create_date => current_time
-    *     task_history0x.category_type => AdCategory::ID_SINGUP
-    *     task_history0x.task_type => 0
+    *     task_history0x.category_type => CategoryType::SIGNUP
+    *     task_history0x.task_type => TaskType::RENTENTION
     *     task_history0x.task_name => '完成注册'
     *     task_history0x.date => current_time
     *     task_history0x.point => User::POINT_SIGNUP
@@ -122,7 +124,7 @@ class SignupController extends Controller
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($user_id);
         $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
-        $pointHistory->setReason(AdCategory::ID_SINGUP);
+        $pointHistory->setReason(CategoryType::SIGNUP);
 
         // Create new object of task_history0x
         $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
@@ -130,8 +132,8 @@ class SignupController extends Controller
         $taskHistory->setUserid($user_id);
         $taskHistory->setOrderId(0);
         $taskHistory->setOcdCreatedDate($signupTime);
-        $taskHistory->setCategoryType(AdCategory::ID_SINGUP);
-        $taskHistory->setTaskType(0);
+        $taskHistory->setCategoryType(CategoryType::SIGNUP);
+        $taskHistory->setTaskType(TaskType::RENTENTION);
         $taskHistory->setTaskName('完成注册');
         $taskHistory->setDate($signupTime);
         $taskHistory->setPoint(User::POINT_SIGNUP);

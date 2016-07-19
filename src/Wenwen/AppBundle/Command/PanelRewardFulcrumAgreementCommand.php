@@ -6,15 +6,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Wenwen\AppBundle\Entity\FulcrumUserAgreementParticipationHistory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
-    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
-    const TYPE_EXPENSE = AdCategory::ID_QUESTIONNAIRE_EXPENSE;
-    const TYPE_TASK = TaskHistory00::TASK_TYPE_SURVEY;
+    const USER_AGREEMENT_ACTIVE = 'ACTIVE';     
     private $comment = '';
     private $point   = 0;
 
@@ -44,12 +42,12 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function type($history)
     {
-        return self::TYPE_EXPENSE;
+        return CategoryType::FULCRUM_EXPENSE;
     }
 
     protected function task($history)
     {
-        return self::TYPE_TASK;
+        return TaskType::RENTENTION;
     }
 
     protected function comment($history)

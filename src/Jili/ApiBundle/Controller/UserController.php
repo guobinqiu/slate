@@ -750,7 +750,7 @@ class UserController extends Controller implements CampaignTrackingController
                   '--name='.$user->getNick(),
                   '--register_key='. $setPasswordCode->getCode(),
               );
-              $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup');
+              $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
               $em->persist($job);
               $em->flush($job);
 
