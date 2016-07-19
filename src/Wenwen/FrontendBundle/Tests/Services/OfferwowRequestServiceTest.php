@@ -679,7 +679,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
-        $this->assertEquals(CategoryType::OFFERWOW, $pointHistory->getReason());
+        $this->assertEquals(CategoryType::OFFERWOW_COST, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints());
     }
@@ -745,7 +745,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         $this->assertTrue(!is_null($pointHistory),'eventid=[' . $eventid . '] point_history is not existed.');
         $this->assertEquals($point, $pointHistory->getPointChangeNum());
-        $this->assertEquals(CategoryType::OFFERWOW, $pointHistory->getReason());
+        $this->assertEquals(CategoryType::OFFERWOW_COST, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints(), 'user point is not properly updated');
     }
