@@ -78,7 +78,6 @@ $header-nav-height: 70px;
 		    }
 		}
 		a{
-			width: 87px;
 			text-align: left;
 			font-size: $nav-font-size;
 			color: $nav-font-color;
@@ -90,7 +89,6 @@ $header-nav-height: 70px;
 			}
 			&.mailWrap{
 				width: 52px;
-				padding: 0;
 				position: relative;
 				&:before{
 					content: '';
@@ -98,7 +96,7 @@ $header-nav-height: 70px;
 				    width: 1px;
 				    height: 15px;
 				    top: 29px;
-			        right: 50px;
+			        right: 76px;
 				    border-right: 1px solid #CDD5D5;
 				    z-index: 0;
 				}
@@ -124,35 +122,37 @@ $header-nav-height: 70px;
 }
 .header-nav-con{
 	a{
-		padding: 0 15px;
+		padding: 0 21px;
 		&.first{
 			padding-left: 0;
 		}
 		&.last{
 			border-right: none;
 		}
-	}
-	em{
-		width: 17px;
-		height: 12px;
-		@include dib();
-		&.mail{
-			margin-top: 1px;
-			margin-left: 24px;
-			background: url(../img/common/icons_common.png) no-repeat 0 0;
-			position: relative;
-			z-index: 1;
-			cursor: pointer;
-			*margin-top: 8px;
-			.mark{
-				position: absolute;
-				z-index: 1000;
-				top: -3px;
-				right: -3px;
-				width: 7px;
-				height: 7px;
-				border-radius: 50%;
-				background: url(../img/common/icons_common.png) no-repeat 0 -17px;
+		em{
+			width: 17px;
+			height: 12px;
+			@include dib();
+			&.mail{
+				margin-top: 1px;
+				margin-left: 36px;
+				background: url(../img/common/icons_common.png) no-repeat 0 0;
+				position: relative;
+				z-index: 1;
+				cursor: pointer;
+				*margin-top: 8px;
+				*vertical-align: 4px;
+				*margin-left: 35px;
+				.mark{
+					position: absolute;
+					z-index: 1000;
+					top: -3px;
+					right: -3px;
+					width: 7px;
+					height: 7px;
+					border-radius: 50%;
+					background: url(../img/common/icons_common.png) no-repeat 0 -17px;
+				}
 			}
 		}
 	}
@@ -178,6 +178,7 @@ $header-nav-height: 70px;
 			@include arrow(bottom, 5px, $top-font-color);
 			transition:transform .1s ease-in 0s;
 			-webkit-transition:-webkit-transform .1s ease-in 0s;
+			*display: inline-block;
 		}
 	}
 	span:hover{
@@ -200,10 +201,10 @@ $header-nav-height: 70px;
 			line-height: 40px;
 		    height: 40px;
 			a{
-				display: inline-block;
 			    font-size: 14px;
 			    margin-left: 8px;
 				@include dib();
+				display: block;
 			}
 			&:hover{
 				background: #ededed;
