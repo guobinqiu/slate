@@ -3,7 +3,7 @@
 -------------------*/
 $(function(){
     /*---新手引导部分---*/
-    function shouldShow(){
+    function guideShow(){
         var vp  = $.cookie('guide');
         if (vp == undefined || vp == 1) {
             return true;
@@ -23,7 +23,7 @@ $(function(){
         $.cookie('guide', 0, { expires: 10000, path: '/' });
         $('#mask, #newguideWrap').hide();
     });
-    if(shouldShow()){
+    if(guideShow()){
         $('#mask, #newguideWrap').show();
     }else{
         $('#mask, #newguideWrap').hide();
