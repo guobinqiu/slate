@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}激活：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}激活{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
@@ -32,8 +32,8 @@
 			</dl>
 			<dl>
 				<dt>还未收到确认邮件，您可以：</dt>
-				<dd>1.查看您的垃圾邮件箱，并将<b>support@91wenwen.com</b>加为您的联系人。</dd>
-				<dd>2.如果还是没有收到，请<a href="mailto:support@91wenwen.com">点击这里</a>联系客服人员。</dd>
+				<dd>1.查看您的垃圾邮件箱，并将<b>cs@91wenwen.net</b>加为您的联系人。</dd>
+				<dd>2.如果还是没有收到，请<a href="mailto:cs@91wenwen.net">点击这里</a>联系客服人员。</dd>
 			</dl>
 		</div>
 	</div>
@@ -45,5 +45,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/user/emailActive.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/emailActive.js')}}" defer></script>
 {% endblock %}

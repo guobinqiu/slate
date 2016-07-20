@@ -94,22 +94,20 @@
                 <TD><A class=menuChild href="{{ path('_admin_infoCallboard') }}" target=main>编辑公告</A></TD>
             </TR>
         </TABLE>
-
-
+        
         <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=22>
-                <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
-                    <A class=menuParent onclick=expand(5) href="javascript:void(0);">成果网对接管理</A>
-                </TD>
-            </TR>
-        </TABLE>
-        <TABLE id=child5 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_importCpsAdver') }}" target=main>导入cps数据</A></TD>
-            </TR>
-        </TABLE>
-
+             <TR height=22>
+                 <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
+                     <A class=menuParent onclick=expand(5) href="javascript:void(0);">成果网对接管理</A>
+                 </TD>
+             </TR>
+         </TABLE>
+         <TABLE id=child5 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+             <TR height=20>
+                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
+                 <TD><A class=menuChild href="{{ path('_admin_importCpsAdver') }}" target=main>导入cps数据</A></TD>
+             </TR>
+         </TABLE>
 
         <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
             <TR height=22>
@@ -151,26 +149,6 @@
         <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
             <TR height=22>
                 <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
-                    <A class=menuParent onclick=expand(13) href="javascript:void(0);">商家活动管理</A>
-                </TD>
-            </TR>
-        </TABLE>
-        <TABLE id=child13 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_addBusinessActivity',{'id': 1}) }}" target=main>添加活动</A></TD>
-            </TR>
-
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('_admin_infoBusinessActivity',{'id': 2}) }}" target=main>编辑活动</A></TD>
-            </TR>
-
-        </TABLE>
-
-        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=22>
-                <TD style="PADDING-LEFT: 30px" background="{{ asset('img/admin/menu_bt.jpg')}}">
                     <A class=menuParent onclick=expand(17) href="javascript:void(0);">紧急公告管理</A>
                 </TD>
             </TR>
@@ -180,28 +158,6 @@
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
                 <TD><A class=menuChild href="{{ path('_admin_emergencyAnnouncement') }}" target=main>紧急公告内容设定</A></TD>
-            </TR>
-        </TABLE>
-
-        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=22>
-                <TD style="PADDING-LEFT: 30px" background={{asset('images/admin/menu_bt.jpg')}}>
-                    <A class=menuParent onclick=expand(18) href="javascript:void(0);">Emar商家管理</A>
-                </TD>
-            </TR>
-        </TABLE>
-        <TABLE id=child18 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('admin_emarwebsitescroned') }}" target=main>同步列表</A></TD>
-            </TR>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('admin_emar_websites') }}" target=main>列表/编辑</A></TD>
-            </TR>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('admin_emar_websites_new') }}" target=main>添加</A></TD>
             </TR>
         </TABLE>
 
@@ -238,20 +194,6 @@
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
                 <TD><A class=menuChild href="{{ path('_admin_kpiDailyRR') }}" target=main>KpiDailyRR</A></TD>
-            </TR>
-        </TABLE>
-
-        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=22>
-                <TD style="PADDING-LEFT: 30px" background={{asset('img/admin/menu_bt.jpg')}}>
-                    <A class=menuParent onclick=expand(21) href="javascript:void(0);">Emar API Cache</A>
-                </TD>
-            </TR>
-        </TABLE>
-        <TABLE id=child21 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-            <TR height=20>
-                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="{{ path('jili_emar_admincachepanel_index') }}" target=main>Manager Panel</A></TD>
             </TR>
         </TABLE>
 

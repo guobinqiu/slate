@@ -19,7 +19,7 @@ ol, ul {
 table {
     border-collapse: collapse;
     border-spacing: 0;
-}
+} 
 caption, th, td {
     font-weight: normal;
     vertical-align: middle;
@@ -35,7 +35,7 @@ a img {
     border: none;
 }
 a {
-    color: #3c434d;
+    color: #404040;
     background: transparent;
     text-decoration: none;
 }
@@ -98,6 +98,7 @@ i, cite, em, var, address, dfn {
     font-style: normal;
 }
 .main{
+    overflow: auto\9;
     margin-top: 2px;
     &.unlogin{
     	margin-top: 0px;

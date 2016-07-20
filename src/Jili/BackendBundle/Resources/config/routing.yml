@@ -1,12 +1,4 @@
 
-analog-offerwow:
-    resource: "@JiliBackendBundle/Controller/AnalogOfferwowController.php"
-    type:     annotation
-
-analog-chinanet:
-    resource: "@JiliBackendBundle/Controller/AnalogChanetController.php"
-    type:     annotation
-
 expericnce-advertisement:
     resource: "@JiliBackendBundle/Controller/ExperienceAdvertisementController.php"
     type:     annotation

@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}个人资料：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}个人资料{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/profile.css') }} " rel="stylesheet" type="text/css">
@@ -148,5 +148,10 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/personal/profile.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/Jcrop/jquery.Jcrop.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.ui.widget.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.iframe-transport.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/pages/personal/profile.js')}}" defer></script>
 {% endblock %}

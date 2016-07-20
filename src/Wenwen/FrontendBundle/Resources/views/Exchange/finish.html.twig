@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}兑换完成：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}兑换完成{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/exchangeFlow.css') }} " rel="stylesheet" type="text/css">
@@ -18,5 +18,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/finish.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/finish.js')}}" defer></script>
 {% endblock %}

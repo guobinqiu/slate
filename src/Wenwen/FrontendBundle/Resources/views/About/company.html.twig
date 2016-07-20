@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}公司介绍：{{ parent() }}{% endblock %}
+{% block title %}{{ parent() }}公司介绍{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
@@ -51,6 +51,3 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header.js')}}"></script>
-{% endblock %}

@@ -11,7 +11,7 @@
 		width: 150px;
 		margin: 0 auto;
 		height: 30px;
-		line-height: 30px;
+		line-height: 30px; 
 		text-align: center;
 		border: 2px solid #ade378;
 		background: #f7f7f7;
@@ -86,7 +86,7 @@
 			}
 		}
 	}
-	.backError{
+	.backError, .pwdBackError{
 		padding-left: 120px;
 		color: $error-color;
 	}

@@ -2,7 +2,13 @@
     <div class="header-nav-con w1000 clearfix">
         <div class="logo left">
             <a href="{{ path('_homepage') }}" title="91问问调查网logo">
-            <img src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo"></a>
+                <!--[if !IE]><!-->
+                    <img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo">
+                <!--<![endif]-->
+                <!--[if IE]>
+                    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+                <![endif]-->
+            </a>
             <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
         </div>
         <div class="navR right">

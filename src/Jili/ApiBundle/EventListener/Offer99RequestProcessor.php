@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManager;
 
 use Jili\ApiBundle\Entity\Offer99Order;
 use Jili\ApiBundle\Util\String;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  *
@@ -16,29 +18,25 @@ class Offer99RequestProcessor
 {
     private $em;
     private $logger;
-    private $parameterBag;
-    private $container_;
 
-    private $task_logger;
-    private $point_logger;
-
-    public function __construct(LoggerInterface $logger, EntityManager $em /*, ParameterBagInterface $parameterBag*/
-    ) {
+    public function __construct(LoggerInterface $logger, EntityManager $em ) {
         $this->logger = $logger;
         $this->em = $em;
     }
 
     public function process(Request $request, array $config)
     {
-        $category_type = $config['category_type'];
         $task_name = $config['name'];
         $task_type = $config['task_type'];
 
         $this->logger->debug('{jaord}' . __FILE__ . ':' . __LINE__ . var_export($request->query, true));
 
         $tid = $request->query->get('tid');
-        $uid = $request->query->get('uid');
+        $user_id = $request->query->get('uid');
         $point = $request->query->get('vcpoints');
+        // 20160716 暂时懒得重构这块的代码，先把需要的数据补齐
+        // 记录offer99那边回传的任务名称，因为现在没有检查这个任务名称的参数是否存在，万一没有的话用固定名称
+        $offer_name = $request->query->get('offer_name', $task_name);
         $happen_time = date_create();
 
         $em = $this->em;
@@ -52,7 +50,7 @@ class Offer99RequestProcessor
             // init offerorder & task history
             $order = new Offer99Order();
             // update offerorder
-            $order->setUserid($uid); // order
+            $order->setUserid($user_id); // order
             $order->setTid($tid); // order
             $order->setCreatedAt(date_create(date('Y-m-d H:i:s')));
             $order->setDeleteFlag(0);
@@ -60,79 +58,46 @@ class Offer99RequestProcessor
             $em->flush();
         }
 
-        $params = array (
-            'userid' => $uid,
-            'orderId' => $order->getId(),
-            'taskType' => $task_type,
-            'categoryType' => $category_type,
-            'reward_percent' => 0,
-            'task_name' => $task_name,
-            'point' => $point,
-            'date' => $happen_time,
-            'status' => 1
-        );
+        // Create new object of point_history0x
+        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
+        $pointHistory = new $classPointHistory();
+        $pointHistory->setUserId($user_id);
+        $pointHistory->setPointChangeNum($point);
+        $pointHistory->setReason(CategoryType::OFFER99_COST);
 
-        // updte task_history
-        $this->initTaskHistory($params);
+        $vote_time = date_create();
+        // Create new object of task_history0x
+        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
+        $taskHistory = new $classTaskHistory();
+        $taskHistory->setUserid($user_id);
+        $taskHistory->setOrderId($order->getId());
+        $taskHistory->setOcdCreatedDate($happen_time);
+        $taskHistory->setCategoryType(CategoryType::OFFER99_COST);
+        $taskHistory->setTaskType(TaskType::CPA);
+        $taskHistory->setRewardPercent(0);
+        $taskHistory->setTaskName($offer_name);
+        $taskHistory->setDate($happen_time);
+        $taskHistory->setPoint($point);
+        $taskHistory->setStatus(1);
+        $db_connection = $em->getConnection();
+        $db_connection->beginTransaction();
 
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+        // update user.point更新user表总分数
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $user->setPoints(intval($user->getPoints()) + intval($point));
-        $em->persist($user);
-        $em->flush();
 
-        // updte point_history
-        $this->getPointHistory($user->getId(), $point, $category_type );
+        try {
+            $em->persist($user);
+            $em->persist($pointHistory);
+            $em->persist($taskHistory);
+            $em->flush();
+
+            $db_connection->commit();
+        } catch (\Exception $e) {
+            $db_connection->rollback();
+            $this->get('logger')->error(__METHOD__ . 'Offer99 Request reward failed: ' . $e->getMessage());
+        }
 
     }
 
-    private function updateTaskHistory($params = array ())
-    {
-        extract($params);
-        return $this->task_logger->update($params);
-    }
-
-    private function initTaskHistory($params = array ())
-    {
-        extract($params);
-        return $this->task_logger->init($params);
-    }
-
-    private function TaskHistory($params = array ())
-    {
-        extract($params);
-        return $this->task_logger->update($params);
-    }
-
-    public function selectTaskPercent($userid, $orderId)
-    {
-        return $this->task_logger->selectPercent(array (
-            'user_id' => $userid,
-            'order_id' => $orderId
-        ));
-    }
-
-    private function getPointHistory($userid, $point, $type)
-    {
-        $this->point_logger->get(compact('userid', 'point', 'type'));
-    }
-
-    public function getParameter($key)
-    {
-        return $this->container_->getParameter($key);
-    }
-
-    public function setContainer($c)
-    {
-        $this->container_ = $c;
-    }
-
-    public function setTaskLogger(TaskHistory $task_logger)
-    {
-        $this->task_logger = $task_logger;
-    }
-
-    public function setPointLogger(PointHistory $point_logger)
-    {
-        $this->point_logger = $point_logger;
-    }
 }

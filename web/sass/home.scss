@@ -58,6 +58,7 @@ $slider-height: 305px;
 	height: 91px; 
 	background: url(../img/home/homeBrBg.jpg) no-repeat center center #465b76;
 	background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg',sizingMethod='scale');
 	.faceWapper{
 		margin-right: 13px;
 		@include dib();
@@ -123,18 +124,22 @@ $slider-height: 305px;
 		.vote-btn{
 			top: 33px;
 		}
-		li.vote-new{
-			.tips{
-				top: 42px;	
-				span{
-					width: 13px;
-					height: 13px;
-					line-height: 13px;
-					border-radius: 50%;
-					background: #979797;
-					color: #fff;
-					text-align: center;
-					cursor: pointer;
+		li{
+			*height: 65px;
+			*overflow: hidden;
+			&.vote-new{
+				.tips{
+					top: 42px;	
+					span{
+						width: 13px;
+						height: 13px;
+						line-height: 13px;
+						border-radius: 50%;
+						background: #979797;
+						color: #fff;
+						text-align: center;
+						cursor: pointer;
+					}
 				}
 			}
 		}
@@ -210,7 +215,6 @@ $slider-height: 305px;
 		}
 		li{
 			padding: 15px 10px 0 5px;
-			border-bottom: $block-inner-border;
 			b{
 				color: $main-color;
 			}

@@ -450,7 +450,7 @@ class UserController extends Controller implements CampaignTrackingController
             }
             return $response;
         }
-        return $this->render('WenwenFrontendBundle:Home:index.html.twig',array('code'=>$code,'email'=>$email));
+        return $this->render('WenwenFrontendBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
     }
 
     /**
@@ -750,7 +750,7 @@ class UserController extends Controller implements CampaignTrackingController
                   '--name='.$user->getNick(),
                   '--register_key='. $setPasswordCode->getCode(),
               );
-              $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup');
+              $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
               $em->persist($job);
               $em->flush($job);
 
@@ -1102,7 +1102,8 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-帐号密码重置')
-        ->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'))
+        ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+        ->setSender($this->container->getParameter('webpower_signup_sender'))
         ->setTo($email)
         ->setBody(
                 '<html>' .
@@ -1116,7 +1117,7 @@ class UserController extends Controller implements CampaignTrackingController
                 '</html>',
                 'text/html'
         );
-        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_signup_mailer')->send($message);
         if($flag===1){
             return true;
         }else{
@@ -1131,7 +1132,8 @@ class UserController extends Controller implements CampaignTrackingController
     {
         $message = \Swift_Message::newInstance()
         ->setSubject('91问问-注册激活邮件')
-        ->setFrom(array($this->container->getParameter('webpower_sender') => '91问问调查网'))
+        ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+        ->setSender($this->container->getParameter('webpower_signup_sender'))
         ->setTo($email)
         ->setBody(
                         '<html>' .
@@ -1145,7 +1147,7 @@ class UserController extends Controller implements CampaignTrackingController
                         '</html>',
                         'text/html'
         );
-        $flag = $this->get('swiftmailer.mailer.webpower_mailer')->send($message);
+        $flag = $this->get('swiftmailer.mailer.webpower_signup_mailer')->send($message);
         if($flag===1){
             return true;
         }else{

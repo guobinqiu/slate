@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
-use Jili\ApiBundle\Entity\AdCategory;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Jili\FrontendBundle\Form\VoteSuggestType;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/vote",requirements={"_scheme"="http"})
@@ -247,7 +247,7 @@ class VoteController extends Controller
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($user_id);
         $pointHistory->setPointChangeNum($point);
-        $pointHistory->setReason(AdCategory::ID_QUESTIONNAIRE_EXPENSE);
+        $pointHistory->setReason(CategoryType::QUICK_POLL);
 
         $vote_time = date_create();
         // Create new object of task_history0x
@@ -256,8 +256,8 @@ class VoteController extends Controller
         $taskHistory->setUserid($user_id);
         $taskHistory->setOrderId(0);
         $taskHistory->setOcdCreatedDate($vote_time);
-        $taskHistory->setCategoryType(AdCategory::ID_QUESTIONNAIRE_EXPENSE);
-        $taskHistory->setTaskType(TaskHistory00::TASK_TYPE_CHECKIN);
+        $taskHistory->setCategoryType(CategoryType::QUICK_POLL);
+        $taskHistory->setTaskType(TaskType::RENTENTION);
         $taskHistory->setTaskName('快速问答');
         $taskHistory->setDate($vote_time);
         $taskHistory->setPoint($point);
@@ -379,8 +379,6 @@ class VoteController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $mail_to = $this->container->getParameter('vote_suggest_mail_to');
-        $mail_from = $this->container->getParameter('webpower_sender');
         $engine = $this->container->get('templating');
         $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
             'email' => $user->getEmail(),
@@ -389,11 +387,13 @@ class VoteController extends Controller
         $subject = '[QS] ' . $values['title'];
         $message = \Swift_Message::newInstance()
                         ->setSubject($subject)
-                        ->setFrom(array($mail_from => '91问问调查网'))
-                        ->setTo($mail_to)
-                        ->setReplyTo($user->getEmail())
-                        ->setBody($content);
-        $mailer = $this->container->get('swiftmailer.mailer.webpower_mailer');
+                        ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+                        ->setSender($this->container->getParameter('webpower_signup_sender'))
+                        ->setTo($this->container->getParameter('cs_mail'))
+                        ->setReplyTo(array($user->getEmail() => $user->getNick()))
+                        ->setBody($content, 'text/html');
+
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $mailer->send($message);
     }
 

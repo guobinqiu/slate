@@ -24,7 +24,7 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: info
-            channels: [ !event, !request ]
+            channels: [ !event, !request, !security ]
 
 
 

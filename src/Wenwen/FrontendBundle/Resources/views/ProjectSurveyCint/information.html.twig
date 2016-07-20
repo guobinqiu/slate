@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}问卷开始：{{ parent() }} {% endblock %}
+{% block title %}{{ parent() }}问卷开始{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
@@ -15,12 +15,12 @@
         <div class="qnTxt">
             <h2 id="title"></h2>
             <div class="subtit">
-                <strong>问卷标题： Cint问卷调查<br></strong>
+                <strong>问卷标题： 高积分问卷调查<br></strong>
                 <strong>问卷编号： <span id="no">c{{ cint_research.survey_id }}</span><br></strong>
                 <strong>积分数：<span class="point" id="point">{{ cint_research.extra_info.point.complete }}分</span></strong>
             </div>
             {% set note = '※ 注意：在回答问卷过程中，请不要中断，避免失去获得积分的机会。' %}
-            {% if cint_research.extra_info.content is defined %}
+            {% if cint_research.extra_info.content is defined and cint_research.extra_info.content != '' %}
                 {% set note = "#{note}<br>※ #{cint_research.extra_info.content}" %}
             {% endif %}
             <div class="prompt" id="note">{{ note|raw }}</div>

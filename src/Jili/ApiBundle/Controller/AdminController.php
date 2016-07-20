@@ -71,6 +71,7 @@ use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\ApiBundle\Utility\String;
 
 use Jili\ApiBundle\Entity\AdCategory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 /**
  * @Route( requirements={"_scheme" = "https"})
@@ -1032,11 +1033,11 @@ class AdminController extends Controller implements IpAuthenticatedController
             if($type == 1)
               $po->setReason($this->container->getParameter('init_eight'));
             if($type == 2)
-              $po->setReason($this->container->getParameter('page_num'));   
+              $po->setReason(10); //随便啦，amazon 根本用不到   
             if($type == 3)
               $po->setReason($this->container->getParameter('init_eleven'));
             if($type == 4)
-              $po->setReason($this->container->getParameter('init_twelve'));
+              $po->setReason(CategoryType::MOBILE);
             $em->persist($po);
             $em->flush();
             $exchanges->setStatus($this->container->getParameter('init_one'));
@@ -1185,7 +1186,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $po = SequenseEntityClassFactory :: createInstance('PointHistory', $user_id);
             $po->setUserId($user_id);
             $po->setPointChangeNum('-'.$points);
-            $po->setReason(AdCategory::ID_ALIPAY);
+            $po->setReason(CategoryType::ALIPAY);
 
             // Prepare the data for sendMs
             $title = $this->container->getParameter('exchange_finish_alipay_tilte');
@@ -2107,155 +2108,6 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em->remove($checkinOne);
         $em->flush();
         return $this->redirect($this->generateUrl('_admin_infoCheckinShop'));
-    }
-
-    /**
-     * @Route("/addBusinessActivity", name="_admin_addBusinessActivity")
-     */
-    public function addBusinessActivityAction()
-    {
-        $code ='';
-        $codeflag = $this->container->getParameter('init');
-        $business = new MarketActivity();
-        $form  = $this->createForm(new AddBusinessActivityType(),$business);
-        $em = $this->getDoctrine()->getManager();
-        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
-        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
-        $request = $this->get('request');
-        $actId = $request->request->get('actId');
-        $actDescription = $request->request->get('actDescription');
-        $category = $request->request->get('category');
-        $businessName = $request->request->get('businessname');
-        $startTime = $request->request->get('start_time');
-        $endTime = $request->request->get('end_time');
-        $url = $request->request->get('url');
-        if ($request->getMethod() == 'POST') {
-             if($actId && $startTime && $endTime && $businessName && $url && $category){
-                $form->bind($request);
-                $category = implode(",",$category);
-                $path =  $this->container->getParameter('upload_activity_dir');
-                $business->setAid($actId);
-                $business->setBusinessName($businessName);
-                $business->setActivityDescription($actDescription);
-                $business->setCategoryId($category);
-                $business->setActivityUrl($url);
-                $business->setStartTime(date_create($startTime));
-                $business->setEndTime(date_create($endTime));
-                $em->persist($business);
-                $code = $business->upload($path);
-                if(!$code){
-                    $em->flush();
-                    return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
-                }
-            }else{
-                $codeflag = $this->container->getParameter('init_one');
-            }
-        }
-        return $this->render('JiliApiBundle:Admin:addBusinessActivity.html.twig',
-                    array('code'=>$code,
-                          'codeflag'=>$codeflag,
-                          'adver'=>$adver,
-                          'actCategory'=>$actCategory,
-                          'form' => $form->createView(),
-                          'businessName'=>$businessName,
-                          'actDescription'=>$actDescription,
-                          'url'=>$url,
-                          'start_time'=>$startTime,
-                          'end_time'=>$endTime));
-
-    }
-
-
-    /**
-     * @Route("/infoBusinessActivity", name="_admin_infoBusinessActivity")
-     */
-    public function infoBusinessActivityAction()
-    {
-        $request = $this->get('request');
-        $em = $this->getDoctrine()->getManager();
-        $business = $em->getRepository('JiliApiBundle:MarketActivity')->getAllBusinessList();
-        $paginator = $this->get('knp_paginator');
-        $arr['pagination'] = $paginator
-        ->paginate($business,
-                $request->query->get('page', 1), $this->container->getParameter('page_num'));
-        $arr['pagination']->setTemplate('JiliApiBundle::pagination.html.twig');
-        return $this->render('JiliApiBundle:Admin:infoBusinessActivity.html.twig',$arr);
-
-    }
-
-     /**
-     * @Route("/editBusinessActivity/{id}", name="_admin_editBusinessActivity")
-     */
-    public function editBusinessActivityAction($id)
-    {
-        $code ='';
-        $codeflag = $this->container->getParameter('init');
-        $em = $this->getDoctrine()->getManager();
-        $business = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
-        $adver = $em->getRepository('JiliApiBundle:Advertiserment')->getAllCps(2);
-        $actCategory = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
-        $newCategory = explode(",",$business->getCategoryId());
-        $form  = $this->createForm(new AddBusinessActivityType(),$business);
-        $request = $this->get('request');
-        $actId = $request->request->get('actId');
-        $category = $request->request->get('category');
-        $businessName = $request->request->get('businessname');
-        $actDescription = $request->request->get('actDescription');
-        $startTime = $request->request->get('start_time');
-        $endTime = $request->request->get('end_time');
-        $url = $request->request->get('url');
-        if ($request->getMethod() == 'POST') {
-             if($actId && $startTime && $endTime && $businessName && $url && $category){
-                $form->bind($request);
-                $path =  $this->container->getParameter('upload_activity_dir');
-                $category = implode(",",$category);
-                $business->setAid($actId);
-                $business->setBusinessName($businessName);
-                $business->setActivityDescription($actDescription);
-                $business->setCategoryId($category);
-                $business->setActivityUrl($url);
-                $business->setStartTime(date_create($startTime));
-                $business->setEndTime(date_create($endTime));
-                $em->persist($business);
-                $code = $business->editupload($path);
-                if(!$code){
-                    $em->flush();
-                    return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
-                }
-            }else{
-                $codeflag = $this->container->getParameter('init_one');
-            }
-        }
-        return $this->render('JiliApiBundle:Admin:editBusinessActivity.html.twig',
-                    array(
-                          'business'=>$business,
-                          'code'=>$code,
-                          'codeflag'=>$codeflag,
-                          'actId'=>$actId,
-                          'adver'=>$adver,
-                          'category'=>$category,
-                          'actCategory'=>$actCategory,
-                          'newCategory'=>$newCategory,
-                          'form' => $form->createView(),
-                          'businessName'=>$businessName,
-                          'actDescription'=>$actDescription,
-                          'url'=>$url,
-                          'start_time'=>$startTime,
-                          'end_time'=>$endTime));
-
-    }
-
-    /**
-    * @Route("/delBusinessActivity/{id}", name="_admin_delBusinessActivity")
-    */
-    public function delBusinessActivityAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $business = $em->getRepository('JiliApiBundle:MarketActivity')->find($id);
-        $business->setDeleteFlag($this->container->getParameter('init_one'));
-        $em->persist($business);
-        $em->flush();
-        return $this->redirect($this->generateUrl('_admin_infoBusinessActivity'));
     }
 
 

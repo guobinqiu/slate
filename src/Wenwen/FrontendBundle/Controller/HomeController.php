@@ -21,11 +21,14 @@ class HomeController extends Controller
         $request = $this->get('request');
         $logger = $this->get('logger');
 
+        $logger->debug(__METHOD__ . ' START');
+
         $cookies = $request->cookies;
         $session = $request->getSession();
 
         if(!$session->has('uid')){
-            return $this->redirect($this->generateUrl('_user_login' ));
+            // return $this->redirect($this->generateUrl('_user_login' ));
+            return $this->render('WenwenFrontendBundle:Home:index.html.twig');;
         }
 
         //记住我
@@ -40,7 +43,9 @@ class HomeController extends Controller
 
         //取得分数，以及更新登录状态
         if ($session->has('uid')) {
-            $this->get('session.points')->reset()->getConfirm();
+            // 20160716 二逼拉的屎，首页去访问task_history 无端增加开销，删掉
+            // 但是很遗憾拉的屎太多太臭，这个branch不做过多清理，单纯为了增加速度，只做针对性处理
+            $this->get('session.points')->reset();
             $this->get('login.listener')->updateSession();
         }
 
@@ -63,6 +68,7 @@ class HomeController extends Controller
         }
         $this->get('user_sign_up_route.listener')->log();
 
+        $logger->debug(__METHOD__ . ' END');
         return $this->render('WenwenFrontendBundle:Home:home.html.twig');
     }
 

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Jili\ApiBundle\Entity\SendPointFail;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\SendCloudMailer;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 class DmdeliveryCommand extends ContainerAwareCommand
 {
@@ -129,7 +130,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
         $pointHistory = new $classPointHistory();
         $pointHistory->setUserId($userId);
         $pointHistory->setPointChangeNum(-$oldPoint);
-        $pointHistory->setReason($this->getContainer()->getParameter('init_fifteen'));
+        $pointHistory->setReason(CategoryType::EXPIRE);
         $em->persist($user);
         $em->persist($pointHistory);
         $em->flush();

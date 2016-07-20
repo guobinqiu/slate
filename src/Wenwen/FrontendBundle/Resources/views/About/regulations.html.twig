@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}会员协议：{{ parent() }}{% endblock %}
+{% block title %}{{ parent() }}会员协议{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
@@ -86,7 +86,7 @@
 
 				<p><strong>第十四条 积分的取消</strong><br/>
 				1. 用户提供虚伪信息、错误信息，或者提供非最新信息，经dataSpring调查的购买者，或者合作伙伴的判断下，可以取消或者没收赠与会员的，以及会员已经拥有的积分。<br/>
-				2. 会员在6个月不参加问卷调查，不登陆网站，或者dataSpring无法发送邮件至会员邮箱次数达3次以上时，会员所拥有的积分将会失效。<br/>
+				2. 会员在6个月不参加问卷调查，不登录网站，或者dataSpring无法发送邮件至会员邮箱次数达3次以上时，会员所拥有的积分将会失效。<br/>
 				3. 会员所获得的积分，在第二十一条所规定的会员资格失效以及会员帐户注销之后也将同时失效。</p>
 
 				<p><strong class="font20">第六章 使用上的限制，服务的中断以及终止</strong></p>
@@ -205,8 +205,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/lib/require.js')}}" defer async="true" data-main="{{ asset('js/app/header.js')}}"></script>
 {% endblock %}
