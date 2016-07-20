@@ -116,6 +116,7 @@ class SignupController extends Controller
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
         $user->setRegisterCompleteDate($signupTime);
         $user->setPoints(intval($user->getPoints() + User::POINT_SIGNUP));
+        $user->setLastGetPointsAt();
 
         $passwordToken->setToUnavailable();
 

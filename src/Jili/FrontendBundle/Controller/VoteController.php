@@ -269,6 +269,7 @@ class VoteController extends Controller
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $oldPoint = $user->getPoints();
         $user->setPoints(intval($oldPoint + $point));
+        $user->setLastGetPointsAt();
 
         try {
             $em->persist($user);
