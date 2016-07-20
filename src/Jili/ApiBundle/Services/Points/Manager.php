@@ -33,6 +33,7 @@ class Manager
             //更新user表总分数
             $old_point = $user->getPoints();
             $user->setPoints(intval($old_point + $point));
+            $user->setLastGetPointsAt();
 
             // Create new object of point_history0x
             $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);

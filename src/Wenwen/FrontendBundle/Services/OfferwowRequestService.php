@@ -225,6 +225,7 @@ class OfferwowRequestService
                 $pointHistory->setReason(CategoryType::OFFERWOW_COST);
                 $user = $this->em->getRepository('JiliApiBundle:User')->find($userId);
                 $user->setPoints(intval($user->getPoints()) + intval($point));
+                $user->setLastGetPointsAt();
                 $this->em->persist($pointHistory);
                 $this->em->persist($user);
             }

@@ -574,9 +574,9 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->em->persist($user);
         $this->em->flush();
 
-
         // prepare test datas
         // sign 不对
+        $oldTime = $user->getLastGetPointsAt();
         $memberid = $user->getId(); 
         $point = '100'; // 随意，有值就好
         $eventid = '1001'; // 随意，有值就好
@@ -602,6 +602,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertEquals($programname, $taskHistory->getTaskName());
         $this->assertEquals($point, $taskHistory->getPoint());
         $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
+        $this->assertTrue(($user->getLastGetPointsAt() == $oldTime), 'lastGetPointsAt should not be changed');
     }
 
     public function testProcessEventImmediate1()
@@ -635,6 +636,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->em->flush();
         
         // sign 不对
+        $oldTime = $user->getLastGetPointsAt();
         $memberid = $user->getId(); // 随意，有值就好
         $point = '152'; // 随意，有值就好
         $eventid = '1001'; // 随意，有值就好
@@ -670,6 +672,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertEquals(CategoryType::OFFERWOW_COST, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints());
+        $this->assertTrue(($user->getLastGetPointsAt() > $oldTime), 'lastGetPointsAt should be updated');
     }
 
     public function testProcessEventImmediate2()
@@ -703,6 +706,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         
         // sign 不对
+        $oldTime = $user->getLastGetPointsAt();
         $memberid = $user->getId(); // 随意，有值就好
         $point = '152'; // 随意，有值就好
         $eventid = '1001'; // 随意，有值就好
@@ -737,6 +741,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertEquals(CategoryType::OFFERWOW_COST, $pointHistory->getReason());
 
         $this->assertEquals($current_point+$point, $user->getPoints(), 'user point is not properly updated');
+        $this->assertTrue(($user->getLastGetPointsAt() > $oldTime), 'lastGetPointsAt should be updated');
     }
 
     public function testProcessEventImmediate3()
@@ -769,6 +774,7 @@ class OfferwowRequestServiceTest extends WebTestCase
 
         
         // sign 不对
+        $oldTime = $user->getLastGetPointsAt();
         $memberid = $user->getId(); // 随意，有值就好
         $point = '152'; // 随意，有值就好
         $eventid = '1001'; // 随意，有值就好
@@ -799,6 +805,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertTrue(is_null($pointHistory),'eventid=[' . $eventid . '] point_history exist.');
 
         $this->assertEquals($current_point, $user->getPoints(), 'user point is changed');
+        $this->assertTrue(($user->getLastGetPointsAt() == $oldTime), 'lastGetPointsAt should not be changed');
     }
 
 }
