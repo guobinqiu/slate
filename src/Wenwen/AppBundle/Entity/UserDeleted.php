@@ -302,6 +302,13 @@ class UserDeleted
     private $workSectionCode;
 
     /**
+     * @var datetime $lastGetPointsAt
+     *
+     * @ORM\Column(name="last_get_points_at", type="datetime", nullable=true, options={"comment": "最后一次获得(+)积分的时间"})
+     */
+    private $lastGetPointsAt;
+
+    /**
      * Set isFromWenwen
      *
      * @param integer $isFromWenwen
@@ -1229,5 +1236,30 @@ class UserDeleted
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set lastGetPointsAt
+     *
+     * @param \DateTime $lastGetPointsAt
+     * @return User
+     */
+    public function setLastGetPointsAt($lastGetPointsAt = null)
+    {
+        if(isset($lastGetPointsAt)){
+            $this->lastGetPointsAt = $lastGetPointsAt;
+        } else {
+            $this->lastGetPointsAt = date_create();
+        }
+    }
+
+    /**
+     * Get lastGetPointsAt
+     *
+     * @return \DateTime
+     */
+    public function getLastGetPointsAt()
+    {
+        return $this->lastGetPointsAt;
     }
 }
