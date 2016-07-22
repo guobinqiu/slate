@@ -38,6 +38,34 @@
 					}
 					}
 				}
+				&.last{
+					height: 122px;
+					border-top: 7px solid #e9eded;
+					.contactTit{
+						margin-left: 58px;
+					    margin-bottom: -11px;
+					    margin-top: 33px;
+						color: $orange-color;
+					}
+					.contactEmail{
+						padding-left: 25px;
+						color: #757575;
+						font-size: 12px;
+						&:hover{
+							background: none;
+							border: none;
+							color: initial;
+							font-weight: normal;
+						}
+						b{
+							width: 9px;
+							height: 9px;
+							background: url(../img/common/icons_common.png?v000011) no-repeat -21px 0;
+							display: inline-block;
+							margin-left: 5px;
+						}
+					}
+				}
 				
 			} 
 		}
