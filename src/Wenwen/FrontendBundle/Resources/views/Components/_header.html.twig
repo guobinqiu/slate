@@ -1,7 +1,5 @@
 <div id="top-header" {% if app.session.has('uid') %} class="header" {% else %}  class="header unlogin" {% endif %} >
-    {% if app.session.has('uid') %}
-        {{ render(controller('WenwenFrontendBundle:Component:headerNav') ) }}
-    {% endif %}
+    {% include "WenwenFrontendBundle:Components:_headerNav.html.twig" %}
 </div>
 <div class="navLayerBg hiddenDesktop hiddenTablet navbarUn"></div>
 <div class="navLayer hiddenDesktop hiddenTablet navbarUn">
