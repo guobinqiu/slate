@@ -6,7 +6,7 @@
 <meta name="title" content="91问问调查网 - 帮助中心" />
 {% endblock %}
 {% block stylesheet %}
-<link href="{{ asset('css/help.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -14,8 +14,10 @@
 {% endblock %}
 
 {% block body %}
-{# {% include 'WenwenFrontendBundle:Help:_banner.html.twig' %} #}
 <div class="main-help-con w1000 clearfix">
+    <div class="direct">
+        <strong>您现在的位置：</strong><a href="{{ path('_default_help_home') }}">帮助中心</a> &gt; 常见问题
+    </div>
 	<div class="helpL left">
         <ul class="tabNav">
             <li class="active">账号问题</li>
@@ -23,9 +25,6 @@
             <li>任务体验</li>
             <li>积分兑换</li>
         </ul>
-        <div class="feedback">
-            <a href="{{ path('_default_help_feedback') }}" title="我要提问"><img src="{{ asset('img/help/feedback.png') }}" alt="我要提问"></a>
-        </div>
     </div>
     <div class="helpR tabCon right">
     	<h2 class="first">账号问题</h2>

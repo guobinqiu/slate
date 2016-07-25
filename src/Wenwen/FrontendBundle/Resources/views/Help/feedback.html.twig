@@ -10,8 +10,10 @@
 {% endblock %}
 
 {% block body %}
-{% include 'WenwenFrontendBundle:Help:_banner.html.twig' %}
 <div class="main-help-con w1000">
+	<div class="direct w1000">
+	    <strong>您现在的位置：</strong><a href="{{ path('_default_help_home') }}">帮助中心</a> &gt; 客服咨询
+	</div>
 	<div class="main-help-feedback form">
 		<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
 		<form action="" id="feedback_form">

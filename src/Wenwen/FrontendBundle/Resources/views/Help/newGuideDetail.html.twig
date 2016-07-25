@@ -10,16 +10,14 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-help-banner">
-     <div class="text w1000">
-          <div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
-     </div>
-</div>
 <div class="main-help-con w1000">
+     <div class="direct w1000">
+         <strong>您现在的位置：</strong><a href="{{ path('_default_help_home') }}">帮助中心</a> &gt; <a href="{{ path('_default_help_newGuide') }}">新手上路</a>
+     </div>
      <div class="newGuide">
           <div class="newGuideDetail" id="survey">
 			<h3>问卷列表</h3>
-			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+			<a class="back" href="{{ path('_default_help_newGuide') }}">返回新手上路»</a>
                <dl>
                     <dt><strong>第一步</strong>查看问卷邮件通知</dt>
                     <dd><img src="{{ asset('img/help/guide1-1.jpg') }}" width="800" height="510"/></dd>
@@ -31,7 +29,7 @@
           </div>
           <div class="newGuideDetail" id="vote">
 			<h3>快速问答</h3>
-			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+			<a class="back" href="{{ path('_default_help_newGuide') }}">返回新手上路»</a>
 	        	<dl>
                     <dt><strong>第一步</strong>进入快速问答列表</dt>
                     <dd><img src="{{ asset('img/help/guide2-1.jpg') }}" width="800" height="442"/></dd>
@@ -41,7 +39,7 @@
           </div>
           <div class="newGuideDetail" id="advertiserment">
 			<h3>任务体验</h3>
-			<a class="back" href="{{ path('_default_support_newGuide') }}">返回新手上路»</a>
+			<a class="back" href="{{ path('_default_help_newGuide') }}">返回新手上路»</a>
                <dl>
                     <dt><strong>第一步</strong>进入任务体验页面</dt>
                     <dd><img src="{{ asset('img/help/guide4-1.jpg') }}" width="800" height="493"/></dd>

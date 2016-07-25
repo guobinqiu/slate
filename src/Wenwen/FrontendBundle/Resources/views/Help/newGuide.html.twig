@@ -10,19 +10,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-help-banner">
-	<div class="text w1000">
-		<div class="title"><a href="{{ path('_default_support_newGuide') }}"><img src="{{ asset('img/help/titGuide.png') }}" alt="新手上路"></a><img src="{{ asset('img/help/guidesubtit.png') }}" alt="Help Center" class="titleE"></div>
-	</div>
-</div>
 <div class="main-help-con w1000">
+    <div class="direct w1000">
+        <strong>您现在的位置：</strong><a href="{{ path('_default_help_home') }}">帮助中心</a> &gt; 新手上路
+    </div>
     <div class="newGuide newGuideBox clearfix">
         <div class="newGuide-item">
         	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84" alt="问卷调查"/></em>
             <dl>
                 <dt>问卷列表</dt>
                 <dd>动动手指，回答问卷，就能赚取积分！</dd>
-                <dd><a href="{{ path('_default_support_newGuide_detail') }}#survey" class="more">快去了解</a></dd>
+                <dd><a href="{{ path('_default_help_newGuide_detail') }}#survey" class="more">快去了解</a></dd>
             </dl>
         </div>
         <div class="newGuide-item">
@@ -30,7 +28,7 @@
             <dl>
                 <dt>快速问答</dt>
                 <dd>每日一答，由你做主，积分积少成多！</dd>
-                <dd><a href="{{ path('_default_support_newGuide_detail') }}#vote" class="more">快去了解</a></dd>
+                <dd><a href="{{ path('_default_help_newGuide_detail') }}#vote" class="more">快去了解</a></dd>
             </dl>
         </div>
         <div class="newGuide-item noBorder">
@@ -38,7 +36,7 @@
             <dl>
                 <dt>任务体验</dt>
                 <dd>各种体验，不同玩法，积分收入囊中！</dd>
-                <dd><a href="{{ path('_default_support_newGuide_detail') }}#advertiserment" class="more">快去了解</a></dd>
+                <dd><a href="{{ path('_default_help_newGuide_detail') }}#advertiserment" class="more">快去了解</a></dd>
             </dl>
         </div>
     </div>

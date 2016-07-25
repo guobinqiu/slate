@@ -13,7 +13,12 @@
 <div class="main-about-con w1000 clearfix">
     {% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
     <div class="aboutR tabCon right">
-        
+    	<h2>帮助中心</h2>
+        <ul class="helpIcons">
+        	<li><a href="{{ path('_default_help_issue') }}"><p class="hIco hIco1"></p><p class="hTxt hTxt1">常见问题&nbsp;></p></a></li>
+        	<li><a href="{{ path('_default_help_feedback') }}"><p class="hIco hIco2"></p><p class="hTxt hTxt2">客服咨询&nbsp;></p></a></li>
+        	<li><a href="{{ path('_default_help_newGuide') }}"><p class="hIco hIco3"></p><p class="hTxt hTxt3">新手上路&nbsp;></p></a></li>
+        </ul>
     </div>
 </div>
 {% endblock %}
