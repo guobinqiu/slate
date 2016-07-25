@@ -96,11 +96,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/help/links", name="_default_help_links", requirements={"_scheme"="http"})
+     * @Route("/help/cooperation", name="_default_help_cooperation", requirements={"_scheme"="http"})
      */
-    public function linksAction()
+    public function cooperationAction()
     {
-        return $this->render('WenwenFrontendBundle:Help:links.html.twig');
+        return $this->render('WenwenFrontendBundle:Help:cooperation.html.twig');
     }
 
 

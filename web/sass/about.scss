@@ -132,8 +132,22 @@
   			.bordBN{
   				border-bottom: none;
   			}
+  			.email{
+  				padding: 0 10px;
+  				b{
+					width: 9px;
+					height: 9px;
+					background: url(../img/common/icons_common.png?v000011) no-repeat -21px 0;
+					display: inline-block;
+					margin-left: 5px;
+  				}
+  			}
 		}
 		.linkStep{
+			margin-top: 46px;
+			h3{
+				margin-bottom: 8px;
+			}
 			div{
 				padding: 0 10px;
 				dt,dd{
