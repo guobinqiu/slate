@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}公司介绍{% endblock %}
+{% block title %}{{ parent() }}会员协议{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
@@ -11,10 +11,10 @@
 
 {% block body %}
 <div class="main-about-con w1000 clearfix">
-	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	{% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
 	<div class="aboutR tabCon right">
-		<h2>公司介绍</h2>
-		<ul class="rpaIntro w732 con">
+		<h2>会员协议</h2>
+		<ul class="rules w732 con">
 			<li>
 				<div class="rpaPic"><img src="{{ asset('img/about/aboutRPA.png') }}" alt="dataSpring"></div>
 				<h3>公司简介</h3>

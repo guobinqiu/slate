@@ -11,7 +11,7 @@
 
 {% block body %}
 <div class="main-about-con w1000 clearfix">
-	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	{% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
 	<div class="aboutR tabCon right">
 		<h2>网站地图</h2>
 		<div class="sitemap w732 con">
@@ -45,16 +45,16 @@
 			<div class="box">
 				<h3>了解我们</h3>
 				<ul class="clearfix">
-					<li class="font16"><strong>关于我们</strong></li><li><a href="{{ path('_default_about') }}" title="公司介绍">公司介绍</a></li><li><a href="{{ path('_default_about_ww') }}" title="网站介绍">网站介绍</a></li><li><a href="{{ path('_default_about_regulations') }}" title="会员协议">会员协议</a></li><li><a target="_blank" href="http://weibo.com/91wenwen" title="官方微博">官方微博</a></li>
+					<li class="font16"><strong>关于我们</strong></li><li><a href="{{ path('_default_help_company') }}" title="公司介绍">公司介绍</a></li><li><a href="{{ path('_default_help_ww') }}" title="网站介绍">网站介绍</a></li><li><a href="{{ path('_default_help_regulations') }}" title="会员协议">会员协议</a></li><li><a target="_blank" href="http://weibo.com/91wenwen" title="官方微博">官方微博</a></li>
 				</ul>
 				<ul class="clearfix">
-					<li class="font16"><strong>联系我们</strong></li><li><a href="http://www.d8aspring.com/contact-us/" title="合作咨询" target="_blank">合作咨询</a></li><li><a href="{{ path('_default_about_links') }}" title="友情链接">友情链接</a></li>
+					<li class="font16"><strong>联系我们</strong></li><li><a href="http://www.d8aspring.com/contact-us/" title="合作咨询" target="_blank">合作咨询</a></li><li><a href="{{ path('_default_help_links') }}" title="友情链接">友情链接</a></li>
 				</ul>
 				<ul class="clearfix">
 					<li class="font16"><strong>集团网站</strong></li><li><a target="_blank" href="http://www.d8aspring.com/" title="dataSpring">dataSpring</a></li><li><a target="_blank" href="https://research-panel.jp/" title="Japan Panel">Japan Panel</a></li><li><a target="_blank" href="http://www.panelnow.co.kr/" title="South Korea Panel">South Korea Panel</a></li>
 				</ul>
 				<ul class="clearfix">
-					<li class="font16"><strong>帮助中心</strong></li><li><a href="{{ path('_default_support_newGuide') }}" title="新手上路">新手上路</a></li><li><a href="{{ path('_default_support') }}" title="常见问题">常见问题</a></li><li><a href="{{ path('_default_feedback') }}" title="我要反馈">我要反馈</a></li><li><a href="{{ path('_default_about_map') }}" title="网站地图">网站地图</a></li>
+					<li class="font16"><strong>帮助中心</strong></li><li><a href="{{ path('_default_help_newGuide_detail') }}" title="新手上路">新手上路</a></li><li><a href="{{ path('_default_help_issue') }}" title="常见问题">常见问题</a></li><li><a href="{{ path('_default_help_feedback') }}" title="我要反馈">我要反馈</a></li><li><a href="{{ path('_default_help_map') }}" title="网站地图">网站地图</a></li>
 				</ul>
 			</div>
 		</div>

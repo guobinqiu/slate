@@ -24,44 +24,85 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/about", name="_default_about", requirements={"_scheme"="http"})
+     * @Route("/help/home", name="_default_help_home", requirements={"_scheme"="http"})
+     */
+    public function helpAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:index.html.twig');
+    }
+
+    /**
+     * @Route("/help/issue", name="_default_help_issue", requirements={"_scheme"="http"})
+     */
+    public function issueAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:issue.html.twig');
+    }
+
+    /**
+     * @Route("/help/newGuide", name="_default_help_newGuide", requirements={"_scheme"="http"})
+     */
+    public function guideAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuide.html.twig');
+    }
+
+    /**
+     * @Route("/help/newGuide/detail", name="_default_help_newGuide_detail", requirements={"_scheme"="http"})
+     */
+    public function guideDetailAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:newGuideDetail.html.twig');
+    }
+
+    /**
+     * @Route("/help/feedback", name="_default_help_feedback", requirements={"_scheme"="http"})
+     */
+    public function feedbackAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:feedback.html.twig');
+    }
+
+    /**
+	 * @Route("/help/company", name="_default_help_company", requirements={"_scheme"="http"})
 	 */
-    public function aboutAction()
+    public function companyAction()
     {
-        return $this->render('WenwenFrontendBundle:About:company.html.twig');
+        return $this->render('WenwenFrontendBundle:Help:company.html.twig');
     }
 
     /**
-     * @Route("/about/map", name="_default_about_map", requirements={"_scheme"="http"})
-     */
-    public function mapAction()
-    {
-        return $this->render('WenwenFrontendBundle:About:map.html.twig');
-    }
-
-    /**
-     * @Route("/about/links", name="_default_about_links", requirements={"_scheme"="http"})
-     */
-    public function linksAction()
-    {
-        return $this->render('WenwenFrontendBundle:About:links.html.twig');
-    }
-
-    /**
-     * @Route("/about/regulations", name="_default_about_regulations", requirements={"_scheme"="http"})
-     */
-    public function regulationsAction()
-    {
-        return $this->render('WenwenFrontendBundle:About:regulations.html.twig');
-    }
-
-    /**
-     * @Route("/about/ww", name="_default_about_ww", requirements={"_scheme"="http"})
+     * @Route("/help/ww", name="_default_help_ww", requirements={"_scheme"="http"})
      */
     public function wwAction()
     {
-        return $this->render('WenwenFrontendBundle:About:91ww.html.twig');
+        return $this->render('WenwenFrontendBundle:Help:91ww.html.twig');
     }
+
+    /**
+     * @Route("/help/regulations", name="_default_help_regulations", requirements={"_scheme"="http"})
+     */
+    public function regulationsAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:regulations.html.twig');
+    }
+
+    /**
+     * @Route("/help/map", name="_default_help_map", requirements={"_scheme"="http"})
+     */
+    public function mapAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:map.html.twig');
+    }
+
+    /**
+     * @Route("/help/links", name="_default_help_links", requirements={"_scheme"="http"})
+     */
+    public function linksAction()
+    {
+        return $this->render('WenwenFrontendBundle:Help:links.html.twig');
+    }
+
 
     /**
 	 * @Route("/error", name="_default_error", requirements={"_scheme"="http"})
@@ -71,40 +112,10 @@ class DefaultController extends Controller
         return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
     }
 
-    /**
-	 * @Route("/support", name="_default_support", requirements={"_scheme"="http"})
-	 */
-    public function supportAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:index.html.twig');
-    }
+
 
     /**
-     * @Route("/newGuide", name="_default_support_newGuide", requirements={"_scheme"="http"})
-     */
-    public function guideAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:newGuide.html.twig');
-    }
-
-    /**
-     * @Route("/newGuide/detail", name="_default_support_newGuide_detail", requirements={"_scheme"="http"})
-     */
-    public function guideDetailAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:newGuideDetail.html.twig');
-    }
-
-    /**
-     * @Route("/feedback", name="_default_feedback", requirements={"_scheme"="http"})
-     */
-    public function feedbackAction()
-    {
-        return $this->render('WenwenFrontendBundle:Help:feedback.html.twig');
-    }
-
-    /**
-     * @Route("/feedback/finished", name="_default_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
+     * @Route("/help/feedback/finished", name="_default_help_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
      */
     public function finishedAction()
     {
