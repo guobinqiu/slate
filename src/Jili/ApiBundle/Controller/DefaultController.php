@@ -24,7 +24,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/help/home", name="_default_help_home", requirements={"_scheme"="http"})
+     * @Route("/help", name="_default_help", requirements={"_scheme"="http"})
      */
     public function helpAction()
     {
