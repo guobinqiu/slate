@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class HelpController extends Controller
 {
     /**
-     * @Route("/help", name="default_help", requirements={"_scheme"="http"})
+     * @Route("/help", name="help_help", requirements={"_scheme"="http"})
      */
     public function helpAction()
     {
@@ -17,7 +17,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/issue", name="default_help_issue", requirements={"_scheme"="http"})
+     * @Route("/issue", name="help_issue", requirements={"_scheme"="http"})
      */
     public function issueAction()
     {
@@ -25,7 +25,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/newGuide", name="default_help_newGuide", requirements={"_scheme"="http"})
+     * @Route("/help/newGuide", name="help_newGuide", requirements={"_scheme"="http"})
      */
     public function guideAction()
     {
@@ -33,7 +33,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/newGuide/detail", name="default_help_newGuide_detail", requirements={"_scheme"="http"})
+     * @Route("/help/newGuide/detail", name="help_newGuide_detail", requirements={"_scheme"="http"})
      */
     public function guideDetailAction()
     {
@@ -41,7 +41,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/feedback", name="default_help_feedback", requirements={"_scheme"="http"})
+     * @Route("/help/feedback", name="help_feedback", requirements={"_scheme"="http"})
      */
     public function feedbackAction()
     {
@@ -49,7 +49,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/feedback/finished", name="default_help_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
+     * @Route("/help/feedback/finished", name="help_feedback_finished", requirements={"_scheme"="http"}, options={"expose"=true})
      */
     public function finishedAction()
     {
@@ -57,7 +57,7 @@ class HelpController extends Controller
     }
     
     /**
-     * @Route("/help/company", name="default_help_company", requirements={"_scheme"="http"})
+     * @Route("/help/company", name="help_company", requirements={"_scheme"="http"})
      */
     public function companyAction()
     {
@@ -65,7 +65,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/ww", name="default_help_ww", requirements={"_scheme"="http"})
+     * @Route("/help/ww", name="help_ww", requirements={"_scheme"="http"})
      */
     public function wwAction()
     {
@@ -73,7 +73,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/regulations", name="default_help_regulations", requirements={"_scheme"="http"})
+     * @Route("/help/regulations", name="help_regulations", requirements={"_scheme"="http"})
      */
     public function regulationsAction()
     {
@@ -81,7 +81,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/map", name="default_help_map", requirements={"_scheme"="http"})
+     * @Route("/help/map", name="help_map", requirements={"_scheme"="http"})
      */
     public function mapAction()
     {
@@ -89,7 +89,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/help/cooperation", name="default_help_cooperation", requirements={"_scheme"="http"})
+     * @Route("/help/cooperation", name="help_cooperation", requirements={"_scheme"="http"})
      */
     public function cooperationAction()
     {
