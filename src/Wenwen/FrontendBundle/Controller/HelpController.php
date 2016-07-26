@@ -17,7 +17,7 @@ class HelpController extends Controller
     }
 
     /**
-     * @Route("/issue", name="help_issue", requirements={"_scheme"="http"})
+     * @Route("/help/issue", name="help_issue", requirements={"_scheme"="http"})
      */
     public function issueAction()
     {
