@@ -812,6 +812,47 @@ ul.menu{
 	z-index: 2;
 }
 
+// contact us
+.contact{
+	a{
+		padding: 14px 12px;
+		background: #272629;
+		background-color: rgba(39,38,41,0.65);
+		color: #fff;
+		text-shadow: 0 0 4px #424242;
+		-moz-text-shadow: 0 0 4px #424242;
+		-webkit-text-shadow: 0 0 4px #424242;
+		text-shadow: 0 0 4px #424242;
+		font-size: 16px;
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		z-index: 2;
+		border-top-left-radius: 13px;
+		-webkit-top-left-border-radius: 13px;
+		-moz-top-left-border-radius: 13px;
+		-ms-top-left-border-radius: 13px;
+		-o-top-left-border-radius: 13px;
+		// @include box-shadow(-1px -1px 4px rgba(0,0,0,0.15));
+		em{
+			width: 18px;
+			height: 21px;
+			display: inline-block;
+			background: url(../img/landingpage/contactIcon.png) no-repeat -1px 0;
+			vertical-align: -6px;
+			margin-right: 10px;
+		}
+		b{
+			width: 8px;
+			height: 13px;
+			display: inline-block;
+			background: url(../img/landingpage/contactIcon.png) no-repeat -27px -4px;
+			vertical-align: -1px;
+			margin-left: 20px;
+		}
+	}
+}
+
 /*-----------arrow style------------*/
 .arrow{
 	position: fixed;
