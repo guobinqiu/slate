@@ -2,12 +2,11 @@
 	<h2>帮助中心</h2>
 	<ul class="tabNav">
 		{% set router_current = app.request.attributes.get('_route') %}
-		<li><a href="{{ path('_default_help') }}" {{ router_current == '_default_help' ? 'class="active"':'' }} title="帮助中心">帮助中心</a></li>
-		<li><a href="{{ path('_default_help_company') }}" {{ router_current == '_default_help_company' ? 'class="active"':'' }} title="公司介绍">公司介绍</a></li>
-		<li><a href="{{ path('_default_help_ww') }}" {{ router_current == '_default_help_ww' ? 'class="active"':'' }} title="网站介绍">网站介绍</a></li>
-		<li><a href="{{ path('_default_help_regulations') }}" {{ router_current == '_default_help_regulations' ? 'class="active"':'' }} title="会员协议">会员协议</a></li>
-		<li><a href="{{ path('_default_help_map') }}" {{ router_current == '_default_help_map' ? 'class="active"':'' }} title="网站地图">网站地图</a></li>
-		<li><a href="{{ path('_default_help_cooperation') }}" {{ router_current == '_default_help_cooperation' ? 'class="active"':'' }} title="业务合作">业务合作</a></li>
-		{# <li class="last"><p class="contactTit">合作咨询</p><a href="mailto:china@d8aspring.com" class="contactEmail" disabled="disabled">china@d8aspring.com<b></b></a></li> #}
+		<li><a href="{{ path('default_help') }}" {{ router_current == 'default_help' ? 'class="active"':'' }} title="帮助中心">帮助中心</a></li>
+		<li><a href="{{ path('default_help_company') }}" {{ router_current == 'default_help_company' ? 'class="active"':'' }} title="公司介绍">公司介绍</a></li>
+		<li><a href="{{ path('default_help_ww') }}" {{ router_current == 'default_help_ww' ? 'class="active"':'' }} title="网站介绍">网站介绍</a></li>
+		<li><a href="{{ path('default_help_regulations') }}" {{ router_current == 'default_help_regulations' ? 'class="active"':'' }} title="会员协议">会员协议</a></li>
+		<li><a href="{{ path('default_help_map') }}" {{ router_current == 'default_help_map' ? 'class="active"':'' }} title="网站地图">网站地图</a></li>
+		<li><a href="{{ path('default_help_cooperation') }}" {{ router_current == 'default_help_cooperation' ? 'class="active"':'' }} title="业务合作">业务合作</a></li>
 	</ul>
 </div>
