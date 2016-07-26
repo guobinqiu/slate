@@ -16,7 +16,7 @@ class WebpowerMailer implements IMailer {
         $transport->setHost($host);
         $transport->setUsername($username);
         $transport->setPassword($password);
-        $transport->setEncryption('tls');
+        //$transport->setEncryption('tls');
 
         $this->mailer = \Swift_Mailer::newInstance($transport);
         $this->from = $from;
