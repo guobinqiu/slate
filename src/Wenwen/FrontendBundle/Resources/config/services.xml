@@ -35,5 +35,12 @@
             <argument type="service" id="app.parameter_service" />
         </service>
 
+        <service id="app.expire_point_service" class="Wenwen\FrontendBundle\Services\ExpirePointService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="templating" />
+        </service>
+
     </services>
 </container>
