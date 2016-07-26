@@ -14,7 +14,7 @@
         <div class="navR right">
             <div class="nav left">
                 {% set router_current = app.request.attributes.get('_route') %}
-                <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="first active"':'class="first"' }}>首页</a>
+                <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="active"':'' }}>首页</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                     <a class="surUnlog" title="问卷列表">问卷列表</a>
                 {% else %}
@@ -25,6 +25,7 @@
                 <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
                 {% endif %}
                 <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
+                <a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="active"':'' }}>帮助中心</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                 {% else %}
                 <a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="active tabletProfile hiddenDesktop visibleTablet hiddenPhone"':'class="tabletProfile hiddenDesktop visibleTablet hiddenPhone"' }}>个人中心</a>
@@ -87,7 +88,7 @@
         {% elseif router_current2 == 'jili_frontend_vote_index' or router_current2 == 'jili_frontend_vote_show' or router_current2 == 'jili_frontend_vote_result' or router_current2 == 'jili_frontend_vote_suggest'%}快速问答
         {% elseif router_current2 == '_survey_index'%}问卷列表
         {% elseif router_current2 == '_homepage'%}问卷列表
-        {% elseif router_current2 == '_default_feedback'%}问题反馈
+        {% elseif router_current2 == 'help_feedback'%}客服咨询
         {% elseif router_current2 == '_profile_edit' or router_current2 == '_profile_index' or router_current2 == '_user_adtaste' or router_current2 == '_user_exchange' or router_current2 == '_user_message'%}个人中心
         {% endif %}
         </p>

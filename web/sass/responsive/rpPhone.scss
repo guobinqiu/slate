@@ -604,6 +604,12 @@
             }
         }
     } 
+
+    .main-help-con{
+        .direct{
+            display: none;
+        }
+    }
 }
 @media only screen and (max-width: 736px) and (orientation: portrait) {
     .visiblePhonePor{

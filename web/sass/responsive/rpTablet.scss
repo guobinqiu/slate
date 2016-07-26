@@ -429,4 +429,63 @@
             font-size: 1rem !important;
         }
     }
+    .main-help-con{
+        .helpL{
+            width: 18%;
+        }
+        .helpR{
+            width: 80%;
+        }
+        .newGuide-item{
+            dl{
+                dt{
+                    font-size: 1.5rem!important;
+                }
+                dd{
+                    font-size: .8rem!important;
+                    .more{
+                        font-size: .8rem!important;
+                    }
+                }
+            }
+        }
+    }
+    .main-about-con{
+        .aboutL{
+            width: 18%!important;
+            display: inherit;
+            .tabNav{
+                li{
+                    a{
+                        padding-left: 38px!important;
+                        &.hover,&.active{
+                            padding-left: 35px!important;
+                        }
+                    }
+                }
+            }
+        }
+        .aboutR{
+            width: 80%!important;
+            h2{
+                margin-bottom: 15px!important;
+            }
+            .rpaPic{
+                img{
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .newGuideDetail{
+        h3,.back{
+            display: none;
+        }
+        dd{
+            img{
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
 }

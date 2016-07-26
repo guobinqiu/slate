@@ -2,15 +2,12 @@
 
 @import "layout/common";
 @import "layout/header";
-@import "component/help";
+@import "component/about";
 @import "component/form";
 $input-border-normal: 1px solid #dcdcdc;
-.main-help-con{
-	border: $block-border;
-	background: $block-bg-color;
-}
 .main-help-feedback{
-	padding: 40px 50px 50px;		
+	padding: 40px 50px 50px;
+	background: #fff;		
 	h2{
 		padding-left: 20px;
 		font-size: 16px;

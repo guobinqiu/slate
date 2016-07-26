@@ -1,5 +1,5 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}友情链接{% endblock %}
+{% block title %}{{ parent() }}业务合作{% endblock %}
 
 {% block stylesheet %}
 <link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
@@ -11,11 +11,11 @@
 
 {% block body %}
 <div class="main-about-con w1000 clearfix">
-	{% include 'WenwenFrontendBundle:About:_leftSidebar.html.twig' %}
+	{% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
 	<div class="aboutR tabCon right">
-		<h2>友情链接</h2>
+		<h2>业务合作</h2>
 		<div class="friendLink w732 clearfix con">
-			<ul class="clearfix">
+			{# <ul class="clearfix">
 				<li><a href="http://www.justonline.cn/?utm_source=91wenwen&amp;utm_medium=91wwedm&amp;utm_campaign=91wenwenedm_110125" target="_blank"><img width="120" height="40" src="{{ asset('img/about/jianshi.jpg')}}" alt="简时尚品"></a></li>
 				<li><a href="http://www.chanet.com.cn/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/chanet.jpg')}}" alt="成果网广告联盟"></a></li>
 				<li><a href="http://www.manmanzou.com" target="_blank"><img width="120" height="40" src="{{ asset('img/about/manmanzou.jpg')}}" alt="慢慢走"></a></li>
@@ -23,7 +23,11 @@
 				<li class="bordBN"><a href="http://www.zhubajie.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/zbj_logo.jpg')}}" alt="猪八戒"></a></li>
 				<li class="bordBN"><a href="http://www.680.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/680_logo.jpg')}}" alt="时间财富网"></a></li>
 				<li class="bordBN"><a href="http://www.vikecn.com/" target="_blank"><img width="120" height="40" src="{{ asset('img/about/vikecn_logo.jpg')}}" alt="威客中国"></a></li>
-			</ul>
+			</ul> #}
+			<h3>合作咨询</h3>
+			<div class="email">
+				请联系邮箱：<a href="mailto:china@d8aspring.com" class="contactEmail" disabled="disabled">china@d8aspring.com<b></b></a>
+			</div>
 			<div class="linkStep">
 				<h3>申请友情链接</h3>
 				<div>
