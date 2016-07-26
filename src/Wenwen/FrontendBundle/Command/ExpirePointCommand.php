@@ -46,6 +46,13 @@ class ExpirePointCommand extends ContainerAwareCommand
             // 对于已持续150天未获得积分的用户，邮件通知用户
             $result30Days  = $expirePointsService->notifyUserExpiringIn30Days($baseDate);
 
+            // 对于已持续173天未获得积分的用户，邮件通知用户
+            $result7Days   = $expirePointsService->notifyUserExpiringIn7Days($baseDate);
+
+            // 对于已持续180天以上未获得积分的用户，邮件通知用户 并且 积分清零
+            $resultExpired = $expirePointsService->notifyAndExpireUserExpired($baseDate);
+
+            $output->writeln('');
             $output->writeln('[result30Days]');
             $output->writeln('status:' . $result30Days['status']);
             $output->writeln('errmsg:' . $result30Days['errmsg']);
@@ -54,8 +61,7 @@ class ExpirePointCommand extends ContainerAwareCommand
             foreach($result30Days['notifyFailedUsers'] as $notifyFailedUser){
                 $output->writeln(implode($notifyFailedUser, ","));
             }
-            // 对于已持续173天未获得积分的用户，邮件通知用户
-            $result7Days   = $expirePointsService->notifyUserExpiringIn7Days($baseDate);
+            $output->writeln('');
 
             $output->writeln('[result7Days]');
             $output->writeln('status:' . $result7Days['status']);
@@ -65,8 +71,7 @@ class ExpirePointCommand extends ContainerAwareCommand
             foreach($result7Days['notifyFailedUsers'] as $notifyFailedUser){
                 $output->writeln(implode($notifyFailedUser, ","));
             }
-            // 对于已持续180天以上未获得积分的用户，邮件通知用户 并且 积分清零
-            $resultExpired = $expirePointsService->notifyAndExpireUserExpired($baseDate);
+            $output->writeln('');
 
             $output->writeln('[resultExpired]');
             $output->writeln('status:' . $resultExpired['status']);
@@ -81,6 +86,7 @@ class ExpirePointCommand extends ContainerAwareCommand
             foreach($resultExpired['expireFailedUsers'] as $expireFailedUsers){
                 $output->writeln(implode($expireFailedUsers, ","));
             }
+            $output->writeln('');
 
             // 将执行结果发邮件通知系统部门
             $subject = "[OK] ExpirePointCommand finished";
