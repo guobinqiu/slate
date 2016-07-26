@@ -93,9 +93,17 @@ class ExpirePointCommand extends ContainerAwareCommand
             if('succeeded' != $result30Days['status'] || 'succeeded' != $result7Days['status'] || 'succeeded' != $resultExpired['status']){
                 $subject = "[NG] ExpirePointCommand has something wrong, please check the result!";
             }
-            $expirePointsService->systemResultNotify($subject, $result30Days, $result7Days, $resultExpired);
+            $params = array();
+            $params['result30Days'] = $result30Days;
+            $params['result7Days'] = $result7Days;
+            $params['resultExpired'] = $resultExpired;
+            $resultSysNotify = $expirePointsService->systemResultNotify($subject, $params);
 
-            $output->writeln(date_create()->format('Y-m-d H:i:s') . " ExpirePointCommand END   baseDate=" . $baseDate->format('Y-m-d'));
+            if(true == $resultSysNotify){
+                $output->writeln(date_create()->format('Y-m-d H:i:s') . " ExpirePointCommand SUCEEDED baseDate=" . $baseDate->format('Y-m-d'));
+            } else {
+                $output->writeln(date_create()->format('Y-m-d H:i:s') . " ExpirePointCommand FAILED baseDate=" . $baseDate->format('Y-m-d'));
+            }
         }
     }
 
