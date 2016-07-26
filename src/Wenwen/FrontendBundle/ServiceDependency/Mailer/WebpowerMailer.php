@@ -16,7 +16,7 @@ class WebpowerMailer implements IMailer {
         $transport->setHost($host);
         $transport->setUsername($username);
         $transport->setPassword($password);
-        //$transport->setEncryption('tls');
+        $transport->setEncryption('tls');
 
         $this->mailer = \Swift_Mailer::newInstance($transport);
         $this->from = $from;
@@ -50,6 +50,7 @@ class WebpowerMailer implements IMailer {
         } else {
             $result['result'] = false;
         }
+        $this->mailer->getTransport()->stop();
         return $result;
     }
 
