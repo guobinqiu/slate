@@ -149,6 +149,15 @@ body{
 					.cor666{
 						color: #666;
 					}
+					.backBtn{
+						padding: 6px 29px;
+						background: #6f90bd;
+						color: #fff;
+						display: table;
+						@include border-radius(3px);
+						font-size: 12px;
+					    margin-top: 25px;
+					}
 				}
 				.refer{
 					margin-top: 168px;

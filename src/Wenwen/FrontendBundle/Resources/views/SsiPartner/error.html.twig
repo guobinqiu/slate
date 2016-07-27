@@ -15,13 +15,13 @@
         <div class="qnEndTxt">
             {# ログインしていない場合 #}
             {% if errors.panelist_is_not_authenticated is defined and errors.panelist_is_not_authenticated %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>请您先登录您的账户再访问此页。</div>
+            <div class="txt"><h2>亲爱的用户！您好！</h2>请您先登录您的账户再访问此页。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
             {# 既に回答済み・未配信などで 回答権利をもっていない場合  #}
             {% elseif errors.panelist_has_already_answered is defined and errors.panelist_has_already_answered %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>您已经参加过本次调查活动，谢谢您的参加！</div>
+            <div class="txt"><h2>亲爱的用户！您好！</h2>您已经参加过本次调查活动，谢谢您的参加！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
             {# その他 #}
             {% elseif errors.custom_message is defined %}
-            <div class="txt sad"><h2>亲爱的用户！您好！</h2>{{ errors.custom_message }}</div>
+            <div class="txt sad"><h2>亲爱的用户！您好！</h2>{{ errors.custom_message }}<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
             {% endif %}
         </div>
     </div>
