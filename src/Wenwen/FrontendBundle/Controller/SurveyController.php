@@ -67,7 +67,7 @@ class SurveyController extends Controller
      * @param null $lifetime 缓存多少秒
      * @return array
      */
-    private function getCachedSurveyList($user_id, $limit, $lifetime = null) {
+    private function getCachedSurveyList($user_id, $limit=0, $lifetime = null) {
         $surveyService = $this->get('app.survey_service');
         $cacheSettings = $this->container->getParameter('cache_settings');
 
