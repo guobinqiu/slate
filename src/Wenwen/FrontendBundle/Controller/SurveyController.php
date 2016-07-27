@@ -55,7 +55,7 @@ class SurveyController extends Controller
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $this->getCachedSurveyList($user_id);
+        $html_survey_list = $this->getCachedSurveyList($user_id, 8);
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
@@ -67,7 +67,7 @@ class SurveyController extends Controller
      * @param null $lifetime 缓存多少秒
      * @return array
      */
-    private function getCachedSurveyList($user_id, $lifetime = null) {
+    private function getCachedSurveyList($user_id, $limit=0, $lifetime = null) {
         $surveyService = $this->get('app.survey_service');
         $cacheSettings = $this->container->getParameter('cache_settings');
 
@@ -80,7 +80,7 @@ class SurveyController extends Controller
         $cacheVal = $redis->get($cacheKey);
 
         if (is_null($cacheVal)) {
-            $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, 8);
+            $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $limit);
             if (!empty($html_survey_list)) {
                 $redis->set($cacheKey, serialize($html_survey_list));
                 $redis->expire($cacheKey, $lifetime == null ? $cacheSettings['lifetime'] : $lifetime);
