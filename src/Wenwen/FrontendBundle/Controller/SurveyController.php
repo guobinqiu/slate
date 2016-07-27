@@ -76,7 +76,7 @@ class SurveyController extends Controller
         }
 
         $redis = $this->get('snc_redis.default');
-        $cacheKey = CacheKeys::getOrderHtmlSurveyListKey($user_id);
+        $cacheKey = CacheKeys::getOrderHtmlSurveyListKey($user_id, $limit);
         $cacheVal = $redis->get($cacheKey);
 
         if (is_null($cacheVal)) {
