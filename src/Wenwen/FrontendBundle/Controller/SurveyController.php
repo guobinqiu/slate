@@ -55,7 +55,7 @@ class SurveyController extends Controller
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id, 600);
+        $html_survey_list = $this->getOrderedHtmlSurveyList($user_id, 8);
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
