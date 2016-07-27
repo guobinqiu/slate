@@ -114,7 +114,7 @@ $(function(){
             $("#content").val('');  
             $("#feedbackEmail").val(''); 
         }else{
-            window.location.href = Routing.generate("_default_feedback_finished");
+            window.location.href = Routing.generate("help_feedback_finished");
         }
     }
     function reSubmit(){
