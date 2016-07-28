@@ -33,24 +33,28 @@ class WebpowerMailer implements IMailer {
      */
     public function send($to, $subject, $html)
     {
-        $message = \Swift_Message::newInstance();
-        $message->setSubject($subject);
-        $message->setFrom(array($this->from => '91问问调查网'));
-        $message->setSender($this->sender);
-        $message->setTo($to);
-        $message->setBody($html, 'text/html');
-
         $result = array(
             'email' => $to,
             'sent_at' => new \DateTime(),
         );
-
-        if ($this->mailer->send($message) > 0) {
-            $result['result'] = true;
-        } else {
+        try{
+            $message = \Swift_Message::newInstance();
+            $message->setSubject($subject);
+            $message->setFrom(array($this->from => '91问问调查网'));
+            $message->setSender($this->sender);
+            $message->setTo($to);
+            $message->setBody($html, 'text/html');
+            if ($this->mailer->send($message) > 0) {
+                $result['result'] = true;
+            } else {
+                $result['result'] = false;
+            }
+            //$this->mailer->getTransport()->stop();
+        } catch(Swift_TransportException $e){
+            $this->mailer->getTransport()->stop();
             $result['result'] = false;
         }
-        $this->mailer->getTransport()->stop();
+        
         return $result;
     }
 
