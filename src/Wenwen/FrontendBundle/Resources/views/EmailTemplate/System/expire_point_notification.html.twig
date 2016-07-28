@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body style="padding: 0; margin: 0;">
+连续150天未获得积分的用户通知结束<br/>
+执行结果: {{result30Days.status}}<br/>
+错误信息: {{result30Days.errmsg}}<br/>
+需要通知的用户总数: {{result30Days.targetUserCount}}<br/>
+实际通知失败的用户:<br/>
+{% for item in result30Days.notifyFailedUsers %}
+    <li><a>{{ item.id }},{{ item.email }},{{ item.nick }},{{ item.points }},{{ item.errmsg }}</a></li>
+{% endfor %}
+<br/>
+连续173天未获得积分的用户通知结束<br/>
+执行结果: {{result7Days.status}}<br/>
+错误信息: {{result7Days.errmsg}}<br/>
+需要通知的用户总数: {{result7Days.targetUserCount}}<br/>
+实际通知失败的用户:<br/>
+{% for item in result7Days.notifyFailedUsers %}
+    <li><a>{{ item.id }},{{ item.email }},{{ item.nick }},{{ item.points }},{{ item.errmsg }}</a></li>
+{% endfor %}
+<br/>
+超过180天未获得积分的用户通知和积分清零结束<br/>
+执行结果: {{resultExpired.status}}<br/>
+错误信息: {{resultExpired.errmsg}}<br/>
+需要通知的用户总数: {{resultExpired.targetUserCount}}<br/>
+通知失败的用户:<br/>
+{% for item in resultExpired.notifyFailedUsers %}
+    <li><a>{{ item.id }},{{ item.email }},{{ item.nick }},{{ item.points }},{{ item.errmsg }}</a></li>
+{% endfor %}
+成功清零的积分总数: {{resultExpired.totalExpiredPoints}}<br/>
+积分清零失败的用户:<br/>
+{% for item in resultExpired.expireFailedUsers %}
+    <li><a>{{ item.id }},{{ item.email }},{{ item.nick }},{{ item.points }},{{ item.errmsg }}</a></li>
+{% endfor %}
+<br/>
+</body>

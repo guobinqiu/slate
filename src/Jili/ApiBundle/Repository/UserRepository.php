@@ -823,4 +823,28 @@ EOT;
 
         return $query->getQuery();
     }
+
+    /**
+    * select u.id, u.email, u.points from user u where u.points > 0 and u.last_get_points_at >= $from and u.last_get_points_at < $to
+    * @param DateTime $from 
+    * @param DateTime $to
+    * @return array $result
+    */
+    public function findExpiringUsers($from, $to)
+    {
+        $query = $this->createQueryBuilder('u');
+        $query = $query->select('u.id');
+        $query = $query->addSelect('u.email');
+        $query = $query->addSelect('u.nick');
+        $query = $query->addSelect('u.points');
+        $query = $query->Where('u.points > 0');
+        $query = $query->andWhere('u.lastGetPointsAt >= :from');
+        $query = $query->andWhere('u.lastGetPointsAt < :to');
+        $query = $query->setParameters(array (
+            'from' => $from,
+            'to' => $to
+        ));
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
 }
