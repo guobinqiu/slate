@@ -4,6 +4,14 @@
 <meta name="keywords" content="快速问答，热点问答，投票，有奖出题" />
 <meta name="description" content="快速问答页面提供热门问题一览，供用户查看自己感兴趣的问题，并选择自己想要进行的投票问题，且最新的问答在24小时内可多获得1个积分。" />
 <meta name="title" content="91问问调 - 快速问答" />
+<script type="text/javascript" src="{{ asset('js/lib/adhoc.min.js')}}"></script>
+<script>
+    function initABTesting()
+	{
+    adhoc.setFlagDef({'isNewHomePage':'true'})//设置试验变量默认值（网络异常或获取试验变量失败时使用）
+    adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc')//初始化
+	}
+</script>
 {% endblock %}
 {% block stylesheet %}
 <link href="{{ asset('css/vote.css') }} " rel="stylesheet" type="text/css">
