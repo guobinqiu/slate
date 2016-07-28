@@ -17,12 +17,14 @@
     {% block global_css %}
         <link href="{{ asset('css/responsive/rpLayout.css') }} " rel="stylesheet" type="text/css">
     {% endblock %}
-    <!-- adhoc sdk --> 
-      <script type="text/javascript" src="{{ asset('js/lib/adhocbuilder.min.js')}}"></script>
-      <script>
-      __adhoc__.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc');
-      </script>
-      <!-- adhoc sdk end -->
+    <script type="text/javascript" src="{{ asset('js/lib/adhoc.min.js')}}"></script>
+    <script>
+        function initABTesting()
+        {
+        adhoc.setFlagDef({'IsNew91wenwen':'true'})//设置试验变量默认值（网络异常或获取试验变量失败时使用）
+        adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc')//初始化
+        }
+    </script>
 </head>
 <body>
     {% block header %}{% endblock %}
