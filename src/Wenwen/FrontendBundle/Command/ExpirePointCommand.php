@@ -83,8 +83,12 @@ class ExpirePointCommand extends ContainerAwareCommand
             }
             $output->writeln('totalExpiredPoints:' . $resultExpired['totalExpiredPoints']);
             $output->writeln('expireFailedUsers:');
-            foreach($resultExpired['expireFailedUsers'] as $expireFailedUsers){
-                $output->writeln(implode($expireFailedUsers, ","));
+            foreach($resultExpired['expireFailedUsers'] as $expireFailedUser){
+                $output->writeln(implode($expireFailedUser, ","));
+            }
+            $output->writeln('expireSucceededUsers:');
+            foreach($resultExpired['expireSucceededUsers'] as $expireSucceededUser){
+                $output->writeln(implode($expireSucceededUser, ","));
             }
             $output->writeln('');
 
