@@ -6,6 +6,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Wenwen\FrontendBundle\Services\ExpirePointService;
 use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class ExpirePointServiceTest extends WebTestCase
 {
@@ -43,6 +45,7 @@ class ExpirePointServiceTest extends WebTestCase
         $options = array_merge($options, array('command' => $command));
         return $this->application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
     }
+
 
     /**
     * 测试发送系统通知邮件的功能
@@ -496,6 +499,99 @@ class ExpirePointServiceTest extends WebTestCase
     }
 
     /**
+    * 指定不做数据更新时的行为测试
+    */
+    public function testExpireExpiringUsersSkipExpiringSucceeded()
+    {
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $email1 = 'email1@d8aspring.com';
+        $nick1  = 'email1';
+        $point1 = 5021;
+
+        $email2 = 'email2@d8aspring.com';
+        $nick2  = 'email2';
+        $point2 = 5022;
+
+        $email3 = 'email3@d8aspring.com';
+        $nick3  = 'email3';
+        $point3 = 5023;
+
+        $user1 = new User();
+        $user1->setNick($nick1);
+        $user1->setEmail($email1);
+        $user1->setPoints($point1);
+        $user1->setIsInfoSet(0);
+
+        $user2 = new User();
+        $user2->setNick($nick2);
+        $user2->setEmail($email2);
+        $user2->setPoints($point2);
+        $user2->setIsInfoSet(0);
+
+        $user3 = new User();
+        $user3->setNick($nick3);
+        $user3->setEmail($email3);
+        $user3->setPoints($point3);
+        $user3->setIsInfoSet(0);
+
+        $this->em->persist($user1);
+        $this->em->persist($user2);
+        $this->em->persist($user3);
+        $this->em->flush();
+
+        $expiringUsers = array(
+            array(
+                'id' => $user1->getId(),
+                'email' => $user1->getEmail(),
+                'nick' => $user1->getNick(),
+                'points' => $user1->getPoints(),
+                ),
+            array(
+                'id' => $user2->getId(),
+                'email' => $user2->getEmail(),
+                'nick' => $user2->getNick(),
+                'points' => $user2->getPoints(),
+                ),
+            array(
+                'id' => $user3->getId(),
+                'email' => $user3->getEmail(),
+                'nick' => $user3->getNick(),
+                'points' => $user3->getPoints(),
+                )
+            );
+
+        $result = $this->expirePointService->expireExpiringUsers($expiringUsers);
+
+        $expectedExpiredPoints = $point1 + $point2 + $point3;
+        $this->assertEquals($expectedExpiredPoints, $result['totalExpiredPoints'], "The size of totalExpiredPoints should be ". $expectedExpiredPoints);
+        $this->assertEquals(0, sizeof($result['expireFailedUsers']), "The size of expireFailedUsers should be 0.");
+        $this->assertEquals($point1, $user1->getPoints(), 'The points of user1 should not change after expireExpiringUsers.');
+        $this->assertEquals($point2, $user2->getPoints(), 'The points of user2 should not change after expireExpiringUsers.');
+        $this->assertEquals($point3, $user3->getPoints(), 'The points of user3 should not change after expireExpiringUsers.');
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user1->getId() % 10))->findOneByUserId($user1->getId());
+        $this->assertEquals(null, $pointHistory, 'PointHistory should not exist for user1 ');
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user2->getId() % 10))->findOneByUserId($user2->getId());
+        $this->assertEquals(null, $pointHistory, 'PointHistory should not exist for user2 ');
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user3->getId() % 10))->findOneByUserId($user3->getId());
+        $this->assertEquals(null, $pointHistory, 'PointHistory should not exist for user3 ');
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user1->getId() % 10))->findOneByUserId($user1->getId());
+        $this->assertEquals(null, $taskHistory, 'TaskHistory should not exist for user1 ');
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user2->getId() % 10))->findOneByUserId($user2->getId());
+        $this->assertEquals(null, $taskHistory, 'TaskHistory should not exist for user2 ');
+        
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user3->getId() % 10))->findOneByUserId($user3->getId());
+        $this->assertEquals(null, $taskHistory, 'TaskHistory should not exist for user3 ');
+    }
+
+    /**
     * 成功将指定用户的积分清零
     */
     public function testExpireExpiringUsersSucceeded()
@@ -569,6 +665,40 @@ class ExpirePointServiceTest extends WebTestCase
         $this->assertEquals(0, $user1->getPoints(), 'The points of user1 should be 0 after expireExpiringUsers.');
         $this->assertEquals(0, $user2->getPoints(), 'The points of user2 should be 0 after expireExpiringUsers.');
         $this->assertEquals(0, $user3->getPoints(), 'The points of user3 should be 0 after expireExpiringUsers.');
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user1->getId() % 10))->findOneByUserId($user1->getId());
+        $this->assertEquals(-$point1, $pointHistory->getPointChangeNum(), 'PointChangeNum should be ' . - $point1);
+        $this->assertEquals(CategoryType::EXPIRE, $pointHistory->getReason(), 'Reason should be ' . CategoryType::EXPIRE);
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user2->getId() % 10))->findOneByUserId($user2->getId());
+        $this->assertEquals(-$point2, $pointHistory->getPointChangeNum(), 'PointChangeNum should be ' . - $point2);
+        $this->assertEquals(CategoryType::EXPIRE, $pointHistory->getReason(), 'Reason should be ' . CategoryType::EXPIRE);
+
+        $pointHistory = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user3->getId() % 10))->findOneByUserId($user3->getId());
+        $this->assertEquals(-$point3, $pointHistory->getPointChangeNum(), 'PointChangeNum should be ' . - $point3);
+        $this->assertEquals(CategoryType::EXPIRE, $pointHistory->getReason(), 'Reason should be ' . CategoryType::EXPIRE);
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user1->getId() % 10))->findOneByUserId($user1->getId());
+        $this->assertEquals(-$point1, $taskHistory->getPoint(), 'Point should be ' . - $point1);
+        $this->assertEquals(CategoryType::EXPIRE, $taskHistory->getCategoryType(), 'CategoryType should be ' . CategoryType::EXPIRE);
+        $this->assertEquals(TaskType::RECOVER, $taskHistory->getTaskType(), 'TaskType should be ' . TaskType::RECOVER);
+        $this->assertEquals(ExpirePointService::TASK_NAME, $taskHistory->getTaskName(), 'TaskName should be ' . ExpirePointService::TASK_NAME);
+        $this->assertEquals(ExpirePointService::TASK_STATUS, $taskHistory->getStatus(), 'Status should be ' . ExpirePointService::TASK_STATUS);
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user2->getId() % 10))->findOneByUserId($user2->getId());
+        $this->assertEquals(-$point2, $taskHistory->getPoint(), 'Point should be ' . - $point2);
+        $this->assertEquals(CategoryType::EXPIRE, $taskHistory->getCategoryType(), 'CategoryType should be ' . CategoryType::EXPIRE);
+        $this->assertEquals(TaskType::RECOVER, $taskHistory->getTaskType(), 'TaskType should be ' . TaskType::RECOVER);
+        $this->assertEquals(ExpirePointService::TASK_NAME, $taskHistory->getTaskName(), 'TaskName should be ' . ExpirePointService::TASK_NAME);
+        $this->assertEquals(ExpirePointService::TASK_STATUS, $taskHistory->getStatus(), 'Status should be ' . ExpirePointService::TASK_STATUS);
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user3->getId() % 10))->findOneByUserId($user3->getId());
+        $this->assertEquals(-$point3, $taskHistory->getPoint(), 'Point should be ' . - $point3);
+        $this->assertEquals(CategoryType::EXPIRE, $taskHistory->getCategoryType(), 'CategoryType should be ' . CategoryType::EXPIRE);
+        $this->assertEquals(TaskType::RECOVER, $taskHistory->getTaskType(), 'TaskType should be ' . TaskType::RECOVER);
+        $this->assertEquals(ExpirePointService::TASK_NAME, $taskHistory->getTaskName(), 'TaskName should be ' . ExpirePointService::TASK_NAME);
+        $this->assertEquals(ExpirePointService::TASK_STATUS, $taskHistory->getStatus(), 'Status should be ' . ExpirePointService::TASK_STATUS);
+
     }
 
     /**

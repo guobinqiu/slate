@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * 积分清零以及邮件通知用户的功能
@@ -29,6 +31,10 @@ class ExpirePointService
     private $skipEmailFlag = true;    // 模拟测试用开关 true: do not send email, false: send email
 
     private $skipExpiringFlag = true; // 模拟测试用开关 true: skip point expiring, false: do point expiring
+
+    const TASK_NAME = "积分过期清零";
+
+    const TASK_STATUS = 1;
 
     const TITLE_FORMAT_EXPIRING_30D = "%s, 您的%d积分再过30天就要消失啦";
     const TEMPLATE_EXPIRING_30D     = 'WenwenFrontendBundle:EmailTemplate:point_failure_for_month.html.twig';
@@ -381,17 +387,54 @@ class ExpirePointService
         $this->logger->debug(__METHOD__ . " START " . PHP_EOL);
         $totalExpiredPoints = 0;
         $expireFailedUsers = array();
+        $expireTime = date_create();
         foreach($expiringUsers as $expiringUser){
             // 积分清零
+            $userId = $expiringUser['id'];
+            
             try{
-                $user = $this->em->getRepository('JiliApiBundle:User')->findOneById($expiringUser['id']);
+                $user = $this->em->getRepository('JiliApiBundle:User')->findOneById($userId);
                 if($user){
-                    if(false == $this->skipExpiringFlag){
-                        // 该用户存在，该用户的积分设为0
-                        $user->setPoints(0);
-                        $this->em->flush();
+                    // 该用户存在，该用户的积分设为0
+                    $currentPoints = $user->getPoints();
+                    
+                    $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
+                    $pointHistory = new $classPointHistory();
+                    $pointHistory->setUserId($userId);
+                    $pointHistory->setPointChangeNum(-$currentPoints);
+                    $pointHistory->setReason(CategoryType::EXPIRE);
+
+                    $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userId % 10);
+                    $taskHistory = new $classTaskHistory();
+                    $taskHistory->setUserid($userId);
+                    $taskHistory->setOrderId(0);
+                    $taskHistory->setOcdCreatedDate($expireTime);
+                    $taskHistory->setCategoryType(CategoryType::EXPIRE);
+                    $taskHistory->setTaskType(TaskType::RECOVER);
+                    $taskHistory->setTaskName(self::TASK_NAME);
+                    $taskHistory->setDate($expireTime);
+                    $taskHistory->setPoint(-$currentPoints);
+                    $taskHistory->setStatus(self::TASK_STATUS);
+
+                    $db_connection = $this->em->getConnection();
+                    $db_connection->beginTransaction();
+                    try{
+                        if(false == $this->skipExpiringFlag){
+                            $user->setPoints(0);
+                            $this->em->persist($pointHistory);
+                            $this->em->persist($taskHistory);
+                            $this->em->flush();
+                        }
+                        $db_connection->commit();
+                        $totalExpiredPoints += $expiringUser['points'];
+                    } catch(\Exception $e){
+                        $db_connection->rollback();
+                        $errmsg = "Failed to expire user.points. " . $e->getMessage();
+                        $expiringUser['errmsg'] = $errmsg;
+                        $expireFailedUsers[] = $expiringUser;
+                        $this->logger->ERROR(__METHOD__ . " Email=" . $expiringUser['email'] . " Errmsg: " . $errmsg . PHP_EOL);
                     }
-                    $totalExpiredPoints += $expiringUser['points'];
+
                     $this->logger->debug(__METHOD__ . " Email=" . $expiringUser['email'] . " Point expired succeed. " . PHP_EOL);
                 } else {
                     $errmsg = "User not found.";
@@ -400,7 +443,7 @@ class ExpirePointService
                     $this->logger->ERROR(__METHOD__ . " Email=" . $expiringUser['email'] . " Errmsg: " . $errmsg . PHP_EOL);
                 }
             } catch(\Exception $e){
-                $errmsg = "Failed to update user.points. " . $e->getMessage();
+                $errmsg = "Failed to find user " . $e->getMessage();
                 $expiringUser['errmsg'] = $errmsg;
                 $expireFailedUsers[] = $expiringUser;
                 $this->logger->ERROR(__METHOD__ . " Email=" . $expiringUser['email'] . " Errmsg: " . $errmsg . PHP_EOL);
