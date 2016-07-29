@@ -54,7 +54,40 @@
 	</div>
 	{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 </div>
-	{#{{ render(controller('JiliFrontendBundle:Home:adExperience' ) ) }}#}
+
+<script>
+	function applyFlags(flags) {
+	  if (flags.hasOwnProperty('IsNew91wenwen') && flags.IsNew91wenwen == 'true') {
+	    // new version
+	    $('.proCon .proNew').css('display','inline-block');  
+	  } else {
+	    // old version
+	    var surveyList = $('#surveyList');
+	    var prop = $.cookie('prop');
+	    var proCon = $('.proSurPop');
+	    function shouldShow(){
+	       var pp  = $.cookie('prop');
+	       if (pp == undefined || pp == 1) {
+	           return true;
+	       } else {
+	           return false;
+	       }
+	    }
+	    surveyList.delegate('.proClose','click', function(){
+	       $.cookie('prop', 0, { expires: 10000, path: '/' }); 
+	       surveyList.find(proCon).hide();    
+	    });
+	    if(shouldShow()){
+	       surveyList.find(proCon).show();
+	    }else{
+	       surveyList.find(proCon).hide();
+	    }
+	    //show important tag
+	    $('.survey .survey-item .proTag').css('display','inline-block');
+	  }
+	}
+</script>
+
 {% endblock %}
 
 {% block footer %}
