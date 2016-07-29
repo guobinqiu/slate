@@ -142,7 +142,10 @@ class ExpirePointServiceTest extends WebTestCase
         $params['result7Days'] = $result7Days;
         $params['resultExpired'] = $resultExpired;
 
-        $this->expirePointService->sendEmail();
+        if(true == static::$kernel->getContainer()->getParameter('email.delivery')){
+            // 测试环境就不发邮件了，circleCI上测试发邮件老是莫名其妙的挂掉
+            $this->expirePointService->sendEmail();
+        }
         $result = $this->expirePointService->systemResultNotify($subject, $params);
 
         $this->assertEquals(true, $result,'systemResultNotify should be true.');
@@ -466,7 +469,9 @@ class ExpirePointServiceTest extends WebTestCase
                 )
             );
 
-        $this->expirePointService->sendEmail(); // 这里要测到发邮件的模板是否正确，所以开放实际发邮件的功能
+        if(true == static::$kernel->getContainer()->getParameter('email.delivery')){
+            $this->expirePointService->sendEmail(); // 这里要测到发邮件的模板是否正确，所以开放实际发邮件的功能
+        }
 
         $result = $this->expirePointService->notifyExpiringUsers($expiringUsers, ExpirePointService::TITLE_FORMAT_EXPIRING_30D, ExpirePointService::TEMPLATE_EXPIRING_30D);
         $this->assertEquals(0, sizeof($result['notifyFailedUsers']), "The size of notifyFailedUsers of 30D should be 0.");
@@ -492,7 +497,7 @@ class ExpirePointServiceTest extends WebTestCase
                 )
             );
 
-        $this->expirePointService->sendEmail(); // 这里要测到发邮件失败的逻辑，所以开放实际发邮件的功能
+        $this->expirePointService->sendEmail(); // 这里要测到发邮件失败的逻辑，所以开放实际发邮件的功能，但不会真的发邮件
         $result = $this->expirePointService->notifyExpiringUsers($expiringUsers, ExpirePointService::TITLE_FORMAT_EXPIRING_30D, ExpirePointService::TEMPLATE_EXPIRING_30D);
 
         $this->assertEquals(1, sizeof($result['notifyFailedUsers']), "The size of notifyFailedUsers should be 1.");
