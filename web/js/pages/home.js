@@ -32,7 +32,7 @@ $(function(){
     //ABtest for profile prompt
     $(document.body).attr("onload", "adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc')");
     function applyFlags(flags) {
-      if (flags.hasOwnProperty('IsNew91wenwen') && flags.IsNew91wenwen == 'true') {
+      if (flags.hasOwnProperty('IsNew91wenwen') && flags.IsNew91wenwen == 'newpro') {
         // new version
         $('.proCon .proNew').css('display','inline-block');  
       } else {
