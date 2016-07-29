@@ -103,7 +103,8 @@ $survey-border-color: #f6f6f6;
         margin-left: 3px;
         padding-left: 1px;
         font-family: '宋体';
-        font-weight: normal;	
+        font-weight: normal;
+        display: none;	
 	}
 	.proRow{
 		color: $weak-color;
@@ -127,6 +128,27 @@ $survey-border-color: #f6f6f6;
     		font-weight: bold;
     	}
 
+	}
+}
+
+.proNew{
+	width: 95%;
+	display: none;
+	.proNot{
+		color: #60666C;
+		margin-top: 5px;
+		white-space: nowrap;
+		em{
+			width: 19px;
+			height: 19px;
+			margin-right: 5px;
+			margin-top: 1px;
+			background: url(../img/common/notice19x19.png) no-repeat;
+		}
+		span{
+			background: #fffbed;
+			padding: 5px 4px;
+		}
 	}
 }
 .survey {
