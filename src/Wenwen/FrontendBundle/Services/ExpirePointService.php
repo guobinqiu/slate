@@ -256,7 +256,8 @@ class ExpirePointService
             'targetUserCount' => sizeof($findResult['expiringUsers']),
             'notifyFailedUsers' => $notifyResult['notifyFailedUsers'],
             'totalExpiredPoints' => $expireResult['totalExpiredPoints'],
-            'expireFailedUsers' => $expireResult['expireFailedUsers']
+            'expireFailedUsers' => $expireResult['expireFailedUsers'],
+            'expireSucceededUsers' => $expireResult['expireSucceededUsers']
             );
         $this->logger->debug(__METHOD__ . " END   " . PHP_EOL);
         return $rtn;
@@ -381,12 +382,14 @@ class ExpirePointService
     *           (
     *               'totalExpiredPoints' => 成功清除的总分
     *               'expireFailedUsers' => 邮件通知失败的user数组 ('id','email', 'nick', 'points', 'errmsg')
+    *               'expireSucceededUsers' => 成功清楚积分的user数组 ('id','email', 'nick', 'points')
     *           )
     */
     public function expireExpiringUsers(array $expiringUsers){
         $this->logger->debug(__METHOD__ . " START " . PHP_EOL);
         $totalExpiredPoints = 0;
         $expireFailedUsers = array();
+        $expireSucceededUsers = array();
         $expireTime = date_create();
         foreach($expiringUsers as $expiringUser){
             // 积分清零
@@ -427,6 +430,7 @@ class ExpirePointService
                         }
                         $db_connection->commit();
                         $totalExpiredPoints += $expiringUser['points'];
+                        $expireSucceededUsers[] = $expiringUser;
                     } catch(\Exception $e){
                         $db_connection->rollback();
                         $errmsg = "Failed to expire user.points. " . $e->getMessage();
@@ -451,7 +455,8 @@ class ExpirePointService
         }
         $result = array(
             'totalExpiredPoints' => $totalExpiredPoints,
-            'expireFailedUsers' => $expireFailedUsers
+            'expireFailedUsers' => $expireFailedUsers,
+            'expireSucceededUsers' => $expireSucceededUsers
             );
         $this->logger->info(__METHOD__ . " END TotalExpiredPoints=" . $totalExpiredPoints . " Failed count=" . sizeof($expireFailedUsers) . PHP_EOL);
         return $result;
