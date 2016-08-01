@@ -608,9 +608,7 @@ class AdminControllerTest extends WebTestCase {
         $client = static :: createClient();
         $url = '/admin/pointManage';
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(301, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
 }
