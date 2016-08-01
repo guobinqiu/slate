@@ -16,8 +16,8 @@ use JMS\JobQueueBundle\Entity\Job;
 class SignupController extends Controller 
 {
     /**
-     * @Route("/confirmRegister/register_key/{register_key}", name="_signup_confirm_register",requirements={"_scheme"="https"})
-     * @Route("/signup/confirmRegister/register_key/{register_key}", name="_signup_confirm_register_2",requirements={"_scheme"="https"})
+     * @Route("/confirmRegister/register_key/{register_key}", name="_signup_confirm_register")
+     * @Route("/signup/confirmRegister/register_key/{register_key}", name="_signup_confirm_register_2")
      * @Method("GET")
      */
     public function confirmRegisterAction($register_key)

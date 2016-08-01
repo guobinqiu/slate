@@ -609,7 +609,7 @@ class ApiController extends Controller
 
 
     /**
-     * @Route("/check/email", name="_api_check_email",requirements={"_scheme"="https"})
+     * @Route("/check/email", name="_api_check_email")
      * @Method({"POST"});
      */
     public function isEmailDuplicated()

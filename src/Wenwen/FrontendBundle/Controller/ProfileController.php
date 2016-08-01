@@ -161,7 +161,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/edit", name="_profile_edit",requirements={"_scheme"="https"})
+     * @Route("/edit", name="_profile_edit")
      */
     public function editAction(Request $request)
     {
@@ -187,7 +187,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/editCommit", name="_profile_edit_commit",requirements={"_scheme"="https"})
+     * @Route("/editCommit", name="_profile_edit_commit")
      * @Method("POST")
      */
     public function editCommitAction(Request $request)
@@ -327,7 +327,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/upload", name="_profile_upload",requirements={"_scheme"="https"})
+     * @Route("/upload", name="_profile_upload")
      */
     public function uploadAction(Request $request)
     {

@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
- * @Route("/default", requirements={"_scheme"="http"})
+ * @Route("/default")
  */
 class DefaultController extends Controller
 {

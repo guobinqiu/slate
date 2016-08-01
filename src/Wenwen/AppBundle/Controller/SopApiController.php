@@ -18,7 +18,7 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
- * @Route("/",requirements={"_scheme"="https"})
+ * @Route("/")
  */
 class SopApiController extends Controller
 {

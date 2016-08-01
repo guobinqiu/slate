@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Route("/advertisement/shop", requirements={"_scheme" = "http"})
+ * @Route("/advertisement/shop")
  */
 class AdvertisementWebsiteController extends Controller
 {

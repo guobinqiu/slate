@@ -23,7 +23,7 @@ use Jili\ApiBundle\Entity\UserAdvertisermentVisit;
 class AdvertisermentController extends Controller
 {
     /**
-	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index", requirements={"_scheme"="http"})
+	 * @Route("/info/{id}", requirements={"id" = "\d+"},name="_advertiserment_index")
 	 */
     public function infoAction($id)
     {
@@ -82,7 +82,7 @@ class AdvertisermentController extends Controller
     }
 
     /**
-	 * @Route("/list", name="_advertiserment_list", requirements={"_scheme"="http"})
+	 * @Route("/list", name="_advertiserment_list")
 	 */
     public function listAction()
     {
@@ -121,7 +121,7 @@ class AdvertisermentController extends Controller
     }
 
     /**
-     * @Route("/offer99", name="_advertiserment_offer99", requirements={"_scheme"="http"})
+     * @Route("/offer99", name="_advertiserment_offer99")
      */
     public function offer99Action()
     {

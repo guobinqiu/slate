@@ -73,9 +73,6 @@ use Jili\ApiBundle\Utility\String;
 use Jili\ApiBundle\Entity\AdCategory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 
-/**
- * @Route( requirements={"_scheme" = "https"})
- */
 class AdminController extends Controller implements IpAuthenticatedController
 {
     /**

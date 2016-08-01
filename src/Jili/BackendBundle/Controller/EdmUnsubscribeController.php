@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
 
 /**
- * @Route("/edm/unsubscribe",requirements={"_scheme"="https"})
+ * @Route("/edm/unsubscribe")
  */
 class EdmUnsubscribeController extends Controller  implements  IpAuthenticatedController
 {
