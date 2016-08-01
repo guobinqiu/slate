@@ -14,9 +14,6 @@ use Jili\ApiBundle\Utility\RebateUtil;
 use Jili\ApiBundle\Entity\CheckinAdverList;
 use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
-/**
- * @Route("/top",requirements={"_scheme"="http"})
- */
 class TopController extends Controller
 {
     /**

@@ -10,9 +10,6 @@ use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Entity\Advertiserment;
 
 
-/**
- * @Route(requirements={"_scheme"="http"})
- */
 class ShoppingController extends Controller
 {
     /**

@@ -12,7 +12,7 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
- * @Route("/ssi_partner",requirements={"_scheme"="http"})
+ * @Route("/ssi_partner")
  */
 class SsiPartnerController extends Controller
 {

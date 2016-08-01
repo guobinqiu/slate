@@ -35,3 +35,4 @@ security:
 
     access_control:
         - { path: ^/jobs, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }

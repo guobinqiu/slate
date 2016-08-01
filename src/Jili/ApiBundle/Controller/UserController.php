@@ -389,7 +389,7 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-     * @Route("/login", name="_user_login",requirements={"_scheme"="https"}, options={"expose"=true})
+     * @Route("/login", name="_user_login", options={"expose"=true})
      */
     public function loginAction()
     {
@@ -706,7 +706,7 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-	 * @Route("/reg", name="_user_reg",requirements={"_scheme"="https"})
+	 * @Route("/reg", name="_user_reg")
 	 */
     public function regAction()
     {

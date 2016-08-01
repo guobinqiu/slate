@@ -12,7 +12,7 @@ use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\BackendBundle\Utility\VoteImageResizer;
 
 /**
- * @Route("/admin/vote",requirements={"_scheme"="https"})
+ * @Route("/admin/vote")
  */
 class AdminVoteController extends Controller implements IpAuthenticatedController
 {

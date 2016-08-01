@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
- * @Route("/vote",requirements={"_scheme"="http"})
+ * @Route("/vote")
  */
 class VoteController extends Controller
 {

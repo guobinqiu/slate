@@ -10,7 +10,7 @@ use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
- * @Route("/ssi_project_survey",requirements={"_scheme"="http"})
+ * @Route("/ssi_project_survey")
  */
 class SsiProjectSurveyController extends Controller
 {

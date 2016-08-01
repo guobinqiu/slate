@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
- * @Route("/admin/pointmanage",requirements={"_scheme"="https"})
+ * @Route("/admin/pointmanage")
  */
 class PointManageController extends Controller implements IpAuthenticatedController {
 

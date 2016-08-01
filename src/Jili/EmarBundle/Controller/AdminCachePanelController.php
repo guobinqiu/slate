@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 
 /**
- * @Route("/admin/cachepanel",requirements={"_scheme"="https"})
+ * @Route("/admin/cachepanel")
  */
 class AdminCachePanelController extends Controller implements  IpAuthenticatedController
 {

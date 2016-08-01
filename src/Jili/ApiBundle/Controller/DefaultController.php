@@ -24,7 +24,7 @@ class DefaultController extends Controller
     }
    
     /**
-	 * @Route("/error", name="_default_error", requirements={"_scheme"="http"})
+	 * @Route("/error", name="_default_error")
 	 */
     public function errorAction()
     {
@@ -32,7 +32,7 @@ class DefaultController extends Controller
     }
 
     /**
-	 * @Route("/contact", name="_default_contact", options={"expose"=true}, requirements={"_scheme"="http"})
+	 * @Route("/contact", name="_default_contact", options={"expose"=true})
 	 */
     public function contactAction()
     {

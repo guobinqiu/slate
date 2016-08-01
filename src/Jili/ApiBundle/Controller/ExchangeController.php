@@ -24,9 +24,6 @@ use Jili\ApiBundle\Entity\PointsExchangeType;
 use Jili\ApiBundle\Utility\FileUtil;
 use Jili\ApiBundle\Utility\ValidateUtil;
 
-/**
- * @Route( requirements={"_scheme" = "http"})
- */
 class  ExchangeController extends Controller
 {
     /**

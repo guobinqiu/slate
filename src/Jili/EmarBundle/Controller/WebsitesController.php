@@ -18,7 +18,7 @@ use Jili\EmarBundle\Entity\EmarActivityCommission;
 use Jili\ApiBundle\Utility\RebateUtil;
 
 /**
- * @Route("/websites", requirements={"_scheme" = "http"})
+ * @Route("/websites")
  */
 class WebsitesController extends Controller
 {

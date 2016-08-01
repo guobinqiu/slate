@@ -10,7 +10,7 @@ use Jili\BackendBundle\Form\PanelistEditFormType;
 use \VendorIntegration\SSI\PC1\Constants;
 
 /**
- * @Route("/admin/panelist",requirements={"_scheme"="https"})
+ * @Route("/admin/panelist")
  */
 class AdminPanelistController extends Controller implements IpAuthenticatedController
 {

@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
- * @Route("/",requirements={"_scheme"="http"})
+ * @Route("/")
  */
 class LandingController extends Controller implements CampaignTrackingController
 {
