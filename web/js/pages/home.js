@@ -30,7 +30,7 @@ $(function(){
     }
 
     //ABtest for profile prompt
-    $(document.body).attr("onload", "adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc')");
+    adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc');
     function applyFlags(flags) {
       if (flags.hasOwnProperty('IsNew91wenwen') && flags.IsNew91wenwen == 'newpro') {
         // new version
@@ -60,5 +60,6 @@ $(function(){
         //show important tag
         $('.survey .survey-item .proTag').css('display','inline-block');
       }
-    }  
+    } 
+    adhoc.getExperimentFlags(applyFlags); 
 });
