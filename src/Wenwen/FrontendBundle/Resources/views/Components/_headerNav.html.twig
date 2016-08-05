@@ -24,7 +24,7 @@
                 {% if app.session.has('uid') %}
                 <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
                 {% endif %}
-                <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
+                <a href="{{ path('_exchange_index') }}" class="exchangeNav" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
                 <a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="active"':'' }}>帮助中心</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                 {% else %}
@@ -59,6 +59,7 @@
                 {% endif %}
                 <div class="border"></div>
                 <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
+                <div class="pointExp"><span>100积分=<i>1元</i></span></div>
             </div>
             {% if app.request.attributes.get('_route') == '_user_login' %}
             {% else %}

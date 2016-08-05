@@ -81,4 +81,11 @@ $(function(){
             wrap.removeClass('unfixed');
         }
     });
+
+    //points explain popup
+    $('.exchangeNav').hover(function(){
+        $('.pointExp').stop(true).animate({opacity:100}, 300);
+    },function(){
+        $('.pointExp').stop(true).animate({opacity:0}, 300);
+    });
 });

@@ -244,6 +244,55 @@ $header-nav-height: 80px;
 			}
 		}
 	}
+	.exchangeNav{
+		position: relative;
+		z-index: 3;
+	}
+	.pointExp{
+		display: inline-block;
+		position: absolute;
+        right: 275px;
+        top: 36px;
+        *top: 60px;
+        opacity: 0;
+        filter: alpha(opacity = 0);
+        span{
+        	position: relative;
+        	background: #fffbed;
+        	border: 1px solid #d6cfb4;
+    		color: #3e3e3e;
+    	    font-size: 12px;
+    	    line-height: 24px;
+    	    padding: 4px 12px;
+    	    @include border-radius(3px);
+        	&:after, &:before {
+        		bottom: 100%;
+        		left: 78%;
+        		border: solid transparent;
+        		content: " ";
+        		height: 0;
+        		width: 0;
+        		position: absolute;
+        		pointer-events: none;
+        	}
+        	&:after {
+        		border-color: rgba(136, 183, 213, 0);
+        		border-bottom-color: #fffbed;
+        		border-width: 7px;
+        		    margin-left: -30px;
+        	}
+        	&:before {
+        		border-color: rgba(194, 225, 245, 0);
+        		border-bottom-color: #d6cfb4;
+        		border-width: 9px;
+        		    margin-left: -32px;
+        	}
+        	i{
+        		color: #ff0000;
+        		font-weight: bold;
+        	}
+        }
+	}
 }
 
 
