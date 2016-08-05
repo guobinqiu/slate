@@ -11,6 +11,18 @@ api_offerwow_getinfo:
     defaults: { _controller: WenwenFrontendBundle:OfferwowRequest:getInfo}
     methods:  [GET, POST]
 
+# 第三方问卷代理入口
+free_survey_index:
+    path: /free/survey
+    defaults: { _controller: WenwenFrontendBundle:FreeSurvey:index}
+    methods:  [GET, POST]
+
+# 第三方问卷代理endpage页面
+free_survey_complete:
+    path: /free/survey/endpage
+    defaults: { _controller: WenwenFrontendBundle:FreeSurvey:endpage}
+    methods:  [GET, POST]
+
 wenwen_app:
     resource: "@WenwenAppBundle/Controller/"
     type:     annotation
