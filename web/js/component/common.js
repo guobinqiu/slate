@@ -6,7 +6,7 @@ $(function(){
     var nav = $('.header-nav .nav');
     var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验', 'exchange': '兑换中心', 'help': '帮助中心'};
     $.each(arr, function(i, e){
-        if(href == Routing.generate('_homepage')){ 
+        if(href == 'http://www.91wenwen.net/'){ 
             nav.find('a').removeClass('active').eq(0).addClass('active');
             return false;
         }
