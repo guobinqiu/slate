@@ -125,44 +125,6 @@ class UserController extends Controller implements CampaignTrackingController
     }
 
     /**
-     * @Route("/resUp", name="_user_resUp")
-     */
-    public function resUp()
-    {
-        $request = $this->get('request');
-        if($request->getSession()->get('uid')){
-            $id = $request->getSession()->get('uid');
-            $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            if ($request->getMethod() == 'POST'){
-                if($request->request->get('resize')){
-                    $resizePath = $request->request->get('resizePath');
-                    $x = $request->request->get('x');
-                    $y = $request->request->get('y');
-                    $x1 = $request->request->get('w');
-                    $y1 = $request->request->get('h');
-                    if(!$x)
-                        $x=0;
-                    if(!$y)
-                        $y=0;
-                    if(!$x1)
-                        $x1=256;
-                    if(!$y1)
-                        $y1=256;
-                    $user->resizeUpload($resizePath,$x,$y,$x1,$y1);
-                    $user->setIconPath($resizePath);
-                    $em->flush();
-
-                }
-                return $this->redirect($this->generateUrl('_profile_edit'));
-
-            }
-        }
-    }
-
-
-
-    /**
      * @Route("/getCity", name="_user_getCity", options={"expose"=true})
      * @Method("POST")
      */
@@ -590,7 +552,7 @@ class UserController extends Controller implements CampaignTrackingController
                 $newPwd = $request->request->get('pwdRepeat');
                 if ($request->getMethod() == 'POST'){
                     if($pwd){
-                        //用户密码为5-100个字符，密码至少包含1位字母和1位数字
+                            //用户密码为5-100个字符，密码至少包含1位字母和1位数字
                         $passwordConstraint = new PasswordRegex();
                         $errorList = $this->get('validator')->validateValue($pwd, $passwordConstraint);
                         if (count($errorList) > 0) {

@@ -1,15 +1,16 @@
 <?php
 namespace Wenwen\FrontendBundle\Controller;
 
+use Jili\ApiBundle\Entity\UserProfile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
-use Jili\ApiBundle\Utility\ValidateUtil;
-use Wenwen\FrontendBundle\Form\ProfileEditType;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
+use Wenwen\FrontendBundle\Form\UploadType;
+use Wenwen\FrontendBundle\Form\UserType;
 
 /**
  * @Route("/profile")
@@ -40,8 +41,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/changePwd", name="_profile_changepwd", options={"expose"=true})
-     * @Method("POST")
+     * @Route("/changePwd", name="_profile_changepwd", options={"expose"=true}, methods={"POST"})
      */
     public function changePwdAction()
     {
@@ -161,173 +161,56 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/edit", name="_profile_edit")
+     * @Route("/edit", name="_profile_edit", methods={"GET", "POST"})
      */
     public function editAction(Request $request)
     {
         //没有登录
-        if (!$request->getSession()->get('uid')) {
+        if (!$request->getSession()->has('uid')) {
             $request->getSession()->set('referer', $this->generateUrl('_profile_edit'));
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $completed = $request->query->get('completed');
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
-        $form = $this->createForm(new ProfileEditType(), $user);
-
-        //获取默认值
-        $arr = $this->getDefaultValue($user);
-        $arr['form'] = $form->createView();
-        $arr['completed'] = $completed;
-
-        return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', $arr);
-    }
-
-    /**
-     * @Route("/editCommit", name="_profile_edit_commit")
-     * @Method("POST")
-     */
-    public function editCommitAction(Request $request)
-    {
-        //没有登录
-        if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_edit'));
-
-            return $this->redirect($this->generateUrl('_user_login'));
+        //建立user和userProfile之间的双向关联
+        if ($user->getUserProfile() == null) {
+            $userProfile = new UserProfile();
+            $userProfile->setUser($user);
+            $user->setUserProfile($userProfile);
         }
 
-        $form = $this->createForm(new ProfileEditType());
-        $form->bind($request);
+        //一个页面有多个表单
+        $uploadForm = $this->createForm(new UploadType);
+        $editForm = $this->createForm(new UserType(), $user);
 
-        $values = $form->getData();
-        $error_message = '';
-
-        $params = $request->request->get('profile');
-
-        $em = $this->getDoctrine()->getManager();
-        $user_id = $request->getSession()->get('uid');
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-
-        // user not exist
-        if (!$user) {
-            // 跳转到网站首页
-            return $this->container->getParameter('wenwen_frontend_home_home');
-        }
-
-        //check nick unique
-        $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($user->getEmail(), $params['nick']);
-        if ($user_nick) {
-            $error_message['nick_invalid'] = $this->container->getParameter('reg_al_nick');
-        }
-
-        //check birthday
-        if (!ValidateUtil::validatePeriod($params['birthday'], date('Y-m-d'))) {
-            $error_message['birthday_invalid'] = $this->container->getParameter('birthday_error');
-        }
-
-        // set user value (当页面出错时，需要保留用户已经所选择的属性，其他值跟随form绑定)
-        $user->setProvince($params['province']);
-        $user->setCity($params['city']);
-        $user->setIncome($params['income']);
-        $user->setProfession($params['profession']);
-        $user->setIndustryCode($params['industry_code']);
-        $user->setWorkSectionCode($params['work_section_code']);
-        $user->setEducation($params['education']);
-        if (isset($params['hobby'])) {
-            $user->setHobby(implode(',', $params['hobby']));
-        } else {
-            $user->setHobby(null);
-        }
-
-        //没有错误
-        if (empty($error_message) && $form->isValid()) {
-
-            // set other user value
-            $user->setNick($params['nick']);
-            $user->setBirthday($params['birthday']);
-            $user->setTel($params['tel']);
-            if (isset($params['sex'])) {
-                $user->setSex($params['sex']);
-            } else {
-                $user->setSex(null);
+        //由于也支持GET请求，所以先要判断一下是不是POST的
+        if ($request->getMethod() == 'POST') {
+            //仅对editForm进行处理
+            if ($request->request->has('user')) {
+                $editForm->bind($request);
+                if ($editForm->isValid()) {
+                    $em->flush();//保存user的同时级联保存userProfile
+                    //$this->get('login.listener')->updateInfoSession($user);
+                    $request->getSession()->getFlashBag()->add('success', '个人资料修改成功!');
+                    return $this->redirect($this->generateUrl('_profile_edit'));
+                }
             }
-            if (isset($params['personalDes'])) {
-                $user->setPersonalDes($params['personalDes']);
-            } else {
-                $user->setPersonalDes(null);
-            }
-            $user->setFavMusic($params['favMusic']);
-            $user->setMonthlyWish($params['monthlyWish']);
-
-            // update user info
-            $em->persist($user);
-            $em->flush();
-
-            $this->get('login.listener')->updateInfoSession($user);
-
-            return $this->redirect($this->generateUrl('_profile_edit', array (
-                'completed' => 1
-            )));
         }
 
-        //form invalid，有错误
-        $arr = $this->getDefaultValue($user);
-        $arr['error_message'] = $error_message;
-        $arr['form'] = $form->createView();
-
-        return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', array(
+            'uploadForm' => $uploadForm->createView(),
+            'editForm' => $editForm->createView(),
+            'user' => $user,
+            'userProfile' => $user->getUserProfile(),
+        ));
     }
 
     /**
-     * 获取默认值
-     */
-    public function getDefaultValue($user)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $data['user'] = $user;
-
-        //省
-        $data['province'] = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-
-        //收入
-        $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
-        unset($income[0]);
-        unset($income[1]);
-        unset($income[2]);
-        unset($income[3]);
-        $data['income'] = $income;
-
-        //兴趣爱好
-        $data['hobbyList'] = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
-
-        //用户爱好
-        if ($user && $user->getHobby()) {
-            $data['userProHobby'] = explode(",", $user->getHobby());
-        } else {
-            $data['userProHobby'] = null;
-        }
-
-        //职业
-        $data['profession'] = $this->container->getParameter('job_code');
-
-        //行业
-        $data['industry_code'] = $this->container->getParameter('industry_code');
-
-        //部门
-        $data['work_section_code'] = $this->container->getParameter('work_section_code');
-
-        //教育
-        $data['education'] = $this->container->getParameter('graduation_code');
-
-        return $data;
-    }
-
-    /**
-     * @Route("/upload", name="_profile_upload")
+     * @Route("/upload", name="_profile_upload", methods={"POST"})
+     * @link http://symfony.com/doc/current/controller/upload_file.html
      */
     public function uploadAction(Request $request)
     {
@@ -335,27 +218,56 @@ class ProfileController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
-        $form = $this->createForm(new ProfileEditType(), $user);
-        $form->bind($request);
+        //一个页面有多个表单
+        $uploadForm = $this->createForm(new UploadType(), $user);
+        $editForm = $this->createForm(new UserType(), $user);
 
-        $path = $this->container->getParameter('upload_tmp_dir');
-        $code = $user->upload($path);
+        //仅对uploadForm进行处理
+        if ($request->request->has('upload')) {
+            $uploadForm->bind($request);
+            if ($uploadForm->isValid()) {
+                $file = $user->getAttachment();
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $uploadDir = $this->container->getParameter('avatar_directory');
+                $file->move($uploadDir, $fileName);
 
-        if ($code == $this->container->getParameter('init_one')) {
-            $code = $this->container->getParameter('upload_img_type');
+                $webRoot = $this->get('kernel')->getRootDir() . '/../web';
+                $image = $webRoot . '/' . $uploadDir . '/' . $fileName;
+                if (file_exists($image)) {
+                    //按指定宽度等比缩放
+                    $this->zoom($image, 512);
+
+                    //按坐标裁切
+                    $x = $request->request->get('x');
+                    $y = $request->request->get('y');
+                    $w = $request->request->get('w');
+                    $h = $request->request->get('h');
+                    $this->crop($image, $x, $y, $w, $h);
+                }
+
+                //删除上一次上传的文件
+                if ($user->getIconPath() && file_exists($webRoot . '/' . $user->getIconPath())) {
+                    unlink($webRoot . '/' . $user->getIconPath());
+                }
+
+                $user->setIconPath($uploadDir . '/' . $fileName);
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                //$this->get('login.listener')->updateInfoSession($user);
+                return $this->redirect($this->generateUrl('_profile_edit'));
+            }
         }
-        if ($code == $this->container->getParameter('init_two')) {
-            $code = $this->container->getParameter('upload_img_size');
-        }
 
-        $this->get('login.listener')->updateInfoSession($user);
-
-        return new Response(json_encode($code));
+        return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', array(
+            'uploadForm' => $uploadForm->createView(),
+            'editForm' => $editForm->createView(),
+            'user' => $user,
+        ));
     }
 
     /**
-     * @Route("/withdraw", name="_profile_withdraw", options={"expose"=true})
-     * @Method("POST")
+     * @Route("/withdraw", name="_profile_withdraw", options={"expose"=true}, methods={"POST"})
      */
     public function withdrawAction(Request $request)
     {
@@ -438,5 +350,47 @@ class ProfileController extends Controller
     public function withdrawFinishAction(Request $request)
     {
         return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
+    }
+
+    private function zoom($filename, $w) {
+
+        $src_image = imagecreatefromstring(file_get_contents($filename));
+
+        $src_x = 0;
+        $src_y = 0;
+        $src_w = imagesx($src_image);
+        $src_h = imagesy($src_image);
+
+        $dst_x = 0;
+        $dst_y = 0;
+        $dst_w = $w;
+        $dst_h = $w * $src_h / $src_w;
+        $dst_image = imagecreatetruecolor($dst_w, $dst_h);
+
+        imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+        imagejpeg($dst_image, $filename);
+
+        imagedestroy($src_image);
+        imagedestroy($dst_image);
+    }
+
+    private function crop($filename, $x, $y, $w, $h) {
+        $src_image = imagecreatefromstring(file_get_contents($filename));
+        $src_x = $x;
+        $src_y = $y;
+        $src_w = $w;
+        $src_h = $h;
+
+        $dst_x = 0;
+        $dst_y = 0;
+        $dst_w = $src_w;
+        $dst_h = $src_h;
+        $dst_image = imagecreatetruecolor($dst_w, $dst_h);
+
+        imagecopyresampled($dst_image, $src_image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+        imagejpeg($dst_image, $filename);
+
+        imagedestroy($src_image);
+        imagedestroy($dst_image);
     }
 }

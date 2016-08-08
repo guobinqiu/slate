@@ -3,6 +3,7 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User
 {
-    public $attachment;
     const POINT_SIGNUP=10;
     const POINT_EMPTY =0;
 
@@ -111,20 +111,6 @@ class User
     private $nick;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="sex", type="integer", nullable=true)
-     */
-    private $sex;
-
-    /**
-     * @var date
-     *
-     * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
-     */
-    private $birthday;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=45, nullable=true)
@@ -137,55 +123,6 @@ class User
      * @ORM\Column(name="is_tel_confirmed", type="integer", nullable=true)
      */
     private $isTelConfirmed;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="province", type="integer", nullable=true)
-     */
-    private $province;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="city", type="integer", nullable=true)
-     */
-    private $city;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="education", type="integer", nullable=true, options={"comment": "学历"})
-     */
-    private $education;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="profession", type="integer", nullable=true, options={"comment": "职业"})
-     */
-    private $profession;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="income", type="integer", nullable=true)
-     */
-    private $income;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="hobby", type="string", length=250, nullable=true, options={"comment": "爱好"})
-     */
-    private $hobby;
-
-    /**
-     * @var text
-     *
-     * @ORM\Column(name="personalDes", type="text", nullable=true, options={"comment": "个性说明"})
-     */
-    private $personalDes;
 
     /**
      * @var string
@@ -264,6 +201,11 @@ class User
      */
     private $iconPath;
 
+    /**
+     * @Assert\File(mimeTypes={"image/bmp", "image/gif", "image/jpeg", "image/png"}, maxSize="2M")
+     */
+    private $attachment;
+
      /**
      * @var string
      *
@@ -313,34 +255,6 @@ class User
     private $passwordChoice;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="fav_music", type="string", length=255, nullable=true, options={"comment": "喜欢的音乐"})
-     */
-    private $favMusic;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true, options={"comment": "本月心愿"})
-     */
-    private $monthlyWish;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="industry_code", type="integer", nullable=true, options={"comment": "行业"})
-     */
-    private $industryCode;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="work_section_code", type="integer", nullable=true, options={"comment": "部门"})
-     */
-    private $workSectionCode;
-
-    /**
      * @var datetime $lastGetPointsAt
      *
      * @ORM\Column(name="last_get_points_at", type="datetime", nullable=true, options={"comment": "最后一次获得(+)积分的时间"})
@@ -348,90 +262,9 @@ class User
     private $lastGetPointsAt;
 
     /**
-     * upload resizeimage to temp dir
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"remove"})
      */
-    public function resizeUpload($path,$x,$y,$x1,$y1)
-    {
-        $size = getimagesize($path);
-        // $width = $size[0];
-        // $height = $size[1];
-        // $max = 512;
-        // $width = $max;
-        // $height = $height * ($max/$size[0]);
-        $src = imagecreatefromjpeg($path);
-        if(!$x1)
-            $x1 = 256;
-         if(!$y1)
-            $y1 = 256;
-        $dst = imagecreatetruecolor($x1, $y1); //新建一个真彩色图像
-        imagecopyresampled($dst,$src,0,0,$x,$y,$size[0],$size[1],$size[0],$size[1]);        //重采样拷贝部分图像并调整大小
-        header('Content-Type: image/jpeg');
-        imagejpeg($dst,$path,100);
-        imagedestroy($src);
-        imagedestroy($dst);
-
-    }
-    /**
-     * upload image to temp dir
-     */
-    public function upload($upload_dir)
-    {
-
-        $fileNames = array('attachment');
-        $types = array('jpg','jpeg');
-
-        $upload_dir .= $this->getId()%100;
-
-        \Jili\ApiBundle\Utility\FileUtil::mkdir($upload_dir);
-
-        $upload_dir.='/';
-        foreach ($fileNames as $key=>$fileName){
-            $filename_upload = '';
-            if (null === $this->$fileName) {
-                unset($fileNames[$key]);
-                continue ;
-            }
-            $field = 'iconPath';
-            switch ($fileName){
-                case 'attachment':$field = 'iconPath';break;
-            }
-            if($this->$fileName->getError()==1){
-                return  '1';//'文件类型为jpg或png';
-            }else{
-                if(!in_array($this->$fileName->guessExtension(),$types)){
-                    return  '1';//'文件类型为jpg或png';
-                }else{
-                    if($this->$fileName->getClientSize() > 2048000){
-                        return  '2';//'图片大小为2M以内';
-                    }else{
-                        $filename_upload = time().'_'.rand(1000,9999).'.'.$this->$fileName->guessExtension();
-                        //$this->$fileName->move($upload_dir, $filename_upload);
-                        $size = getimagesize($this->$fileName);
-                        $width = $size[0];
-                        $height = $size[1];
-
-                        $max = 512;
-                        $width = $max;
-                        $height = $height * ($max/$size[0]);
-                        $src = imagecreatefromjpeg($this->$fileName);
-                        $dst = imagecreatetruecolor($width, $height); //新建一个真彩色图像
-                        imagecopyresampled($dst, $src, 0, 0, 0, 0,
-                        $width, $height,$size[0], $size[1]);        //重采样拷贝部分图像并调整大小
-                        header('Content-Type: image/jpeg');
-                        imagejpeg($dst,$upload_dir.$filename_upload,100);
-                        imagedestroy($src);
-                        imagedestroy($dst);
-                        $this->$field = $upload_dir.$filename_upload;
-                        $this->$fileName = null;
-    //                      return '';
-                        return  $this->$field;
-
-                    }
-                }
-            }
-
-        }
-    }
+    private $userProfile;
 
     /**
      * go to email url
@@ -494,8 +327,6 @@ class User
 
     }
 
-
-
     /**
      * Get iconPath
      *
@@ -505,7 +336,6 @@ class User
     {
         return $this->iconPath;
     }
-
 
      /**
      * Set iconPath
@@ -517,8 +347,6 @@ class User
     {
         $this->iconPath = $iconPath;
     }
-
-
 
     /**
      * Get id
@@ -539,7 +367,6 @@ class User
     {
         return $this->wenwenUser;
     }
-
 
     /**
      * Set wenwenUser
@@ -575,7 +402,6 @@ class User
         return $this->token;
     }
 
-
     /**
      * Set isFromWenwen
      *
@@ -589,8 +415,6 @@ class User
         return $this;
     }
 
-
-
     /**
      * Get isFromWenwen
      *
@@ -600,8 +424,6 @@ class User
     {
         return $this->isFromWenwen;
     }
-
-
 
     /**
      * Set nick
@@ -662,57 +484,6 @@ class User
             for ($i = 1; $i <= 11; $i++)
             $seed .= sha1($seed);
             return sha1($seed);
-    }
-
-
-
-
-    /**
-     * Set sex
-     *
-     * @param integer $sex
-     * @return User
-     */
-    public function setSex($sex)
-    {
-        $this->sex = $sex;
-
-        return $this;
-    }
-
-
-
-    /**
-     * Get sex
-     *
-     * @return integer
-     */
-    public function getSex()
-    {
-        return $this->sex;
-    }
-
-    /**
-     * Set birthday
-     *
-     * @param string $birthday
-     * @return User
-     */
-    public function setBirthday($birthday)
-    {
-        $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    /**
-     * Get birthday
-     *
-     * @return string
-     */
-    public function getBirthday()
-    {
-        return $this->birthday;
     }
 
     /**
@@ -807,177 +578,6 @@ class User
         return $this->isTelConfirmed;
     }
 
-     /**
-     * Set province
-     *
-     * @param integer $province
-     * @return User
-     */
-    public function setProvince($province)
-    {
-        $this->province = $province;
-
-        return $this;
-    }
-
-    /**
-     * Get province
-     *
-     * @return integer
-     */
-    public function getProvince()
-    {
-        return $this->province;
-    }
-
-    /**
-     * Set city
-     *
-     * @param integer $city
-     * @return User
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return integer
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-
-    /**
-     * Set education
-     *
-     * @param integer $education
-     * @return User
-     */
-    public function setEducation($education)
-    {
-        $this->education = $education;
-
-        return $this;
-    }
-
-    /**
-     * Get education
-     *
-     * @return integer
-     */
-    public function getEducation()
-    {
-        return $this->education;
-    }
-
-
-    /**
-     * Set profession
-     *
-     * @param integer $profession
-     * @return User
-     */
-    public function setProfession($profession)
-    {
-        $this->profession = $profession;
-
-        return $this;
-    }
-
-    /**
-     * Get profession
-     *
-     * @return integer
-     */
-    public function getProfession()
-    {
-        return $this->profession;
-    }
-
-
-     /**
-     * Set income
-     *
-     * @param integer $income
-     * @return User
-     */
-    public function setIncome($income)
-    {
-        $this->income = $income;
-
-        return $this;
-    }
-
-
-
-    /**
-     * Get income
-     *
-     * @return integer
-     */
-    public function getIncome()
-    {
-        return $this->income;
-    }
-
-
-
-    /**
-     * Set hobby
-     *
-     * @param string $hobby
-     * @return User
-     */
-    public function setHobby($hobby)
-    {
-        $this->hobby = $hobby;
-
-        return $this;
-    }
-
-    /**
-     * Get hobby
-     *
-     * @return string
-     */
-    public function getHobby()
-    {
-        return $this->hobby;
-    }
-
-
-    /**
-     * Set personalDes
-     *
-     * @param string $personalDes
-     * @return User
-     */
-    public function setPersonalDes($personalDes)
-    {
-        $this->personalDes = $personalDes;
-
-        return $this;
-    }
-
-    /**
-     * Get personalDes
-     *
-     * @return string
-     */
-    public function getPersonalDes()
-    {
-        return $this->personalDes;
-    }
-
-
-
     /**
      * Set identityNum
      *
@@ -1001,7 +601,7 @@ class User
         return $this->identityNum;
     }
 
- /**
+    /**
      * Set rewardMultiple
      *
      * @param float $rewardMultiple
@@ -1346,7 +946,6 @@ class User
         return $this->campaignCode;
     }
 
-
     public function isOriginFlagWenwen()
     {
         $origin_flag =  $this->getOriginFlag();
@@ -1388,98 +987,6 @@ class User
       return !is_null($selected ) && $selected  === self::PWD_WENWEN;
     }
 
-    /**
-     * Set favMusic
-     *
-     * @param string $favMusic
-     * @return User
-     */
-    public function setFavMusic($favMusic)
-    {
-        $this->favMusic = $favMusic;
-
-        return $this;
-    }
-
-    /**
-     * Get favMusic
-     *
-     * @return string
-     */
-    public function getFavMusic()
-    {
-        return $this->favMusic;
-    }
-
-    /**
-     * Set monthlyWish
-     *
-     * @param string $monthlyWish
-     * @return User
-     */
-    public function setMonthlyWish($monthlyWish)
-    {
-        $this->monthlyWish = $monthlyWish;
-
-        return $this;
-    }
-
-    /**
-     * Get monthlyWish
-     *
-     * @return string
-     */
-    public function getMonthlyWish()
-    {
-        return $this->monthlyWish;
-    }
-
-    /**
-     * Set industryCode
-     *
-     * @param integer $industryCode
-     * @return User
-     */
-    public function setIndustryCode($industryCode)
-    {
-        $this->industryCode = $industryCode;
-
-        return $this;
-    }
-
-    /**
-     * Get industryCode
-     *
-     * @return integer
-     */
-    public function getIndustryCode()
-    {
-        return $this->industryCode;
-    }
-
-    /**
-     * Set workSectionCode
-     *
-     * @param integer $workSectionCode
-     * @return User
-     */
-    public function setWorkSectionCode($workSectionCode)
-    {
-        $this->workSectionCode = $workSectionCode;
-
-        return $this;
-    }
-
-    /**
-     * Get workSectionCode
-     *
-     * @return integer
-     */
-    public function getWorkSectionCode()
-    {
-        return $this->workSectionCode;
-    }
-
     public function emailIsConfirmed ()
     {
         return  (bool) $this->getIsEmailConfirmed();
@@ -1508,5 +1015,36 @@ class User
     public function getLastGetPointsAt()
     {
         return $this->lastGetPointsAt;
+    }
+
+    /**
+     * Set userProfile
+     *
+     * @return UserProfile
+     */
+    public function setUserProfile(UserProfile $userProfile)
+    {
+        $this->userProfile = $userProfile;
+        return $this;
+    }
+
+    /**
+     * Get userProfile
+     *
+     * @return UserProfile
+     */
+    public function getUserProfile()
+    {
+        return $this->userProfile;
+    }
+
+    public function setAttachment(UploadedFile $attachment)
+    {
+        $this->attachment = $attachment;
+    }
+
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 }
