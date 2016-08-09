@@ -53,7 +53,7 @@ class SopRespondentRepository extends EntityRepository
             FROM sop_respondent res
             INNER JOIN user u
                 ON u.id = res.user_id
-            INNER JOIN user_profile p
+            LEFT JOIN user_profile p
                 ON u.id = p.user_id
             WHERE
                 res.id = ?

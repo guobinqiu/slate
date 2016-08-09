@@ -36,16 +36,6 @@ class UserRepositoryTest extends KernelTestCase
         $executor->purge();
 
         $tn = $this->getName();
-        if (in_array($tn, array (
-            'testGetRecentPoint'
-        ))) {
-            //
-            $directory = $container->get('kernel')->getBundle('JiliApiBundle')->getPath();
-            $directory .= '/DataFixtures/ORM/Command/PointRecent';
-            $loader = new DataFixtureLoader($container);
-            $loader->loadFromDirectory($directory);
-            $executor->execute($loader->getFixtures());
-        }
 
         if (in_array($tn, array (
             'testGetSearchUserCount',
@@ -70,18 +60,6 @@ class UserRepositoryTest extends KernelTestCase
     {
         parent::tearDown();
         $this->em->close();
-    }
-
-    /**
-     * @group point_recent
-     */
-    public function testGetRecentPoint()
-    {
-        $em = $this->em;
-        $date_str = '2014-03-04';
-        $result = $em->getRepository('JiliApiBundle:User')->getRecentPoint($date_str);
-        $this->assertCount(99, $result);
-        $this->assertEquals('6a248c5c0dab72efbf0a8eab862d195b', md5(serialize($result)));
     }
 
     /**

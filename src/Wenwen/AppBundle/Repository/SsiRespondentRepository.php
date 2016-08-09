@@ -16,7 +16,7 @@ class SsiRespondentRepository extends EntityRepository
             FROM ssi_respondent
             INNER JOIN user
                 ON ssi_respondent.user_id = user.id
-            INNER JOIN user_profile
+            LEFT JOIN user_profile
                 ON user.id = user_profile.user_id
             WHERE
                 ssi_respondent.id = ?
