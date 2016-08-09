@@ -1,0 +1,17 @@
+<label>居住地：</label>
+
+<select id="province" name="user[userProfile][province]">
+    <option value="">省、市</option>
+    {% for province in provinces %}
+        <option value="{{ province.id}}"{% if province.id == userProfile.province %} selected="selected"{% endif %}>{{ province.provinceName }}</option>
+    {% endfor %}
+</select>
+
+<select id="city" name="user[userProfile][city]" disabled="disabled">
+    <option data-province="省、市" value="">地区</option>
+    {% for city in cities %}
+        <option data-province="{{ city.provinceId }}" value="{{ city.id }}"{% if city.id == userProfile.city %} selected="selected"{% endif %}>{{ city.cityName }}</option>
+    {% endfor %}
+</select>
+
+<span id="tmp" style="visibility: hidden; position:absolute;"></span>

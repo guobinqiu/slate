@@ -2,6 +2,8 @@
 
 namespace Jili\ApiBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,6 +25,8 @@ class UserProfile
      * @var date
      *
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
+     * @Assert\Date()
+     * @Assert\NotBlank()
      */
     private $birthday;
 
@@ -30,6 +34,7 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="sex", type="integer", nullable=true)
+     * @Assert\NotBlank()
      */
     private $sex;
 
@@ -37,6 +42,7 @@ class UserProfile
      * @var text
      *
      * @ORM\Column(name="personalDes", type="text", nullable=true, options={"comment": "个性说明"})
+     * @Assert\Length(max=512)
      */
     private $personalDes;
 
@@ -44,6 +50,7 @@ class UserProfile
      * @var string
      *
      * @ORM\Column(name="fav_music", type="string", length=255, nullable=true, options={"comment": "喜欢的音乐"})
+     * @Assert\Length(max=64)
      */
     private $favMusic;
 
@@ -51,6 +58,7 @@ class UserProfile
      * @var string
      *
      * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true, options={"comment": "本月心愿"})
+     * @Assert\Length(max=64)
      */
     private $monthlyWish;
 
@@ -58,6 +66,7 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="province", type="integer", nullable=true)
+     * @Assert\NotBlank()
      */
     private $province;
 
@@ -65,6 +74,7 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="city", type="integer", nullable=true)
+     * @Assert\NotBlank()
      */
     private $city;
 

@@ -24,12 +24,12 @@
                                 <img id="avatar" src="{{ asset(user.iconPath|default('img/common/default_tx.png')) }}" alt="头像" width="90" height="90" />
 
                                 <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(uploadForm) }} id="uploadForm">
-                                    {{ form_label(uploadForm.attachment, '设置头像', {'label_attr': {'class': 'set'}}) }}
-                                    {{ form_widget(uploadForm.attachment, {'id': 'profile_attachment'}) }}
-                                    <input type="hidden" id="x" name="x" />
-                                    <input type="hidden" id="y" name="y" />
-                                    <input type="hidden" id="w" name="w" />
-                                    <input type="hidden" id="h" name="h" />
+                                    {{ form_label(uploadForm.icon, '设置头像', {'label_attr': {'class': 'set'}}) }}
+                                    {{ form_widget(uploadForm.icon, {'id': 'profile_attachment'}) }}
+                                    {{ form_widget(uploadForm.x, {'id': 'x'}) }}
+                                    {{ form_widget(uploadForm.y, {'id': 'y'}) }}
+                                    {{ form_widget(uploadForm.w, {'id': 'w'}) }}
+                                    {{ form_widget(uploadForm.h, {'id': 'h'}) }}
                                     {{ form_row(uploadForm._token) }}
                                     <p class="errorInfo"></p>
                                 </form>
@@ -94,22 +94,8 @@
                             </li>
 
                             <li>
-                                <label>居住地：</label>
-
-                                <select id="province" name="user[userProfile][province]">
-                                    <option value="1"{% if userProfile.province == 1 %} selected="selected"{% endif %}>河北省</option>
-                                    <option value="2"{% if userProfile.province == 2 %} selected="selected"{% endif %}>辽宁省</option>
-                                </select>
-
-                                <select id="city" name="user[userProfile][city]" disabled>
-                                    <option data-province="河北省" value="1"{% if userProfile.city == 1 %} selected="selected"{% endif %}>石家庄</option>
-                                    <option data-province="河北省" value="2"{% if userProfile.city == 2 %} selected="selected"{% endif %}>唐山</option>
-                                    <option data-province="河北省" value="3"{% if userProfile.city == 3 %} selected="selected"{% endif %}>秦皇岛</option>
-                                    <option data-province="辽宁省" value="4"{% if userProfile.city == 4 %} selected="selected"{% endif %}>沈阳</option>
-                                    <option data-province="辽宁省" value="5"{% if userProfile.city == 5 %} selected="selected"{% endif %}>大连</option>
-                                </select>
-
-                                <span id="tmp" style="visibility: hidden; position:absolute;"></span>
+                                {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
+                                {% include 'WenwenFrontendBundle:Profile:_province_city_cascading.html.twig' %}
                             </li>
 
                             <li>

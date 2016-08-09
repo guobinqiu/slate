@@ -107,6 +107,8 @@ class User
      * @var string
      *
      * @ORM\Column(name="nick", type="string", length=100, nullable=true)
+     * @Assert\Length(min=1, max=100)
+     * @Assert\NotBlank()
      */
     private $nick;
 
@@ -204,7 +206,7 @@ class User
     /**
      * @Assert\File(mimeTypes={"image/bmp", "image/gif", "image/jpeg", "image/png"}, maxSize="2M")
      */
-    private $attachment;
+    private $icon;
 
      /**
      * @var string
@@ -1038,13 +1040,13 @@ class User
         return $this->userProfile;
     }
 
-    public function setAttachment(UploadedFile $attachment)
+    public function setIcon(UploadedFile $icon)
     {
-        $this->attachment = $attachment;
+        $this->icon = $icon;
     }
 
-    public function getAttachment()
+    public function getIcon()
     {
-        return $this->attachment;
+        return $this->icon;
     }
 }

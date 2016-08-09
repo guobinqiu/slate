@@ -5,66 +5,36 @@ namespace Wenwen\FrontendBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class UserProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('birthday', 'text', array (
+        $builder->add('birthday', 'text', array(
             'label' => '生日',
             'read_only' => 'true',
-            'constraints' => array (
-                new Assert\Date(array (
-                    'message' => '请选择正确的生日，包含年月日'
-                ))
-            )
         ));
 
-        $builder->add('sex', 'choice', array (
+        $builder->add('sex', 'choice', array(
             'label' => '性别',
             'expanded' => true, //If set to true, radio buttons or checkboxes will be rendered (depending on the multiple value). If false, a select element will be rendered.
             'multiple' => false,
-            'choices' => array (
+            'choices' => array(
                 '1' => '男',
                 '2' => '女'
             )
         ));
 
-        $builder->add('personalDes', 'textarea', array (
+        $builder->add('personalDes', 'textarea', array(
             'label' => '个性签名',
-            'attr' => array (
+            'attr' => array(
                 'rows' => '6',
                 'cols' => '50'
             ),
-            'constraints' => array (
-                new Assert\Length(array (
-                    'max' => 512,
-                    'maxMessage' => '不超过512个字符'
-                ))
-            )
         ));
 
-        $builder->add('favMusic', 'text', array (
-            'label' => '喜欢的音乐',
-            'constraints' => array (
-                new Assert\Length(array (
-                    'max' => 64,
-                    'maxMessage' => '不超过64个字符'
-                ))
-            )
-        ));
-
-        $builder->add('monthlyWish', 'text', array (
-            'label' => '本月心愿',
-            'constraints' => array (
-                new Assert\Length(array (
-                    'max' => 64,
-                    'maxMessage' => '不超过64个字符'
-                ))
-            )
-        ));
-
+        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐'));
+        $builder->add('monthlyWish', 'text', array('label' => '本月心愿'));
         $builder->add('province', 'text');
         $builder->add('city', 'text');
 
@@ -217,8 +187,9 @@ class UserProfileType extends AbstractType
         ));
     }
 
+    //对应表单属性: $form['user']['user_profile'][some field]
     public function getName()
     {
-        return 'profile';
+        return 'user_profile';
     }
 }

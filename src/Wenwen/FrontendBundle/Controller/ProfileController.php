@@ -1,6 +1,8 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Controller;
 
+use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
-use Wenwen\FrontendBundle\Form\UploadType;
+use Wenwen\FrontendBundle\Form\UserIconType;
 use Wenwen\FrontendBundle\Form\UserType;
 
 /**
@@ -174,6 +176,8 @@ class ProfileController extends Controller
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
         //建立user和userProfile之间的双向关联
         if ($user->getUserProfile() == null) {
@@ -183,13 +187,14 @@ class ProfileController extends Controller
         }
 
         //一个页面有多个表单
-        $uploadForm = $this->createForm(new UploadType);
-        $editForm = $this->createForm(new UserType(), $user);
+        $uploadForm = $this->createForm(new UserIconType());
+        $userType = new UserType();
+        $editForm = $this->createForm($userType, $user);
 
         //由于也支持GET请求，所以先要判断一下是不是POST的
         if ($request->getMethod() == 'POST') {
             //仅对editForm进行处理
-            if ($request->request->has('user')) {
+            if ($request->request->has($userType->getName())) {
                 $editForm->bind($request);
                 if ($editForm->isValid()) {
                     $em->flush();//保存user的同时级联保存userProfile
@@ -205,6 +210,8 @@ class ProfileController extends Controller
             'editForm' => $editForm->createView(),
             'user' => $user,
             'userProfile' => $user->getUserProfile(),
+            'provinces' => $provinces,
+            'cities' => $cities,
         ));
     }
 
@@ -219,43 +226,51 @@ class ProfileController extends Controller
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
 
         //一个页面有多个表单
-        $uploadForm = $this->createForm(new UploadType(), $user);
+        $userIconType = new UserIconType();
+        $uploadForm = $this->createForm($userIconType, $user);
         $editForm = $this->createForm(new UserType(), $user);
 
         //仅对uploadForm进行处理
-        if ($request->request->has('upload')) {
+        if ($request->request->has($userIconType->getName())) {
             $uploadForm->bind($request);
             if ($uploadForm->isValid()) {
-                $file = $user->getAttachment();
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                $uploadDir = $this->container->getParameter('avatar_directory');
-                $file->move($uploadDir, $fileName);
+                $file = $user->getIcon();
+                if ($file != null) {
+                    $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                    $uploadDir = $this->container->getParameter('avatar_directory');
+                    $file->move($uploadDir, $fileName);
 
-                $webRoot = $this->get('kernel')->getRootDir() . '/../web';
-                $image = $webRoot . '/' . $uploadDir . '/' . $fileName;
-                if (file_exists($image)) {
-                    //按指定宽度等比缩放
-                    $this->zoom($image, 512);
+                    $webRoot = $this->get('kernel')->getRootDir() . '/../web';
+                    $newIconUrl = $webRoot . '/' . $uploadDir . '/' . $fileName;
 
-                    //按坐标裁切
-                    $x = $request->request->get('x');
-                    $y = $request->request->get('y');
-                    $w = $request->request->get('w');
-                    $h = $request->request->get('h');
-                    $this->crop($image, $x, $y, $w, $h);
+                    if ($user->getIconPath() != null) {
+                        $oldIconUrl = $webRoot . '/' . $user->getIconPath();
+                    }
+
+                    //先按指定宽度等比缩放
+                    $this->zoomImage($newIconUrl, 512);
+
+                    //再按坐标裁切
+                    $x = $uploadForm->get('x')->getData();
+                    $y = $uploadForm->get('y')->getData();
+                    $w = $uploadForm->get('w')->getData();
+                    $h = $uploadForm->get('h')->getData();
+                    $this->cropImage($newIconUrl, $x, $y, $w, $h);
+
+                    //把iconPath关联到新上传的文件
+                    $newIconPath = $uploadDir . '/' . $fileName;
+                    $user->setIconPath($newIconPath);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+
+                    //删除上一次上传的文件
+                    if (isset($oldIconUrl) && file_exists($oldIconUrl)) {
+                        unlink($oldIconUrl);
+                    }
+
+                    //$this->get('login.listener')->updateInfoSession($user);
+                    return $this->redirect($this->generateUrl('_profile_edit'));
                 }
-
-                //删除上一次上传的文件
-                if ($user->getIconPath() && file_exists($webRoot . '/' . $user->getIconPath())) {
-                    unlink($webRoot . '/' . $user->getIconPath());
-                }
-
-                $user->setIconPath($uploadDir . '/' . $fileName);
-                $em = $this->getDoctrine()->getManager();
-                $em->flush();
-
-                //$this->get('login.listener')->updateInfoSession($user);
-                return $this->redirect($this->generateUrl('_profile_edit'));
             }
         }
 
@@ -352,7 +367,7 @@ class ProfileController extends Controller
         return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
     }
 
-    private function zoom($filename, $w) {
+    private function zoomImage($filename, $w) {
 
         $src_image = imagecreatefromstring(file_get_contents($filename));
 
@@ -374,7 +389,7 @@ class ProfileController extends Controller
         imagedestroy($dst_image);
     }
 
-    private function crop($filename, $x, $y, $w, $h) {
+    private function cropImage($filename, $x, $y, $w, $h) {
         $src_image = imagecreatefromstring(file_get_contents($filename));
         $src_x = $x;
         $src_y = $y;

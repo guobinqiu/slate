@@ -11,32 +11,14 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nick', 'text', array (
-            'label' => '昵称',
-            'constraints' => array (
-                new Assert\NotBlank(array (
-                    'message' => '请输入昵称'
-                )),
-                new Assert\Length(array (
-                    'min' => 1,
-                    'max' => 100,
-                    'minMessage' => '最少1个字符',
-                    'maxMessage' => '最多100个字符'
-                ))
-            )
-        ));
+        $builder->add('nick', 'text', array('label' => '昵称'));
 
         $builder->add('tel', 'number', array(
             'label' => '手机号码',
             'constraints' => array(
-                new Assert\NotBlank(array (
-                    'message' => '请输入手机号码'
-                )),
+                new Assert\NotBlank()
             )
         ));
-
-        //上传图片
-        //$builder->add('attachment', 'file');
 
         //对应user对象的userProfile属性
         $builder->add('userProfile', new UserProfileType());
@@ -45,7 +27,8 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Jili\ApiBundle\Entity\User'
+            'data_class' => 'Jili\ApiBundle\Entity\User',
+            'cascade_validation' => true,//同时验证嵌套的表单
         ));
     }
 
