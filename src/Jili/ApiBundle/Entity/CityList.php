@@ -104,6 +104,11 @@ class CityList
         return $this->provinceId;
     }
 
+    public function setSopProvinceId($sopProvinceId)
+    {
+        $this->sopProvinceId = $sopProvinceId;
+    }
+
     public function getSopProvinceId()
     {
         return $this->sopProvinceId;

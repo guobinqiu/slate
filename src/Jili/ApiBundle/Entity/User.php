@@ -264,7 +264,7 @@ class User
     private $lastGetPointsAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade="all")
      */
     private $userProfile;
 

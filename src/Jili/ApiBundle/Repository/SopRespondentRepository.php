@@ -49,10 +49,12 @@ class SopRespondentRepository extends EntityRepository
             SELECT
                 u.email,
                 IFNULL(u.nick, u.email) AS name1,
-                IFNULL(IF(u.sex = '2', '女士', '先生'), '先生') AS title
+                IFNULL(IF(p.sex = '2', '女士', '先生'), '先生') AS title
             FROM sop_respondent res
             INNER JOIN user u
                 ON u.id = res.user_id
+            INNER JOIN user_profile p
+                ON u.id = p.user_id
             WHERE
                 res.id = ?
                 AND

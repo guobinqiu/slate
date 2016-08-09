@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -279,92 +278,6 @@ class ProfileController extends Controller
             'editForm' => $editForm->createView(),
             'user' => $user,
         ));
-    }
-
-    /**
-     * @Route("/withdraw", name="_profile_withdraw", options={"expose"=true}, methods={"POST"})
-     */
-    public function withdrawAction(Request $request)
-    {
-        $result['status'] = '0';
-        $result['message'] = '抱歉，系统出错，请稍后再尝试注销';
-
-        if (!$request->getSession()->get('uid')) {
-            $result['status'] = '1001';
-            $result['message'] = '请先登录';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-            return $resp;
-        }
-
-        $reasons = $request->get('reason', array ());
-        $reason_text = implode(',', $reasons);
-        $csrf_token = $request->get('csrf_token');
-        $email = $request->get('email');
-        $password = $request->get('password');
-
-        //check csrf_token
-        if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
-            $result['status'] = '1002';
-            $result['message'] = '非法访问，请登陆后从账户设置页面正常注销';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-            return $resp;
-        }
-
-        // check user email
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($request->getSession()->get('uid'));
-        if (trim($user->getEmail()) != trim($email)) {
-            $result['status'] = '1003';
-            $result['message'] = '请输入正确的邮箱地址';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-            return $resp;
-        }
-
-        // check user password
-        $check_user_service = $this->container->get('login.listener');
-        $invalid_user = $check_user_service->checkPassword($user, $password);
-        if ($invalid_user) {
-            $result['status'] = '1004';
-            $result['message'] = '请输入正确的登录密码';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-            return $resp;
-        }
-
-        //doWithdraw
-        $withdraw = $this->get('withdraw_handler');
-        $user_id = $request->getSession()->get('uid');
-
-        $return = $withdraw->doWithdraw($user_id, $reason_text);
-        if ($return) {
-            $logout_service = $this->get('logout_service');
-            $logout_service->logout($request);
-            $result['status'] = 1;
-        } else {
-            $result['status'] = '1005';
-            $result['message'] = '抱歉，系统忙，请稍后再尝试注销';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-            return $resp;
-        }
-
-        $result['status'] = '1000';
-        $result['message'] = '注销成功';
-        $resp = new Response(json_encode($result));
-        $resp->headers->set('Content-Type', 'application/json');
-
-        return $resp;
-    }
-
-    /**
-     * @Route("/withdrawFinish", name="_profile_withdraw_finish", options={"expose"=true})
-     */
-    public function withdrawFinishAction(Request $request)
-    {
-        return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
     }
 
     private function zoomImage($filename, $w) {

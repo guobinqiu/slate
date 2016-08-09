@@ -187,7 +187,6 @@ class UserProfileType extends AbstractType
         ));
     }
 
-    //对应表单属性: $form['user']['user_profile'][some field]
     public function getName()
     {
         return 'user_profile';
