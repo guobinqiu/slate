@@ -35,20 +35,6 @@ class UserRepositoryTest extends KernelTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->purge();
 
-        $tn = $this->getName();
-
-        if (in_array($tn, array (
-            'testGetSearchUserCount',
-            'testGetSearchUserList',
-            'testGetSearchUserSqlQuery'
-        ))) {
-            $fixture = new LoadMergedUserData();
-            $fixture->setContainer($container);
-            $loader = new Loader();
-            $loader->addFixture($fixture);
-            $executor->execute($loader->getFixtures());
-        }
-
         $this->container = $container;
         $this->em = $em;
     }
@@ -320,107 +306,5 @@ class UserRepositoryTest extends KernelTestCase
         ));
         $this->assertNotEmpty($j);
         $this->assertEquals($i->pw_encode('123qwe'), $j->getPwd());
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserCount()
-    {
-        $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserCount(array (), "registered");
-        $this->assertEquals(8, $result, "registered user count : " . $result);
-        $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserCount(array (), "withdrawal");
-        $this->assertEquals(5, $result, "withdrawal user count : " . $result);
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserList()
-    {
-        $pageSize = 3;
-        $currentPage = 0;
-        $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserList(array (), "registered", $pageSize, $currentPage);
-        $this->assertCount(3, $result, 'registered user, pageSize:3, currentPage:0, user count: ' . count($result));
-
-        $currentPage = ceil(8 / 3);
-        $result = $this->em->getRepository('JiliApiBundle:User')->getSearchUserList(array (), "registered", $pageSize, $currentPage);
-        $this->assertCount(2, $result, 'registered user, pageSize:3, currentPage:last page, user count: ' . count($result));
-
-        $this->assertEquals(32, $result[0]['id']);
-        $this->assertEquals('zhangmmX@voyagegroup.com.cn', $result[0]['email']);
-        $this->assertEquals('1941-2', $result[0]['birthday']);
-        $this->assertEquals(2, $result[0]['sex']);
-        $this->assertEquals('atg', $result[0]['nick']);
-        $this->assertEquals('', $result[0]['tel']);
-        $this->assertEquals('2014-08-26 17:59:05', $result[0]['registerCompleteDate']->format('Y-m-d H:i:s'));
-        $this->assertEquals('2015-02-13 10:09:18', $result[0]['lastLoginDate']->format('Y-m-d H:i:s'));
-        $this->assertEquals(null, $result[0]['createdRemoteAddr']);
-        $this->assertEquals(null, $result[0]['campaignCode']);
-        $this->assertEquals(null, $result[0]['app_mid']);
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserSqlQuery0()
-    {
-        $query = $this->em->getRepository('JiliApiBundle:User')->createQueryBuilder('u');
-        $query = $query->select('COUNT(u.id)');
-
-        $type = 'withdrawal';
-        $values = array ();
-        $query = $this->em->getRepository('JiliApiBundle:User')->getSearchUserSqlQuery($query, $values, $type);
-        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ LEFT JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND u0_.delete_flag = 1 ORDER BY u0_.id DESC', $query->getSql());
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserSqlQuery1()
-    {
-        $query = $this->em->getRepository('JiliApiBundle:User')->createQueryBuilder('u');
-        $query = $query->select('COUNT(u.id)');
-
-        $type = 'withdrawal';
-        $values['app_mid'] = 1;
-        $values = array ();
-        $query = $this->em->getRepository('JiliApiBundle:User')->getSearchUserSqlQuery($query, $values, $type);
-        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ LEFT JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND u0_.delete_flag = 1 ORDER BY u0_.id DESC', $query->getSql());
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserSqlQuery2()
-    {
-        $query = $this->em->getRepository('JiliApiBundle:User')->createQueryBuilder('u');
-        $query = $query->select('COUNT(u.id)');
-
-        $type = 'registered';
-        $values = array ();
-        $query = $this->em->getRepository('JiliApiBundle:User')->getSearchUserSqlQuery($query, $values, $type);
-        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ LEFT JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND (u0_.delete_flag IS NULL OR u0_.delete_flag = 0) ORDER BY u0_.id DESC', $query->getSql());
-    }
-
-    /**
-     * @group dev-backend_panelist
-     */
-    public function testGetSearchUserSqlQuery3()
-    {
-        $query = $this->em->getRepository('JiliApiBundle:User')->createQueryBuilder('u');
-        $query = $query->select('COUNT(u.id)');
-
-        $type = 'registered';
-        $values['app_mid'] = 1;
-        $values['user_id'] = 31;
-        $values['email'] = 'test@test.com';
-        $values['nickname'] = 'test';
-        $values['mobile_number'] = '123';
-        $values['birthday'] = '1961-09';
-        $values['registered_from'] = '2015-09-08 10:00:00';
-        $values['registered_to'] = '2015-09-08 10:00:00';
-        $query = $this->em->getRepository('JiliApiBundle:User')->getSearchUserSqlQuery($query, $values, $type);
-        $this->assertEquals('SELECT COUNT(u0_.id) AS sclr0 FROM user u0_ INNER JOIN sop_respondent s1_ ON (u0_.id = s1_.user_id) WHERE 1 = 1 AND s1_.id = ? AND u0_.id = ? AND u0_.email = ? AND u0_.nick LIKE ? AND u0_.tel = ? AND u0_.birthday = ? AND u0_.register_complete_date >= ? AND u0_.register_complete_date <= ? AND (u0_.delete_flag IS NULL OR u0_.delete_flag = 0) ORDER BY u0_.id DESC', $query->getSql());
     }
 }
