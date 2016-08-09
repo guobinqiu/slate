@@ -6,7 +6,7 @@ $(function(){
     var nav = $('.header-nav .nav');
     var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验', 'exchange': '兑换中心', 'help': '帮助中心'};
     $.each(arr, function(i, e){
-        if(href == Routing.generate('_homepage')){ 
+        if(href == 'http://www.91wenwen.net/'){ 
             nav.find('a').removeClass('active').eq(0).addClass('active');
             return false;
         }
@@ -39,7 +39,7 @@ $(function(){
     //返回顶部
     $('.goTop').click(function() {
         $('body,html').animate({ scrollTop: 0 }, 800);
-    })
+    });
 
     $(window).resize(function() {
         resizeFooter();
@@ -53,7 +53,7 @@ $(function(){
             $(".footer").css("position","static");
             $(".navLayerBg").add($(".navLayer")).css("position","absolute");
         }   
-    }
+    };
     resizeFooter();
 
     // mobile dropdown
@@ -80,5 +80,12 @@ $(function(){
             navbar.removeClass('fixed');
             wrap.removeClass('unfixed');
         }
+    });
+
+    //points explain popup
+    $('.exchangeNav').hover(function(){
+        $('.pointExp').stop(true).animate({opacity:100}, 300);
+    },function(){
+        $('.pointExp').stop(true).animate({opacity:0}, 300);
     });
 });
