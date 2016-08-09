@@ -66,6 +66,7 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="province", type="integer", nullable=true)
+     * @Assert\NotBlank()
      */
     private $province;
 
@@ -73,6 +74,7 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="city", type="integer", nullable=true)
+     * @Assert\NotBlank()
      */
     private $city;
 
