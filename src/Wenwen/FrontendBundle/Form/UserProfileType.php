@@ -11,12 +11,12 @@ class UserProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('birthday', 'text', array(
-            'label' => '生日',
+            'label' => '生日：',
             'read_only' => 'true',
         ));
 
         $builder->add('sex', 'choice', array(
-            'label' => '性别',
+            'label' => '性别：',
             'expanded' => true, //If set to true, radio buttons or checkboxes will be rendered (depending on the multiple value). If false, a select element will be rendered.
             'multiple' => false,
             'choices' => array(
@@ -26,20 +26,20 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('personalDes', 'textarea', array(
-            'label' => '个性签名',
+            'label' => '个性签名：',
             'attr' => array(
                 'rows' => '6',
                 'cols' => '50'
             ),
         ));
 
-        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐'));
-        $builder->add('monthlyWish', 'text', array('label' => '本月心愿'));
+        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐：'));
+        $builder->add('monthlyWish', 'text', array('label' => '本月心愿：'));
         $builder->add('province', 'text');
         $builder->add('city', 'text');
 
         $builder->add('income', 'choice', array(
-            'label' => '月收入',
+            'label' => '月收入：',
             'empty_value' => '请选择收入',
             'choices' => array(
                 '100' => '1000元以下',
@@ -66,7 +66,7 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('profession', 'choice', array(
-            'label' => '职业',
+            'label' => '职业：',
             'empty_value' => '请选择职业',
             'choices' => array(
                 '1' => '公务员',
@@ -86,7 +86,7 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('industry_code', 'choice', array(
-            'label' => '行业',
+            'label' => '行业：',
             'empty_value' => '请选择行业',
             'choices' => array(
                 '1' => '农业/水产',
@@ -124,7 +124,7 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('work_section_code', 'choice', array(
-            'label' => '部门',
+            'label' => '部门：',
             'empty_value' => '请选择部门',
             'choices' => array(
                 '1' => '总务/人事/管理',
@@ -148,7 +148,7 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('education', 'choice', array(
-            'label' => '教育程度',
+            'label' => '教育程度：',
             'empty_value' => '请选择',
             'choices' => array(
                 '1' => "高中以下",
@@ -160,7 +160,7 @@ class UserProfileType extends AbstractType
         ));
 
         $builder->add('hobby', 'choice', array(
-            'label' => '兴趣爱好',
+            'label' => '兴趣爱好：',
             'expanded' => true,
             'multiple' => true,
             'choices' => array(

@@ -121,7 +121,7 @@ class UserProfile
     private $hobby;
 
     /**
-     * @ORM\OnetoOne(targetEntity="User", inversedBy="userProfile")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="userProfile")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
