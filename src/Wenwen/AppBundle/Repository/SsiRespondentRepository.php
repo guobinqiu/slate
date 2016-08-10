@@ -11,8 +11,7 @@ class SsiRespondentRepository extends EntityRepository
         $stmt = $this->getEntityManager()->getConnection()->prepare('
             SELECT
                 user.email,
-                IFNULL(user.nick, user.email) AS name1,
-                IFNULL(IF(user.sex = "2", "女士", "先生"), "先生") AS title
+                user.nick AS name1
             FROM ssi_respondent
             INNER JOIN user
                 ON ssi_respondent.user_id = user.id

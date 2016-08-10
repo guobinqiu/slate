@@ -48,8 +48,7 @@ class SopRespondentRepository extends EntityRepository
         $sql = <<<EOT
             SELECT
                 u.email,
-                IFNULL(u.nick, u.email) AS name1,
-                IFNULL(IF(u.sex = '2', '女士', '先生'), '先生') AS title
+                u.nick AS name1
             FROM sop_respondent res
             INNER JOIN user u
                 ON u.id = res.user_id

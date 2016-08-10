@@ -5,6 +5,8 @@ namespace Wenwen\AppBundle\Tests\Repository;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserProfile;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SsiRespondentRepositoryTest extends KernelTestCase
@@ -64,7 +66,6 @@ class SsiRespondentRepositoryTest extends KernelTestCase
         $this->assertNotEmpty($recipient_data);
         $this->assertEquals('test@d8aspring.com', $recipient_data['email']);
         $this->assertEquals(__NAMESPACE__.'\SsiRespondentRepositoryTestFixture', $recipient_data['name1']);
-        $this->assertEquals('先生', $recipient_data['title']);
     }
 }
 
@@ -85,12 +86,18 @@ class SsiRespondentRepositoryTestFixture implements FixtureInterface, ContainerA
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);
         $user->setPwd('password');
         $manager->persist($user);
+        $manager->flush();
+
+        $userProfile = new UserProfile();
+        $userProfile->setUser($user);
+        $userProfile->setSex("1");
+        $manager->persist($userProfile);
         $manager->flush();
 
         $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();

@@ -101,7 +101,6 @@ class SsiProjectRespondentRepositoryTestFixture implements ContainerAwareInterfa
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
         $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
-        $user->setCity(2);
         $manager->persist($user);
         $manager->flush();
 

@@ -89,8 +89,8 @@ class CpaRankingActivityCommandTest extends KernelTestCase {
         $this->assertFileExists($output_filename, 'generate cpa ranking file');
         $users = FileUtil :: readCsvContent($output_filename);
 
-        $this->assertEquals("34", count($users), 'compare the output file lines');
-        $this->assertEquals("1208683", $users[0][0], 'compare the output file content');
+        $this->assertEquals("5", count($users), 'compare the output file lines');
+        $this->assertEquals("1205114", $users[0][0], 'compare the output file content');
     }
 
 }

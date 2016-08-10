@@ -125,6 +125,5 @@ class SopRespondentRepositoryTest extends KernelTestCase
 
         $this->assertEquals('user@voyagegroup.com.cn', $recipient_data['email']);
         $this->assertEquals('bb', $recipient_data['name1']);
-        $this->assertEquals('先生', $recipient_data['title']);
     }
 }

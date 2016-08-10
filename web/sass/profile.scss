@@ -69,9 +69,16 @@ $color: #0078b6;
 	label{
 		color: #333;
 		@include dib();
+		&[for="user_userProfile_sex_0"],&[for="user_userProfile_sex_1"]{
+			width: 60px!important;
+			text-align: left!important;
+			vertical-align: 2px!important;
+			color: #000!important;
+		}
 	}
 	.con{
 		padding: 17px 10px 45px;
+		font-size: 13px;
 	}
 	.profile-base{
 		border-bottom: $block-inner-border;
@@ -119,7 +126,7 @@ $color: #0078b6;
 				}
 			}
 			label{
-				width: 64px;
+				width: 70px;
 				line-height: 30px;
 				text-align: left;
 				color: #a1a1a1;
@@ -182,10 +189,6 @@ $color: #0078b6;
 		}
 		.imageInfo{
 			margin-right: 20px;
-			img{
-				width: 512px;
-				height: auto;
-			}
 		}
 		.resImg{
 			width: 150px;
@@ -239,6 +242,9 @@ $color: #0078b6;
 				line-height: 36px;
 				text-align: right;
 				color: #a1a1a1;
+				&.required{
+					vertical-align: top;
+				}
 			}
 			#profile_sex{
 				label{
@@ -267,6 +273,15 @@ $color: #0078b6;
 				line-height: 34px;
 				@include dib();
 				vertical-align: top;
+				white-space: nowrap;
+				#user_userProfile_sex{
+					label{
+						color: #000;
+						width: 50px;
+						text-align: left;
+						vertical-align: 0;
+					}
+				}
 			}
 			select{
 				margin-right: 5px;
@@ -275,15 +290,18 @@ $color: #0078b6;
 				line-height: 34px;
 				text-align: center;
 				font-family: '微软雅黑';
-				font-size: 12px;
 				border: $border;
+				color: #000;
 				outline: none;
+				vertical-align: middle;
+				text-align: left;
 				&:focus{
 					border: $input-border-focus;
 				}
 			}
 			option{
 				border: $border;
+				color: #000;
 			}
 			textarea{
 				width: 405px; 
@@ -299,6 +317,18 @@ $color: #0078b6;
 				margin-left: 145px;
 				li{
 					color: $error-color;
+				}
+			}
+			#user_userProfile_hobby{
+				width: 490px;
+				display: inline-block;
+				*display: inline;
+				label{
+					width: 50px!important;
+					text-align: left!important;
+					margin-right: 0px!important;
+					color: #000;
+					vertical-align: -1px;
 				}
 			}
 		}

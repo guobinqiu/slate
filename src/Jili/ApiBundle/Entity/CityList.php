@@ -38,6 +38,13 @@ class CityList
      */
     private $provinceId;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="city_id", type="integer")
+     */
+    private $cityId;
+
 
     /**
      * Get id
@@ -97,4 +104,8 @@ class CityList
         return $this->provinceId;
     }
 
+    public function getCityId()
+    {
+        return $this->cityId;
+    }
 }
