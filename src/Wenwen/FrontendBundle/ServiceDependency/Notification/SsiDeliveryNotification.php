@@ -32,7 +32,7 @@ class SsiDeliveryNotification implements DeliveryNotification
                     '--email='.$respondent['recipient']['email'],
                     '--survey_title=SSI海外调查',
                     '--survey_point=180',
-                    '--subject=亲爱的'.$respondent['recipient']['name1'].'，您的新问卷来了！',
+                    '--subject=亲爱的'.$name1.'，您的新问卷来了！',
                     //'--channel='.$this->getChannel($i),//sendcloud
                 ), true, '91wenwen');
                 $this->em->persist($job);
