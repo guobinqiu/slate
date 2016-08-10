@@ -23,8 +23,12 @@ class SsiDeliveryNotification implements DeliveryNotification
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
             if ($recipient && $this->isSubscribed($recipient)) {
                 $respondent['recipient'] = $recipient;
+                $name1 = $respondent['recipient']['name1'];
+                if ($name1 == null) {
+                    $name1 = $respondent['recipient']['email'];
+                }
                 $job = new Job('mail:ssi_delivery_notification', array(
-                    '--name1='.$respondent['recipient']['name1'],
+                    '--name1='.$name1,
                     '--email='.$respondent['recipient']['email'],
                     '--survey_title=SSI海外调查',
                     '--survey_point=180',
