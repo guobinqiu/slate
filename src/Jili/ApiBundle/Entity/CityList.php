@@ -41,9 +41,9 @@ class CityList
     /**
      * @var integer
      *
-     * @ORM\Column(name="sop_province_id", type="integer")
+     * @ORM\Column(name="city_id", type="integer")
      */
-    private $sopProvinceId;
+    private $cityId;
 
 
     /**
@@ -104,13 +104,8 @@ class CityList
         return $this->provinceId;
     }
 
-    public function setSopProvinceId($sopProvinceId)
+    public function getCityId()
     {
-        $this->sopProvinceId = $sopProvinceId;
-    }
-
-    public function getSopProvinceId()
-    {
-        return $this->sopProvinceId;
+        return $this->cityId;
     }
 }

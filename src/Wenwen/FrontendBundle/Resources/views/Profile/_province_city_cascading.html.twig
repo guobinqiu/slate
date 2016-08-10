@@ -10,7 +10,7 @@
 <select id="city" name="user[userProfile][city]" disabled="disabled">
     <option data-province="" value="">地区</option>
     {% for city in cities %}
-        <option data-province="{{ city.provinceId }}" value="{{ city.sopProvinceId }}"{% if city.sopProvinceId == userProfile.city %} selected="selected"{% endif %}>{{ city.cityName }}</option>
+        <option data-province="{{ city.provinceId }}" value="{{ city.cityId }}"{% if city.cityId == userProfile.city %} selected="selected"{% endif %}>{{ city.cityName }}</option>
     {% endfor %}
 </select>
 {{ form_errors(editForm.userProfile.city) }}
