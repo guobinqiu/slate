@@ -66,7 +66,6 @@ class SsiRespondentRepositoryTest extends KernelTestCase
         $this->assertNotEmpty($recipient_data);
         $this->assertEquals('test@d8aspring.com', $recipient_data['email']);
         $this->assertEquals(__NAMESPACE__.'\SsiRespondentRepositoryTestFixture', $recipient_data['name1']);
-        $this->assertEquals('先生', $recipient_data['title']);
     }
 }
 
