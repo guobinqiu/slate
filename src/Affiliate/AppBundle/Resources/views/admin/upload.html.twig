@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>upload</title>
+{% endblock %}
+
+{% block content %}
+Open a new project<br> 
+PartnerId={{partnerId}}<br>
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <input type="submit" />
+        <br>
+        {{errmsg}}<br>
+    </form>
+    <a href="{{ path('admin_project_show', {'partnerId': partnerId}) }}">Back</a><br>
+{% endblock %}

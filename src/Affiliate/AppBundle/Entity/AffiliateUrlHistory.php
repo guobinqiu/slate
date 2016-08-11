@@ -1,40 +1,42 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Entity;
+namespace Affiliate\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FreeSurveyHistory
+ * AffiliateUrlHistory
  * 记录第三方用问卷回答信息
  *
- * @ORM\Table(name="free_survey_history")
-* @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\FreeSurveyHistoryRepository")
+ * @ORM\Table(name="affiliate_url_history", indexes={@ORM\Index(name="index_projectI_id", columns={"project_id"})})
+ * @ORM\Entity(repositoryClass="Affiliate\AppBundle\Repository\AffiliateUrlHistoryRepository")
  */
-class FreeSurveyHistory
+class AffiliateUrlHistory
 {
+
+    // status 的可用状态值
+    const SURVEY_STATUS_INIT      = 'init'; // url的初始状态，被导入的时候设置
+    const SURVEY_STATUS_FORWARD   = 'forward'; // 有用户点击后，被分配出去的url，不能再次被分配
+    const SURVEY_STATUS_COMPLETE  = 'complete'; // 用户完成，triples那边回调后更新（暂时没做）
+    const SURVEY_STATUS_SCREENOUT = 'screenout'; // 用户screenout，triples那边回调后更新（暂时没做）
+    const SURVEY_STATUS_QUOTAFULL = 'quotafull'; // 用户quotafull，triples那边回调后更新（暂时没做）
+    const SURVEY_STATUS_ERROR     = 'error'; // 用户可能已经在别处回答过问卷了，客户那边直接拒绝（暂时没做）
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="url_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private $urlId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ukey", type="string", length=30, nullable=false)
+     * @ORM\Column(name="ukey", type="string", length=30, nullable=false, options={"comment": "First column of url files(uploaded)"})
      */
     private $uKey;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="partner_id", type="integer", nullable=false)
-     */
-    private $partnerId;
 
     /**
      * @var integer
@@ -46,7 +48,7 @@ class FreeSurveyHistory
     /**
      * @var string
      *
-     * @ORM\Column(name="survey_url", type="string", length=255, nullable=false)
+     * @ORM\Column(name="survey_url", type="string", length=255, nullable=false, options={"comment": "Second column of url files(uploaded)"})
      */
     private $surveyUrl;
 
@@ -81,18 +83,18 @@ class FreeSurveyHistory
      *
      * @return integer
      */
-    public function getId()
+    public function getUrlId()
     {
-        return $this->id;
+        return $this->urlId;
     }
 
     /**
      *
      * @param
      */
-    public function setId($id)
+    public function setUrlId($urlId)
     {
-        $this->id = $id;
+        $this->urlId = $urlId;
     }
 
     /**
@@ -111,24 +113,6 @@ class FreeSurveyHistory
     public function getUKey()
     {
         return $this->uKey;
-    }
-
-    /**
-     *
-     * @param integer $partnerId
-     */
-    public function setPartnerId($partnerId)
-    {
-        $this->partnerId = $partnerId;
-    }
-
-    /**
-     *
-     * @return integer
-     */
-    public function getPartnerId()
-    {
-        return $this->partnerId;
     }
 
     /**

@@ -226,5 +226,30 @@ class FreeSurveyServiceTest extends WebTestCase
 
     }
 
+    public function testImportSurveyUrl_ok(){
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $data = array(
+                array('ukey' => '09901562axdo2b6xakmn',
+                 'url' => "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562axdo2b6xakmn"
+                ),
+                array('ukey' => '09901562an63msxk7ch8',
+                 'url' => 'http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562an63msxk7ch8'
+                ),
+                array('ukey' => '09901562asarccm88ui8',
+                 'url' => 'http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8'
+                )
+            );
+        $partnerId = 1;
+        $projectId = 1;
+
+        $rtn = $this->freeSurveyService->importSurveyUrl($partnerId, $projectId, $data);
+
+        $this->assertEquals('success', $rtn['status']);
+
+    }
+
 
 }

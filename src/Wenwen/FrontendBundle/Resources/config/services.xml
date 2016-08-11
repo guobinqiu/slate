@@ -41,12 +41,5 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="templating" />
         </service>
-
-        <service id="app.free_survey_service" class="Wenwen\FrontendBundle\Services\FreeSurveyService">
-            <argument type="service" id="logger" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="app.parameter_service" />
-        </service>
-
     </services>
 </container>

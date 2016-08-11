@@ -1,0 +1,49 @@
+
+# 第三方问卷代理入口
+free_survey_index:
+    path: /survey/{projectId}
+    defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showSurvey}
+    methods:  [GET, POST]
+
+# 第三方问卷代理endpage页面
+free_survey_complete:
+    path: /endpage
+    defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showEndpage}
+    methods:  [GET, POST]
+
+# 第三方问卷代理管理页面 显示所有partner
+admin_partner_index:
+    path: /admin
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:index}
+    methods:  [GET, POST]
+
+admin_partner_show:
+    path: /admin/partner
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:showParnter}
+    methods:  [GET, POST]
+
+admin_partner_add:
+    path: /admin/partner/add
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:addParnter}
+    methods:  [GET, POST]
+
+admin_project_show:
+    path: /admin/project/{partnerId}
+    defaults: { _controller: AffiliateAppBundle:AdminProject:showProject}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+admin_project_add:
+    path: /admin/project/{partnerId}/upload
+    defaults: { _controller: AffiliateAppBundle:AdminProject:uploadUrls}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+
+# 第三方问卷代理管理页面 -> upload url csv
+admin_url_upload:
+    path: /admin/url/upload
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:uploadUrls}
+    methods:  [GET, POST]

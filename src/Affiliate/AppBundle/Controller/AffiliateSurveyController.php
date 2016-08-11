@@ -1,0 +1,52 @@
+<?php
+namespace Affiliate\AppBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+/**
+ * 问卷代理
+ * 对还没有注册的用户提供回答问卷的机会
+ */
+class AffiliateSurveyController extends Controller
+{
+
+    public function showSurveyAction(Request $request, $projectId)
+    {
+
+        $adminProjectService = $this->get('app.admin_project_service');
+
+        $status = $adminProjectService->validateProjectStatus($projectId);
+
+        if(false == $status){
+        	// 这个projectId 不处于开放状态中或者这个项目并不存在
+        	// 渲染一个页面告知项目不在执行中
+            $param = array(
+            'answer_status' => 'error'
+            );
+        	return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
+        }
+
+        $affiliateSurveyService = $this->get('app.affiliate_survey_service');
+        $redirectURL = $affiliateSurveyService->getSurveyURL($projectId);
+
+        return $this->redirect($redirectURL);
+    }
+
+    public function showEndpageAction(Request $request)
+    {
+    	// 设置endpage时要有status参数
+    	// status: complete/screenout/quotafull/error
+    	$status = $request->get('status');
+        $ukey = $request->get('uniq_key');
+
+
+    	$param = array(
+    		'answer_status' => $status
+    		);
+        return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
+    }
+
+}
