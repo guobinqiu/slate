@@ -212,7 +212,6 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         if ($form->isValid()) {
 
             // update user info
-            $user->setBirthday($values['birthday']);
             $user->setNick($values['nick']);
             $user->setTel($values['tel']);
             $user->setDeleteFlag($values['deleteFlag']);

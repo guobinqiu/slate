@@ -96,7 +96,6 @@ class UserLogoutTestFixture implements FixtureInterface
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setIsEmailConfirmed(1);
         $user->setPwd('111111q');

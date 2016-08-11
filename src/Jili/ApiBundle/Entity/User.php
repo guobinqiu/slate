@@ -17,9 +17,6 @@ class User
     const POINT_SIGNUP=10;
     const POINT_EMPTY =0;
 
-    const INFO_IS_SET=1;
-    const INFO_NOT_SET=0;
-
     const DEFAULT_REWARD_MULTIPE=1;
 
     const IS_NOT_FROM_WENWEN = 1;
@@ -27,12 +24,6 @@ class User
 
     const FROM_QQ_PREFIX = "QQ";
     const FROM_WEIBO_PREFIX = "WeiBo_";
-
- // check password by UserWenwenLogin 0: new 1:jili,2:wenwen 3: jili & wenwen
-    const ORIGIN_FLAG_NEW = 0 ;
-    const ORIGIN_FLAG_JILI = 1;
-    const ORIGIN_FLAG_WENWEN = 2;
-    const ORIGIN_FLAG_WENWEN_JILI = 3;
 
    # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
    # == PWD_JILI or NULL , verify by user.password
@@ -47,7 +38,6 @@ class User
         $this->setRegisterDate ( new \DateTime())
             ->setLastLoginDate ( new \DateTime())
             ->setPoints( self::POINT_EMPTY)
-            ->setIsInfoSet( self::INFO_IS_SET)
             ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
             ->setToken( '')
             ->setIsEmailConfirmed(self::EMAIL_NOT_CONFIRMED);
@@ -92,13 +82,6 @@ class User
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="wenwen_user", type="string", length=100, nullable=true)
-     */
-    private $wenwenUser;
-
-    /**
-     * @var string
      * @ORM\Column(name="token", type="string", length=32, options={"default": "", "comment": "remember me cookie token "})
      */
     private $token;
@@ -107,8 +90,15 @@ class User
      * @var string
      *
      * @ORM\Column(name="nick", type="string", length=100, nullable=true)
-     * @Assert\Length(min=1, max=100)
-     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min=1, 
+     *      max=100,
+     *      minMessage = "用户昵称为1-100个字符",
+     *      maxMessage = "用户昵称为1-100个字符"
+     * )
+     * @Assert\NotBlank(
+     *      message = "请输入您的昵称"
+     * )
      */
     private $nick;
 
@@ -116,6 +106,14 @@ class User
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=45, nullable=true)
+     * @Assert\Length(
+     *      max=45,
+     *      maxMessage = "请输入有效的手机号码"
+     * )
+     * @Assert\Type(
+     *      type = "numeric",
+     *      message = "请输入有效的手机号码"
+     * )
      */
     private $tel;
 
@@ -125,13 +123,6 @@ class User
      * @ORM\Column(name="is_tel_confirmed", type="integer", nullable=true)
      */
     private $isTelConfirmed;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="identity_num", type="string", length=40, nullable=true)
-     */
-    private $identityNum;
 
     /**
      * @var float
@@ -190,13 +181,6 @@ class User
     private $deleteDate;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_info_set", type="integer")
-     */
-    private $isInfoSet;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="icon_path", type="string",length=255, nullable=true)
@@ -208,25 +192,11 @@ class User
      */
     private $icon;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="uniqkey", type="string",length=250, nullable=true)
-     */
-    private $uniqkey;
-
     /**
      * @var \DateTime
      * @ORM\Column(name="token_created_at", type="datetime", nullable=true, options={"comment": "remember me cookie token created at"})
      */
     private $tokenCreatedAt;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="origin_flag", type="smallint", nullable=true, options={"comment": "which sites does the user from"})
-     */
-    private $originFlag;
 
     /**
      * @var string
@@ -241,13 +211,6 @@ class User
      * @ORM\Column(name="created_user_agent", type="text", nullable=true, options={"comment": "remote User Agent when create"})
      */
     private $createdUserAgent;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="campaign_code", type="string", length=100, nullable=true, options={"comment": "recruit campaign code"})
-     */
-    private $campaignCode;
 
     /**
      * @var integer
@@ -267,67 +230,6 @@ class User
      * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade="all")
      */
     private $userProfile;
-
-    /**
-     * go to email url
-     */
-    public function gotomail($mail)
-    {
-        $t=explode('@',$mail);
-        $t=strtolower($t[1]);
-        if($t=='163.com'){
-            return 'mail.163.com';
-        }else if($t=='vip.163.com'){
-            return 'vip.163.com';
-        }else if($t=='126.com'){
-            return 'mail.126.com';
-        }else if($t=='qq.com'||$t=='vip.qq.com'||$t=='foxmail.com'){
-            return 'mail.qq.com';
-        }else if($t=='gmail.com'){
-            return 'mail.google.com';
-        }else if($t=='me.com' || $t=='icloud.com' || $t=='mac.com'){
-            return 'www.icloud.com';
-        }else if($t=='263.com' || $t=='263.net' || $t=='263.net.cn' || $t=='x263.net'){
-            return 'mail.263.net';
-        }else if($t=='sohu.com'){
-            return 'mail.sohu.com';
-        }else if($t=='vip.sina.com'){
-            return 'vip.sina.com';
-        }else if($t=='sina.com.cn'||$t=='sina.com'||$t=='sina.cn'){
-            return 'mail.sina.com.cn';
-        }else if($t=='tom.com'){
-            return 'mail.tom.com';
-        }else if($t=='aliyun.com'){
-            return 'mail.aliyun.com';
-        }else if($t=='yahoo.com.cn'||$t=='yahoo.cn'){
-            return 'mail.cn.yahoo.com';
-        }else if($t=='hotmail.com' || $t=='outlook.com' || $t=='live.cn' ||  $t=='live.com' || $t=='msn.com'){
-            return 'www.hotmail.com';
-        }else if($t=='yeah.net'){
-            return 'www.yeah.net';
-        }else if($t=='21cn.com'){
-            return 'mail.21cn.com';
-        }else if($t=='sogou.com'){
-            return 'mail.sogou.com';
-        }else if($t=='189.cn'){
-            return 'webmail15.189.cn/webmail';
-        }else if($t=='wo.com.cn'){
-            return 'mail.wo.com.cn/smsmail';
-        }else if($t=='139.com'){
-            return 'mail.10086.cn';
-        }else if($t=='188.com'){
-            return 'www.188.com';
-        }else if($t=='xinhuanet.com'){
-            return 'mail.xinhuanet.com';
-        }else if($t=='eyou.com'){
-            return 'www.eyou.com';
-        }else if($t=='chinaren.com'){
-            return 'mail.chinaren.com';
-        }else {
-            return '';
-        }
-
-    }
 
     /**
      * Get iconPath
@@ -358,27 +260,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get wenwenUser
-     *
-     * @return string
-     */
-    public function getWenwenUser()
-    {
-        return $this->wenwenUser;
-    }
-
-    /**
-     * Set wenwenUser
-     *
-     * @param string $wenwenUser
-     * @return User
-     */
-    public function setWenwenUser($wenwenUser)
-    {
-        $this->wenwenUser = $wenwenUser;
     }
 
     /**
@@ -581,29 +462,6 @@ class User
     }
 
     /**
-     * Set identityNum
-     *
-     * @param string $identityNum
-     * @return User
-     */
-    public function setIdentityNum($identityNum)
-    {
-        $this->identityNum = $identityNum;
-
-        return $this;
-    }
-
-    /**
-     * Get identityNum
-     *
-     * @return string
-     */
-    public function getIdentityNum()
-    {
-        return $this->identityNum;
-    }
-
-    /**
      * Set rewardMultiple
      *
      * @param float $rewardMultiple
@@ -788,52 +646,6 @@ class User
     }
 
     /**
-     * Set isInfoSet
-     *
-     * @param integer $isInfoSet
-     * @return User
-     */
-    public function setIsInfoSet($isInfoSet)
-    {
-        $this->isInfoSet = $isInfoSet;
-
-        return $this;
-    }
-
-    /**
-     * Get isInfoSet
-     *
-     * @return integer
-     */
-    public function getIsInfoSet()
-    {
-        return $this->isInfoSet;
-    }
-
-     /**
-     * Set uniqkey
-     *
-     * @param string $uniqkey
-     * @return User
-     */
-    public function setUniqkey($uniqkey)
-    {
-        $this->uniqkey = $uniqkey;
-
-        return $this;
-    }
-
-    /**
-     * Get uniqkey
-     *
-     * @return string
-     */
-    public function getUniqkey()
-    {
-        return $this->uniqkey;
-    }
-
-    /**
      * Set tokenCreatedAt
      *
      * @param \DateTime $tokenCreatedAt
@@ -854,29 +666,6 @@ class User
     public function getTokenCreatedAt()
     {
         return $this->tokenCreatedAt;
-    }
-
-    /**
-     * Set originFlag
-     *
-     * @param integer $originFlag
-     * @return User
-     */
-    public function setOriginFlag($originFlag)
-    {
-        $this->originFlag = $originFlag;
-
-        return $this;
-    }
-
-    /**
-     * Get originFlag
-     *
-     * @return integer
-     */
-    public function getOriginFlag()
-    {
-        return $this->originFlag;
     }
 
     /**
@@ -923,36 +712,6 @@ class User
     public function getCreatedUserAgent()
     {
         return $this->createdUserAgent;
-    }
-
-    /**
-     * Set campaignCode
-     *
-     * @param string $campaignCode
-     * @return User
-     */
-    public function setCampaignCode($campaignCode)
-    {
-        $this->campaignCode = $campaignCode;
-
-        return $this;
-    }
-
-    /**
-     * Get campaignCode
-     *
-     * @return string
-     */
-    public function getCampaignCode()
-    {
-        return $this->campaignCode;
-    }
-
-    public function isOriginFlagWenwen()
-    {
-        $origin_flag =  $this->getOriginFlag();
-        return  !(is_null($origin_flag) ) &&
-            intval($origin_flag) === self::ORIGIN_FLAG_WENWEN;
     }
 
     public function isPwdCorrect($pwd)

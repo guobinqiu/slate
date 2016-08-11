@@ -109,7 +109,6 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $user->setNick('bb');
         $user->setEmail('user@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setRegisterDate(new \DateTime());

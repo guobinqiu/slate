@@ -274,7 +274,6 @@ class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterfac
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(200);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

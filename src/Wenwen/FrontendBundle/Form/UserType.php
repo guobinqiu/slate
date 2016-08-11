@@ -16,7 +16,7 @@ class UserType extends AbstractType
         $builder->add('tel', 'text', array(
             'label' => '手机号码：',
             'constraints' => array(
-                new Assert\NotBlank()
+                new Assert\NotBlank(array('message' => '请输入您的手机号码'))
             )
         ));
 
@@ -35,6 +35,6 @@ class UserType extends AbstractType
     //对应表单属性: user[field]
     public function getName()
     {
-        return 'user';
+        return 'front_user';
     }
 }

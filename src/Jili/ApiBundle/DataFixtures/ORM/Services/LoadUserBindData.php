@@ -28,7 +28,6 @@ class LoadUserBindData extends AbstractFixture implements FixtureInterface {
         $user->setEmail('alice.nima@voyagegroup.com.cn');
         $user->setIsEmailConfirmed(1);
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

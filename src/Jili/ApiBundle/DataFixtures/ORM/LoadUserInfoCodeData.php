@@ -41,7 +41,6 @@ class LoadUserInfoCodeData extends AbstractFixture implements ContainerAwareInte
         $user->setNick('alice32');
         $user->setEmail('alice.nima@gmail.com');
         $user->setPoints(89);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('aaaaaa');
         $user->setIconPath('uploads/user/5/1392030971_6586.jpeg');

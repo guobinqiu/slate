@@ -41,7 +41,6 @@ class LoadUserData extends  AbstractFixture implements   FixtureInterface, Conta
         $user->setNick('chiang32');
         $user->setEmail('chiangtor@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
 

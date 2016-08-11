@@ -43,7 +43,6 @@ class LoadLandingWenwenCodeData extends AbstractFixture implements ContainerAwar
         $user->setNick('alice32');
         $user->setEmail('alice.nima@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
 
         $user->setPwd('123qwe');

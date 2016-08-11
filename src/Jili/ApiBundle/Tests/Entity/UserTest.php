@@ -33,30 +33,6 @@ class UserTest extends KernelTestCase
         $this->em->close();
     }
 
-    public function testConst()
-    {
-        $this->assertEquals(0,User::ORIGIN_FLAG_NEW, 'ORIGIN_FLAG_NEW = 0 ');
-        $this->assertEquals(1,User::ORIGIN_FLAG_JILI, 'ORIGIN_FLAG_JILI = 1 ');
-        $this->assertEquals(2,User::ORIGIN_FLAG_WENWEN, 'ORIGIN_FLAG_JILI = 2');
-        $this->assertEquals(3,User::ORIGIN_FLAG_WENWEN_JILI, 'origin_flag_wenwen_jili = 3');
-
-        $this->assertEquals(1,User::PWD_WENWEN, 'PWD_WENWEN = 1');
-        $this->assertEquals(2,User::PWD_JILI, 'PWD_JILI = 2');
-    }
-
-    public function test_isOriginFlagWenwen()
-    {
-        $u = new User();
-        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is null should returns false ');
-        $u->setOriginFlag( 1);
-        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 1 should returns false ');
-        $u->setOriginFlag( 2);
-        $this->assertTrue($u->isOriginFlagWenwen(), 'origin_flag is 2 should returns false ');
-        $u->setOriginFlag( 0);
-        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 0 should returns false ');
-        $u->setOriginFlag( 3);
-        $this->assertFalse($u->isOriginFlagWenwen(), 'origin_flag is 3 should returns false ');
-    }
     public function test_isPwdCorrect()
     {
         $u = new User();

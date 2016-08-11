@@ -42,7 +42,6 @@ class LoadApiGetAdwInfoCodeData extends AbstractFixture implements ContainerAwar
         $user->setNick('alic32');
         $user->setEmail('alice.nima@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

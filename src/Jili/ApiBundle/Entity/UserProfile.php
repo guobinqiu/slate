@@ -26,7 +26,9 @@ class UserProfile
      *
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      * @Assert\Date()
-     * @Assert\NotBlank()
+     * @Assert\NotBlank( 
+     *      message = "请选择您的生日"
+     * )
      */
     private $birthday;
 
@@ -34,7 +36,9 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="sex", type="integer", nullable=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message = "请选择您的性别"
+     * )
      */
     private $sex;
 
@@ -42,7 +46,10 @@ class UserProfile
      * @var text
      *
      * @ORM\Column(name="personalDes", type="text", nullable=true, options={"comment": "个性说明"})
-     * @Assert\Length(max=512)
+     * @Assert\Length(
+     *      max = 512,
+     *      maxMessage = "长度不能超过 512 个字符"     
+     *)
      */
     private $personalDes;
 
@@ -50,7 +57,10 @@ class UserProfile
      * @var string
      *
      * @ORM\Column(name="fav_music", type="string", length=255, nullable=true, options={"comment": "喜欢的音乐"})
-     * @Assert\Length(max=64)
+     * @Assert\Length( 
+     *      max = 64,
+     *      maxMessage = "长度不能超过 64 个字符"     
+     *)
      */
     private $favMusic;
 
@@ -58,7 +68,10 @@ class UserProfile
      * @var string
      *
      * @ORM\Column(name="monthly_wish", type="string", length=255, nullable=true, options={"comment": "本月心愿"})
-     * @Assert\Length(max=64)
+     * @Assert\Length( 
+     *      max = 64,
+     *      maxMessage = "长度不能超过 64 个字符"     
+     *)
      */
     private $monthlyWish;
 
@@ -74,7 +87,9 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="city", type="integer", nullable=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *      message="请选择您目前的居住地"
+     * )
      */
     private $city;
 

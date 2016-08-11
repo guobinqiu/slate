@@ -588,59 +588,10 @@ EOT;
         $user->setCreatedRemoteAddr($param['createdRemoteAddr']);
         $user->setCreatedUserAgent($param['createdUserAgent']);
         $user->setPasswordChoice(User::PWD_WENWEN);
-        if(isset($param['campaignCode'])){
-            $user->setCampaignCode($param['campaignCode']);
-        }
         $em = $this->getEntityManager();
         $em->persist($user);
         $em->flush();
 
-        return $user;
-    }
-
-    /**
-     * create the user on landing page
-     * @param  array('nick'=> , 'email'=>, 'pwd'=> ,'');
-     * @return the User
-     */
-    public function createOnLanding($param)
-    {
-        $user = new User();
-        $user->setNick($param['nick']);
-        $user->setEmail($param['email']);
-        $user->setPwd($param['pwd']);
-        $user->setIsFromWenwen(User::IS_NOT_FROM_WENWEN);
-        if (isset($param['uniqkey'])) {
-            $user->setUniqkey($param['uniqkey']);
-        }
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-        return $user;
-    }
-
-    /**
-     * create the user on wenwen
-     * @param  array( 'email'=>, 'uniqkey'=> ,'');
-     * @return the User
-     */
-    public function createOnWenwen($param)
-    {
-        $user = $this->findOneByEmail($param['email']);
-        if ($user) {
-            $user->setRegisterDate(new \DateTime());
-            $user->setLastLoginDate(new \DateTime());
-        } else {
-            $user = new User();
-            $user->setEmail($param['email']);
-            $user->setPoints(User::POINT_EMPTY);
-            $user->setIsInfoSet(User::INFO_NOT_SET);
-        }
-        $user->setUniqkey($param['uniqkey']);
-        $user->setIsFromWenwen(User::IS_FROM_WENWEN); //和91问问同时注册 2
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
         return $user;
     }
 
@@ -745,7 +696,7 @@ EOT;
     public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+        $query = $query->select('u.id,u.email,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,sp.id as app_mid');
         $query = $this->getSearchUserSqlQuery($query, $values, $type);
 
         if ($currentPage < 1) {

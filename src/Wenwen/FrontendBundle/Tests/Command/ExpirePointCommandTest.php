@@ -57,14 +57,12 @@ class ExpirePointCommandTest extends WebTestCase {
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -120,14 +118,12 @@ class ExpirePointCommandTest extends WebTestCase {
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -183,14 +179,12 @@ class ExpirePointCommandTest extends WebTestCase {
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -245,14 +239,12 @@ class ExpirePointCommandTest extends WebTestCase {
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -301,7 +293,6 @@ class ExpirePointCommandTest extends WebTestCase {
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $this->em->persist($user1);

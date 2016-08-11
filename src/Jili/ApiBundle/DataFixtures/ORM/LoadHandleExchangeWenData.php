@@ -49,7 +49,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $user->setNick('aa');
         $user->setEmail('exchange1@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111');
         $manager->persist($user);
@@ -60,7 +59,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $user->setNick('bb');
         $user->setEmail('exchange2@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $manager->persist($user);
         $manager->flush();
@@ -70,7 +68,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $user->setNick('cc');
         $user->setEmail('exchange3@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111');
         $manager->persist($user);

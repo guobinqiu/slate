@@ -38,7 +38,6 @@ class LoadUserReSendCodeData extends AbstractFixture implements ContainerAwareIn
         $user->setNick('zmm');
         $user->setEmail('zhangmm@voyagegroup.com.cn');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
         $manager->persist($user);

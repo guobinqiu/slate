@@ -6,12 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Jili\ApiBundle\Entity\VoteChoice;
 
 class PanelistSearchType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('user_id', 'text', array (
@@ -23,7 +20,7 @@ class PanelistSearchType extends AbstractType
         ));
 
         $builder->add('app_mid', 'text', array (
-            'label' => 'App MI',
+            'label' => 'App MID',
             'required' => false,
             'attr' => array (
                 'size' => '20'
@@ -51,12 +48,6 @@ class PanelistSearchType extends AbstractType
                 'size' => '30'
             )
         ));
-        $builder->add('birthday', 'text', array (
-            'label' => 'birthday',
-            'required' => false,
-            'read_only' => 'true'
-        ));
-
         $builder->add('registered_from', 'text', array (
             'label' => 'registered from',
             'required' => false,

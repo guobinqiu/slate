@@ -219,7 +219,6 @@ class SsiApiControllerTest extends WebTestCase
 //        $user->setNick(__CLASS__);
 //        $user->setEmail('test@d8aspring.com');
 //        $user->setPoints(100);
-//        $user->setIsInfoSet(0);
 //        $user->setIconPath('test/test_icon.jpg');
 //        $user->setRewardMultiple(1);
 //        $user->setPwd('password');

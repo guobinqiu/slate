@@ -818,7 +818,6 @@ class LoadQQUserCallbackData implements FixtureInterface, ContainerAwareInterfac
         $user->setNick('alice32');
         $user->setEmail('alice32@gmail.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -858,7 +857,6 @@ class LoadUserBindData implements FixtureInterface, ContainerAwareInterface
         $user->setEmail('alice.nima@voyagegroup.com.cn');
         $user->setIsEmailConfirmed(1);
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

@@ -11,8 +11,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LoadSeptemberActivityData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
     /**
-    * @var ContainerInterface
-    */
+     * @var ContainerInterface
+     */
     private $container;
 
     public function __construct() {
@@ -20,22 +20,22 @@ class LoadSeptemberActivityData extends AbstractFixture implements ContainerAwar
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function setContainer(ContainerInterface $container = null) {
         $this->container = $container;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function getOrder() {
         return 1; // the order in which fixtures will be loaded
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public function load(ObjectManager $manager) {
         //load data for testing .
         $root_dir = $this->container->get('kernel')->getRootDir();

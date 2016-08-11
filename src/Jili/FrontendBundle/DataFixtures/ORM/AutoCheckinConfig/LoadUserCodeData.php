@@ -41,7 +41,6 @@ class LoadUserCodeData  extends AbstractFixture implements ContainerAwareInterfa
         $user->setNick('chiang32');
         $user->setEmail('chiangtor@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
 
         $user->setPwd('123qwe');
@@ -56,7 +55,6 @@ class LoadUserCodeData  extends AbstractFixture implements ContainerAwareInterfa
         $user->setNick('alice32');
         $user->setEmail('alice_nima@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
         $manager->persist($user);
@@ -70,7 +68,6 @@ class LoadUserCodeData  extends AbstractFixture implements ContainerAwareInterfa
         $user->setNick('bob');
         $user->setEmail('bob_inch@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
         $manager->persist($user);

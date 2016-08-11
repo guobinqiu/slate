@@ -120,7 +120,6 @@ class LoadData implements FixtureInterface
         $user->setNick('Guobin');
         $user->setEmail('qracle@126.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -150,7 +149,6 @@ class LoadData implements FixtureInterface
         $user->setNick('Guobin');
         $user->setEmail('guobin.qiu@d8aspring.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('password');

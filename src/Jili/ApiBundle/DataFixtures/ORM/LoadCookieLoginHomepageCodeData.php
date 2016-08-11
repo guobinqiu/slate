@@ -42,7 +42,6 @@ class LoadCookieLoginHomepageCodeData  extends AbstractFixture implements Contai
         $user->setNick('bb');
         $user->setEmail('chiangtor@gmail.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('aaaaaa');
         $secret =  $this->container->getParameter('secret');
