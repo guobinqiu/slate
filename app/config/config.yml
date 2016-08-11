@@ -15,7 +15,7 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     templating:
-        engines: [twig]
+        engines: ['twig']
         packages:
         # Prototype
           cdn1:
@@ -24,16 +24,13 @@ framework:
             base_urls:
                 http:        [%base_url%]
                 ssl:         [%base_url%]
-        #assets_version: SomeVersionScheme
+        assets_version: 'v000012'
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:
         gc_maxlifetime:   86400
         save_path: "%kernel.root_dir%/sessions/%kernel.environment%"
     fragments:       ~
-    templating:
-        engines: ['twig']
-        assets_version: 'v000012'
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

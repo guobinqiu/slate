@@ -116,6 +116,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=45, nullable=true)
+     * @Assert\Type("numeric")
      */
     private $tel;
 

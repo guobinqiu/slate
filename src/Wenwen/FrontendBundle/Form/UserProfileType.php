@@ -189,6 +189,6 @@ class UserProfileType extends AbstractType
 
     public function getName()
     {
-        return 'frontend_user_profile';
+        return 'front_user_profile';
     }
 }

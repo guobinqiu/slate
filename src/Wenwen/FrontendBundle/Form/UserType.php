@@ -35,6 +35,6 @@ class UserType extends AbstractType
     //对应表单属性: user[field]
     public function getName()
     {
-        return 'frontend_user';
+        return 'front_user';
     }
 }
