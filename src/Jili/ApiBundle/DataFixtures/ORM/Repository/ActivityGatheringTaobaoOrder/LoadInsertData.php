@@ -36,7 +36,6 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $user->setNick('bb');
         $user->setEmail('user@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -56,7 +55,6 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $user->setNick('cccc');
         $user->setEmail('cccr@voyagegroup.com.cn');
         $user->setPoints(101);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -67,7 +65,6 @@ class LoadInsertData extends AbstractFixture implements  FixtureInterface {
         $user->setNick('dddd');
         $user->setEmail('dddd@voyagegroup.com.cn');
         $user->setPoints(101);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

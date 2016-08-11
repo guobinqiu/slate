@@ -1,22 +1,18 @@
 <?php
+
 namespace Jili\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/")
  */
-class LandingController extends Controller implements CampaignTrackingController
+class LandingController extends Controller
 {
-
-    /**
-     * @Route("/lp/",name="_lp_page" )
-     * @Method({ "GET"})
-     * @Template
-     */
+   /**
+    * @Route("/lp/",name="_lp_page", methods={"GET"})
+    */
    public function pageAction()
    {
        return  $this->redirect($this->generateUrl('_user_login'));

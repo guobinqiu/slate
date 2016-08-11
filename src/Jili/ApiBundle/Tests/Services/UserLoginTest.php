@@ -159,7 +159,6 @@ class UserLoginTestFixture extends AbstractFixture implements FixtureInterface
         $user->setNick('alic32');
         $user->setEmail('alice.nima@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
@@ -173,10 +172,8 @@ class UserLoginTestFixture extends AbstractFixture implements FixtureInterface
         $user->setNick('bob32');
         $user->setEmail('bob.inch@voyagegroup.com.cn');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
-        $user->setOriginFlag(User::ORIGIN_FLAG_WENWEN);
         $user->setPasswordChoice(User::PWD_WENWEN);
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
 

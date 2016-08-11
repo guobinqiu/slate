@@ -316,7 +316,6 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $user->setNick('bb');
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -332,7 +331,6 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $user->setNick('cc');
         $user->setEmail('test2@d8aspring.com');
         $user->setPoints(200);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

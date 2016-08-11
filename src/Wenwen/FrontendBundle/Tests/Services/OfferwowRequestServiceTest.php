@@ -215,7 +215,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -276,7 +275,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -337,7 +335,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -399,7 +396,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test/test_icon.jpg');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -461,7 +457,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -565,7 +560,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints(100);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -626,7 +620,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints($current_point);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -695,7 +688,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints($current_point);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');
@@ -763,7 +755,6 @@ class OfferwowRequestServiceTest extends WebTestCase
         $user->setNick('test');
         $user->setEmail('test@test.com');
         $user->setPoints($current_point);
-        $user->setIsInfoSet(0);
         $user->setIconPath('test');
         $user->setRewardMultiple(1);
         $user->setPwd('11111q');

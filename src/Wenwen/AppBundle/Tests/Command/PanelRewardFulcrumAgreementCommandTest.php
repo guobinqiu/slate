@@ -226,7 +226,6 @@ class PanelRewardFulcrumAgreementCommandTestFixture implements FixtureInterface
         $user->setNick('aaa');
         $user->setEmail('rpa-sys+aaa@d8aspring.com');
         $user->setPoints(11);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setRegisterDate(new \DateTime());
@@ -244,7 +243,6 @@ class PanelRewardFulcrumAgreementCommandTestFixture implements FixtureInterface
         $user->setNick('bbb');
         $user->setEmail('rpa-sys+aaab@d8aspring.com');
         $user->setPoints(23);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setRegisterDate(new \DateTime());

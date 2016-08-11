@@ -43,7 +43,6 @@ class LoadUserConfigsCheckinOpMethodCodeData extends AbstractFixture implements 
         $user->setNick('chiang32');
         $user->setEmail('chiangtor@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
         $manager->persist($user);
@@ -55,7 +54,6 @@ class LoadUserConfigsCheckinOpMethodCodeData extends AbstractFixture implements 
         $user1->setNick('alice32');
         $user1->setEmail('alice.nima@gmail.com');
         $user1->setPoints($this->container->getParameter('init'));
-        $user1->setIsInfoSet($this->container->getParameter('init'));
         $user1->setRewardMultiple($this->container->getParameter('init_one'));
         $user1->setPwd('123qwe');
         $manager->persist($user1);
@@ -75,7 +73,6 @@ class LoadUserConfigsCheckinOpMethodCodeData extends AbstractFixture implements 
         $user2->setNick('bob32');
         $user2->setEmail('bob.inch@gmail.com');
         $user2->setPoints($this->container->getParameter('init'));
-        $user2->setIsInfoSet($this->container->getParameter('init'));
         $user2->setRewardMultiple($this->container->getParameter('init_one'));
         $user2->setPwd('123qwe');
         $manager->persist($user2);

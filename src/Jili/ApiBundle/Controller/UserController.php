@@ -1,274 +1,25 @@
 <?php
+
 namespace Jili\ApiBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jili\ApiBundle\Form\ForgetPasswordType;
-use Jili\ApiBundle\Form\RegType;
 use Jili\FrontendBundle\Form\Type\SignupType;
-
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\TaskOrder;
-use Jili\ApiBundle\Entity\PointsExchange;
-use Jili\ApiBundle\Entity\LoginLog;
 use Jili\ApiBundle\Entity\SetPasswordCode;
-use Jili\ApiBundle\Entity\AmazonCoupon;
-use Jili\ApiBundle\Entity\RegisterReward;
 use Gregwar\Captcha\CaptchaBuilder;
-
-use Jili\ApiBundle\Entity\SendCallboard;
 use Jili\ApiBundle\Entity\IsReadCallboard;
-
-use Jili\ApiBundle\Entity\PointHistory00;
-use Jili\ApiBundle\Entity\PointHistory01;
-use Jili\ApiBundle\Entity\PointHistory02;
-use Jili\ApiBundle\Entity\PointHistory03;
-use Jili\ApiBundle\Entity\PointHistory04;
-use Jili\ApiBundle\Entity\PointHistory05;
-use Jili\ApiBundle\Entity\PointHistory06;
-use Jili\ApiBundle\Entity\PointHistory07;
-use Jili\ApiBundle\Entity\PointHistory08;
-use Jili\ApiBundle\Entity\PointHistory09;
-use Jili\ApiBundle\Entity\TaskHistory00;
-use Jili\ApiBundle\Entity\TaskHistory01;
-use Jili\ApiBundle\Entity\TaskHistory02;
-use Jili\ApiBundle\Entity\TaskHistory03;
-use Jili\ApiBundle\Entity\TaskHistory04;
-use Jili\ApiBundle\Entity\TaskHistory05;
-use Jili\ApiBundle\Entity\TaskHistory06;
-use Jili\ApiBundle\Entity\TaskHistory07;
-use Jili\ApiBundle\Entity\TaskHistory08;
-use Jili\ApiBundle\Entity\TaskHistory09;
-
-use Jili\ApiBundle\Utility\ValidateUtil;
-use Jili\FrontendBundle\Controller\CampaignTrackingController;
 use JMS\JobQueueBundle\Entity\Job;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
 
-class UserController extends Controller implements CampaignTrackingController
+class UserController extends Controller
 {
     /**
-	* @Route("/createFlag", name="_user_createFlag", options={"expose"=true})
-    * @Method("POST")
-	*/
-    public function createFlagAction()
-    {
-        $code = '';
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        if($user->getDeleteFlag() == 1){
-                $this->removeSession();
-                $code = $this->container->getParameter('init_one');
-        }
-        if(!$request->getSession()->get('flag')){
-            $session = $this->getRequest()->getSession();
-            $session->set('flag', 1);
-
-            //update last logindate
-            $user->setLastLoginDate(date_create(date('Y-m-d H:i:s')));
-            $user->setLastLoginIp($this->get('request')->getClientIp());
-            $em->flush();
-
-            $loginlog = new Loginlog();
-            $loginlog->setUserId($id);
-            $loginlog->setLoginDate(date_create(date('Y-m-d H:i:s')));
-            $loginlog->setLoginIp($this->get('request')->getClientIp());
-            $em->persist($loginlog);
-            $em->flush();
-            if($user->getDeleteFlag() == 1){
-                $this->removeSession();
-                $code = $this->container->getParameter('init_one');
-            }
-        }
-        return new Response($code);
-
-    }
-
-    public function removeSession()
-    {
-        $this->get('request')->getSession()->remove('uid');
-        $this->get('request')->getSession()->remove('nick');
-    }
-
-    /**
-     * @Route("/checkFlag/{id}", name="_user_checkFlag")
-     */
-    public function checkFlagAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        return new Response($user->getIsInfoSet());
-    }
-
-    /**
-     * @Route("/checkPwd", name="_user_checkPwd")
-     */
-    public function checkPwdAction()
-    {
-        $request = $this->get('request');
-        $pwd = $request->query->get('pwd');
-        $id = $this->get('request')->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        if($user->pw_encode($pwd) == $user->getPwd())
-            $code = $this->container->getParameter('init');
-        else
-            $code = $this->container->getParameter('init_one');
-        return new Response($code);
-    }
-
-    /**
-     * @Route("/getCity", name="_user_getCity", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function getCityAction()
-    {
-        $array = array();
-        //$arr[] = array('id'=>0,'cityName'=>'请选择地区');
-        $request = $this->get('request');
-        $cid = $request->query->get('cid');
-        $em = $this->getDoctrine()->getManager();
-        $city = $em->getRepository('JiliApiBundle:CityList')->findByProvinceId($cid);
-        if($city){
-            foreach ($city as $key => $value){
-                $arr[] = array('id'=>$value->getId(),'cityName'=>$value->getCityName());
-            }
-            return new Response(json_encode($arr));
-        }else{
-            return new Response('');
-        }
-
-    }
-
-    /**
-     * @Route("/isExistInfo", name="_user_isExistInfo",options={"expose"=true})
-     * @Method("POST")
-     */
-    public function isExistInfoAction()
-    {
-        $code = '';
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        if($user->getSex() && $user->getBirthday() && $user->getProvince() && $user->getCity() && $user->getIncome() && $user->getHobby())
-            $code = $this->container->getParameter('init');
-        else
-            $code = $this->container->getParameter('init_one');
-        return new Response($code);
-    }
-
-    /**
-     * @Route("/activty", name="_user_activty")
-     */
-    public function activtyAction()
-    {
-        $componType = 'activity';
-        return new Response($componType);
-    }
-
-    /**
-     * @Route("/province", name="_user_province", options = {"expose"= true})
-     * @Method("POST")
-     */
-    public function provinceAction()
-    {
-        $arr = array();
-        $em = $this->getDoctrine()->getManager();
-        $province = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-        foreach ($province as $key => $value) {
-            $arr[] = array('id'=>$value->getId(),'provinceName'=>$value->getProvinceName());
-        }
-        return new Response(json_encode($arr));
-    }
-
-    /**
-     * @Route("/hobby", name="_user_hobby", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function hobbyAction()
-    {
-        $arr = array();
-        $em = $this->getDoctrine()->getManager();
-        $hobby = $em->getRepository('JiliApiBundle:HobbyList')->findAll();
-        foreach ($hobby as $key => $value) {
-            $arr[] = array('id'=>$value->getId(),'hobby'=>$value->getHobbyName());
-        }
-        return new Response(json_encode($arr));
-    }
-
-    /**
-     * @Route("/income", name="_user_income", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function incomeAction()
-    {
-        $arr = array();
-        $em = $this->getDoctrine()->getManager();
-        $income = $em->getRepository('JiliApiBundle:MonthIncome')->findAll();
-        unset($income[0]);
-        unset($income[1]);
-        unset($income[2]);
-        unset($income[3]);
-        foreach ($income as $key => $value) {
-            $arr[] = array('id'=>$value->getId(),'income'=>$value->getIncome());
-        }
-        return new Response(json_encode($arr));
-    }
-
-
-    /**
-     * @Route("/userInfo", name="_user_userInfo", options={"expose"=true})
-     * @Method("POST")
-     */
-    public function userInfoAction()
-    {
-        $arr = array();
-        $mobile = '';
-        $sex = '';
-        $request = $this->get('request');
-        $id = $request->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $mobile = $user->getTel();
-        $sex = $user->getSex();
-        $arr[] = array(
-            'id'=>$user->getId(),
-            'email'=>$user->getEmail(),
-            'nick'=>$user->getNick(),
-            'sex'=>$sex,
-            'mobile'=>$mobile,
-        );
-        return new Response(json_encode($arr));
-    }
-
-    private function notReadCb()
-    {
-        $id = $this->get('request')->getSession()->get('uid');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-        $countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
-        $countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
-        $countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
-        return $countUserCb;
-    }
-
-    private function notReadMs($id)
-    {
-        $countUserMs = $this->countSendMs($id);
-        return $countUserMs[0]['num'];
-    }
-
-    /**
-     * @Route("/isNewMs/{id}", name="_user_isNewMs", options={"expose"=true})
-     * @Method({ "GET", "POST"})
+     * @Route("/isNewMs/{id}", name="_user_isNewMs", options={"expose"=true}, methods={"GET", "POST"})
      */
     public function isNewMsAction($id)
     {
@@ -308,10 +59,6 @@ class UserController extends Controller implements CampaignTrackingController
             $url_homepage = $this->generateUrl('_homepage');
             $response = new RedirectResponse($url_homepage);
         }
-
-
-        // set cookie based according the the remember_me.
-        $response->headers->setCookie(new Cookie("jili_rememberme", '', time() - 3600 , '/') );
 
         return $response;
     }
@@ -426,7 +173,6 @@ class UserController extends Controller implements CampaignTrackingController
             $info = $em->getRepository('JiliApiBundle:User')->getUserList($id);
         else
             return $this->redirect($this->generateUrl('_default_error'));
-        $arr['gotoEmail'] = $user->gotomail($info[0]['email']);
         $arr['user'] = $info[0];
         $arr['email'] = $info[0]['email'];
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
@@ -527,7 +273,6 @@ class UserController extends Controller implements CampaignTrackingController
         return new Response($code);
     }
 
-
     /**
 	 * @Route("/resetPass/{code}/{id}", name="_user_resetPass")
 	 */
@@ -622,6 +367,7 @@ class UserController extends Controller implements CampaignTrackingController
         return new Response($code);
 
     }
+
     /**
 	 * @Route("/activeEmail/{email}", name="_user_activeEmail", options={"expose"=true})
 	 */
@@ -688,17 +434,13 @@ class UserController extends Controller implements CampaignTrackingController
             $logger = $this->get('logger');
 
             if($form->isValid()) {
-
-                $session=$this->get('session');
-                $campagin_code = $session->get('campaign_code','');
-
               $user_data_inserted = $this->get('signup.form_handler')
                 ->setForm($form)
                 ->setClientInfo(array(
                   'user_agent'=>$request->headers->get('USER_AGENT'),
                   'remote_address'=>$request->getClientIp()
                 ))
-                ->process($campagin_code);
+                ->process();
 
 
               $em = $this->getDoctrine()->getManager();
@@ -717,37 +459,8 @@ class UserController extends Controller implements CampaignTrackingController
               $em->flush($job);
 
               $session=$this->get('session');
-
-              // check the campaign
-              if( $session->has('campaign_code') && $session->has('campaign_code_token') ) {
-
-                $campagin_code = $session->get('campaign_code');
-                $campagin_code_token  = $session->get('campaign_code_token');
-                if(preg_match('/^offer99/',  $campagin_code) ) {
-
-                  $job = new Job('recruit-notification:offer99',
-                    array('--user_id='.$user->getId(), '--txid='.$campagin_code_token) ,
-                    true, 'offer99-recruit');
-                  $em->persist($job);
-                  $em->flush($job);
-
-                } elseif (preg_match('/^offerwow/',  $campagin_code )) {
-                  $job = new Job('recruit-notification:offerwow',
-                    array('--user_id='.$user->getId() ,'--tid='. $campagin_code_token ),
-                    true, 'offerwow-recruit');
-                  $em->persist($job);
-                  $em->flush($job);
-                }
-
-              }
-
-
-
               // set sucessful message flash
-              $this->get('session')->getFlashBag()->add(
-                'notice',
-                '恭喜，注册成功！'
-              );
+              $session->getFlashBag()->add('notice', '恭喜，注册成功！');
               $session->set('email',$user->getEmail()  );
               return $this->redirect($this->generateUrl('_user_regSuccess'));
             } else {
@@ -894,32 +607,8 @@ class UserController extends Controller implements CampaignTrackingController
     public function regSuccessAction()
     {
         $session = $this->get('session');
-        $session->set('campaign_code','');
-        $session->set('campaign_code_token','');
-
         $email = $session->get('email');
-
-        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array(
-           'gotoEmail'=> 'mail.'.substr( $email, strpos($email,'@') +1),
-           'email' => $email
-             ) );
-    }
-
-    private function checkCodeValid($setPasswordCode, $code)
-    {
-        if($setPasswordCode->getIsAvailable()==0){
-            return false;
-        }
-        $time = $setPasswordCode->getCreateTime();
-        if(time()-strtotime($time->format('Y-m-d H:i:s')) >= 3600*24*14){
-            return false;
-        }
-
-        if($setPasswordCode->getCode() != $code){
-            return false;
-        }
-
-        return true;
+        return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array('email' => $email));
     }
 
     /**
@@ -927,7 +616,6 @@ class UserController extends Controller implements CampaignTrackingController
 	 */
     public function updateIsReadAction()
     {
-        $content = '';
         $isRead = '';
         $code = array();
         $request = $this->get('request');
@@ -949,21 +637,17 @@ class UserController extends Controller implements CampaignTrackingController
         return new Response(json_encode($code));
     }
 
-
     /**
 	 * @Route("/updateSendMs", name="_user_updateSendMs", options={"expose"=true})
 	 */
     public function updateSendMsAction()
     {
-        $code = array();
         $request = $this->get('request');
         $id = $request->getSession()->get('uid');
         $sendid = $request->query->get('sendid');
-        $em = $this->getDoctrine()->getManager();
         $showMs = $this->updateSendMs($id,$sendid);
         return new Response(json_encode($showMs));
     }
-
 
     /**
 	 * @Route("/message/{sid}",requirements={"sid" = "\d+"}, name="_user_message", options={"expose"=true})
@@ -995,32 +679,33 @@ class UserController extends Controller implements CampaignTrackingController
             }
             $arr['sendCb'] = $sendCb;
             $paginator = $this->get('knp_paginator');
-            $arr['pagination'] = $paginator
-            ->paginate($sendCb,
-                    $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+            $arr['pagination'] = $paginator->paginate(
+                $sendCb,
+                $this->get('request')->query->get('page', 1),
+                $this->container->getParameter('page_num')
+            );
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         if($sid == $this->container->getParameter('init_one')){//消息
             $showMs  = $this->selectSendMs($id);
             $arr['showMs'] = $showMs;
             $paginator = $this->get('knp_paginator');
-            $arr['pagination'] = $paginator
-            ->paginate($showMs,
-                    $this->get('request')->query->get('page', 1), $this->container->getParameter('page_num'));
+            $arr['pagination'] = $paginator->paginate(
+                $showMs,
+                $this->get('request')->query->get('page', 1),
+                $this->container->getParameter('page_num')
+            );
             $arr['pagination']->setTemplate('WenwenFrontendBundle:Components:_pageNavs2.html.twig');
         }
         $arr['sid'] = $sid;
         return $this->render('WenwenFrontendBundle:Personal:message.html.twig',$arr);
     }
 
-
     /**
-	* @Route("/countMs", name="_user_countMs", options={"expose"= true})
-    * @Method("POST")
-	*/
+     * @Route("/countMs", name="_user_countMs", options={"expose"= true}, methods={"POST"})
+     */
     public function countMsAction()
     {
-        $notRead = $this->container->getParameter('init');
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->find($id);
@@ -1036,10 +721,8 @@ class UserController extends Controller implements CampaignTrackingController
 	*/
     public function missionAction($id)
     {
-//         $id =1;
         $str = 'jiliforgetpassword';
         $code = md5($id.str_shuffle($str));
-// 		$request = $this->get('request');
         $email = '278583642@qq.com';
         $nick = '';
         $url = $this->generateUrl('_signup_confirm_register', array('register_key'=>$code),true);
@@ -1085,10 +768,7 @@ class UserController extends Controller implements CampaignTrackingController
         }else{
             return false;
         }
-
     }
-
-
 
     public function sendMail($url,$email,$nick)
     {
@@ -1115,9 +795,7 @@ class UserController extends Controller implements CampaignTrackingController
         }else{
             return false;
         }
-
     }
-
 
     private function updateSendMs($userid,$sendid)
     {
@@ -1136,7 +814,6 @@ class UserController extends Controller implements CampaignTrackingController
         return $code;
     }
 
-
     private function countSendMs($userid)
     {
       $em = $this->getDoctrine()->getManager();
@@ -1145,31 +822,25 @@ class UserController extends Controller implements CampaignTrackingController
       return $countMs;
     }
 
-
     private function selectSendMs($userid)
     {
       return  $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:SendMessage0'. ($userid % 10) )->getSendMsById($userid);
     }
 
+    private function notReadCb()
+    {
+        $id = $this->get('request')->getSession()->get('uid');
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
+        $countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
+        $countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);
+        return $countUserCb;
+    }
 
-#	private function selTaskHistory($userid, $option) {
-#      $em = $this->getDoctrine()->getManager();
-#      $task = $em->getRepository('JiliApiBundle:TaskHistory0'. ( $userid % 10) );
-#      $po = $task->getUseradtaste($userid, $option);
-#
-#      foreach ($po as $key => $value) {
-#			if($value['type']==1 ) {
-#				$adUrl = $task->getUserAdwId($value['orderId']);
-#                if( is_array($adUrl) && count($adUrl) > 0) {
-#                    $po[$key]['adid'] = $adUrl[0]['adid'];
-#                } else {
-#                    $po[$key]['adid'] = '';
-#                }
-#			}else{
-#				$po[$key]['adid'] = '';
-#			}
-#		}
-#		return $po;
-#    }
-
+    private function notReadMs($id)
+    {
+        $countUserMs = $this->countSendMs($id);
+        return $countUserMs[0]['num'];
+    }
 }

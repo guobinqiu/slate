@@ -39,7 +39,6 @@ class LoadDefaultRedirectCodeData extends AbstractFixture implements  FixtureInt
         $user->setEmail('alice.nima@gmail.com');
 
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPwd('123qwe');
 

@@ -45,7 +45,6 @@ class LoadUserEdmUnsubscribeData extends AbstractFixture implements ContainerAwa
         $user->setNick('bb');
         $user->setEmail('zhangmm@voyagegroup.com.cn');
         $user->setPoints(5000);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -61,7 +60,6 @@ class LoadUserEdmUnsubscribeData extends AbstractFixture implements ContainerAwa
         $user->setNick('aa');
         $user->setEmail('zhangmm1@voyagegroup.com.cn');
         $user->setPoints(5000);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);
@@ -77,7 +75,6 @@ class LoadUserEdmUnsubscribeData extends AbstractFixture implements ContainerAwa
         $user->setNick('cc');
         $user->setEmail('zhangmm2@voyagegroup.com.cn');
         $user->setPoints(5000);
-        $user->setIsInfoSet(0);
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $manager->persist($user);

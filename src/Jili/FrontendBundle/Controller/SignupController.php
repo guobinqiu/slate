@@ -37,15 +37,8 @@ class SignupController extends Controller
             $this->container->get('logger')->debug(__METHOD__ . ' - user info update failed - ');
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig');
         }
-        
-        // 3. Send register success email to user 
-        //$rtn = $this->sendRegisterCompleteEmail($user);
-        //Todo error handling
 
-        // 4. Record the campaign tracking infomation of recruiting to log file
-        $rtn = $this->recordRecruitingInformation($user);
-
-        // 5. Login this user 
+        // 5. Login this user
         $rtn = $this->loginUser($user);
 
         $user_id = $user->getId();
@@ -158,43 +151,6 @@ class SignupController extends Controller
         }
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $user;
-    }
-    
-    /**
-    * @param object $user
-    * @return boolean
-    */ 
-    private function sendRegisterCompleteEmail(User $user){
-        $em = $this->getDoctrine()->getManager();
-        $args = array( 
-            '--campaign_id=1',# 91wenwen-signup
-            '--group_id=83',# signup-completed-recipients
-            '--mailing_id=3254',# 91wenwen-signup
-            '--email='. $user->getEmail(),
-            '--title=先生/女士',
-            '--name='. $user->getNick());
-        $job = new Job('webpower-mailer:signup-confirm',$args,  true, '91wenwen_signup');
-        //Todo Should be a try catch here?
-        $em->persist($job);
-        $em->flush($job);
-        return true;
-    }
-    
-    /**
-    * @param object $user
-    * @return boolean
-    */ 
-    private function recordRecruitingInformation($user){
-        $logger = $this->get('campaign_code.tracking');
-        $logger->track( array(
-           'md5_sessionid' => md5($this->get('session')->getId()),
-           'campaign_code'=> $user->getCampaignCode(),
-           'module' => 'JiliFrontendBundle::SignupController', 
-           'action' =>'confirmRegisterAction',
-           'logged_at' => date('Y-m-d H:i:s P')
-
-       ));
-       return true;
     }
 
     /**

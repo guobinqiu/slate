@@ -181,14 +181,12 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -245,7 +243,6 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $this->em->persist($user1);
@@ -307,14 +304,12 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $this->em->persist($user1);
@@ -413,28 +408,24 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
         $user1->setLastGetPointsAt($lastGetPointAt1);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
         $user2->setLastGetPointsAt($lastGetPointAt2);
 
         $user3 = new User();
         $user3->setNick($nick3);
         $user3->setEmail($email3);
         $user3->setPoints($point3);
-        $user3->setIsInfoSet(0);
         $user3->setLastGetPointsAt($lastGetPointAt3);
 
         $user4 = new User();
         $user4->setNick($nick4);
         $user4->setEmail($email4);
         $user4->setPoints($point4);
-        $user4->setIsInfoSet(0);
         $user4->setLastGetPointsAt($lastGetPointAt4);
 
         $this->em->persist($user1);
@@ -528,19 +519,16 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
 
         $user3 = new User();
         $user3->setNick($nick3);
         $user3->setEmail($email3);
         $user3->setPoints($point3);
-        $user3->setIsInfoSet(0);
 
         $this->em->persist($user1);
         $this->em->persist($user2);
@@ -621,19 +609,16 @@ class ExpirePointServiceTest extends WebTestCase
         $user1->setNick($nick1);
         $user1->setEmail($email1);
         $user1->setPoints($point1);
-        $user1->setIsInfoSet(0);
 
         $user2 = new User();
         $user2->setNick($nick2);
         $user2->setEmail($email2);
         $user2->setPoints($point2);
-        $user2->setIsInfoSet(0);
 
         $user3 = new User();
         $user3->setNick($nick3);
         $user3->setEmail($email3);
         $user3->setPoints($point3);
-        $user3->setIsInfoSet(0);
 
         $this->em->persist($user1);
         $this->em->persist($user2);

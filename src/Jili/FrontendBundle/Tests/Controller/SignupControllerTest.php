@@ -137,10 +137,8 @@ class SignupControllerTestFixture  extends AbstractFixture implements ContainerA
         $user->setNick('chiang32');
         $user->setEmail('chiangtor@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
         $user->setPasswordChoice(User::PWD_WENWEN);
-        $user->setCampaignCode('offerwow');
 
         $user->setPwd('123qwe');
         $manager->persist($user);
@@ -167,7 +165,6 @@ class SignupControllerTestFixture  extends AbstractFixture implements ContainerA
         $user->setNick('alice32');
         $user->setEmail('alice.nima@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
 
         $user->setPwd('123qwe');
@@ -198,7 +195,6 @@ class SignupControllerTestFixture  extends AbstractFixture implements ContainerA
         $user->setNick('centeRay32');
         $user->setEmail('center_ay@sohu.com');
         $user->setPoints($this->container->getParameter('init'));
-        $user->setIsInfoSet($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
 
         $user->setPwd('123qwe');
