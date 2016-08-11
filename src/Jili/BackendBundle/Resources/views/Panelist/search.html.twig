@@ -76,6 +76,10 @@ $(function() {
                 <th>{{ form_label(form.type_registered) }}</th>
                 <td>{{ form_widget(form.type_registered) }}</td>
             </tr>
+            <tr>
+                <th>{{ form_label(form.type_withdrawal) }}</th>
+                <td>{{ form_widget(form.type_withdrawal) }}</td>
+            </tr>
         </table>
 
     <div class="clear_both">
@@ -105,21 +109,21 @@ $(function() {
     </tr>
         {% for item in registeredUserList %}
     <tr>
-        <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
+        <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id }}</a></td>
         <td align="left">
         {% if item.app_mid is defined %}
-        <a href={{ "https://%s/sop/partners/p/%d/a/%d/app_member?app_mid=%d"|format(sop.admin_host, sop.partner_id,sop.auth.app_id,item.app_mid) }} target="_blank">{{ item.app_mid}}</a>
+        <a href={{ "https://%s/sop/partners/p/%d/a/%d/app_member?app_mid=%d"|format(sop.admin_host, sop.partner_id,sop.auth.app_id,item.app_mid) }} target="_blank">{{ item.app_mid }}</a>
         {% endif %}
         </td>
-        <td align="left">{{ item.email}}</td>
-        <td align="left">{{ item.nick}}</td>
-        <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
-        <td align="left">{{ item.registerCompleteDate is empty ? "" : item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
-        <td align="left">{{ item.lastLoginDate is empty ? "" : item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.email }}</td>
+        <td align="left">{{ item.nick }}</td>
+        <td align="left">{{ item.tel }}</td>
+        <td align="left">{{ item.registerCompleteDate|date("Y-m-d H:i:s") }}</td>
+        <td align="left">{{ item.lastLoginDate|date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
-        <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
+        <td align="left"><a href="{{ path('_admin_panelist_pointhistory', {'id': item.id}) }}">Point History</a>
         {% if item.ssi_respondent_exist %}
-        <a href="{{ path('_admin_panelist_ssirespondentsummary',{'id':item.id}) }}">SSI Partnership</a>
+        <a href="{{ path('_admin_panelist_ssirespondentsummary', {'id': item.id}) }}">SSI Partnership</a>
         {% endif %}
         </td>
    </tr>
@@ -127,6 +131,34 @@ $(function() {
 </table>
  {% endif %}
  </div>
+
+{% if withdrawalUserList is defined %}
+<div>
+    <h3>withdrawal user {{withdrawalCount}}</h3>
+    <table class="list">
+        <tr>
+            <th>PID</th>
+            <th>email</th>
+            <th>nickname</th>
+            <th>mobile number</th>
+            <th>register complete date</th>
+            <th>last login date</th>
+            <th>ip</th>
+        </tr>
+        {% for item in withdrawalUserList %}
+            <tr>
+                <td align="left">{{ item.id }}</td>
+                <td align="left">{{ item.email }}</td>
+                <td align="left">{{ item.nick }}</td>
+                <td align="left">{{ item.tel }}</td>
+                <td align="left">{{ item.registerCompleteDate|date("Y-m-d H:i:s") }}</td>
+                <td align="left">{{ item.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+                <td align="left">{{ item.createdRemoteAddr }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
 
 <div style="display: inline-block; width: 100%;">
   {% include '::pagination.html.twig' %}

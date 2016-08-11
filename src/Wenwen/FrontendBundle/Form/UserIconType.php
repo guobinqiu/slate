@@ -21,6 +21,6 @@ class UserIconType extends AbstractType
     //对应表单属性: user_icon[field]
     public function getName()
     {
-        return 'user_icon';
+        return 'frontend_user_icon';
     }
 }

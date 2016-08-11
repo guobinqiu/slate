@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PanelistEditFormType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('id', 'hidden', array (
@@ -24,17 +23,6 @@ class PanelistEditFormType extends AbstractType
                 new Assert\Length(array (
                     'min' => 2,
                     'minMessage' => 'nickname is too short'
-                ))
-            )
-        ));
-
-        $builder->add('birthday', 'text', array (
-            'label' => 'birthday',
-            'required' => false,
-            'read_only' => 'true',
-            'constraints' => array (
-                new Assert\Date(array (
-                    'message' => 'Invalid birthday(yyyy-MM-dd)'
                 ))
             )
         ));

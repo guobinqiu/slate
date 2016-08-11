@@ -6,12 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Jili\ApiBundle\Entity\VoteChoice;
 
 class PanelistSearchType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('user_id', 'text', array (
@@ -66,6 +63,10 @@ class PanelistSearchType extends AbstractType
             'label' => 'registered user',
             'required' => false,
             'data' => true
+        ));
+        $builder->add('type_withdrawal', 'checkbox', array (
+            'label' => 'withdrawal user',
+            'required' => false
         ));
     }
 
