@@ -14,10 +14,7 @@ class UserType extends AbstractType
         $builder->add('nick', 'text', array('label' => '昵称：'));
 
         $builder->add('tel', 'text', array(
-            'label' => '手机号码：',
-            'constraints' => array(
-                new Assert\NotBlank()
-            )
+            'label' => '手机号码：'
         ));
 
         //对应user对象的userProfile属性
