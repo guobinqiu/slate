@@ -114,9 +114,6 @@ class User
      *      type = "numeric",
      *      message = "请输入有效的手机号码"
      * )
-     * @Assert\NotBlank(
-     *      message = "请输入您的手机号码"
-     * )
      */
     private $tel;
 
