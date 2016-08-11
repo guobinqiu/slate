@@ -69,12 +69,6 @@ $color: #0078b6;
 	label{
 		color: #333;
 		@include dib();
-		// &[for="user_userProfile_sex_0"],&[for="user_userProfile_sex_1"]{
-		// 	width: 60px!important;
-		// 	text-align: left!important;
-		// 	vertical-align: 2px!important;
-		// 	color: #000!important;
-		// }
 	}
 	.con{
 		padding: 17px 10px 45px;
@@ -314,7 +308,7 @@ $color: #0078b6;
 				}
 			}
 			ul{
-				margin-left: 145px;
+				margin-left: 150px;
 				li{
 					color: $error-color;
 				}
