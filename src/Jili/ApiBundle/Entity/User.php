@@ -107,8 +107,15 @@ class User
      * @var string
      *
      * @ORM\Column(name="nick", type="string", length=100, nullable=true)
-     * @Assert\Length(min=1, max=100)
-     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min=1, 
+     *      max=100,
+     *      minMessage = "用户昵称为1-100个字符",
+     *      maxMessage = "用户昵称为1-100个字符"
+     * )
+     * @Assert\NotBlank(
+     *      message = "请输入您的昵称"
+     * )
      */
     private $nick;
 
@@ -116,7 +123,17 @@ class User
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=45, nullable=true)
-     * @Assert\Type("numeric")
+     * @Assert\Length(
+     *      max=45,
+     *      maxMessage = "请输入有效的手机号码"
+     * )
+     * @Assert\Type(
+     *      type = "numeric",
+     *      message = "请输入有效的手机号码"
+     * )
+     * @Assert\NotBlank(
+     *      message = "请输入您的手机号码"
+     * )
      */
     private $tel;
 

@@ -69,12 +69,12 @@ $color: #0078b6;
 	label{
 		color: #333;
 		@include dib();
-		&[for="user_userProfile_sex_0"],&[for="user_userProfile_sex_1"]{
-			width: 60px!important;
-			text-align: left!important;
-			vertical-align: 2px!important;
-			color: #000!important;
-		}
+		// &[for="user_userProfile_sex_0"],&[for="user_userProfile_sex_1"]{
+		// 	width: 60px!important;
+		// 	text-align: left!important;
+		// 	vertical-align: 2px!important;
+		// 	color: #000!important;
+		// }
 	}
 	.con{
 		padding: 17px 10px 45px;
@@ -246,7 +246,7 @@ $color: #0078b6;
 					vertical-align: top;
 				}
 			}
-			#profile_sex{
+			#front_user_userProfile_sex{
 				label{
 					margin-right: 5px;
 					width: 15px;
@@ -274,7 +274,7 @@ $color: #0078b6;
 				@include dib();
 				vertical-align: top;
 				white-space: nowrap;
-				#user_userProfile_sex{
+				#front_user_userProfile_sex{
 					label{
 						color: #000;
 						width: 50px;
@@ -319,7 +319,7 @@ $color: #0078b6;
 					color: $error-color;
 				}
 			}
-			#user_userProfile_hobby{
+			#front_user_userProfile_hobby{
 				width: 490px;
 				display: inline-block;
 				*display: inline;
