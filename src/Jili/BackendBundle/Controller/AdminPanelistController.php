@@ -38,7 +38,6 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
         // default value
         $registeredCount = 0;
-        $withdrawalCount = 0;
 
         $em = $this->getDoctrine()->getManager();
 
@@ -61,28 +60,15 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
                         $arr['registeredUserList'][$key]['ssi_respondent_exist'] = $ssi_respondent ? true : false;
                     }
                 }
-
-                // get withdrawal user list
-                if ($values['type_withdrawal'] == 1) {
-                    $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
-                    $withdrawal_page = $page > (int) ceil($withdrawalCount / $pageSize) ? (int) ceil($withdrawalCount / $pageSize) : $page;
-                    $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'withdrawal', $pageSize, $withdrawal_page);
-                }
             }
         }
 
         // page choose
-        if ($registeredCount > $withdrawalCount) {
-            $arr['total'] = $registeredCount;
-        } else {
-            $arr['total'] = $withdrawalCount;
-        }
-
+        $arr['total'] = $registeredCount;
         $arr['page'] = $page;
         $arr['page_size'] = $pageSize;
         $arr['form'] = $form->createView();
         $arr['registeredCount'] = $registeredCount;
-        $arr['withdrawalCount'] = $withdrawalCount;
 
         //get sop config
         $arr['sop'] = $this->container->getParameter('sop');
@@ -212,7 +198,6 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         if ($form->isValid()) {
 
             // update user info
-            $user->setBirthday($values['birthday']);
             $user->setNick($values['nick']);
             $user->setTel($values['tel']);
             $user->setDeleteFlag($values['deleteFlag']);

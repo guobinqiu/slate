@@ -23,7 +23,7 @@ class PanelistSearchType extends AbstractType
         ));
 
         $builder->add('app_mid', 'text', array (
-            'label' => 'App MI',
+            'label' => 'App MID',
             'required' => false,
             'attr' => array (
                 'size' => '20'
@@ -51,12 +51,6 @@ class PanelistSearchType extends AbstractType
                 'size' => '30'
             )
         ));
-        $builder->add('birthday', 'text', array (
-            'label' => 'birthday',
-            'required' => false,
-            'read_only' => 'true'
-        ));
-
         $builder->add('registered_from', 'text', array (
             'label' => 'registered from',
             'required' => false,
@@ -72,10 +66,6 @@ class PanelistSearchType extends AbstractType
             'label' => 'registered user',
             'required' => false,
             'data' => true
-        ));
-        $builder->add('type_withdrawal', 'checkbox', array (
-            'label' => 'withdrawal user',
-            'required' => false
         ));
     }
 

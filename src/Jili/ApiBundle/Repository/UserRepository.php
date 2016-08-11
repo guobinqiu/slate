@@ -745,7 +745,7 @@ EOT;
     public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email,u.birthday,u.sex,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
+        $query = $query->select('u.id,u.email,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,u.campaignCode,sp.id as app_mid');
         $query = $this->getSearchUserSqlQuery($query, $values, $type);
 
         if ($currentPage < 1) {

@@ -19,7 +19,7 @@
 <script language="JavaScript">
 $(function() {
     $('ul.pageNav li a').click(function(e) {
-        var page
+        var page;
         var href = $(this).attr('href');
         var matches = href.match(/\?page=([^&]+)/);
         if (matches) {
@@ -65,10 +65,6 @@ $(function() {
                 <td>{{ form_widget(form.mobile_number) }}</td>
             </tr>
             <tr>
-                <th>{{ form_label(form.birthday) }}</th>
-                <td>{{ form_widget(form.birthday, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}</td>
-            </tr>
-            <tr>
                 <th>{{ form_label(form.registered_from) }}</th>
                 <td>{{ form_widget(form.registered_from, {'attr': {'class':'Wdate', 'onClick':'WdatePicker()','style':'cursor:pointer' }}) }}</td>
             </tr>
@@ -79,10 +75,6 @@ $(function() {
             <tr>
                 <th>{{ form_label(form.type_registered) }}</th>
                 <td>{{ form_widget(form.type_registered) }}</td>
-            </tr>
-            <tr>
-                <th>{{ form_label(form.type_withdrawal) }}</th>
-                <td>{{ form_widget(form.type_withdrawal) }}</td>
             </tr>
         </table>
 
@@ -104,16 +96,12 @@ $(function() {
         <th>PID</th>
         <th>App MID</th>
         <th>email</th>
-        <th>birthday</th>
-        <th>gender</th>
         <th>nickname</th>
         <th>mobile number</th>
         <th>register complete date</th>
-        <th>last-login date</th>
+        <th>last login date</th>
         <th>ip</th>
-        <th>route</th>
         <th>activity detail</th>
-        <th>PID</th>
     </tr>
         {% for item in registeredUserList %}
     <tr>
@@ -124,60 +112,22 @@ $(function() {
         {% endif %}
         </td>
         <td align="left">{{ item.email}}</td>
-        <td align="left">{{ item.birthday}}</td>
-        <td align="left">{{ item.sex == '1' ? 'male' : (item.sex == '2' ? 'female' : '') }}</td>
         <td align="left">{{ item.nick}}</td>
         <td align="left">{{ item.tel is null ? '--' : item.tel}}</td>
         <td align="left">{{ item.registerCompleteDate is empty ? "" : item.registerCompleteDate | date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.lastLoginDate is empty ? "" : item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
         <td align="left">{{ item.createdRemoteAddr}}</td>
-        <td align="left">{{ item.campaignCode}}</td>
         <td align="left"><a href="{{ path('_admin_panelist_pointhistory',{'id':item.id}) }}">Point History</a>
         {% if item.ssi_respondent_exist %}
         <a href="{{ path('_admin_panelist_ssirespondentsummary',{'id':item.id}) }}">SSI Partnership</a>
         {% endif %}
         </td>
-        <td align="left"><a href="{{ path('_admin_panelist_edit',{'id':item.id}) }}">{{ item.id}}</a></td>
    </tr>
     {% endfor %}
 </table>
  {% endif %}
  </div>
-<div>
- {% if withdrawalUserList is defined %}
-  <h3>withdrawal user {{withdrawalCount}}</h3>
-<table class="list">
-    <tr>
-        <th>PID</th>
-        <th>email</th>
-        <th>birthday</th>
-        <th>gender</th>
-        <th>nickname</th>
-        <th>mobile number</th>
-        <th>register date</th>
-        <th>last-login date</th>
-        <th>ip</th>
-        <th>route</th>
-        <th>PID</th>
-    </tr>
-    {% for item in withdrawalUserList %}
-    <tr>
-        <td align="left">{{ item.id}}</td>
-        <td align="left">{{ item.email}}</td>
-        <td align="left">{{ item.birthday}}</td>
-        <td align="left">{{ item.sex}}</td>
-        <td align="left">{{ item.nick}}</td>
-        <td align="left">{{ item.tel}}</td>
-        <td align="left">{{ item.registerDate | date("Y-m-d H:i:s") }}</td>
-        <td align="left">{{ item.lastLoginDate| date("Y-m-d H:i:s") }}</td>
-        <td align="left">{{ item.createdRemoteAddr}}</td>
-        <td align="left">{{ item.campaignCode}}</td>
-        <td align="left">{{ item.id}}</td>
-   </tr>
-    {% endfor %}
-</table>
-{% endif %}
-</div>
+
 <div style="display: inline-block; width: 100%;">
   {% include '::pagination.html.twig' %}
 </div>
