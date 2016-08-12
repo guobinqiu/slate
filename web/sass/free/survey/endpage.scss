@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 @import "layout/common";
+@import "font-awesome/scss/font-awesome";
 .freeSurWrap{
 	width: 900px;
 	margin: 0 auto;
@@ -11,10 +12,8 @@
 		line-height: 32px;
 		text-align: center;
 		i{
-			width: 127px;
-			height: 127px;
-			margin: 0 auto;
-			display: block;
+			font-size: 140px;
+			color: #D9E1E2;
 			&.successIcon{
 				background: url(../../../img/common/successGray.png) no-repeat;
 			}
@@ -48,7 +47,7 @@
 			}
 		}
 		.btn{
-			padding: 21px 65px 21px 36px;
+			padding: 21px 30px 21px 36px;
 			margin-top: 12px;
 			background: #0da383;
 			float: right;
@@ -59,10 +58,8 @@
 			.bWrap{
 				color: #fff;
 				font-size: 18px;
-				.arrow {
-					position: absolute;
-					top: 19px;
-					right: 20px;
+				span.text{
+					padding-right: 25px;
 				}
 				.bounce {
 					-webkit-animation-name: bounce;

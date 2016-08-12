@@ -13,19 +13,19 @@
     <div class="freeSurWrap">
         <div class="statusCon complete">
             {% if answer_status == 'complete' %}
-            <i class="successIcon"></i>
+            <i class="fa fa-check-circle-o fa-6"></i>
             <div class="complete">亲，恭喜您完成本次的问卷调查，棒棒哒。</div>
             {% elseif answer_status == 'screenout' %}
-            <i class="failIcon"></i>
+            <i class="fa fa-frown-o" aria-hidden="true"></i>
             <div class="screenout">亲，非常抱歉，您不符合本次调查的要求。</div>
             {% elseif answer_status == 'quotafull' %}
-            <i class="failIcon"></i>
+            <i class="fa fa-meh-o" aria-hidden="true"></i>
             <div class="quotafull">亲，非常抱歉，您慢了一步，本次问卷调查名额已满。</div>
             {% elseif answer_status == 'error' %}
-            <i class="failIcon"></i>
+            <i class="fa fa-meh-o" aria-hidden="true"></i>
             <div class="error">亲，您似乎已经参与过这个问卷调查，欢迎下次再来。</div>
             {% else %}
-            <i class="failIcon"></i>
+            <i class="fa fa-meh-o" aria-hidden="true"></i>
             <div class="other">亲，现在没有问卷调查可参与哦，欢迎下次再来。</div>
             {% endif %}
         </div>
@@ -36,8 +36,8 @@
             </div> 
             <a class="btn" href="{{ path('_user_reg') }}">
                 <div class="bWrap">
-                    <span>点击这里</span>
-                    <span class="arrow animated bounce"><img src="{{ asset('img/common/arrowRight.png') }}" alt=""></span>
+                    <span class="text">点击这里</span>
+                    <span class="fa fa-chevron-right animated bounce" aria-hidden="true"></span>
                 </div>
             </a>
         </div>
