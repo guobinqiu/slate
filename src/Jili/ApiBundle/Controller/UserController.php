@@ -5,7 +5,6 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,13 +40,8 @@ class UserController extends Controller
     public function logoutAction()
     {
         $session = $this->get('request')->getSession();
-        if($session->has('uid')) {
-            $uid = $session->get('uid');
-            $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:User')->cleanToken($uid);
-        }
-
-        $this->get('request')->getSession()->remove('uid');
-        $this->get('request')->getSession()->remove('nick');
+        $session->remove('uid');
+        $session->remove('nick');
 
         if ($session->has('referer')) {
             $referer_url = $session->get('referer');

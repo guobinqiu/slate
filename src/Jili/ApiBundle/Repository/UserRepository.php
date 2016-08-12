@@ -489,18 +489,6 @@ EOT;
         return $query->getResult();
     }
 
-    public function cleanToken($uid)
-    {
-        $entity = $this->find($uid);
-        if ($entity) {
-
-            $entity->setToken('');
-
-            $this->getEntityManager()->flush();
-        }
-        return true;
-    }
-
     /**
      * @param $start date("Y-m-d")
      * @param $end date("Y-m-d")

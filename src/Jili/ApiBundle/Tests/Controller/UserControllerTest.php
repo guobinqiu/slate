@@ -94,12 +94,6 @@ class UserControllerTest extends WebTestCase
         }
         $uid = $user->getId();
         unset($user);
-        // clean token
-        $em->getRepository('JiliApiBundle:User')->cleanToken($uid);
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);//$query['email']);
-
-        $this->assertEmpty($user->getToken());
-        unset($user);
 
         //logout
         $url_logout = $router->generate('_user_logout' , array(), true);
