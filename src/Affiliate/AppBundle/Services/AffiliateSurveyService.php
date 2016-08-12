@@ -57,7 +57,7 @@ class AffiliateSurveyService
             }
 
             $connection->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $connection->rollBack();
             $this->logger->error(__METHOD__ . " Error    projectId=" .  $projectId . " errMsg=" . $e->getMessage() . PHP_EOL);
         }
