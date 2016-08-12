@@ -1,10 +1,10 @@
-INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`token`,`reward_multiple`)  
-VALUES (1110,'qracle@126.com','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0, 'a',1),
-(1111,'miaomiao.zhang+1@d8aspring.com','testpwd','jintest2',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0 , 'a',1),
-(1112,'miaomiao.zhang+2@d8aspring.com','testpwd','jintest3',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0 , 'a',1),
-(1113,'miaomiao.zhang+3@d8aspring.com','testpwd','jin22',DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'3',0 , 'a',1),
-(1114,'miaomiao.zhang+4@d8aspring.com','testpwd','jin33',DATE_SUB(CURDATE(), INTERVAL 1 WEEK),'3',0 , 'a',1),
-(1115,'miaomiao.zhang+5@d8aspring.com','testpwd','jin32',DATE_SUB(CURDATE(), INTERVAL 181 DAY),'3',0 , 'a',1);
+INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`reward_multiple`)
+VALUES (1110,'qracle@126.com','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0,1),
+(1111,'miaomiao.zhang+1@d8aspring.com','testpwd','jintest2',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0,1),
+(1112,'miaomiao.zhang+2@d8aspring.com','testpwd','jintest3',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0,1),
+(1113,'miaomiao.zhang+3@d8aspring.com','testpwd','jin22',DATE_SUB(CURDATE(), INTERVAL 1 MONTH),'3',0,1),
+(1114,'miaomiao.zhang+4@d8aspring.com','testpwd','jin33',DATE_SUB(CURDATE(), INTERVAL 1 WEEK),'3',0,1),
+(1115,'miaomiao.zhang+5@d8aspring.com','testpwd','jin32',DATE_SUB(CURDATE(), INTERVAL 181 DAY),'3',0,1);
 
 INSERT INTO `point_history00` VALUES (1,1110,3,16,DATE_SUB(CURDATE(), INTERVAL 181 DAY));
 INSERT INTO `point_history01` VALUES (2,1116,1,16,DATE_SUB(CURDATE(), INTERVAL 170 DAY));
