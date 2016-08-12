@@ -4,6 +4,8 @@ free_survey_index:
     path: /survey/{projectId}
     defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showSurvey}
     methods:  [GET, POST]
+    requirements:
+        page: '\d+'
 
 # 第三方问卷代理endpage页面
 free_survey_complete:
@@ -41,9 +43,3 @@ admin_project_add:
     requirements:
         page: '\d+'
 
-
-# 第三方问卷代理管理页面 -> upload url csv
-admin_url_upload:
-    path: /admin/url/upload
-    defaults: { _controller: AffiliateAppBundle:AdminPartner:uploadUrls}
-    methods:  [GET, POST]

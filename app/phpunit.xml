@@ -86,6 +86,10 @@
         <testsuite name="jili_api_repo">
             <directory>../src/Jili/ApiBundle/Tests/Repository</directory>
         </testsuite>
+
+        <testsuite name="affiliate_app_services">
+            <directory>../src/Affiliate/AppBundle/Tests/Services</directory>
+        </testsuite>
     </testsuites>
 
     <!--

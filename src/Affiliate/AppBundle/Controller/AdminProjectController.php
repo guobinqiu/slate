@@ -22,6 +22,7 @@ class AdminProjectController extends Controller
 
     public function showProjectAction(Request $request, $partnerId = null)
     {
+        
         $currentPage = $request->query->get('page', 1);
         $adminProjectService = $this->get('app.admin_project_service');
         $pagination = $adminProjectService->getProjectList($partnerId, $currentPage, 20);
@@ -49,6 +50,8 @@ class AdminProjectController extends Controller
         $builder->add('urlFile', 'file', array('label' => 'File to Submit'));
         $form = $builder->getForm();
 
+        $rootDir = $this->container->getParameter('affiliate.url_upload_directory');
+
         $errmsg = '';
         // Check if we are posting stuff
         if ($request->getMethod('post') == 'POST') {
@@ -63,10 +66,8 @@ class AdminProjectController extends Controller
 
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
-                
+
                 $originalFileName = $uploadedFile->getClientOriginalName();
-                $rootDir = $this->get('kernel')->getRootDir();
-                $uploadDir = $rootDir . self::URL_UPLOAD_DIR;
                 $realUploadName = $originalFileName . "." . md5(uniqid());
                 $uploadedFile->move($uploadDir, $realUploadName);
                 $fullPath = $uploadDir . "/" . $realUploadName;
