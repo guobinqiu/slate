@@ -5,13 +5,11 @@ namespace Jili\ApiBundle\Tests\Repository;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\UserRepository\LoadDmdeliveryData;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoTaskHistoryData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadMergedUserData;
 
 class UserRepositoryTest extends KernelTestCase
 {

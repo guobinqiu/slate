@@ -143,21 +143,7 @@ class UserController extends Controller
                 }
             }
 
-            $response = new RedirectResponse($current_url, $code_redirect);
-
-            // set cookie based according the the remember_me.
-            if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
-
-                $token = $this->get('login.listener')->buildToken( array( 'email'=> $email, 'pwd'=> $pwd) );
-                if( $token) {
-                    $response->headers->setCookie(new Cookie("jili_rememberme", $token, time() + 3153600, '/'));
-                } else {
-                  $this->get('logger')->info($token);
-                    // todo: set the error flash
-                }
-
-            }
-            return $response;
+            return new RedirectResponse($current_url, $code_redirect);
         }
         return $this->render('WenwenFrontendBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
     }

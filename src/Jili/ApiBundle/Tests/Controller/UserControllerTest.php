@@ -147,14 +147,6 @@ class UserControllerTest extends WebTestCase
 
     }
 
-    private function buildToken($user , $secret)
-    {
-        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
-        $token = hash('sha256', $token);
-        $token = substr( $token, 0 ,32);
-        return $token;
-    }
-
     /**
      * @group user
      * @group dev-merge-ui-reset-password
