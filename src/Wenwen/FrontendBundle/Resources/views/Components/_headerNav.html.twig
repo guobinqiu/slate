@@ -55,7 +55,11 @@
                 {% endif %}
                 <div class="border"></div>
                 <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
-                <div class="pointExp"><span>100积分=<i>1元</i></span></div>
+                {% if app.session.has('uid') %}
+                    <div class="pointExp"><span>100积分=<i>1元</i></span></div>
+                {% else %}
+                    <div class="pointExp pointExpUnlog"><span>100积分=<i>1元</i></span></div>
+                {% endif %}
             </div>
             {% if app.request.attributes.get('_route') == '_user_login' %}
             {% else %}
