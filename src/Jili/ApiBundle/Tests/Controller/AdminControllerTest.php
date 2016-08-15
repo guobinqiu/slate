@@ -268,38 +268,8 @@ class AdminControllerTest extends WebTestCase {
     }
 
     /**
-     * @group ExchangeOKWen
-     * @group issue_535
-     * @group issue_670
-     */
-    public function testExchangeOKWen() 
-    {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $user = LoadHandleExchangeWenData :: $USERS[0];
-
-        $points = 120;
-
-        $em = $this->em;
-        $pointHistory1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
-
-        $return = $controller->exchangeOKWen($user->getId(), $points);
-        $this->assertTrue($return);
-
-        $pointHistory2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user->getId() % 10))->findAll();
-        $this->assertEquals(1, count($pointHistory2) - count($pointHistory1));
-
-        $userInfo = $em->getRepository('JiliApiBundle:User')->findById($user->getId());
-        $this->assertEquals($user->getPoints() + 120, $userInfo[0]->getPoints());
-
-    }
-
-    /**
      * @group HandleExchange
-       @group issue_535
+     * @group issue_535
      */
     public function testHandleExchange() {
         $client = static :: createClient();
