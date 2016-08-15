@@ -30,8 +30,8 @@ class MailCommandTest extends WebTestCase {
         $commandTester->execute(array(
             'command' => $command->getName(),
             '--subject' => 'signup confirmation',
-            '--email' => 'qracle@126.com',
-            '--name' => 'Guobin',
+            '--email' => 'zchua9999@126.com',
+            '--name' => 'Amy',
             '--register_key' => '1234567890',
         ));
     }
@@ -45,8 +45,8 @@ class MailCommandTest extends WebTestCase {
         $commandTester->execute(array(
             'command' => $command->getName(),
             '--subject' => 'signup success',
-            '--email' => 'qracle@126.com',
-            '--name' => 'Guobin',
+            '--email' => 'zchua9999@126.com',
+            '--name' => 'Amy',
         ));
     }
 
@@ -58,8 +58,8 @@ class MailCommandTest extends WebTestCase {
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(),
-            '--name1' => 'Guobin',
-            '--email' => 'qracle@126.com',
+            '--name1' => 'Amy',
+            '--email' => 'zchua9999@126.com',
             '--survey_title' => 'sop',
             '--survey_point' => 10,
             '--survey_length' => 10,
@@ -76,8 +76,8 @@ class MailCommandTest extends WebTestCase {
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(),
-            '--name1' => 'Guobin',
-            '--email' => 'qracle@126.com',
+            '--name1' => 'Amy',
+            '--email' => 'zchua9999@126.com',
             '--survey_title' => 'fulcrum',
             '--survey_point' => 10,
             '--subject' => 'fulcrum delivery notification',
@@ -93,8 +93,8 @@ class MailCommandTest extends WebTestCase {
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(),
-            '--name1' => 'Guobin',
-            '--email' => 'qracle@126.com',
+            '--name1' => 'Amy',
+            '--email' => 'zchua9999@126.com',
             '--survey_title' => 'ssi',
             '--survey_point' => 10,
             '--subject' => 'ssi delivery notification',
@@ -144,11 +144,7 @@ class MailCommandTest extends WebTestCase {
     //添加收件人here
     private function recipients() {
         return array(
-            'qracle@126.com',
-            'xiaoyi.chai@d8aspring.com',
-            '9615841@qq.com',
-            'mercurylovesea@163.com',
-            'cs@91wenwen.net',
+            'zchua9999@126.com',
         );
     }
 }
