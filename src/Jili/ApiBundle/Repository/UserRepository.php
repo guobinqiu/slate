@@ -489,18 +489,6 @@ EOT;
         return $query->getResult();
     }
 
-    public function cleanToken($uid)
-    {
-        $entity = $this->find($uid);
-        if ($entity) {
-
-            $entity->setToken('');
-
-            $this->getEntityManager()->flush();
-        }
-        return true;
-    }
-
     /**
      * @param $start date("Y-m-d")
      * @param $end date("Y-m-d")
@@ -629,18 +617,6 @@ EOT;
         $em->persist($user);
         $em->flush();
         return $user;
-    }
-
-    public function getUserByCrossId($id)
-    {
-        $query = $this->createQueryBuilder('u');
-
-        $query = $query->select('u.id,u.email,u.pwd');
-        $query = $query->innerJoin('JiliApiBundle:UserWenwenCross', 'uwc', 'WITH', 'u.id = uwc.userId');
-        $query = $query->Where('uwc.id = :id');
-        $query = $query->setParameter('id', $id);
-        $query = $query->getQuery();
-        return $query->getOneOrNullResult();
     }
 
     /**

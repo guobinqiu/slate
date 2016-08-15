@@ -3,16 +3,10 @@
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\BrowserKit\Cookie;
-
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadAdvertisermentMarketActivityData;
-
 use Jili\ApiBundle\DataFixtures\ORM\LoadTopCallboardCodeData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadCookieLoginHomepageCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoTaskHistoryData;
 
@@ -131,14 +125,4 @@ class TopControllerTest extends WebTestCase
         //$this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);
         exec('rm ' .$fn);
     }
-
-
-    private function buildToken($user , $secret)
-    {
-        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
-        $token = hash('sha256', $token);
-        $token = substr( $token, 0 ,32);
-        return $token;
-    }
-
 }

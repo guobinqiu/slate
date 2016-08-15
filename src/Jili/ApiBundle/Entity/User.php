@@ -39,7 +39,6 @@ class User
             ->setLastLoginDate ( new \DateTime())
             ->setPoints( self::POINT_EMPTY)
             ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
-            ->setToken( '')
             ->setIsEmailConfirmed(self::EMAIL_NOT_CONFIRMED);
     }
 
@@ -79,12 +78,6 @@ class User
      * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
      */
     private $isFromWenwen;
-
-    /**
-     * @var string
-     * @ORM\Column(name="token", type="string", length=32, options={"default": "", "comment": "remember me cookie token "})
-     */
-    private $token;
 
     /**
      * @var string
@@ -193,12 +186,6 @@ class User
     private $icon;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(name="token_created_at", type="datetime", nullable=true, options={"comment": "remember me cookie token created at"})
-     */
-    private $tokenCreatedAt;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true, options={"comment": "remote IP when create"})
@@ -260,29 +247,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     * @return User
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Get token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
     }
 
     /**
@@ -643,29 +607,6 @@ class User
     public function getDeleteDate()
     {
         return $this->deleteDate;
-    }
-
-    /**
-     * Set tokenCreatedAt
-     *
-     * @param \DateTime $tokenCreatedAt
-     * @return User
-     */
-    public function setTokenCreatedAt($tokenCreatedAt)
-    {
-        $this->tokenCreatedAt = $tokenCreatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get tokenCreatedAt
-     *
-     * @return \DateTime
-     */
-    public function getTokenCreatedAt()
-    {
-        return $this->tokenCreatedAt;
     }
 
     /**

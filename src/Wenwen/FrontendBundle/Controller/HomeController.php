@@ -31,16 +31,6 @@ class HomeController extends Controller
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');;
         }
 
-        //记住我
-        if ($cookies->has('jili_rememberme') && !$session->has('uid')) {
-            $token = $cookies->get('jili_rememberme');
-            $result = $this->get('login.listener')->byToken($token);
-            if ($result !== false && is_object($result) && $result instanceof \Jili\ApiBundle\Entity\User) {
-                $session->set('uid', $result->getId());
-                $session->set('nick', $result->getNick());
-            }
-        }
-
         //取得分数，以及更新登录状态
         if ($session->has('uid')) {
             // 20160716 二逼拉的屎，首页去访问task_history 无端增加开销，删掉

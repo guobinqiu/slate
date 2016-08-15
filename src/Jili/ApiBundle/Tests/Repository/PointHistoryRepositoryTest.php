@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\PointHistory\LoadIssetInsertData;
-use Jili\ApiBundle\DataFixtures\ORM\LoadMergedUserData;
 
 class PointHistoryRepositoryTest extends KernelTestCase
 {

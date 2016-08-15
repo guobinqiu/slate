@@ -1,1 +1,0 @@
-ALTER TABLE  `adw_order` ADD  `order_type` INT NULL COMMENT  '2:合并后的order';

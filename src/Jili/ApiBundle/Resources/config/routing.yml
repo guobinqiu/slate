@@ -1,8 +1,3 @@
-default:
-    resource: "@JiliApiBundle/Controller/DefaultController.php"
-    prefix:   /
-    type:     annotation
-
 user:
     resource: "@JiliApiBundle/Controller/UserController.php"
     prefix:   /user

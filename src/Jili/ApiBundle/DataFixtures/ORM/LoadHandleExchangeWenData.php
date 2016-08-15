@@ -8,8 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserWenwenCross;
-use Jili\ApiBundle\Entity\ExchangeFromWenwen;
 use Jili\ApiBundle\Entity\PointsExchange;
 use Jili\ApiBundle\Entity\AdwOrder;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
@@ -17,7 +15,6 @@ use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
 class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
     public static $USERS;
-    public static $USER_WENWEN_CROSS;
     public static $EXCHANGE_FROM_WENWEN;
     public static $TASK_HISTORY;
     public static $POINTS_EXCHANGES;
@@ -25,7 +22,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
 
     public function __construct() {
         self :: $USERS = array ();
-        self :: $USER_WENWEN_CROSS = array ();
         self :: $EXCHANGE_FROM_WENWEN = array ();
         self :: $TASK_HISTORY = array ();
         self :: $POINTS_EXCHANGES = array ();
@@ -74,15 +70,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
         $manager->flush();
         self :: $USERS[] = $user;
 
-        // cross table
-        foreach (self :: $USERS as $user) {
-            $cross = new UserWenwenCross();
-            $cross->setUserId($user->getId());
-            $manager->persist($cross);
-            $manager->flush();
-            self :: $USER_WENWEN_CROSS[] = $cross;
-        }
-
         //PointsExchange=>HandleExchange
         for ($i = 0; $i < 3; $i++) {
             $change_point = 2010;
@@ -103,16 +90,6 @@ class LoadHandleExchangeWenData extends AbstractFixture implements ContainerAwar
 
             self :: $POINTS_EXCHANGES[] = $pointschange;
         }
-
-        //ExchangeFromWenwen
-        $exchangeFromWenwen = new ExchangeFromWenwen();
-        $exchangeFromWenwen->setWenwenExchangeId('123456');
-        $exchangeFromWenwen->setEmail(self :: $USERS[0]->getEmail());
-        $exchangeFromWenwen->setUserWenwenCrossId(self :: $USER_WENWEN_CROSS[0]->getId());
-        $exchangeFromWenwen->setPaymentPoint(3000);
-        $manager->persist($exchangeFromWenwen);
-        $manager->flush();
-        self :: $EXCHANGE_FROM_WENWEN = $exchangeFromWenwen;
 
         //TaskHistory
         $po = SequenseEntityClassFactory :: createInstance('TaskHistory', self :: $USERS[0]->getId());

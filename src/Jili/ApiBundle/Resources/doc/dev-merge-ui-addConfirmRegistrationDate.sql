@@ -1,1 +1,0 @@
-ALTER TABLE  `user` ADD  `register_complete_date` DATETIME NULL AFTER  `register_date` ;

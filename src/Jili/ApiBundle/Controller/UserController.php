@@ -5,13 +5,11 @@ namespace Jili\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Jili\FrontendBundle\Form\Type\SignupType;
 use Jili\ApiBundle\Entity\SetPasswordCode;
-use Gregwar\Captcha\CaptchaBuilder;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use JMS\JobQueueBundle\Entity\Job;
 use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
@@ -41,13 +39,8 @@ class UserController extends Controller
     public function logoutAction()
     {
         $session = $this->get('request')->getSession();
-        if($session->has('uid')) {
-            $uid = $session->get('uid');
-            $this->getDoctrine()->getManager()->getRepository('JiliApiBundle:User')->cleanToken($uid);
-        }
-
-        $this->get('request')->getSession()->remove('uid');
-        $this->get('request')->getSession()->remove('nick');
+        $session->remove('uid');
+        $session->remove('nick');
 
         if ($session->has('referer')) {
             $referer_url = $session->get('referer');
@@ -69,32 +62,6 @@ class UserController extends Controller
     public function resetPwdAction()
     {
         return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig');
-    }
-
-    /**
-     * @Route("/pwdCheck", name="_user_pwdCheck")
-     */
-    public function pwdCheckAction()
-    {
-        $request = $this->get('request');
-        $email = $request->query->get('email');
-        $pwd = $request->query->get('pwd');
-        $em_email = $this->getDoctrine()
-            ->getRepository('JiliApiBundle:User')
-            ->findByEmail($email);
-        if(!$em_email){
-            $code = $this->container->getParameter('init_one');
-        }else{
-            $id = $em_email[0]->getId();
-            $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            if($user->pw_encode($pwd) != $user->getPwd()){
-                $code = $this->container->getParameter('init_one');
-            }else{
-                $code = $this->container->getParameter('init');
-            }
-        }
-        return new Response($code);
     }
 
     /**
@@ -143,21 +110,7 @@ class UserController extends Controller
                 }
             }
 
-            $response = new RedirectResponse($current_url, $code_redirect);
-
-            // set cookie based according the the remember_me.
-            if ($request->request->has('remember_me')  &&  $request->request->get('remember_me') === '1') {
-
-                $token = $this->get('login.listener')->buildToken( array( 'email'=> $email, 'pwd'=> $pwd) );
-                if( $token) {
-                    $response->headers->setCookie(new Cookie("jili_rememberme", $token, time() + 3153600, '/'));
-                } else {
-                  $this->get('logger')->info($token);
-                    // todo: set the error flash
-                }
-
-            }
-            return $response;
+            return new RedirectResponse($current_url, $code_redirect);
         }
         return $this->render('WenwenFrontendBundle:User:login.html.twig',array('code'=>$code,'email'=>$email));
     }
@@ -176,53 +129,6 @@ class UserController extends Controller
         $arr['user'] = $info[0];
         $arr['email'] = $info[0]['email'];
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig',$arr);
-    }
-
-    /**
-	 * @Route("/checkCaptcha", name="_user_checkCaptcha")
-	 */
-    public function checkCaptchaAction()
-    {
-        $request = $this->get('request');
-        if($this->get('request')->getSession()->get('phrase') != $request->query->get('captcha'))
-            $code = $this->container->getParameter('init_one');
-        else{
-            $this->get('request')->getSession()->remove('phrase');
-            $code = $this->container->getParameter('init');
-        }
-        return new Response($code);
-    }
-
-    /**
-	 * @Route("/checkEmail", name="_user_checkEmail")
-	 */
-    public function checkEmailAction()
-    {
-        $request = $this->get('request');
-        $email = $request->query->get('email');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-        if(empty($user))
-            $code = $this->container->getParameter('init_one');
-        else
-            $code = $this->container->getParameter('init');
-        return new Response($code);
-    }
-
-    /**
-	 * @Route("/checkNick", name="_user_checkNick")
-	 */
-    public function checkNickAction()
-    {
-        $request = $this->get('request');
-        $nick = $request->query->get('nick');
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findByNick($nick);
-        if(empty($user))
-            $code = $this->container->getParameter('init_one');
-        else
-            $code = $this->container->getParameter('init');
-        return new Response($code);
     }
 
     /**
@@ -474,51 +380,6 @@ class UserController extends Controller
     }
 
     /**
-	 * @Route("/agreement", name="_user_agreement")
-	 */
-    public function agreementAction()
-    {
-        return $this->render('WenwenFrontendBundle:About:regulations.html.twig');
-    }
-
-    /**
-	 * @Route("/captcha", name="_user_captcha", options={"expose"=true})
-	 */
-    public function captchaAction()
-    {
-        $builder = new CaptchaBuilder;
-        $builder->setBackgroundColor(255,255,255);
-        $builder->setMaxBehindLines(0);
-        $builder->setMaxFrontLines(0);
-        $builder->build();
-        header('Content-type: image/jpeg');
-        $builder->output();
-        $session = new Session();
-        $session->start();
-        $session->set('phrase', $builder->getPhrase());
-        exit;
-    }
-
-    /**
-	 * @Route("/exchangeLook", name="_user_exchangeLook")
-	 */
-    public function exchangeLook()
-    {
-        $code = array();
-        $request = $this->get('request');
-        $exid = $request->query->get('exid');
-        $em = $this->getDoctrine()->getManager();
-        $ear = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exid);
-
-        $code[] = array("a"=>$ear[0]->getAmazonCardOne());
-        $code[] = array("a"=>$ear[0]->getAmazonCardTwo());
-        $code[] = array("a"=>$ear[0]->getAmazonCardThree());
-        $code[] = array("a"=>$ear[0]->getAmazonCardFour());
-        $code[] = array("a"=>$ear[0]->getAmazonCardFive());
-        return new Response(json_encode($code));
-    }
-
-    /**
 	 * @Route("/exchange", name="_user_exchange")
 	 */
     public function exchangeAction(Request $request)
@@ -544,18 +405,6 @@ class UserController extends Controller
 
             //get list
             $exchange = $em->getRepository('JiliApiBundle:PointsExchange')->getUserExchange($id, $type, $page);
-            $arr['exchange'] = $exchange;
-            $arr['p'] = $page;
-            $arr['total'] = $total_count;
-
-        }else if($exchangeType==2){
-
-            // get total count
-            $total_count = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenByIdCount($id);
-            $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
-
-            //get list
-            $exchange = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->eFrWenById($id,$page);
             $arr['exchange'] = $exchange;
             $arr['p'] = $page;
             $arr['total'] = $total_count;

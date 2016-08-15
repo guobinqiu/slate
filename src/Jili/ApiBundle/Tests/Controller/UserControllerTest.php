@@ -73,47 +73,6 @@ class UserControllerTest extends WebTestCase
      * @group user
      * @group login
      */
-    public function testLogoutWithTokenAction()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        $router = $container->get('router');
-        $logger= $container->get('logger');
-        // login
-        $url = $container->get('router')->generate('_user_login', array(), true);
-        //echo $url, PHP_EOL;
-        $crawler = $client->request('GET', $url ) ;
-        $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-
-        $query = array('email'=> 'alice.nima@gmail.com');
-        $em = $this->em;
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($query['email']);
-        if(! $user) {
-            echo 'bad email:',$query['email'], PHP_EOL;
-            return false;
-        }
-        $uid = $user->getId();
-        unset($user);
-        // clean token
-        $em->getRepository('JiliApiBundle:User')->cleanToken($uid);
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);//$query['email']);
-
-        $this->assertEmpty($user->getToken());
-        unset($user);
-
-        //logout
-        $url_logout = $router->generate('_user_logout' , array(), true);
-        //echo $url_logout,PHP_EOL;
-        $crawler = $client->request('GET', $url_logout ) ;
-
-        $user = $em->getRepository('JiliApiBundle:User')->find($uid);
-        $this->assertEmpty($user->getToken());
-        unset($user);
-    }
-    /**
-     * @group user
-     * @group login
-     */
     public function testLogoutAction()
     {
         $client = static::createClient();
@@ -145,14 +104,6 @@ class UserControllerTest extends WebTestCase
 
 
 
-    }
-
-    private function buildToken($user , $secret)
-    {
-        $token = implode('|',$user) .$secret;//.$this->getParameter('secret') ;
-        $token = hash('sha256', $token);
-        $token = substr( $token, 0 ,32);
-        return $token;
     }
 
     /**
