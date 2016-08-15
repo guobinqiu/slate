@@ -619,18 +619,6 @@ EOT;
         return $user;
     }
 
-    public function getUserByCrossId($id)
-    {
-        $query = $this->createQueryBuilder('u');
-
-        $query = $query->select('u.id,u.email,u.pwd');
-        $query = $query->innerJoin('JiliApiBundle:UserWenwenCross', 'uwc', 'WITH', 'u.id = uwc.userId');
-        $query = $query->Where('uwc.id = :id');
-        $query = $query->setParameter('id', $id);
-        $query = $query->getQuery();
-        return $query->getOneOrNullResult();
-    }
-
     /**
      * @param array array('id'=> , 'points');
      * @return integer rows updated

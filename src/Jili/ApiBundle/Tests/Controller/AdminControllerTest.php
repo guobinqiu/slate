@@ -1,14 +1,13 @@
 <?php
+
 namespace Jili\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Controller\AdminController;
-
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-
 use Jili\ApiBundle\DataFixtures\ORM\LoadHandleExchangeWenData;
 
 class AdminControllerTest extends WebTestCase {
@@ -46,75 +45,6 @@ class AdminControllerTest extends WebTestCase {
     protected function tearDown() {
         parent :: tearDown();
         $this->em->close();
-    }
-
-    /**
-     * @author mmzhang
-     * @group HandleExchangeWen
-     * @group issue_492
-     * @group issue_535
-     */
-    public function testHandleExchangeWen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $em = $this->em;
-
-        //已经导入过(已发放)
-        //用户不存在（account not exists）
-        //用户存在，但密码为空(账号没有激活)
-        //成功：ExchangeFromWenwen，User，PointHistory，SendMessage
-
-        $users = LoadHandleExchangeWenData :: $USERS;
-        $user_crosss = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS;
-        $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
-
-        //测试有关表user,exchange_from_wenwen
-        $file[1][0] = $exchange->getWenwenExchangeId();
-        $file[1][1] = $user_crosss[0]->getId();
-        $file[1][2] = '30';
-        $file[1][3] = '3000';
-        $return = $controller->handleExchangeWen($file);
-        $this->assertEquals($exchange->getWenwenExchangeId() . '已发放', $return[0]);
-
-        $file = array ();
-        $file[2][0] = '91jili-201402-2625-1036110';
-        $file[2][1] = $user_crosss[0]->getId() + 100;
-        $file[2][2] = '30';
-        $file[2][3] = '3000';
-        $return = $controller->handleExchangeWen($file);
-        $this->assertEquals($file[2][0] . '兑换失败', $return[0]);
-        $exchangeFromWenwen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($file[2][0]);
-        $this->assertEquals('account not exists', $exchangeFromWenwen[0]->getReason());
-
-        $file = array ();
-        $file[3][0] = '91jili-201402-2625-1036111';
-        $file[3][1] = $user_crosss[1]->getId();
-        $file[3][2] = '30';
-        $file[3][3] = '3000';
-        $return = $controller->handleExchangeWen($file);
-        $this->assertEquals($file[3][0] . '兑换失败', $return[0]);
-        $exchangeFromWenwen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($file[3][0]);
-        $this->assertEquals('账号没有激活', $exchangeFromWenwen[0]->getReason());
-
-        $file = array ();
-        $file[4][0] = '91jili-201402-2625-1036112';
-        $file[4][1] = $user_crosss[2]->getId();
-        $file[4][2] = '30';
-        $file[4][3] = '3000';
-        $return = $controller->handleExchangeWen($file);
-        $exchangeFromWenwen = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($file[4][0]);
-        $this->assertEquals(1, $exchangeFromWenwen[0]->getStatus());
-        $this->assertEquals($users[2]->getId(), $exchangeFromWenwen[0]->getUserId());
-        $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($users[2]->getEmail());
-        $this->assertEquals($users[2]->getPoints() + $file[4][3], $userInfo[0]->getPoints());
-        $pointHistory = $em->getRepository('JiliApiBundle:PointHistory0' . ($users[2]->getId() % 10))->findByUserId($users[2]->getId());
-        $this->assertEquals('+' . $file[4][3], $pointHistory[0]->getPointChangeNum());
-        $sendMessage = $em->getRepository('JiliApiBundle:SendMessage0' . ($users[2]->getId() % 10))->findBySendTo($users[2]->getId());
-        $title = $container->getParameter('exchange_finish_wenwen_title');
-        $this->assertEquals($title, $sendMessage[0]->getTitle());
     }
 
     /**
@@ -425,180 +355,6 @@ class AdminControllerTest extends WebTestCase {
                     break;
             }
         }
-    }
-
-    /**
-     * @group insertExWenwen
-     * @group issue_492
-     * @group issue_535
-     */
-    public function testInsertExWenwen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-        $em = $this->em;
-
-        $user_cross = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS[0];
-        $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($user_cross->getId());
-
-        $wenwenExId = '123456789';
-
-        $array = array (
-            'wenwenExId' => $wenwenExId,
-            'userId' => $user['id'],
-            'email' => $user['email'],
-            'cross_id' => $user_cross->getId(),
-            'points' => 100,
-            'status' => 1
-        );
-
-        $exchange_0 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
-        $controller->insertExWenwen($array);
-        $exchange_1 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
-        $this->assertEquals(1, count($exchange_1) - count($exchange_0));
-    }
-
-    /**
-     * @group insertFailExWenwen
-     * @group issue_492
-     * @group issue_535
-     */
-    public function testInsertFailExWenwen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $user_cross = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS[0];
-
-        $array = array (
-            'wenwenExId' => "987654321",
-            'cross_id' => $user_cross->getId(),
-            'userId' => null,
-            'email' => null,
-            'points' => 100,
-            'reason' => 'account not exists'
-        );
-        $return = $controller->insertFailExWenwen($array);
-        $this->assertTrue($return);
-    }
-
-    /**
-     * @group issue_535
-     * @group insertSuccessExWenwen
-     */
-    public function testInsertSuccessExWenwen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $em = $this->em;
-
-        $user_crosss = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS;
-
-        $wenwenExId = "issue535_123456_1";
-
-        $cross_id = $user_crosss[0]->getId();
-        $user_id = $user_crosss[0]->getUserId();
-        $points = 200;
-        $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross_id);
-
-        $user_0 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
-        $pointHistory_0 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-        $sendMessage_0 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findOneBySendTo($user_id);
-
-        //测试提交成功
-        $return = $controller->insertSuccessExWenwen($wenwenExId, $cross_id, $points);
-        $this->assertTrue($return);
-        //check 4 张表：  ExchangeFromWenwen，User，PointHistory，SendMessage
-        //测试事务，需要数据
-        $em->clear();
-        $user_1 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
-        $this->assertEquals($points, ($user_1->getPoints() - $user_0->getPoints()));
-        $exchange_1 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
-        $this->assertEquals(1, count($exchange_1));
-        $pointHistory_1 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals(1, count($pointHistory_1) - count($pointHistory_0));
-        $sendMessage_1 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findBySendTo($user_id);
-        $this->assertEquals(1, count($sendMessage_1) - count($sendMessage_0));
-
-        //测试回滚
-        $return = $controller->insertSuccessExWenwen($wenwenExId, $cross_id, $points);
-        $this->assertFalse($return);
-        //check 4 张表：  ExchangeFromWenwen，User，PointHistory，SendMessage
-        //测试事务，需要数据
-        $user_2 = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
-        $this->assertEquals(0, ($user_2->getPoints() - $user_1->getPoints()));
-        $exchange_2 = $em->getRepository('JiliApiBundle:ExchangeFromWenwen')->findByWenwenExchangeId($wenwenExId);
-        $this->assertEquals(0, count($exchange_2) - count($exchange_1));
-        $pointHistory_2 = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
-        $this->assertEquals(0, count($pointHistory_2) - count($pointHistory_1));
-        $sendMessage_2 = $em->getRepository('JiliApiBundle:SendMessage0' . ($user_id % 10))->findBySendTo($user_id);
-        $this->assertEquals(0, count($sendMessage_2) - count($sendMessage_1));
-    }
-
-    /**
-     * @group issue_535
-     * @group testCheckExchangeWen
-     */
-    public function testCheckExchangeWen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $em = $this->em;
-
-        $user_crosss = LoadHandleExchangeWenData :: $USER_WENWEN_CROSS;
-
-        $wenwenExId = "issue535_123456_1";
-        $cross_id = $user_crosss[0]->getId();
-        $points = 200;
-        $return = $controller->insertSuccessExWenwen($wenwenExId, $cross_id, $points);
-        $this->assertTrue($return);
-
-        $wenwenExId = "issue535_123456_1";
-
-        $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
-        $this->assertEquals($wenwenExId . "已发放", $message);
-
-        $wenwenExId = "issue535_123456_2";
-        $cross_id = 100;
-        $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
-
-        $this->assertEquals($wenwenExId . "兑换失败", $message);
-
-        $wenwenExId = "issue535_123456_3";
-        $cross_id = $user_crosss[1]->getId();
-        $message = $controller->checkExchangeWen($cross_id, $wenwenExId, $points);
-        $this->assertEquals($wenwenExId . "兑换失败", $message);
-    }
-
-    /**
-     * @group issue_535
-     * @group testGetContentForExportExchangWen
-     */
-    public function testGetContentForExportExchangWen() {
-        $client = static :: createClient();
-        $container = $client->getContainer();
-        $controller = new AdminController();
-        $controller->setContainer($container);
-
-        $exchange = LoadHandleExchangeWenData :: $EXCHANGE_FROM_WENWEN;
-        $em = $this->em;
-
-        $start_time = null;
-        $end_time = null;
-        $exFrWen = $this->em->getRepository('JiliApiBundle:ExchangeFromWenwen')->exFromWen($start_time, $end_time);
-        $content = $controller->getContentForExportExchangWen($exFrWen);
-
-        $export = explode("\n", $content);
-        $this->assertEquals('exchange_id,91jili_cross_id,payment_amount,payment_point,status,reason,create_time,91jili_email', $export[0]);
-        $item = explode(',', $export[1]);
-        $this->assertEquals(8, count($item));
-        $this->assertEquals($exchange->getWenwenExchangeId(), $item[0]);
     }
 
     /**

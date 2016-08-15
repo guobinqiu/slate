@@ -5,7 +5,6 @@ namespace Jili\ApiBundle\Tests\Repository;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\DataFixtures\ORM\Repository\UserRepository\LoadDmdeliveryData;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserInfoCodeData;
@@ -94,28 +93,6 @@ class UserRepositoryTest extends KernelTestCase
         ));
         $this->assertNotEmpty($j);
         $this->assertEquals($i->pw_encode('123qwe'), $j->getPwd());
-    }
-
-    /**
-     * @group issue_535
-     * @group getUserByCrossId
-     */
-    public function testGetUserByCrossId()
-    {
-        $em = $this->em;
-
-        $user = new User();
-        $user->setNick('test');
-        $user->setEmail('test@test.com');
-        $user->setPwd('123456');
-        $user->setDeleteFlag(0);
-        $em->persist($user);
-        $em->flush();
-
-        $cross = $em->getRepository('JiliApiBundle:UserWenwenCross')->create($user->getId());
-
-        $user = $em->getRepository('JiliApiBundle:User')->getUserByCrossId($cross->getId());
-        $this->assertEquals('test@test.com', $user['email']);
     }
 
     /**
