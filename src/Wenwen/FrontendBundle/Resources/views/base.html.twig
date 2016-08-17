@@ -5,10 +5,21 @@
     <title>{% block title %}91问问 - {% endblock %}</title>
     {# <meta name="viewport" content="width=1000"> #}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=yes,email=yes">
+    <script>
+         (function(a,b,c) {
+             if(c in b&&b[c]) {
+                 var d,e=a.location,f=/^(a|html)$/i;
+                 a.addEventListener("click",function(a){d=a.target;
+                 while(!f.test(d.nodeName))d=d.parentNode;
+                 "href" in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")
+    </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% block meta %}{% endblock %}
     <meta name="baidu_union_verify" content="464e52f63986636f61f6710be25148b2" />
-    <meta name="mobile-web-app-capable" content="yes">
     <link href="{{ asset('img/common/favicon.ico') }} " rel="shortcut icon" type="image/x-icon" />
     <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
     <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
