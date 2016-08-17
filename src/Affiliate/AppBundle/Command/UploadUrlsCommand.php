@@ -18,13 +18,13 @@ class UploadUrlsCommand extends ContainerAwareCommand
     {
         $this->setName('affiliate:urlUpload');
         $this->setDescription('Upload the urls for affiliate');
-        $this->addOption('projectId', null, InputOption::VALUE_REQUIRED, "projectId.");
+        $this->addOption('affiliateProjectId', null, InputOption::VALUE_REQUIRED, "affiliateProjectId.");
         $this->addOption('urlFile', null, InputOption::VALUE_REQUIRED, "urlFile.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $projectId = $input->getOption('projectId');
+        $affiliateProjectId = $input->getOption('affiliateProjectId');
         $urlFile = $input->getOption('urlFile');
 
         $rows = array();
@@ -40,12 +40,12 @@ class UploadUrlsCommand extends ContainerAwareCommand
         }
         $adminProjectService = $this->getContainer()->get('app.admin_project_service');
 
-        $rtn = $adminProjectService->importSurveyUrl($projectId, $rows);
+        $rtn = $adminProjectService->importSurveyUrl($affiliateProjectId, $rows);
 
         if($rtn['status'] == 'success'){
-            $adminProjectService->openProject($projectId, $rtn['count']);
+            $adminProjectService->openProject($affiliateProjectId, $rtn['count']);
         } else {
-            $adminProjectService->closeProject($projectId);
+            $adminProjectService->closeProject($affiliateProjectId);
         }
 
         $output->writeln('end affiliate:urlUpload: '.date('Y-m-d H:i:s'));

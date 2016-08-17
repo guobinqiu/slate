@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 {% block stylesheet %}
-    <link href="{{ asset('css/free/survey/endpage.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/affiliateapp/css/endpage.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -29,7 +29,7 @@
             <div class="error">亲，您似乎已经参与过这个问卷调查，欢迎下次再来。</div>
             {% else %}
             <i class="failIcon fa fa-meh-o" aria-hidden="true"></i>
-            <div class="other">亲，现在没有问卷调查可参与哦，欢迎下次再来。</div>
+            <div class="other">亲，您来晚了，这个调查已经结束咯，下次请早哦。</div>
             {% endif %}
         </div>
         <div class="recommend">

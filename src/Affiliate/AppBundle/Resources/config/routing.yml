@@ -1,14 +1,14 @@
 
 # 第三方问卷代理入口
-free_survey_index:
-    path: /survey/{projectId}
+affilate_survey:
+    path: /survey/{affiliateProjectId}
     defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showSurvey}
     methods:  [GET, POST]
     requirements:
         page: '\d+'
 
 # 第三方问卷代理endpage页面
-free_survey_complete:
+affiliate_endpage:
     path: /endpage
     defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showEndpage}
     methods:  [GET, POST]
@@ -30,15 +30,22 @@ admin_partner_add:
     methods:  [GET, POST]
 
 admin_project_show:
-    path: /admin/project/{partnerId}
+    path: /admin/partner/{affiliatePartnerId}/project
     defaults: { _controller: AffiliateAppBundle:AdminProject:showProject}
     methods:  [GET, POST]
     requirements:
         page: '\d+'
 
 admin_project_add:
-    path: /admin/project/{partnerId}/upload
-    defaults: { _controller: AffiliateAppBundle:AdminProject:uploadUrls}
+    path: /admin/partner/{affiliatePartnerId}/project/add
+    defaults: { _controller: AffiliateAppBundle:AdminProject:addProject}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+admin_project_close:
+    path: /admin/partner/{affiliatePartnerId}/project/{affiliateProjectId}/close
+    defaults: { _controller: AffiliateAppBundle:AdminProject:closeProject}
     methods:  [GET, POST]
     requirements:
         page: '\d+'

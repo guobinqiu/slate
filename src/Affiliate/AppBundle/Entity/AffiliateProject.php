@@ -22,18 +22,17 @@ class AffiliateProject
     /**
      * @var integer
      *
-     * @ORM\Column(name="project_id", type="integer", options={"comment": "One projectId for one Redirect url file"})
+     * @ORM\Column(name="id", type="integer", options={"comment": "One projectId for one Redirect url file"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $projectId;
+    private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="partner_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AffiliatePartner")
+     * @ORM\JoinColumn(name="affiliate_partner_id", referencedColumnName="id", nullable=false)
      */
-    private $partnerId;
+    private $affiliatePartner;
 
     /**
      * RFQ # of tripleS
@@ -55,7 +54,7 @@ class AffiliateProject
      * File name of redirector url
      * @var string
      *
-     * @ORM\Column(name="original_file_name", type="string", length=50, nullable=false, options={"comment": "Uploaded file name"})
+     * @ORM\Column(name="original_file_name", type="string", length=50, nullable=false, unique=true, options={"comment": "Uploaded file name"})
      */
     private $originalFileName;
 
@@ -70,7 +69,7 @@ class AffiliateProject
     /**
      * @var integer
      *
-     * @ORM\Column(name="init_num", type="integer", nullable=false, options={"default": 0, "comment": "RFQ # from TripleS. One RFQId => multiple projectId"})
+     * @ORM\Column(name="init_num", type="integer", nullable=false, options={"default": 0, "comment": "The num of usable url with status init"})
      */
     private $initNum;
 
@@ -99,6 +98,8 @@ class AffiliateProject
      */
     private $createdAt;
 
+    
+
     public function __construct()
     {
         $this->initNum = 0;
@@ -110,36 +111,36 @@ class AffiliateProject
      *
      * @return integer
      */
-    public function getProjectId()
+    public function getId()
     {
-        return $this->projectId;
+        return $this->id;
     }
 
     /**
      *
      * @param
      */
-    public function setProjectId($projectId)
+    public function setId($id)
     {
-        $this->projectId = $projectId;
+        $this->id = $id;
     }
 
     /**
      *
-     * @param integer $partnerId
+     * @param AffiliatePartner $affiliatePartner
      */
-    public function setPartnerId($partnerId)
+    public function setAffiliatePartner($affiliatePartner)
     {
-        $this->partnerId = $partnerId;
+        $this->affiliatePartner = $affiliatePartner;
     }
 
     /**
      *
      * @return integer
      */
-    public function getPartnerId()
+    public function getAffiliatePartner()
     {
-        return $this->partnerId;
+        return $this->affiliatePartner;
     }
 
     /**

@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use JMS\JobQueueBundle\Entity\Job;
 
 
@@ -22,30 +21,61 @@ class AdminProjectService
 
     private $knp_paginator;
 
+    private $router;
+
+    const COMMAND = 'affiliate:urlUpload';
+    const QUEUE_NAME = 'affiliate';
+
+    const BASE_URL = 'http://www.91wenwen.net';
+
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
-                                $knp_paginator)
+                                $knp_paginator,
+                                $router)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->knp_paginator = $knp_paginator;
+        $this->router = $router;
     }
 
-    public function getProjectList($partnerId, $page, $limit){
-        $pagination = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->getProjects($partnerId, $this->knp_paginator, $page, $limit);
-        
-        return $pagination;
+    public function getProjectList($affiliatePartnerId, $page, $limit){
+        $this->logger->debug(__METHOD__ . " START  affiliatePartnerId=" .  $affiliatePartnerId . PHP_EOL);
+
+        $rtn = array(
+            'status' => 'success',
+            'errmsg' => '',
+            'pagination' => array()
+            );
+        try{
+            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
+            $this->logger->debug(__METHOD__ . 'sizeof $affiliatePartner=' . sizeof($affiliatePartner));
+            $pagination = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findProjects($affiliatePartner, $this->knp_paginator, $page, $limit);
+            $this->logger->debug(__METHOD__ . 'sizeof $pagination=' . sizeof($pagination));
+            $rtn['pagination'] = $pagination;
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . 'err');
+            $rtn['status'] = 'failure';
+            $rtn['errmsg'] = $e->getMessage();
+            $this->logger->error(__METHOD__ . 'errmsg=' . $rtn['errmsg']);
+        }
+        $this->logger->debug(__METHOD__ . " END  affiliatePartnerId=" .  $affiliatePartnerId . PHP_EOL);
+        return $rtn;
     }
 
-    public function asynchUploadUrl($projectId, $fullPath){
+    /**
+    * @param string $affiliateProjectId
+    * @param string $fullPath
+    */
+    public function asynchUploadUrl($affiliateProjectId, $fullPath){
         $job = new Job(
-            'affiliate:urlUpload', 
+            self::COMMAND, 
             array(
-                '--projectId='.$projectId,
+                '--affiliateProjectId='.$affiliateProjectId,
                 '--urlFile='.$fullPath,
             ), 
             true, 
-            'affiliate', 
+            self::QUEUE_NAME, 
             Job::PRIORITY_HIGH);
         $this->em->persist($job);
         $this->em->flush($job);
@@ -53,54 +83,68 @@ class AdminProjectService
     }
 
     /**
-    * 检查指定partnerId和projectId的状态是否为执行中的项目
+    * 检查指定projectId的状态是否为执行中的项目
+    * @param integer $affiliateProjectId
     */
-    public function validateProjectStatus($projectId){
-        $this->logger->debug(__METHOD__ . " START  projectId=" .  $projectId . PHP_EOL);
+    public function validateProjectStatus($affiliateProjectId){
+        $this->logger->debug(__METHOD__ . " START  affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
 
-        $param = array(
-            'projectId' => $projectId,
-            'status' => AffiliateProject::PROJECT_STATUS_OPEN
-            );
+        $rtn = array();
+        $rtn['status'] = 'success';
+        try{
+            $param = array(
+                'id' => $affiliateProjectId,
+                'status' => AffiliateProject::PROJECT_STATUS_OPEN
+                );
 
-        $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneBy($param);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneBy($param);
 
-        $rtn = false;
-        if($affiliateProject == null || sizeof($affiliateProject) != 1){
-            $rtn = false;
-        } else {
-            $rtn = true;
+            if($affiliateProject == null || sizeof($affiliateProject) != 1){
+                $rtn['status'] = 'failure';
+                $rtn['errmsg'] = 'This project is not found or closed.';
+            }
+        } catch(\Exception $e){
+            $rtn['status'] = 'failure';
+            $rtn['errmsg'] = 'Error happened. Errmsg=' . $e->getMessage();
+            $this->logger->error(__METHOD__ . " validate failed    affiliateProjectId=" .  $affiliateProjectId . "errMsg=" . $rtn['errmsg'] . PHP_EOL);
+            
         }
-        $this->logger->debug(__METHOD__ . " END    projectId=" .  $projectId . " project status=" . $rtn . PHP_EOL);
+        $this->logger->debug(__METHOD__ . " END    affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
         return $rtn;
     }
 
     /**
     * Create a new project related to RFQ
-    * @param string $partnerId
-    * @param string $RFQId
+    * Add record in affiliate_project with status init
+    * Add a job for asynch upload url files
+    * @param integer $affiliatePartnerId
+    * @param integer $RFQId
+    * @param string $originalFileName
+    * @param string $fullPath
     */
-    public function initProject($partnerId, $RFQId, $originalFileName, $fullPath){
+    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath){
 
         $status = 'success';
         $msg = '';
         try{
+            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
+
             $affiliateProject = new AffiliateProject();
-            $affiliateProject->setPartnerId($partnerId);
+            $affiliateProject->setAffiliatePartner($affiliatePartner);
             $affiliateProject->setRFQId($RFQId);
             $affiliateProject->setOriginalFileName($originalFileName);
             $affiliateProject->setRealFullPath($fullPath);
             $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_INIT);
             $this->em->persist($affiliateProject);
             $this->em->flush();
-            $projectId = $affiliateProject->getProjectId();
-            $msg = " Created new project. partnerId=" . $partnerId . "  RFQId=" .  $RFQId;
+            $affiliateProjectId = $affiliateProject->getId();
+            $msg = " Created new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId;
             $this->logger->info(__METHOD__ . $msg . PHP_EOL);
             // 异步动作
-            $this->asynchUploadUrl($projectId, $fullPath);
-        } catch (Exception $e) {
+            $this->asynchUploadUrl($affiliateProjectId, $fullPath);
+        } catch (\Exception $e) {
             $status = 'failure';
-            $msg = " Failed to create new project. partnerId=" . $partnerId . "  RFQId=" .  $RFQId . " errMsg=" . $e->getMessage();
+            $msg = " Failed to create new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " errMsg=" . $e->getMessage();
             $this->logger->error(__METHOD__ . $msg . PHP_EOL);
         }
 
@@ -110,66 +154,37 @@ class AdminProjectService
             );
     }
 
-    public function openProject($projectId, $initNum){
+    /**
+     *  @param integer $affiliateProjectId 
+     *  @param integer $initNum
+     */
+    public function openProject($affiliateProjectId, $initNum){
         $status = 'success';
         $msg = '';
+        $affiliateUrl = self::BASE_URL . $this->router->generate('affilate_survey', array('affiliateProjectId' => $affiliateProjectId));
+
         $connection = $this->em->getConnection();
         $connection->beginTransaction();
         try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneByProjectId($projectId);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
             if($affiliateProject == null || sizeof($affiliateProject) == 0){
                 $status = 'failure';
-                $msg = " Project not found   projectId=" . $projectId;
+                $msg = " Project not found   affiliateProjectId=" . $affiliateProjectId;
                 $this->logger->info(__METHOD__ . $msg . PHP_EOL);
             } else {
                 $affiliateProject->setInitNum($initNum);
                 $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_OPEN);
-                $affiliateProject->setUrl('http://www.91wenwen.net/affiliate/survey/' . $affiliateProject->getProjectId());
+                $affiliateProject->setUrl($affiliateUrl);
                 $affiliateProject->setUpdatedAt(date_create());
                 $this->em->flush();
-                $msg = " Project closed   projectId=" . $projectId;
+                $msg = " Project closed   affiliateProjectId=" . $affiliateProjectId;
                 $this->logger->info(__METHOD__ . $msg . PHP_EOL);
             }
             $connection->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $connection->rollBack();
             $status = 'failure';
-            $msg = " Error   projectId=" . $projectId . " errMsg=" . $e->getMessage();
-            $this->logger->error(__METHOD__ . $msg . PHP_EOL);
-        }
-        return array(
-            'status' => $status,
-            'msg' => $msg
-            );
-    }
-
-    public function closeProject($projectId){
-        $status = 'success';
-        $msg = '';
-        $connection = $this->em->getConnection();
-        $connection->beginTransaction();
-        try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneByProjectId($projectId);
-            if($affiliateProject == null || sizeof($affiliateProject) == 0){
-                $status = 'failure';
-                $msg = " Project not found   projectId=" . $projectId ;
-                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
-            } else if($affiliateProject->setStatus != AffiliateProject::PROJECT_STATUS_OPEN) {
-                $status = 'failure';
-                $msg = " Project not open   projectId=" . $projectId ;
-                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
-            } else {
-                $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_CLOSE);
-                $affiliateProject->setUpdatedAt(date_create());
-                $this->em->flush();
-                $msg = " Project closed   projectId=" . $projectId ;
-                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
-            }
-            $connection->commit();
-        } catch (Exception $e) {
-            $connection->rollBack();
-            $status = 'failure';
-            $msg = " Error   projectId=" . $projectId . " errMsg=" . $e->getMessage();
+            $msg = " Error   affiliateProjectId=" . $affiliateProjectId . " errMsg=" . $e->getMessage();
             $this->logger->error(__METHOD__ . $msg . PHP_EOL);
         }
         return array(
@@ -179,27 +194,80 @@ class AdminProjectService
     }
 
     /**
-    * @param string $projectId
+     *  @param integer $affiliateProjectId 
+     */
+    public function closeProject($affiliateProjectId){
+        $status = 'success';
+        $msg = '';
+        $connection = $this->em->getConnection();
+        $connection->beginTransaction();
+        try{
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+            if($affiliateProject == null || sizeof($affiliateProject) == 0){
+                $status = 'failure';
+                $msg = " Project not found   affiliateProjectId=" . $affiliateProjectId ;
+                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
+            } elseif($affiliateProject->getStatus() == AffiliateProject::PROJECT_STATUS_CLOSE) {
+                // already closed no action
+                $msg = " Project already closed   affiliateProjectId=" . $affiliateProjectId ;
+                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
+            } else {
+                $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_CLOSE);
+                $affiliateProject->setUpdatedAt(date_create());
+                $this->em->flush();
+                $msg = " Project closed   affiliateProjectId=" . $affiliateProjectId ;
+                $this->logger->info(__METHOD__ . $msg . PHP_EOL);
+            }
+            $connection->commit();
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            $status = 'failure';
+            $msg = " Error   affiliateProjectId=" . $affiliateProjectId . " errMsg=" . $e->getMessage();
+            $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+        }
+        return array(
+            'status' => $status,
+            'msg' => $msg
+            );
+    }
+
+    /**
+    * @param integer $affiliateProjectId
     * @param array $urlsAndKeys =(
     *                             'ukey' => string, (max: 30 bytes)
     *                             'url' => string, (max: 255 bytes)
     *                            )
     */
-    public function importSurveyUrl($projectId, $urlsAndUkeys){
+    public function importSurveyUrl($affiliateProjectId, $urlsAndUkeys){
         $this->logger->debug(__METHOD__ . " START " . PHP_EOL);
         
         $rtn['status'] = 'success';
         $rtn['count'] = 0;
         $rtn['errmsg'] = '';
         $rtn['failedUrls'] = '';
-        
+
+        $affiliateProject = null;
+        try{
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+        } catch(\Exception $e) {
+            $rtn['status'] = 'failure';
+            $rtn['errmsg'] = 'Failed to find affiliateProject. affiliateProjectId=' . $affiliateProjectId;
+            return $rtn;
+        }
+
+        if(is_null($affiliateProject) || sizeof($affiliateProject) != 1){
+            $rtn['status'] = 'failure';
+            $rtn['errmsg'] = 'Could not find affiliateProject. affiliateProjectId=' . $affiliateProjectId;
+            return $rtn;
+        }
+
         $failedUrls = array();
         $count = 0;
         foreach($urlsAndUkeys as $urlsAndUkey){
             try{
                 $affiliateUrlHistory = new AffiliateUrlHistory();
                 $affiliateUrlHistory->setUKey($urlsAndUkey['ukey']);
-                $affiliateUrlHistory->setProjectId($projectId);
+                $affiliateUrlHistory->setAffiliateProject($affiliateProject);
                 $affiliateUrlHistory->setSurveyUrl($urlsAndUkey['url']);
                 $affiliateUrlHistory->setStatus(AffiliateUrlHistory::SURVEY_STATUS_INIT);
                 $this->em->persist($affiliateUrlHistory);
@@ -208,7 +276,7 @@ class AdminProjectService
                     $this->em->flush();
                     $this->em->clear();
                 }
-            } catch (Exception $e){
+            } catch (\Exception $e){
                 $urlsAndUkey['errmsg'] = $e->getMessage();
                 $failedUrls[] = $urlsAndUkey;
                 $this->logger->error(__METHOD__ . " Failed to add url.   errmsg=" . $urlsAndUkey['errmsg'] . PHP_EOL);

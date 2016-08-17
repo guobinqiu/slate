@@ -18,39 +18,30 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class AdminProjectController extends Controller
 {
-    const URL_UPLOAD_DIR = '/../web/uploads/urlfiles'; // %kernel.root_dir%/../web/uploads/urlfiles
 
-    public function showProjectAction(Request $request, $partnerId = null)
+    public function showProjectAction(Request $request, $affiliatePartnerId = null)
     {
-        
         $currentPage = $request->query->get('page', 1);
         $adminProjectService = $this->get('app.admin_project_service');
-        $pagination = $adminProjectService->getProjectList($partnerId, $currentPage, 20);
+        $result = $adminProjectService->getProjectList($affiliatePartnerId, $currentPage, 20);
         $param = array(
-            'partnerId' => $partnerId,
-            'pagination' => $pagination
+            'status' => $result['status'],
+            'errmsg' => $result['errmsg'],
+            'affiliatePartnerId' => $affiliatePartnerId,
+            'pagination' => $result['pagination']
             );
         return $this->render('AffiliateAppBundle:admin:project.html.twig', $param);
     }
 
-    public function openProjectAction(Request $request)
-    {
-        
-    }
 
-    public function closeProjectAction(Request $request)
-    {
-        
-    }
-
-    public function uploadUrlsAction(Request $request, $partnerId = null)
+    public function addProjectAction(Request $request, $affiliatePartnerId = null)
     {
         $builder = $this->createFormBuilder();
         $builder->add('RFQId', 'text', array('label' => 'RFQId:'));
-        $builder->add('urlFile', 'file', array('label' => 'File to Submit'));
+        $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
         $form = $builder->getForm();
 
-        $rootDir = $this->container->getParameter('affiliate.url_upload_directory');
+        $uploadDir = $this->container->getParameter('affiliate.url_upload_directory');
 
         $errmsg = '';
         // Check if we are posting stuff
@@ -73,26 +64,55 @@ class AdminProjectController extends Controller
                 $fullPath = $uploadDir . "/" . $realUploadName;
 
                 $adminProjectService = $this->get('app.admin_project_service');
-                $rtn = $adminProjectService->initProject($partnerId, $RFQId, $originalFileName, $fullPath);
+                // 改partnerId
+                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath);
                 
 
                 //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
                 // print 'status=' . $rtn['status'] . '<br>';
                 // print 'errmsg' . $rtn['errmsg'] . '<br>';
                 if('success' == $rtn['status']){
-                    return $this->redirect($this->generateUrl('admin_project_show', array('partnerId' => $partnerId)));
+                    return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
                 } else {
-                    $errmsg = $rtn['errmsg'];
+                    $errmsg = $rtn['msg'];
                 }
             }
 
          }
 
-        return $this->render('AffiliateAppBundle:admin:upload.html.twig',
+        return $this->render('AffiliateAppBundle:admin:projectAdd.html.twig',
             array('form' => $form->createView(),
-                'partnerId' => $partnerId,
+                'affiliatePartnerId' => $affiliatePartnerId,
                 'errmsg' => $errmsg
                 )
         );
+    }
+
+
+    public function closeProjectAction(Request $request, $affiliatePartnerId = null, $affiliateProjectId = null)
+    {
+        $currentPage = $request->query->get('page', 1);
+
+        $param = array();
+        $adminProjectService = $this->get('app.admin_project_service');
+        $rtn = $adminProjectService->closeProject($affiliateProjectId);
+
+        if($rtn['status'] == 'success'){
+            $result = $adminProjectService->getProjectList($affiliatePartnerId, $currentPage, 20);
+            $param = array(
+                'status' => $result['status'],
+                'errmsg' => $result['errmsg'],
+                'affiliatePartnerId' => $affiliatePartnerId,
+                'pagination' => $result['pagination']
+                );
+        } else {
+            $param = array(
+                'status' => $rtn['status'],
+                'errmsg' => $rtn['msg'],
+                'affiliatePartnerId' => $affiliatePartnerId,
+                'pagination' => array()
+                );
+        }
+        return $this->render('AffiliateAppBundle:admin:project.html.twig', $param);
     }
 }

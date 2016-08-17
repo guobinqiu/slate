@@ -16,11 +16,11 @@ class AffiliatePartner
     /**
      * @var integer
      *
-     * @ORM\Column(name="partner_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $partnerId;
+    private $id;
 
     /**
      * @var string
@@ -60,18 +60,18 @@ class AffiliatePartner
      *
      * @return integer
      */
-    public function getPartnerId()
+    public function getId()
     {
-        return $this->partnerId;
+        return $this->id;
     }
 
     /**
      *
      * @param
      */
-    public function setPartnerId($partnerId)
+    public function setId($id)
     {
-        $this->partnerId = $partnerId;
+        $this->id = $id;
     }
 
     /**

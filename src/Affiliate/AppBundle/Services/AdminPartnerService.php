@@ -27,23 +27,23 @@ class AdminPartnerService
     }
 
     /**
-    * 查找是否存在这个partnerId
-    * @param $partnerId
+    * 查找是否存在这个 affiliatePartnerId
+    * @param $affiliatePartnerId
     */
-    public function validatePartnerStatus($partnerId){
-        $this->logger->debug(__METHOD__ . " START partnerId=" . $partnerId . PHP_EOL);
+    public function validatePartnerStatus($affiliatePartnerId){
+        $this->logger->debug(__METHOD__ . " START affiliatePartnerId=" . $affiliatePartnerId . PHP_EOL);
 
         $rtn = array();
 
-        $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($partnerId);
+        $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
         if($affiliatePartner == null || sizeof($affiliatePartner) == 0){
             $rtn['status'] = 'failure';
-            $rtn['errmsg'] = 'PartnerId not exist. partnerId=' . $partnerId;
+            $rtn['errmsg'] = 'PartnerId not exist. affiliatePartnerId=' . $affiliatePartnerId;
         } else {
             $rtn['status'] = 'success';
         }
 
-        $this->logger->debug(__METHOD__ . " END   partnerId=" . $partnerId . PHP_EOL);
+        $this->logger->debug(__METHOD__ . " END   affiliatePartnerId=" . $affiliatePartnerId . PHP_EOL);
         return $rtn;
     }
 

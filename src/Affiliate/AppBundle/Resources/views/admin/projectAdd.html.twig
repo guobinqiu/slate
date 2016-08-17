@@ -2,18 +2,16 @@
 
 {% block header %}
     <meta charset="UTF-8">
-    <title>upload</title>
+    <title>Admin - Add a new project</title>
 {% endblock %}
 
 {% block content %}
-Open a new project<br> 
-PartnerId={{partnerId}}<br>
+Add a new project<br> 
+AffiliatePartnerId={{affiliatePartnerId}}<br>
     <form action="" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-
-        <input type="submit" />
-        <br>
+        <input type="submit" /><br>
         {{errmsg}}<br>
     </form>
-    <a href="{{ path('admin_project_show', {'partnerId': partnerId}) }}">Back</a><br>
+    <a href="{{ path('admin_project_show', {'affiliatePartnerId': affiliatePartnerId}) }}">Back</a><br>
 {% endblock %}

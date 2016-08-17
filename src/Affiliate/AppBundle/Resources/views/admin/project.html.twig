@@ -2,18 +2,19 @@
 
 {% block header %}
     <meta charset="UTF-8">
-    <title>Partner</title>
+    <title>Admin - Project Lists</title>
 {% endblock %}
 
 {% block content %}
 Project Lists<br> 
-PartnerId={{partnerId}}<br>
-<a href="{{ path('admin_project_add', {'partnerId': partnerId}) }}">Add a new project</a><br>
+AffiliatePartnerId={{affiliatePartnerId}}<br>
+<a href="{{ path('admin_project_add', {'affiliatePartnerId': affiliatePartnerId}) }}">Add a new project</a><br>
 <br>
-
+{{ status }}<br>
+{{ errmsg }}<br>
 <table class='projectList'>
 <tr>
-  <th>{{ knp_pagination_sortable(pagination, 'ProjectId', 'ap.projectId') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'ProjectId', 'ap.id') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'RFQId', 'ap.RFQId') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'Url', 'ap.url') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'OriginalFileName', 'ap.originalFileName') }}</th>
@@ -22,19 +23,21 @@ PartnerId={{partnerId}}<br>
   <th>{{ knp_pagination_sortable(pagination, 'Status', 'ap.status') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'ap.updatedAt') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'ap.createdAt') }}</th>
+  <th></th>
 </tr>
  
-{% for partner in pagination %}
+{% for affiliateProject in pagination %}
 <tr>
-  <td>{{ partner.projectId }}</td>
-  <td>{{ partner.RFQId }}</td>
-  <td>{{ partner.url }}</td>
-  <td>{{ partner.originalFileName }}</td>
-  <td>{{ partner.initNum }}</td>
-  {# <td>{{ partner.realFullPath }}</td> #}
-  <td>{{ partner.status }}</td>
-  <td>{{ partner.updatedAt |date('Y-m-d H:i:s') }}</td>
-  <td>{{ partner.createdAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ affiliateProject.id }}</td>
+  <td>{{ affiliateProject.RFQId }}</td>
+  <td>{{ affiliateProject.url }}</td>
+  <td>{{ affiliateProject.originalFileName }}</td>
+  <td>{{ affiliateProject.initNum }}</td>
+  {# <td>{{ affiliateProject.realFullPath }}</td> #}
+  <td>{{ affiliateProject.status }}</td>
+  <td>{{ affiliateProject.updatedAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ affiliateProject.createdAt |date('Y-m-d H:i:s') }}</td>
+  <td><a href="{{ path('admin_project_close', {'affiliatePartnerId': affiliatePartnerId, 'affiliateProjectId': affiliateProject.id}) }}">close</a></td>
 </tr>
 {% endfor %}
 </table>

@@ -13,24 +13,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AffiliateSurveyController extends Controller
 {
 
-    public function showSurveyAction(Request $request, $projectId)
+    public function showSurveyAction(Request $request, $affiliateProjectId = null)
     {
 
         $adminProjectService = $this->get('app.admin_project_service');
 
-        $status = $adminProjectService->validateProjectStatus($projectId);
+        $rtn = $adminProjectService->validateProjectStatus($affiliateProjectId);
 
-        if(false == $status){
+        if('failure' == $rtn['status']){
         	// 这个projectId 不处于开放状态中或者这个项目并不存在
         	// 渲染一个页面告知项目不在执行中
             $param = array(
-            'answer_status' => 'error'
+                'answer_status' => 'other'
             );
         	return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
         }
 
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
-        $redirectURL = $affiliateSurveyService->getSurveyURL($projectId);
+        $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
+
+        if(is_null($redirectURL)){
+            $param = array(
+                'answer_status' => 'other'
+            );
+            return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
+        }
 
         return $this->redirect($redirectURL);
     }

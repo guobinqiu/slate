@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AffiliateUrlHistory
  * 记录第三方用问卷回答信息
  *
- * @ORM\Table(name="affiliate_url_history", indexes={@ORM\Index(name="index_projectI_id", columns={"project_id"})})
+ * @ORM\Table(name="affiliate_url_history")
  * @ORM\Entity(repositoryClass="Affiliate\AppBundle\Repository\AffiliateUrlHistoryRepository")
  */
 class AffiliateUrlHistory
@@ -25,11 +25,11 @@ class AffiliateUrlHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="url_id", type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $urlId;
+    private $id;
 
     /**
      * @var string
@@ -39,11 +39,10 @@ class AffiliateUrlHistory
     private $uKey;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="project_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="AffiliateProject")
+     * @ORM\JoinColumn(name="affiliate_project_id", referencedColumnName="id", nullable=false)
      */
-    private $projectId;
+    private $affiliateProject;
 
     /**
      * @var string
@@ -73,6 +72,8 @@ class AffiliateUrlHistory
      */
     private $createdAt;
 
+    
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -83,18 +84,18 @@ class AffiliateUrlHistory
      *
      * @return integer
      */
-    public function getUrlId()
+    public function getId()
     {
-        return $this->urlId;
+        return $this->id;
     }
 
     /**
      *
      * @param
      */
-    public function setUrlId($urlId)
+    public function setId($id)
     {
-        $this->urlId = $urlId;
+        $this->id = $id;
     }
 
     /**
@@ -117,20 +118,20 @@ class AffiliateUrlHistory
 
     /**
      *
-     * @param integer $projectId
+     * @param AffiliateProject $affiliateProject
      */
-    public function setProjectId($projectId)
+    public function setAffiliateProject($affiliateProject)
     {
-        $this->projectId = $projectId;
+        $this->affiliateProject = $affiliateProject;
     }
 
     /**
      *
-     * @return integer
+     * @return AffiliateProject
      */
-    public function getProjectId()
+    public function getAffiliateProject()
     {
-        return $this->projectId;
+        return $this->affiliateProject;
     }
 
     /**
