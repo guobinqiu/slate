@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use Affiliate\AppBundle\Entity\AffiliateProject;
+use Affiliate\AppBundle\Entity\AffiliatePartner;
 
 
 
@@ -56,47 +57,54 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $purger = new ORMPurger($this->em);
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
-        
-        $partnerId = 1;
+
+        $affiliatePartner = new AffiliatePartner();
+        $affiliatePartner->setName('这只是一个测试');
+        $affiliatePartner->setName('这只是一个测试的说明');
+        $this->em->persist($affiliatePartner);
+        $this->em->flush();
+
         $RFQId = 666;
         $originalFileName = 'test.txt';
         $realFullPath = '/xxx/xxx/xxx.txt';
-        $projectStatus = AffiliateProject::PROJECT_STATUS_INIT;
+        $projectStatus = AffiliateProject::PROJECT_STATUS_OPEN;
         
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
         $urlStatus = AffiliateUrlHistory::SURVEY_STATUS_INIT;
 
         $affiliateProject = new AffiliateProject();
-        $affiliateProject->setPartnerId($partnerId);
+        $affiliateProject->setAffiliatePartner($affiliatePartner);
         $affiliateProject->setRFQId($RFQId);
         $affiliateProject->setOriginalFileName($originalFileName);
         $affiliateProject->setRealFullPath($realFullPath);
+        $affiliateProject->setInitNum(1);
+
         $affiliateProject->setStatus($projectStatus);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
-        $projectId = $affiliateProject->getProjectId();
-
         $affiliateUrlHistory = new AffiliateUrlHistory();
         $affiliateUrlHistory->setUKey($uKey);
-        $affiliateUrlHistory->setProjectId($projectId);
+        $affiliateUrlHistory->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory->setStatus($urlStatus);
         $this->em->persist($affiliateUrlHistory);
         $this->em->flush();
-        $urlId = $affiliateUrlHistory->getUrlId();
+        $urlId = $affiliateUrlHistory->getId();
 
-        $url = $this->affiliateSurveyService->getSurveyUrl($projectId);
+        $url = $this->affiliateSurveyService->getSurveyUrl($affiliateProject->getId());
 
         // 检查url是否被正确的取到
         $this->assertEquals($surveyUrl, $url);
 
-        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneByUrlId($urlId);
+        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneById($urlId);
         $status = $result->getStatus();
 
         // 检查状态是否被更改为forward
         $this->assertEquals(AffiliateUrlHistory::SURVEY_STATUS_FORWARD, $status);
+
+        $this->assertEquals(0, $affiliateProject->getInitNum(),"InitNum should be updated to 0(1-1)");
     }
 
     /**
@@ -114,23 +122,25 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
 
-        $partnerId = 1;
+        $affiliatePartner = new AffiliatePartner();
+        $affiliatePartner->setName('这只是一个测试');
+        $affiliatePartner->setName('这只是一个测试的说明');
+        $this->em->persist($affiliatePartner);
+        $this->em->flush();
+
         $RFQId = 666;
         $originalFileName = 'test.txt';
         $realFullPath = '/xxx/xxx/xxx.txt';
-        $projectStatus = AffiliateProject::PROJECT_STATUS_INIT;
+        $projectStatus = AffiliateProject::PROJECT_STATUS_OPEN;
 
         $affiliateProject = new AffiliateProject();
-        $affiliateProject->setPartnerId($partnerId);
+        $affiliateProject->setAffiliatePartner($affiliatePartner);
         $affiliateProject->setRFQId($RFQId);
         $affiliateProject->setOriginalFileName($originalFileName);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
         $this->em->persist($affiliateProject);
         $this->em->flush();
-        $projectId = $affiliateProject->getProjectId();
-
-
 
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
@@ -138,35 +148,35 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $status1 = AffiliateUrlHistory::SURVEY_STATUS_FORWARD;
         $affiliateUrlHistory1 = new AffiliateUrlHistory();
         $affiliateUrlHistory1->setUKey($uKey);
-        $affiliateUrlHistory1->setProjectId($projectId);
+        $affiliateUrlHistory1->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory1->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory1->setStatus($status1);
 
         $status2 = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
         $affiliateUrlHistory2 = new AffiliateUrlHistory();
         $affiliateUrlHistory2->setUKey($uKey);
-        $affiliateUrlHistory2->setProjectId($projectId);
+        $affiliateUrlHistory2->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory2->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory2->setStatus($status2);
 
         $status3 = AffiliateUrlHistory::SURVEY_STATUS_SCREENOUT;
         $affiliateUrlHistory3 = new AffiliateUrlHistory();
         $affiliateUrlHistory3->setUKey($uKey);
-        $affiliateUrlHistory3->setProjectId($projectId);
+        $affiliateUrlHistory3->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory3->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory3->setStatus($status3);
 
         $status4 = AffiliateUrlHistory::SURVEY_STATUS_QUOTAFULL;
         $affiliateUrlHistory4 = new AffiliateUrlHistory();
         $affiliateUrlHistory4->setUKey($uKey);
-        $affiliateUrlHistory4->setProjectId($projectId);
+        $affiliateUrlHistory4->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory4->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory4->setStatus($status4);
 
         $status5 = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
         $affiliateUrlHistory5 = new AffiliateUrlHistory();
         $affiliateUrlHistory5->setUKey($uKey);
-        $affiliateUrlHistory5->setProjectId($projectId);
+        $affiliateUrlHistory5->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory5->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory5->setStatus($status5);
 
@@ -177,7 +187,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $this->em->persist($affiliateUrlHistory5);
         $this->em->flush();
 
-        $url = $this->affiliateSurveyService->getSurveyUrl($projectId);
+        $url = $this->affiliateSurveyService->getSurveyUrl($affiliateProject->getId());
 
         $this->assertEquals(null, $url);
         
