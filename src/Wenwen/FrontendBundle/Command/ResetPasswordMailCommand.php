@@ -8,16 +8,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\IMailer;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 
-class SignupConfirmationMailCommand extends AbstractMailCommand
+class ResetPasswordMailCommand extends AbstractMailCommand
 {
     protected function configure()
     {
-        $this->setName('mail:signup_confirmation');
-        $this->setDescription('发送含激活码token的邮件');
+        $this->setName('mail:reset_password');
+        $this->setDescription('发送含重置密码token的邮件');
         $this->addOption('subject', null, InputOption::VALUE_REQUIRED);
         $this->addOption('email', null, InputOption::VALUE_REQUIRED);
         $this->addOption('name', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('confirmation_token', null, InputOption::VALUE_REQUIRED, '激活码');
+        $this->addOption('reset_password_token', null, InputOption::VALUE_REQUIRED);
     }
 
     /**
@@ -42,7 +42,7 @@ class SignupConfirmationMailCommand extends AbstractMailCommand
     {
         return array(
             'name' => $input->getOption('name'),
-            'confirmation_token' => $input->getOption('confirmation_token'),
+            'reset_password_token' => $input->getOption('reset_password_token'),
         );
     }
 
@@ -51,7 +51,7 @@ class SignupConfirmationMailCommand extends AbstractMailCommand
      */
     protected function getTemplatePath(InputInterface $input)
     {
-        return 'WenwenFrontendBundle:EmailTemplate:signup_confirmation.html.twig';
+        return 'WenwenFrontendBundle:EmailTemplate:reset_password.html.twig';
     }
 
     /**

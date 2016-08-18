@@ -24,7 +24,7 @@ $(function(){
             return rpaValidate.func.FORM_submit([ "#signup_nickname", "#signup_email", "#signup_password_first", "#signup_password_second","#signup_captcha" ]);
         }
     });
-    var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $.trim($("#signup_password_first").val())}
+    var pwdStrengthOptions = { pwdStrength: $("#pwdStrength"), pwdError: $("#signup_password_first_error"), value: $.trim($("#signup_password_first").val())};
     $(signupF.nickname).RPAValidate(rpaValidate.prompt.regName, rpaValidate.func.regName);
     $(signupF.email).RPAValidate(rpaValidate.prompt.email, rpaValidate.func.email);
     $(signupF.pwdF).bind("keyup", function(){ rpaValidate.func.pwdStrength(pwdStrengthOptions); }).RPAValidate(rpaValidate.prompt.pwd, rpaValidate.func.pwd);
@@ -74,7 +74,7 @@ $(function(){
         } else {
             $("#submit_button").removeAttr("disabled").removeClass().addClass(
                 "btn-img btn-regist");
-            
+
             return false;
         }
     }
@@ -96,7 +96,7 @@ $(function(){
             }else{
                 labels.eq(i).hide();
             }
-        }); 
+        });
     });
     var $emailError = $("#email_error"), $pwdError = $("#pwd_error");
     $('.register li span').on('click', function(){
@@ -112,7 +112,7 @@ $(function(){
     }
     $('#submit_button').on('click', function(e){
         if(reg()){
-            signup_form.submit(); 
+            signup_form.submit();
          }else{
             e.preventDefault();
         }
