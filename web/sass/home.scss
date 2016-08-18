@@ -100,7 +100,15 @@ $slider-height: 305px;
 	.taskHis{
 		margin-right: 0;
 		border-right: 1px solid #aaaaa3;
-}
+	}
+	.incentive{
+		display: inline;
+		margin-right: 50px;
+		img{
+			height: 51px;
+		    margin-top: 21px;
+		}
+	}
 }
 .main-con-left{
 	h1{
