@@ -255,60 +255,71 @@ $slider-height: 305px;
 	margin: 0 auto;
 	z-index: 10000;
 	.newguide1{
-		width: 531px;
-		height: 266px;
+		width: 326px;
+		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide1.png) no-repeat 0 0;
-		left: 232px;
-		top: -40px;
+		background: url(../img/home/guide01.png) no-repeat 0 0;
+		left: 299px;
+		top: -160px;
 	}
 	.newguide2{
-		width: 520px;
-		height: 379px;
+		width: 326px;
+		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide2.png) no-repeat 0 0;
-		right: 28px;
-	    top: -165px;
+		background: url(../img/home/guide02.png) no-repeat 0 0;
+		left: 406px;
+	    top: -160px;
 	}
 	.newguide3{
-		width: 493px;
-		height: 369px;
+		width: 326px;
+		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide3.png) no-repeat 0 0;
-		right: -2px;
-	    top: -165px;
+		background: url(../img/home/guide03.png) no-repeat 0 0;
+		right: 56px;
+	    top: -160px;
+	}
+	.guideTxt{
+		width: 268px;
+		font-size: 14px;
+	    line-height: 23px;
+	    margin: 113px 20px 0 29px;
+	    em{
+	    	color: #ff5c25;
+	    }
+	    .point{
+	    	font-size: 22px;
+	    	color: #37ab96;
+	    	margin-top: 26px;
+	    	quotes: "“" "”" "‘" "’";
+	    	margin-left: -20px;
+	    	&:before{
+	    		content: open-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    	&:after{
+	    		content: close-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    }
 	}
 	.ngbtn{
 		position: absolute;
-		width: 120px;
-	    height: 70px;
+		width: 68px;
+	    height: 28px;
+	    line-height: 28px;
+	    text-align: center;
 	    cursor: pointer;
-	}
-	.ngbtn1{
-		right: 69px;
-	    bottom: 11px;
-	}
-	.ngbtn2{
-		right: 69px;
-	    bottom: -3px;
-	}
-	.ngbtn3{
-		right: 1px;
-	    bottom: -3px;
+	    @include btn();
+	    right: 30px;
+        bottom: 35px;
 	}
 	.ngclose{
 		position: absolute;
 		width: 67px;
 	    height: 34px;
 	    cursor: pointer;
-	}
-	.ngclose1{
-		right: -7px;
-		bottom: 18px;
-	}
-	.ngclose2{
-		right: 0;
-	    bottom: -1px;
 	}
 }
 #mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
