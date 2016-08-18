@@ -236,6 +236,15 @@ class User
      */
     private $resetPasswordTokenExpiredAt;
 
+
+    public function __construct()
+    {
+        $this->passwordChoice = self::PWD_WENWEN;
+        $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
+        $this->points = self::POINT_EMPTY;
+        $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
+    }
+
     /**
      * Get iconPath
      *
@@ -850,10 +859,6 @@ class User
      */
     public function onPrePersist()
     {
-        $this->passwordChoice = self::PWD_WENWEN;
-        $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
-        $this->points = self::POINT_EMPTY;
-        $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
         $this->registerDate = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
