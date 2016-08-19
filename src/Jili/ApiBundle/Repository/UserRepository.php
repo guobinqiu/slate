@@ -234,7 +234,7 @@ class UserRepository extends EntityRepository
         }
         $send_point_ids = implode(',', $temp);
 
-        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.register_date < '" . $daydate . "' and e.id not in (" . $user_ids . ") ";
+        $sql = "select e.id,e.email,e.nick from user e where e.points>0 and (e.delete_flag IS NULL OR e.delete_flag =0) and e.created_at < '" . $daydate . "' and e.id not in (" . $user_ids . ") ";
         if ($send_point_ids) {
             $sql .= " and id not in(" . $send_point_ids . ") ";
         }
@@ -628,22 +628,6 @@ EOT;
         $em = $this->getEntityManager();
         $stm = $em->getConnection()->prepare('update user u set u.points = u.points + :points where u.id  = :id');
         return $stm->execute($params);
-    }
-
-    public function migrateUserWenwenLogin($password, $user_id)
-    {
-        $user = new User();
-        $new_pwd= $user->pw_encode($password);
-
-        $em = $this->getEntityManager();
-        $sql_update = $em->createQuery('UPDATE Jili\ApiBundle\Entity\User u SET u.pwd= :pwd , u.passwordChoice = :passwordChoice WHERE  u.id = :userId');
-        $sql_update->setParameters(array (
-            'pwd' => $new_pwd,
-            'passwordChoice' => User::PWD_JILI,
-            'userId' => $user_id
-        ));
-
-        return $sql_update->execute();
     }
 
     /**
