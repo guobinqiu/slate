@@ -550,6 +550,17 @@
             display: none;
         }
     }
+
+    .main{
+        .main-con{
+            .newsInfo{
+                width: 100%;
+                article{
+                    width: 100%;
+                }
+            }
+        }
+    }
 }
 @media only screen and (max-height: 768px){
     #section1{
