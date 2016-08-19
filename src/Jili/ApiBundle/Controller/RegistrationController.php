@@ -129,12 +129,20 @@ class RegistrationController extends Controller
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => $e->getMessage()));
         }
 
-        $sop_profiling_info = $this->getSopProfilingSurveyInfo($user->getId());
-
         $session = $request->getSession();
         $session->set('uid', $user->getId());
 
-        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig', $sop_profiling_info);
+        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
+    }
+
+    /**
+     * @Route("/profile_survey", name="_user_profile_survey", methods={"GET"})
+     */
+    public function profileSurvey(Request $request)
+    {
+        $userId = $request->getSession()->get('uid');
+        $sop_profiling_info = $this->getSopProfilingSurveyInfo($userId);
+        return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
     private function send_confirmation_email(User $user)
