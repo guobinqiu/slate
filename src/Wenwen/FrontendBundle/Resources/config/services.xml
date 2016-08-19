@@ -41,6 +41,5 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="templating" />
         </service>
-
     </services>
 </container>

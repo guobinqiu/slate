@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Jili\FrontendBundle\JiliFrontendBundle(),
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
             new Wenwen\AppBundle\WenwenAppBundle(),
+            new Affiliate\AppBundle\AffiliateAppBundle(),
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
         );
