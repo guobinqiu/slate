@@ -330,7 +330,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = $this->pw_encode($pwd);
+        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, 'dummy');
 
         return $this;
     }
@@ -875,14 +875,21 @@ class User
     {
         if ($this->isPasswordWenwen()) {
             return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, 'dummy');
-        } else {
+        }
+        if ($this->isPasswordJili()) {
             return $this->getPwd() == $this->pw_encode($pwd);
         }
+        return false;
     }
 
     public function isPasswordWenwen()
     {
         return $this->getPasswordChoice() == self::PWD_WENWEN;
+    }
+
+    public function isPasswordJili()
+    {
+        return $this->getPasswordChoice() == self::PWD_JILI;
     }
 
     public function emailIsConfirmed()
