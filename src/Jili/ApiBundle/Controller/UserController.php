@@ -18,7 +18,8 @@ class UserController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $form = $this->createFormBuilder()
+        $options = array('intention' => 'login');//显示指明intention的值方便测试登录的testcase生成对应的csrf_token
+        $form = $this->createFormBuilder(null, $options)
             ->add('email', 'email')
             ->add('password', 'password')
             ->getForm();

@@ -4,6 +4,7 @@ namespace Jili\FrontendBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class SignupType extends AbstractType
@@ -42,6 +43,15 @@ class SignupType extends AbstractType
                 'constraints' => new Assert\True(array('message' => '只有接受会员协议才能注册')),
                 'mapped' => false,
             ));
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Jili\ApiBundle\Entity\User',//这里可以不加，但如果是复杂的嵌套类这个地方就要显式指定
+            'csrf_protection' => true,
+            'intention' => 'register', //名字随便取，即使同一个用户也让这个表单的token和其它表单的token不一致，这样更加安全
+        ));
     }
 
     public function getName()
