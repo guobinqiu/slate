@@ -45,7 +45,7 @@ class AdminPartnerController extends Controller
         
         $addResult = '';
         $errmsg = '';
-        if ($request->getMethod('post') == 'POST') {
+        if ($request->getMethod() == 'POST') {
             // Bind request to the form
             $form->bind($request);
 

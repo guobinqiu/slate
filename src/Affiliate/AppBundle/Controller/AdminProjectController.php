@@ -45,7 +45,7 @@ class AdminProjectController extends Controller
 
         $errmsg = '';
         // Check if we are posting stuff
-        if ($request->getMethod('post') == 'POST') {
+        if ($request->getMethod() == 'POST') {
             // Bind request to the form
             $form->bind($request);
 
