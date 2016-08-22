@@ -20,8 +20,8 @@ class UserController extends Controller
     {
         $options = array('intention' => 'login');//显示指明intention的值方便测试登录的testcase生成对应的csrf_token
         $form = $this->createFormBuilder(null, $options)
-            ->add('email', 'email')
-            ->add('password', 'password')
+            ->add('email', 'email', array('label'=>'邮箱'))
+            ->add('password', 'password', array('label'=>'密码'))
             ->getForm();
 
         if ($request->getMethod() == 'POST') {
@@ -34,12 +34,12 @@ class UserController extends Controller
                 $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $form->addError(new FormError('邮箱地址或密码错误'));
+                    $form->addError(new FormError('邮箱或密码错误'));
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
                 }
 
                 if (!$user->emailIsConfirmed()) {
-                    $form->addError(new FormError('邮箱地址尚未激活'));
+                    $form->addError(new FormError('邮箱尚未激活'));
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
                 }
 

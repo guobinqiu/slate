@@ -10,17 +10,59 @@
 	padding: 0 70px 5px;
 }
 .login{
-	width: 405px;
-	height: 460px;
-	color: #757982;
-	font-size: 16px;
-	background: #efeff4;
-	border-radius: 5px;
+	width: 80%;
+	height: 360px;
 	overflow: hidden;
+	background: none;
+	position: absolute;
+	z-index: 6;
+	top: 28%;
+	margin: 0 10%;
+	padding-right: 142px;
+	color: #757982;
+	form{
+	    width: 285px;
+	    margin: 0 auto;
+	    ul{
+	    	background: #fff;
+	    	// border-top-left-radius: 5px;
+	    	// border-top-right-radius: 5px;
+	    }
+	}
 	.login-con{
 		padding: 40px 38px;
-		p{
-			font-size: 12px;
+		.error{
+			ul{
+				text-align: left;
+				li{
+					height: 30px;
+					color: #a94442;
+					background-color: #f2dede;
+					border: 1px solid #ebccd1;
+					line-height: 30px;
+					margin: 10px 2px 10px 13px;
+					padding: 0 5px;
+					display: inline-block;
+					@include border-radius(3px);
+				}
+			}
+		}
+	}
+	.login-btn{
+		width: 100%;
+		line-height: 40px;
+		margin-top: 15px;
+		background: #17b5e5;
+		border: none;
+		color: #fff;
+		font-size: 20px;
+		font-family: "微软雅黑";
+		@include btn();
+		background: #17b5e5;
+		border: 1px solid #17b5e5;
+		&:hover{
+			background: #11aad9;
+			border: 1px solid #11aad9;
 		}
 	}
 	h2{
@@ -32,158 +74,85 @@
 		padding: 0 38px;
 	}
 	li{
-		margin-bottom: 20px;
 		position: relative;
-		z-index: 1;
+		z-index: 2;
+		margin-bottom: 0;
+		&.liner{
+			border-bottom: 1px solid #e3e3e3;	
+		}
 		img{
 			vertical-align: middle;
 			display: inherit;
 			margin-left: 18px;
 		}
-		span{
-			vertical-align: middle;
-			display: none;
-			&.authcodeInput{
-				@include dib();
-			}
-			.change{
-				height: 13px;
-				font-size: 12px;
-				padding: 0  10px 0 25px;
-				margin: 10px 0 0 10px;
-				cursor: pointer;
-				background: url(../img/home/change.png) 0 0 no-repeat;	
-				&:hover{
-					color: #6f93da;
-					background: url(../img/home/change.png) 0 -13px no-repeat;
-				}
-			}
-			&.succeed{
-				color: #3bc570;
-				@include dib();
-				background: url(../img/user/succeedIcon.png) no-repeat 2px 5px;
-				font-size: 0;
-			}
-			&.focus{
-				border: $normal-border;
-				background: $normal-bg-color;
-				color: $normal-color;
-				vertical-align: top;
-			}
-			&.error, strong{
-				position: absolute;
-				z-index: 1000;
-				right: 5px;
-				top: 0;
-				color: #c80000;
-				background: #fff;
-				font-size: 12px;
-				height: 35px;
-				line-height: 35px;
-				padding: 0 10px;
-				border: 1px solid #c80000;
-				border-radius: 3px;
-				@include dib();
-				vertical-align: top;
-			}
-			&.fade{
-				display: none;
-			}
-		}
 		label{
 			width: 65px;
-			line-height: 35px;
-			color: #525e78;
-			@include dib();
+			line-height: 45px;
 			vertical-align: middle;
+			position: absolute;
+			z-index: 2;
+			left: 15px;
+			display: block;
+			color: #a0a0a0;
+			font-size: 14px;
+			text-align: left;
 		}
-		input[type="text"], input[type="password"]{
-			width: 252px;
-			height: 36px;
-			line-height: 34px;
-			padding: 0 5px;
-			color: #555;
-            font-size: 14px;
-			border: 1px solid #e4e4eb;
-			background: #fff;
-			outline: none;
-			border-radius: 3px;
-			@include transition(all, .3s);
+		input[type="text"], input[type="email"], input[type="password"]{
+			width: 90%;
+			height: 45px; 
+			line-height: 45px;
+			border: none;
+			padding: 0 5%;
+			font-size: 14px;
+			display: block;
 			&:focus, &.active{
-				border: $input-border-focus;
-				box-shadow: 0 0 5px #3bc570;
+				border: none;
+				box-shadow: none;
+				outline: none;
 			}
-			&#authcode{
-				width: 90px;
-				margin-left: 10px;
-			}
-			vertical-align: middle;
-		}
-		input[type="checkbox"]{
-			vertical-align: middle;
-		}
-	}
-	.login-btn{
-		margin-top: 25px;
-		width: 100%;
-		line-height: 40px;
-		color: #fff;
-		font-size: 20px;
-		font-family: "微软雅黑";
-		background: #e85015;
-		border: 1px solid #e85015;
-		border-radius: 5px;
-		text-align: center;
-		display: block;
-		cursor: pointer;
-		-webkit-appearance: none;
-		&:hover{
-			background:#d34216;
-			border: 1px solid #d34216;
-		}
-		@include transition(all, 0.4s);
-		a{
-			color: #fff;
 		}
 	}
 	p{
-		line-height: 55px;
+		text-align: center;
+		color: $weak-color;
+		margin: 20px auto 30px;
 		a{
-			color: $text-blue;
 			&.spec{
-				color: #757982;
+				color: #fff;
+				font-size: 14px;	
 			}
 		}
 	}	
 	.login-btn-others{
 		margin-top: 40px;
+
+		margin-top: 20px;
+		*text-align: center;
 		span{
 			margin-left: -10px;
 		}
 		a{
-			margin-left: 10px;
-			padding-left: 36px;
-			width: 123px;
+			width: 100px;
 			height: 40px;
 			line-height: 40px;
-			text-align: center;
-			color: #a3a3a3;
+			margin-left: 10px;
+			padding-left: 36px;
 			font-size: 14px;
-			background: #fff url(../img/home/sinaUnact.png) no-repeat 32px 12px;
 			cursor: pointer;
-			&:hover{
-				background: #fff url(../img/home/sina.png) no-repeat 32px 12px;
-				color: #ff7f58;
-				@include transition(all, .5s);
-			}
-			@include dib(); 
+			color: #fff;
+			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
 			border-radius: 5px;
+			@include dib(); 
+			&:hover{
+				@include transition(all, .5s);
+				color: #ff7f58;
+				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
+			}
 			&.qq-login{
-				background: #fff url(../img/home/qqUnact.png) no-repeat 38px 11px;
+				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
 				&:hover{
-					background: #fff url(../img/home/qq.png) no-repeat 38px 11px;
 					color: #6f93da;
-					@include transition(all, .5s);
+					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
 				}
 			}
 		}
