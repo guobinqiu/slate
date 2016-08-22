@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 @import "layout/common";
-@import "component/login";
 @import "component/quickLog";
+@import "component/login";
 html,body{
 	height: 100%;
 	overflow: hidden;
@@ -531,105 +531,8 @@ ul.menu{
 	    }
 	}
 }
-/*-----------rewrite login style------------*/	
-.mask{
-	position: fixed;
-	z-index: 1999;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-	height: 100%;
-	background: #888;
-	background: rgba(0, 0, 0, .8);
-	display: none;
-}
-.quickLogPop{
-	top: 0;
-	left: 50%;
-	margin-left: -203px;
-	z-index: 2000;
-	opacity: 0;
-	visibility: hidden;
-	transition: all 500ms ease 30ms;
-	&.active{
-		top: 35%;
-		opacity: 1;
-		visibility: visible;
-	}
-	&.unActive{
-		top: 0;
-		opacity: 0;
-		visibility: hidden;
-	}
-}
-/*-----------rewrite reg style------------*/
-.register{
-	height: 450px;
-	top: 20%;
-	li{
-		&.subscribe{
-			text-align: left;
-			label{
-				left: 35px;
-				width: auto;
-				line-height: 24px;
-				@include dib();
-			}
-		}
-		input[type="text"], input[type="email"], input[type="password"]{
-		 	*height: 20px; 
-		 	*line-height: 10px;
-		}
-	}
-	.login-btn{
-		span{
-			width: 100%;
-			height: 46px;
-			line-height: 46px;
-			display: inline-block;
-			outline: none;
-		}
-	}
-	#protocol_error{
-		display: none;
-		position: static;
-		margin-left: 24px;
-		&.error{
-			display: inline-block;
-		}
-	}
-}
-#vcode{
-	font-size: 12px;
-	.vcodeImg{
-		&>div{
-			position: relative;
-			z-index: 3;
-			height: 56px;	
-		}
-	}
-	.captcha_reload{
-		position: absolute;
-		z-index: 5;
-	    top: 16px;
-	    right: 58px;
-	    background: url(../img/user/change.png) no-repeat;
-	    padding-left: 20px;
-	    height: 14px;
-	}
-}	
-.subscribe{
-	padding: 10px;
-	font-size: 12px;
-	&>div{
-		width: 100%;
-		text-align: left;
-		height: 22px;
-		line-height: 22px;
-	}
-}
+
+
 /* drop menu */
 .dropMenu{
 	position: fixed;

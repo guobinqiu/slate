@@ -26,7 +26,6 @@
 			    <div class="login">
 			        <div class="login-con">
 						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate>
-							{{ form_errors(form) }}
 							<ul>
 								<li class="liner">
 									{{ form_label(form.email) }}
@@ -39,13 +38,14 @@
 									{{ form_errors(form.password) }}
 								</li>
 							</ul>
+							<div class="error">{{ form_errors(form) }}</div>
 							<input type="submit" class="login-btn" value="登录"/>
 							{{ form_row(form._token) }}
 			            </form>
-			            <p><a href="{{ path('_user_resetPwd') }}" class="spec right">忘记密码？</a></p>
-			            <div class="login-btn-others">
+			            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
+			            <p class="subCon login-btn-others">
 			                <span><a class="weibo-login">微博登录</a><a class="qq-login">QQ登录</a></span>
-			            </div>
+			            </p>
 			        </div>
 			    </div>
 			</div>

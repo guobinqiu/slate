@@ -63,7 +63,7 @@
 	input[type='password']{
 		width: 256px;
 	}
-	span{
+	input{
 		line-height: 24px;
 		&.focus, &.error{
 			border: none;

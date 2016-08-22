@@ -53,6 +53,8 @@
 			color: $error-color;
 			@include dib();
 			vertical-align: top;
+			padding: 0 14px;
+			margin-top: 5px;
 		}
 		b{
 			font-size: 20px;

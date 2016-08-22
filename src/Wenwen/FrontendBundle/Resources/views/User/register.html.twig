@@ -24,32 +24,32 @@
 							<li class="liner">
 								{{ form_label(form.nick) }}
 								{{ form_widget(form.nick) }}
-								{{ form_errors(form.nick) }}
+								<div class="error errorReg">{{ form_errors(form.nick) }}</div>
 							</li>
 							<li class="liner">
 								{{ form_label(form.email) }}
 								{{ form_widget(form.email) }}
-								{{ form_errors(form.email) }}
+								<div class="error errorReg">{{ form_errors(form.email) }}</div>
 							</li>
 							<li class="liner">
 								{{ form_label(form.pwd.first) }}
 								{{ form_widget(form.pwd.first) }}
-								{{ form_errors(form.pwd.first) }}
+								<div class="error errorReg">{{ form_errors(form.pwd.first) }}</div>
 							</li>
 							<li class="liner">
 								{{ form_label(form.pwd.second) }}
 								{{ form_widget(form.pwd.second) }}
-								{{ form_errors(form.pwd.second) }}
+								<div class="error errorReg">{{ form_errors(form.pwd.second) }}</div>
 							</li>
 							<li id="vcode" class="liner">
 								{{ form_label(form.captcha) }}
 								{{ form_widget(form.captcha) }}
-								{{ form_errors(form.captcha) }}
+								<div class="error errorReg">{{ form_errors(form.captcha) }}</div>
 							</li>
 							<li class="subscribe">
 								{{ form_label(form.subscribe) }}
 								{{ form_widget(form.subscribe) }}
-								{{ form_errors(form.subscribe) }}
+								<div class="error errorReg">{{ form_errors(form.subscribe) }}</div>
 							</li>
 							<li class="subscribe">
 								<label for="signup_termAccepted" class="required">我已阅读并接收<a href="{{ path('help_regulations') }}" target="_blank">《会员协议》</a></label>
@@ -57,7 +57,7 @@
 								{{ form_errors(form.termAccepted) }}
 							</li>
 						</ul>
-						<input type="submit" value="注册" />
+						<input class="login-btn" type="submit" value="注册" />
 			        	{{ form_rest(form) }}
 					</form>
 				</div>
