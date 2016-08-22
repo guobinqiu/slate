@@ -1,0 +1,52 @@
+
+# 第三方问卷代理入口
+affilate_survey:
+    path: /survey/{affiliateProjectId}
+    defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showSurvey}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+# 第三方问卷代理endpage页面
+affiliate_endpage:
+    path: /endpage
+    defaults: { _controller: AffiliateAppBundle:AffiliateSurvey:showEndpage}
+    methods:  [GET, POST]
+
+# 第三方问卷代理管理页面 显示所有partner
+admin_partner_index:
+    path: /admin
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:index}
+    methods:  [GET, POST]
+
+admin_partner_show:
+    path: /admin/partner
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:showParnter}
+    methods:  [GET, POST]
+
+admin_partner_add:
+    path: /admin/partner/add
+    defaults: { _controller: AffiliateAppBundle:AdminPartner:addParnter}
+    methods:  [GET, POST]
+
+admin_project_show:
+    path: /admin/partner/{affiliatePartnerId}/project
+    defaults: { _controller: AffiliateAppBundle:AdminProject:showProject}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+admin_project_add:
+    path: /admin/partner/{affiliatePartnerId}/project/add
+    defaults: { _controller: AffiliateAppBundle:AdminProject:addProject}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+
+admin_project_close:
+    path: /admin/partner/{affiliatePartnerId}/project/{affiliateProjectId}/close
+    defaults: { _controller: AffiliateAppBundle:AdminProject:closeProject}
+    methods:  [GET, POST]
+    requirements:
+        page: '\d+'
+

@@ -1,0 +1,2 @@
+parameters:
+    affiliate.url_upload_directory:            '%kernel.root_dir%/../web/uploads/url'

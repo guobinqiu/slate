@@ -75,3 +75,7 @@ JMSJobQueueBundle:
     resource: "@JMSJobQueueBundle/Controller/"
     type: annotation
     prefix: /jobs
+
+affiliate_app:
+    resource: "@AffiliateAppBundle/Resources/config/routing.yml"
+    prefix:   /affiliate
