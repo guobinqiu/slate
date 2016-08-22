@@ -22,28 +22,23 @@
 					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post" novalidate>
 						<ul>
 							<li class="liner">
-								{{ form_label(form.nick) }}
-								{{ form_widget(form.nick) }}
+								{{ form_widget(form.nick, {'attr': {'placeholder': '昵称'}}) }}
 								<div class="error errorReg">{{ form_errors(form.nick) }}</div>
 							</li>
-							<li class="liner">
-								{{ form_label(form.email) }}
-								{{ form_widget(form.email) }}
+							<li class="liner"> 	  	
+								{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
 								<div class="error errorReg">{{ form_errors(form.email) }}</div>
 							</li>
 							<li class="liner">
-								{{ form_label(form.pwd.first) }}
-								{{ form_widget(form.pwd.first) }}
+								{{ form_widget(form.pwd.first, {'attr': {'placeholder': '密码'}}) }}
 								<div class="error errorReg">{{ form_errors(form.pwd.first) }}</div>
 							</li>
 							<li class="liner">
-								{{ form_label(form.pwd.second) }}
-								{{ form_widget(form.pwd.second) }}
+								{{ form_widget(form.pwd.second, {'attr': {'placeholder': '重复密码'}}) }}
 								<div class="error errorReg">{{ form_errors(form.pwd.second) }}</div>
 							</li>
 							<li id="vcode" class="liner">
-								{{ form_label(form.captcha) }}
-								{{ form_widget(form.captcha) }}
+								{{ form_widget(form.captcha, {'attr': {'placeholder': '验证码'}}) }}
 								<div class="error errorReg">{{ form_errors(form.captcha) }}</div>
 							</li>
 							<li class="subscribe">
@@ -54,7 +49,7 @@
 							<li class="subscribe">
 								<label for="signup_termAccepted" class="required">我已阅读并接收<a href="{{ path('help_regulations') }}" target="_blank">《会员协议》</a></label>
 								{{ form_widget(form.termAccepted) }}
-								{{ form_errors(form.termAccepted) }}
+								<div class="error errorReg errorSub">{{ form_errors(form.termAccepted) }}</div>
 							</li>
 						</ul>
 						<input class="login-btn" type="submit" value="注册" />
@@ -148,4 +143,9 @@
 {% block javascript %}
 <script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
 <script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
+<script type="text/javascript">
+	if($('.subscribe .errorSub').text().length > 0){
+		$('.subscribe .errorSub').css({'position':'inherit', 'margin-bottom':'10px'});
+	}
+</script>
 {% endblock %}

@@ -57,6 +57,10 @@
 			background: none;
 		}
 	}
+	// .errorSub{
+	// 	position: inherit;
+	// 	margin-bottom: 10px;
+	// }
 	.login-btn{
 		width: 100%;
 		line-height: 40px;
@@ -187,7 +191,7 @@
 			label{
 				left: 35px;
 				width: auto;
-				line-height: 24px;
+				line-height: 20px;
 				@include dib();
 			}
 			&>div{
@@ -222,6 +226,7 @@
 }
 #vcode{
 	font-size: 12px;
+	margin-bottom: 5px;
 	.vcodeImg{
 		&>div{
 			position: relative;

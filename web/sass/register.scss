@@ -3,6 +3,7 @@
 @import "layout/common-simple";
 @import "layout/header-simple";
 @import "component/form";
+@import "font-awesome/scss/font-awesome";
 .main-register{
 	position: relative;
 	z-index: 1;
@@ -161,10 +162,17 @@
 	}
 	.con{
 		padding-top: 20px;
-		.text{
+		.wrap{
 			margin-left: 80px;
 			padding-left: 75px;
-			background: url(../img/common/success_email.png) no-repeat left 10px;
+			i{
+				font-size: 62px;
+				margin-right: 10px;
+				color: #60BE84;
+			}
+			.text{
+				display: inline-block;
+			}
 		}
 		a{
 			margin-top: 10px;
