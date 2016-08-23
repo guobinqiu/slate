@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -23,18 +23,16 @@
 			</h1>
 			<a href="{{ path('_user_reg') }}" class="btn">注册</a>
 			<div class="sectionCon">
-			    <div class="login">
+			    <div class="login loginUq">
 			        <div class="login-con">
 						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate>
 							<ul>
 								<li class="liner">
-									{{ form_label(form.email) }}
-									{{ form_widget(form.email) }}
+									{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
 									{{ form_errors(form.email) }}
 								</li>
 								<li>
-									{{ form_label(form.password) }}
-									{{ form_widget(form.password) }}
+									{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
 									{{ form_errors(form.password) }}
 								</li>
 							</ul>

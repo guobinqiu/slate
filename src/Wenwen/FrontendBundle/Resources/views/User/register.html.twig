@@ -2,7 +2,7 @@
 {% block title %}{{ parent() }}注册{% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -141,11 +141,9 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
-<script type="text/javascript">
-	if($('.subscribe .errorSub').text().length > 0){
-		$('.subscribe .errorSub').css({'position':'inherit', 'margin-bottom':'10px'});
-	}
-</script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
+
 {% endblock %}
