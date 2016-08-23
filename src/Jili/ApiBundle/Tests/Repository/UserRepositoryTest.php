@@ -45,32 +45,7 @@ class UserRepositoryTest extends KernelTestCase
         $this->em->close();
     }
 
-    /**
-     * @group issue_448
-     * @group issue_453
-     */
-    public function testCreateOnSignup()
-    {
-        $em = $this->em;
-        $param = array (
-            'email' => 'chiangtor@gmail.com',
-            'nick' => 'chiangtor',
-            'createdRemoteAddr' => '1.1.1.1',
-            'createdUserAgent' => 'testAgent'
-        );
-        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
-        $this->assertNull($r);
-        $param2 = $param;
-        $param2['remote_address'] = '127.0.0.1';
-        $param2['user_agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36';
-        $user = $em->getRepository('JiliApiBundle:User')->createOnSignup($param2);
-        $this->assertEquals($param['email'], $user->getEmail());
-        $this->assertEquals($param['nick'], $user->getNick());
-        //$param['points'] = 1;
-        $param['rewardMultiple'] = 1;
-        $r = $em->getRepository('JiliApiBundle:User')->findOneBy($param);
-        $this->assertNotNull($r);
-    }
+
 
     /**
      * @group issue548

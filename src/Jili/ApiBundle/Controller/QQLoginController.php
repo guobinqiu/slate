@@ -1,208 +1,168 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 namespace Jili\ApiBundle\Controller;
+
+use Jili\ApiBundle\Entity\QQUser;
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserProfile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jili\ApiBundle\OAuth\QQAuth;
-use Jili\ApiBundle\Form\Type\QQFirstRegist;
+use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/auth/qq")
+ */
 class QQLoginController extends Controller
 {
     /**
-     * @Route("/qqcallback", name="qq_api_callback")
+     * @Route("/login", name="qq_login", methods={"GET"})
      */
-    public function callBackAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->get('request');
+        $state = md5(uniqid(rand(), true));
+        $request->getSession()->set('state', $state);
+        $params = array(
+            'response_type' => 'code',
+            'client_id' => $this->container->getParameter('qq_appid'),
+            'redirect_uri' => $this->container->getParameter('qq_callback'),
+            'state' => $state,
+        );
+        $url = 'https://graph.qq.com/oauth2.0/authorize?' . http_build_query($params);
+        return $this->redirect($url);
+    }
+
+    /**
+     * @Route("/callback", name="qq_login_callback", methods={"GET"})
+     */
+    public function loginCallbackAction(Request $request)
+    {
         $code = $request->query->get('code');
-        $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),'');
-        if(isset($code) && trim($code)!=''){
-            $result=$qq_auth->access_token($this->container->getParameter('callback_url'), $code);
-        }
-        if(isset($result['access_token']) && $result['access_token']!=''){
-            //授权完成，保存登录信息，使用session保存
-            $request->getSession()->set('qq_token', $result['access_token']);
-            //得到openid
-            $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$result['access_token']);
-            $qq_response = $qq_auth->get_openid();
-            $qq_oid = $qq_response['openid'];
-            $em = $this->getDoctrine()->getManager();
-            $qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($qq_oid);
-            //判断是否已经注册过
-            if( !empty($qquser)){
-                //如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
-                $jiliuser = $em->getRepository('JiliApiBundle:User')->find($qquser->getUserId());
-                if(empty($jiliuser)){
-                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，找不到该用户，请联系客服。'));
-                }
-                $request->getSession()->set('uid',$jiliuser->getId());
-                $request->getSession()->set('nick',$jiliuser->getNick());
-                return $this->redirect($this->generateUrl('_homepage'));
-            } else {
-                //无此用户，说明没有用qq注册过，转去fist_login页面
-                $request->getSession()->set('open_id',$qq_oid);
-            }
-        }else{
-            // '授权失败';
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，QQ用户授权失败，请稍后再试。'));
-        }
-        //跳转到 qqlogin action
-        return $this->redirect($this->generateUrl('qq_maintenance'));
-    }
 
-    /**
-     * @Route("/qqlogin", name="qq_api_login")
-     */
-    public function qqLoginAction()
-    {
-        $request = $this->get('request');
-
-        $qq_access_token = $request->getSession()->get('qq_token');
-
-        $user_login = $this->get('user_login');
-        $user_login->setSession($request->getSession());
-        $login_flag = $user_login->checkLoginStatus();
-        if($login_flag) {
-            return $this->redirect($this->generateUrl('_homepage'));
+        if ($code == null) {
+            $this->get('logger')->error('QQ - 用户取消了授权');
+            return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        // 首次qq登陆,到授权页面
-        $qq_auth = $this->get('user_qq_login')
-            ->getQQAuth($this->container->getParameter('qq_appid'),
-                    $this->container->getParameter('qq_appkey'),
-                    $qq_access_token);
+        if ($request->query->get('state') != $request->getSession()->get('state')) {
+            $this->get('logger')->error('QQ - The state does not match. You may be a victim of CSRF.');
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
 
-        $login_url = $qq_auth->login_url($this->container->getParameter('callback_url'),
-                $this->container->getParameter('scope'));
+        $token = $this->getAccessToken($code);
+        $openId = $this->getOpenId($token);
+        $userInfo = $this->getUserInfo($token, $openId);
 
-        return  new RedirectResponse($login_url, '301');
-    }
-
-    /**
-     * @Route("/qqRegiste", name="qq_registe")
-     */
-    public function qqRegisteAction()
-    {
-        $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
-        $qqForm = $request->request->get('qqregist');
-        $code = "";
-        $param['email'] = trim($qqForm['email_id']).'@'.$this->container->getParameter('qq_email_suffix');
-        $request->request->set('email',$param['email']);
-        $param['nick'] = $request->request->get('qqnickname');
-        $param['pwd'] = $request->request->get('pwd');
-        $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
-        if($check_user){
-            $code = '此账号已存在，请点击下方’已有积粒网账号‘按钮进行绑定!';
-        }
-        if(empty($param['pwd']) || (strlen($param['pwd'])<6 || strlen($param['pwd'])>20) ){
-            $code = '请填写正确的邮箱或密码!';
-        }
-        $param['open_id'] = $request->getSession()->get('open_id'); // get in session
-        $form  = $this->createForm(new QQFirstRegist());
-        $form->bind($request );
-        if ($form->isValid() && empty($code)) {
-            $em = $this->getDoctrine()->getManager();
-            $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
-            if( empty($check_qquser)){
-                $user_regist = $this->get('user_regist');
-                $qquser = $user_regist->qq_user_regist($param);
-                if(!$qquser){
-                    //注册失败
-                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，QQ用户注册失败，请稍后再试。'));
-                }
-            }
-            //注册成功，登陆并跳转主页
-            $code = $this->get('login.listener')->login($request);
-            if($code == 'ok') {
-                return $this->redirect($this->generateUrl('_homepage'));
+        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+        $currentTime = new \DateTime();
+
+        if ($qqUser == null) {
+            $em->getConnection()->beginTransaction();
+            try {
+                $user = new User();
+                $user->setNick($userInfo->nickname);
+                $user->setPoints(User::POINT_SIGNUP);
+                $user->setIconPath($userInfo->figureurl_qq_1);
+                $user->setRegisterDate($currentTime);
+                $user->setRegisterCompleteDate($currentTime);
+                $user->setLastLoginDate($currentTime);
+                $user->setLastLoginIp($request->getClientIp());
+                $user->setCreatedRemoteAddr($request->getClientIp());
+                $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                $em->persist($user);
+
+                $qqUser = new QQUser();
+                $qqUser->setOpenId($openId);
+                $qqUser->setUser($user);
+                $em->persist($qqUser);
+
+                $userProfile = new UserProfile();
+                $userProfile->setSex($userInfo->gender == '女' ? 2 : 1);
+                $userProfile->setUser($user);
+                $em->persist($userProfile);
+
+                $em->flush();
+                $em->getConnection()->commit();
+            } catch (\Exception $e) {
+                $em->getConnection()->rollBack();
+                throw $e;
             }
         } else {
-            //验证不通过
-            if(!$check_user){
-                $code = '请填写正确的邮箱或密码!';
+            $user = $qqUser->getUser();
+            $user->setLastLoginDate($currentTime);
+            $user->setLastLoginIp($request->getClientIp());
+            $em->flush();
+        }
+
+        $session = $request->getSession();
+        $session->set('uid', $user->getId());
+
+        return $this->redirect($this->generateUrl('_homepage'));
+    }
+
+    private function getAccessToken($code)
+    {
+        $params = array(
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->container->getParameter('qq_appid'),
+            'client_secret' => $this->container->getParameter('qq_appkey'),
+            'code' => $code,
+            'redirect_uri' => $this->container->getParameter('qq_callback'),
+        );
+        $url = 'https://graph.qq.com/oauth2.0/token?' . http_build_query($params);
+        $res = $this->get('app.http_client')->get($url)->send();
+        $resBody = $res->getBody();
+
+        //有错误返回callback(...)
+        //strpos这个方法tmd太不爽，找到了会返回int 0，找不到会返回boolean false，false又等于0，那到底算找到还是没找到呢
+        //http://php.net/manual/en/function.strpos.php
+        if (strpos($resBody, 'callback') !== false) {
+            $lpos = strpos($resBody, "(");
+            $rpos = strrpos($resBody, ")");
+            $resBody = substr($resBody, $lpos + 1, $rpos - $lpos - 1);
+            $msg = json_decode($resBody);
+            if (isset($msg->errcode)) {
+                throw new \RuntimeException('QQ - ' . $msg->error_description);
             }
         }
-        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
-                array('email'=>$qqForm['email_id'], 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
-                    'sex'=>$request->request->get('sex'),'form' => $form->createView(), 'regcode'=>$code));
+
+        //没有错误返回类似access_token=CEF4918E9614F9C1307DCA3FFC32BE55&expires_in=7776000&refresh_token=A6E855EB50CCB6F14BB37D87D413550B
+        $params = array();
+        parse_str($resBody, $params);
+
+        return $params['access_token'];
     }
 
-    /**
-     * @Route("/qqbind", name="qq_bind")
-     */
-    public function qqBindAction()
-    {
-        $request = $this->get('request');
-        $param['open_id'] = $request->getSession()->get('open_id'); // get in session
-        if(!$param['open_id']){
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
-        }
-        $param['nick'] = $request->request->get('qqnickname');
-        $param['email'] = $request->request->get('jili_email');
-        $param['pwd']= $request->request->get('jili_pwd');
+    private function getOpenId($token) {
+        $url = 'https://graph.qq.com/oauth2.0/me?access_token=' . $token;
+        $res = $this->get('app.http_client')->get($url)->send();
 
-        $request->request->set('pwd', $param['pwd']);
-        $request->request->set('email',$param['email']);
-        $code = $this->get('login.listener')->login($request);
-        if($code == 'ok') {
-            $em = $this->getDoctrine()->getManager();
-            $check_qquser = $em->getRepository('JiliApiBundle:QQUser')->findOneByOpenId($param['open_id']);
-            if(!$check_qquser){
-                $user_bind = $this->get('user_bind');
-                $result = $user_bind->qq_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
-            }
-            return $this->redirect($this->generateUrl('_homepage'));
+        //callback( {"client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
+        $resBody = $res->getBody();
+        if (strpos($resBody, "callback") !== false) {
+            $lpos = strpos($resBody, "(");
+            $rpos = strrpos($resBody, ")");
+            $resBody = substr($resBody, $lpos + 1, $rpos - $lpos - 1);
         }
-        $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',
-                array('email'=>$request->request->get('email_id'), 'pwd'=>'','open_id'=>$param['open_id'],'nickname'=>$param['nick'],
-                    'sex'=>$request->request->get('sex'),'form' => $form->createView(),'bindcode'=>$code));
+
+        $msg = json_decode($resBody);
+
+        if (isset($msg->error)) {
+            throw new \RuntimeException('QQ - ' . $msg->error_description);
+        }
+
+        return $msg->openid;
     }
 
-    /**
-     * @Route("/qqFistLogin", name="qq_fist_login")
-     */
-    public function qqFirstLoginAction()
-    {
-        $request = $this->get('request');
-        if(! $request->getSession()->has('qq_token') ) {
-            return $this->redirect($this->generateUrl('qq_api_login'));
-        }
-
-        $qq_token = $request->getSession()->get('qq_token');
-        $qq_auth = $this->get('user_qq_login')->getQQAuth($this->container->getParameter('qq_appid'), $this->container->getParameter('qq_appkey'),$qq_token);
-
-        //获取登录用户open id
-        $openid = $request->getSession()->get('open_id');
-        if(!$openid){
-            $qq_oid = $qq_auth->get_openid();
-            $openid = $qq_oid['openid'];
-            if( !isset($qq_oid['openid'])) {
-                return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，验证故障，请稍后再试。'));
-            }
-            $request->getSession()->set('open_id',$openid);
-        }
-
-        $result = $qq_auth->get_user_info($openid);
-        $form  = $this->createForm(new QQFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:qqFirstLogin.html.twig',array('email'=>'', 'pwd'=>'','open_id'=>$openid,'nickname'=>$result['nickname'],'sex'=>$result['gender'],'form' => $form->createView()));
+    private function getUserInfo($token, $openId) {
+        $params = array(
+            'access_token' => $token,
+            'oauth_consumer_key' => $this->container->getParameter('qq_appid'),
+            'openid' => $openId,
+        );
+        $url = 'https://graph.qq.com/user/get_user_info?' . http_build_query($params);
+        $res = $this->get('app.http_client')->get($url)->send();
+        $resBody = $res->getBody();
+        return json_decode($resBody);
     }
-
-    /**
-     * @Route("/maintenance", name="qq_maintenance")
-     */
-    public function maintenanceAction()
-    {
-        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
-    }
-
 }

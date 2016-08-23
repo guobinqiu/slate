@@ -12,40 +12,6 @@ use Jili\ApiBundle\Entity\User;
 
 class UserRepository extends EntityRepository
 {
-
-    public function getUserCount($start = false, $end = false, $pwd = false, $is_from_wenwen = false, $delete_flag = false)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('count(u.id) as num');
-        $query = $query->Where('1 = 1');
-        $param = array ();
-        if ($start) {
-            $start_time = $start . ' 00:00:00';
-            $query = $query->andWhere('u.registerDate>=:start_time');
-            $param['start_time'] = $start_time;
-        }
-        if ($end) {
-            $end_time = $end . ' 23:59:59';
-            $query = $query->andWhere('u.registerDate<=:end_time');
-            $param['end_time'] = $end_time;
-        }
-        if ($pwd) {
-            $query = $query->andWhere('u.pwd IS NOT NULL');
-        }
-        if ($is_from_wenwen) {
-            $query = $query->andWhere('u.isFromWenwen = :isFromWenwen');
-            $param['isFromWenwen'] = $is_from_wenwen;
-        }
-        if ($delete_flag) {
-            $query = $query->andWhere('u.deleteFlag = :deleteFlag');
-            $param['deleteFlag'] = 1; //已删除用户
-        }
-        $query = $query->setParameters($param);
-        $query = $query->getQuery();
-        //echo $query->getSQL(); echo "<br>";
-        return $query->getOneOrNullResult();
-    }
-
     public function findNick($email, $nick)
     {
         $query = $this->createQueryBuilder('u');
@@ -62,76 +28,6 @@ class UserRepository extends EntityRepository
         return $query->getResult();
     }
 
-    /**
-     * The user of $email is registered already for the pwd is NOT null anymore.
-     */
-    public function getWenwenUser($email)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id');
-        $query = $query->Where('u.email = :email');
-        $query = $query->andWhere('u.pwd is not null');
-        $query = $query->setParameter('email', $email);
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
-    public function getNotActiveUserByEmail($email)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u');
-        $query = $query->Where('u.email = :email');
-        $query = $query->andWhere('u.isFromWenwen = 2');
-        $query = $query->setParameter('email', $email);
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
-    public function getUserList($id)
-    {
-        $query = $this->createQueryBuilder('u');
-
-        $query = $query->select('u.id,u.nick,u.email,sp.code');
-        $query = $query->innerJoin('JiliApiBundle:SetPasswordCode', 'sp', 'WITH', 'u.id = sp.userId');
-
-        $query = $query->Where('u.id = :id');
-        $query = $query->setParameter('id', $id);
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
-    public function isFromWenwen($email)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.nick,u.email');
-        $query = $query->Where('u.email = :email');
-        $query = $query->andWhere('u.isFromWenwen = 1');
-        $query = $query->setParameter('email', $email);
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
-    public function isPwd($email)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.pwd');
-        $query = $query->Where('u.email = :email');
-        $query = $query->setParameter('email', $email);
-        $query = $query->getQuery();
-        $result = $query->getResult();
-        return $result[0]['pwd'];
-    }
-
-    public function getSearch($email)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
-        $query = $query->Where('u.email = :email');
-        $query = $query->setParameter('email', $email);
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
     public function getUserByEmail($email)
     {
         $query = $this->createQueryBuilder('u');
@@ -142,16 +38,6 @@ class UserRepository extends EntityRepository
         $query = $query->setParameter('email', $email);
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
-    }
-
-    public function getMultiple($times)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.nick,u.email,u.rewardMultiple');
-        $query = $query->Where('u.rewardMultiple > :times');
-        $query = $query->setParameter('times', $times);
-        $query = $query->getQuery();
-        return $query->getResult();
     }
 
     public function pointFail($type)
@@ -238,13 +124,6 @@ class UserRepository extends EntityRepository
         if ($send_point_ids) {
             $sql .= " and id not in(" . $send_point_ids . ") ";
         }
-        return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
-    }
-
-    public function pointFailTemp()
-    {
-        $sql_tmp = "(select distinct user_id from user_last)";
-        $sql = "select e.id,e.email,e.nick from user e where e.points>0  and e.id in " . $sql_tmp;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
@@ -429,22 +308,6 @@ EOT;
         return $this->getEntityManager()->getConnection()->executeQuery($sql)->fetchAll();
     }
 
-    public function findWenWenUsersForRemmindRegister($start_time, $end_time)
-    {
-        $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email');
-        $query = $query->Where('u.isFromWenwen = 2');
-        $query = $query->andWhere('u.pwd is null');
-        $query = $query->andWhere('u.registerDate >= :start_time');
-        $query = $query->andWhere('u.registerDate <= :end_time');
-        $query = $query->setParameters(array (
-            'start_time' => $start_time,
-            'end_time' => $end_time
-        ));
-        $query = $query->getQuery();
-        return $query->getResult();
-    }
-
     public function memberSearch($user_id, $email, $nick)
     {
         $query = $this->createQueryBuilder('u');
@@ -466,27 +329,6 @@ EOT;
         $query = $query->setParameters($param);
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
-    }
-
-    /**
-     *
-     */
-    public function findByValidateToken($token)
-    {
-        $date = new \DateTime();
-        $date->sub(new \DateInterval('P7D'));
-        $at = $date->format('Y-m-d H:i:s');
-
-        $query = $this->createQueryBuilder('u');
-
-        $query = $query->Where('u.token = :token');
-        $query = $query->AndWhere('u.tokenCreatedAt >= :at');
-        $query = $query->setParameters(array (
-            'token' => $token,
-            'at' => $at
-        ));
-        $query = $query->getQuery();
-        return $query->getResult();
     }
 
     /**
@@ -532,91 +374,6 @@ EOT;
         $stmt->execute();
         $return = $stmt->fetchAll();
         return $return;
-    }
-
-    /**
-     * @param $start date("Y-m-d")
-     * @param $end date("Y-m-d")
-     * @param $user_id
-     * @param $table_name
-     */
-    public function getUserCPAPointsByTime($start, $end, $user_id)
-    {
-        $suffix = substr($user_id, -1, 1);
-        $table_name = sprintf('task_history%02d', $suffix);
-
-        $s = <<<EOT
-select a.id,a.email,a.nick,b.points from user a inner join
-(
-select user_id, sum(point) as points from $table_name t where ((t.category_type = 17 and status = 3) or (t.category_type = 18)) and t.date >= :start and t.date <= :end and t.user_id = :user_id group by user_id
- ) b
- on b.user_id = a.id
-EOT;
-        $stmt = $this->getEntityManager()->getConnection()->prepare($s);
-
-        $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
-        $stmt->bindParam(':start', $start);
-        $stmt->bindParam(':end', $end);
-
-        $stmt->execute();
-        $return = $stmt->fetchAll();
-        return $return;
-    }
-
-    /**
-     * create the user when sign up, default use wenwen_login_password
-     * @param  array('nick'=> , 'email'=>);
-     * @return the User
-     */
-    public function createOnSignup($param)
-    {
-        $user = new User();
-        $user->setNick($param['nick']);
-        $user->setEmail($param['email']);
-        $user->setCreatedRemoteAddr($param['createdRemoteAddr']);
-        $user->setCreatedUserAgent($param['createdUserAgent']);
-        $user->setPasswordChoice(User::PWD_WENWEN);
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $user;
-    }
-
-    /**
-     * create the user when regist by qq
-     * @param  array('nick'=> , 'email'=> ,'pwd'=>);
-     * @return the User
-     */
-    public function qquser_quick_insert(array $param)
-    {
-        $user = new User();
-        $user->setNick(User::FROM_QQ_PREFIX . $param['nick']);
-        $user->setEmail($param['email']);
-        $user->setPwd($param['pwd']);
-        $user->setDeleteFlag(0);
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-        return $user;
-    }
-
-    /**
-     * create the user when regist by weibo
-     * @param array('nick'=> , 'email'=> ,'pwd'=>);
-     * @return the User
-     */
-    public function weibo_user_quick_insert(array $param)
-    {
-        $user = new User();
-        $user->setNick(User::FROM_WEIBO_PREFIX . $param['nick']);
-        $user->setEmail($param['email']);
-        $user->setPwd($param['pwd']);
-        $user->setDeleteFlag(0);
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-        return $user;
     }
 
     /**

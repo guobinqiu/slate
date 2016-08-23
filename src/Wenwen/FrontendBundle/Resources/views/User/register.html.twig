@@ -19,7 +19,7 @@
 			<a href="{{ path('_user_login') }}" class="btn" title="登录">登录</a>
 			<div class="sectionCon reg">
 				<div class="login register">
-					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post" novalidate>
+					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
 						<ul>
 							<li class="liner">
 								{{ form_widget(form.nick, {'attr': {'placeholder': '昵称'}}) }}
@@ -147,3 +147,4 @@
 <script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 
 {% endblock %}
+

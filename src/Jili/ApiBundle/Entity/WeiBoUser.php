@@ -5,27 +5,11 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * WeiBoUser
- *
- * @ORM\Table(name="weibo_user",
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="open_id_uniq", columns={"open_id"})
- *     },
- *     indexes={
- *         @ORM\Index(name="user_id_idx", columns={"user_id"})
- *     }
- * )
- *
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\WeiBoUserRepository")
+ * @ORM\Table(name="weibo_user")
+ * @ORM\Entity
  */
 class WeiBoUser
 {
-    
-    public function __construct()
-    {
-        $this->setRegistDate ( new \DateTime());
-    }
-
     /**
      * @var integer
      *
@@ -36,11 +20,12 @@ class WeiBoUser
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer", options={"comment":"jili用户id"})
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -49,13 +34,6 @@ class WeiBoUser
      */
     private $openId;
 
-     /**
-     * @var datetime $registDate
-     *
-     * @ORM\Column(name="regist_date", type="datetime", nullable=true, options={"comment":"注册日期"})
-     */
-    private $registDate;
-    
     /**
      * Get id
      *
@@ -67,32 +45,32 @@ class WeiBoUser
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param integer $userId
-     * @return openId
+     * @param $user
+     * @return $this
      */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
-     * @return integer
+     * @return User
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**
      * Set openId
      *
-     * @param String  $openId
+     * @param String $openId
      * @return openId
      */
     public function setOpenId($openId)
@@ -110,38 +88,5 @@ class WeiBoUser
     public function getOpenId()
     {
         return $this->openId;
-    }
-    
-    /**
-     * Set registDate
-     *
-     * @param \DateTime $registDate
-     * @return User
-     */
-    public function setRegistDate($registDate)
-    {
-        $this->registDate = $registDate;
-
-        return $this;
-    }
-
-    /**
-     * Get registDate
-     *
-     * @return \DateTime
-     */
-    public function getRegistrDate()
-    {
-        return $this->registDate;
-    }
-
-    /**
-     * Get registDate
-     *
-     * @return \DateTime 
-     */
-    public function getRegistDate()
-    {
-        return $this->registDate;
     }
 }

@@ -292,12 +292,6 @@ parameters:
     file_path_admin_point_manage: %jili_app.logs_dir%/admin/pointManage
     file_path_cpa_ranking_activity: %jili_app.logs_dir%/activity/cpa_ranking_activity
 
-    qq_appid: 101163684
-    qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
-    qq_email_suffix: qq.com
-    callback_url: http://www.91jili.com/QQLogin/qqcallback
-    scope: get_user_info
-
     upload_experience_advertisement_dir: uploads/experience_quest/
     upload_experience_advertisement_dir_old: uploads/experience_quest/old/
     delete_flag_true: 1
@@ -342,16 +336,6 @@ parameters:
     activity_gathering:
         taobao_order_total_src:  "%cache_data_path%/activity_gathering_taobao_order_total.json"
 
-    #jili weibo developer account
-    #weibo_appid: 693159936
-    #weibo_appkey: ac24832ff6273b123b4f3dc7747cbf1e
-    #weibologin_callback_url: http://www.91jili.com/WeiBoLogin/weibocallback
-
-    #wenwen weibo developer account
-    weibo_appid: 3163097902
-    weibo_appkey: af3e112c53a2357b201f3ddd6c8e69e7
-    weibologin_callback_url: http://www.91wenwen.net/WeiBoLogin/weibocallback
-
 #slack
     slack_alert_url: "https://hooks.slack.com/services/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"
     slack_alert_channel: "#vct-alert-91jili"
@@ -390,3 +374,17 @@ parameters:
 
     #用户上传头像的目录
     avatar_directory: uploads/user
+
+    #联合登录
+    weixin_appid: wx53c35d67c6cebfef
+    weixin_appkey: b1bd6c0b0f3cb8b07d47f29c72fd0b58
+    weixin_callback: http://www.91wenwen.net/auth/weixin/callback
+
+    qq_appid: 101163684
+    qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
+    qq_callback: http://www.91wenwen.net/auth/qq/callback
+
+    weibo_appid: 3163097902
+    weibo_appkey: af3e112c53a2357b201f3ddd6c8e69e7
+    weibo_callback: http://www.91wenwen.net/auth/weibo/callback
+

@@ -197,7 +197,6 @@ class ProfileController extends Controller
                 $editForm->bind($request);
                 if ($editForm->isValid()) {
                     $em->flush();//保存user的同时级联保存userProfile
-                    //$this->get('login.listener')->updateInfoSession($user);
                     $request->getSession()->getFlashBag()->add('success', '个人资料修改成功!');
                     return $this->redirect($this->generateUrl('_profile_edit'));
                 }
@@ -267,7 +266,6 @@ class ProfileController extends Controller
                         unlink($oldIconUrl);
                     }
 
-                    //$this->get('login.listener')->updateInfoSession($user);
                     return $this->redirect($this->generateUrl('_profile_edit'));
                 }
             }
