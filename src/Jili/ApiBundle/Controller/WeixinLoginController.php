@@ -4,64 +4,70 @@ namespace Jili\ApiBundle\Controller;
 
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
-use Jili\ApiBundle\Entity\WeiBoUser;
+use Jili\ApiBundle\Entity\WeixinUser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/auth/weibo")
+ * @Route("/auth/weixin")
  */
-class WeiboLoginController extends Controller
+class WeixinLoginController extends Controller
 {
     /**
-     * @Route("/login", name="weibo_login", methods={"GET"})
+     * @Route("/login", name="weixin_login", methods={"GET"})
      */
     public function loginAction(Request $request)
     {
         $state = md5(uniqid(rand(), true));
         $request->getSession()->set('state', $state);
+
         $params = array(
-            'client_id' => $this->container->getParameter('weibo_appid'),
-            'redirect_uri' => $this->container->getParameter('weibo_callback'),
+            'appid' => $this->container->getParameter('weixin_appid'),
+            'redirect_uri' => $this->container->getParameter('weixin_callback'),
+            'response_type' => 'code',
+            'scope' => 'snsapi_login',
             'state' => $state,
         );
-        $url = 'https://api.weibo.com/oauth2/authorize?' . http_build_query($params);
+
+        $url = 'https://open.weixin.qq.com/connect/qrconnect?' . http_build_query($params);
         return $this->redirect($url);
     }
 
     /**
-     * @Route("/callback", name="weibo_login_callback", methods={"GET"})
+     * @Route("/callback", name="weixin_login_callback", methods={"GET"})
      */
     public function loginCallbackAction(Request $request)
     {
         $code = $request->query->get('code');
 
         if ($code == null) {
-            $this->get('logger')->error('Weibo - 用户取消了授权');
+            $this->get('logger')->error('Weixin - 用户取消了授权');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
         if ($request->query->get('state') != $request->getSession()->get('state')) {
-            $this->get('logger')->error('Weibo - The state does not match. You may be a victim of CSRF.');
+            $this->get('logger')->error('Weixin - The state does not match. You may be a victim of CSRF.');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $token = $this->getAccessToken($code);
-        $openId = $this->getOpenId($token);
+        $msg = $this->getAccessToken($code);
+        $token = $msg->access_token;
+        $openId = $msg->openid;
+
         $userInfo = $this->getUserInfo($token, $openId);
 
         $em = $this->getDoctrine()->getManager();
-        $weiboUser = $em->getRepository('JiliApiBundle:WeiboUser')->findOneBy(array('openId' => $openId));
+        $weixinUser = $em->getRepository('JiliApiBundle:WeixinUser')->findOneBy(array('openId' => $openId));
         $currentTime = new \DateTime();
 
-        if ($weiboUser == null) {
+        if ($weixinUser == null) {
             $em->getConnection()->beginTransaction();
             try {
                 $user = new User();
-                $user->setNick($userInfo->screen_name);
+                $user->setNick($userInfo->nickname);
                 $user->setPoints(User::POINT_SIGNUP);
-                $user->setIconPath($userInfo->profile_image_url);
+                $user->setIconPath($userInfo->headimgurl);
                 $user->setRegisterDate($currentTime);
                 $user->setRegisterCompleteDate($currentTime);
                 $user->setLastLoginDate($currentTime);
@@ -70,13 +76,13 @@ class WeiboLoginController extends Controller
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
                 $em->persist($user);
 
-                $weiboUser = new WeiboUser();
-                $weiboUser->setOpenId($openId);
-                $weiboUser->setUser($user);
-                $em->persist($weiboUser);
+                $weixinUser = new WeixinUser();
+                $weixinUser->setOpenId($openId);
+                $weixinUser->setUser($user);
+                $em->persist($weixinUser);
 
                 $userProfile = new UserProfile();
-                $userProfile->setSex($userInfo->gender == 'f' ? 2 : 1);
+                $userProfile->setSex($userInfo->sex);
                 $userProfile->setUser($user);
                 $em->persist($userProfile);
 
@@ -87,7 +93,7 @@ class WeiboLoginController extends Controller
                 throw $e;
             }
         } else {
-            $user = $weiboUser->getUser();
+            $user = $weixinUser->getUser();
             $user->setLastLoginDate($currentTime);
             $user->setLastLoginIp($request->getClientIp());
             $em->flush();
@@ -101,52 +107,52 @@ class WeiboLoginController extends Controller
 
     private function getAccessToken($code)
     {
-        $url = 'https://api.weibo.com/oauth2/access_token';
-        $request = $this->get('app.http_client')->post($url);
-        $request->addPostFields(array(
-            'grant_type' => 'authorization_code',
-            'client_id' => $this->container->getParameter('weibo_appid'),
-            'client_secret' => $this->container->getParameter('weibo_appkey'),
+        $params = array(
+            'appid' => $this->container->getParameter('weixin_appid'),
+            'secret' => $this->container->getParameter('weixin_appkey'),
             'code' => $code,
-            'redirect_uri' => $this->container->getParameter('weibo_callback'),
-        ));
-        $res = $request->send();
-//        返回数据
-//        {
-//            "access_token": "ACCESS_TOKEN",
-//            "expires_in": 1234,
-//            "remind_in":"798114",
-//            "uid":"12341234"
-//        }
-        $resBody = $res->getBody();
-        return json_decode($resBody)->access_token;
-    }
+            'grant_type' => 'authorization_code'
+        );
 
-    private function getOpenId($token) {
-        $url = 'https://api.weibo.com/oauth2/get_token_info';
-        $request = $this->get('app.http_client')->post($url);
-        $request->setPostField('access_token', $token);
-        $res = $request->send();
-//        返回数据
-//        {
-//            "uid": 1073880650,
-//            "appkey": 1352222456,
-//            "scope": null,
-//            "create_at": 1352267591,
-//            "expire_in": 157679471
-//        }
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?' . http_build_query($params);
+        $res = $this->get('app.http_client')->get($url)->send();
         $resBody = $res->getBody();
-        return json_decode($resBody)->uid;
+
+//        正确的返回
+//        {
+//            "access_token":"ACCESS_TOKEN",
+//            "expires_in":7200,
+//            "refresh_token":"REFRESH_TOKEN",
+//            "openid":"OPENID",
+//            "scope":"SCOPE",
+//            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+//        }
+//        错误的返回
+//        {"errcode":40029,"errmsg":"invalid code"}
+        $msg = json_decode($resBody);
+
+        if (isset($msg->errcode)) {
+            throw new \RuntimeException('Weixin - ' . $msg->errmsg);
+        }
+
+        return $msg;
     }
 
     private function getUserInfo($token, $openId) {
         $queryParams = array(
             'access_token' => $token,
-            'uid' => $openId,
+            'openid' => $openId,
         );
-        $url = 'https://api.weibo.com/2/users/show.json?' . http_build_query($queryParams);
+
+        $url = 'https://api.weixin.qq.com/sns/userinfo?' . http_build_query($queryParams);
         $res = $this->get('app.http_client')->get($url)->send();
         $resBody= $res->getBody();
-        return json_decode($resBody);
+        $msg = json_decode($resBody);
+
+        if (isset($msg->errcode)) {
+            throw new \RuntimeException('Weixin - ' . $msg->errmsg);
+        }
+
+        return $msg;
     }
 }

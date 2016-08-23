@@ -19,7 +19,7 @@
 			<a href="{{ path('_user_login') }}" class="btn" title="登录">登录</a>
 			<div class="sectionCon reg">
 				<div class="login register">
-					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post" novalidate>
+					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
 						<ul>
 							<li class="liner">
 								{{ form_label(form.nick) }}
@@ -149,3 +149,4 @@
 <script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
 <script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
 {% endblock %}
+

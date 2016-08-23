@@ -207,7 +207,7 @@ class User
     private $lastGetPointsAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade="all")
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist","remove"})
      */
     private $userProfile;
 
@@ -235,7 +235,6 @@ class User
      * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
      */
     private $resetPasswordTokenExpiredAt;
-
 
     public function __construct()
     {

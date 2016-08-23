@@ -26,9 +26,6 @@ class UserProfile
      *
      * @ORM\Column(name="birthday", type="string", length=50, nullable=true)
      * @Assert\Date()
-     * @Assert\NotBlank( 
-     *      message = "请选择您的生日"
-     * )
      */
     private $birthday;
 
