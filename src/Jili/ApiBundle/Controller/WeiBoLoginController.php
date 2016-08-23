@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Route("/auth/weibo")
  */
-class WeiboLoginController extends Controller
+class WeiBoLoginController extends Controller
 {
     /**
      * @Route("/login", name="weibo_login", methods={"GET"})
@@ -140,13 +140,13 @@ class WeiboLoginController extends Controller
     }
 
     private function getUserInfo($token, $openId) {
-        $queryParams = array(
+        $params = array(
             'access_token' => $token,
             'uid' => $openId,
         );
-        $url = 'https://api.weibo.com/2/users/show.json?' . http_build_query($queryParams);
+        $url = 'https://api.weibo.com/2/users/show.json?' . http_build_query($params);
         $res = $this->get('app.http_client')->get($url)->send();
-        $resBody= $res->getBody();
+        $resBody = $res->getBody();
         return json_decode($resBody);
     }
 }
