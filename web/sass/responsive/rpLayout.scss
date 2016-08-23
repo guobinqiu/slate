@@ -38,6 +38,14 @@
         }
         .login{
             padding-right: 0;
+            .login-con{
+                padding-top: 0;
+                .error{
+                    ul{
+                        margin-top: -12px;
+                    }
+                }
+            }
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
@@ -45,7 +53,24 @@
                 -webkit-appearance: none;
             }
             .login-btn-others{
-                display: none;
+                .othersLine{
+                    width: 100%;
+                    &:before,&:after{
+                        width: 72px;
+                    }
+                }
+                a{
+                    &.weixin-login{
+                        margin-right: 12px;
+                        margin-left: -5px;
+                    }
+                    &.weibo-login{
+                        margin-left: 20px;
+                    }
+                    i{
+                        font-size: 1.2rem!important;
+                    }
+                }
             }
             h2{
                 font-size: 1.3rem!important;
@@ -96,6 +121,15 @@
         }
         .errorReg{
             top: -17px;
+        }
+    }
+    .register{
+        li{
+            label{
+                &.error{
+                    top: -3px; 
+                }
+            }
         }
     }
     .main-adv{

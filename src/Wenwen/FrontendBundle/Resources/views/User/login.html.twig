@@ -42,11 +42,12 @@
 			            </form>
 			            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
 			            <div class="subCon login-btn-others">
-			                <span>
-								<a class="weixin-login" href="{{ path('weixin_login') }}">微信</a>
-								<a class="qq-login" href="{{ path('qq_login') }}">QQ</a>
-								<a class="weibo-login" href="{{ path('weibo_login') }}">微博</a>
-							</span>
+			            	<p class="othersLine">快捷登录</p>
+			                <p>
+								<a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a>
+								<a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a>
+								<a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a>
+							</p>
 			            </div>
 			        </div>
 			    </div>

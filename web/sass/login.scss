@@ -5,6 +5,7 @@
 @import "component/form";
 @import "component/quickLog";
 @import "index"; 
+@import "font-awesome/scss/font-awesome";
 .login-wrapper{ 
 	position: absolute;
 	z-index: 1000;
@@ -129,35 +130,63 @@
 		}
 	}	
 	.login-btn-others{
-		margin-top: 40px;
-		margin-top: 20px;
+		margin-top: 50px;
 		*text-align: center;
-		span{
-			margin-left: -10px;
-		}
 		a{
-			width: 100px;
-			height: 40px;
-			line-height: 40px;
 			margin-left: 10px;
-			padding-left: 36px;
-			font-size: 14px;
+			padding: 14px;
 			cursor: pointer;
-			color: #fff;
-			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-			border-radius: 5px;
+			@include border-radius(50%);
 			@include dib(); 
 			&:hover{
 				@include transition(all, .5s);
-				color: #ff7f58;
-				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
+			}
+			i{
+				color: #fff;
+				font-size: 23px;
+			}
+			&.weixin-login{
+				background: #7cebd2;
+				margin-right: 30px;
+			    margin-left: -15px;
+				&:hover{
+					background: #77e0c8;
+				}
 			}
 			&.qq-login{
-				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
+				background: #6bafe9;
 				&:hover{
-					color: #6f93da;
-					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
+					background: #65a4db;
 				}
+			}
+			&.weibo-login{
+				background: #f57f87;
+				margin-left: 30px;
+				&:hover{
+					background: #ed7b83;
+				}
+			}
+		}
+		.othersLine{
+			width: 285px;
+		    height: 31px;
+		    color: #fff;
+		    margin: 0 auto;
+		    position: relative;
+		    font-size: 14px; 
+			&:before, &:after{
+				content: "";
+				position: absolute;
+				width: 102px;
+				height: 1px;
+				background: rgba(255, 255, 255, 0.4);
+				margin-top: 5px;
+			}
+			&:before{
+				left: 0;
+			}
+			&:after{
+				right: 0;
 			}
 		}
 	}
