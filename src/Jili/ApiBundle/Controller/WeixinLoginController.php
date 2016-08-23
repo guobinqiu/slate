@@ -139,14 +139,14 @@ class WeixinLoginController extends Controller
     }
 
     private function getUserInfo($token, $openId) {
-        $queryParams = array(
+        $params = array(
             'access_token' => $token,
             'openid' => $openId,
         );
 
-        $url = 'https://api.weixin.qq.com/sns/userinfo?' . http_build_query($queryParams);
+        $url = 'https://api.weixin.qq.com/sns/userinfo?' . http_build_query($params);
         $res = $this->get('app.http_client')->get($url)->send();
-        $resBody= $res->getBody();
+        $resBody = $res->getBody();
         $msg = json_decode($resBody);
 
         if (isset($msg->errcode)) {

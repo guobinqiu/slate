@@ -584,42 +584,6 @@ EOT;
     }
 
     /**
-     * create the user when regist by qq
-     * @param  array('nick'=> , 'email'=> ,'pwd'=>);
-     * @return the User
-     */
-    public function qquser_quick_insert(array $param)
-    {
-        $user = new User();
-        $user->setNick(User::FROM_QQ_PREFIX . $param['nick']);
-        $user->setEmail($param['email']);
-        $user->setPwd($param['pwd']);
-        $user->setDeleteFlag(0);
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-        return $user;
-    }
-
-    /**
-     * create the user when regist by weibo
-     * @param array('nick'=> , 'email'=> ,'pwd'=>);
-     * @return the User
-     */
-    public function weibo_user_quick_insert(array $param)
-    {
-        $user = new User();
-        $user->setNick(User::FROM_WEIBO_PREFIX . $param['nick']);
-        $user->setEmail($param['email']);
-        $user->setPwd($param['pwd']);
-        $user->setDeleteFlag(0);
-        $em = $this->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-        return $user;
-    }
-
-    /**
      * @param array array('id'=> , 'points');
      * @return integer rows updated
      */
