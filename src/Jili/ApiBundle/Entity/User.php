@@ -26,8 +26,6 @@ class User
     const POINT_EMPTY = 0;
     const POINT_SIGNUP = 10;
     const DEFAULT_REWARD_MULTIPE = 1;
-    const FROM_QQ_PREFIX = "QQ";
-    const FROM_WEIBO_PREFIX = "WeiBo_";
 
     /**
      * @var integer
@@ -59,13 +57,6 @@ class User
      * @ORM\Column(name="is_email_confirmed", type="integer", nullable=true)
      */
     private $isEmailConfirmed;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
-     */
-    private $isFromWenwen;
 
     /**
      * @var string
@@ -273,29 +264,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set isFromWenwen
-     *
-     * @param integer $isFromWenwen
-     * @return User
-     */
-    public function setIsFromWenwen($isFromWenwen)
-    {
-        $this->isFromWenwen = $isFromWenwen;
-
-        return $this;
-    }
-
-    /**
-     * Get isFromWenwen
-     *
-     * @return integer
-     */
-    public function getIsFromWenwen()
-    {
-        return $this->isFromWenwen;
     }
 
     /**

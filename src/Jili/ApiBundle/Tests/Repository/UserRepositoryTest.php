@@ -45,6 +45,8 @@ class UserRepositoryTest extends KernelTestCase
         $this->em->close();
     }
 
+
+
     /**
      * @group issue548
      * @group issue619
