@@ -1,0 +1,42 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}欢迎来到91问问{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/bind.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '完善基本资料'} ) }}
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="form main-resetPwd pstWrap clearfix">
+		<h1>绑定已有账号</h1>
+		<div class="pstCon">
+			<div class="pstInput"><input type="text" placeholder="请输入邮箱"></div>
+			<div class="pstInput"><input type="text" placeholder="请输入密码"></div>
+			<button class="bindBtn">绑定</button>
+		</div>
+		<div class="pstAvtWrap">
+			<div class="pstAvtInner">
+				<p>您好，cc，欢迎来到91问问</p>
+				<p class="avtWrap"><img src="{{ asset('img/common/default_tx.png') }}" width="100" height="100" alt="头像" title="头像"></p>
+			</div>
+		</div>
+		<div class="pstSkip">
+			<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>注意：跳过绑定以后，已有账号的用户所拥有的积分将不会累计到现在的账户。</span>
+			<a href=""><span class="skip">跳过<i class="fa fa-chevron-right" aria-hidden="true"></i></span></a>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+{# <script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/resetPwd.js')}}" defer></script> #}
+{% endblock %}

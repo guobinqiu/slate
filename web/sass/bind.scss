@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+@import "layout/common-simple";
+@import "layout/header-simple";
+@import "layout/footer-simple";
+@import "component/form";
+@import "font-awesome/scss/font-awesome.scss";
+.main-con{
+	width: 740px;
+}
+.main-resetPwd{
+	padding: 48px 70px;
+	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
+}
+.form{
+	span{
+		display: inherit;
+	}
+}
+.footer{
+	padding: 0 0 15px;
+}
+.clearfix {
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.pstWrap{
+	h1{
+		color: #c4c4c4;
+		font-size: 28px;
+		font-weight: normal;
+		margin-bottom: 40px;
+	}
+}
+.pstCon{
+	width: 40%;
+	display: inline-block;
+	margin-top: 20px;
+	.pstInput{
+		margin-bottom: 15px;
+		display: flex;
+		input{
+			width: 100%;
+			height: 42px;
+			line-height: 42px;
+			font-size: 14px;
+			color: #b3b3b3;
+		}
+	}
+	.bindBtn{
+		width: 100%;
+		background: #17b5e5;
+		padding: 14px 100px;
+		color: #fff;
+		font-size: 18px;
+	    border: none;
+	}
+}
+.pstAvtWrap{
+	width: 50%;
+	float: right;
+	background: #f3f5f5;
+	.pstAvtInner{
+		width: 150px;
+		text-align: center;
+		margin: 0 auto;
+		padding-top: 35px;
+		padding-bottom: 35px;
+		p{
+			margin-bottom: 20px;
+			color: #848484;
+		}
+		.avtWrap{
+			background: url(../img/user/avtShadow.png) no-repeat center 89px;
+			img{
+				background: #fff;
+				border: 1px solid #EBEBEB;
+			}
+		}
+	}
+}
+.pstSkip{
+	width: 100%;
+	float: right;
+	text-align: right;
+	margin-top: 53px;
+	.prompt{
+		width: 250px;
+		padding: 6px 10px;
+		background: #f0f5f5;
+		border: 1px solid #e1e5e5;
+		display: inline-block;
+		line-height: 20px;
+		position: relative;
+		vertical-align: -7px;
+		i{
+			margin-right: 7px;
+			color: #848787;
+		}
+		&:after, &:before {
+			top: 50%;
+			right: -16px;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		&:before {
+			border-left-color: #e1e5e5;
+			border-width: 8px;
+		    margin-top: -7px;
+		}
+		&:after {
+			border-left-color: #f0f5f5;
+			border-width: 9px;
+			margin-top: -8px;
+		}
+	}
+	.skip{
+		color: #17b5e5;
+		display: inline-block;
+		font-size: 16px;
+		margin-left: 10px;
+		i{
+			vertical-align: -2px;
+			margin-left: 5px;
+		}
+	}
+}
