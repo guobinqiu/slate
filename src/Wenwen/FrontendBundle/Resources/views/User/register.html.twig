@@ -2,7 +2,7 @@
 {% block title %}{{ parent() }}注册{% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -18,45 +18,42 @@
 			</h1>
 			<a href="{{ path('_user_login') }}" class="btn" title="登录">登录</a>
 			<div class="sectionCon reg">
-				{# <h2>
-					<img class="visibleDesktop hiddenPhone hiddenTablet" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
-					<img class="hiddenPhone visibleTablet hiddenDesktop" src="{{ asset('img/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
-				</h2> #}
 				<div class="login register">
 					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
-					<ul>
-						<li class="liner">
-						   {{ form_label(form.nickname ) }}
-							<div>{{ form_widget(form.nickname ) }}<span id="signup_nickname_error" class="msg_normal">{{ form_errors(form.nickname) }}</span></div>
-						</li>
-						<li class="liner">
-							{{ form_label(form.email) }}
-							<div> {{ form_widget(form.email ) }}<span id="signup_email_error" class="msg_normal">{{ form_errors(form.email) }}</span></div>
-						</li>
-						<li class="liner">
-							{{ form_label(form.password.first) }}
-							<div>{{ form_widget(form.password.first)}}<!-- <span class="hide" id="pwdStrength"><em class="fl">安全程度：</em><b class="c1">弱</b><b>中</b><b>强</b></span> --><span id="signup_password_first_error" class="msg">{{ form_errors(form.password.first) }}</span></div>
-						</li>
-						<li class="liner">
-							{{ form_label(form.password.second) }}
-							<div>{{ form_widget(form.password.second )}}<span id="signup_password_second_error" class="msg">{{ form_errors(form.password.second) }}</span></div>
-						</li>
-						<li id="vcode" class="liner">
-							{{ form_label(form.captcha) }}
-							<div class="vcodeImg">{{ form_widget(form.captcha) }}<span id="signup_captcha_error" class="msg">{{ form_errors(form.captcha) }}</span></div>
-						</li>
-						<li class="subscribe">
-							<div>{{ form_widget(form.unsubscribe) }} <label for="signup_unsubscribe">我愿意接收91问问发出的会员邮件</label>
-								<!-- <div class="tips expand-btn">
-									<b>?</b>
-									<div class="tips-con expand-con"><p>91问问将为会员定期发出问卷提醒、活动邀请等会员专享服务，您也可以在邮箱内取消订阅。</p><b class="arrow"></b></div>
-								</div> -->
-							</div>
-							<div>{{ form_widget(form.agreement) }}<label for="signup_agreement" class="agreement">我已阅读并接收<a href="{{ path('help_regulations') }}" id="protocol" title="会员协议" target="_blank">《会员协议》</a></label></div>
-						</li>
-					</ul>
-					<div class="login-btn"><span id="submit_button" tabindex="0">注&nbsp;&nbsp;&nbsp;册</span></div>
-			        {{ form_rest(form) }}
+						<ul>
+							<li class="liner">
+								{{ form_widget(form.nick, {'attr': {'placeholder': '昵称'}}) }}
+								<div class="error errorReg">{{ form_errors(form.nick) }}</div>
+							</li>
+							<li class="liner"> 	  	
+								{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
+								<div class="error errorReg">{{ form_errors(form.email) }}</div>
+							</li>
+							<li class="liner">
+								{{ form_widget(form.pwd.first, {'attr': {'placeholder': '密码'}}) }}
+								<div class="error errorReg">{{ form_errors(form.pwd.first) }}</div>
+							</li>
+							<li class="liner">
+								{{ form_widget(form.pwd.second, {'attr': {'placeholder': '重复密码'}}) }}
+								<div class="error errorReg">{{ form_errors(form.pwd.second) }}</div>
+							</li>
+							<li id="vcode" class="liner">
+								{{ form_widget(form.captcha, {'attr': {'placeholder': '验证码'}}) }}
+								<div class="error errorReg">{{ form_errors(form.captcha) }}</div>
+							</li>
+							<li class="subscribe">
+								{{ form_label(form.subscribe) }}
+								{{ form_widget(form.subscribe) }}
+								<div class="error errorReg">{{ form_errors(form.subscribe) }}</div>
+							</li>
+							<li class="subscribe">
+								<label for="signup_termAccepted" class="required">我已阅读并接收<a href="{{ path('help_regulations') }}" target="_blank">《会员协议》</a></label>
+								{{ form_widget(form.termAccepted) }}
+								<div class="error errorReg errorSub">{{ form_errors(form.termAccepted) }}</div>
+							</li>
+						</ul>
+						<input class="login-btn" type="submit" value="注册" />
+			        	{{ form_rest(form) }}
 					</form>
 				</div>
 			</div>
@@ -144,8 +141,10 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
+
 {% endblock %}
+

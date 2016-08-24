@@ -117,7 +117,7 @@ class LoadData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $user = new \Jili\ApiBundle\Entity\User();
-        $user->setNick('Guobin');
+        $user->setNick('Guobin1');
         $user->setEmail('qracle@126.com');
         $user->setPoints(100);
         $user->setIconPath('test/test_icon.jpg');
@@ -146,7 +146,7 @@ class LoadData implements FixtureInterface
         $manager->flush();
 
         $user = new \Jili\ApiBundle\Entity\User();
-        $user->setNick('Guobin');
+        $user->setNick('Guobin2');
         $user->setEmail('guobin.qiu@d8aspring.com');
         $user->setPoints(100);
         $user->setIconPath('test/test_icon.jpg');

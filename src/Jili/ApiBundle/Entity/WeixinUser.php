@@ -5,10 +5,10 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="qq_user")
+ * @ORM\Table(name="weixin_user")
  * @ORM\Entity
  */
-class QQUser
+class WeixinUser
 {
     /**
      * @var integer

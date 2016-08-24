@@ -247,13 +247,15 @@ class SsiPartnerControllerTest extends WebTestCase
     private function login($client)
     {
         $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array (), true);
-        $client->request('POST', $url, array (
-            'email' => 'test@d8aspring.com',
-            'pwd' => 'password',
-            'remember_me' => '1'
+        $url = $container->get('router')->generate('_user_login');
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('login');
+        $client->request('POST', $url, array(
+            'form' => array(
+                'email' => 'test@d8aspring.com',
+                'password' => 'password',
+                '_token' => $csrfToken
+            )
         ));
-        $client->followRedirect();
     }
 }
 
@@ -278,7 +280,6 @@ class SsiPartnerControllerTestFixture implements FixtureInterface, ContainerAwar
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);
-        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
         $user->setPwd('password');
         $manager->persist($user);
         $manager->flush();

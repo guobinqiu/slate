@@ -61,10 +61,6 @@ $(document).ready(function(){
         <td>{{ member.points }}&nbsp;</td>
     </tr>
     <tr>
-        <th>is_from_wenwen</th>
-        <td>{{ member.isFromWenwen }}&nbsp;</td>
-    </tr>
-    <tr>
         <th>delete flag</th>
         <td><input type="radio" name="delete_flag" value="0" {% if delete_flag != 1 %} checked="checked" {% endif %}>会员&nbsp;
         <input type="radio" name="delete_flag" value="1" {% if delete_flag == 1 %} checked="checked" {% endif %}>注销</td>

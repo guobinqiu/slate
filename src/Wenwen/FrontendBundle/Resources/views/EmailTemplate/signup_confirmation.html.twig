@@ -1,3 +1,5 @@
+{% set link = url('_signup_confirm_register', {'confirmation_token': confirmation_token}) %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -45,14 +47,14 @@
                                                                                     <td style="text-align: left; font-size:13px; color: #474238;">
                                                                                     <p style="color: #4f5c54; line-height: 22px;">请您点击下面的按钮完成最后的邮件验证，激活您的账户，领取积分。
                                                                                     <br /> <span style="color: #999; font-weight: normal;">如果无法点击以下按钮，请将以下URL复制到浏览器的地址栏，并确认。</span>
-                                                                                    <br /> <span style="color: #138144;">https://www.91wenwen.net/signup/confirmRegister/register_key/{{ register_key }}</span>
+                                                                                    <br /> <span style="color: #138144;">{{ link }}</span>
                                                                                     </p>
                                                                                     <p style="color: #4f5c54;">感谢您的支持，立刻来参加我们的有奖市场调查活动，支付宝积分，现金大奖等你拿！</p>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr><td height="15"></td></tr>
                                                                             </table>
-                                                                            <div style=" text-align: center; margin: 28px auto 35px;"><a title="GoActivateBtn" href="https://www.91wenwen.net/signup/confirmRegister/register_key/{{ register_key }}" target="_blank" style="padding: 15px 25px; background: #35a15e; color: #fff; text-decoration: none; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; font-size: 14px; font-weight: bold;">点击激活<em style=" vertical-align: -3px; margin-left: 10px;"><img style="border: none;" src="http://www.91wenwen.net/img/mailings/common/arrow.png" height="15" width="9" alt="点击激活" /></em></a></div>
+                                                                            <div style=" text-align: center; margin: 28px auto 35px;"><a title="GoActivateBtn" href="{{ link }}" target="_blank" style="padding: 15px 25px; background: #35a15e; color: #fff; text-decoration: none; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; font-size: 14px; font-weight: bold;">点击激活<em style=" vertical-align: -3px; margin-left: 10px;"><img style="border: none;" src="http://www.91wenwen.net/img/mailings/common/arrow.png" height="15" width="9" alt="点击激活" /></em></a></div>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

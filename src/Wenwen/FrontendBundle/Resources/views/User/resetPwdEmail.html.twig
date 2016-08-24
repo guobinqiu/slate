@@ -2,7 +2,7 @@
 {% block title %}{{ parent() }}找回密码{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/resetPwd.css') }} " rel="stylesheet" type="text/css">
+<link href="{{ asset('css/resetPwd.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -18,8 +18,7 @@
 				<div class="title">请输入您注册时填写的邮箱</div>
 				<div><input type="text" id="email" name="email"></div>
 				<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
-				<span class="btn" id="sendEmail" tabindex="0">下一步</span>
-				<input type="hidden" id="secondNum" value="59"/>
+				<input class="btn" type="button" id="sendEmail" value="下一步">
 			</div>
 		</div>
 	</div>
@@ -31,6 +30,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
 <script type="text/javascript" src="{{ asset('js/pages/user/resetPwd.js')}}" defer></script>
 {% endblock %}

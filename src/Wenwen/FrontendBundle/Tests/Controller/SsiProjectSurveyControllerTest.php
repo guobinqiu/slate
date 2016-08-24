@@ -46,10 +46,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array(), true);
-        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
-        $client->followRedirect();
+        $this->login($client);
 
         $ssi_project = SsiProjectSurveyControllerTestFixture::$SSI_PROJECT;
         $client->request('GET', '/ssi_project_survey/information/'.$ssi_project->getId());
@@ -62,10 +59,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array(), true);
-        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
-        $client->followRedirect();
+        $this->login($client);
 
         $client->request('GET', '/ssi_project_survey/information/999');
         $this->assertSame(404, $client->getResponse()->getStatusCode(), 'Project is not available');
@@ -75,10 +69,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $container = $client->getContainer();
-        $url = $container->get('router')->generate('_login', array(), true);
-        $client->request('POST', $url, array('email' => 'test@d8aspring.com', 'pwd' => '1qaz2wsx', 'remember_me' => '1'));
-        $client->followRedirect();
+        $this->login($client);
 
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $ssi_surveys = \VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery::retrieveSurveysForRespondent(
@@ -97,6 +88,21 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $this->assertCount(0, $ssi_surveys, 'SSI survey is closed');
 
         $em->close();
+    }
+
+    private function login($client)
+    {
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_user_login');
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('login');
+        $client->request('POST', $url, array(
+            'form' => array(
+                'email' => 'test@d8aspring.com',
+                'password' => 'password',
+                '_token' => $csrfToken
+            )
+        ));
+        //echo $client->getResponse()->getContent();
     }
 }
 
@@ -122,15 +128,8 @@ class SsiProjectSurveyControllerTestFixture implements FixtureInterface, Contain
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);
         $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
+        $user->setPwd('password');
         $manager->persist($user);
-        $manager->flush();
-
-        $user_wenwen_login = new \Jili\ApiBundle\Entity\UserWenwenLogin();
-        $user_wenwen_login->setUser($user);
-        $user_wenwen_login->setLoginPasswordSalt('★★★★★アジア事業戦略室★★★★★');
-        $user_wenwen_login->setLoginPasswordCryptType('blowfish');
-        $user_wenwen_login->setLoginPassword('9rNV0b+0hnA=');
-        $manager->persist($user_wenwen_login);
         $manager->flush();
 
         $ssi_project = new \Wenwen\AppBundle\Entity\SsiProject();

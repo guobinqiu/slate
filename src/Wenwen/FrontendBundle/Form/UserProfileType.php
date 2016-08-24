@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserProfileType extends AbstractType
 {
@@ -13,6 +14,7 @@ class UserProfileType extends AbstractType
         $builder->add('birthday', 'text', array(
             'label' => '生日：',
             'read_only' => 'true',
+            'constraints' => new NotBlank(array('message' => '请选择您的生日')),
         ));
 
         $builder->add('sex', 'choice', array(
