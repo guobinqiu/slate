@@ -305,4 +305,12 @@ class UserController extends Controller
         $countUserMs = $this->countSendMs($id);
         return $countUserMs[0]['num'];
     }
+
+    /**
+     * @Route("/bind", name="_user_bind")
+     */
+    public function bindAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig');
+    }
 }
