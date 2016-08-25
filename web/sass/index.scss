@@ -628,10 +628,6 @@ ul.menu{
 		span{
 			position: absolute;
 			z-index: 1;
-			// right: -355px;
-			// opacity: 0;
-			// visibility: hidden;
-			// transition: all 1s ease 5ms;
 			display: inline-block;
 			&.error, &.focus{
 				border: none;
@@ -639,10 +635,7 @@ ul.menu{
 				height: 30px;
 				line-height: 30px;
 				margin: 6px 2px 0 0;
-				// border-radius: 3px;
 				font-size: 12px;
-				// background: #666;
-				// background: rgba(0, 0, 0, .6);
 			}
 			&.error{
 				color: #a94442;
@@ -798,7 +791,6 @@ ul.menu{
 		-moz-top-left-border-radius: 13px;
 		-ms-top-left-border-radius: 13px;
 		-o-top-left-border-radius: 13px;
-		// @include box-shadow(-1px -1px 4px rgba(0,0,0,0.15));
 		em{
 			width: 18px;
 			height: 21px;
@@ -928,4 +920,16 @@ ul.menu{
 	-webkit-animation-delay:-2.0s;
 	-moz-animation-delay:-2.0s;
 	-o-animation-delay:-2.0s
+}
+
+/* Navigaton bullets styles
+ * --------------------------------------- */
+#pp-nav li .active span, .pp-slidesNav .active span{
+    background: #fff!important;
+}
+#pp-nav span, .pp-slidesNav span {
+	width: 10px!important;
+	height: 10px!important;
+    border-color: #fff!important;
+    border-width: 2px!important;
 }

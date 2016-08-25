@@ -1151,7 +1151,6 @@
     }
     #section1{
         .refNum{
-            width: 100%;
             b{
                 font-size: 1.5rem!important;
                 font-weight: bold;
@@ -1258,15 +1257,15 @@
             }
         }
     }
-    #section2{
-        .sectionCon{
-            h2{
-                img{
-                    width: 100%;
-                }
-            }
-        }
-    }
+    // #section2{
+    //     .sectionCon{
+    //         h2{
+    //             img{
+    //                 width: 100%;
+    //             }
+    //         }
+    //     }
+    // }
     #section3{
         .sectionCon{
             h2{

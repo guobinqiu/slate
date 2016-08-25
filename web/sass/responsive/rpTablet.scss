@@ -314,13 +314,13 @@
     }
 
     /* landing page */
-    .sectionCon{
-        h2{
-            img{
-                width: 600px;
-            }
-        }
-    }
+    // .sectionCon{
+    //     h2{
+    //         img{
+    //             width: 600px;
+    //         }
+    //     }
+    // }
     #section1{
         &.active{
             .briefIntro{
@@ -334,10 +334,13 @@
         }
     }  
     #section2{
-        h2{
-            img{
-                width: 420px;
-            }
+        // h2{
+        //     img{
+        //         width: 420px;
+        //     }
+        // }
+        .scoredPoints{
+            background: none;
         }
         &.active{
             .scoredPoints{
@@ -386,6 +389,10 @@
     }
     .scoredPointsItem{
         padding-bottom: 66px;
+        .con{
+            padding-left: 134px;
+            margin-top: 6px;
+        }
         .icon{
             width: 103px;
             height: 103px;
@@ -408,6 +415,10 @@
     #section2{
         h2{
             margin-left: 39px
+        }
+        .con{
+            padding-left: 134px;
+            // margin-top: 6px;
         }
         &.active{
             .scoredPointsItem{
