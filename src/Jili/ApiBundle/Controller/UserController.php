@@ -2,6 +2,7 @@
 
 namespace Jili\ApiBundle\Controller;
 
+use Jili\FrontendBundle\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
@@ -18,11 +19,12 @@ class UserController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $options = array('intention' => 'login');//显示指明intention的值方便测试登录的testcase生成对应的csrf_token
-        $form = $this->createFormBuilder(null, $options)
-            ->add('email', 'email')
-            ->add('password', 'password')
-            ->getForm();
+        $session = $request->getSession();
+        if ($session->has('uid')) {
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+
+        $form = $this->createForm(new LoginType());
 
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
@@ -47,7 +49,6 @@ class UserController extends Controller
                 $user->setLastLoginDate(new \DateTime());
                 $em->flush();
 
-                $session = $request->getSession();
                 $session->set('uid', $user->getId());
 
                 return $this->redirect($this->generateUrl('_homepage'));
@@ -304,13 +305,5 @@ class UserController extends Controller
     {
         $countUserMs = $this->countSendMs($id);
         return $countUserMs[0]['num'];
-    }
-
-    /**
-     * @Route("/bind", name="_user_bind")
-     */
-    public function bindAction()
-    {
-        return $this->render('WenwenFrontendBundle:User:bind.html.twig');
     }
 }

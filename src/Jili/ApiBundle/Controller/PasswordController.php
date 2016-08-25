@@ -20,8 +20,13 @@ class PasswordController extends Controller
     /**
      * @Route("/resetPwd", name="_user_resetPwd", methods={"GET"})
      */
-    public function resetPwdAction()
+    public function resetPwdAction(Request $request)
     {
+        $session = $request->getSession();
+        if ($session->has('uid')) {
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+
         return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig');
     }
 
