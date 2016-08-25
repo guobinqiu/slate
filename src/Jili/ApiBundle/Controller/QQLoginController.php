@@ -5,8 +5,10 @@ namespace Jili\ApiBundle\Controller;
 use Jili\ApiBundle\Entity\QQUser;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
+use Jili\FrontendBundle\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -54,50 +56,119 @@ class QQLoginController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
-        $currentTime = new \DateTime();
 
         if ($qqUser == null) {
-            $em->getConnection()->beginTransaction();
-            try {
-                $user = new User();
-                $user->setNick($userInfo->nickname);
-                $user->setPoints(User::POINT_SIGNUP);
-                $user->setIconPath($userInfo->figureurl_qq_1);
-                $user->setRegisterDate($currentTime);
-                $user->setRegisterCompleteDate($currentTime);
-                $user->setLastLoginDate($currentTime);
-                $user->setLastLoginIp($request->getClientIp());
-                $user->setCreatedRemoteAddr($request->getClientIp());
-                $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                $em->persist($user);
-
-                $qqUser = new QQUser();
-                $qqUser->setOpenId($openId);
-                $qqUser->setUser($user);
-                $em->persist($qqUser);
-
-                $userProfile = new UserProfile();
-                $userProfile->setSex($userInfo->gender == '女' ? 2 : 1);
-                $userProfile->setUser($user);
-                $em->persist($userProfile);
-
-                $em->flush();
-                $em->getConnection()->commit();
-            } catch (\Exception $e) {
-                $em->getConnection()->rollBack();
-                throw $e;
-            }
-        } else {
-            $user = $qqUser->getUser();
-            $user->setLastLoginDate($currentTime);
-            $user->setLastLoginIp($request->getClientIp());
+            $qqUser = new QQUser();
+            $qqUser->setOpenId($openId);
+            $qqUser->setNickname($userInfo->nickname);
+            $qqUser->setPhoto($userInfo->figureurl_qq_1);
+            $qqUser->setGender($userInfo->gender == '女' ? 2 : 1);
+            $em->persist($qqUser);
             $em->flush();
+
+            return $this->redirect($this->generateUrl('qq_bind', array('openId' => $openId)));
         }
 
-        $session = $request->getSession();
-        $session->set('uid', $user->getId());
+        $user = $qqUser->getUser();
+        $user->setLastLoginDate(new \DateTime());
+        $user->setLastLoginIp($request->getClientIp());
+        $em->flush();
 
+        $request->getSession()->set('uid', $user->getId());
         return $this->redirect($this->generateUrl('_homepage'));
+    }
+
+    /**
+     * @Route("/bind", name="qq_bind", methods={"GET", "POST"})
+     */
+    public function bindAction(Request $request)
+    {
+        $form = $this->createForm(new LoginType());
+
+        $openId = $request->query->get('openId');
+        $em = $this->getDoctrine()->getManager();
+        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+
+        $params = array(
+            'openId' => $openId,
+            'bind_route' => 'qq_bind',
+            'unbind_route' => 'qq_unbind',
+            'nickname' => $qqUser->getNickname(),
+            'photo' => $qqUser->getPhoto(),
+        );
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
+
+                if ($user == null || !$user->isPwdCorrect($formData['password'])) {
+                    $form->addError(new FormError('邮箱或密码错误'));
+                    $params['form'] = $form->createView();
+                    return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+                }
+
+                if (!$user->emailIsConfirmed()) {
+                    $form->addError(new FormError('邮箱尚未激活'));
+                    $params['form'] = $form->createView();
+                    return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+                }
+
+                $qqUser->setUser($user);
+                $em->flush();
+
+                $request->getSession()->set('uid', $user->getId());
+                return $this->redirect($this->generateUrl('_homepage'));
+            }
+        }
+
+        $params['form'] = $form->createView();
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+    }
+
+    /**
+     * @Route("/unbind", name="qq_unbind", methods={"GET"})
+     */
+    public function unbindAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $openId = $request->query->get('openId');
+        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+
+        $currentTime = new \DateTime();
+        $em->getConnection()->beginTransaction();
+        try {
+            $user = new User();
+            $user->setNick($qqUser->getNickname());
+            $user->setPoints(User::POINT_SIGNUP);
+            $user->setIconPath($qqUser->getPhoto());
+            $user->setRegisterDate($currentTime);
+            $user->setRegisterCompleteDate($currentTime);
+            $user->setLastLoginDate($currentTime);
+            $user->setLastLoginIp($request->getClientIp());
+            $user->setCreatedRemoteAddr($request->getClientIp());
+            $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+            $em->persist($user);
+
+            $userProfile = new UserProfile();
+            $userProfile->setSex($qqUser->getGender());
+            $userProfile->setUser($user);
+            $em->persist($userProfile);
+
+            $qqUser->setUser($user);
+
+            $em->flush();
+            $em->getConnection()->commit();
+
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_homepage'));
+
+        } catch (\Exception $e) {
+            $em->getConnection()->rollBack();
+            throw $e;
+        }
     }
 
     private function getAccessToken($code)

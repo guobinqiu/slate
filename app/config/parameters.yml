@@ -376,15 +376,17 @@ parameters:
     avatar_directory: uploads/user
 
     #联合登录
+    union_base_url: http://demo2016.ngrok.cc
+
     weixin_appid: wx53c35d67c6cebfef
     weixin_appkey: b1bd6c0b0f3cb8b07d47f29c72fd0b58
-    weixin_callback: http://www.91wenwen.net/auth/weixin/callback
+    weixin_callback: %union_base_url%/auth/weixin/callback
 
     qq_appid: 101163684
     qq_appkey: fe7b1879a8e220136aa63ae92a9e5745
-    qq_callback: http://www.91wenwen.net/auth/qq/callback
+    qq_callback: %union_base_url%/auth/qq/callback
 
     weibo_appid: 3163097902
     weibo_appkey: af3e112c53a2357b201f3ddd6c8e69e7
-    weibo_callback: http://www.91wenwen.net/auth/weibo/callback
+    weibo_callback: %union_base_url%/auth/weibo/callback
 

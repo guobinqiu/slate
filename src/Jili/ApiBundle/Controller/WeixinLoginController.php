@@ -120,25 +120,11 @@ class WeixinLoginController extends Controller
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
-                $em->getConnection()->beginTransaction();
-                try {
-                    $userProfile = new UserProfile();
-                    $userProfile->setSex($weixinUser->getGender());
-                    $userProfile->setUser($user);
-                    $em->persist($userProfile);
+                $weixinUser->setUser($user);
+                $em->flush();
 
-                    $weixinUser->setUser($user);
-
-                    $em->flush();
-                    $em->getConnection()->commit();
-
-                    $request->getSession()->set('uid', $user->getId());
-                    return $this->redirect($this->generateUrl('_homepage'));
-
-                } catch (\Exception $e) {
-                    $em->getConnection()->rollBack();
-                    throw $e;
-                }
+                $request->getSession()->set('uid', $user->getId());
+                return $this->redirect($this->generateUrl('_homepage'));
             }
         }
 
