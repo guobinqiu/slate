@@ -7,12 +7,12 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
-	<link href="http://alvarotrigo.com/pagePiling/jquery.pagepiling.css" rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/index.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
-	<div id="pagepiling" class="container sta">
+	<div id="pagepiling" class="sta">
 		<div class="section" id="section0">
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">
@@ -128,8 +128,6 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
-{# <script type="text/javascript" src="{{ asset('js/pages/index.js')}}"></script> #}
 {% endblock %}

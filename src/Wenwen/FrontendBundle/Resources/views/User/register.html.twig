@@ -3,10 +3,11 @@
 
 {% block stylesheet %}
 	<link href="{{ asset('css/index.css') }} " rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
-	<div id="container">
+	<div id="pagepiling">
 		<div class="section" id="section0">
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">
@@ -70,9 +71,9 @@
 				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
 			</div>
 			<div class="refNum">
-				<div class="num"><b id="userNum"></b><em class="chinese">年</em><div class="tit">服务调研行业</div></div>
-				<div class="num"><b id="pointNum"></b><em>+</em><div class="tit">累计发放任务</div></div>
-				<div class="num"><b id="surveyNum"></b><em>+</em><div class="tit">累计发放奖励</div></div>
+				<div class="num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
+				<div class="num"><b id="pointNum" class="count">999</b><em>+</em><div class="tit">累计发放任务</div></div>
+				<div class="num"><b id="surveyNum" class="count">4575554</b><em>+</em><div class="tit">累计发放奖励</div></div>
 			</div>
 		</div>
 		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section2">
@@ -144,8 +145,8 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}" defer></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/validate.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 {% endblock %}

@@ -22,7 +22,7 @@ h1{
 	text-align: left;
 }
 .btn{
-	position: absolute;
+	position: fixed;
 	z-index: 6;
 	top: 16px;
 	right: 5%;
@@ -63,7 +63,6 @@ ul.menu{
 	z-index: 7;
 	top: 75px;
 	right: 50%;
-	// margin-right: -500px; 
 	width: 0;
 	text-align: center;
 	background: #fff;
@@ -201,7 +200,7 @@ ul.menu{
 		font-size: 12px;
 		line-height: 22px;
 		text-align: left;
-		width: 170px;
+		width: 212px;
 		font-family: '宋体';
 	}
 	.scoredPointsItem{
@@ -271,14 +270,14 @@ ul.menu{
 		background: url(../img/landingpage/2.jpg) no-repeat top;
 	}
 	.refNum{
-		width: 90%;
+		width: 1000px;
 		margin: 0 auto;
 		height: 25%;
 		font-size: 42px;
 		position: absolute;
 		bottom: 0;
 		left: 50%;
-		margin-left: -45%;
+		margin-left: -500px;
 		b{
 			font-family: "Arial";
 			font-weight: normal;
@@ -291,9 +290,6 @@ ul.menu{
 			margin-left: 3px;
 			@include dib();
 			&.chinese{
-				// padding-left: 2px;
-				// font-size: 16px;
-				
 			}
 			&.curnum{
 				text-transform: uppercase;
@@ -534,7 +530,6 @@ ul.menu{
         width: 80%;
         margin: 0 10%;
         padding-right: 142px;
-        // margin-left: initial;
         form{
             width: 285px;
             margin: 0 auto;
@@ -547,10 +542,7 @@ ul.menu{
 	height: 360px;
 	position: absolute;
 	z-index: 6;
-	// left: 50%;
 	top: 28%;
-	// margin-left: -142px;
-	// transition: all 500ms ease 1s;
 	.login-btn{
 		margin-top: 15px;
 		background: #17b5e5;
@@ -924,6 +916,9 @@ ul.menu{
 
 /* Navigaton bullets styles
  * --------------------------------------- */
+#pp-nav li, .pp-slidesNav li{
+ 	margin: 14px 7px!important;
+ }
 #pp-nav li .active span, .pp-slidesNav .active span{
     background: #fff!important;
 }
@@ -931,5 +926,8 @@ ul.menu{
 	width: 10px!important;
 	height: 10px!important;
     border-color: #fff!important;
-    border-width: 2px!important;
+    border-width: 3px!important;
+}
+.pp-tooltip{
+	display: none!important;
 }

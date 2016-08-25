@@ -24,7 +24,7 @@ $('#pagepiling').pagepiling({
     anchors: [],
     scrollingSpeed: 700,
     easing: 'swing',
-    loopBottom: false,
+    loopBottom: true,
     loopTop: false,
     css3: true,
     navigation: {
@@ -38,7 +38,7 @@ $('#pagepiling').pagepiling({
     touchSensitivity: 5,
     keyboardScrolling: true,
     sectionSelector: '.section',
-    animateAnchor: true,
+    animateAnchor: false,
 
     //events
     onLeave: function(index, nextIndex, direction){
