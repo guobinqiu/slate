@@ -15,7 +15,7 @@
 		<div class="bindCon">
 			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate>
 				{{ form_errors(form) }}
-				<ul class="bindForm">
+				<ul class="bindForm" data-expand="{{ expand|default('false') }}">
 					<li class="liner">
 						<div class="bindInput">
 							{{ form_widget(form.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
@@ -29,9 +29,9 @@
 						</div>
 					</li>
 				</ul>
-					{{ form_row(form._token) }}
-				<input class="bindBtn" type="submit" value="已有绑定账号" />
-				<input class="skipBtn" type="button" value="跳过这一步" />
+				{{ form_row(form._token) }}
+				<input class="bindBtn" type="submit" value="绑定已有账户" />
+				<input class="skipBtn" type="button" value="直接跳过" />
 				<div class="bindPrompt">
 					<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>注意：跳过绑定以后，已有账号的用户所拥有的积分将不会累计到现在的账户。</span>
 					<a href="{{ path(unbind_route, {'openId': openId}) }}"></a>
@@ -55,15 +55,19 @@
 
 {% block javascript %}
 <script type="text/javascript">
-	$('.bindBtn').click(function(){
-		// var clicks = $(this).data('clicks');
-		if($('.bindForm').is(":hidden")){
+	$(function() {
+		if ($('.bindForm').data('expand') == true) {
 			$('.bindForm').show();
-			$('.bindBtn').val("点击绑定");
-		}else{
-			$('.bindBtn').unbind('click');	
+		} else {
+			$('.bindForm').hide();
 		}
-		return false;	
+	});
+	$('.bindBtn').click(function(e) {
+		if ($('.bindForm').data('expand') == false) {
+			$('.bindForm').data('expand', true);
+			$('.bindForm').show();
+			e.preventDefault();
+		}
 	});
 </script>
 {% endblock %}

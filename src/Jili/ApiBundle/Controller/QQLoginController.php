@@ -95,6 +95,7 @@ class QQLoginController extends Controller
             'unbind_route' => 'qq_unbind',
             'nickname' => $qqUser->getNickname(),
             'photo' => $qqUser->getPhoto(),
+            'expand' => true,
         );
 
         if ($request->getMethod() == 'POST') {
@@ -121,10 +122,15 @@ class QQLoginController extends Controller
 
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_homepage'));
+
+            } else {
+                $params['form'] = $form->createView();
+                return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
             }
         }
 
         $params['form'] = $form->createView();
+        $params['expand'] = false;
         return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
     }
 
