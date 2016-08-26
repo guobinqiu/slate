@@ -116,7 +116,7 @@ class SurveyControllerTest extends WebTestCase
         $url = $container->get('router')->generate('_user_login');
         $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('login');
         $client->request('POST', $url, array(
-            'form' => array(
+            'login' => array(
                 'email' => 'user@voyagegroup.com.cn',
                 'password' => '11111q',
                 '_token' => $csrfToken
