@@ -14,7 +14,7 @@
 	<div class="form main-resetPwd">
 		<div class="step2">
 			<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
-			<form action="{{ path('_user_resetPass', {'reset_password_token': reset_password_token }) }}" method="post" novalidate>
+			<form action="{{ path('_user_resetPass', {'reset_password_token': reset_password_token }) }}" method="post" novalidate="novalidate">
 				<div class="main-resetPwd-con">
 					<ul>
 						<li>

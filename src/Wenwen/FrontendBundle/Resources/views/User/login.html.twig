@@ -25,7 +25,7 @@
 			<div class="sectionCon">
 			    <div class="login loginUq">
 			        <div class="login-con logWrap">
-						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate>
+						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
 							<ul>
 								<li class="liner">
 									{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}

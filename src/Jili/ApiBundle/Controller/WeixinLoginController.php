@@ -99,7 +99,6 @@ class WeixinLoginController extends Controller
             'unbind_route' => 'weixin_unbind',
             'nickname' => $weixinUser->getNickname(),
             'photo' => $weixinUser->getPhoto(),
-            'expand' => true,
         );
 
         if ($request->getMethod() == 'POST') {
@@ -126,20 +125,15 @@ class WeixinLoginController extends Controller
 
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_homepage'));
-
-            } else {
-                $params['form'] = $form->createView();
-                return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
             }
         }
 
         $params['form'] = $form->createView();
-        $params['expand'] = false;
         return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
     }
 
     /**
-     * @Route("/unbind", name="weixin_unbind", methods={"GET"})
+     * @Route("/unbind", name="weixin_unbind", methods={"GET", "POST"})
      */
     public function unbindAction(Request $request)
     {
