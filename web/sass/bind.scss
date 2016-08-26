@@ -3,15 +3,19 @@
 @import "layout/common-simple";
 @import "layout/header-simple";
 @import "layout/footer-simple";
-@import "component/form";
+// @import "component/form";
 @import "font-awesome/scss/font-awesome.scss";
 @import "login";
+.main {
+    margin-top: 20px!important;
+}
 .main-con{
-	width: 740px;
+	width: 800px;
+	padding: 20px 0;
+	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
 }
 .main-resetPwd{
 	padding: 48px 70px;
-	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
 }
 .form{
 	span{
@@ -29,19 +33,22 @@
 	display: table;
 	clear: both;
 }
-.pstWrap{
+.bindWrap{
 	h1{
 		color: #c4c4c4;
 		font-size: 28px;
 		font-weight: normal;
 		margin-bottom: 40px;
+		position: inherit;
 	}
 }
-.pstCon{
-	width: 40%;
+.bindCon{
+	width: 42%;
 	display: inline-block;
-	margin-top: 20px;
-	.pstInput{
+	.bindForm{
+		display: none;
+	}
+	.bindInput{
 		margin-bottom: 15px;
 		display: flex;
 		input{
@@ -55,13 +62,19 @@
 	li{
 		position: relative;
 	}
-	.bindBtn{
+	.bindBtn,.skipBtn{
 		width: 100%;
 		background: #17b5e5;
-		padding: 14px 100px;
+		padding: 21px 80px;
 		color: #fff;
 		font-size: 18px;
 	    border: none;
+	    cursor: pointer;
+	    @include border-radius(3px);
+	}
+	.skipBtn{
+		background: #25cfa1;
+		margin-top: 17px;
 	}
 	.error{
 		position: absolute;
@@ -83,11 +96,11 @@
 		}
 	}
 }
-.pstAvtWrap{
+.bindAvtWrap{
 	width: 50%;
 	float: right;
 	background: #f3f5f5;
-	.pstAvtInner{
+	.bindAvtInner{
 		width: 150px;
 		text-align: center;
 		margin: 0 auto;
@@ -106,13 +119,11 @@
 		}
 	}
 }
-.pstSkip{
+.bindPrompt{
 	width: 100%;
-	float: right;
 	text-align: right;
-	margin-top: 53px;
+	margin-top: 11px;
 	.prompt{
-		width: 250px;
 		padding: 6px 10px;
 		background: #f0f5f5;
 		border: 1px solid #e1e5e5;
@@ -122,11 +133,11 @@
 		vertical-align: -7px;
 		i{
 			margin-right: 7px;
-			color: #848787;
+			color: #d44f26;
 		}
 		&:after, &:before {
-			top: 50%;
-			right: -16px;
+			top: -9px;
+			right: 50%;
 			border: solid transparent;
 			content: " ";
 			height: 0;
@@ -135,12 +146,12 @@
 			pointer-events: none;
 		}
 		&:before {
-			border-left-color: #e1e5e5;
-			border-width: 8px;
-		    margin-top: -7px;
+			border-bottom-color: #e1e5e5;
+			border-width: 9px;
+			margin-top: -9px;
 		}
 		&:after {
-			border-left-color: #f0f5f5;
+			border-bottom-color: #f0f5f5;
 			border-width: 9px;
 			margin-top: -8px;
 		}

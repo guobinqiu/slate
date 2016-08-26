@@ -1311,52 +1311,22 @@
         padding: 20px;
     }
     // bind page
-    .pstWrap{
-        padding: 32px;
-        h1{
-            margin-bottom: 0px;
-            font-size: 1.6rem!important;
-        }
-    }
-    .pstCon,.pstSkip{
+    .bindCon{
         width: 100%;
-    }
-    .pstCon{
-        .pstInput{
+        padding: 10px 32px;
+        .bindInput{
             input{
                 height: 42px!important;
                 line-height: 42px!important;
             }
         }
     }
-    .pstAvtWrap{
+    .bindAvtWrap{
         display: none;
     }
-    .pstSkip{
-        margin-top: 26px;
+    .bindPrompt{
         .prompt{
             width: 100%;
-            margin-bottom: 7px;
-            &:after, &:before {
-                top: 100%;
-                right: 14px;
-                border: solid transparent;
-            }
-            &:before {
-                border-top-color: #e1e5e5;
-                margin-top: 0;
-                border-width: 11px;
-            }
-            &:after {
-                border-top-color: #f0f5f5;
-                margin-top: 0;
-                right: 16px;
-                border-width: 9px;
-            }
-        }
-        .skip{
-            vertical-align: 12px;
-            font-size: 1.2rem!important;
         }
     }
 }
