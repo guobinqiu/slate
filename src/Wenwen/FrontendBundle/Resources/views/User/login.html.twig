@@ -24,16 +24,16 @@
 			<a href="{{ path('_user_reg') }}" class="btn">注册</a>
 			<div class="sectionCon">
 			    <div class="login loginUq">
-			        <div class="login-con">
+			        <div class="login-con logWrap">
 						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate>
 							<ul>
 								<li class="liner">
 									{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
-									{{ form_errors(form.email) }}
+									<div class="error">{{ form_errors(form.email) }}</div>
 								</li>
 								<li>
 									{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
-									{{ form_errors(form.password) }}
+									<div class="error">{{ form_errors(form.password) }}</div>
 								</li>
 							</ul>
 							<div class="error">{{ form_errors(form) }}</div>

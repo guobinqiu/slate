@@ -5,6 +5,7 @@
 @import "layout/footer-simple";
 @import "component/form";
 @import "font-awesome/scss/font-awesome.scss";
+@import "login";
 .main-con{
 	width: 740px;
 }
@@ -51,6 +52,9 @@
 			color: #b3b3b3;
 		}
 	}
+	li{
+		position: relative;
+	}
 	.bindBtn{
 		width: 100%;
 		background: #17b5e5;
@@ -58,6 +62,25 @@
 		color: #fff;
 		font-size: 18px;
 	    border: none;
+	}
+	.error{
+		position: absolute;
+		right: 5px;
+		top: -2px;
+		ul{
+			text-align: left;
+			li{
+				height: 30px;
+				color: #a94442;
+				background-color: #f2dede;
+				border: 1px solid #ebccd1;
+				line-height: 30px;
+				margin: 9px 2px 10px 13px;
+				padding: 0 5px;
+				display: inline-block;
+				@include border-radius(3px);
+			}
+		}
 	}
 }
 .pstAvtWrap{

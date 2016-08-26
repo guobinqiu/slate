@@ -16,15 +16,20 @@
 		<div class="pstCon">
 			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate>
 				{{ form_errors(form) }}
-				<div class="pstInput">
-					{{ form_widget(form.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
-					{{ form_errors(form.email) }}
-				</div>
-				<div class="pstInput">
-					{{ form_widget(form.password, {'attr': {'placeholder': '请输入密码'}}) }}
-					{{ form_errors(form.password) }}
-				</div>
-				{{ form_row(form._token) }}
+				<ul>
+					<li class="liner">
+						<div class="pstInput">
+							{{ form_widget(form.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
+							<div class="error">{{ form_errors(form.email) }}</div>
+						</div>
+					</li>
+					<li>
+						<div class="pstInput">
+							{{ form_widget(form.password, {'attr': {'placeholder': '请输入密码'}}) }}
+							<div class="error">{{ form_errors(form.password) }}</div>
+						</div>
+					</li>
+					{{ form_row(form._token) }}
 				<input class="bindBtn" type="submit" value="绑定" />
 			</form>
 		</div>
@@ -47,6 +52,4 @@
 {% endblock %}
 
 {% block javascript %}
-{# <script type="text/javascript" src="{{ asset('js/component/validate.js')}}" defer></script>
-<script type="text/javascript" src="{{ asset('js/pages/user/resetPwd.js')}}" defer></script> #}
 {% endblock %}
