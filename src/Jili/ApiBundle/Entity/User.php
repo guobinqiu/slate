@@ -297,7 +297,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, 'dummy');
+        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
 
         return $this;
     }
@@ -841,7 +841,7 @@ class User
     public function isPwdCorrect($pwd)
     {
         if ($this->isPasswordWenwen()) {
-            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, 'dummy');
+            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
         }
         if ($this->isPasswordJili()) {
             return $this->getPwd() == $this->pw_encode($pwd);
