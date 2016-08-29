@@ -5,7 +5,7 @@ parameters:
 
     ssi_project_survey:
         title: "高积分海外调查"
-        point: 180
+        point: 300
 
 #SOP
     sop:
