@@ -62,6 +62,21 @@
 			background: none;
 		}
 	}
+	.errorLogBack{
+		ul{
+			background: none;
+			li{
+				width: 100%;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				margin: 0;
+				padding: 0;
+				border: none;
+				border-radius: 0px;
+			}
+		}
+	}
 	.login-btn{
 		width: 100%;
 		line-height: 40px;

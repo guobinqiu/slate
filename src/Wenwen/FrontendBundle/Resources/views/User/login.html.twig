@@ -26,6 +26,7 @@
 			    <div class="login loginUq">
 			        <div class="login-con logWrap">
 						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
+							<div class="error errorLogBack">{{ form_errors(form) }}</div>
 							<ul>
 								<li class="liner">
 									{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
@@ -36,7 +37,6 @@
 									<div class="error">{{ form_errors(form.password) }}</div>
 								</li>
 							</ul>
-							<div class="error">{{ form_errors(form) }}</div>
 							<input type="submit" class="login-btn" value="登录"/>
 							{{ form_row(form._token) }}
 			            </form>
