@@ -8,6 +8,7 @@
 }
 .main-resetPwd{
 	padding: 48px 70px;
+	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
 	.steps{
 		span{
 			width: 170px;
@@ -63,7 +64,7 @@
 	input[type='password']{
 		width: 256px;
 	}
-	span{
+	input{
 		line-height: 24px;
 		&.focus, &.error{
 			border: none;

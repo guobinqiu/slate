@@ -38,35 +38,48 @@
         }
         .login{
             padding-right: 0;
+            .login-con{
+                padding-top: 0;
+                .error{
+                    top: 6px;
+                    ul{
+                        margin-top: -12px;
+                        background: none;
+                    }
+                }
+            }
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
                 height: 40px;
-            }
-            .login-btn-others{
-                display: none;
+                -webkit-appearance: none;
             }
             h2{
                 font-size: 1.3rem!important;
                 padding: 0 28px;
             }
             li{
-                margin-bottom: 6px;
                 span{
                     &.error, & strong{
                         top: 26px;
                         font-size: .8rem!important;
-                        height: 30px;
-                        line-height: 30px;
+                        height: 36px;
+                        line-height: 36px;
                     }
                 }
                 input[type="text"],input[type="password"],input[type="email"]{
                     width: 100%;
-                    height: 30px;
-                    line-height: 30px;
+                    height: 37px;
+                    line-height: 37px;
                 }
                 label{
-                    line-height: 26px;
+                    line-height: 18px;
+                    font-size: .9rem!important;
+                }
+                &.liner{
+                    label{
+                        line-height: 24px;
+                    }
                 }
             }
             .login-con{
@@ -76,9 +89,51 @@
             }
         }
     }
+    .login-btn-others{
+        .othersLine{ 
+            width: 100%;
+            height: 27px;
+            font-size: .8rem!important;
+            color: rgba(255,255,255,0.9);
+        }
+        a{
+            padding: 17px;
+            margin-left: 5px;
+            &.weixin-login{
+                display: none;
+            }
+            &.weibo-login{
+                margin-left: 20px;
+            }
+            i{
+                font-size: 1.3rem!important;
+            }
+        }
+    }
+    .indexOth{
+        width: 214px;
+        margin-left: -106px;
+        top: 64%;
+    }
     .login{
-        ul{
-            padding-top: 5px;
+        .error{
+            ul{
+                li{
+                    font-size: .8rem!important;
+                }
+            }
+        }
+        .errorReg{
+            top: -17px;
+        }
+    }
+    .register{
+        li{
+            label{
+                &.error{
+                    top: 3px; 
+                }
+            }
         }
     }
     .main-adv{
@@ -124,7 +179,7 @@
     
     /* footer */
     .footer{
-        padding-top: 20px;
+        padding: 20px 0 0;
         background: #EBEBEB;
         text-align: center;
         .footer-con{
@@ -716,11 +771,6 @@
                 margin-top: 0px;
                 padding: 14px 0!important;
             }
-            .btn{
-                .submit{
-                    -webkit-appearance: none;
-                }
-            }
         }
         .relateText{
             .description{
@@ -759,8 +809,13 @@
         }
         .main-resetPwd-con{
             padding: 50px 20px;
-            input[type='text'],input[type='password']{
-                width: 100%;
+            input{
+                &[type='text'],&[type='password']{
+                    width: 100%;
+                }
+                &.btn{
+                    -webkit-appearance: none;
+                }
             }
         }
     }
@@ -844,6 +899,12 @@
     form{
         li{ 
             margin-top: 0;
+            div{
+                label{
+                    width: auto!important;
+                    margin-bottom: 9px;
+                }
+            }
         }
     } 
     .main-register-active{
@@ -1106,6 +1167,7 @@
         }
     }
     #section0{
+        background-position-y: 1px!important;
         h1{
             // margin-left: -39%;
             a{
@@ -1248,6 +1310,25 @@
         height: 8px;
         padding: 20px;
     }
+    // bind page
+    .bindCon{
+        width: 100%;
+        padding: 10px 32px;
+        .bindInput{
+            input{
+                height: 42px!important;
+                line-height: 42px!important;
+            }
+        }
+    }
+    .bindAvtWrap{
+        display: none;
+    }
+    .bindPrompt{
+        .prompt{
+            width: 100%;
+        }
+    }
 }
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
     #section0{
@@ -1273,40 +1354,6 @@
                 img{
                     width: 70%;
                 }
-            }
-        }
-    }
-    .main{
-        .login{
-            li{
-                input[type="text"],input[type="email"],input[type="password"]{
-                    width: 90%;
-                    padding: 0 5%;
-                }
-                span{
-                    &.error,strong{
-                        top: -9px;
-                        font-size: .8rem!important;
-                    }
-                }
-                label{
-                    line-height: 26px;
-                }
-                #signup_captcha_error{
-                    li{
-                        padding-top: 0;
-                    }
-                }
-            }
-        }
-    }
-    .login{
-        .login-btn-others{
-            a{
-                width: 134px;
-                font-size: .8rem!important;
-                background-position: 15px 12px;
-                padding-left: 41px;
             }
         }
     }

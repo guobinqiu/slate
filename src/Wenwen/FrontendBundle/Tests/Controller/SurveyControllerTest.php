@@ -64,15 +64,9 @@ class SurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $em = $this->em;
 
-        $url = $container->get('router')->generate('_login', array (), true);
-        $client->request('POST', $url, array (
-            'email' => 'user@voyagegroup.com.cn',
-            'pwd' => '11111q',
-            'remember_me' => '1'
-        ));
-        //$client->followRedirect();
+        $this->login($client);
+
         $url = $container->get('router')->generate('_survey_index');
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -102,15 +96,9 @@ class SurveyControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        $em = $this->em;
 
-        $url = $container->get('router')->generate('_login', array (), true);
-        $crawler = $client->request('POST', $url, array (
-            'email' => 'user@voyagegroup.com.cn',
-            'pwd' => '11111q',
-            'remember_me' => '1'
-        ));
-        //$client->followRedirect();
+        $this->login($client);
+
         $url = $container->get('router')->generate('_survey_top');
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -120,6 +108,21 @@ class SurveyControllerTest extends WebTestCase
 //        $this->assertCount(1, $crawler->filter('#sop_app_mid'));
 //        $this->assertCount(1, $crawler->filter('#sop_sig'));
 //        $this->assertCount(1, $crawler->filter('#sop_time'));
+    }
+
+    private function login($client)
+    {
+        $container = $client->getContainer();
+        $url = $container->get('router')->generate('_user_login');
+        $csrfToken = $container->get('form.csrf_provider')->generateCsrfToken('login');
+        $client->request('POST', $url, array(
+            'login' => array(
+                'email' => 'user@voyagegroup.com.cn',
+                'password' => '11111q',
+                '_token' => $csrfToken
+            )
+        ));
+        //echo $client->getResponse()->getContent();
     }
 
 }

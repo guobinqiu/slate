@@ -5,15 +5,8 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * QQUser
- *
- * @ORM\Table(name="qq_user",
- *     indexes={
- *         @ORM\Index(name="userid_index", columns={"user_id"}),
- *         @ORM\Index(name="openid_index", columns={"open_id"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\QQUserRepository")
+ * @ORM\Table(name="qq_user")
+ * @ORM\Entity
  */
 class QQUser
 {
@@ -27,60 +20,52 @@ class QQUser
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string", nullable=true)
+     * @ORM\Column(name="open_id", type="string", nullable=false)
      */
     private $openId;
 
-
+    /**
+     * @ORM\Column(name="nickname", type="string")
+     */
+    private $nickname;
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @ORM\Column(name="photo", type="string")
      */
+    private $photo;
+
+    /**
+     * @ORM\Column(name="gender", type="string")
+     */
+    private $gender;
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return openId
-     */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * Get userId
-     *
-     * @return integer
-     */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    /**
-     * Set openId
-     *
-     * @param String  $openId
-     * @return openId
-     */
     public function setOpenId($openId)
     {
         $this->openId = $openId;
@@ -88,13 +73,42 @@ class QQUser
         return $this;
     }
 
-    /**
-     * Get openId
-     *
-     * @return String
-     */
     public function getOpenId()
     {
         return $this->openId;
+    }
+
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    public function getNickname()
+    {
+        return $this->nickname;
+    }
+
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

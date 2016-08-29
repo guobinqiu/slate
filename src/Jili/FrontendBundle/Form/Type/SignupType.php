@@ -4,96 +4,56 @@ namespace Jili\FrontendBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Jili\ApiBundle\Validator\Constraints\NickRegex;
-use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
-use Jili\ApiBundle\Validator\Constraints\EmailUnique;
-use Jili\ApiBundle\Validator\Constraints\NicknameUnique;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 class SignupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nickname', 'text', array(
-            'label'=>'昵称',
-            'invalid_message' => '只允许1-100个字符',
-            'required' => true,
-            'error_bubbling'=>false,
-            'constraints'=> array(
-                new Assert\Length(array(
-                    'min'=> 1,
-                    'max'=> 100,
-                    'minMessage'=> '最少1个字符',
-                    'maxMessage'=> '最多100个字符') ),
-                new NickRegex(),
-                new NicknameUnique()
-                )
+        $builder
+            ->add('nick', 'text', array('label' => '昵称'))
+            ->add('email', 'email', array(
+                'label' => '邮箱',
+                'constraints' => new Assert\NotBlank(array('message' => '请输入您的邮箱地址')),
             ))
-            ->add('email', 'email',array(
-                'label'=>'电子邮件',
-                'invalid_message' => '邮件地址不正确',
-                'required' => true,
-                'error_bubbling'=>false,
-                'constraints'=> array(
-                    new Assert\Email(array('message' => '邮箱"{{ value }}"是无效的.','checkMX' => true)),
-                    new EmailUnique()
-                )
-            ))
-            ->add('password', 'repeated',array(
-                'type'=>'password',
-                'invalid_message' => '2次输入的用户密码不相同',
-                'options' => array('attr' => array('class' => 'password')),
-                'first_options'=> array(
-                    'label' =>'设置密码',
-                    'required' => true,
-                    'error_bubbling'=>false,
-                    'constraints' => array(new PasswordRegex())
+            ->add('pwd', 'repeated', array(
+                'type' => 'password',
+                'invalid_message' => '两次输入的密码不一致',
+                'first_options' => array('label' => '密码'),
+                'second_options' => array('label' => '重复密码'),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => '请输入您的密码')),
+                    new Assert\Length(array('min' => 5, 'max' => 100)),
+                    new Assert\Regex(array('pattern' => '/^\w+/')),
                 ),
-                'second_options'=> array(
-                    'label' =>'重复密码',
-                    'required' => true,
-                    'error_bubbling'=> false
-                ),
-                'required' => true,
-                'error_bubbling'=>false,
             ))
-            ->add('captcha','captcha', array(
-                'label'=>'验证码',
+            ->add('captcha', 'captcha', array(
+                'label' => '验证码',
                 'invalid_message' => '验证码无效',
-                'required' => true,
-                'error_bubbling'=> false,
+                'mapped' => false,
             ))
-            ->add('agreement', 'checkbox',array(
-                'label' =>'我已阅读并接收《会员协议》',
-                'required' => true,
-                'value'=> '1',
-                'data'=> true,
-                'mapped'=>false,
-                'error_bubbling'=> false,
-                'invalid_message'=> '请同意接受《会员协议》',
-                'constraints' => array(new Assert\True( array(
-                    'message'=> '请同意接受《会员协议》'
-                 )))
-            ))
-            ->add('unsubscribe', 'checkbox',array(
+            ->add('subscribe', 'checkbox', array(
                 'label' =>'我愿意接收91问问发出的会员邮件',
-                'required' => true,
-                'value'=> '1',
-                'data'=> true,
-                'error_bubbling'=> false,
-                'invalid_message'=> '请同意或不同意接收91问问发出的会员邮件',
-                'constraints' => array(new Assert\Choice( array(
-                    'choices'=> array(true, false),    
-                    'message'=> '请同意或不同意接收91问问发出的会员邮件',
-                )))
+                'data' => true,
+                'mapped' => false,
+            ))
+            ->add('termAccepted', 'checkbox', array(
+                'data' => true,
+                'constraints' => new Assert\True(array('message' => '只有接受会员协议才能注册')),
+                'mapped' => false,
             ));
     }
 
-    /**
-     *
-     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Jili\ApiBundle\Entity\User',//这里可以不加，但如果是复杂的嵌套类这个地方就要显式指定
+            'csrf_protection' => true,
+            'intention' => 'register', //名字随便取，即使同一个用户也让这个表单的token和其它表单的token不一致，这样更加安全
+        ));
+    }
+
     public function getName()
     {
         return 'signup';
