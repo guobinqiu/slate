@@ -14,7 +14,7 @@
 	<div class="form main-resetPwd clearfix">
 		<div class="bindCon">
 			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
-				{{ form_errors(form) }}
+				<div class="error errorBack">{{ form_errors(form) }}</div>
 				<ul class="bindForm">
 					<li class="liner">
 						<div class="bindInput">
@@ -59,14 +59,14 @@
 <script type="text/javascript">
 	$(function() {
 		{% if not form.vars.valid %}
-			$('.bindForm').show();
+			$('.bindForm').slideDown(500);
 		{% else %}
-			$('.bindForm').hide();
+			$('.bindForm').slideUp(500);
 		{% endif %}
 	});
 	$('.bindBtn').on('click', function(e) {
 		if ($('.bindForm').is(':hidden')) {
-			$('.bindForm').show();
+			$('.bindForm').slideDown(500);
 			e.preventDefault();
 		}
 	});

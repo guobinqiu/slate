@@ -145,26 +145,50 @@
 		i{
 			color: #fff;
 			font-size: 23px;
+			&.fa-weixin{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/weixinIco.png) no-repeat;
+			}
+			&.fa-qq{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/QQIco.png) no-repeat;
+			}
+			&.fa-weibo{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/weiboIco.png) no-repeat;
+			}
 		}
 		&.weixin-login{
 			background: #7cebd2;
+			*background: none;
 			margin-right: 30px;
+			*margin-right: 0;
 		    margin-left: -15px;
+		    *margin-left: 0;
 			&:hover{
 				background: #77e0c8;
+				*background: none;
 			}
 		}
 		&.qq-login{
 			background: #6bafe9;
+			*background: none;
 			&:hover{
 				background: #65a4db;
+				*background: none;
 			}
 		}
 		&.weibo-login{
 			background: #f57f87;
+			*background: none;
 			margin-left: 30px;
+			*margin-left: 10px;
 			&:hover{
 				background: #ed7b83;
+				*background: none;
 			}
 		}
 	}
@@ -192,6 +216,7 @@
 	}
 }	
 .indexOth{
+	width: 283px;
 	position: absolute;
 	top: 62%;
 	left: 50%;
