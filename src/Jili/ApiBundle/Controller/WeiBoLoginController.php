@@ -66,15 +66,17 @@ class WeiBoLoginController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
+        } else if ($weiboUser->getUser() == null) {
+            return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
+        } else {
+            $user = $weiboUser->getUser();
+            $user->setLastLoginDate(new \DateTime());
+            $user->setLastLoginIp($request->getClientIp());
+            $em->flush();
+
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_homepage'));
         }
-
-        $user = $weiboUser->getUser();
-        $user->setLastLoginDate(new \DateTime());
-        $user->setLastLoginIp($request->getClientIp());
-        $em->flush();
-
-        $request->getSession()->set('uid', $user->getId());
-        return $this->redirect($this->generateUrl('_homepage'));
     }
 
     /**

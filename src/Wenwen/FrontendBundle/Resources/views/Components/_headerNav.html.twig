@@ -31,9 +31,9 @@
                 <a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="active tabletProfile hiddenDesktop visibleTablet hiddenPhone"':'class="tabletProfile hiddenDesktop visibleTablet hiddenPhone"' }}>个人中心</a>
                 {% endif %}
                 {% if app.session.has('uid') %}
-                {% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
+                {#{% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}#}
                 <a class="mailWrap"  href="{{ path('_user_message',{'sid': 1}) }}" >
-                    <em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>
+                    {#<em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>#}
                 </a>
 
                 <div class="special expand-btn">
