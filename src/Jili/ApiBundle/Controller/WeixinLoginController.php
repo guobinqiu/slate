@@ -71,15 +71,17 @@ class WeixinLoginController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
+        } else if ($weixinUser->getUser() == null) {
+            return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
+        } else {
+            $user = $weixinUser->getUser();
+            $user->setLastLoginDate(new \DateTime());
+            $user->setLastLoginIp($request->getClientIp());
+            $em->flush();
+
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_homepage'));
         }
-
-        $user = $weixinUser->getUser();
-        $user->setLastLoginDate(new \DateTime());
-        $user->setLastLoginIp($request->getClientIp());
-        $em->flush();
-
-        $request->getSession()->set('uid', $user->getId());
-        return $this->redirect($this->generateUrl('_homepage'));
     }
 
     /**
