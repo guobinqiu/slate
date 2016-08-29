@@ -376,7 +376,7 @@ parameters:
     avatar_directory: uploads/user
 
     #联合登录
-    union_base_url: http://www.91jili.net #http://demo2016.ngrok.cc
+    union_base_url: http://www.91wenwen.net #http://demo2016.ngrok.cc
 
     weixin_appid: wx53c35d67c6cebfef
     weixin_appkey: b1bd6c0b0f3cb8b07d47f29c72fd0b58
