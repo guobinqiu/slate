@@ -5,27 +5,11 @@ namespace Jili\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * WeiBoUser
- *
- * @ORM\Table(name="weibo_user",
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="open_id_uniq", columns={"open_id"})
- *     },
- *     indexes={
- *         @ORM\Index(name="user_id_idx", columns={"user_id"})
- *     }
- * )
- *
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\WeiBoUserRepository")
+ * @ORM\Table(name="weibo_user")
+ * @ORM\Entity
  */
 class WeiBoUser
 {
-    
-    public function __construct()
-    {
-        $this->setRegistDate ( new \DateTime());
-    }
-
     /**
      * @var integer
      *
@@ -36,65 +20,52 @@ class WeiBoUser
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer", options={"comment":"jili用户id"})
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string", nullable=true, options={"comment":"微博id唯一标识"})
+     * @ORM\Column(name="open_id", type="string", nullable=false)
      */
     private $openId;
 
-     /**
-     * @var datetime $registDate
-     *
-     * @ORM\Column(name="regist_date", type="datetime", nullable=true, options={"comment":"注册日期"})
-     */
-    private $registDate;
-    
     /**
-     * Get id
-     *
-     * @return integer
+     * @ORM\Column(name="nickname", type="string")
      */
+    private $nickname;
+
+    /**
+     * @ORM\Column(name="photo", type="string")
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(name="gender", type="string")
+     */
+    private $gender;
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return openId
-     */
-    public function setUserId($userId)
+    public function setUser($user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * Get userId
-     *
-     * @return integer
-     */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    /**
-     * Set openId
-     *
-     * @param String  $openId
-     * @return openId
-     */
     public function setOpenId($openId)
     {
         $this->openId = $openId;
@@ -102,46 +73,42 @@ class WeiBoUser
         return $this;
     }
 
-    /**
-     * Get openId
-     *
-     * @return String
-     */
     public function getOpenId()
     {
         return $this->openId;
     }
-    
-    /**
-     * Set registDate
-     *
-     * @param \DateTime $registDate
-     * @return User
-     */
-    public function setRegistDate($registDate)
+
+    public function setNickname($nickname)
     {
-        $this->registDate = $registDate;
+        $this->nickname = $nickname;
 
         return $this;
     }
 
-    /**
-     * Get registDate
-     *
-     * @return \DateTime
-     */
-    public function getRegistrDate()
+    public function getNickname()
     {
-        return $this->registDate;
+        return $this->nickname;
     }
 
-    /**
-     * Get registDate
-     *
-     * @return \DateTime 
-     */
-    public function getRegistDate()
+    public function setPhoto($photo)
     {
-        return $this->registDate;
+        $this->photo = $photo;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

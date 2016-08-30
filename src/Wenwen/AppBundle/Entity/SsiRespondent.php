@@ -118,9 +118,6 @@ class SsiRespondent
 
     /**
      * Set user
-     *
-     * @param \Jili\ApiBundle\Entity\User $user
-     * @return UserWenwenLogin
      */
     public function setUser(\Jili\ApiBundle\Entity\User $user = null)
     {

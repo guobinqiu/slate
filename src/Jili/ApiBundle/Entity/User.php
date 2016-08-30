@@ -3,44 +3,29 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Utility\PasswordEncoder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="nick", message="昵称已存在")
+ * @UniqueEntity(fields="email", message="邮箱地址已存在")
+ * @ORM\HasLifecycleCallbacks
  */
 class User
 {
-    const POINT_SIGNUP=10;
-    const POINT_EMPTY =0;
-
-    const DEFAULT_REWARD_MULTIPE=1;
-
-    const IS_NOT_FROM_WENWEN = 1;
-    const IS_FROM_WENWEN = 2;
-
-    const FROM_QQ_PREFIX = "QQ";
-    const FROM_WEIBO_PREFIX = "WeiBo_";
-
-   # password_choice ,== PWD_WENWEN, verify the user_wenwen_login
-   # == PWD_JILI or NULL , verify by user.password
-    const PWD_WENWEN = 1;
-    const PWD_JILI = 2;
-
     const EMAIL_NOT_CONFIRMED = 0;
     const EMAIL_CONFIRMED = 1;
-
-    public function __construct()
-    {
-        $this->setRegisterDate ( new \DateTime())
-            ->setLastLoginDate ( new \DateTime())
-            ->setPoints( self::POINT_EMPTY)
-            ->setRewardMultiple( self::DEFAULT_REWARD_MULTIPE)
-            ->setIsEmailConfirmed(self::EMAIL_NOT_CONFIRMED);
-    }
+    const PWD_WENWEN = 1;
+    const PWD_JILI = 2;
+    const POINT_EMPTY = 0;
+    const POINT_SIGNUP = 10;
+    const DEFAULT_REWARD_MULTIPE = 1;
 
     /**
      * @var integer
@@ -54,7 +39,8 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=250, nullable=true)
+     * @ORM\Column(name="email", type="string", length=250, nullable=true, unique=true)
+     * @Assert\Email
      */
     private $email;
 
@@ -73,16 +59,9 @@ class User
     private $isEmailConfirmed;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="is_from_wenwen", type="integer", nullable=true)
-     */
-    private $isFromWenwen;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="nick", type="string", length=100, nullable=true)
+     * @ORM\Column(name="nick", type="string", length=100, nullable=true, unique=true)
      * @Assert\Length(
      *      min=1, 
      *      max=100,
@@ -127,9 +106,14 @@ class User
     /**
      * @var datetime $registerDate
      *
-     * @ORM\Column(name="register_date", type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $registerDate;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * @var datetime $registerCompleteDate
@@ -214,9 +198,42 @@ class User
     private $lastGetPointsAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade="all")
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist","remove"})
      */
     private $userProfile;
+
+    /**
+     * 注册激活token
+     *
+     * @ORM\Column(name="confirmation_token", type="string", nullable=true)
+     */
+    private $confirmationToken;
+
+    /**
+     * @ORM\Column(name="confirmation_token_expired_at", type="datetime", nullable=true)
+     */
+    private $confirmationTokenExpiredAt;
+
+    /**
+     * 重置密码token
+     *
+     * @ORM\Column(name="reset_password_token", type="string", nullable=true)
+     */
+
+    private $resetPasswordToken;
+
+    /**
+     * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
+     */
+    private $resetPasswordTokenExpiredAt;
+
+    public function __construct()
+    {
+        $this->passwordChoice = self::PWD_WENWEN;
+        $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
+        $this->points = self::POINT_EMPTY;
+        $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
+    }
 
     /**
      * Get iconPath
@@ -250,29 +267,6 @@ class User
     }
 
     /**
-     * Set isFromWenwen
-     *
-     * @param integer $isFromWenwen
-     * @return User
-     */
-    public function setIsFromWenwen($isFromWenwen)
-    {
-        $this->isFromWenwen = $isFromWenwen;
-
-        return $this;
-    }
-
-    /**
-     * Get isFromWenwen
-     *
-     * @return integer
-     */
-    public function getIsFromWenwen()
-    {
-        return $this->isFromWenwen;
-    }
-
-    /**
      * Set nick
      *
      * @param string $nick
@@ -303,7 +297,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = $this->pw_encode($pwd);
+        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
 
         return $this;
     }
@@ -655,11 +649,6 @@ class User
         return $this->createdUserAgent;
     }
 
-    public function isPwdCorrect($pwd)
-    {
-        return (!empty($pwd)) && $this->pw_encode($pwd) === $this->getPwd();
-    }
-
     /**
      * Set passwordChoice
      *
@@ -683,30 +672,17 @@ class User
         return $this->passwordChoice;
     }
 
-    public function isPasswordWenwen()
-    {
-       $selected = $this->getPasswordChoice();
-      return !is_null($selected ) && $selected  === self::PWD_WENWEN;
-    }
-
-    public function emailIsConfirmed ()
-    {
-        return  (bool) $this->getIsEmailConfirmed();
-    }
-
     /**
      * Set lastGetPointsAt
      *
      * @param \DateTime $lastGetPointsAt
      * @return User
      */
-    public function setLastGetPointsAt($lastGetPointsAt = null)
+    public function setLastGetPointsAt($lastGetPointsAt)
     {
-        if(isset($lastGetPointsAt)){
-            $this->lastGetPointsAt = $lastGetPointsAt;
-        } else {
-            $this->lastGetPointsAt = date_create();
-        }
+        $this->lastGetPointsAt = $lastGetPointsAt;
+
+        return $this;
     }
 
     /**
@@ -727,6 +703,7 @@ class User
     public function setUserProfile(UserProfile $userProfile)
     {
         $this->userProfile = $userProfile;
+
         return $this;
     }
 
@@ -743,10 +720,163 @@ class User
     public function setIcon(UploadedFile $icon)
     {
         $this->icon = $icon;
+
+        return $this;
     }
 
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Set confirmationToken
+     *
+     * @param string $confirmationToken
+     * @return User
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmationToken
+     *
+     * @return string
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * Set confirmationTokenExpiredAt
+     *
+     * @param \DateTime $confirmationTokenExpiredAt
+     * @return User
+     */
+    public function setConfirmationTokenExpiredAt($confirmationTokenExpiredAt)
+    {
+        $this->confirmationTokenExpiredAt = $confirmationTokenExpiredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get confirmationTokenExpiredAt
+     *
+     * @return \DateTime
+     */
+    public function getConfirmationTokenExpiredAt()
+    {
+        return $this->confirmationTokenExpiredAt;
+    }
+
+    /**
+     * Set resetPasswordToken
+     *
+     * @param string $resetPasswordToken
+     * @return User
+     */
+    public function setResetPasswordToken($resetPasswordToken)
+    {
+        $this->resetPasswordToken = $resetPasswordToken;
+
+        return $this;
+    }
+
+    /**
+     * Get resetPasswordToken
+     *
+     * @return string
+     */
+    public function getResetPasswordToken()
+    {
+        return $this->resetPasswordToken;
+    }
+
+    /**
+     * Set resetPasswordTokenExpiredAt
+     *
+     * @param \DateTime $resetPasswordTokenExpiredAt
+     * @return User
+     */
+    public function setResetPasswordTokenExpiredAt($resetPasswordTokenExpiredAt)
+    {
+        $this->resetPasswordTokenExpiredAt = $resetPasswordTokenExpiredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get resetPasswordTokenExpiredAt
+     *
+     * @return \DateTime
+     */
+    public function getResetPasswordTokenExpiredAt()
+    {
+        return $this->resetPasswordTokenExpiredAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->registerDate = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    public function isPwdCorrect($pwd)
+    {
+        if ($this->isPasswordWenwen()) {
+            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+        }
+        if ($this->isPasswordJili()) {
+            return $this->getPwd() == $this->pw_encode($pwd);
+        }
+        return false;
+    }
+
+    public function isPasswordWenwen()
+    {
+        return $this->getPasswordChoice() == self::PWD_WENWEN;
+    }
+
+    public function isPasswordJili()
+    {
+        return $this->getPasswordChoice() == self::PWD_JILI;
+    }
+
+    public function emailIsConfirmed()
+    {
+        return  $this->getIsEmailConfirmed() == self::EMAIL_CONFIRMED;
+    }
+
+    /**
+     * 注册token是否已过期
+     */
+    public function isConfirmationTokenExpired()
+    {
+        return new \DateTime() > $this->confirmationTokenExpiredAt;
+    }
+
+    /**
+     * 重置密码token是否已过期
+     */
+    public function isResetPasswordTokenExpired()
+    {
+        return new \DateTime() > $this->resetPasswordTokenExpiredAt;
     }
 }

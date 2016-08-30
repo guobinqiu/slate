@@ -24,18 +24,24 @@
                 {% if app.session.has('uid') %}
                 <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
                 {% endif %}
-                <a href="{{ path('_exchange_index') }}" class="exchangeNav" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>兑换中心</a>
+                <a href="{{ path('_exchange_index') }}" class="exchangeNav" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>
+                    兑换中心
+                    {% if app.session.has('uid') %}
+                        <div class="pointExp"><span>100积分=<i>1元</i></span></div>
+                    {% else %}
+                        <div class="pointExp pointExpUnlog"><span>100积分=<i>1元</i></span></div>
+                    {% endif %}
+                </a>
                 <a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="active"':'' }}>帮助中心</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                 {% else %}
                 <a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="active tabletProfile hiddenDesktop visibleTablet hiddenPhone"':'class="tabletProfile hiddenDesktop visibleTablet hiddenPhone"' }}>个人中心</a>
                 {% endif %}
                 {% if app.session.has('uid') %}
-                {% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}
+                {#{% set count_new_msgs =  render(controller('JiliApiBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}#}
                 <a class="mailWrap"  href="{{ path('_user_message',{'sid': 1}) }}" >
-                    <em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>
+                    {#<em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>#}
                 </a>
-
                 <div class="special expand-btn">
                     <div class="expand-title">
                         <label for="personal_links">个人中心</label><b></b>
@@ -55,11 +61,7 @@
                 {% endif %}
                 <div class="border"></div>
                 <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
-                {% if app.session.has('uid') %}
-                    <div class="pointExp"><span>100积分=<i>1元</i></span></div>
-                {% else %}
-                    <div class="pointExp pointExpUnlog"><span>100积分=<i>1元</i></span></div>
-                {% endif %}
+                
             </div>
             {% if app.request.attributes.get('_route') == '_user_login' %}
             {% else %}

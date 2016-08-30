@@ -63,19 +63,13 @@ jili_emar:
     resource: "@JiliEmarBundle/Resources/config/routing.yml"
     prefix:   /emar
 
-
-
+#---------------------------------- vendors -------------------------------------
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
     prefix: /_gcb
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
-
-#_internal:
-#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#    prefix: /_internal
 
 JMSJobQueueBundle:
     resource: "@JMSJobQueueBundle/Controller/"

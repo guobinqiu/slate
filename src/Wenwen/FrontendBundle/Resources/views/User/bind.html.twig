@@ -1,0 +1,74 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}欢迎来到91问问{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/bind.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '账户绑定'} ) }}
+{% endblock %}
+
+{% block body %}
+<div class="main-con w1000">
+	<div class="form main-resetPwd clearfix">
+		<div class="bindCon">
+			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
+				<div class="error errorBack">{{ form_errors(form) }}</div>
+				<ul class="bindForm">
+					<li class="liner">
+						<div class="bindInput">
+							{{ form_widget(form.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
+							<div class="error">{{ form_errors(form.email) }}</div>
+						</div>
+					</li>
+					<li>
+						<div class="bindInput">
+							{{ form_widget(form.password, {'attr': {'placeholder': '请输入密码'}}) }}
+							<div class="error">{{ form_errors(form.password) }}</div>
+						</div>
+					</li>
+				</ul>
+				{{ form_row(form._token) }}
+				<input class="bindBtn" type="submit" value="绑定已有账户" />
+			</form>
+
+			<form action="{{ path(unbind_route, {'openId': openId}) }}" method="POST">
+				<input class="skipBtn" type="submit" value="跳过绑定" />
+			</form>
+			<div class="bindPrompt">
+				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>注意：跳过绑定的话已有账户的积分不会被导入到当前账户。</span>
+			</div>
+		</div>
+		<div class="bindAvtWrap">
+			<div class="bindAvtInner">
+				<p>亲爱的{{ nickname }}，欢迎来到91问问！</p>
+				<p class="avtWrap"><img src="{{ asset(photo|default('img/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+	$(function() {
+		{% if not form.vars.valid %}
+			$('.bindForm').slideDown(500);
+		{% else %}
+			$('.bindForm').slideUp(500);
+		{% endif %}
+	});
+	$('.bindBtn').on('click', function(e) {
+		if ($('.bindForm').is(':hidden')) {
+			$('.bindForm').slideDown(500);
+			e.preventDefault();
+		}
+	});
+</script>
+{% endblock %}

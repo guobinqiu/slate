@@ -1,4 +1,4 @@
-INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `register_date`, `points`, `delete_flag`,`reward_multiple`)
+INSERT INTO `user` (`id`, `email`, `pwd`,  `nick`, `created_at`, `points`, `delete_flag`,`reward_multiple`)
 VALUES (1110,'qracle@126.com','testpwd','jintest',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0,1),
 (1111,'miaomiao.zhang+1@d8aspring.com','testpwd','jintest2',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'3',0,1),
 (1112,'miaomiao.zhang+2@d8aspring.com','testpwd','jintest3',DATE_SUB(CURDATE(), INTERVAL 1 YEAR),'0',0,1),

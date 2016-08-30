@@ -1,70 +1,21 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
-
-/**
- * 
- */
 class HomeController extends Controller
 {
-    /**
-     */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $request = $this->get('request');
-        $logger = $this->get('logger');
-
-        $logger->debug(__METHOD__ . ' START');
-
-        $cookies = $request->cookies;
-        $session = $request->getSession();
-
-        if(!$session->has('uid')){
-            // return $this->redirect($this->generateUrl('_user_login' ));
-            return $this->render('WenwenFrontendBundle:Home:index.html.twig');;
+        if (!$request->getSession()->has('uid')) {
+            return $this->render('WenwenFrontendBundle:Home:index.html.twig');
         }
-
-        //取得分数，以及更新登录状态
-        if ($session->has('uid')) {
-            // 20160716 二逼拉的屎，首页去访问task_history 无端增加开销，删掉
-            // 但是很遗憾拉的屎太多太臭，这个branch不做过多清理，单纯为了增加速度，只做针对性处理
-            $this->get('session.points')->reset();
-            $this->get('login.listener')->updateSession();
-        }
-
-        //取得nick
-        if ($cookies->has('jili_nick') && !$session->has('nick')) {
-            $session->set('nick', $cookies->get('jili_nick'));
-        }
-
-        //newbie page
-        if ($this->get('login.listener')->isNewbie()) {
-            if ($session->get('is_newbie_passed', false) === false) {
-                $arr['is_newbie_passed'] = false;
-                $session->set('is_newbie_passed', true);
-            }
-        }
-
-        // trace
-        if( $request->query->has('spm') ) {
-            $this->get('user_sign_up_route.listener')->refreshRouteSession( array('spm'=> $request->get('spm', null) ) );
-        }
-        $this->get('user_sign_up_route.listener')->log();
-
-        $logger->debug(__METHOD__ . ' END');
         return $this->render('WenwenFrontendBundle:Home:home.html.twig');
     }
 
-    /**
-     * 
-     */
     public function adExperienceAction()
     {
         $cache_fn = $this->container->getParameter('cache_config.api.top_adExperience.key');

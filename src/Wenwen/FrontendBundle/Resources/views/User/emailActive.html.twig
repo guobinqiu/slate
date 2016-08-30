@@ -13,9 +13,12 @@
 <div class="main-con w1000">
 	<div class="main-register-active">
 		<div class="con">
-			<div class="text">
-				<div class="title">就差一步了，快去激活您的账户吧！</div>
-				<p>我们已经向您的邮箱{{ email }}发送了一封激活邮件，请点击邮件中的链接完成注册。</p>
+			<div class="wrap">
+				<i class="fa fa-check-circle" aria-hidden="true"></i>
+				<div class="text">
+					<div class="title">就差一步了，快去激活您的账户吧！</div>
+					<p>我们已经向您的邮箱{{ email }}发送了一封激活邮件，请点击邮件中的链接完成注册。</p>
+				</div>
 			</div>
 		</div>
 		<div class="tips">
@@ -38,5 +41,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/pages/user/emailActive.js')}}" defer></script>
+<script type="text/javascript" src="{{ asset('js/pages/user/emailActive.js')}}"></script>
 {% endblock %}
