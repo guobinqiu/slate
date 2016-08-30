@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+{% endblock %}
+
+{% block content %}
+Partner Lists<br>
+<a href="{{ path('admin_partner_add') }}">Add a new partner</a><br>
+<br>
+<table class='partnerList'>
+<tr>
+  <th>{{ knp_pagination_sortable(pagination, 'PartnerId', 'ap.id') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'Name', 'ap.name') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'Description', 'ap.description') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'ap.updatedAt') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'ap.createdAt') }}</th>
+  <th>Details</th>
+</tr>
+ 
+{% for partner in pagination %}
+<tr>
+  <td>{{ partner.id }}</td>
+  <td>{{ partner.name }}</td>
+  <td>{{ partner.description }}</td>
+  <td>{{ partner.updatedAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ partner.createdAt |date('Y-m-d H:i:s') }}</td>
+  <td><a href="{{ path('admin_project_show', {'affiliatePartnerId': partner.id}) }}">details</a></td>
+</tr>
+{% endfor %}
+</table>
+ 
+<div class="navigation">
+  {{ knp_pagination_render(pagination) }}
+</div>
+<br>
+
+{% endblock %}
+
+<style type="text/css">
+table.partnerList { 
+  border-collapse: collapse; 
+  }
+table.partnerList td, 
+table.partnerList th { 
+  border: 1px solid yellowgreen;
+  padding: 5px; 
+  }
+</style>

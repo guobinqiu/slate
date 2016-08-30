@@ -32,10 +32,6 @@ class ComponentController extends Controller
      */
     public function homeBarAction(Request $request)
     {
-        if (!$request->getSession()->get('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $id = $request->getSession()->get('uid');
 
         $em = $this->getDoctrine()->getManager();

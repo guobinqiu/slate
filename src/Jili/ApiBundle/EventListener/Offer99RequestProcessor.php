@@ -85,7 +85,7 @@ class Offer99RequestProcessor
         // update user.point更新user表总分数
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $user->setPoints(intval($user->getPoints()) + intval($point));
-        $user->setLastGetPointsAt();
+        $user->setLastGetPointsAt(new \DateTime());
 
         try {
             $em->persist($user);

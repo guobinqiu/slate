@@ -13,11 +13,11 @@ class SignupConfirmationMailCommand extends AbstractMailCommand
     protected function configure()
     {
         $this->setName('mail:signup_confirmation');
-        $this->setDescription('发送激活确认邮件');
+        $this->setDescription('发送含激活码token的邮件');
         $this->addOption('subject', null, InputOption::VALUE_REQUIRED);
         $this->addOption('email', null, InputOption::VALUE_REQUIRED);
         $this->addOption('name', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('register_key', null, InputOption::VALUE_REQUIRED, '激活码');
+        $this->addOption('confirmation_token', null, InputOption::VALUE_REQUIRED, '激活码');
     }
 
     /**
@@ -42,7 +42,7 @@ class SignupConfirmationMailCommand extends AbstractMailCommand
     {
         return array(
             'name' => $input->getOption('name'),
-            'register_key' => $input->getOption('register_key'),
+            'confirmation_token' => $input->getOption('confirmation_token'),
         );
     }
 

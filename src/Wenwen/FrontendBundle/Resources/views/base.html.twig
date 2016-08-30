@@ -29,6 +29,7 @@
         adhoc.init('ADHOC_0f2cb6b2-3772-4ee3-a06e-7248f4efdbdc')//初始化
         };;
 
+
     </script>
     <script type="text/javascript" src="{{ asset('js/component/baiduStatistics.js')}}"></script>
 </head>
@@ -43,7 +44,7 @@
     {% block global_js %}
         <script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.1.min.js')}}"></script>
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js')}}"></script>
-        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         <script type="text/javascript" src="{{ asset('js/component/common.js')}}"></script>
         <!--[if lte IE 9]>
             <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>

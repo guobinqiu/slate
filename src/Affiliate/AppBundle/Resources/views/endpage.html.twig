@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block stylesheet %}
+    <link href="{{ asset('bundles/affiliateapp/css/endpage.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>在线调查</title>
+    <!--[if IE 7]>
+       <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome/scss/font-awesome-ie7.min.css') }}">
+    <![endif]-->
+{% endblock %}
+
+{% block body %}
+    <div class="freeSurWrap">
+        <div class="statusCon complete">
+            {% if answer_status == 'complete' %}
+            <i class="successIcon fa fa-check-circle-o"></i>
+            <div class="complete">亲，恭喜您完成本次的问卷调查，棒棒哒。</div>
+            {% elseif answer_status == 'screenout' %}
+            <i class="failIcon fa fa-frown-o" aria-hidden="true"></i>
+            <div class="screenout">亲，非常抱歉，您不符合本次调查的要求。</div>
+            {% elseif answer_status == 'quotafull' %}
+            <i class="failIcon fa fa-meh-o" aria-hidden="true"></i>
+            <div class="quotafull">亲，非常抱歉，您慢了一步，本次问卷调查名额已满。</div>
+            {% elseif answer_status == 'error' %}
+            <i class="failIcon fa fa-meh-o" aria-hidden="true"></i>
+            <div class="error">亲，您似乎已经参与过这个问卷调查，欢迎下次再来。</div>
+            {% else %}
+            <i class="failIcon fa fa-meh-o" aria-hidden="true"></i>
+            <div class="other">亲，您来晚了，这个调查已经结束咯，下次请早哦。</div>
+            {% endif %}
+        </div>
+        <div class="recommend">
+            <div class="txt">
+                <p class="l1">我们为您推荐了更多问卷。</p>
+                <p class="l2">点击右边进行注册就可以赚现金了哦！</p>
+            </div> 
+            <a class="btn" href="{{ path('_user_reg') }}">
+                <div class="bWrap">
+                    <span class="text">点击这里</span>
+                    <span class="fa fa-chevron-right animated bounce" aria-hidden="true"><!--[if IE 7]><img src="{{ asset('img/common/arrowRight.gif') }}"><![endif]--></span>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

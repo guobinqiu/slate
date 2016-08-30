@@ -24,7 +24,7 @@ framework:
             base_urls:
                 http:        [%base_url%]
                 ssl:         [%base_url%]
-        assets_version: 'v000013'
+        assets_version: 'v000014'
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:
@@ -171,7 +171,7 @@ monolog:
 gregwar_captcha:
     width: 150
     height: 40 
-    length: 6
+    length: 4
     as_url: true
     reload: true 
     invalid_message: %reg_wr_captcha%

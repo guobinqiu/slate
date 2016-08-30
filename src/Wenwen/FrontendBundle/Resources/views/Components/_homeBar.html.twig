@@ -14,14 +14,14 @@
             {% endif %}
             </div>
             <div class="infoText left">
-                <p class="l1"><span class="hiddenPhone">Hi，<span class="nk">{{ user.nick[:12] }}</span>，您的</span>当前积分为<strong class="point"><i></i>{{ user.points }}</strong></p>
+                <p class="l1"><span class="hiddenPhone">Hi，<span class="nk">{{ user.nick[:35] }}</span>，您的</span>当前积分为<strong class="point"><i></i>{{ user.points }}</strong></p>
                 {# <p class="l2"></p>
                 <p class="l2"><i></i>您的当前积分为<strong class="point">{{ user.points }}</strong></p> #}
             </div>
         </div>
 
         <div class="right">
-            <div class="incentive"><a href="http://www.91wenwen.net/callboard/info/61"><img src="{{ asset('img/home/incentiveAnimation.gif') }}" alt="积分翻倍啦！"></a></div>
+            <div class="incentive"><a href="http://www.91wenwen.net/callboard/info/62"><img src="{{ asset('img/home/incentiveAnimation.gif') }}" alt="积分翻倍啦！"></a></div>
             <a href="{{ path('_user_adtaste',{'type':0}) }}" class="taskHis">任务历史</a>
             <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="exchangeHis">兑换历史</a>
         </div>

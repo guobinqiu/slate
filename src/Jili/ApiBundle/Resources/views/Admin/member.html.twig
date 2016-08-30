@@ -12,7 +12,7 @@
 $(document).ready(function(){
   $("#select").click(function (){
       window.location.href="{{ path('_admin_member') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
-  })
+  });
   $("#edit").click(function (){
       window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
   })
@@ -77,10 +77,6 @@ $(document).ready(function(){
     <tr>
         <th>points</th>
         <td>{{ member.points }}&nbsp;</td>
-    </tr>
-    <tr>
-        <th>is_from_wenwen</th>
-        <td>{{ member.isFromWenwen }}&nbsp;</td>
     </tr>
     <tr>
         <th>delete flag</th>

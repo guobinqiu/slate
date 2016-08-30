@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Affiliate</title>
+{% endblock %}
+
+{% block content %}
+Affiliate funtion Readme<br>
+<a href="{{ path('admin_partner_show') }}">Show partner list</a><br>
+<br>
+
+简单的一个使用说明<br>
+1. 检查这次合作的问卷投放平台(Partner)是否已经存在<br>
+2. 初次合作的话新建一个Partner，提供这个Partner的名称，以及简介<br>
+3. 在Partner list中找到这次要合作的Partner<br>
+4. 进入这个Partner的Project list页面<br>
+5. 新建一个Project<br>
+5-1. 提供RFQId （该项目的quota id）<br>
+5-2. 上传一个包含ukey,url的csv文件<br>
+6. 等待0-5分钟，在这个Partner的Project list页面中找到这次上传的文件所对应的project，并确认这个project已经处于 open 状态<br>
+7. 将这个project对应的url提供给该次合作的平台联系人，通知他们已经可以开始执行项目了<br>
+
+{% endblock %}
+

@@ -1,194 +1,225 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 namespace Jili\ApiBundle\Controller;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Jili\ApiBundle\OAuth\WeiBoAuth;
-use Jili\ApiBundle\Form\Type\WeiBoFirstRegist;
 
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserProfile;
+use Jili\ApiBundle\Entity\WeiBoUser;
+use Jili\FrontendBundle\Form\Type\LoginType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * @Route("/auth/weibo")
+ */
 class WeiBoLoginController extends Controller
 {
     /**
-     * @Route("/weibocallback", name="weibo_api_callback")
+     * @Route("/login", name="weibo_login", methods={"GET"})
      */
-    public function callBackAction()
-    { 
-        $request = $this->get('request');
-        //$request->getSession()->remove('weibo_token');
-        //$request->getSession()->remove('weibo_open_id');
-        $weibo_token = $request->getSession()->get('weibo_token');
-        $weibo_uid = $request->getSession()->get('weibo_open_id');
-        //没有token，用code取
-        if(empty($weibo_token) || empty($weibo_uid)){
-            $code = $request->query->get('code');
-            //$code = 'b57cd2153ca7e557cdb18ff37ec87291'; test用
-            if(isset($code) && trim($code)!=''){
-                $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),'');
-                $result=$weibo_auth->access_token($this->container->getParameter('weibologin_callback_url'), $code);
-                if(isset($result['access_token']) &&  isset($result['uid'])){
-                    $weibo_token = $result['access_token'];
-                    $weibo_uid = $result['uid'];
-                }
-            }
-        }
-        if(isset($weibo_token) && $weibo_token!='' && $weibo_uid){
-            //授权完成，保存token信息，使用session保存
-            $request->getSession()->set('weibo_token', $weibo_token);
-            $request->getSession()->set('weibo_open_id', $weibo_uid);
-            //得到用户基本信息
-            $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),$weibo_token);
-            $weibo_response_user = $weibo_auth->get_user_info($weibo_uid);
-            $em = $this->getDoctrine()->getManager();
-            $weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($weibo_uid);
-            //判断是否已经注册过
-            if( !empty($weibouser)){
-                //如果db已有此openid，说明用户已注册过，设成登陆状态，可直接跳转到首页
-                $jiliuser = $em->getRepository('JiliApiBundle:User')->find($weibouser->getUserId());
-                $this->get('login.listener')->initSession($jiliuser);
-                return $this->redirect($this->generateUrl('_homepage'));
-            } else {
-                //无此用户，说明没有用weibo注册过，转去first_login页面
-                $request->getSession()->set('weibo_name',$weibo_response_user['name']);
-                $request->getSession()->set('weibo_user_img',$weibo_response_user['profile_image_url']);
-                //跳转到 weibofirstlogin action
-                return $this->redirect($this->generateUrl('weibo_maintenance'));
-            }
-        }else{
-            // '授权失败';
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，微博用户授权失败，请稍后再试。'));
-        }
-    }
-    
-    /**
-     * @Route("/weibologin", name="weibo_api_login")
-     */
-    public function weiboLoginAction()
+    public function loginAction(Request $request)
     {
-        $request = $this->get('request');
-        $weibo_access_token = $request->getSession()->get('weibo_token');
-        $user_login = $this->get('user_login');
-        $user_login->setSession($request->getSession());
-        $login_flag = $user_login->checkLoginStatus();
-        if($login_flag) {
-            return $this->redirect($this->generateUrl('_homepage'));
-        } else {
-            // 首次weibo登陆,到授权页面
-            $weibo_auth = $this->get('user_weibo_login')->getWeiBoAuth($this->container->getParameter('weibo_appid'), $this->container->getParameter('weibo_appkey'),$weibo_access_token);
-            $login_url = $weibo_auth->login_url($this->container->getParameter('weibologin_callback_url'), $this->container->getParameter('scope'));
-            return  new RedirectResponse($login_url, '301');
-        }
-    }
-    
-    /**
-     * @Route("/weiboRegiste", name="weibo_registe")
-     */
-    public function weiboRegisteAction()
-    {
-        $code = "";
-        $request = $this->get('request');
-        $weiboForm = $request->request->get('weibo_user_regist');
-        $param['email'] = $weiboForm['email'];
-        $request->request->set('email',$param['email']);
-        $param['nick'] = $request->request->get('weibonickname'); 
-        $param['pwd'] = $request->request->get('pwd');
-        $param['open_id'] = $request->getSession()->get('weibo_open_id'); // get in session
-        $form  = $this->createForm(new WeiBoFirstRegist());
-        $form->bind($request );
-        if ($form->isValid() && ($param['pwd'] && strlen($param['pwd'])>=6 && strlen($param['pwd'])<=20) ) {
-            $em = $this->getDoctrine()->getManager();
-            //email存在check
-            $check_user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($param['email']);
-            if($check_user){
-                $code = '此账号已存在，请点击下方【已有91问问账号】按钮进行绑定!';
-                return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'form' => $form->createView(), 'regcode'=>$code));
-            } 
-            //openid check
-            $check_weibouser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneByOpenId($param['open_id']);
-            if( empty($check_weibouser)){
-                $user_regist = $this->get('user_regist'); 
-                $weibouser = $user_regist->weibo_user_regist($param);
-                if(!$weibouser){
-                    //注册失败
-                    return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，微博用户注册失败，请稍后再试。'));
-                } 
-            }
-            //注册成功，登陆并跳转主页
-            $code = $this->get('login.listener')->login($request);
-            if($code == 'ok') {
-                return $this->redirect($this->generateUrl('_homepage'));
-            } elseif($check_weibouser) {
-                $code = "您的微博ID已在91问问注册，请直接登录，如有问题请联系客服。";
-            }
-        } else {
-            //入力验证不通过
-            $code = '请填写正确的邮箱或密码!';
-        }
-        $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'],'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(), 'regcode'=>$code));
-    }
-    
-    /**
-     * @Route("/weibobind", name="weibo_bind")
-     */
-    public function weiboBindAction()
-    {
-        $request = $this->get('request');
-        $param['nick'] = $request->request->get('weibonickname'); 
-        $param['email'] = $request->request->get('jili_email');
-        $param['pwd']= $request->request->get('jili_pwd');
-        $param['open_id'] = $request->getSession()->get('weibo_open_id'); // get in session
-        if(!$param['open_id']){
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请稍后再试。'));
-        }
-        $request->request->set('pwd', $param['pwd']);
-        $request->request->set('email',$param['email']);
-        $code = $this->get('login.listener')->login($request);
-        if($code == 'ok') {
-            $user_bind = $this->get('user_bind');
-            $result = $user_bind->weibo_user_bind($param);//登陆验证通过，id和pwd没问题，可以直接用来绑定
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-        $form  = $this->createForm(new WeiBoFirstRegist());
-        $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
-                array('email'=>$param['email'], 'pwd'=>'','nickname'=>$param['nick'], 'weibo_user_img'=>$weibo_user_img,'form' => $form->createView(),'bindcode'=>$code));
-    }
-    
-    /**
-     * @Route("/weiboFirstLogin", name="weibo_first_login")
-     */
-    public function weiboFirstLoginAction()
-    {
-        $request = $this->get('request');
-        $weibo_token = $request->getSession()->get('weibo_token');
-        $weibo_openid = $request->getSession()->get('weibo_open_id');
-        $weibo_name = $request->getSession()->get('weibo_name');
-        $weibo_user_img = $request->getSession()->get('weibo_user_img');
-        if(!$weibo_token || !$weibo_openid || !$weibo_name){
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('errorMessage'=>'对不起，非法操作，请在微博完成授权后再试。'));
-        }
-        //销毁不用session (暂定不销毁)
-        //$request->getSession()->remove('weibo_token');
-        //$request->getSession()->remove('weibo_name');
-        //设置form跳转注册页
-        $form  = $this->createForm(new WeiBoFirstRegist());
-        return $this->render('WenwenFrontendBundle:User:weiboFirstLogin.html.twig',
-                array('email'=>'', 'pwd'=>'','open_id'=>$weibo_openid,'nickname'=>$weibo_name, 'weibo_user_img'=>$weibo_user_img, 'form' => $form->createView()));
+        $state = md5(uniqid(rand(), true));
+        $request->getSession()->set('state', $state);
+        $params = array(
+            'client_id' => $this->container->getParameter('weibo_appid'),
+            'redirect_uri' => $this->container->getParameter('weibo_callback'),
+            'state' => $state,
+        );
+        $url = 'https://api.weibo.com/oauth2/authorize?' . http_build_query($params);
+        return $this->redirect($url);
     }
 
     /**
-     * @Route("/maintenance", name="weibo_maintenance")
+     * @Route("/callback", name="weibo_login_callback", methods={"GET"})
      */
-    public function maintenanceAction()
+    public function loginCallbackAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:Components:maintenance.html.twig');
+        $code = $request->query->get('code');
+
+        if ($code == null) {
+            $this->get('logger')->error('Weibo - 用户取消了授权');
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        if ($request->query->get('state') != $request->getSession()->get('state')) {
+            $this->get('logger')->error('Weibo - The state does not match. You may be a victim of CSRF.');
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $token = $this->getAccessToken($code);
+        $openId = $this->getOpenId($token);
+        $userInfo = $this->getUserInfo($token, $openId);
+
+        $em = $this->getDoctrine()->getManager();
+        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+
+        if ($weiboUser == null) {
+            $weiboUser = new WeiboUser();
+            $weiboUser->setOpenId($openId);
+            $weiboUser->setNickname($userInfo->screen_name);
+            $weiboUser->setPhoto($userInfo->profile_image_url);
+            $weiboUser->setGender($userInfo->gender == 'f' ? 2 : 1);
+            $em->persist($weiboUser);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
+        } else if ($weiboUser->getUser() == null) {
+            return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
+        } else {
+            $user = $weiboUser->getUser();
+            $user->setLastLoginDate(new \DateTime());
+            $user->setLastLoginIp($request->getClientIp());
+            $em->flush();
+
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+    }
+
+    /**
+     * @Route("/bind", name="weibo_bind", methods={"GET", "POST"})
+     */
+    public function bindAction(Request $request)
+    {
+        $form = $this->createForm(new LoginType());
+
+        $openId = $request->query->get('openId');
+        $em = $this->getDoctrine()->getManager();
+        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+
+        $params = array(
+            'openId' => $openId,
+            'bind_route' => 'weibo_bind',
+            'unbind_route' => 'weibo_unbind',
+            'nickname' => $weiboUser->getNickname(),
+            'photo' => $weiboUser->getPhoto(),
+        );
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $formData = $form->getData();
+                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
+
+                if ($user == null || !$user->isPwdCorrect($formData['password'])) {
+                    $form->addError(new FormError('邮箱或密码错误'));
+                    $params['form'] = $form->createView();
+                    return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+                }
+
+                if (!$user->emailIsConfirmed()) {
+                    $form->addError(new FormError('邮箱尚未激活'));
+                    $params['form'] = $form->createView();
+                    return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+                }
+
+                $weiboUser->setUser($user);
+                $em->flush();
+
+                $request->getSession()->set('uid', $user->getId());
+                return $this->redirect($this->generateUrl('_homepage'));
+            }
+        }
+
+        $params['form'] = $form->createView();
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
+    }
+
+    /**
+     * @Route("/unbind", name="weibo_unbind", methods={"GET", "POST"})
+     */
+    public function unbindAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $openId = $request->query->get('openId');
+        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+
+        $currentTime = new \DateTime();
+        $em->getConnection()->beginTransaction();
+        try {
+            $user = new User();
+            $user->setNick($weiboUser->getNickname());
+            $user->setPoints(User::POINT_SIGNUP);
+            $user->setIconPath($weiboUser->getPhoto());
+            $user->setRegisterDate($currentTime);
+            $user->setRegisterCompleteDate($currentTime);
+            $user->setLastLoginDate($currentTime);
+            $user->setLastLoginIp($request->getClientIp());
+            $user->setCreatedRemoteAddr($request->getClientIp());
+            $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+            $em->persist($user);
+
+            $userProfile = new UserProfile();
+            $userProfile->setSex($weiboUser->getGender());
+            $userProfile->setUser($user);
+            $em->persist($userProfile);
+
+            $weiboUser->setUser($user);
+
+            $em->flush();
+            $em->getConnection()->commit();
+
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_homepage'));
+
+        } catch (\Exception $e) {
+            $em->getConnection()->rollBack();
+            throw $e;
+        }
+    }
+
+    private function getAccessToken($code)
+    {
+        $url = 'https://api.weibo.com/oauth2/access_token';
+        $request = $this->get('app.http_client')->post($url);
+        $request->addPostFields(array(
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->container->getParameter('weibo_appid'),
+            'client_secret' => $this->container->getParameter('weibo_appkey'),
+            'code' => $code,
+            'redirect_uri' => $this->container->getParameter('weibo_callback'),
+        ));
+        $res = $request->send();
+//        返回数据
+//        {
+//            "access_token": "ACCESS_TOKEN",
+//            "expires_in": 1234,
+//            "remind_in":"798114",
+//            "uid":"12341234"
+//        }
+        $resBody = $res->getBody();
+        return json_decode($resBody)->access_token;
+    }
+
+    private function getOpenId($token) {
+        $url = 'https://api.weibo.com/oauth2/get_token_info';
+        $request = $this->get('app.http_client')->post($url);
+        $request->setPostField('access_token', $token);
+        $res = $request->send();
+//        返回数据
+//        {
+//            "uid": 1073880650,
+//            "appkey": 1352222456,
+//            "scope": null,
+//            "create_at": 1352267591,
+//            "expire_in": 157679471
+//        }
+        $resBody = $res->getBody();
+        return json_decode($resBody)->uid;
+    }
+
+    private function getUserInfo($token, $openId) {
+        $params = array(
+            'access_token' => $token,
+            'uid' => $openId,
+        );
+        $url = 'https://api.weibo.com/2/users/show.json?' . http_build_query($params);
+        $res = $this->get('app.http_client')->get($url)->send();
+        $resBody = $res->getBody();
+        return json_decode($resBody);
     }
 }
