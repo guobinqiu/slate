@@ -139,9 +139,9 @@ ul.menu{
 		width: 283px;
 		left: 50%;
 		margin-left: -141px;
-		top: 40%;
+		top: 45%;
 		a{
-			margin-top: 20px;
+			margin-top: 13px;
 			width: 283px;
 			text-align: center;
 			height: 53px;
@@ -183,9 +183,9 @@ ul.menu{
 	margin-bottom: -65px;
 	top: 26%;
 	transition: all 1.5s ease 1s;
-	margin-top: 20px;
+	margin-top: 0;
 	padding-left: 51px;
-	background: url(../img/landingpage/pc.png) no-repeat 350px top;
+	background: url(../img/landingpage/pc.png) no-repeat right top;
 	h3{
 		font-size: 30px;
 		line-height: 55px;
@@ -251,8 +251,8 @@ ul.menu{
 		@include animation2(0, 1s, fadeIn1);
 	}
 	@keyframes fadeIn1{
-	    0% { top: 37%; opacity: 0; } 
-	    50% { top: 33%; opacity: 0.6; }
+	    0% { top: 33%; opacity: 0; } 
+	    50% { top: 31%; opacity: 0.6; }
 	    100% { top: 30%; opacity: 1; }
 	}
 }
@@ -340,9 +340,6 @@ ul.menu{
 		    50% { top: 15%; opacity: 0.6; }
 		    100% { top: 14%; opacity: 1; }
 		}
-		.scoredPoints{
-			background: url(../img/landingpage/pc.png) no-repeat right top;
-		} 
 	}
 }
 #section3{
@@ -409,8 +406,8 @@ ul.menu{
 				@include animation2(0, 1s, fadeIn4);
 			}
 			@keyframes fadeIn4{
-			    0% { top: 25%; opacity: 0.3; } 
-			    50% { top: 21%; opacity: 0.6; }
+			    0% { top: 18%; opacity: 0.3; } 
+			    50% { top: 16%; opacity: 0.6; }
 			    100% { top: 15%; opacity: 1; }
 			}
 			.item{
@@ -455,8 +452,8 @@ ul.menu{
 			@include animation2(0, 1s, fadeIn5);
 		}
 		@keyframes fadeIn5{
-		    0% { top: 30%; opacity: 0.3; } 
-		    50% { top: 25%; opacity: 0.6; }
+		    0% { top: 23%; opacity: 0.5; } 
+		    50% { top: 21%; opacity: 0.6; }
 		    100% { top: 22%; opacity: 1; }
 		}
 		.briefIntro{
@@ -493,7 +490,7 @@ ul.menu{
 	position: fixed;
 	top: 10px;
 	right: 5%;
-	z-index: 2;
+	z-index: 6;
 }
 
 // contact us

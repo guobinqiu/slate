@@ -55,6 +55,11 @@ $('.arrow-down').click(function(){
     $.fn.pagepiling.moveSectionDown();
 })
 
+//prevent scroll on mobile
+if($(window).width() < 667){
+    $.fn.pagepiling.setAllowScrolling(false);
+}
+
 //menu dropdown
 $(function(){
     var menu = $('ul.menu');
