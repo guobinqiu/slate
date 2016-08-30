@@ -53,7 +53,7 @@ $('#pagepiling').pagepiling({
 
 $('.arrow-down').click(function(){
     $.fn.pagepiling.moveSectionDown();
-})
+});
 
 //prevent scroll on mobile
 if($(window).width() < 667){

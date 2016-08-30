@@ -89,10 +89,12 @@
 		@include btn();
 		background: #17b5e5;
 		border: 1px solid #17b5e5;
+		*border: none;
 		-webkit-appearance: none;
 		&:hover{
 			background: #11aad9;
 			border: 1px solid #11aad9;
+			*border: none;
 		}
 	}
 	h2{

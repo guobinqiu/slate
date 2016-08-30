@@ -550,6 +550,12 @@
             display: none;
         }
     }
+    #pp-nav{
+        &.right{
+            display: none;
+        }
+    }
+
 }
 @media only screen and (max-height: 768px){
     #section1{
@@ -609,11 +615,6 @@
     } 
     .main-help-con{
         .direct{
-            display: none;
-        }
-    }
-    #pp-nav{
-        &.right{
             display: none;
         }
     }

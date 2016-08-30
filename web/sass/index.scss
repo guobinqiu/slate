@@ -248,6 +248,7 @@ ul.menu{
 		}
 	}
 	h2{
+		top: 20%\9;
 		@include animation2(0, 1s, fadeIn1);
 	}
 	@keyframes fadeIn1{
@@ -259,6 +260,7 @@ ul.menu{
 #section1{
 	color: #16b5b5;
 	background-color: #fff;
+	*display: none;
 	.sectionCon{
 		color: #fff;
 		height: 75%;
@@ -324,6 +326,7 @@ ul.menu{
 #section2{
 	background-image: url(../img/landingpage/3.jpg);
 	color: #fff;
+	*display: none;
 	h2{
 		width: 1000px;
 		left: 50%;
@@ -345,6 +348,7 @@ ul.menu{
 #section3{
 	color: #828282;
 	background-image: url(../img/landingpage/4.jpg);
+	*display: none;
 	.item{
 		position: absolute;
 		z-index: 3;
@@ -431,6 +435,7 @@ ul.menu{
 }
 #section4{
 	background-image: url(../img/landingpage/5.jpg);
+	*display: none;
 	a{
 		&.gray{
 			color: #fff;
@@ -537,6 +542,7 @@ ul.menu{
 .arrow{
 	position: fixed;
 	z-index: 6;
+	*display: none;
 }
 .arrow-down{
 	width:40px;
