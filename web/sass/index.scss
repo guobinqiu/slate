@@ -8,10 +8,6 @@ html,body{
 .main,#pagepiling,.sections,.section{
 	height: 100%;
 }
-#pagepiling,.section{
-	position: relative;
-	z-index: 1;
-}
 h1{
 	position: absolute;
 	z-index: 5;
@@ -35,7 +31,8 @@ h1{
 	transition: all 500ms ease 50ms;
 	@include dib();
 	&:hover{
-		background: rgba(0, 0, 0, .5);
+		background: rgba(0, 0, 0, .4);
+		color: #fff;
 	}
 }
 /*-----------satic style------------*/
@@ -45,19 +42,6 @@ h1{
 		background-size: cover;
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
-// <<<<<<< HEAD
-// =======
-// 		&.active{
-// 			.sectionCon{
-// 				h2{
-// 					top: 27%;
-// 				}
-// 			}
-// 			.btns{
-// 				top: 45%;
-// 			}
-// 		}
-// >>>>>>> 01a16121c8aa35360950698cea62596b757f612c
 	}
 }
 .expandBtn{
@@ -503,273 +487,7 @@ ul.menu{
 	    }
 	}
 }
-// <<<<<<< HEAD
-// /*-----------rewrite login style------------*/	
-// .mask{
-// 	position: fixed;
-// 	z-index: 1999;
-// 	top: 0;
-// 	left: 0;
-// 	right: 0;
-// 	bottom: 0;
-// 	width: 100%;
-// 	height: 100%;
-// 	background: #888;
-// 	background: rgba(0, 0, 0, .8);
-// 	display: none;
-// }
-// .quickLogPop{
-// 	top: 0;
-// 	left: 50%;
-// 	margin-left: -203px;
-// 	z-index: 2000;
-// 	opacity: 0;
-// 	visibility: hidden;
-// 	transition: all 500ms ease 30ms;
-// 	&.active{
-// 		top: 35%;
-// 		opacity: 1;
-// 		visibility: visible;
-// 	}
-// 	&.unActive{
-// 		top: 0;
-// 		opacity: 0;
-// 		visibility: hidden;
-// 	}
-// }
-// .main{
-//     .login{
-//         width: 80%;
-//         margin: 0 10%;
-//         padding-right: 142px;
-//         form{
-//             width: 285px;
-//             margin: 0 auto;
-//         }
-//     }
-// }
-// .login{
-// 	background: none;
-// 	width: 285px;
-// 	height: 360px;
-// 	position: absolute;
-// 	z-index: 6;
-// 	top: 28%;
-// 	.login-btn{
-// 		margin-top: 15px;
-// 		background: #17b5e5;
-// 		border: none;
-// 		font-size: 16px;
-// 		&:hover{
-// 			background: #17b5e5;
-// 			border: none;
-// 		}
-// 	}
-// 	.login-con{
-// 		padding: 0;
-// 	}
-// 	.tips{
-// 		margin-top: 0;
-// 		padding: 0;
-// 		width: 100%;
-// 		text-align: left;
-// 		font-size: 14px;
-// 		color: #fff;
-// 		height: 0;
-// 		background: #666;
-// 		background: rgba(0, 0, 0, .6);
-// 		border-radius: 3px;
-// 		opacity: 0;
-// 		visibility: hidden;
-// 		transition: all 1s ease 50ms;
-// 		&.active{
-// 			margin-top: 15px;
-// 			padding: 10px;
-// 			height: auto;
-// 			line-height: 22px;
-// 			opacity: 1;
-// 			visibility: visible;
-// 		}
-// 	}
-// 	ul{
-// 		background: #fff;
-// 		border-radius: 5px;
-// 	}
-// 	li{
-// 		position: relative;
-// 		z-index: 2;
-// 		margin-bottom: 0;
-// 		&.liner{
-// 			border-bottom: 1px solid #e3e3e3;	
-// 		}
-// 		span.null{
-// 			display: none;
-// 		}
-// 		label{
-// 			position: absolute;
-// 			z-index: 2;
-// 			left: 15px;
-// 			display: block;
-// 			line-height: 45px;
-// 			color: #a0a0a0;
-// 			font-size: 14px;
-// 			text-align: left;
-// 		}
-// 		input[type="text"], input[type="email"], input[type="password"]{
-// 			width: 90%;
-// 			height: 45px; 
-// 			line-height: 45px;
-// 			border: none;
-// 			padding: 0 5%;
-// 			font-size: 14px;
-// 			display: block;
-// 			&:focus, &.active{
-// 				border: none;
-// 				box-shadow: none;
-// 				outline: none;
-// 			}
-// 		}
-// 		span{
-// 			position: absolute;
-// 			z-index: 1;
-// 			display: inline-block;
-// 			&.error, &.focus{
-// 				border: none;
-// 				padding: 0 5px;
-// 				height: 30px;
-// 				line-height: 30px;
-// 				margin: 6px 2px 0 0;
-// 				font-size: 12px;
-// 			}
-// 			&.error{
-// 				color: #a94442;
-// 			    background-color: #f2dede;
-// 			    border: 1px solid #ebccd1;
-// 			}
-// 			&.focus{
-// 				top: 0;
-// 				right: 5px;
-// 				color: #3c763d;
-// 				background-color: #dff0d8;
-// 				border: 1px solid #d6e9c6;
-// 				@include border-radius(4px);
-// 				opacity: 0;
-// 				visibility: hidden;
-// 				font-size: 0;
-// 			}
-// 			ul{
-// 				background: transparent;
-// 				margin-bottom: 0; 
-// 			}
-// 		}
-// 		#signup_email_error{ 
-// 	 	 	white-space: nowrap;
-// 	 	}
-// 	}
-// 	p{
-// 		text-align: center;
-// 		color: $weak-color;
-// 		a{
-// 			&.spec{
-// 				float: none;
-// 				color: #fff;
-// 				font-size: 14px;	
-// 			}
-// 		}
-// 	}
-// 	.login-btn-others{
-// 		margin-top: 20px;
-// 		*text-align: center;
-// 		a{
-// 			width: 100px;
-// 			color: #fff;
-// 			background: #635b5b url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-// 			background: rgba(173,138,118, .3) url(../img/home/sinaUnact.png) no-repeat 24px 12px;
-// 			&.qq-login{
-// 				background: #635b5b url(../img/home/qqUnact.png) no-repeat 24px 10px;
-// 				background: rgba(173,138,118, .3) url(../img/home/qqUnact.png) no-repeat 24px 10px; 
-// 				&:hover{
-// 					background: #635b5b url(../img/home/qq.png) no-repeat 24px 10px; 
-// 					background: rgba(255,255,255, 1) url(../img/home/qq.png) no-repeat 24px 10px; 
-// 				}
-// 			}
-// 			&:hover{
-// 				background: #635b5b url(../img/home/sina.png) no-repeat 24px 12px;
-// 				background: rgba(255, 255, 255, 1) url(../img/home/sina.png) no-repeat 24px 12px;
-// 			}
-// 		}
-// 	}
-// }
-// /*-----------rewrite reg style------------*/
-// .register{
-// 	height: 450px;
-// 	top: 20%;
-// 	li{
-// 		&.subscribe{
-// 			text-align: left;
-// 			label{
-// 				left: 35px;
-// 				width: auto;
-// 				line-height: 24px;
-// 				@include dib();
-// 			}
-// 		}
-// 		input[type="text"], input[type="email"], input[type="password"]{
-// 		 	*height: 20px; 
-// 		 	*line-height: 10px;
-// 		}
-// 	}
-// 	.login-btn{
-// 		span{
-// 			width: 100%;
-// 			height: 46px;
-// 			line-height: 46px;
-// 			display: inline-block;
-// 			outline: none;
-// 		}
-// 	}
-// 	#protocol_error{
-// 		display: none;
-// 		position: static;
-// 		margin-left: 24px;
-// 		&.error{
-// 			display: inline-block;
-// 		}
-// 	}
-// }
-// #vcode{
-// 	font-size: 12px;
-// 	.vcodeImg{
-// 		&>div{
-// 			position: relative;
-// 			z-index: 3;
-// 			height: 56px;	
-// 		}
-// 	}
-// 	.captcha_reload{
-// 		position: absolute;
-// 		z-index: 5;
-// 	    top: 16px;
-// 	    right: 58px;
-// 	    background: url(../img/user/change.png) no-repeat;
-// 	    padding-left: 20px;
-// 	    height: 14px;
-// 	}
-// }	
-// .subscribe{
-// 	padding: 10px;
-// 	font-size: 12px;
-// 	&>div{
-// 		width: 100%;
-// 		text-align: left;
-// 		height: 22px;
-// 		line-height: 22px;
-// 	}
-// }
-// =======
 
-
-// >>>>>>> 01a16121c8aa35360950698cea62596b757f612c
 /* drop menu */
 .dropMenu{
 	position: fixed;
@@ -821,7 +539,7 @@ ul.menu{
 /*-----------arrow style------------*/
 .arrow{
 	position: fixed;
-	z-index: 2;
+	z-index: 6;
 }
 .arrow-down{
 	width:40px;
