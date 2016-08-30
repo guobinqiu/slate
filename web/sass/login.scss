@@ -17,7 +17,7 @@
 .login{
 	width: 80%;
 	height: 360px;
-	overflow: hidden;
+	// overflow: hidden;
 	background: none;
 	position: absolute;
 	z-index: 6;
@@ -60,6 +60,21 @@
 		top: -2px;
 		ul{
 			background: none;
+		}
+	}
+	.errorLogBack{
+		ul{
+			background: none;
+			li{
+				width: 100%;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				margin: 0;
+				padding: 0;
+				border: none;
+				border-radius: 0px;
+			}
 		}
 	}
 	.login-btn{
