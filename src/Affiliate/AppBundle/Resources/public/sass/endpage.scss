@@ -68,7 +68,8 @@ a{
 			.l1{
 				font-size: 24px;
 				margin-bottom: 15px;
-				line-height: 42px;
+				line-height: 25px;
+				margin-top: 8px; 
 			}
 			.l2{
 				font-size: 14px;
@@ -151,6 +152,15 @@ a{
 			.btn{
 				.bWrap{
 					font-size: 2rem;
+				}
+			}
+			.txt{
+				.l1{
+					font-size: 1.6rem;
+					margin-top: 18px;
+				}
+				.l2{
+					font-size: 0.9rem;
 				}
 			}
 		}
