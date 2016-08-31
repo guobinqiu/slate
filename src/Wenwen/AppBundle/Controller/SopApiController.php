@@ -154,7 +154,11 @@ class SopApiController extends Controller
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $request->headers->get('X-Sop-Sig');
 
+        $this->container->get('logger')->info('----------------'.__METHOD__.' sig='.$sig);
+        $this->container->get('logger')->info('----------------'.__METHOD__.' request_body='.$request_body);
+
         if (!$auth->verifySignature($sig, $request_body)) {
+            $this->container->get('logger')->error('----------------'.__METHOD__.'403');
             return $this->render403Response('authentication failed');
         }
 
