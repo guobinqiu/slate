@@ -247,7 +247,6 @@ abstract class Client
         $server = array_merge($this->server, $server);
 
         $uri = $this->getAbsoluteUri($uri, $server);
-        echo $uri;
 
         if (!$this->history->isEmpty()) {
             $server['HTTP_REFERER'] = $this->history->current()->getUri();

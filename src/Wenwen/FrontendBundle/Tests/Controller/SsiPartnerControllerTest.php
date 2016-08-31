@@ -178,7 +178,7 @@ class SsiPartnerControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $this->container;
-        $user = SsiPartnerControllerTestFixture::$UStestExecuteInDefinitiveModeER;
+        $user = SsiPartnerControllerTestFixture::$USER;
         $this->login($client);
 
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_permission'));
