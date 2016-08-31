@@ -274,7 +274,7 @@ class AdminProjectService
                 $count ++;
                 if($count % 2000 == 0){
                     $this->em->flush();
-                    $this->em->clear();
+                    $this->em->clear('AffiliateAppBundle:AffiliateUrlHistory');
                 }
             } catch (\Exception $e){
                 $urlsAndUkey['errmsg'] = $e->getMessage();
