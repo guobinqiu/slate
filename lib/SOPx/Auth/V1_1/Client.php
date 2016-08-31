@@ -39,7 +39,6 @@ class Client
         }
         $params['time'] = $this->getTime();
 
-        $req;
         switch ($method) {
             case 'GET':
                 $req = GET::createRequest($uri, $params, $this->getAppSecret());

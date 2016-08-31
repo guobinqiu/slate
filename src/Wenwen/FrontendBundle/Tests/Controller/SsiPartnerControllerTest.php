@@ -255,7 +255,7 @@ class SsiPartnerControllerTest extends WebTestCase
                 'password' => 'password',
                 '_token' => $csrfToken
             )
-        ));
+        ), array(), array('HTTPS' => true));
     }
 }
 
