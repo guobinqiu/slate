@@ -1,18 +1,40 @@
 @charset "UTF-8";
 
-@import "layout/common";
 @import "font-awesome/scss/font-awesome";
+html{
+	font-size: 20px;
+}
+body{ 
+	font-family: "Microsoft YaHei", Tohoma, Arial;
+	background: #e9eded;
+	color: #434546;
+}
+a{
+    color: #404040;
+    background: transparent;
+    text-decoration: none;
+}
+.clearfix {
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 .freeSurWrap{
 	width: 900px;
 	margin: 0 auto;
 	background: #fff;
-	@include box-shadow(3px 5px 5px rgba(225,229,229,1));
+	-moz-box-shadow:3px 5px 5px rgba(225,229,229,1); 
+	-webkit-box-shadow:3px 5px 5px rgba(225,229,229,1); 
+	box-shadow:3px 5px 5px rgba(225,229,229,1);
 	.statusCon{
 		padding: 65px 80px;
 		line-height: 32px;
 		text-align: center;
 		i{
-			font-size: 140px;
+			font-size: 6rem;
 			color: #D9E1E2;
 			&.successIcon{
 				*width: 129px;
@@ -26,15 +48,17 @@
 			}
 		}
 		div{
-			font-size: 16px;
 		    margin: 25px 0;
 		    color: #5D6263;
+		    font-size: 1rem;
+		    line-height: 64px;
+		    padding: 0 130px;
 		}
 	}
 	.recommend{
 		height: 80px;
 		background: #ebf1f2;
-		padding: 40px 80px;
+		padding: 32px 80px 45px;
 		.txt{
 			text-align: left;
 		    float: left;
@@ -52,16 +76,17 @@
 		}
 		.btn{
 			padding: 21px 30px 21px 36px;
-			margin-top: 12px;
 			background: #0da383;
 			float: right;
 			color: #fff;
 			display: inline-block;
-			@include border-radius(3px);
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
 			position: relative;
 			.bWrap{
 				color: #fff;
-				font-size: 18px;
+				font-size: 0.9rem;
 				span.text{
 					padding-right: 25px;
 				}
@@ -108,4 +133,26 @@
 			}
 		}
 	}  
+}
+@media only screen and (max-device-width: 667px) {
+	.freeSurWrap{
+		width: 100%;
+		.statusCon{ 
+			i{
+				font-size: 16rem;
+			}
+			div{
+				font-size: 2rem;
+			}	
+		}
+	}
+	.freeSurWrap{
+		.recommend{
+			.btn{
+				.bWrap{
+					font-size: 2rem;
+				}
+			}
+		}
+	}   
 }
