@@ -121,7 +121,7 @@ class SurveyControllerTest extends WebTestCase
                 'password' => '11111q',
                 '_token' => $csrfToken
             )
-        ));
+        ), array(), array('HTTPS' => true));
         //echo $client->getResponse()->getContent();
     }
 

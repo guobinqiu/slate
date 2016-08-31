@@ -30,7 +30,8 @@
         "misd/guzzle-bundle": "^1.1",
         "snc/redis-bundle": "1.1.10",
         "predis/predis": "^1.0",
-        "pagerfanta/pagerfanta": "1.0"
+        "pagerfanta/pagerfanta": "1.0",
+        "jms/serializer-bundle": "1.0.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",

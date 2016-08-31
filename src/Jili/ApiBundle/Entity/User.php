@@ -302,6 +302,10 @@ class User
         return $this;
     }
 
+    private function getSalt(){
+
+    }
+
     /**
      * Get pwd
      *
