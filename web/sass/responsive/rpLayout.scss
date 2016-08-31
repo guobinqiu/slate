@@ -17,7 +17,7 @@
       font-size: 1.2rem!important;
     }
     .w1000{
-        width: auto;  
+        width: auto;   
     }
     .page{
         span{
@@ -230,7 +230,11 @@
             margin-left: 0;
         }
         .right{
-            display: none;
+            a{
+                &.taskHis,&.exchangeHis{
+                    display: none;
+                }
+            }
         }
         .faceWapper{
             img{
@@ -239,7 +243,7 @@
             } 
         }
         .infoText{
-            width: 80%;
+            width: auto;
         }
         .infoText{
             .l1{
@@ -254,6 +258,12 @@
                     display: inline-block;
                     vertical-align: middle;
                 }
+            }
+        }
+        .incentive{
+            margin-right: 15px;
+            img{
+                margin-top: -15px;
             }
         }
     }
@@ -1324,6 +1334,18 @@
     .bindPrompt{
         .prompt{
             width: 100%;
+        }
+    }
+
+    // callboard page
+    .main{
+        .main-con{
+            .newsInfo{
+                width: 100%;
+                article{
+                    width: 100%;
+                }
+            }
         }
     }
 }

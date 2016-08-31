@@ -550,12 +550,21 @@
             display: none;
         }
     }
+    .main{
+        .main-con{
+            .newsInfo{
+                width: 100%;
+                article{
+                    width: 100%;
+                }
+            }
+        }
+    }
     #pp-nav{
         &.right{
             display: none;
         }
     }
-
 }
 @media only screen and (max-height: 768px){
     #section1{
