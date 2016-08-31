@@ -326,15 +326,4 @@ class AdminControllerTest extends WebTestCase {
             }
         }
     }
-
-    /**
-     * @group issue_560
-     */
-    public function testAddPointManageAction(){
-        $client = static :: createClient();
-        $url = '/admin/pointManage';
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
 }
