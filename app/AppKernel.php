@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Affiliate\AppBundle\AffiliateAppBundle(),
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

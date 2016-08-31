@@ -244,9 +244,11 @@ abstract class Client
      */
     public function request($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true)
     {
-        $uri = $this->getAbsoluteUri($uri);
-
         $server = array_merge($this->server, $server);
+
+        $uri = $this->getAbsoluteUri($uri, $server);
+        echo $uri;
+
         if (!$this->history->isEmpty()) {
             $server['HTTP_REFERER'] = $this->history->current()->getUri();
         }
@@ -468,21 +470,21 @@ abstract class Client
      *
      * @return string An absolute uri
      */
-    protected function getAbsoluteUri($uri)
+    protected function getAbsoluteUri($uri, $server)
     {
         // already absolute?
         if (0 === strpos($uri, 'http')) {
             return $uri;
         }
 
-        if (!$this->history->isEmpty()) {
-            $currentUri = $this->history->current()->getUri();
-        } else {
+//        if (!$this->history->isEmpty()) {
+//            $currentUri = $this->history->current()->getUri();
+//        } else {
             $currentUri = sprintf('http%s://%s/',
-                isset($this->server['HTTPS']) ? 's' : '',
-                isset($this->server['HTTP_HOST']) ? $this->server['HTTP_HOST'] : 'localhost'
+                isset($server['HTTPS']) ? 's' : '',
+                isset($server['HTTP_HOST']) ? $server['HTTP_HOST'] : 'localhost'
             );
-        }
+//        }
 
         // protocol relative URL
         if (0 === strpos($uri, '//')) {
