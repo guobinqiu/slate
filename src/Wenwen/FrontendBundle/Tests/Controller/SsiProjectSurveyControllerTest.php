@@ -101,7 +101,7 @@ class SsiProjectSurveyControllerTest extends WebTestCase
                 'password' => 'password',
                 '_token' => $csrfToken
             )
-        ));
+        ), array(), array('HTTPS' => true));
         //echo $client->getResponse()->getContent();
     }
 }
