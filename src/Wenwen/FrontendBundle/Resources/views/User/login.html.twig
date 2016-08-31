@@ -7,11 +7,12 @@
 {% endblock %}
 
 {% block stylesheet %}
+	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
-	<div id="container">
+	<div id="pagepiling">
 		<div class="section" id="section0">
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">
@@ -21,7 +22,6 @@
 					<![endif]-->
 				</a>
 			</h1>
-			<a href="{{ path('_user_reg') }}" class="btn">注册</a>
 			<div class="sectionCon">
 			    <div class="login loginUq">
 			        <div class="login-con logWrap">
@@ -62,34 +62,34 @@
 				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
 			</div>
 			<div class="refNum">
-				<div class="num"><b id="userNum"></b><em class="chinese">年</em><div class="tit">服务调研行业</div></div>
-				<div class="num"><b id="pointNum"></b><em>+</em><div class="tit">累计发放任务</div></div>
-				<div class="num"><b id="surveyNum"></b><em>+</em><div class="tit">累计发放奖励</div></div>
+				<div class="num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
+				<div class="num"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
+				<div class="num"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
 			</div>
 		</div>
-		<div class="section" id="section2">
+		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section2">
 			<div class="sectionCon">
 				<h2><img src="{{ asset('img/landingpage/text02.png') }}" alt="怎样赚积分"></h2>
 				<div class="scoredPoints">
 					<div class="scoredPointsItem">
-						<div class="icon icon1"></div>
+						<div class="icon"></div>
 						<div class="liner"></div>
-						<div class="con con1">
+						<div class="con">
 							<h3>免费注册会员</h3>
-							<p>只需两步就可以完成注册，注册即送10积分哦！</p>
+							<p>只需两步就可以完成注册。</p>
 						</div>
 					</div>
 					<div class="scoredPointsItem">
 						<div class="icon icon2"></div>
 						<div class="liner liner2"></div>
-						<div class="con con2">
+						<div class="con">
 							<h3>回答问卷赚积分</h3>
 							<p>回答问卷，快速问答投票，做任务都可以赚取积分。</p>
 						</div>
 					</div>
 					<div class="scoredPointsItem">
 						<div class="icon icon3"></div>
-						<div class="con con3">
+						<div class="con">
 							<h3>兑换奖品</h3>
 							<p>1元=100积分，奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等。</p>
 						</div>
@@ -129,6 +129,7 @@
 			</div>
 		</div>
 	</div>
+	<a href="{{ path('_user_reg') }}" class="btn">注册</a>
 	<div class="arrow hiddenPhone visibleDesktop visibleTablet">
     	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
 		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
@@ -136,6 +137,6 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
 {% endblock %}

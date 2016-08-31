@@ -2,11 +2,12 @@
 {% block title %}{{ parent() }}注册{% endblock %}
 
 {% block stylesheet %}
+	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
-	<div id="container">
+	<div id="pagepiling">
 		<div class="section" id="section0">
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">
@@ -16,7 +17,6 @@
 					<![endif]-->
 				</a>
 			</h1>
-			<a href="{{ path('_user_login') }}" class="btn" title="登录">登录</a>
 			<div class="sectionCon reg">
 				<div class="login register">
 					<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
@@ -67,9 +67,9 @@
 				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
 			</div>
 			<div class="refNum">
-				<div class="num"><b id="userNum"></b><em class="chinese">年</em><div class="tit">服务调研行业</div></div>
-				<div class="num"><b id="pointNum"></b><em>+</em><div class="tit">累计发放任务</div></div>
-				<div class="num"><b id="surveyNum"></b><em>+</em><div class="tit">累计发放奖励</div></div>
+				<div class="num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
+				<div class="num"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
+				<div class="num"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
 			</div>
 		</div>
 		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section2">
@@ -134,6 +134,7 @@
 			</div>
 		</div>
 	</div>
+	<a href="{{ path('_user_login') }}" class="btn" title="登录">登录</a>
 	<div class="arrow hiddenPhone visibleDesktop visibleTablet">
     	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
 		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
@@ -141,10 +142,10 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.touchSwipe.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
-
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/validate.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 {% endblock %}
 

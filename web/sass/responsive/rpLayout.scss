@@ -32,7 +32,6 @@
         }
     } 
     .main{
-        margin-top: 0px;
         &.unlogin{
             margin-top: 0;
         }
@@ -106,6 +105,8 @@
                 margin-left: 20px;
             }
             i{
+                width: initial;
+                height: initial;
                 font-size: 1.3rem!important;
             }
         }
@@ -1168,9 +1169,6 @@
     }
 
     /* landing page */
-    .dropMenu{
-        top: 2px;
-    }
     .section{
         .btn{
             top: 28px;
@@ -1223,7 +1221,6 @@
     }
     #section1{
         .refNum{
-            width: 100%;
             b{
                 font-size: 1.5rem!important;
                 font-weight: bold;
@@ -1361,15 +1358,15 @@
             }
         }
     }
-    #section2{
-        .sectionCon{
-            h2{
-                img{
-                    width: 100%;
-                }
-            }
-        }
-    }
+    // #section2{
+    //     .sectionCon{
+    //         h2{
+    //             img{
+    //                 width: 100%;
+    //             }
+    //         }
+    //     }
+    // }
     #section3{
         .sectionCon{
             h2{

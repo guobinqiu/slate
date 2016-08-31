@@ -550,7 +550,6 @@
             display: none;
         }
     }
-
     .main{
         .main-con{
             .newsInfo{
@@ -559,6 +558,11 @@
                     width: 100%;
                 }
             }
+        }
+    }
+    #pp-nav{
+        &.right{
+            display: none;
         }
     }
 }
@@ -618,7 +622,6 @@
             }
         }
     } 
-
     .main-help-con{
         .direct{
             display: none;
@@ -716,6 +719,13 @@
             width: 190px;
         }
     }
+    #section0{
+        &.active{
+            h2{
+                top: 23% !important;
+            }
+        }
+    }
     #section1{
        .refNum{
           .num{
@@ -807,30 +817,6 @@
            } 
         }  
     }
-    /* landing page */
-    // #section0{
-    //     .sectionCon{
-    //         z-index: 1;
-    //       &:before{
-    //         content: "";
-    //         position: absolute;
-    //         z-index: -1;
-    //         top: 0;
-    //         bottom: 0;
-    //         left: 0;
-    //         right: 0;
-    //         background: url(../../img/common/bg-dot-pattern.png) repeat;
-    //         opacity: .2;
-    //       }
-    //     }
-    // }
-    // .sectionCon{
-    //     .btns{
-    //         a[title="登录"]{
-    //             background-color: rgba(0,0,0,0.5);
-    //         }
-    //     }
-    // }
 }
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) { 
     .scoredPoints{
