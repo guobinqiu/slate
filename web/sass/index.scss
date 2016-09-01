@@ -6,13 +6,6 @@ html,body{
 	overflow: hidden;
 	background: #262424;
 }
-body:before{ 
-	content: url(../img/landingpage/1.jpg);
-	background-image: url(../img/landingpage/1.jpg);
-	visibility: hidden;
-	position: absolute;
-	left: -9999px;
-}
 .main,#pagepiling,.sections,.section{
 	height: 100%;
 }
