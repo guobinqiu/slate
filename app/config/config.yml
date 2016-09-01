@@ -151,7 +151,13 @@ monolog:
         main:
             type: fingers_crossed
             action_level: error
-            channels: ["!user_source", "!import_adw_cps"]
+            channels: ["!sop_notification", "!user_source", "!import_adw_cps"]
+
+        sop_notification:
+            level: info
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.sop_notification.log
+            channels: [sop_notification]
 
         command_import_adw_csv:
             type: stream

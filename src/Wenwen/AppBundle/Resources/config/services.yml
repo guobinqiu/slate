@@ -8,3 +8,8 @@ services:
         calls:
             - [ setLogger, [ @logger ] ]
             - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+    monolog.logger.sop_notification:
+        class: Wenwen\AppBundle\Services\Logger\SopNotificationLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: sop_notification }
