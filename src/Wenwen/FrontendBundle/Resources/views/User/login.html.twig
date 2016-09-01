@@ -9,6 +9,12 @@
 {% block stylesheet %}
 	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		$('html').addClass('secHd');
+		$(document).ready(function(){
+			$('html').removeClass('secHd');
+		});
+	</script>
 {% endblock %}
 
 {% block body %}
@@ -17,8 +23,8 @@
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">
 					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-					<!--[if lte IE 9]>
-						<img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+					<!--[if IE]>
+						<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
 					<![endif]-->
 				</a>
 			</h1>
@@ -138,5 +144,6 @@
 
 {% block javascript %}
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
 {% endblock %}

@@ -4,6 +4,7 @@
 html,body{
 	height: 100%;
 	overflow: hidden;
+	background: #262424;
 }
 .main,#pagepiling,.sections,.section{
 	height: 100%;
@@ -248,7 +249,8 @@ ul.menu{
 		}
 	}
 	h2{
-		top: 20%\9;
+		top: 30%;
+		// top: 20%\9;
 		@include animation2(0, 1s, fadeIn1);
 	}
 	@keyframes fadeIn1{
@@ -513,7 +515,7 @@ ul.menu{
 		position: fixed;
 		bottom: 0;
 		right: 0;
-		z-index: 2;
+		z-index: 6;
 		border-top-left-radius: 13px;
 		-webkit-top-left-border-radius: 13px;
 		-moz-top-left-border-radius: 13px;
@@ -667,4 +669,10 @@ ul.menu{
 }
 .pp-tooltip{
 	display: none!important;
+}
+
+.secHd{
+	#section0, #section1, #section2, #section3, #section4, #section5{
+		display: none!important;
+	}
 }
