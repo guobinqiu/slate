@@ -42,11 +42,11 @@ $survey-border-color: #f6f6f6;
 		padding: 30px 20px 11px;
 		position: relative;
 		z-index: 1;
-		&:hover, &.active{
-			.survey-item{
-				width: 86%;				
-			}
-		}
+		// &:hover, &.active{
+		// 	.survey-item{
+		// 		width: 86%;				
+		// 	}
+		// }
 		span{
 			vertical-align: top;
 			@include dib();	
@@ -54,10 +54,9 @@ $survey-border-color: #f6f6f6;
 	}
 }
 .survey .survey-item{
-	width: 86%;
+	width: 76%;
+	display: inline-block;
 	li{
-		float: left;
-		width: 21%;
 		text-align: left;
 		padding: 0;
 		margin-right: 15px;
@@ -65,28 +64,28 @@ $survey-border-color: #f6f6f6;
 		height: 22px;
 		line-height: 22px;
 		color: $weak-color;
-		&.last{
-			text-align: left;
-			strong{
-				color: $orange-color;
-				font-size: 16px;
-				vertical-align: -2px;
-				margin-right: 3px;
-			}
-			&:after{
-				border: none;
-			}
-		}
-		&:after{
-			content: '';
-		    position: absolute;
-		    width: 1px;
-		    height: 15px;
-		    top: 4px;
-		    right: 0;
-		    border-right: 1px solid #E0E5E5;
-		    z-index: -1;
-		}	
+		// &.last{
+		// 	text-align: left;
+		// 	strong{
+		// 		color: $orange-color;
+		// 		font-size: 16px;
+		// 		vertical-align: -2px;
+		// 		margin-right: 3px;
+		// 	}
+		// 	&:after{
+		// 		border: none;
+		// 	}
+		// }
+		// &:after{
+		// 	content: '';
+		//     position: absolute;
+		//     width: 1px;
+		//     height: 15px; 
+		//     top: 4px;
+		//     right: 0;
+		//     border-right: 1px solid #E0E5E5;
+		//     z-index: -1;
+		// }	
 	}
 	.proTit{
 		height: 28px;
@@ -124,16 +123,14 @@ $survey-border-color: #f6f6f6;
 	    	}
 	    }
     	i{
-    		color: $orange-color;
+    		color: $list-tit-color;
     		font-weight: bold;
     	}
 
 	}
 }
-
 .proNew{
 	width: 95%;
-	display: none;
 	.proNot{
 		color: #60666C;
 		margin-top: 5px;
@@ -151,12 +148,29 @@ $survey-border-color: #f6f6f6;
 		}
 	}
 }
+.rewardPoint{
+	width: 90px;
+    display: inline-block;
+    color: #A7B2BE;
+    vertical-align: 11px;
+    text-align: right;
+    position: absolute;
+    right: 108px;
+    top: 41px;
+	i{
+		font-size: 22px;
+		color: $orange-color;
+		margin-right: 4px;
+		vertical-align: -2px;
+	}
+}
 .survey {
 	padding-bottom: 40px;
 	.survey-btn{
 		cursor: default;
 		position: absolute;
 		right: 12px;
+		top: 36px;
 		a{
 			color: #fff;
 			width: 80px;
@@ -318,10 +332,23 @@ $survey-border-color: #f6f6f6;
 				vertical-align: -2px;
 				margin: 0 11px;
 			}
-			i{
-				color: $orange-color;
-			}
 		}
+	}
+}
+.votePoint{
+	width: 90px;
+    display: inline-block;
+    color: #A7B2BE;
+    vertical-align: 11px;
+    text-align: right;
+    position: absolute;
+    right: 108px;
+    top: 37px;
+	i{
+		font-size: 22px;
+		color: $orange-color;
+		margin-right: 4px;
+		vertical-align: -2px;
 	}
 }
 $count-font-color: #914b11;
@@ -348,14 +375,14 @@ $count-bg: #f5f5f5;
 		padding: 0 5px;
 	}
 }
-.proSurPop{
-	width: 240px;
-	height: 245px;
-	background: url(../img/questionnaire/profilePop.png) right bottom no-repeat;
-	position: absolute;
-	left: -230px;
-	top: -17px;
-}
+// .proSurPop{
+// 	width: 240px;
+// 	height: 245px;
+// 	background: url(../img/questionnaire/profilePop.png) right bottom no-repeat;
+// 	position: absolute;
+// 	left: -230px;
+// 	top: -17px;
+// }
 .proText{
 	width: 187px;
 	height: 100px;

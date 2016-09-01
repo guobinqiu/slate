@@ -6,12 +6,10 @@
         <li class="first">
             问卷编号：f{{ fulcrum_research.survey_id }}
         </li>
-        <li>
-            问卷类型：商业问卷
-        </li>
         <li class="last">
-            奖励积分：<strong>{{ fulcrum_research.extra_info.point.complete }}</strong>
+            问卷类型：商业问卷
         </li>
     </ul>
 </div>
+<div class="rewardPoint"><i>{{ fulcrum_research.extra_info.point.complete }}</i>积分</div>
 <div class="survey-btn"><a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>
