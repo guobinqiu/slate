@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
  * @Route("/auth/weibo")
@@ -84,11 +85,15 @@ class WeiBoLoginController extends Controller
      */
     public function bindAction(Request $request)
     {
-        $form = $this->createForm(new LoginType());
+        $loginForm = $this->createForm(new LoginType());
+        $userForm = $this->createForm(new UserProfileType());
 
         $openId = $request->query->get('openId');
         $em = $this->getDoctrine()->getManager();
         $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
         $params = array(
             'openId' => $openId,
@@ -96,24 +101,27 @@ class WeiBoLoginController extends Controller
             'unbind_route' => 'weibo_unbind',
             'nickname' => $weiboUser->getNickname(),
             'photo' => $weiboUser->getPhoto(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'userForm' => $userForm->createView(),
         );
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $loginForm->bind($request);
 
-            if ($form->isValid()) {
-                $formData = $form->getData();
+            if ($loginForm->isValid()) {
+                $formData = $loginForm->getData();
                 $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $form->addError(new FormError('邮箱或密码错误'));
-                    $params['form'] = $form->createView();
+                    $loginForm->addError(new FormError('邮箱或密码错误'));
+                    $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
                 if (!$user->emailIsConfirmed()) {
-                    $form->addError(new FormError('邮箱尚未激活'));
-                    $params['form'] = $form->createView();
+                    $loginForm->addError(new FormError('邮箱尚未激活'));
+                    $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
@@ -125,7 +133,7 @@ class WeiBoLoginController extends Controller
             }
         }
 
-        $params['form'] = $form->createView();
+        $params['loginForm'] = $loginForm->createView();
         return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
     }
 
@@ -134,42 +142,66 @@ class WeiBoLoginController extends Controller
      */
     public function unbindAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $loginForm = $this->createForm(new LoginType());
+
+        $userProfile = new UserProfile();
+        $userForm = $this->createForm(new UserProfileType(), $userProfile);
+
         $openId = $request->query->get('openId');
+        $em = $this->getDoctrine()->getManager();
         $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
 
-        $currentTime = new \DateTime();
-        $em->getConnection()->beginTransaction();
-        try {
-            $user = new User();
-            $user->setNick($weiboUser->getNickname());
-            $user->setPoints(User::POINT_SIGNUP);
-            $user->setIconPath($weiboUser->getPhoto());
-            $user->setRegisterDate($currentTime);
-            $user->setRegisterCompleteDate($currentTime);
-            $user->setLastLoginDate($currentTime);
-            $user->setLastLoginIp($request->getClientIp());
-            $user->setCreatedRemoteAddr($request->getClientIp());
-            $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-            $em->persist($user);
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
-            $userProfile = new UserProfile();
-            $userProfile->setSex($weiboUser->getGender());
-            $userProfile->setUser($user);
-            $em->persist($userProfile);
+        if ($request->getMethod() == 'POST') {
+            $userForm->bind($request);
 
-            $weiboUser->setUser($user);
+            if ($userForm->isValid()) {
+                $currentTime = new \DateTime();
+                $em->getConnection()->beginTransaction();
+                try {
+                    $user = new User();
+                    $user->setNick($weiboUser->getNickname());
+                    $user->setPoints(User::POINT_SIGNUP);
+                    $user->setIconPath($weiboUser->getPhoto());
+                    $user->setRegisterDate($currentTime);
+                    $user->setRegisterCompleteDate($currentTime);
+                    $user->setLastLoginDate($currentTime);
+                    $user->setLastLoginIp($request->getClientIp());
+                    $user->setCreatedRemoteAddr($request->getClientIp());
+                    $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                    $em->persist($user);
 
-            $em->flush();
-            $em->getConnection()->commit();
+                    $userProfile->setUser($user);
+                    $em->persist($userProfile);
 
-            $request->getSession()->set('uid', $user->getId());
-            return $this->redirect($this->generateUrl('_homepage'));
+                    $weiboUser->setUser($user);
 
-        } catch (\Exception $e) {
-            $em->getConnection()->rollBack();
-            throw $e;
+                    $em->flush();
+                    $em->getConnection()->commit();
+
+                    $request->getSession()->set('uid', $user->getId());
+                    return $this->redirect($this->generateUrl('_homepage'));
+
+                } catch (\Exception $e) {
+                    $em->getConnection()->rollBack();
+                    throw $e;
+                }
+            }
         }
+
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig', array(
+            'openId' => $openId,
+            'bind_route' => 'weibo_bind',
+            'unbind_route' => 'weibo_unbind',
+            'nickname' => $weiboUser->getNickname(),
+            'photo' => $weiboUser->getPhoto(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'loginForm' => $loginForm->createView(),
+            'userForm' => $userForm->createView(),
+        ));
     }
 
     private function getAccessToken($code)

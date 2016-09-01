@@ -119,13 +119,13 @@
     // });
     
 //register form validation
-$(document).ready(function(){   
+$(function(){
     $("#signup_form").validate(
         {
             rules: {
                 'signup[nick]':{
                     required: true,
-                    minlength: 1, 
+                    minlength: 1,
                     maxlength: 100
                 },
                 'signup[email]':{
@@ -181,10 +181,10 @@ $(document).ready(function(){
                 }
             }
         }
-    )
-});
+    );
 
-//接受会员协议报错样式
-if($('.subscribe .errorSub').text().length > 0){
-    $('.subscribe .errorSub').css({'position':'inherit', 'margin-bottom':'10px'});
-}
+    //生日下拉框
+    $("input[name*='birthday']").on('click', function(){
+        laydate();
+    });
+});

@@ -188,14 +188,14 @@ class ProfileController extends Controller
         //一个页面有多个表单
         $uploadForm = $this->createForm(new UserIconType());
         $userType = new UserType();
-        $editForm = $this->createForm($userType, $user);
+        $userForm = $this->createForm($userType, $user);
 
         //由于也支持GET请求，所以先要判断一下是不是POST的
         if ($request->getMethod() == 'POST') {
             //仅对editForm进行处理
             if ($request->request->has($userType->getName())) {
-                $editForm->bind($request);
-                if ($editForm->isValid()) {
+                $userForm->bind($request);
+                if ($userForm->isValid()) {
                     $em->flush();//保存user的同时级联保存userProfile
                     $request->getSession()->getFlashBag()->add('success', '个人资料修改成功!');
                     return $this->redirect($this->generateUrl('_profile_edit'));
@@ -205,7 +205,7 @@ class ProfileController extends Controller
 
         return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', array(
             'uploadForm' => $uploadForm->createView(),
-            'editForm' => $editForm->createView(),
+            'userForm' => $userForm->createView(),
             'user' => $user,
             'userProfile' => $user->getUserProfile(),
             'provinces' => $provinces,
@@ -226,7 +226,7 @@ class ProfileController extends Controller
         //一个页面有多个表单
         $userIconType = new UserIconType();
         $uploadForm = $this->createForm($userIconType, $user);
-        $editForm = $this->createForm(new UserType(), $user);
+        $userForm = $this->createForm(new UserType(), $user);
 
         //仅对uploadForm进行处理
         if ($request->request->has($userIconType->getName())) {
@@ -273,7 +273,7 @@ class ProfileController extends Controller
 
         return $this->render('WenwenFrontendBundle:Profile:profile.html.twig', array(
             'uploadForm' => $uploadForm->createView(),
-            'editForm' => $editForm->createView(),
+            'userForm' => $userForm->createView(),
             'user' => $user,
         ));
     }

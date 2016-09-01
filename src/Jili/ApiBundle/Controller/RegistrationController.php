@@ -3,6 +3,7 @@
 namespace Jili\ApiBundle\Controller;
 
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserProfile;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,8 +30,16 @@ class RegistrationController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+
         $user = new User();
+        $userProfile = new UserProfile();
+        $user->setUserProfile($userProfile);
+        $userProfile->setUser($user);
         $form = $this->createForm(new SignupType(), $user);
+
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
 
@@ -42,7 +51,6 @@ class RegistrationController extends Controller
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
@@ -58,7 +66,11 @@ class RegistrationController extends Controller
             }
         }
 
-        return $this->render('WenwenFrontendBundle:User:register.html.twig', array('form' => $form->createView()));
+        return $this->render('WenwenFrontendBundle:User:register.html.twig', array(
+            'userForm' => $form->createView(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+        ));
     }
 
     /**
