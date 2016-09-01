@@ -20,7 +20,6 @@ class SopApiControllerTest extends WebTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sopRespondent;
     private $container;
 
     /**

@@ -13,3 +13,8 @@ services:
         arguments: ["@logger"]
         tags:
             - { name: monolog.logger, channel: sop_notification }
+    monolog.logger.ssi_notification:
+        class: Wenwen\AppBundle\Services\Logger\SsiNotificationLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: ssi_notification }
