@@ -49,9 +49,13 @@ class AffiliateSurveyController extends Controller
     	$status = $request->get('status');
         $ukey = $request->get('uniq_key');
 
+        $affiliateSurveyService = $this->get('app.affiliate_survey_service');
+        $rtn = $affiliateSurveyService->processEndpage($status, $ukey);
 
     	$param = array(
-    		'answer_status' => $status
+    		'answer_status' => $rtn['status'],
+            'point' => $rtn['point'],
+            'secret' => $rtn['secret']
     		);
         return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
     }

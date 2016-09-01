@@ -65,5 +65,60 @@ class AffiliateSurveyService
         $this->logger->debug(__METHOD__ . " END    affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
         return $surveyUrl;
     }
+
+    public function processEndpage($status, $ukey = null){
+        $this->logger->debug(__METHOD__ . " START  uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+        $rtn = array();
+        $rtn['point'] = 0;
+
+        // status参数必须存在 complete screenout quotafull error
+        // 不是以上4种的时候全部作为error处理
+        if(in_array($status, 
+            array(
+                AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+                AffiliateUrlHistory::SURVEY_STATUS_SCREENOUT,
+                AffiliateUrlHistory::SURVEY_STATUS_QUOTAFULL,
+                AffiliateUrlHistory::SURVEY_STATUS_ERROR
+                )
+            )
+            ){
+            $rtn['status'] = $status;
+        } else {
+            $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+        }
+
+        // ukey 不存在时，单纯返回status
+        if(is_null($ukey)){
+            return $rtn;
+        }
+
+        // ukey 存在时，查找这个ukey的回答状态
+        $param = array(
+            'uKey' => $uKey,
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_FORWARD
+        );
+
+        $connection = $this->em->getConnection();
+        $connection->beginTransaction();
+        try{
+            $affiliateUrlHistory = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneBy($param);
+            if($affiliateUrlHistory == null || sizeof($affiliateUrlHistory) == 0){
+
+            } else{
+                $affiliateUrlHistory->setStatus($rtn['status']);
+                $this->em->flush();
+                $this->logger->info(__METHOD__ . " Finished    uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+            }
+            $connection->commit();
+            // 更行状态成功，获取奖励积分数
+            $rtn['point'] = $affiliateUrlHistory->getAffiliateProject()->getIncentivePoints();
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . " Error    ukey=" .  $ukey . " errMsg=" . $e->getMessage() . PHP_EOL);
+            $connection->rollBack();
+        }
+
+        $this->logger->debug(__METHOD__ . " END    uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+        return $rtn;
+    }
     
 }
