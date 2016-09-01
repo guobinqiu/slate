@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="freeSurWrap">
+    <div class="freeSurWrap clearfix">
         <div class="statusCon complete">
             {% if answer_status == 'complete' %}
             <i class="successIcon fa fa-check-circle-o"></i>
@@ -33,13 +33,19 @@
             {% endif %}
         </div>
         <div class="recommend">
-            <div class="txt">
-                <p class="l1">我们为您推荐了更多问卷。</p>
-                <p class="l2">点击右边进行注册就可以赚现金了哦！</p>
-            </div> 
+            {% if answer_status != 'complete' %}
+                <div class="txt">       
+                    <p class="l1">我们为您推荐了更多问卷。</p>        
+                    <p class="l2">点击右边进行注册就可以赚现金了哦！</p>       
+                </div> 
+            {% endif %}
             <a class="btn" href="{{ path('_user_reg') }}">
                 <div class="bWrap">
-                    <span class="text">点击这里</span>
+                    {% if answer_status == 'complete' %}
+                        <span class="text">领取奖励</span>
+                    {% else %}
+                        <span class="text">点击这里</span>
+                    {% endif %}
                     <span class="fa fa-chevron-right animated bounce" aria-hidden="true"><!--[if IE 7]><img src="{{ asset('img/common/arrowRight.gif') }}"><![endif]--></span>
                 </div>
             </a>

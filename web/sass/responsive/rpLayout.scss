@@ -17,7 +17,7 @@
       font-size: 1.2rem!important;
     }
     .w1000{
-        width: auto;  
+        width: auto;   
     }
     .page{
         span{
@@ -32,7 +32,6 @@
         }
     } 
     .main{
-        margin-top: 0px;
         &.unlogin{
             margin-top: 0;
         }
@@ -106,6 +105,8 @@
                 margin-left: 20px;
             }
             i{
+                width: initial;
+                height: initial;
                 font-size: 1.3rem!important;
             }
         }
@@ -229,7 +230,11 @@
             margin-left: 0;
         }
         .right{
-            display: none;
+            a{
+                &.taskHis,&.exchangeHis{
+                    display: none;
+                }
+            }
         }
         .faceWapper{
             img{
@@ -238,7 +243,7 @@
             } 
         }
         .infoText{
-            width: 80%;
+            width: auto;
         }
         .infoText{
             .l1{
@@ -253,6 +258,12 @@
                     display: inline-block;
                     vertical-align: middle;
                 }
+            }
+        }
+        .incentive{
+            margin-right: 15px;
+            img{
+                margin-top: -15px;
             }
         }
     }
@@ -1158,9 +1169,6 @@
     }
 
     /* landing page */
-    .dropMenu{
-        top: 2px;
-    }
     .section{
         .btn{
             top: 28px;
@@ -1213,7 +1221,6 @@
     }
     #section1{
         .refNum{
-            width: 100%;
             b{
                 font-size: 1.5rem!important;
                 font-weight: bold;
@@ -1329,6 +1336,18 @@
             width: 100%;
         }
     }
+
+    // callboard page
+    .main{
+        .main-con{
+            .newsInfo{
+                width: 100%;
+                article{
+                    width: 100%;
+                }
+            }
+        }
+    }
 }
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
     #section0{
@@ -1339,15 +1358,15 @@
             }
         }
     }
-    #section2{
-        .sectionCon{
-            h2{
-                img{
-                    width: 100%;
-                }
-            }
-        }
-    }
+    // #section2{
+    //     .sectionCon{
+    //         h2{
+    //             img{
+    //                 width: 100%;
+    //             }
+    //         }
+    //     }
+    // }
     #section3{
         .sectionCon{
             h2{

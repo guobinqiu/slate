@@ -4,13 +4,10 @@
 html,body{
 	height: 100%;
 	overflow: hidden;
+	background: #262424;
 }
-.main,#container,.sections,.section{
+.main,#pagepiling,.sections,.section{
 	height: 100%;
-}
-#container,.section{
-	position: relative;
-	z-index: 1;
 }
 h1{
 	position: absolute;
@@ -20,7 +17,7 @@ h1{
 	text-align: left;
 }
 .btn{
-	position: absolute;
+	position: fixed;
 	z-index: 6;
 	top: 16px;
 	right: 5%;
@@ -35,7 +32,8 @@ h1{
 	transition: all 500ms ease 50ms;
 	@include dib();
 	&:hover{
-		background: rgba(0, 0, 0, .5);
+		background: rgba(0, 0, 0, .4);
+		color: #fff;
 	}
 }
 /*-----------satic style------------*/
@@ -45,16 +43,6 @@ h1{
 		background-size: cover;
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
-		&.active{
-			.sectionCon{
-				h2{
-					top: 27%;
-				}
-			}
-			.btns{
-				top: 45%;
-			}
-		}
 	}
 }
 .expandBtn{
@@ -71,7 +59,6 @@ ul.menu{
 	z-index: 7;
 	top: 75px;
 	right: 50%;
-	// margin-right: -500px; 
 	width: 0;
 	text-align: center;
 	background: #fff;
@@ -119,7 +106,7 @@ ul.menu{
 	}
 }
 .sectionCon{
-	position: relative;
+	position: absolute;
 	z-index: 2;
 	width: 100%;
 	text-align: center;
@@ -141,12 +128,8 @@ ul.menu{
 		position: absolute;
 		*position: relative;
 		z-index: 3;
-		top: 5%;
 		width: 100%;
 		text-align: center;
-		opacity: 0;
-		visibility: hidden;
-		transition: all 1s ease 0;
 		img{
 			margin: 0 auto;
 		}
@@ -157,12 +140,9 @@ ul.menu{
 		width: 283px;
 		left: 50%;
 		margin-left: -141px;
-		top: 50%;
-		opacity: 0;
-		visibility: hidden;
-		// transition: all 1s ease 1s;
+		top: 45%;
 		a{
-			margin-top: 20px;
+			margin-top: 13px;
 			width: 283px;
 			text-align: center;
 			height: 53px;
@@ -203,11 +183,10 @@ ul.menu{
 	margin-left: -500px;
 	margin-bottom: -65px;
 	top: 26%;
-	opacity: 0;
-	visibility: hidden;
-	transition: all 3s ease 1s;
-	margin-top: 20px;
+	transition: all 1.5s ease 1s;
+	margin-top: 0;
 	padding-left: 51px;
+	background: url(../img/landingpage/pc.png) no-repeat right top;
 	h3{
 		font-size: 30px;
 		line-height: 55px;
@@ -217,23 +196,22 @@ ul.menu{
 		font-size: 12px;
 		line-height: 22px;
 		text-align: left;
-		width: 170px;
+		width: 212px;
 		font-family: '宋体';
+	}
+	.scoredPointsItem{
+		height: 171px;
 	}
 }
 .scoredPointsItem{
-	padding-bottom: 70px;
-	opacity: 0;
-	visibility: hidden;
-	transition: all 1s ease 2s;
 	.liner{
 		position: absolute;
 		z-index: 5;
 		left: 51px;
 		top: 103px;
 		width: 1px;
-		height: 0;
-		border-left: 1px dashed transparent;
+		height: 68px;
+		border-left: 1px dashed #fff;
 	}
 	.liner2{
 		top: 275px;
@@ -245,19 +223,19 @@ ul.menu{
 		top: 0;
 		width: 103px;
 		height: 103px;
-		opacity: 0;
-		visibility: hidden;
 		display: inline-block;
-		transform: scale(0, 0);
+		background: url(../img/landingpage/icon1.png) no-repeat;
 	}
 	.icon2{
 		top: 173px;
+		background: url(../img/landingpage/icon2.png) no-repeat;
 	}
 	.icon3{
 		top: 346px;
+		background: url(../img/landingpage/icon3.png) no-repeat;
 	}
 	.con{
-		padding-left: 20px;
+		padding-left: 81px;
 	}
 }
 #section0{
@@ -271,30 +249,20 @@ ul.menu{
 		}
 	}
 	h2{
-		top: 28%;
+		top: 30%;
+		// top: 20%\9;
+		@include animation2(0, 1s, fadeIn1);
 	}
-	&.active{
-		.btns{
-			opacity: 1;
-			visibility: visible;
-		}
-		h2{
-			top: 17%;
-		}
-		.btns{
-			top: 45%;
-		}
-		.login{
-			top: 28%;
-		}
-		.register{
-			top: 20%;
-		}
+	@keyframes fadeIn1{
+	    0% { top: 33%; opacity: 0; } 
+	    50% { top: 31%; opacity: 0.6; }
+	    100% { top: 30%; opacity: 1; }
 	}
 }
 #section1{
 	color: #16b5b5;
 	background-color: #fff;
+	*display: none;
 	.sectionCon{
 		color: #fff;
 		height: 75%;
@@ -305,6 +273,10 @@ ul.menu{
 		margin: 0 auto;
 		height: 25%;
 		font-size: 42px;
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		margin-left: -500px;
 		b{
 			font-family: "Arial";
 			font-weight: normal;
@@ -317,9 +289,9 @@ ul.menu{
 			margin-left: 3px;
 			@include dib();
 			&.chinese{
-				padding-left: 2px;
-				font-size: 16px;
-				
+			}
+			&.curnum{
+				text-transform: uppercase;
 			}
 		}
 		.num{
@@ -335,69 +307,50 @@ ul.menu{
 		}
 	}
 	h2{
-		top: 25%;
+		top: 32%;
 	}
 	&.active{
 		.briefIntro{
 			opacity: 1;
 			visibility: visible;
+			top: 50%;
 		}
 		h2{
-			top: 28%;
+			@include animation2(0, 1s, fadeIn2);
 		}
-		.briefIntro{
-			top: 50%;
+		@keyframes fadeIn2{
+		    0% { top: 25%; opacity: 0.3; } 
+		    50% { top: 30%; opacity: 0.6; }
+		    100% { top: 32%; opacity: 1; }
 		}
 	}
 }
 #section2{
 	background-image: url(../img/landingpage/3.jpg);
 	color: #fff;
+	*display: none;
 	h2{
 		width: 1000px;
 		left: 50%;
 		margin-left: -500px;
 		text-align: left;
+		top: 14%;
 	}
 	&.active{
 		h2{
-			top: 12%;
+			@include animation2(0, 1s, fadeIn3);
 		}
-		.scoredPoints{
-			opacity: 1;
-			visibility: visible;
-			background: url(../img/landingpage/pc.png) no-repeat right top;
-		} 
-		.scoredPointsItem{
-			opacity: 1;
-			visibility: visible;
-			.liner{
-				height: 68px;
-				border-color: #fff;
-			}
-			.icon{
-				opacity: 1;
-				visibility: visible;
-				background: url(../img/landingpage/icon1.png) no-repeat;
-				transform: scale(1, 1);
-			}
-			.icon2{
-				background-image: url(../img/landingpage/icon2.png);
-			}
-			.icon3{
-				background-image: url(../img/landingpage/icon3.png);
-			}
-			.con{
-				opacity: 1;
-				visibility: visible;
-				padding-left: 120px;
-			}
+		@keyframes fadeIn3{
+		    0% { top: 16%; opacity: 0.3; } 
+		    50% { top: 15%; opacity: 0.6; }
+		    100% { top: 14%; opacity: 1; }
 		}
 	}
 }
 #section3{
 	color: #828282;
 	background-image: url(../img/landingpage/4.jpg);
+	*display: none;
 	.item{
 		position: absolute;
 		z-index: 3;
@@ -450,10 +403,18 @@ ul.menu{
 	.item4{
 		transition: all 1s ease 2.5s;
 	}
+	h2{
+		top: 15%;
+	}
 	&.active{
 		.sectionCon{
 			h2{
-				top: 10%;
+				@include animation2(0, 1s, fadeIn4);
+			}
+			@keyframes fadeIn4{
+			    0% { top: 18%; opacity: 0.3; } 
+			    50% { top: 16%; opacity: 0.6; }
+			    100% { top: 15%; opacity: 1; }
 			}
 			.item{
 				opacity: 1;
@@ -476,6 +437,7 @@ ul.menu{
 }
 #section4{
 	background-image: url(../img/landingpage/5.jpg);
+	*display: none;
 	a{
 		&.gray{
 			color: #fff;
@@ -490,22 +452,22 @@ ul.menu{
 		top: 55%;
 	}
 	.briefIntro{
-		top: 42%;
+		top: 37%;
 	}
 	&.active{
-		.btns, .briefIntro{
-			opacity: 1;
-			visibility: visible;
-		}
 		h2{
-			top: 25%;
+			@include animation2(0, 1s, fadeIn5);
 		}
-		.btns{
-			top: 50%;
+		@keyframes fadeIn5{
+		    0% { top: 23%; opacity: 0.5; } 
+		    50% { top: 21%; opacity: 0.6; }
+		    100% { top: 22%; opacity: 1; }
 		}
 		.briefIntro{
+			opacity: 1;
+			visibility: visible;
 			color: #fff;
-			top: 37%;
+			top: 34%;
 		}
 	}
 }
@@ -530,13 +492,12 @@ ul.menu{
 	}
 }
 
-
 /* drop menu */
 .dropMenu{
 	position: fixed;
 	top: 10px;
 	right: 5%;
-	z-index: 2;
+	z-index: 6;
 }
 
 // contact us
@@ -554,13 +515,12 @@ ul.menu{
 		position: fixed;
 		bottom: 0;
 		right: 0;
-		z-index: 2;
+		z-index: 6;
 		border-top-left-radius: 13px;
 		-webkit-top-left-border-radius: 13px;
 		-moz-top-left-border-radius: 13px;
 		-ms-top-left-border-radius: 13px;
 		-o-top-left-border-radius: 13px;
-		// @include box-shadow(-1px -1px 4px rgba(0,0,0,0.15));
 		em{
 			width: 18px;
 			height: 21px;
@@ -583,7 +543,8 @@ ul.menu{
 /*-----------arrow style------------*/
 .arrow{
 	position: fixed;
-	z-index: 2;
+	z-index: 6;
+	*display: none;
 }
 .arrow-down{
 	width:40px;
@@ -690,4 +651,28 @@ ul.menu{
 	-webkit-animation-delay:-2.0s;
 	-moz-animation-delay:-2.0s;
 	-o-animation-delay:-2.0s
+}
+
+/* Navigaton bullets styles
+ * --------------------------------------- */
+#pp-nav li, .pp-slidesNav li{
+ 	margin: 14px 7px!important;
+ }
+#pp-nav li .active span, .pp-slidesNav .active span{
+    background: #fff!important;
+}
+#pp-nav span, .pp-slidesNav span {
+	width: 10px!important;
+	height: 10px!important;
+    border-color: #fff!important;
+    border-width: 3px!important;
+}
+.pp-tooltip{
+	display: none!important;
+}
+
+.secHd{
+	#section0, #section1, #section2, #section3, #section4, #section5{
+		display: none!important;
+	}
 }
