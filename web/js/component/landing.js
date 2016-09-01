@@ -48,7 +48,9 @@ $('#pagepiling').pagepiling({
         }
     },
     afterLoad: function(anchorLink, index){},
-    afterRender: function(){},
+    afterRender: function(){
+        $('#pagepiling').show();
+    },
 });
 
 $('.arrow-down').click(function(){
