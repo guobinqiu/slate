@@ -4,6 +4,12 @@
 {% block stylesheet %}
 	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		$('html').addClass('secHd');
+		$(document).ready(function(){
+			$('html').removeClass('secHd');
+		});
+	</script>
 {% endblock %}
 
 {% block body %}
