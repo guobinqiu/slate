@@ -49,6 +49,13 @@ class WeixinUser
      */
     private $gender;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="union_id", type="string", nullable=true)
+     */
+    private $unionId;
+
     public function getId()
     {
         return $this->id;
@@ -110,5 +117,17 @@ class WeixinUser
     public function getGender()
     {
         return $this->gender;
+    }
+
+    public function setUnionId($unionId)
+    {
+        $this->unionId = $unionId;
+
+        return $this;
+    }
+
+    public function getUnionId()
+    {
+        return $this->unionId;
     }
 }
