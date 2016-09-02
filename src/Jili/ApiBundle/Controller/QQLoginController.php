@@ -41,13 +41,13 @@ class QQLoginController extends Controller
     {
         $code = $request->query->get('code');
 
-        if ($code == null) {
-            $this->get('logger')->error('QQ - 用户取消了授权');
+        if (empty($code)) {
+            $this->get('logger')->info('QQ - 用户取消了授权');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
         if ($request->query->get('state') != $request->getSession()->get('state')) {
-            $this->get('logger')->error('QQ - The state does not match. You may be a victim of CSRF.');
+            $this->get('logger')->info('QQ - The state does not match. You may be a victim of CSRF.');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -86,13 +86,17 @@ class QQLoginController extends Controller
      */
     public function bindAction(Request $request)
     {
+        if ($request->getSession()->has('uid')) {
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
+
+        $openId = $request->query->get('openId');
+
         $loginForm = $this->createForm(new LoginType());
         $userForm = $this->createForm(new UserProfileType());
 
-        $openId = $request->query->get('openId');
         $em = $this->getDoctrine()->getManager();
         $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
-
         $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
         $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
@@ -143,51 +147,55 @@ class QQLoginController extends Controller
      */
     public function unbindAction(Request $request)
     {
-        $loginForm = $this->createForm(new LoginType());
+        if ($request->getSession()->has('uid')) {
+            return $this->redirect($this->generateUrl('_homepage'));
+        }
 
+        $openId = $request->query->get('openId');
+
+        $loginForm = $this->createForm(new LoginType());
         $userProfile = new UserProfile();
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
-        $openId = $request->query->get('openId');
         $em = $this->getDoctrine()->getManager();
         $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
-
         $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
         $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
-
             if ($userForm->isValid()) {
-                $currentTime = new \DateTime();
-                $em->getConnection()->beginTransaction();
-                try {
-                    $user = new User();
-                    $user->setNick($qqUser->getNickname());
-                    $user->setPoints(User::POINT_SIGNUP);
-                    $user->setIconPath($qqUser->getPhoto());
-                    $user->setRegisterDate($currentTime);
-                    $user->setRegisterCompleteDate($currentTime);
-                    $user->setLastLoginDate($currentTime);
-                    $user->setLastLoginIp($request->getClientIp());
-                    $user->setCreatedRemoteAddr($request->getClientIp());
-                    $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                    $em->persist($user);
+                if ($weixinUser->getUser() == null) {
+                    $currentTime = new \DateTime();
+                    $em->getConnection()->beginTransaction();
+                    try {
+                        $user = new User();
+                        $user->setNick($qqUser->getNickname());
+                        $user->setPoints(User::POINT_SIGNUP);
+                        $user->setIconPath($qqUser->getPhoto());
+                        $user->setRegisterDate($currentTime);
+                        $user->setRegisterCompleteDate($currentTime);
+                        $user->setLastLoginDate($currentTime);
+                        $user->setLastLoginIp($request->getClientIp());
+                        $user->setCreatedRemoteAddr($request->getClientIp());
+                        $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                        $em->persist($user);
 
-                    $userProfile->setUser($user);
-                    $em->persist($userProfile);
+                        $userProfile->setUser($user);
+                        $em->persist($userProfile);
 
-                    $qqUser->setUser($user);
+                        $qqUser->setUser($user);
 
-                    $em->flush();
-                    $em->getConnection()->commit();
+                        $em->flush();
+                        $em->getConnection()->commit();
 
-                    $request->getSession()->set('uid', $user->getId());
-                    return $this->redirect($this->generateUrl('_homepage'));
+                        $request->getSession()->set('uid', $user->getId());
+                        return $this->redirect($this->generateUrl('_homepage'));
 
-                } catch (\Exception $e) {
-                    $em->getConnection()->rollBack();
-                    throw $e;
+                    } catch (\Exception $e) {
+                        $em->getConnection()->rollBack();
+                        throw $e;
+                    }
                 }
             }
         }
