@@ -87,6 +87,7 @@
 				@include dib();
 				vertical-align: middle;
 				outline: none;
+				-webkit-appearance: none;
 			}
 			.loginTips{
 				line-height: 35px;

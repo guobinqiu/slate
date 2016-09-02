@@ -7,7 +7,7 @@
 	width: 100%;
 	h1{
 		font-size: 34px;
-		color: $head-title-color;
+		color: $main-title-color2;
 		margin: 18px 0 0 14px;
 	}
 	position: relative;
@@ -27,7 +27,7 @@
 		height: 24px;
 	}
 	.survey-btn{
-		top: 30px;
+		top: 36px;
 		right: 22px;
 		.disabled{
 			width: 112px;
@@ -42,7 +42,7 @@
 	}
 	.rewardPoint{
 		right: 148px;
-		top: 36px;
+		top: 44px;
 	}
 }
 @import "component/page";
