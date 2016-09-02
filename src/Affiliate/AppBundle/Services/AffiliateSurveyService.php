@@ -66,33 +66,43 @@ class AffiliateSurveyService
         return $surveyUrl;
     }
 
-    public function processEndpage($status, $ukey = null){
+    /**
+    * @param string $status
+    * @param string $uKey
+    * @return array(
+    *               'status' => xxx
+    *               'complete_point' => xxx
+    *               'ukey' => xxx)
+    */
+    public function processEndpage($status = AffiliateUrlHistory::SURVEY_STATUS_ERROR, $uKey = null){
         $this->logger->debug(__METHOD__ . " START  uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+
         $rtn = array();
-        $rtn['point'] = 0;
+        $rtn['status'] = $status;
+        $rtn['complete_point'] = 0;
+        $rtn['ukey'] = $uKey;
 
         // status参数必须存在 complete screenout quotafull error
         // 不是以上4种的时候全部作为error处理
-        if(in_array($status, 
-            array(
+        $validStatus = array(
                 AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
                 AffiliateUrlHistory::SURVEY_STATUS_SCREENOUT,
                 AffiliateUrlHistory::SURVEY_STATUS_QUOTAFULL,
                 AffiliateUrlHistory::SURVEY_STATUS_ERROR
-                )
-            )
-            ){
-            $rtn['status'] = $status;
-        } else {
+                );
+        // 如果status不合法，则强制变更为error
+        if(! in_array($status, $validStatus)){
             $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
-        }
-
-        // ukey 不存在时，单纯返回status
-        if(is_null($ukey)){
+            $this->logger->info(__METHOD__ . " END    uKey=" .  $uKey . " invalid status=" . $status . PHP_EOL);
             return $rtn;
         }
 
-        // ukey 存在时，查找这个ukey的回答状态
+        if(is_null($uKey)){
+            $this->logger->info(__METHOD__ . " Warn    uKey not provided. status=" . $status . PHP_EOL);
+            return $rtn;
+        }
+
+        // uKey 存在时，查找这个ukey的回答状态
         $param = array(
             'uKey' => $uKey,
             'status' => AffiliateUrlHistory::SURVEY_STATUS_FORWARD
@@ -103,21 +113,24 @@ class AffiliateSurveyService
         try{
             $affiliateUrlHistory = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneBy($param);
             if($affiliateUrlHistory == null || sizeof($affiliateUrlHistory) == 0){
-
+                // 没有找到状态为forward的url，认为这个endpage的request不合法，将页面显示状态改为error
+                $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
             } else{
                 $affiliateUrlHistory->setStatus($rtn['status']);
                 $this->em->flush();
-                $this->logger->info(__METHOD__ . " Finished    uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+                // 更行状态成功，获取奖励积分数
+                $rtn['complete_point'] = $affiliateUrlHistory->getAffiliateProject()->getCompletePoints();
             }
+            
+            $this->logger->info(__METHOD__ . " END    uKey=" .  $uKey . " process status=" . $rtn['status'] . "  complete_point=" . $rtn['complete_point'] . PHP_EOL);
             $connection->commit();
-            // 更行状态成功，获取奖励积分数
-            $rtn['point'] = $affiliateUrlHistory->getAffiliateProject()->getIncentivePoints();
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . " Error    ukey=" .  $ukey . " errMsg=" . $e->getMessage() . PHP_EOL);
+            $this->logger->error(__METHOD__ . " Error    uKey=" .  $uKey . " errMsg=" . $e->getMessage() . PHP_EOL);
+            $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+            $rtn['complete_point'] = 0;
             $connection->rollBack();
         }
-
-        $this->logger->debug(__METHOD__ . " END    uKey=" .  $uKey . " status=" . $status . PHP_EOL);
+        
         return $rtn;
     }
     

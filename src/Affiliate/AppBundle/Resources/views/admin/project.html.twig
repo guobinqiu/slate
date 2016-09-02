@@ -21,6 +21,7 @@ AffiliatePartnerId={{affiliatePartnerId}}<br>
   <th>{{ knp_pagination_sortable(pagination, 'InitNum', 'ap.initNum') }}</th>
   {# <th>{{ knp_pagination_sortable(pagination, 'RealFullPath', 'ap.realFullPath') }}</th> #}
   <th>{{ knp_pagination_sortable(pagination, 'Status', 'ap.status') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'CompletePoints', 'ap.completePoints') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'ap.updatedAt') }}</th>
   <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'ap.createdAt') }}</th>
   <th></th>
@@ -35,6 +36,7 @@ AffiliatePartnerId={{affiliatePartnerId}}<br>
   <td>{{ affiliateProject.initNum }}</td>
   {# <td>{{ affiliateProject.realFullPath }}</td> #}
   <td>{{ affiliateProject.status }}</td>
+  <td>{{ affiliateProject.completePoints }}</td>
   <td>{{ affiliateProject.updatedAt |date('Y-m-d H:i:s') }}</td>
   <td>{{ affiliateProject.createdAt |date('Y-m-d H:i:s') }}</td>
   <td><a href="{{ path('admin_project_close', {'affiliatePartnerId': affiliatePartnerId, 'affiliateProjectId': affiliateProject.id}) }}">close</a></td>

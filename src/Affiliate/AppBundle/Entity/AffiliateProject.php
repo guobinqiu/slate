@@ -76,9 +76,9 @@ class AffiliateProject
     /**
      * @var integer
      *
-     * @ORM\Column(name="incentive_points", type="integer", nullable=false, options={"default": 0, "comment": "The reward point for compete after register"})
+     * @ORM\Column(name="complete_points", type="integer", nullable=false, options={"default": 0, "comment": "The reward point for compete after register"})
      */
-    private $incentivePoints;
+    private $completePoints;
 
     /**
      * upload status
@@ -244,18 +244,18 @@ class AffiliateProject
      *
      * @param integer $initNum
      */
-    public function setIncentivePoints($incentivePoints)
+    public function setCompletePoints($completePoints)
     {
-        $this->incentivePoints = $incentivePoints;
+        $this->completePoints = $completePoints;
     }
 
     /**
      *
      * @return integer
      */
-    public function getIncentivePoints()
+    public function getCompletePoints()
     {
-        return $this->incentivePoints;
+        return $this->completePoints;
     }
 
     /**

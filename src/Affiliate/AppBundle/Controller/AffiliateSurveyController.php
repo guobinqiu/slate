@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * 问卷代理
@@ -52,10 +53,15 @@ class AffiliateSurveyController extends Controller
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
         $rtn = $affiliateSurveyService->processEndpage($status, $ukey);
 
+        // 在session里记录该问卷的完成奖励point数
+        // 通过这里完成的注册，可以在常规奖励的基础上额外奖励这个point
+        $session = $request->getSession();
+        $session->set('complete_point', $rtn['complete_point']);
+
     	$param = array(
-    		'answer_status' => $rtn['status'],
-            'point' => $rtn['point'],
-            'secret' => $rtn['secret']
+    		'answer_status' => $rtn['status'], // 该次问卷的完成状态
+            'ukey' => $rtn['ukey'], // 该次问卷的链接的唯一标识
+            'complete_point' => $rtn['complete_point'] // 0 point表示没有额外奖励
     		);
         return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
     }
