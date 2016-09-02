@@ -3,9 +3,11 @@
 @import "layout/common-simple";
 @import "layout/header-simple";
 @import "layout/footer-simple";
-// @import "component/form";
+@import "component/form";
 @import "font-awesome/scss/font-awesome.scss";
-@import "login";
+html,body{
+	background: #e9eded;
+}
 .main {
     margin-top: 20px!important;
 }
@@ -45,18 +47,27 @@
 .bindCon{
 	width: 42%;
 	display: inline-block;
+	float: left;
 	.bindForm{
 		display: none;
 	}
 	.bindInput{
 		margin-bottom: 15px;
 		display: flex;
-		input{
+		input[type="email"],input[type="password"],input[type="text"],#province,#city{
 			width: 100%;
 			height: 42px;
 			line-height: 42px;
 			font-size: 14px;
-			color: #b3b3b3;
+			color: #a0a0a0;
+		}
+		#province,#city{
+			width: inherit;
+		    border: 1px solid #e5e5e5;
+		    font-family: "Microsoft YaHei";
+		}
+		#province{
+			margin-right: 7px;
 		}
 	}
 	li{
@@ -73,9 +84,11 @@
 	    -webkit-appearance: none;
 	    @include border-radius(3px);
 	}
+	.bindBtn{
+		margin-bottom: 17px;
+	}
 	.skipBtn{
 		background: #25cfa1;
-		margin-top: 17px;
 	}
 	.error{
 		position: absolute;
@@ -106,6 +119,19 @@
 				margin-left: 1px;
 				margin-top: 0;
 				margin-bottom: 5px;
+			}
+		}
+	}
+	.regSex{
+		input[type="radio"]{
+			margin: 0 5px 0 0;
+		}
+		label{
+			width: 14px;
+			color: #a0a0a0;
+			margin-right: 42px;
+			&.error{
+				margin-right: 0;
 			}
 		}
 	}

@@ -1175,12 +1175,12 @@
         }
     }
     #section0{
-        background-position-y: 1px!important;
+        // background-position-y: 1px!important;
         h1{
             // margin-left: -39%;
             a{
                 img{
-                    height: 36px;
+                    height: 31px;
                 }
             }
         }
@@ -1322,9 +1322,15 @@
         width: 100%;
         padding: 10px 32px;
         .bindInput{
-            input{
-                height: 42px!important;
-                line-height: 42px!important;
+            input,#province,#city{
+                height: 35px!important;
+                line-height: 35px!important;
+            }
+        }
+        .regSex{
+            height: 25px;
+            label{
+                vertical-align: 13px;
             }
         }
     }

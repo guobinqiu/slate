@@ -37,13 +37,13 @@
 				<ul class="unbindForm">
 					<li class="liner">
 						<div class="bindInput">
-							{{ form_widget(userForm.sex) }}
+							<div class="regSex">{{ form_widget(userForm.sex) }}</div>
 							<div class="error">{{ form_errors(userForm.sex) }}</div>
 						</div>
 					</li>
 					<li class="liner">
 						<div class="bindInput">
-							{{ form_widget(userForm.birthday) }}
+							{{ form_widget(userForm.birthday, {'attr': {'placeholder': '生日'}}) }}
 							<div class="error">{{ form_errors(userForm.birthday) }}</div>
 						</div>
 					</li>
@@ -95,6 +95,7 @@
 {% block javascript %}
 	<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript">
 		$(function() {
 			{% if not loginForm.vars.valid %}

@@ -44,7 +44,7 @@
 								<div class="error errorReg">{{ form_errors(userForm.pwd.second) }}</div>
 							</li>
 							<li class="liner">
-								{{ form_widget(userForm.userProfile.sex) }}
+								<div class="regSex">{{ form_widget(userForm.userProfile.sex) }}</div>
 								<div class="error errorReg">{{ form_errors(userForm.userProfile.sex) }}</div>
 							</li>
 							<li class="liner">
@@ -53,7 +53,7 @@
 							</li>
 							<li class="liner">
 								{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-								{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
+								<div class="regProvince">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
 							</li>
 							<li id="vcode" class="liner">
 								{{ form_widget(userForm.captcha, {'attr': {'placeholder': '验证码'}}) }}
