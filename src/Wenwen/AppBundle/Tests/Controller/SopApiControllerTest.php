@@ -7,51 +7,56 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSopData;
+use Wenwen\AppBundle\Controller\SopApiController;
+
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\SopRespondent;
+use Wenwen\AppBundle\Entity\SopProfilePoint;
 
 class SopApiControllerTest extends WebTestCase
 {
-    public function testNothing(){}
 
     /**
      * @var \Doctrine\ORM\EntityManager
      */
-//    private $em;
-//    private $sopRespondent;
+    private $em;
+    private $container;
 
     /**
      * {@inheritDoc}
      */
-//    public function setUp()
-//    {
-//        static::$kernel = static::createKernel();
-//        static::$kernel->boot();
-//        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-//        $container = static::$kernel->getContainer();
-//
-//        // purge tables
-//        $purger = new ORMPurger($em);
-//        $executor = new ORMExecutor($em, $purger);
-//        $executor->purge();
-//
-//        // load fixtures
-//        $fixture = new LoadUserSopData();
-//        $fixture->setContainer($container);
-//        $loader = new Loader();
-//        $loader->addFixture($fixture);
-//        $executor->execute($loader->getFixtures());
-//
-//        $this->sopRespondent = LoadUserSopData::$SOP_RESPONDENT;
-//        $this->em = $em;
-//    }
+    public function setUp()
+    {
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+        //$this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->container = static::$kernel->getContainer();
+
+        // purge tables
+        /*
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        // load fixtures
+        $fixture = new LoadUserSopData();
+        $fixture->setContainer($container);
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+        $executor->execute($loader->getFixtures());
+*/
+        //$this->sopRespondent = LoadUserSopData::$SOP_RESPONDENT;
+    }
 
     /**
      * {@inheritDoc}
      */
-//    protected function tearDown()
-//    {
-//        parent::tearDown();
-//        $this->em->close();
-//    }
+    protected function tearDown()
+    {
+        parent::tearDown();
+        //$this->em->close();
+    }
+
 //
 //    /**
 //     * @group dev-merge-ui-profile_point
@@ -203,140 +208,246 @@ class SopApiControllerTest extends WebTestCase
 //        $this->assertEquals(101, $user->getPoints());
 //    }
 //
-//    /**
-//     * @group dev-merge-ui-delivery-notification
-//     */
-//    public function testDeliveryNotificationFor91wenwenAction()
-//    {
-//        //Test delivery notification
-//        $client = static::createClient();
-//        $container = $client->getContainer();
-//        $em = $this->em;
-//        $sop_config = $container->getParameter('sop');
-//        $sopRespondent = $this->sopRespondent;
-//
-//        $url = $container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
-//
-//        $params = array (
-//            'time' => time(),
-//            'data' => array (
-//                'respondents' => array (
-//                    array (
-//                        'app_mid' => $sopRespondent[0]->getId(),
-//                        'survey_id' => '123',
-//                        'quota_id' => '1234',
-//                        'loi' => '10',
-//                        'ir' => '50',
-//                        'cpi' => '1.50',
-//                        'title' => 'Example survey title',
-//                        'extra_info' => array (
-//                            'content' => '',
-//                            'date' => array (
-//                                'start_at' => '1900-01-01',
-//                                'end_at' => '2000-01-01'
-//                            ),
-//                            'point' => array (
-//                                'complete' => '1234',
-//                                'screenout' => '2345',
-//                                'quotafull' => '3456'
-//                            )
-//                        )
-//                    ),
-//                    array (
-//                        'app_mid' => $sopRespondent[1]->getId(),
-//                        'survey_id' => '123',
-//                        'quota_id' => '1234',
-//                        'loi' => '10',
-//                        'ir' => '50',
-//                        'cpi' => '1.50',
-//                        'title' => 'Example survey title',
-//                        'extra_info' => array (
-//                            'content' => '',
-//                            'date' => array (
-//                                'start_at' => '1900-01-01',
-//                                'end_at' => '2000-01-01'
-//                            ),
-//                            'point' => array (
-//                                'complete' => '1234',
-//                                'screenout' => '2345',
-//                                'quotafull' => '3456'
-//                            )
-//                        )
-//                    )
-//                )
-//            )
-//        );
-//
-//        {
-//            //Invalid signature request to 91wenwen
-//            $request_body = json_encode($params);
-//            $crawler = $client->request('POST', $url, array (
-//                'request_body' => $request_body
-//            ), array (), array (
-//                'HTTP_X-Sop-Sig' => 'invalid-sig'
-//            ));
-//
-//            $this->assertEquals(301, $client->getResponse()->getStatusCode());
-//            $crawler = $client->followRedirect();
-//            $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'Invalid signature request to 91wenwen');
-//            $res = json_decode($client->getResponse()->getContent(), true);
-//            $this->assertEquals(array (
-//                'meta' => array (
-//                    'code' => 403,
-//                    'message' => 'authentication failed'
-//                )
-//            ), $res);
-//        }
-//
-//        {
-//            //Invalid request to 91wenwen
-//            $request_body = '{"invalid":"request","time":' . time() . '}';
-//
-//            $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
-//
-//            $crawler = $client->request('POST', $url, array (
-//                'request_body' => $request_body
-//            ), array (), array (
-//                'HTTP_X-Sop-Sig' => $sig
-//            ));
-//
-//            $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'Invalid request to 91wenwen');
-//            $res = json_decode($client->getResponse()->getContent(), true);
-//            $this->assertEquals(array (
-//                'meta' => array (
-//                    'code' => 400,
-//                    'message' => 'data.respondents not found!'
-//                )
-//            ), $res);
-//        }
-//
-//        {
-//            //Valid request to 91wenwen
-//            $request_body = json_encode($params);
-//            $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
-//
-//            $crawler = $client->request('POST', $url, array (
-//                'request_body' => $request_body
-//            ), array (), array (
-//                'HTTP_X-Sop-Sig' => $sig
-//            ));
-//
-//            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
-//
-//            $res = json_decode($client->getResponse()->getContent(), true);
-//            $this->assertEquals(array (
-//                'meta' => array (
-//                    'code' => 200,
-//                    'message' => ''
-//                ),
-//                'data' => array (
-//                    'respondents-not-found' => array (
-//                        $sopRespondent[1]->getId()
-//                    )
-//                )
-//            ), $res);
-//        }
-//    }
+    /**
+     * @group DeliveryNotificationFor91wenwen
+     */
+    public function testDeliveryNotificationFor91wenwenAction200andNoNotFoundRespondent()
+    {
+        $client = static::createClient();
+        
+        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $purger = new ORMPurger($em);
+        $executor = new ORMExecutor($em, $purger);
+        $executor->purge();
+
+        $user = new User();
+        $user->setNick('bb');
+        $user->setEmail('user@voyagegroup.com.cn');
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterCompleteDate(new \DateTime());
+        $em->persist($user);
+        $em->flush();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $em->persist($sopRespondent);
+        $em->flush();
+
+        $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
+
+        $params = array (
+            'time' => time(),
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => $sopRespondent->getId(),
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'ir' => '50',
+                        'cpi' => '1.50',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'content' => '',
+                            'date' => array (
+                                'start_at' => '1900-01-01',
+                                'end_at' => '2000-01-01'
+                            ),
+                            'point' => array (
+                                'complete' => '1234',
+                                'screenout' => '2345',
+                                'quotafull' => '3456'
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $requestBody = json_encode($params);
+        $sopConfig = $this->container->getParameter('sop');
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $requestBody
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            )
+        ), $res);
+    }
+
+    /**
+     * @group DeliveryNotificationFor91wenwen
+     */
+    public function testDeliveryNotificationFor91wenwenAction200withNotFoundRespondent()
+    {
+        $params = array (
+            'time' => time(),
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => '12345',
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'ir' => '50',
+                        'cpi' => '1.50',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'content' => '',
+                            'date' => array (
+                                'start_at' => '1900-01-01',
+                                'end_at' => '2000-01-01'
+                            ),
+                            'point' => array (
+                                'complete' => '1234',
+                                'screenout' => '2345',
+                                'quotafull' => '3456'
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $requestBody = json_encode($params);
+        $sopConfig = $this->container->getParameter('sop');
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+
+        $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
+
+        $client = static::createClient();
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $requestBody
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            ),
+            'data' => array(
+                'respondents-not-found' => array(
+                    '12345'
+                    )
+                )
+        ), $res);
+    }
+
+    /**
+     * @group DeliveryNotificationFor91wenwen
+     */
+    public function testDeliveryNotificationFor91wenwenAction403()
+    {
+        $params = array (
+            'time' => '123456',
+            'data' => array (
+                'respondents' => array (
+                    array (
+                        'app_mid' => '12345',
+                        'survey_id' => '123',
+                        'quota_id' => '1234',
+                        'loi' => '10',
+                        'ir' => '50',
+                        'cpi' => '1.50',
+                        'title' => 'Example survey title',
+                        'extra_info' => array (
+                            'content' => '',
+                            'date' => array (
+                                'start_at' => '1900-01-01',
+                                'end_at' => '2000-01-01'
+                            ),
+                            'point' => array (
+                                'complete' => '1234',
+                                'screenout' => '2345',
+                                'quotafull' => '3456'
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        $requestBody = json_encode($params);
+        $sopConfig = $this->container->getParameter('sop');
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+
+        $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
+
+        $client = static::createClient();
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $requestBody
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'authentication failed');
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 403,
+                'message' => 'authentication failed'
+            )
+        ), $res);
+    }
+
+    /**
+     * @group DeliveryNotificationFor91wenwen
+     */
+    public function testDeliveryNotificationFor91wenwenAction400()
+    {
+        $params = array (
+            'time' => time(),
+            'data' => array (
+                )
+        );
+
+        $requestBody = json_encode($params);
+        $sopConfig = $this->container->getParameter('sop');
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+
+        $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
+
+        $client = static::createClient();
+        $crawler = $client->request('POST', $url, array (
+            'request_body' => $requestBody
+        ), array (), array (
+            'HTTP_X-Sop-Sig' => $sig
+        ));
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'data.respondents not found');
+
+        $res = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertEquals(array (
+            'meta' => array (
+                'code' => 400,
+                'message' => 'data.respondents not found!'
+            )
+        ), $res);
+    }
+
 //
 //    /**
 //     * @group dev-merge-ui-delivery-notification

@@ -10,6 +10,7 @@ use VendorIntegration\SSI\PC1\Request as SsiRequest;
 use VendorIntegration\SSI\PC1\RequestValidator as SsiRequestValidator;
 use VendorIntegration\SSI\PC1\RequestHandler as SsiRequestHandler;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\SsiDeliveryNotification;
+use Wenwen\AppBundle\Entity\SsiRespondent;
 
 class SsiApiController extends Controller
 {
@@ -43,6 +44,12 @@ class SsiApiController extends Controller
 
         # send mail
         if (sizeof($handler->getSucceededRespondentIds())) {
+
+            foreach ($handler->getSucceededRespondentIds() as $respondentId) {
+                $ssiRespondentId = SsiRespondent::parseRespondentId($respondentId);
+                $this->get('monolog.logger.ssi_notification')->info('ssiRespondentId=' . json_encode($ssiRespondentId));
+            }
+
             $notification = new SsiDeliveryNotification($em);
             $notification->send($handler->getSucceededRespondentIds());
         }

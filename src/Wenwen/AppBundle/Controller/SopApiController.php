@@ -142,6 +142,60 @@ class SopApiController extends Controller
         return $this->doHandleDeliveryNotification(new FulcrumDeliveryNotification($em));
     }
 
+    /**
+    * return a dummy request body(json) from SOP delivery notification
+    */
+    public function dummyRequestBody(){
+
+        $requestBody = '{"time":1472695397,"app_id":"56","data":{"respondents":[{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"399924","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"440690","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"133040","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"3769","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"22040","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"448241","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"51305","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"438470","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"105667","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"419","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"177374","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"3337","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"438573","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"373105","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"444701","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"623","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"439493","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"445018","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"434980","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"437474","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"449047","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"20062","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"448853","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"438049","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"19378","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"428061","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"417403","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"288066","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"11933","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"363509","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"223407","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"285201","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"223351","quota_id":"3734"},{"extra_info":{"point":{"screenout":0,"quotafull":0,"complete":300}},"loi":"10","survey_id":"5567","title":"Fulcrum Survey","app_mid":"60746","quota_id":"3734"}]}}';
+        return $requestBody;
+    }
+
+
+    /**
+    * return a dummy request data from SOP delivery notification
+    */
+    public function dummyRequestData(){
+
+        $requestData = array(
+            'time' => 1472695397,
+            'app_id' => 56,
+            'data' => array(
+                'respondents' => array(
+                    array(
+                        'extra_info' => array(
+                            'point' => array(
+                                'screenout' => 0,
+                                'quotafull' => 0,
+                                'complete' => 300
+                                )
+                            ),
+                        'loi' => 10,
+                        'survey_id' => 5567,
+                        'title' => 'Fulcrum Survey',
+                        'app_mid' => 399924,
+                        'quota_id' => 3734
+                        ),
+                    array(
+                        'extra_info' => array(
+                            'point' => array(
+                                'screenout' => 0,
+                                'quotafull' => 0,
+                                'complete' => 300
+                                )
+                            ),
+                        'loi' => 10,
+                        'survey_id' => 5567,
+                        'title' => 'Fulcrum Survey',
+                        'app_mid' => 399924,
+                        'quota_id' => 3734
+                        )
+                )
+            )
+        );
+        return $requestData;
+    }
+
     public function doHandleDeliveryNotification(DeliveryNotification $notification)
     {
         $request = $this->get('request');
@@ -149,16 +203,21 @@ class SopApiController extends Controller
         $request_body = $this->getRequestBody();
         $request_data = $request_body ? json_decode($request_body, true) : array ();
 
+        // Record notification infos.
+        if(isset($request_data['data']) && isset($request_data['data']['respondents'])){
+            foreach($request_data['data']['respondents'] as $respondent){
+                $this->get('monolog.logger.sop_notification')->info(json_encode($respondent));
+            }
+        }
+
         // Verify signature
         $sop_config = $this->container->getParameter('sop');
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $request->headers->get('X-Sop-Sig');
 
-        $this->container->get('logger')->info('----------------'.__METHOD__.' sig='.$sig);
-        $this->container->get('logger')->info('----------------'.__METHOD__.' request_body='.$request_body);
-
         if (!$auth->verifySignature($sig, $request_body)) {
-            $this->container->get('logger')->error('----------------'.__METHOD__.'403');
+            $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
+            $this->container->get('logger')->error(__METHOD__ . ' request_body='.$request_body);
             return $this->render403Response('authentication failed');
         }
 
