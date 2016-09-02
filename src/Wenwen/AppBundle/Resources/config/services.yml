@@ -18,3 +18,8 @@ services:
         arguments: ["@logger"]
         tags:
             - { name: monolog.logger, channel: ssi_notification }
+    monolog.logger.email_delivery:
+        class: Wenwen\AppBundle\Services\Logger\EmailDeliveryLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: email_delivery }
