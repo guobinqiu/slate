@@ -13,13 +13,18 @@ Affiliate funtion Readme<br>
 简单的一个使用说明<br>
 1. 检查这次合作的问卷投放平台(Partner)是否已经存在<br>
 2. 初次合作的话新建一个Partner，提供这个Partner的名称，以及简介<br>
-3. 在Partner list中找到这次要合作的Partner<br>
-4. 进入这个Partner的Project list页面<br>
-5. 新建一个Project<br>
-5-1. 提供RFQId （该项目的quota id）<br>
-5-2. 上传一个包含ukey,url的csv文件<br>
-6. 等待0-5分钟，在这个Partner的Project list页面中找到这次上传的文件所对应的project，并确认这个project已经处于 open 状态<br>
-7. 将这个project对应的url提供给该次合作的平台联系人，通知他们已经可以开始执行项目了<br>
+3. 在问卷分发系统（如：TripleS, forSurvey）处设置endpage
+   Complete: http://www.91wenwen.net//endpage?status=complete&uniq_key=XXXX
+   Screenout: http://www.91wenwen.net//endpage?status=screenout&uniq_key=XXXX
+   Quotafull: http://www.91wenwen.net//endpage?status=quotafull&uniq_key=XXXX
+   Error: http://www.91wenwen.net//endpage?status=error&uniq_key=XXXX
+4. 在Partner list中找到这次要合作的Partner<br>
+5. 进入这个Partner的Project list页面<br>
+6. 新建一个Project<br>
+6-1. 提供RFQId （该项目的quota id）<br>
+6-2. 上传一个包含ukey,url的csv文件<br>
+7. 等待0-5分钟，在这个Partner的Project list页面中找到这次上传的文件所对应的project，并确认这个project已经处于 open 状态<br>
+8. 将这个project对应的url提供给该次合作的平台联系人，通知他们已经可以开始执行项目了<br>
 
 {% endblock %}
 

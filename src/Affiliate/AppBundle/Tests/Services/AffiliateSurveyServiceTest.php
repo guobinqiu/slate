@@ -79,6 +79,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setInitNum(1);
+        $affiliateProject->setCompletePoints(0);
 
         $affiliateProject->setStatus($projectStatus);
         $this->em->persist($affiliateProject);
@@ -139,6 +140,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
@@ -190,7 +192,6 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $url = $this->affiliateSurveyService->getSurveyUrl($affiliateProject->getId());
 
         $this->assertEquals(null, $url);
-        
     }
 
     /**
@@ -208,6 +209,169 @@ class AffiliateSurveyServiceTest extends WebTestCase
 
         // 检查url是否被正确的取到
         $this->assertEquals(null, $url);
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
+    /**
+    */
+    public function testProcessEndpage_OK(){
+
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $affiliatePartner = new AffiliatePartner();
+        $affiliatePartner->setName('这只是一个测试');
+        $affiliatePartner->setName('这只是一个测试的说明');
+        $this->em->persist($affiliatePartner);
+        $this->em->flush();
+
+        $RFQId = 666;
+        $originalFileName = 'test.txt';
+        $realFullPath = '/xxx/xxx/xxx.txt';
+        $projectStatus = AffiliateProject::PROJECT_STATUS_OPEN;
+        $point = 300;
+        
+        $uKey = '09901562asarccm88ui8';
+        $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
+        $urlStatus = AffiliateUrlHistory::SURVEY_STATUS_FORWARD;
+
+        $affiliateProject = new AffiliateProject();
+        $affiliateProject->setAffiliatePartner($affiliatePartner);
+        $affiliateProject->setRFQId($RFQId);
+        $affiliateProject->setOriginalFileName($originalFileName);
+        $affiliateProject->setRealFullPath($realFullPath);
+        $affiliateProject->setInitNum(1);
+        $affiliateProject->setCompletePoints($point);
+
+        $affiliateProject->setStatus($projectStatus);
+        $this->em->persist($affiliateProject);
+        $this->em->flush();
+
+        $affiliateUrlHistory = new AffiliateUrlHistory();
+        $affiliateUrlHistory->setUKey($uKey);
+        $affiliateUrlHistory->setAffiliateProject($affiliateProject);
+        $affiliateUrlHistory->setSurveyUrl($surveyUrl);
+        $affiliateUrlHistory->setStatus($urlStatus);
+        $this->em->persist($affiliateUrlHistory);
+        $this->em->flush();
+        $urlId = $affiliateUrlHistory->getId();
+
+
+        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+            'complete_point' => $point,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
+
+        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneById($urlId);
+        $status = $result->getStatus();
+
+        // 检查状态是否被更改为forward
+        $this->assertEquals($requestStatus, $status);
+
+    }
+
+
+    /**
+    * 
+    */
+    public function testProcessEndpage_InvalidStatus(){
+
+        $requestStatus = null;
+        $uKey = null;
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'complete_point' => 0,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
+
+        $requestStatus = '';
+        $uKey = '';
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'complete_point' => 0,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
+    }
+
+    /**
+    * 
+    */
+    public function testProcessEndpage_uKeyNotProvided(){
+
+        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $uKey = null;
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+            'complete_point' => 0,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
+    }
+
+    /**
+    * 
+    */
+    public function testProcessEndpage_uKeyNotExist(){
+
+        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $uKey = '123';
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'complete_point' => 0,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
+    }
+
+    /**
+    * 
+    */
+    public function testProcessEndpage_systemError(){
+
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+
+        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $uKey = '123';
+
+        $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
+
+        // 检查url是否被正确的取到
+        $expect = array(
+            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'complete_point' => 0,
+            'ukey' => $uKey
+            );
+        $this->assertEquals($expect, $rtn);
 
         // 测试结束，恢复所有表
         // 建立所有表
