@@ -165,7 +165,7 @@ class QQLoginController extends Controller
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
             if ($userForm->isValid()) {
-                if ($weixinUser->getUser() == null) {
+                if ($qqUser->getUser() == null) {
                     $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {

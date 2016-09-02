@@ -159,7 +159,7 @@ class WeiBoLoginController extends Controller
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
             if ($userForm->isValid()) {
-                if ($weixinUser->getUser() == null) {
+                if ($weiboUser->getUser() == null) {
                     $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {
