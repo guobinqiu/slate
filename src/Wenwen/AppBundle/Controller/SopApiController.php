@@ -225,7 +225,9 @@ class SopApiController extends Controller
             return $this->render400Response('data.respondents not found!');
         }
 
+        $this->get('monolog.logger.sop_notification')->info('Start notification');
         $unsubscribed_app_mids = $notification->send($request_data['data']['respondents']);
+        $this->get('monolog.logger.sop_notification')->info('End notification');
 
         $res = array (
             'meta' => array (

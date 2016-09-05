@@ -36,10 +36,10 @@ class SsiDeliveryNotification implements DeliveryNotification
                     //'--channel='.$this->getChannel($i),//sendcloud
                 ), true, '91wenwen');
                 $this->em->persist($job);
-                $this->em->flush($job);
-                $this->em->clear();
             }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
 
     private function isSubscribed($recipient) {
