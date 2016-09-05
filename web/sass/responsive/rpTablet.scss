@@ -131,6 +131,9 @@
           .proRow{
               line-height: 28px;
           }
+      }
+      .rewardPoint{
+        right: 160px;
       }  
     }
     .homeBr{
@@ -226,11 +229,27 @@
     		top: 17px;
     		right: 5%;
     	}
+        .votePoint{
+            right: 130px;
+            top: 36px;
+        }
+        li{
+            &.vote-new{
+                .countdown{
+                    right: 24px;
+                }
+            }
+        }
     }
     .vote-sub{
     	.vote-txt{
             width: 80%;
     	} 
+        .vote-new{
+            .vote-btn{
+                top: 22px!important;
+            }
+        }
     } 
     /*personal center---profiling*/
     .main-personal-profile{

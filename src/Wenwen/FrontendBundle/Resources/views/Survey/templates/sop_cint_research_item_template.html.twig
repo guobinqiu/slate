@@ -10,14 +10,12 @@
         <li class="first">
             问卷编号：c{{ cint_research.survey_id }}
         </li>
-        <li>
-            问卷类型：商业问卷
-        </li>
         <li class="last">
-            奖励积分：<strong>{{ cint_research.extra_info.point.complete }}</strong>
+            问卷类型：商业问卷
         </li>
     </ul>
 </div>
+<div class="rewardPoint"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
 <div class="survey-btn">
     {% if cint_research.is_answered == 1 %}
         <span class="disabled">回答完毕</span>
