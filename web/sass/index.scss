@@ -55,17 +55,19 @@ h1{
 	}
 }
 ul.menu{
+	width: 145px;
 	position: absolute;
 	z-index: 7;
 	top: 75px;
 	right: 50%;
-	width: 0;
 	text-align: center;
 	background: #fff;
 	border-radius: 3px;
 	opacity: 0;
 	visibility: hidden;
-	transition: all 500ms ease 50ms;
+	@include transition2(all 400ms ease);
+	transform: scaleY(0);
+    transform-origin: 0 0 0;
 	li{
 		&.liner{
 			border-bottom: 1px solid #e3e3e3;
@@ -83,10 +85,12 @@ ul.menu{
 		}
 	}
 	&.active{
-		font-size: 14px;
 		width: 145px;
+		font-size: 14px;
 		opacity: 1;
 		visibility: visible;
+		transform: scaleY(1);
+		top: 65px;
 		a{
 			font-size: 14px;
 		}
