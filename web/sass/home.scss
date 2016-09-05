@@ -56,9 +56,9 @@ $slider-height: 305px;
 		margin-top: 0;
 	}
 	height: 91px; 
-	background: url(../img/home/homeBrBg.jpg) no-repeat center center #3e5366;
+	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
 	// background-size: cover;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg',sizingMethod='scale');
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg?v000016',sizingMethod='scale');
 	.faceWapper{
 		margin-right: 13px;
 		@include dib();
