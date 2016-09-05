@@ -111,6 +111,23 @@
             }
         }
     }
+    .regQL{
+        right: 26%;
+        margin-top: 20px;
+        a{
+            padding: 7px;
+            i{
+                width: 16px;
+                height: 16px;
+                font-size: 1rem !important;
+                text-align: center;
+                line-height: 16px;
+            }
+            &.weibo-login{
+                margin-left: 12px;
+            }
+        }
+    }
     .indexOth{
         width: 214px;
         margin-left: -106px;

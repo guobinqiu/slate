@@ -74,6 +74,13 @@ class AffiliateProject
     private $initNum;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="complete_points", type="integer", nullable=false, options={"default": 0, "comment": "The reward point for compete after register"})
+     */
+    private $completePoints;
+
+    /**
      * upload status
      *        init: file of url is uploading
      *        open: file uploading is finished and is opened for partner to use
@@ -231,6 +238,24 @@ class AffiliateProject
     public function getInitNum()
     {
         return $this->initNum;
+    }
+
+    /**
+     *
+     * @param integer $initNum
+     */
+    public function setCompletePoints($completePoints)
+    {
+        $this->completePoints = $completePoints;
+    }
+
+    /**
+     *
+     * @return integer
+     */
+    public function getCompletePoints()
+    {
+        return $this->completePoints;
     }
 
     /**

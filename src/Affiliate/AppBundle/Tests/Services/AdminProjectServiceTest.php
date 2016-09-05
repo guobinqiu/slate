@@ -78,6 +78,7 @@ class AdminProjectServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName1);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
@@ -88,6 +89,7 @@ class AdminProjectServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName2);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
@@ -113,7 +115,6 @@ class AdminProjectServiceTest extends WebTestCase
 
         printf($job->getCommand());
         $this->assertEquals(1, sizeof($job));
-
     }
 
     public function testValidateProjectStatus_true(){
@@ -138,6 +139,7 @@ class AdminProjectServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName1);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
@@ -171,6 +173,7 @@ class AdminProjectServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName1);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
@@ -224,6 +227,7 @@ class AdminProjectServiceTest extends WebTestCase
         $this->assertEquals($originalFileName, $affiliateProject->getOriginalFileName());
         $this->assertEquals($fullPath, $affiliateProject->getRealFullPath());
         $this->assertEquals(AffiliateProject::PROJECT_STATUS_INIT, $affiliateProject->getStatus());
+
     }
 
     public function testInitProject_failure(){
@@ -266,6 +270,7 @@ class AdminProjectServiceTest extends WebTestCase
         $affiliateProject->setOriginalFileName($originalFileName);
         $affiliateProject->setRealFullPath($realFullPath);
         $affiliateProject->setStatus($projectStatus);
+        $affiliateProject->setCompletePoints(0);
         $this->em->persist($affiliateProject);
         $this->em->flush();
 
