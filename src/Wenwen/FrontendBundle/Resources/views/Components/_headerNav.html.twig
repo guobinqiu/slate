@@ -24,7 +24,7 @@
                 {% if app.session.has('uid') %}
                 <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
                 {% endif %}
-                <a href="{{ path('_exchange_index') }}" class="exchangeNav" {{ router_current == '_exchange_index' ? 'class="active"':'' }}>
+                <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="exchangeNav active"':'class="exchangeNav"' }}>
                     兑换中心
                     {% if app.session.has('uid') %}
                         <div class="pointExp"><span>100积分=<i>1元</i></span></div>
