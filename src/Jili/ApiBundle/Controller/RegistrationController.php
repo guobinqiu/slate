@@ -115,7 +115,7 @@ class RegistrationController extends Controller
             $pointHistory = new $classPointHistory();
             $pointHistory->setUserId($user->getId());
             $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
-            $pointHistory->setReason(CategoryType::SIGNUP);
+            $pointHistory->setReason(CategoryType::SOP_EXPENSE);
             $em->persist($pointHistory);
 
             $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
@@ -123,7 +123,7 @@ class RegistrationController extends Controller
             $taskHistory->setUserid($user->getId());
             $taskHistory->setOrderId(0);
             $taskHistory->setOcdCreatedDate(new \DateTime());
-            $taskHistory->setCategoryType(CategoryType::SIGNUP);
+            $taskHistory->setCategoryType(CategoryType::SOP_EXPENSE);
             $taskHistory->setTaskType(TaskType::RENTENTION);
             $taskHistory->setTaskName('完成注册');
             $taskHistory->setDate(new \DateTime());
