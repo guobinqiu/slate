@@ -6,6 +6,49 @@
 @import "index";
 @import "login";
 @import "font-awesome/scss/font-awesome";
+@media only screen and (max-width: 667px) { 
+	// landing page
+	html, body{
+		overflow-y: scroll;
+	}
+	body{
+		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat;
+		background-size: cover;
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+	}
+	#section0{
+	    background: none;
+	    h1{
+	        top: 14px;
+	    }
+	    .reg{
+	    	margin-top: 60px;
+	    }
+	}
+	.register{
+	    top: 5px!important;
+	}
+	.login{
+	    li{
+	        input[type="text"],.regSex,.regProvince{
+	            height: 35px;
+	            line-height: 35px;
+	        }
+	    }
+	} 
+	.unlogin{
+	    .btn{
+	        top: 10px;
+	    }
+	}
+	.footer{
+		display: none;
+	}
+}
 .main-register{
 	position: relative;
 	z-index: 1;
@@ -251,7 +294,7 @@
 		label{
 			&.error{
 				height: 30px;
-				color: #a94442;
+				color: #a94442!important;
 				background-color: #f2dede;
 				border: 1px solid #ebccd1;
 				line-height: 30px;
@@ -261,6 +304,7 @@
 				position: absolute;
 			    top: 6px;
 			    right: 5px;
+			    font-size: 12px;
 			}
 		}
 		input[type='text']{
@@ -269,6 +313,53 @@
 		input[type='password']{
 			*height: 30px;
 			*line-height: 30px;
+		}
+		.regSex{
+			input[type="radio"]{
+				margin: 0 5px 0 0;
+			}
+			label{
+				color: #a0a0a0;
+				margin-right: 20px;
+				&.error{
+					margin-right: 0;
+				}
+			}
+		}
+		.regProvince{
+			text-indent: -3px;
+			select{
+				border: none;
+				color: #a0a0a0;
+				font-size: 14px;
+				font-family: "Microsoft YaHei";
+			}
+		}
+		.verificationImg{
+			border: 1px solid #EDEDED;
+		}
+		.proPrompt{
+			display: none;
+			position: absolute; 
+			background: rgba(0,0,0,.8); 
+			background: #575757\9;
+			color: #fff; 
+			text-align: left; 
+			line-height: 21px; 
+			padding: 5px;
+			top: -55px;
+			@include border-radius(8px);
+			span{
+				position: relative;
+				i{
+					position: absolute;
+				    bottom: -25px;
+				    left: -3px;
+				    color: rgba(0,0,0,.8);
+				    font-size: 26px!important;
+				    margin-left: 33px;
+				}
+			}
 		}
 	}
 	.login-btn{

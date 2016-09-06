@@ -151,7 +151,19 @@ $(function(){
                 },
                 'signup[termAccepted]':{
                     required: false
-                }
+                },
+                'signup[userProfile][sex]':{
+                    required: true
+                },
+                'signup[userProfile][birthday]':{
+                    required: true
+                },
+                'signup[userProfile][province]':{
+                    required: true
+                },
+                'signup[userProfile][city]':{
+                    required: true
+                }   
             },
             messages: {
                 'signup[nick]':{
@@ -178,6 +190,18 @@ $(function(){
                 },
                 'signup[captcha]':{
                     required: "请输入验证码"
+                },
+                'signup[userProfile][sex]':{
+                    required: "请选择性别"
+                },
+                'signup[userProfile][birthday]':{
+                    required: "请选择生日"
+                },
+                'signup[userProfile][province]':{
+                    required: "请选择居住地"
+                },
+                'signup[userProfile][city]':{
+                    required: "请选择居住地"
                 }
             }
         }
@@ -186,5 +210,13 @@ $(function(){
     //生日下拉框
     $("input[name*='birthday']").on('click', function(){
         laydate();
+    });
+
+    //输入个人信息的提示
+    $("input[name*='birthday']").focus(function(){
+        $('.proPrompt').show();
+    });
+    $("input[name*='birthday']").blur(function(){
+        $('.proPrompt').hide();
     });
 });
