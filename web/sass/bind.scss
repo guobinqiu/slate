@@ -50,16 +50,21 @@ html,body{
 	float: left;
 	.bindForm{
 		display: none;
+		li{
+			position: relative;
+		}
 	}
 	.bindInput{
-		margin-bottom: 15px;
-		display: flex;
+		margin-bottom: 11px;
 		input[type="email"],input[type="password"],input[type="text"],#province,#city{
 			width: 100%;
 			height: 42px;
 			line-height: 42px;
 			font-size: 14px;
 			color: #a0a0a0;
+			-moz-box-sizing: border-box;
+		    -webkit-box-sizing: border-box;
+		    box-sizing: border-box;
 		}
 		#province,#city{
 			width: inherit;
@@ -70,8 +75,26 @@ html,body{
 			margin-right: 7px;
 		}
 	}
-	li{
-		position: relative;
+	.unbindForm{
+		li{
+			height: 44px;
+			line-height: 44px;
+			position: relative;
+			&:first-child{
+				height: 20px;
+				line-height: 20px;
+				.regSex{
+					label{
+						&.error{
+							top: -7px;
+						}
+					}
+				}
+			}
+			&:last-child{
+				margin-bottom: 10px;
+			}
+		}
 	}
 	.bindBtn,.skipBtn{
 		width: 100%;
@@ -90,10 +113,10 @@ html,body{
 	.skipBtn{
 		background: #25cfa1;
 	}
-	.error{
+	.bkError{
 		position: absolute;
-		right: 5px;
-		top: -2px;
+		right: 3px;
+		top: -4px;
 		ul{
 			text-align: left;
 			li{
@@ -119,6 +142,9 @@ html,body{
 				margin-left: 1px;
 				margin-top: 0;
 				margin-bottom: 5px;
+				-moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
 			}
 		}
 	}
@@ -132,6 +158,18 @@ html,body{
 			margin-right: 42px;
 			&.error{
 				margin-right: 0;
+			    width: inherit;
+			    position: absolute;
+			    right: 5px;
+			    top: 5px;
+			    height: 30px;
+			    line-height: 30px;
+			    color: #a94442!important;
+			    background-color: #f2dede;
+			    border: 1px solid #ebccd1;
+			    padding: 0 5px;
+			    display: inline-block; 
+			    @include border-radius(3px);
 			}
 		}
 	}

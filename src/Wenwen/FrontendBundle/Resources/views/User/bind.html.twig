@@ -14,18 +14,18 @@
 	<div class="form main-resetPwd clearfix">
 		<div class="bindCon">
 			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
-				<div class="error errorBack">{{ form_errors(loginForm) }}</div>
+				<div class="bkError errorBack">{{ form_errors(loginForm) }}</div>
 				<ul class="bindForm">
 					<li class="liner">
 						<div class="bindInput">
-							{{ form_widget(loginForm.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
-							<div class="error">{{ form_errors(loginForm.email) }}</div>
+							<div class="regSex">{{ form_widget(loginForm.email, {'attr': {'placeholder': '请输入邮箱'}}) }}</div>
+							<div class="bkError">{{ form_errors(loginForm.email) }}</div>
 						</div>
 					</li>
 					<li>
 						<div class="bindInput">
-							{{ form_widget(loginForm.password, {'attr': {'placeholder': '请输入密码'}}) }}
-							<div class="error">{{ form_errors(loginForm.password) }}</div>
+							<div class="regSex">{{ form_widget(loginForm.password, {'attr': {'placeholder': '请输入密码'}}) }}</div>
+							<div class="bkError">{{ form_errors(loginForm.password) }}</div>
 						</div>
 					</li>
 				</ul>
@@ -33,7 +33,7 @@
 				<input class="bindBtn" type="submit" value="绑定已有账户" />
 			</form>
 
-			<form action="{{ path(unbind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
+			<form id="bindPro" action="{{ path(unbind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
 				<ul class="unbindForm">
 					<li class="liner">
 						<div class="bindInput">
@@ -43,29 +43,31 @@
 					</li>
 					<li class="liner">
 						<div class="bindInput">
-							{{ form_widget(userForm.birthday, {'attr': {'placeholder': '生日'}}) }}
+							<div class="regSex">{{ form_widget(userForm.birthday, {'attr': {'placeholder': '生日'}}) }}</div>
 							<div class="error">{{ form_errors(userForm.birthday) }}</div>
 						</div>
 					</li>
 					<li class="liner">
 						<div class="bindInput">
-							<select id="province" name="{{ userForm.province.vars.full_name }}">
-								<option value="">省、市</option>
-								{% for province in provinces %}
-									<option value="{{ province.id}}">{{ province.provinceName }}</option>
-								{% endfor %}
-							</select>
+							<div class="regSex">
+								<select id="province" name="{{ userForm.province.vars.full_name }}">
+									<option value="">省、市</option>
+									{% for province in provinces %}
+										<option value="{{ province.id}}">{{ province.provinceName }}</option>
+									{% endfor %}
+								</select>
 
-							<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
-								<option data-province="" value="">地区</option>
-								{% for city in cities %}
-									<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}">{{ city.cityName }}</option>
-								{% endfor %}
-							</select>
+								<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
+									<option data-province="" value="">地区</option>
+									{% for city in cities %}
+										<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}">{{ city.cityName }}</option>
+									{% endfor %}
+								</select>
+							</div>
 
-							{{ form_errors(userForm.city) }}
+							<div class="error">{{ form_errors(userForm.city) }}</div>
 
-							<span id="tmp" style="visibility: hidden; position:absolute;"></span>
+							<span id="tmp" style="display: none; position:absolute;"></span>
 						</div>
 					</li>
 				</ul>
@@ -95,6 +97,8 @@
 {% block javascript %}
 	<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript">
 		$(function() {
@@ -127,5 +131,39 @@
 		$("input[name*='birthday']").on('click', function(){
 			laydate();
 		});
+
+		//前端验证form
+		$("#bindPro").validate(
+		    {
+		        rules: {
+		            'front_user_profile[sex]':{
+		            	required: true
+		            },
+		            'front_user_profile[birthday]':{
+		            	required: true
+		            },
+		            'front_user_profile[province]':{
+		            	required: true		
+		            },
+		            'front_user_profile[city]':{
+		            	required: true	
+		            }
+		        },
+		        messages: {
+		        	'front_user_profile[sex]':{
+		        		required: "请选择性别"
+		        	},
+		        	'front_user_profile[birthday]':{
+		        		required: "请选择生日"
+		        	},
+		        	'front_user_profile[province]':{
+		        		required: "请选择居住地"		
+		        	},
+		        	'front_user_profile[city]':{
+		        		required: "请选择居住地"	
+		        	}
+		        }
+		    }
+		);
 	</script>
 {% endblock %}

@@ -338,6 +338,29 @@
 		.verificationImg{
 			border: 1px solid #EDEDED;
 		}
+		.proPrompt{
+			display: none;
+			position: absolute; 
+			background: rgba(0,0,0,.8); 
+			background: #575757\9;
+			color: #fff; 
+			text-align: left; 
+			line-height: 21px; 
+			padding: 5px;
+			top: -55px;
+			@include border-radius(8px);
+			span{
+				position: relative;
+				i{
+					position: absolute;
+				    bottom: -25px;
+				    left: -3px;
+				    color: rgba(0,0,0,.8);
+				    font-size: 26px!important;
+				    margin-left: 33px;
+				}
+			}
+		}
 	}
 	.login-btn{
 		span{

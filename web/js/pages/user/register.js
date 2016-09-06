@@ -211,4 +211,12 @@ $(function(){
     $("input[name*='birthday']").on('click', function(){
         laydate();
     });
+
+    //输入个人信息的提示
+    $("input[name*='birthday']").focus(function(){
+        $('.proPrompt').show();
+    });
+    $("input[name*='birthday']").blur(function(){
+        $('.proPrompt').hide();
+    });
 });
