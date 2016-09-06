@@ -3,8 +3,10 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Entity\UserProfile;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
+use Symfony\Component\Form\Exception\Exception;
 use Symfony\Component\Templating\EngineInterface;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
@@ -445,6 +447,55 @@ class SurveyService
         }
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
+    }
+
+    public function pushBasicProfile($user_id)
+    {
+        try {
+            $sop_config = $this->parameterService->getParameter('sop');
+            $app_id = $sop_config['auth']['app_id'];
+            $app_secret = $sop_config['auth']['app_secret'];
+            $host = $sop_config['host'];
+
+            $app_mid = $this->getSopRespondentId($user_id);
+            $userProfile = $this->em->getRepository('JiliApiBundle:UserProfile')->findOneBy(array('userId' => $user_id));
+
+            $data = array(
+                'app_id' => $app_id,
+                'app_mid' => $app_mid,
+                'time' => time(),
+                'profile' => array(
+                    'q001' => $userProfile->getBirthday(),
+                    'q002' => $userProfile->getSex(),
+                    'q004' => $userProfile->getCity(),
+                )
+            );
+
+            $postBody = json_encode($data, true);
+
+            $sig = Util::createSignature($postBody, $app_secret);
+
+            $headers = array(
+                'Content-Type' => 'application/json',
+                'X-Sop-Sig' => $sig
+            );
+
+            $url = 'https://' . $host . '/api/v1_1/resource/app/member';
+            $request = $this->httpClient->post($url, $headers, $postBody);
+            $response = $request->send();
+            $this->logger->info(__CLASS__ . __METHOD__ . $response->getBody());
+
+        } catch(\Exception $e) {
+            $this->logger->error(__CLASS__ . __METHOD__ . $e->getMessage());
+            $this->logger->info(__CLASS__ . __METHOD__ . ' postBody=' . $postBody);
+            $this->logger->info(__CLASS__ . __METHOD__ . ' sig=' . $sig);
+
+            //throw $e;
+            return false;
+        }
+
+        //return $response->getBody();
+        return true;
     }
 
     /**

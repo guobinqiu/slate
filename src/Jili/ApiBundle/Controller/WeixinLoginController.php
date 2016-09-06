@@ -2,10 +2,12 @@
 
 namespace Jili\ApiBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Jili\ApiBundle\Entity\WeixinUser;
 use Jili\FrontendBundle\Form\Type\LoginType;
+use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
@@ -94,10 +96,6 @@ class WeixinLoginController extends Controller
      */
     public function bindAction(Request $request)
     {
-        if ($request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-
         $openId = $request->query->get('openId');
 
         $loginForm = $this->createForm(new LoginType());
@@ -155,10 +153,6 @@ class WeixinLoginController extends Controller
      */
     public function unbindAction(Request $request)
     {
-        if ($request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_homepage'));
-        }
-
         $openId = $request->query->get('openId');
 
         $loginForm = $this->createForm(new LoginType());
@@ -173,7 +167,8 @@ class WeixinLoginController extends Controller
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
             if ($userForm->isValid()) {
-                if ($weixinUser->getUser() == null) {
+                $user = $weixinUser->getUser();
+                if ($user == null) {
                     $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {
@@ -197,14 +192,14 @@ class WeixinLoginController extends Controller
                         $em->flush();
                         $em->getConnection()->commit();
 
-                        $request->getSession()->set('uid', $user->getId());
-                        return $this->redirect($this->generateUrl('_homepage'));
-
                     } catch (\Exception $e) {
                         $em->getConnection()->rollBack();
                         throw $e;
                     }
+                    $this->pushBasicProfile($user, $em);
                 }
+                $request->getSession()->set('uid', $user->getId());
+                return $this->redirect($this->generateUrl('_homepage'));
             }
         }
 
@@ -270,5 +265,15 @@ class WeixinLoginController extends Controller
         }
 
         return $msg;
+    }
+
+    private function pushBasicProfile(User $user, EntityManager $em)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em->persist($job);
+        $em->flush();
     }
 }

@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
- * @UniqueEntity(fields="nick", message="昵称已存在")
  * @UniqueEntity(fields="email", message="邮箱地址已存在")
  * @ORM\HasLifecycleCallbacks
  */
@@ -61,9 +60,9 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="nick", type="string", length=100, nullable=true, unique=true)
+     * @ORM\Column(name="nick", type="string", length=100, nullable=true)
      * @Assert\Length(
-     *      min=1, 
+     *      min=1,
      *      max=100,
      *      minMessage = "用户昵称为1-100个字符",
      *      maxMessage = "用户昵称为1-100个字符"

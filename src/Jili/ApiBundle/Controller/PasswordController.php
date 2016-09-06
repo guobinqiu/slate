@@ -2,14 +2,13 @@
 
 namespace Jili\ApiBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -51,7 +50,7 @@ class PasswordController extends Controller
         $user->setResetPasswordTokenExpiredAt(new \DateTime('+ 24 hour'));
         $em->flush();
 
-        $this->send_reset_password_email($user);
+        $this->send_reset_password_email($user, $em);
 
         return new JsonResponse(array('error' => false, 'message' => '邮件已发送'), 200);
     }
@@ -118,7 +117,7 @@ class PasswordController extends Controller
         return $this->render('WenwenFrontendBundle:User:resetSuccess.html.twig');
     }
 
-    private function send_reset_password_email(User $user)
+    private function send_reset_password_email(User $user, EntityManager $em)
     {
         $args = array(
             '--subject=91问问-帐号密码重置',
@@ -127,7 +126,6 @@ class PasswordController extends Controller
             '--reset_password_token='.$user->getResetPasswordToken(),
         );
         $job = new Job('mail:reset_password', $args, true, '91wenwen_reset', Job::PRIORITY_HIGH);
-        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }
