@@ -157,16 +157,14 @@ class WeiBoLoginController extends Controller
             if ($userForm->isValid()) {
                 $user = $weiboUser->getUser();
                 if ($user == null) {
-                    $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {
                         $user = new User();
                         $user->setNick($weiboUser->getNickname());
                         $user->setPoints(User::POINT_SIGNUP);
                         $user->setIconPath($weiboUser->getPhoto());
-                        $user->setRegisterDate($currentTime);
-                        $user->setRegisterCompleteDate($currentTime);
-                        $user->setLastLoginDate($currentTime);
+                        $user->setRegisterCompleteDate(new \DateTime());
+                        $user->setLastLoginDate(new \DateTime());
                         $user->setLastLoginIp($request->getClientIp());
                         $user->setCreatedRemoteAddr($request->getClientIp());
                         $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));

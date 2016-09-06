@@ -171,16 +171,14 @@ class WeixinLoginController extends Controller
             if ($userForm->isValid()) {
                 $user = $weixinUser->getUser();
                 if ($user == null) {
-                    $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {
                         $user = new User();
                         $user->setNick($weixinUser->getNickname());
                         $user->setPoints(User::POINT_SIGNUP);
                         $user->setIconPath($weixinUser->getPhoto());
-                        $user->setRegisterDate($currentTime);
-                        $user->setRegisterCompleteDate($currentTime);
-                        $user->setLastLoginDate($currentTime);
+                        $user->setRegisterCompleteDate(new \DateTime());
+                        $user->setLastLoginDate(new \DateTime());
                         $user->setLastLoginIp($request->getClientIp());
                         $user->setCreatedRemoteAddr($request->getClientIp());
                         $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));

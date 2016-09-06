@@ -163,16 +163,14 @@ class QQLoginController extends Controller
             if ($userForm->isValid()) {
                 $user = $qqUser->getUser();
                 if ($user == null) {
-                    $currentTime = new \DateTime();
                     $em->getConnection()->beginTransaction();
                     try {
                         $user = new User();
                         $user->setNick($qqUser->getNickname());
                         $user->setPoints(User::POINT_SIGNUP);
                         $user->setIconPath($qqUser->getPhoto());
-                        $user->setRegisterDate($currentTime);
-                        $user->setRegisterCompleteDate($currentTime);
-                        $user->setLastLoginDate($currentTime);
+                        $user->setRegisterCompleteDate(new \DateTime());
+                        $user->setLastLoginDate(new \DateTime());
                         $user->setLastLoginIp($request->getClientIp());
                         $user->setCreatedRemoteAddr($request->getClientIp());
                         $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
