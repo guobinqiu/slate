@@ -483,12 +483,12 @@ class SurveyService
             $url = 'https://' . $host . '/api/v1_1/resource/app/member';
             $request = $this->httpClient->post($url, $headers, $postBody);
             $response = $request->send();
-            $this->logger->info(__CLASS__ . __METHOD__ . $response->getBody());
+            $this->logger->info(__METHOD__ . $response->getBody());
 
         } catch(\Exception $e) {
-            $this->logger->error(__CLASS__ . __METHOD__ . $e->getMessage());
-            $this->logger->info(__CLASS__ . __METHOD__ . ' postBody=' . $postBody);
-            $this->logger->info(__CLASS__ . __METHOD__ . ' sig=' . $sig);
+            $this->logger->error(__METHOD__ . $e->getMessage());
+            $this->logger->info(__METHOD__ . ' postBody=' . $postBody);
+            $this->logger->info(__METHOD__ . ' sig=' . $sig);
 
             //throw $e;
             return false;
