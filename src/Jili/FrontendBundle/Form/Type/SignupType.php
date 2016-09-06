@@ -18,16 +18,23 @@ class SignupType extends AbstractType
                 'label' => '邮箱',
                 'constraints' => new Assert\NotBlank(array('message' => '请输入您的邮箱地址')),
             ))
-            ->add('pwd', 'repeated', array(
-                'type' => 'password',
-                'invalid_message' => '两次输入的密码不一致',
-                'first_options' => array('label' => '密码'),
-                'second_options' => array('label' => '重复密码'),
+//            ->add('pwd', 'repeated', array(
+//                'type' => 'password',
+//                'invalid_message' => '两次输入的密码不一致',
+//                'first_options' => array('label' => '密码'),
+//                'second_options' => array('label' => '重复密码'),
+//                'constraints' => array(
+//                    new Assert\NotBlank(array('message' => '请输入您的密码')),
+//                    new Assert\Length(array('min' => 5, 'max' => 100)),
+//                    new Assert\Regex(array('pattern' => '/^\w+/')),
+//                ),
+//            ))
+            ->add('pwd', 'password', array(
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入您的密码')),
                     new Assert\Length(array('min' => 5, 'max' => 100)),
                     new Assert\Regex(array('pattern' => '/^\w+/')),
-                ),
+                )
             ))
 
             //对应user对象的userProfile属性
