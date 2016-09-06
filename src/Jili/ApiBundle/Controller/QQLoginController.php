@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
@@ -180,6 +182,27 @@ class QQLoginController extends Controller
                         $em->persist($userProfile);
 
                         $qqUser->setUser($user);
+                        $em->flush();
+
+                        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
+                        $pointHistory = new $classPointHistory();
+                        $pointHistory->setUserId($user->getId());
+                        $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
+                        $pointHistory->setReason(CategoryType::SOP_EXPENSE);
+                        $em->persist($pointHistory);
+
+                        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
+                        $taskHistory = new $classTaskHistory();
+                        $taskHistory->setUserid($user->getId());
+                        $taskHistory->setOrderId(0);
+                        $taskHistory->setOcdCreatedDate(new \DateTime());
+                        $taskHistory->setCategoryType(CategoryType::SOP_EXPENSE);
+                        $taskHistory->setTaskType(TaskType::RENTENTION);
+                        $taskHistory->setTaskName('完成注册');
+                        $taskHistory->setDate(new \DateTime());
+                        $taskHistory->setPoint(User::POINT_SIGNUP);
+                        $taskHistory->setStatus(1);
+                        $em->persist($taskHistory);
 
                         $em->flush();
                         $em->getConnection()->commit();
