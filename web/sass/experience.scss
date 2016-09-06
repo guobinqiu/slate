@@ -2,39 +2,60 @@
 
 @import "layout/common";
 @import "layout/header";
+@import "font-awesome/scss/font-awesome.scss";
 .main-con{
 	padding-top: 20px;
 	position: relative;
 }
 .main-con-experience{
-	background: $block-bg-color;
-	border: $block-border;
+	position: relative;
 	.tabBtns{
 		padding: 0 10px;
 		height: 36px;
 		line-height: 36px;
-		border: 1px solid #dcdee5;
-		background: #ebedf2;
 		font-size: 0;
+		position: absolute;
+	    left: -140px;
+	    top: 10px;
 		a{
-			width: 120px;
+			width: 95px;
+			padding: 10px 2px;
 			text-align: center;
 			color: #7b7e85;
 			font-size: 14px;
-			border-left: 1px solid #d7d9e3;
-			@include dib();
-			&.first{
-				border-left: 1px solid #ebedf2;
+			background: #fff;
+			display: block;
+			@include box-shadow(0 0 3px rgba(0,0,0,0.1));
+			i{
+				display: block;
+				font-size: 24px;
+				*width: 20px;
+				*height: 20px;
+				*background: url(../img/experience/homeIcon.png) no-repeat -2px -22px;
 			}
 			&:hover, &.active{
-				margin-top: -1px;
-				margin-right: -1px;
-				height: 38px;
-				border: 1px solid #d7d9e3;
-				border-bottom: 1px solid #fff;
-				border-radius: 3px;
 				color: #131313;
 				background: #fff;
+			}
+			&.active{
+				color: #fff;
+				@include gradient(#1fb9e8,#02afe3);
+				i{
+					color: #fff;
+					*background: url(../img/experience/homeIcon.png) no-repeat -2px 0; 
+				}
+				&:after{
+					right: -8px;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					border: solid transparent;
+					border-left-color: #17b5e5;
+					border-width: 9px;
+					margin-top: -4px;
+				}
 			}
 		}
 	}
@@ -42,89 +63,23 @@
 		padding: 10px;
 		position: relative;
 		z-index: 1;
+		iframe{
+			background: url(../img/experience/loading.gif) no-repeat center 160px;
+		}
 		&.offer99{
 			padding: 10px 0 0;
-		}
-		&.offerWow{
-			padding: 20px 25px;
 		}
 		.maintenance{
 			width: 100%;
 			text-align: center;
 			height: 260px;
 			padding-top: 235px;
-			background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px;
+			background: url(../img/questionnaire/normalface.png) no-repeat 424px 130px #fff;
 			display: none;
 			.con{
 				font-size: 16px;
 				color: #a1a1a1;
 				line-height: 25px;
-			}
-		}
-	}
-	.taskFlow{
-		position: absolute;
-		z-index: 1000;
-		right: 25px;
-		top: 20px;
-		width: 239px;
-		padding-bottom: 20px;
-		background: url(../img/experience/offerwowBgBottom.png) no-repeat bottom right;
-		display: none;
-		h4{
-			padding-left: 25px;
-			height: 50px;
-			line-height: 50px;
-			color: #fff;
-			font-size: 14px;
-			background: url(../img/experience/offerwowBg.png) no-repeat;
-		}
-		.conWrapper{
-			padding-left: 10px;
-		}
-		.con{
-			padding: 0 15px 15px;
-			width: 199px;
-			background: #7e0419;
-			.text{
-				padding: 20px 15px 20px 45px;
-				width: 137px;
-				border-radius: 8px;
-				background: #fff;
-			}
-			li{
-				position: relative;
-				z-index: 2;
-				padding: 0 20px 30px 30px;
-				color: #666;
-				border-left: 3px solid #dcdcdc;
-				&.last{
-					border-left: 3px solid #fff;
-					padding-bottom: 0;
-				}
-				em{
-					position: absolute;
-					z-index: 1000;
-					left: -18px;
-					top: 0;
-					width: 33px;
-					height: 32px;
-					text-align: center;
-					line-height: 30px;
-					color: #fff;
-					font-size: 16px;
-					@include dib();
-					background: url(../img/experience/offerwowIcons.png) no-repeat;
-				}
-				div{
-					color: #292929;
-					font-size: 18px;
-					font-weight: bold;
-				}
-				p{
-					margin-top: 10px;
-					line-height: 18px;
-				}
 			}
 		}
 	}

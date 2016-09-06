@@ -90,6 +90,10 @@
         <testsuite name="affiliate_app_services">
             <directory>../src/Affiliate/AppBundle/Tests/Services</directory>
         </testsuite>
+
+        <testsuite name="affiliate_app_controller">
+            <directory>../src/Affiliate/AppBundle/Tests/Controller</directory>
+        </testsuite>
     </testsuites>
 
     <!--

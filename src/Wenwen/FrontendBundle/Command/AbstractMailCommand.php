@@ -14,7 +14,7 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $templating = $this->getContainer()->get('templating');
-        $logger = $this->getContainer()->get('logger');
+        $logger = $this->getContainer()->get('monolog.logger.email_delivery');
 
         $mailer = $this->createMailer($input);
         $html = $templating->render($this->getTemplatePath($input), $this->getTemplateVars($input));
@@ -30,7 +30,7 @@ abstract class AbstractMailCommand extends ContainerAwareCommand {
         } else {
             $logger->info($message);
         }
-        $output->write($message); // also print to console
+        $output->write($message . PHP_EOL); // also print to console
     }
 
     /**

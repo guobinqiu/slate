@@ -10,6 +10,7 @@ use VendorIntegration\SSI\PC1\Request as SsiRequest;
 use VendorIntegration\SSI\PC1\RequestValidator as SsiRequestValidator;
 use VendorIntegration\SSI\PC1\RequestHandler as SsiRequestHandler;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\SsiDeliveryNotification;
+use Wenwen\AppBundle\Entity\SsiRespondent;
 
 class SsiApiController extends Controller
 {
@@ -22,6 +23,8 @@ class SsiApiController extends Controller
      */
     public function handleRequestAction(Request $request)
     {
+        $logger = $this->get('monolog.logger.ssi_notification');
+        
         $ssiRequest = new SsiRequest();
         $ssiRequest->loadJson($request->getContent());
 
@@ -41,10 +44,22 @@ class SsiApiController extends Controller
         $handler->setUpProject($ssiRequest);
         $handler->setUpProjectRespondents($ssiRequest);
 
+        
         # send mail
         if (sizeof($handler->getSucceededRespondentIds())) {
+            $logger->info('START size =' . sizeof($handler->getSucceededRespondentIds()));
+
+            foreach ($handler->getSucceededRespondentIds() as $respondentId) {
+                $ssiRespondentId = SsiRespondent::parseRespondentId($respondentId);
+                $this->get('monolog.logger.ssi_notification')->info('ssiRespondentId=' . json_encode($respondentId));
+            }
+            $logger->info('Start notification');
+
             $notification = new SsiDeliveryNotification($em);
+
+            $notification->setLogger($logger);
             $notification->send($handler->getSucceededRespondentIds());
+            $logger->info('End notification');
         }
 
         return $this->createResponse(

@@ -37,7 +37,8 @@ class AdminProjectController extends Controller
     public function addProjectAction(Request $request, $affiliatePartnerId = null)
     {
         $builder = $this->createFormBuilder();
-        $builder->add('RFQId', 'text', array('label' => 'RFQId:'));
+        $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
+        $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
         $form = $builder->getForm();
 
@@ -54,28 +55,36 @@ class AdminProjectController extends Controller
                 // Get fields
                 $fieldFile = $form->get('urlFile');
                 $fieldRFQId = $form->get('RFQId');
+                $fieldCompletePoints = $form->get('CompletePoints');
 
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
+                $completePoints = $fieldCompletePoints->getData();
 
-                $originalFileName = $uploadedFile->getClientOriginalName();
-                $realUploadName = $originalFileName . "." . md5(uniqid());
-                $uploadedFile->move($uploadDir, $realUploadName);
-                $fullPath = $uploadDir . "/" . $realUploadName;
+                if($completePoints <= 2000) {
+                    $originalFileName = $uploadedFile->getClientOriginalName();
+                    $realUploadName = $originalFileName . "." . md5(uniqid());
+                    $uploadedFile->move($uploadDir, $realUploadName);
+                    $fullPath = $uploadDir . "/" . $realUploadName;
 
-                $adminProjectService = $this->get('app.admin_project_service');
-                // 改partnerId
-                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath);
-                
+                    $adminProjectService = $this->get('app.admin_project_service');
+                    // 改partnerId
+                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints);
+                    
 
-                //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
-                // print 'status=' . $rtn['status'] . '<br>';
-                // print 'errmsg' . $rtn['errmsg'] . '<br>';
-                if('success' == $rtn['status']){
-                    return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
+                    //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
+                    // print 'status=' . $rtn['status'] . '<br>';
+                    // print 'errmsg' . $rtn['errmsg'] . '<br>';
+                    if('success' == $rtn['status']){
+                        return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
+                    } else {
+                        $errmsg = $rtn['msg'];
+                    }
                 } else {
-                    $errmsg = $rtn['msg'];
+                    $errmsg = '奖励积分数过大';
                 }
+            } else {
+                $errmsg = '输入项目不合要求';
             }
 
          }
@@ -113,6 +122,6 @@ class AdminProjectController extends Controller
                 'pagination' => array()
                 );
         }
-        return $this->render('AffiliateAppBundle:admin:project.html.twig', $param);
+        return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
     }
 }

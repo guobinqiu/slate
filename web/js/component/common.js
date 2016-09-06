@@ -19,9 +19,7 @@ $(function(){
                     return false;        
                 }
             }
-        }else{
-            nav.find('a').removeClass('active');
-        }    
+        } 
     });
     var expandBtn = $('.expand-btn'),
         expandCon = $('.expand-con');

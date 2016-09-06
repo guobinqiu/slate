@@ -256,6 +256,28 @@
 		}
 	}
 }
+.regQL{
+	position: fixed;
+	right: 10%;
+	top: 0;
+	z-index: 6;
+	margin-top: 18px;
+	a{
+		padding: 10px;
+		margin-left: 0;
+		&.weixin-login{
+			margin-right: 16px;
+		}
+		&.weibo-login{
+			margin-left: 16px;
+		}
+		i{
+			width: 15px;
+			height: 15px;
+			font-size: 15px;
+		}
+	}
+}
 /*-----------rewrite reg style------------*/
 .register{
 	height: 450px;

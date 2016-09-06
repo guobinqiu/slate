@@ -203,16 +203,21 @@ class SopApiController extends Controller
         $request_body = $this->getRequestBody();
         $request_data = $request_body ? json_decode($request_body, true) : array ();
 
+        // Record notification infos.
+        if(isset($request_data['data']) && isset($request_data['data']['respondents'])){
+            foreach($request_data['data']['respondents'] as $respondent){
+                $this->get('monolog.logger.sop_notification')->info(json_encode($respondent));
+            }
+        }
+
         // Verify signature
         $sop_config = $this->container->getParameter('sop');
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $request->headers->get('X-Sop-Sig');
 
-        $this->container->get('logger')->info('----------------'.__METHOD__.' sig='.$sig);
-        $this->container->get('logger')->info('----------------'.__METHOD__.' request_body='.$request_body);
-
         if (!$auth->verifySignature($sig, $request_body)) {
-            $this->container->get('logger')->error('----------------'.__METHOD__.'403');
+            $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
+            $this->container->get('logger')->error(__METHOD__ . ' request_body='.$request_body);
             return $this->render403Response('authentication failed');
         }
 
@@ -220,7 +225,9 @@ class SopApiController extends Controller
             return $this->render400Response('data.respondents not found!');
         }
 
+        $this->get('monolog.logger.sop_notification')->info('Start notification');
         $unsubscribed_app_mids = $notification->send($request_data['data']['respondents']);
+        $this->get('monolog.logger.sop_notification')->info('End notification');
 
         $res = array (
             'meta' => array (

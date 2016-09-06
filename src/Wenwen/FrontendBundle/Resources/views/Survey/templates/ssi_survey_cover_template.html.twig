@@ -4,12 +4,10 @@
         <li class="first">
             问卷编号：s{{ ssi_surveys[0].ssiProjectId }}
         </li>
-        <li>
-            问卷类型：商业问卷
-        </li>
         <li class="last">
-            奖励积分：<strong>{{ ssi_project_config.point }}</strong>
+            问卷类型：商业问卷
         </li>
     </ul>
 </div>
+<div class="rewardPoint"><i>{{ ssi_project_config.point }}</i>积分</div>
 <div class="survey-btn"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">可回答</a></div>

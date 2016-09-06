@@ -22,10 +22,9 @@
             {% if item.timelimit is defined %}
             <div>
                 <input type="hidden" name="timelimit_ut" value="{{item.timelimit}}" /><div id="countdown" class="countdown"></div>
-                <span class="mTips hiddenDesktop visiblePhone visibleTablet">倒计时内回答此份快速回答<br>将额外获得1积分。</span>
             </div>
             <div class="tips expand-btn">
-                <span>?</span>
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
                 <div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
             </div>
             {% endif %}
