@@ -72,11 +72,11 @@
 					</li>
 				</ul>
 				{{ form_row(userForm._token) }}
-				<input class="skipBtn" type="submit" value="提交" />
+				<input class="skipBtn" type="submit" value="我是新用户" />
 			</form>
 
 			<div class="bindPrompt">
-				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>注意：跳过绑定的话已有账户的积分不会被导入到当前账户。</span>
+				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>请填写您的真实信息，因为这会影响到您将来会收到什么样的问卷。</span>
 			</div>
 		</div>
 
@@ -101,32 +101,38 @@
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript">
+		var duration = 300;
+
 		$(function() {
 			{% if not loginForm.vars.valid %}
-				$('.bindForm').slideDown(500);
+				$('.bindForm').slideDown(duration);
 			{% else %}
-				$('.bindForm').slideUp(500);
+				$('.bindForm').slideUp(duration);
 			{% endif %}
 
 			{% if not userForm.vars.valid %}
-				$('.unbindForm').slideDown(500);
+				$('.unbindForm').slideDown(duration);
 			{% else %}
-				$('.unbindForm').slideUp(500);
+				$('.unbindForm').slideUp(duration);
 			{% endif %}
 		});
 
 		$('.bindBtn').on('click', function(e) {
 			if ($('.bindForm').is(':hidden')) {
-				$('.bindForm').slideDown(500);
+				$('.bindForm').slideDown(duration);
+				$('.unbindForm').slideUp(duration);
 				e.preventDefault();
 			}
 		});
+
 		$('.skipBtn').on('click', function(e) {
 			if ($('.unbindForm').is(':hidden')) {
-				$('.unbindForm').slideDown(500);
+				$('.unbindForm').slideDown(duration);
+				$('.bindForm').slideUp(duration);
 				e.preventDefault();
 			}
 		});
+
 		//生日下拉框
 		$("input[name*='birthday']").on('click', function(){
 			laydate();
