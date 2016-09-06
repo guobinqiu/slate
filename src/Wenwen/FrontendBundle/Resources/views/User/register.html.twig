@@ -60,7 +60,7 @@
 							</li>
 							<li class="liner">
 								{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-								<div class="regProvince">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
+								{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
 							</li>
 							<li id="vcode" class="liner">
 								{{ form_widget(userForm.captcha, {'attr': {'placeholder': '输入验证码'}}) }}

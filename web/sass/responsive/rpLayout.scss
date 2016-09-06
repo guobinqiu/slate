@@ -1335,9 +1335,26 @@
             }
         }
         .regSex{
-            height: 25px;
             label{
                 vertical-align: 13px;
+                &.error{
+                    height: 26px;
+                    line-height: 26px; 
+                }
+            }
+        }
+        .unbindForm{
+            li{
+                height: 37px;
+                line-height: 37px;
+            }
+        }
+        .bkError{
+            ul{
+                li{
+                    height: 26px;
+                    line-height: 26px;
+                }
             }
         }
     }

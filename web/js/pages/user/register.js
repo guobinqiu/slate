@@ -134,14 +134,10 @@ $(function(){
                     maxlength: 50,
                     email: true
                 },
-                'signup[pwd][first]':{
+                'signup[pwd]':{
                     required: true,
                     minlength: 5,
                     maxlength: 100
-                },
-                'signup[pwd][second]':{
-                    required: true,
-                    equalTo: "#signup_pwd_first"
                 },
                 'signup[captcha]':{
                     required: true
@@ -178,15 +174,11 @@ $(function(){
                     email: "邮件地址格式不正确"
 
                 },
-                'signup[pwd][first]':{
+                'signup[pwd]':{
                     required: "请输入密码",
                     minlength: "长度在5-100位字符之间",
                     maxlength: "长度在5-100位字符之间"
 
-                },
-                'signup[pwd][second]':{
-                    required: "请确认密码",
-                    equalTo: "您输入的密码不一致"
                 },
                 'signup[captcha]':{
                     required: "请输入验证码"

@@ -34,7 +34,7 @@
 	}
 	.login{
 	    li{
-	        input[type="text"],.regSex,.regProvince{
+	        input[type="text"],.regSex{
 	            height: 35px;
 	            line-height: 35px;
 	        }
@@ -326,13 +326,32 @@
 				}
 			}
 		}
-		.regProvince{
-			text-indent: -3px;
+		.regProvince,.regCity{
+			width: 44%;
+		    text-align: left;
+		    overflow: hidden;
+		    background: #fff url(../img/common/arrowdown.png) no-repeat 90% 50%;
+		    background: none\9;
+		    background: none\9\0;
+		    display: inline-block;
+		    height: 45px;
+	        line-height: 45px;
 			select{
+				width: 100%;
+				height: 100%;
 				border: none;
 				color: #a0a0a0;
 				font-size: 14px;
 				font-family: "Microsoft YaHei";
+			    box-shadow: none;
+			    background-color: transparent;
+			    background-image: none;
+			    -webkit-appearance: none;
+		        -moz-appearance: none;
+	            appearance: none;
+	            &::-ms-expand{
+	            	display: none;
+	            }
 			}
 		}
 		.verificationImg{
@@ -353,9 +372,10 @@
 				position: relative;
 				i{
 					position: absolute;
-				    bottom: -25px;
+				    bottom: -24px;
 				    left: -3px;
 				    color: rgba(0,0,0,.8);
+				    color: #575757\9;
 				    font-size: 26px!important;
 				    margin-left: 33px;
 				}
