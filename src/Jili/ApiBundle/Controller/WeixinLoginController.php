@@ -2,14 +2,17 @@
 
 namespace Jili\ApiBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Jili\ApiBundle\Entity\WeixinUser;
 use Jili\FrontendBundle\Form\Type\LoginType;
+use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
  * @Route("/auth/weixin")
@@ -43,13 +46,13 @@ class WeixinLoginController extends Controller
     {
         $code = $request->query->get('code');
 
-        if ($code == null) {
-            $this->get('logger')->error('Weixin - 用户取消了授权');
+        if (!isset($code)) {
+            $this->get('logger')->info('Weixin - 用户取消了授权');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
         if ($request->query->get('state') != $request->getSession()->get('state')) {
-            $this->get('logger')->error('Weixin - The state does not match. You may be a victim of CSRF.');
+            $this->get('logger')->info('Weixin - The state does not match. You may be a victim of CSRF.');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -67,6 +70,7 @@ class WeixinLoginController extends Controller
             $weixinUser->setNickname($userInfo->nickname);
             $weixinUser->setPhoto($userInfo->headimgurl);
             $weixinUser->setGender($userInfo->sex);
+            $weixinUser->setUnionId($userInfo->unionid);
             $em->persist($weixinUser);
             $em->flush();
 
@@ -74,6 +78,9 @@ class WeixinLoginController extends Controller
         } else if ($weixinUser->getUser() == null) {
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
         } else {
+            if ($weixinUser->getUnionId() == null) {
+                $weixinUser->setUnionId($userInfo->unionid);
+            }
             $user = $weixinUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
@@ -89,11 +96,15 @@ class WeixinLoginController extends Controller
      */
     public function bindAction(Request $request)
     {
-        $form = $this->createForm(new LoginType());
-
         $openId = $request->query->get('openId');
+
+        $loginForm = $this->createForm(new LoginType());
+        $userForm = $this->createForm(new UserProfileType());
+
         $em = $this->getDoctrine()->getManager();
         $weixinUser = $em->getRepository('JiliApiBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
         $params = array(
             'openId' => $openId,
@@ -101,24 +112,27 @@ class WeixinLoginController extends Controller
             'unbind_route' => 'weixin_unbind',
             'nickname' => $weixinUser->getNickname(),
             'photo' => $weixinUser->getPhoto(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'userForm' => $userForm->createView(),
         );
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $loginForm->bind($request);
 
-            if ($form->isValid()) {
-                $formData = $form->getData();
+            if ($loginForm->isValid()) {
+                $formData = $loginForm->getData();
                 $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $form->addError(new FormError('邮箱或密码错误'));
-                    $params['form'] = $form->createView();
+                    $loginForm->addError(new FormError('邮箱或密码错误'));
+                    $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
                 if (!$user->emailIsConfirmed()) {
-                    $form->addError(new FormError('邮箱尚未激活'));
-                    $params['form'] = $form->createView();
+                    $loginForm->addError(new FormError('邮箱尚未激活'));
+                    $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
@@ -130,7 +144,7 @@ class WeixinLoginController extends Controller
             }
         }
 
-        $params['form'] = $form->createView();
+        $params['loginForm'] = $loginForm->createView();
         return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
     }
 
@@ -139,42 +153,67 @@ class WeixinLoginController extends Controller
      */
     public function unbindAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $openId = $request->query->get('openId');
+
+        $loginForm = $this->createForm(new LoginType());
+        $userProfile = new UserProfile();
+        $userForm = $this->createForm(new UserProfileType(), $userProfile);
+
+        $em = $this->getDoctrine()->getManager();
         $weixinUser = $em->getRepository('JiliApiBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
 
-        $currentTime = new \DateTime();
-        $em->getConnection()->beginTransaction();
-        try {
-            $user = new User();
-            $user->setNick($weixinUser->getNickname());
-            $user->setPoints(User::POINT_SIGNUP);
-            $user->setIconPath($weixinUser->getPhoto());
-            $user->setRegisterDate($currentTime);
-            $user->setRegisterCompleteDate($currentTime);
-            $user->setLastLoginDate($currentTime);
-            $user->setLastLoginIp($request->getClientIp());
-            $user->setCreatedRemoteAddr($request->getClientIp());
-            $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-            $em->persist($user);
+        if ($request->getMethod() == 'POST') {
+            $userForm->bind($request);
+            if ($userForm->isValid()) {
+                $user = $weixinUser->getUser();
+                if ($user == null) {
+                    $currentTime = new \DateTime();
+                    $em->getConnection()->beginTransaction();
+                    try {
+                        $user = new User();
+                        $user->setNick($weixinUser->getNickname());
+                        $user->setPoints(User::POINT_SIGNUP);
+                        $user->setIconPath($weixinUser->getPhoto());
+                        $user->setRegisterDate($currentTime);
+                        $user->setRegisterCompleteDate($currentTime);
+                        $user->setLastLoginDate($currentTime);
+                        $user->setLastLoginIp($request->getClientIp());
+                        $user->setCreatedRemoteAddr($request->getClientIp());
+                        $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                        $em->persist($user);
 
-            $userProfile = new UserProfile();
-            $userProfile->setSex($weixinUser->getGender());
-            $userProfile->setUser($user);
-            $em->persist($userProfile);
+                        $userProfile->setUser($user);
+                        $em->persist($userProfile);
 
-            $weixinUser->setUser($user);
+                        $weixinUser->setUser($user);
 
-            $em->flush();
-            $em->getConnection()->commit();
+                        $em->flush();
+                        $em->getConnection()->commit();
 
-            $request->getSession()->set('uid', $user->getId());
-            return $this->redirect($this->generateUrl('_homepage'));
-
-        } catch (\Exception $e) {
-            $em->getConnection()->rollBack();
-            throw $e;
+                    } catch (\Exception $e) {
+                        $em->getConnection()->rollBack();
+                        throw $e;
+                    }
+                    $this->pushBasicProfile($user, $em);
+                }
+                $request->getSession()->set('uid', $user->getId());
+                return $this->redirect($this->generateUrl('_homepage'));
+            }
         }
+
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig', array(
+            'openId' => $openId,
+            'bind_route' => 'weixin_bind',
+            'unbind_route' => 'weixin_unbind',
+            'nickname' => $weixinUser->getNickname(),
+            'photo' => $weixinUser->getPhoto(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+            'loginForm' => $loginForm->createView(),
+            'userForm' => $userForm->createView(),
+        ));
     }
 
     private function getAccessToken($code)
@@ -226,5 +265,15 @@ class WeixinLoginController extends Controller
         }
 
         return $msg;
+    }
+
+    private function pushBasicProfile(User $user, EntityManager $em)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em->persist($job);
+        $em->flush();
     }
 }

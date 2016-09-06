@@ -6,6 +6,13 @@
 @import "component/quickLog";
 @import "index"; 
 @import "font-awesome/scss/font-awesome";
+@media only screen and (max-width: 667px) { 
+	// landing page
+	#section0{
+		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat;
+		background-size: cover;
+	}
+}
 .login-wrapper{ 
 	position: absolute;
 	z-index: 1000;
@@ -118,7 +125,7 @@
 			margin-left: 18px;
 			margin-bottom: 7px;
 		}
-		input[type="text"], input[type="email"], input[type="password"]{
+		input[type="text"], input[type="email"], input[type="password"], .regSex{
 			width: 90%;
 			height: 45px; 
 			line-height: 45px;
@@ -126,6 +133,7 @@
 			padding: 0 5%;
 			font-size: 14px;
 			display: block;
+			text-align: left;
 			&:focus, &.active{
 				border: none;
 				box-shadow: none;
@@ -133,6 +141,21 @@
 			}
 		}
 	}
+	::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+	    color: #a0a0a0;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	   color: #a0a0a0;
+	   opacity:  1;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	   color: #a0a0a0;
+	   opacity:  1;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	   color: #a0a0a0;
+	}
+
 	p{
 		&.subCon{
 			text-align: center;

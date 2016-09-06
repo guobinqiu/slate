@@ -2,13 +2,13 @@
 
 namespace Jili\ApiBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserProfile;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Jili\FrontendBundle\Form\Type\SignupType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
@@ -29,8 +29,16 @@ class RegistrationController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+
         $user = new User();
+        $userProfile = new UserProfile();
+        $user->setUserProfile($userProfile);
+        $userProfile->setUser($user);
         $form = $this->createForm(new SignupType(), $user);
+
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
 
@@ -42,7 +50,6 @@ class RegistrationController extends Controller
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
@@ -50,23 +57,25 @@ class RegistrationController extends Controller
                     $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
-                $this->send_confirmation_email($user);
+                $this->send_confirmation_email($user, $em);
 
-                $session->set('email', $user->getEmail());
-
-                return $this->redirect($this->generateUrl('_user_regSuccess'));
+                return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
             }
         }
 
-        return $this->render('WenwenFrontendBundle:User:register.html.twig', array('form' => $form->createView()));
+        return $this->render('WenwenFrontendBundle:User:register.html.twig', array(
+            'userForm' => $form->createView(),
+            'provinces' => $provinces,
+            'cities' => $cities,
+        ));
     }
 
     /**
-     * @Route("/regSuccess", name="_user_regSuccess")
+     * @Route("/regActive", name="_user_regActive")
      */
-    public function regSuccessAction(Request $request)
+    public function regActiveAction(Request $request)
     {
-        $email = $request->getSession()->get('email');
+        $email = $request->query->get('email');
         return $this->render('WenwenFrontendBundle:User:emailActive.html.twig', array('email' => $email));
     }
 
@@ -76,7 +85,8 @@ class RegistrationController extends Controller
     public function confirmRegisterAction(Request $request)
     {
         $confirmation_token = $request->query->get('confirmation_token');
-        if ($confirmation_token == null) {
+
+        if (!isset($confirmation_token)) {
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
         }
 
@@ -129,9 +139,17 @@ class RegistrationController extends Controller
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => $e->getMessage()));
         }
 
-        $session = $request->getSession();
-        $session->set('uid', $user->getId());
+        $this->pushBasicProfile($user, $em);
 
+        $request->getSession()->set('uid', $user->getId());
+        return $this->redirect($this->generateUrl('_user_regSuccess'));
+    }
+
+    /**
+     * @Route("/regSuccess", name="_user_regSuccess")
+     */
+    public function regSuccessAction()
+    {
         return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
     }
 
@@ -145,7 +163,7 @@ class RegistrationController extends Controller
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
-    private function send_confirmation_email(User $user)
+    private function send_confirmation_email(User $user, EntityManager $em)
     {
         $args = array(
             '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
@@ -154,7 +172,16 @@ class RegistrationController extends Controller
             '--confirmation_token='.$user->getConfirmationToken(),
         );
         $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
-        $em = $this->getDoctrine()->getManager();
+        $em->persist($job);
+        $em->flush();
+    }
+
+    private function pushBasicProfile(User $user, EntityManager $em)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
         $em->persist($job);
         $em->flush();
     }

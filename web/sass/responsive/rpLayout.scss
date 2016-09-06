@@ -152,6 +152,13 @@
                     top: 3px; 
                 }
             }
+            .proPrompt{
+                span{
+                    i{
+                        bottom: -25px;
+                    }
+                }
+            }
         }
     }
     .main-adv{
@@ -1124,12 +1131,12 @@
         }
     }
     #section0{
-        background-position-y: 1px!important;
+        // background-position-y: 1px!important;
         h1{
             // margin-left: -39%;
             a{
                 img{
-                    height: 36px;
+                    height: 31px;
                 }
             }
         }
@@ -1271,9 +1278,32 @@
         width: 100%;
         padding: 10px 32px;
         .bindInput{
-            input{
-                height: 42px!important;
-                line-height: 42px!important;
+            input,#province,#city{
+                height: 35px!important;
+                line-height: 35px!important;
+            }
+        }
+        .regSex{
+            label{
+                vertical-align: 13px;
+                &.error{
+                    height: 26px;
+                    line-height: 26px; 
+                }
+            }
+        }
+        .unbindForm{
+            li{
+                height: 37px;
+                line-height: 37px;
+            }
+        }
+        .bkError{
+            ul{
+                li{
+                    height: 26px;
+                    line-height: 26px;
+                }
             }
         }
     }

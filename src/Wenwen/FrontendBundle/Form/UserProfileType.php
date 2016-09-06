@@ -33,10 +33,11 @@ class UserProfileType extends AbstractType
                 'rows' => '6',
                 'cols' => '50'
             ),
+            'required' => false,
         ));
 
-        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐：'));
-        $builder->add('monthlyWish', 'text', array('label' => '本月心愿：'));
+        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐：', 'required' => false,));
+        $builder->add('monthlyWish', 'text', array('label' => '本月心愿：', 'required' => false,));
         $builder->add('province', 'text');
         $builder->add('city', 'text');
 
@@ -65,6 +66,7 @@ class UserProfileType extends AbstractType
                 '118' => '32000-35999元',
                 '119' => '36000元以上',
             ),
+            'required' => false,
         ));
 
         $builder->add('profession', 'choice', array(
@@ -84,7 +86,8 @@ class UserProfileType extends AbstractType
                 '11' => '学生',
                 '12' => '待业',
                 '99' => '其他',
-            )
+            ),
+            'required' => false,
         ));
 
         $builder->add('industry_code', 'choice', array(
@@ -122,7 +125,8 @@ class UserProfileType extends AbstractType
                 '29' => '酒店/旅游代理',
                 '30' => '餐饮服务',
                 '99' => '其他',
-            )
+            ),
+            'required' => false,
         ));
 
         $builder->add('work_section_code', 'choice', array(

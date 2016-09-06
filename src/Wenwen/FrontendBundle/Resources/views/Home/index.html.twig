@@ -9,16 +9,10 @@
 {% block stylesheet %}
 	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<script type="text/javascript">
-		$('html').addClass('secHd');
-		$(document).ready(function(){
-			$('html').removeClass('secHd');
-		});
-	</script>
 {% endblock %}
 
 {% block body %}
-	<div id="pagepiling" class="sta">
+	<div id="pagepiling" class="sta" style="display:none">
 		<div class="section" id="section0">
 			<h1>
 				<a href="{{ path('_homepage') }}" title="首页">

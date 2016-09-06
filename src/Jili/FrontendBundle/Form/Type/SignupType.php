@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Form\UserProfileType;
 
 class SignupType extends AbstractType
 {
@@ -17,17 +18,28 @@ class SignupType extends AbstractType
                 'label' => '邮箱',
                 'constraints' => new Assert\NotBlank(array('message' => '请输入您的邮箱地址')),
             ))
-            ->add('pwd', 'repeated', array(
-                'type' => 'password',
-                'invalid_message' => '两次输入的密码不一致',
-                'first_options' => array('label' => '密码'),
-                'second_options' => array('label' => '重复密码'),
+//            ->add('pwd', 'repeated', array(
+//                'type' => 'password',
+//                'invalid_message' => '两次输入的密码不一致',
+//                'first_options' => array('label' => '密码'),
+//                'second_options' => array('label' => '重复密码'),
+//                'constraints' => array(
+//                    new Assert\NotBlank(array('message' => '请输入您的密码')),
+//                    new Assert\Length(array('min' => 5, 'max' => 100)),
+//                    new Assert\Regex(array('pattern' => '/^\w+/')),
+//                ),
+//            ))
+            ->add('pwd', 'password', array(
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入您的密码')),
                     new Assert\Length(array('min' => 5, 'max' => 100)),
                     new Assert\Regex(array('pattern' => '/^\w+/')),
-                ),
+                )
             ))
+
+            //对应user对象的userProfile属性
+            ->add('userProfile', new UserProfileType())
+
             ->add('captcha', 'captcha', array(
                 'label' => '验证码',
                 'invalid_message' => '验证码无效',
@@ -51,6 +63,7 @@ class SignupType extends AbstractType
             'data_class' => 'Jili\ApiBundle\Entity\User',//这里可以不加，但如果是复杂的嵌套类这个地方就要显式指定
             'csrf_protection' => true,
             'intention' => 'register', //名字随便取，即使同一个用户也让这个表单的token和其它表单的token不一致，这样更加安全
+            'cascade_validation' => true,//同时验证嵌套的表单
         ));
     }
 

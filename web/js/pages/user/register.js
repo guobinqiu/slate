@@ -119,13 +119,13 @@
     // });
     
 //register form validation
-$(document).ready(function(){   
+$(function(){
     $("#signup_form").validate(
         {
             rules: {
                 'signup[nick]':{
                     required: true,
-                    minlength: 1, 
+                    minlength: 1,
                     maxlength: 100
                 },
                 'signup[email]':{
@@ -134,14 +134,10 @@ $(document).ready(function(){
                     maxlength: 50,
                     email: true
                 },
-                'signup[pwd][first]':{
+                'signup[pwd]':{
                     required: true,
                     minlength: 5,
                     maxlength: 100
-                },
-                'signup[pwd][second]':{
-                    required: true,
-                    equalTo: "#signup_pwd_first"
                 },
                 'signup[captcha]':{
                     required: true
@@ -151,7 +147,19 @@ $(document).ready(function(){
                 },
                 'signup[termAccepted]':{
                     required: false
-                }
+                },
+                'signup[userProfile][sex]':{
+                    required: true
+                },
+                'signup[userProfile][birthday]':{
+                    required: true
+                },
+                'signup[userProfile][province]':{
+                    required: true
+                },
+                'signup[userProfile][city]':{
+                    required: true
+                }   
             },
             messages: {
                 'signup[nick]':{
@@ -166,25 +174,41 @@ $(document).ready(function(){
                     email: "邮件地址格式不正确"
 
                 },
-                'signup[pwd][first]':{
+                'signup[pwd]':{
                     required: "请输入密码",
                     minlength: "长度在5-100位字符之间",
                     maxlength: "长度在5-100位字符之间"
 
                 },
-                'signup[pwd][second]':{
-                    required: "请确认密码",
-                    equalTo: "您输入的密码不一致"
-                },
                 'signup[captcha]':{
                     required: "请输入验证码"
+                },
+                'signup[userProfile][sex]':{
+                    required: "请选择性别"
+                },
+                'signup[userProfile][birthday]':{
+                    required: "请选择生日"
+                },
+                'signup[userProfile][province]':{
+                    required: "请选择居住地"
+                },
+                'signup[userProfile][city]':{
+                    required: "请选择居住地"
                 }
             }
         }
-    )
-});
+    );
 
-//接受会员协议报错样式
-if($('.subscribe .errorSub').text().length > 0){
-    $('.subscribe .errorSub').css({'position':'inherit', 'margin-bottom':'10px'});
-}
+    //生日下拉框
+    $("input[name*='birthday']").on('click', function(){
+        laydate();
+    });
+
+    //输入个人信息的提示
+    $("input[name*='birthday']").focus(function(){
+        $('.proPrompt').show();
+    });
+    $("input[name*='birthday']").blur(function(){
+        $('.proPrompt').hide();
+    });
+});

@@ -71,76 +71,77 @@
                     <form action="{{ path('_profile_edit') }}" method="post" id="profileForm" name="profileForm" >
                         <ul class="con">
                             <li>
-                                {{ form_label(editForm.nick) }}
-                                {{ form_widget(editForm.nick) }}
-                                {{ form_errors(editForm.nick) }}
+                                {{ form_label(userForm.nick) }}
+                                {{ form_widget(userForm.nick) }}
+                                {{ form_errors(userForm.nick) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.tel) }}
-                                {{ form_widget(editForm.tel) }}
-                                {{ form_errors(editForm.tel) }}
+                                {{ form_label(userForm.tel) }}
+                                {{ form_widget(userForm.tel) }}
+                                {{ form_errors(userForm.tel) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.sex) }}
-                                <span>{{ form_widget(editForm.userProfile.sex) }}</span>
-                                {{ form_errors(editForm.userProfile.sex) }}
+                                {{ form_label(userForm.userProfile.sex) }}
+                                <span>{{ form_widget(userForm.userProfile.sex) }}</span>
+                                {{ form_errors(userForm.userProfile.sex) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.birthday) }}
-                                {{ form_widget(editForm.userProfile.birthday, {'attr': {'class':'laydate-icon' }}) }}
-                                {{ form_errors(editForm.userProfile.birthday) }}
+                                {{ form_label(userForm.userProfile.birthday) }}
+                                {{ form_widget(userForm.userProfile.birthday, {'attr': {'class':'laydate-icon' }}) }}
+                                {{ form_errors(userForm.userProfile.birthday) }}
                             </li>
 
                             <li>
                                 {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-                                {% include 'WenwenFrontendBundle:Profile:_province_city_cascading.html.twig' %}
+                                <label>居住地：</label>
+                                {% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.income) }}
-                                {{ form_widget(editForm.userProfile.income) }}
+                                {{ form_label(userForm.userProfile.income) }}
+                                {{ form_widget(userForm.userProfile.income) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.profession) }}
-                                {{ form_widget(editForm.userProfile.profession) }}
-                                {{ form_widget(editForm.userProfile.industry_code) }}
-                                {{ form_widget(editForm.userProfile.work_section_code) }}
+                                {{ form_label(userForm.userProfile.profession) }}
+                                {{ form_widget(userForm.userProfile.profession) }}
+                                {{ form_widget(userForm.userProfile.industry_code) }}
+                                {{ form_widget(userForm.userProfile.work_section_code) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.education) }}
-                                {{ form_widget(editForm.userProfile.education) }}
+                                {{ form_label(userForm.userProfile.education) }}
+                                {{ form_widget(userForm.userProfile.education) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.hobby) }}
-                                {{ form_widget(editForm.userProfile.hobby) }}
+                                {{ form_label(userForm.userProfile.hobby) }}
+                                {{ form_widget(userForm.userProfile.hobby) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.personalDes) }}
-                                {{ form_widget(editForm.userProfile.personalDes) }}
-                                {{ form_errors(editForm.userProfile.personalDes) }}
+                                {{ form_label(userForm.userProfile.personalDes) }}
+                                {{ form_widget(userForm.userProfile.personalDes) }}
+                                {{ form_errors(userForm.userProfile.personalDes) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.favMusic) }}
-                                {{ form_widget(editForm.userProfile.favMusic) }}
-                                {{ form_errors(editForm.userProfile.favMusic) }}
+                                {{ form_label(userForm.userProfile.favMusic) }}
+                                {{ form_widget(userForm.userProfile.favMusic) }}
+                                {{ form_errors(userForm.userProfile.favMusic) }}
                             </li>
 
                             <li>
-                                {{ form_label(editForm.userProfile.monthlyWish) }}
-                                {{ form_widget(editForm.userProfile.monthlyWish) }}
-                                {{ form_errors(editForm.userProfile.monthlyWish) }}
+                                {{ form_label(userForm.userProfile.monthlyWish) }}
+                                {{ form_widget(userForm.userProfile.monthlyWish) }}
+                                {{ form_errors(userForm.userProfile.monthlyWish) }}
                             </li>
                         </ul>
 
-                        {{ form_row(editForm._token) }}
+                        {{ form_row(userForm._token) }}
 
                         <div class="btn"><span id="profile_save">保存</span></div>
                     </form>
@@ -165,4 +166,5 @@
     <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload-process.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload-image.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/pages/personal/profile.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
 {% endblock %}

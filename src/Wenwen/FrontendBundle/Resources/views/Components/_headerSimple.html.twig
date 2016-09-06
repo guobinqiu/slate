@@ -15,7 +15,7 @@
             {% set router_current = app.request.attributes.get('_route') %}
 	        <p class="navTit hiddenDesktop visiblePhone hiddenTablet">
 	        {% if router_current == '_user_reg' %}用户注册
-	        {% elseif router_current == '_user_regSuccess'%}激活邮箱
+	        {% elseif router_current == '_user_regActive'%}激活邮箱
 	        {% elseif router_current == '_user_resetPwd'%}重置密码
 	        {% endif %}
 	        </p>

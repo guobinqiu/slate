@@ -1,0 +1,21 @@
+<div class="regProvince">
+	<select id="province" name="{{ userForm.userProfile.province.vars.full_name }}">
+	    <option value="">省、市</option>
+	    {% for province in provinces %}
+	        <option value="{{ province.id}}"{% if userProfile is defined and province.id == userProfile.province %} selected="selected"{% endif %}>{{ province.provinceName }}</option>
+	    {% endfor %}
+	</select>
+</div>
+
+<div class="regCity">
+	<select id="city" name="{{ userForm.userProfile.city.vars.full_name }}" disabled="disabled">
+	    <option data-province="" value="">地区</option>
+	    {% for city in cities %}
+	        <option data-province="{{ city.provinceId }}" value="{{ city.cityId }}"{% if userProfile is defined and city.cityId == userProfile.city %} selected="selected"{% endif %}>{{ city.cityName }}</option>
+	    {% endfor %}
+	</select>
+</div>
+
+{{ form_errors(userForm.userProfile.city) }}
+
+<span id="tmp" style="display: none; position:absolute;"></span>

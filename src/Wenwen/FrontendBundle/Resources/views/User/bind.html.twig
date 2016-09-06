@@ -14,39 +14,78 @@
 	<div class="form main-resetPwd clearfix">
 		<div class="bindCon">
 			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
-				<div class="error errorBack">{{ form_errors(form) }}</div>
+				<div class="bkError errorBack">{{ form_errors(loginForm) }}</div>
 				<ul class="bindForm">
 					<li class="liner">
 						<div class="bindInput">
-							{{ form_widget(form.email, {'attr': {'placeholder': '请输入邮箱'}}) }}
-							<div class="error">{{ form_errors(form.email) }}</div>
+							<div class="regSex">{{ form_widget(loginForm.email, {'attr': {'placeholder': '请输入邮箱'}}) }}</div>
+							<div class="bkError">{{ form_errors(loginForm.email) }}</div>
 						</div>
 					</li>
 					<li>
 						<div class="bindInput">
-							{{ form_widget(form.password, {'attr': {'placeholder': '请输入密码'}}) }}
-							<div class="error">{{ form_errors(form.password) }}</div>
+							<div class="regSex">{{ form_widget(loginForm.password, {'attr': {'placeholder': '请输入密码'}}) }}</div>
+							<div class="bkError">{{ form_errors(loginForm.password) }}</div>
 						</div>
 					</li>
 				</ul>
-				{{ form_row(form._token) }}
+				{{ form_row(loginForm._token) }}
 				<input class="bindBtn" type="submit" value="绑定已有账户" />
 			</form>
 
-			<form action="{{ path(unbind_route, {'openId': openId}) }}" method="POST">
-				<input class="skipBtn" type="submit" value="跳过绑定" />
+			<form id="bindPro" action="{{ path(unbind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
+				<ul class="unbindForm">
+					<li class="liner">
+						<div class="bindInput">
+							<div class="regSex">{{ form_widget(userForm.sex) }}</div>
+							<div class="error">{{ form_errors(userForm.sex) }}</div>
+						</div>
+					</li>
+					<li class="liner">
+						<div class="bindInput">
+							<div class="regSex">{{ form_widget(userForm.birthday, {'attr': {'placeholder': '生日'}}) }}</div>
+							<div class="error">{{ form_errors(userForm.birthday) }}</div>
+						</div>
+					</li>
+					<li class="liner">
+						<div class="bindInput">
+							<div class="regSex">
+								<select id="province" name="{{ userForm.province.vars.full_name }}">
+									<option value="">省、市</option>
+									{% for province in provinces %}
+										<option value="{{ province.id}}">{{ province.provinceName }}</option>
+									{% endfor %}
+								</select>
+
+								<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
+									<option data-province="" value="">地区</option>
+									{% for city in cities %}
+										<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}">{{ city.cityName }}</option>
+									{% endfor %}
+								</select>
+							</div>
+
+							<div class="error">{{ form_errors(userForm.city) }}</div>
+
+							<span id="tmp" style="display: none; position:absolute;"></span>
+						</div>
+					</li>
+				</ul>
+				{{ form_row(userForm._token) }}
+				<input class="skipBtn" type="submit" value="我是新用户" />
 			</form>
+
 			<div class="bindPrompt">
-				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>注意：跳过绑定的话已有账户的积分不会被导入到当前账户。</span>
+				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>请填写您的真实信息，因为这会影响到您将来会收到什么样的问卷。</span>
 			</div>
 		</div>
+
 		<div class="bindAvtWrap">
 			<div class="bindAvtInner">
 				<p>亲爱的{{ nickname }}，欢迎来到91问问！</p>
 				<p class="avtWrap"><img src="{{ asset(photo|default('img/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
 			</div>
 		</div>
-		
 	</div>
 </div>
 {% endblock %}
@@ -56,19 +95,81 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript">
-	$(function() {
-		{% if not form.vars.valid %}
-			$('.bindForm').slideDown(500);
-		{% else %}
-			$('.bindForm').slideUp(500);
-		{% endif %}
-	});
-	$('.bindBtn').on('click', function(e) {
-		if ($('.bindForm').is(':hidden')) {
-			$('.bindForm').slideDown(500);
-			e.preventDefault();
-		}
-	});
-</script>
+	<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<script type="text/javascript">
+		var duration = 300;
+
+		$(function() {
+			{% if not loginForm.vars.valid %}
+				$('.bindForm').slideDown(duration);
+			{% else %}
+				$('.bindForm').slideUp(duration);
+			{% endif %}
+
+			{% if not userForm.vars.valid %}
+				$('.unbindForm').slideDown(duration);
+			{% else %}
+				$('.unbindForm').slideUp(duration);
+			{% endif %}
+		});
+
+		$('.bindBtn').on('click', function(e) {
+			if ($('.bindForm').is(':hidden')) {
+				$('.bindForm').slideDown(duration);
+				$('.unbindForm').slideUp(duration);
+				e.preventDefault();
+			}
+		});
+
+		$('.skipBtn').on('click', function(e) {
+			if ($('.unbindForm').is(':hidden')) {
+				$('.unbindForm').slideDown(duration);
+				$('.bindForm').slideUp(duration);
+				e.preventDefault();
+			}
+		});
+
+		//生日下拉框
+		$("input[name*='birthday']").on('click', function(){
+			laydate();
+		});
+
+		//前端验证form
+		$("#bindPro").validate(
+		    {
+		        rules: {
+		            'front_user_profile[sex]':{
+		            	required: true
+		            },
+		            'front_user_profile[birthday]':{
+		            	required: true
+		            },
+		            'front_user_profile[province]':{
+		            	required: true		
+		            },
+		            'front_user_profile[city]':{
+		            	required: true	
+		            }
+		        },
+		        messages: {
+		        	'front_user_profile[sex]':{
+		        		required: "请选择性别"
+		        	},
+		        	'front_user_profile[birthday]':{
+		        		required: "请选择生日"
+		        	},
+		        	'front_user_profile[province]':{
+		        		required: "请选择居住地"		
+		        	},
+		        	'front_user_profile[city]':{
+		        		required: "请选择居住地"	
+		        	}
+		        }
+		    }
+		);
+	</script>
 {% endblock %}
