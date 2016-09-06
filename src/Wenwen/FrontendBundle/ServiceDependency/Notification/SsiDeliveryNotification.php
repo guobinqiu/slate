@@ -10,6 +10,12 @@ class SsiDeliveryNotification implements DeliveryNotification
 {
     private $em;
 
+    protected $logger;
+
+    public function setLogger($logger){
+        $this->logger = $logger;
+    }
+
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -17,10 +23,13 @@ class SsiDeliveryNotification implements DeliveryNotification
 
     public function send(array $respondents)
     {
+        $this->logger->debug('send START');
         $respondentIds = $respondents;
         for ($i = 0; $i < count($respondentIds); $i++) {
+            $this->logger->info('Start process respondentId=' . $respondentIds[$i]);
             $ssiRespondentId = SsiRespondent::parseRespondentId($respondentIds[$i]);
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
+            $this->logger->info('Got recipient ' . json_encode($recipient));
             if ($recipient && $this->isSubscribed($recipient)) {
                 $respondent['recipient'] = $recipient;
                 $name1 = $respondent['recipient']['name1'];
@@ -35,11 +44,14 @@ class SsiDeliveryNotification implements DeliveryNotification
                     '--subject=亲爱的'.$name1.'，您的新问卷来了！',
                     //'--channel='.$this->getChannel($i),//sendcloud
                 ), true, '91wenwen');
+                $this->logger->info('To persist Job memory=' . round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
                 $this->em->persist($job);
             }
+            $this->logger->info('End process respondentId=' . $respondentIds[$i]);
         }
         $this->em->flush();
         $this->em->clear();
+        $this->logger->debug('send END');
     }
 
     private function isSubscribed($recipient) {

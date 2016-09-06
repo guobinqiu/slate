@@ -23,6 +23,8 @@ class SsiApiController extends Controller
      */
     public function handleRequestAction(Request $request)
     {
+        $logger = $this->get('monolog.logger.ssi_notification');
+        
         $ssiRequest = new SsiRequest();
         $ssiRequest->loadJson($request->getContent());
 
@@ -45,17 +47,19 @@ class SsiApiController extends Controller
         
         # send mail
         if (sizeof($handler->getSucceededRespondentIds())) {
-            $this->get('monolog.logger.ssi_notification')->info('START size =' . sizeof($handler->getSucceededRespondentIds()));
+            $logger->info('START size =' . sizeof($handler->getSucceededRespondentIds()));
 
             foreach ($handler->getSucceededRespondentIds() as $respondentId) {
                 $ssiRespondentId = SsiRespondent::parseRespondentId($respondentId);
                 $this->get('monolog.logger.ssi_notification')->info('ssiRespondentId=' . json_encode($respondentId));
             }
-            $this->get('monolog.logger.ssi_notification')->info('Start notification');
+            $logger->info('Start notification');
 
             $notification = new SsiDeliveryNotification($em);
+
+            $notification->setLogger($logger);
             $notification->send($handler->getSucceededRespondentIds());
-            $this->get('monolog.logger.ssi_notification')->info('End notification');
+            $logger->info('End notification');
         }
 
         return $this->createResponse(
