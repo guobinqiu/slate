@@ -97,6 +97,7 @@ class DeliveryNotificationTest extends WebTestCase
     public function testSsiDeliveryNotification() {
         $ssiData = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findAll();
         $notification = new SsiDeliveryNotification($this->em);
+        $notification->setLogger(static::$kernel->getContainer()->get('monolog.logger.ssi_notification'));
         $notification->send(array(
             'wwcn-'.$ssiData[0]->getId(),
             'wwcn-'.$ssiData[1]->getId(),
