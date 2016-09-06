@@ -53,6 +53,26 @@ class SsiApiControllerTest extends WebTestCase
         $em->persist($ssiRespondent);
         $em->flush();
 
+        $ssiRespondentId1 = $ssiRespondent->getId();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test2');
+        $user->setEmail('test2@d8aspring.com');
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setPwd('password');
+        $user->setIsEmailConfirmed(1);
+        $em->persist($user);
+        $em->flush();
+
+        $ssiRespondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssiRespondent->setUser($user);
+        $ssiRespondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $em->persist($ssiRespondent);
+        $em->flush();
+
+        $ssiRespondentId2 = $ssiRespondent->getId();
+
 
 
         $client = static::createClient();
@@ -71,8 +91,9 @@ class SsiApiControllerTest extends WebTestCase
                 ],
                 'startUrlHead' => 'http://www.d8aspring.com/?test=',
                 'respondentList' => [
-               ['respondentId' => 'wwcn-' . $ssiRespondent->getId(), 'startUrlId' => 'sur1'],
+               ['respondentId' => 'wwcn-' . $ssiRespondentId1, 'startUrlId' => 'sur1'],
                ['respondentId' => 'wwcn-9998', 'startUrlId' => ''],
+               ['respondentId' => 'wwcn-' . $ssiRespondentId2, 'startUrlId' => 'sur2'],
                ['respondentId' => 'wwcn-9999', 'startUrlId' => 'sur3'],
            ],
                 ]
@@ -105,7 +126,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick(__CLASS__);
-        $user->setEmail('test@d8aspring.com');
+        $user->setEmail('xiaoyi.chai@d8aspring.com');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -118,6 +139,26 @@ class SsiApiControllerTest extends WebTestCase
         $ssiRespondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
         $em->persist($ssiRespondent);
         $em->flush();
+
+        $ssiRespondentId1 = $ssiRespondent->getId();
+
+        $user = new \Jili\ApiBundle\Entity\User();
+        $user->setNick('test2');
+        $user->setEmail('rpa-sys-china@d8aspring.com');
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setPwd('password');
+        $user->setIsEmailConfirmed(1);
+        $em->persist($user);
+        $em->flush();
+
+        $ssiRespondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
+        $ssiRespondent->setUser($user);
+        $ssiRespondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
+        $em->persist($ssiRespondent);
+        $em->flush();
+
+        $ssiRespondentId2 = $ssiRespondent->getId();
 
         $client = static::createClient();
         $crawler = $client->request(
@@ -137,6 +178,7 @@ class SsiApiControllerTest extends WebTestCase
                 'respondentList' => [
                ['respondentId' => 'wwcn-' . $ssiRespondent->getId(), 'startUrlId' => 'sur1'],
                ['respondentId' => 'wwcn-9998', 'startUrlId' => ''],
+               ['respondentId' => 'wwcn-' . $ssiRespondentId2, 'startUrlId' => 'sur2'],
                ['respondentId' => 'wwcn-9999', 'startUrlId' => 'sur3'],
            ],
                 ]

@@ -9,8 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use VendorIntegration\SSI\PC1\Request as SsiRequest;
 use VendorIntegration\SSI\PC1\RequestValidator as SsiRequestValidator;
 use VendorIntegration\SSI\PC1\RequestHandler as SsiRequestHandler;
-use Wenwen\FrontendBundle\ServiceDependency\Notification\SsiDeliveryNotification;
 use Wenwen\AppBundle\Entity\SsiRespondent;
+
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use JMS\JobQueueBundle\Entity\Job;
+
 
 class SsiApiController extends Controller
 {
@@ -45,21 +49,45 @@ class SsiApiController extends Controller
         $handler->setUpProjectRespondents($ssiRequest);
 
         
-        # send mail
+        # send mail job
         if (sizeof($handler->getSucceededRespondentIds())) {
-            $logger->info('START size =' . sizeof($handler->getSucceededRespondentIds()));
 
+            // 输出respondentId 到临时文件里
+            $ssiParams = $this->container->getParameter('ssi_project_survey');
+            $waitDir = $ssiParams['notification']['wait_dir'];
+            $fileName = 'ssi_' . $ssiRequest->getProjectId() . '_' . uniqid();
+            $filePath = $waitDir . $fileName;
+
+            $fs = new Filesystem();
+
+            try {
+                if(!$fs->exists($waitDir)){
+                    $fs->mkdir($waitDir, 0775);
+                }
+                if($fs->exists($filePath)){
+                    $filePath = $filePath . '_A';
+                }
+            } catch (IOExceptionInterface $e) {
+                $logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
+            }
+
+            $fh = fopen($filePath, 'x+');
             foreach ($handler->getSucceededRespondentIds() as $respondentId) {
                 $ssiRespondentId = SsiRespondent::parseRespondentId($respondentId);
-                $this->get('monolog.logger.ssi_notification')->info('ssiRespondentId=' . json_encode($respondentId));
+                $logger->info('ssiRespondentId=' . json_encode($respondentId));
+                fwrite($fh, $ssiRespondentId . PHP_EOL);
             }
-            $logger->info('Start notification');
+            fclose($fh);
 
-            $notification = new SsiDeliveryNotification($em);
+            $logger->info('Start add job');
 
-            $notification->setLogger($logger);
-            $notification->send($handler->getSucceededRespondentIds());
-            $logger->info('End notification');
+            $job = new Job('mail:ssi_delivery_notification_batch', array(
+                    '--respondents_id_file='.$fileName), true, '91wenwen');
+            $em->persist($job);
+            $em->flush();
+            $em->clear();
+
+            $logger->info('End add job');
         }
 
         return $this->createResponse(
