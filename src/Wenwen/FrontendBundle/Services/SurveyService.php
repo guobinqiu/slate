@@ -455,7 +455,7 @@ class SurveyService
             $sop_config = $this->parameterService->getParameter('sop');
             $app_id = $sop_config['auth']['app_id'];
             $app_secret = $sop_config['auth']['app_secret'];
-            $host = $sop_config['host'];
+            $host = $sop_config['console_host'];
 
             $app_mid = $this->getSopRespondentId($user_id);
             $userProfile = $this->em->getRepository('JiliApiBundle:UserProfile')->findOneBy(array('userId' => $user_id));
