@@ -18,12 +18,12 @@ abstract class AbstractBatchMailCommand extends ContainerAwareCommand {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $uniqid = '[' . $this->getName() . ':uniqid:' . uniqid(). '] ';
-        $output->write($uniqid . 'Start ' . PHP_EOL);
+        $output->write($uniqid . 'Start memory_get_usage()=' . memory_get_usage() . PHP_EOL);
 
         $this->logger = $this->getContainer()->get('monolog.logger.email_delivery');
         $this->parameterService = $this->getContainer()->get('app.parameter_service');
 
-        $this->logger->info($uniqid . 'Start ');
+        $this->logger->info($uniqid . 'Start memory_get_usage()=' . memory_get_usage());
         try{
             $emailParams = $this->getEmailParams($input);
         } catch (\Exception $e){
@@ -53,8 +53,8 @@ abstract class AbstractBatchMailCommand extends ContainerAwareCommand {
             }
         }
 
-        $this->logger->info($uniqid . 'End ');
-        $output->write($uniqid . 'End ' . PHP_EOL);
+        $this->logger->info($uniqid . 'End memory_get_usage()=' . memory_get_usage());
+        $output->write($uniqid . 'End memory_get_usage()=' . memory_get_usage() . PHP_EOL);
         return $rtnCode;
     }
 
