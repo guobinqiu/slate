@@ -39,7 +39,6 @@ class SsiApiControllerTest extends WebTestCase
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick('test');
-        $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -125,8 +124,7 @@ class SsiApiControllerTest extends WebTestCase
 
 
         $user = new \Jili\ApiBundle\Entity\User();
-        $user->setNick(__CLASS__);
-        $user->setEmail('test1@d8aspring.com');
+        $user->setNick("弋璇翊");
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -143,8 +141,8 @@ class SsiApiControllerTest extends WebTestCase
         $ssiRespondentId1 = $ssiRespondent->getId();
 
         $user = new \Jili\ApiBundle\Entity\User();
-        $user->setNick('test2');
-        $user->setEmail('test2@d8aspring.com');
+        $user->setNick('いざ赱逺パ');
+        $user->setEmail('test2@test.com');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -176,7 +174,7 @@ class SsiApiControllerTest extends WebTestCase
                 ],
                 'startUrlHead' => 'http://www.d8aspring.com/?test=',
                 'respondentList' => [
-               ['respondentId' => 'wwcn-' . $ssiRespondent->getId(), 'startUrlId' => 'sur1'],
+               ['respondentId' => 'wwcn-' . $ssiRespondentId1, 'startUrlId' => 'sur1'],
                ['respondentId' => 'wwcn-9998', 'startUrlId' => ''],
                ['respondentId' => 'wwcn-' . $ssiRespondentId2, 'startUrlId' => 'sur2'],
                ['respondentId' => 'wwcn-9999', 'startUrlId' => 'sur3'],
