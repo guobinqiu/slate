@@ -23,7 +23,7 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
     protected function getEmailParams(InputInterface $input){
         $templating = $this->getContainer()->get('templating');
         
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $ssiProjectSurveyParams = $this->parameterService->getParameter('ssi_project_survey');
         $waitDir = $ssiProjectSurveyParams['notification']['wait_dir'];
         $completeDir = $ssiProjectSurveyParams['notification']['complete_dir'];
@@ -56,6 +56,9 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
                     );
             }
         }
+
+        $em->clear();
+        $em->close();
 
         $fs = new Filesystem();
         $fs->copy($respondentsIdFile, $backupFile, true);
