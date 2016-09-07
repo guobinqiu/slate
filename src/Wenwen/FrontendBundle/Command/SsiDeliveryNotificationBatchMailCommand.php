@@ -55,6 +55,9 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
                         'content' => $html
                     );
             }
+            if(memory_get_usage() > 160000000){
+                $this->logger->info('Memory over! ssiRespondentId=' . $ssiRespondentId);
+            }
         }
 
         $em->clear();
