@@ -3,10 +3,6 @@
 @import "layout/global";
 @media only screen and (max-width: 667px) { 
 	// landing page
-	html, body{
-		overflow: auto!important;
-		background: #3d5267!important;
-	}
 	#section0{
 		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat!important;
 		background-size: cover;
