@@ -18,8 +18,8 @@ class SopDeliveryNotification implements DeliveryNotification
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $recipient = $this->getRecipient($respondent);
-            if ($recipient) {
-                if ($this->isSubscribed($recipient)) {
+            if ($recipient['email']) {
+                if ($this->isSubscribed($recipient['email'])) {
                     $respondent['recipient'] = $recipient;
                     $channel = $this->getChannel($i);
                     $this->runJob($respondent, $channel);
@@ -54,8 +54,8 @@ class SopDeliveryNotification implements DeliveryNotification
         return $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($respondent['app_mid']);
     }
 
-    private function isSubscribed($recipient) {
-        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+    private function isSubscribed($email) {
+        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($email);
         return count($userEdmUnsubscribes) == 0;
     }
 
