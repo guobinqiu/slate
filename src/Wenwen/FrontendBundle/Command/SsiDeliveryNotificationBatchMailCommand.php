@@ -38,30 +38,28 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
 
         foreach($ssiRespondentIds as $ssiRespondentId){
             $recipient = $em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
-            $userEdmUnsubscribes = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
-            if ($recipient && (count($userEdmUnsubscribes) == 0)) {
-                $email = $recipient['email'];
-                $name1 = $recipient['name1'];
-                if ($name1 == null) {
-                    $name1 = $email;
-                }
-                $subject = '亲爱的'.$name1.'，您的新问卷来了！';
-                $surveyTitle = 'SSI海外调查';
-                $surveyPoint = $ssiProjectSurveyParams['point'];
-                $html = $templating->render($this->getTemplatePath(), $this->getTemplateVars($name1, $surveyTitle, $surveyPoint));
-                $emailParams[] = array(
-                        'email' => $email,
-                        'subject' => $subject,
-                        'content' => $html
-                    );
+            $email = $recipient['email'];
+            $name1 = $recipient['name1'];
+            if ($name1 == null) {
+                $name1 = $email;
             }
-            if(memory_get_usage() > 160000000){
-                $this->logger->info('Memory over! ssiRespondentId=' . $ssiRespondentId);
+            if ($email) {
+                $userEdmUnsubscribes = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+                if(count($userEdmUnsubscribes) == 0){
+                    $subject = '亲爱的'.$name1.'，您的新问卷来了！';
+                    $surveyTitle = 'SSI海外调查';
+                    $surveyPoint = $ssiProjectSurveyParams['point'];
+                    $html = $templating->render($this->getTemplatePath(), $this->getTemplateVars($name1, $surveyTitle, $surveyPoint));
+                    $emailParams[] = array(
+                            'email' => $email,
+                            'subject' => $subject,
+                            'content' => $html
+                        );
+                }
             }
         }
 
         $em->clear();
-        $em->close();
 
         $fs = new Filesystem();
         $fs->copy($respondentsIdFile, $backupFile, true);
