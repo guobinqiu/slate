@@ -53,8 +53,8 @@ abstract class AbstractBatchMailCommand extends ContainerAwareCommand {
             }
         }
 
-        $this->logger->info($uniqid . 'End memory_get_usage()=' . memory_get_usage());
-        $output->write($uniqid . 'End memory_get_usage()=' . memory_get_usage() . PHP_EOL);
+        $this->logger->info($uniqid . 'End memory_get_usage()=' . memory_get_usage() . ' memory_get_peak_usage()=' . memory_get_peak_usage());
+        $output->write($uniqid . 'End memory_get_usage()=' . memory_get_usage() . ' memory_get_peak_usage()=' . memory_get_peak_usage(). PHP_EOL);
         return $rtnCode;
     }
 
