@@ -50,6 +50,7 @@
             .login-btn{
                 font-size: initial!important;
                 margin-top: 17px;
+                margin-bottom: 15px;
                 height: 40px;
                 -webkit-appearance: none;
             }
@@ -112,8 +113,8 @@
         }
     }
     .regQL{
-        right: 26%;
-        margin-top: 20px;
+        right: 28%;
+        margin-top: 13px;
         a{
             padding: 7px;
             i{
@@ -875,14 +876,22 @@
         }
     } 
     .main-register-active{
-        margin: 30px 10%;
+        margin: 20px auto;
         .con{
             .text{
                 margin-left: 0;
                 background-position: center 0;
-                padding-top: 70px;
+                padding-top: 18px;
                 padding-left: 0;
                 text-align: center;
+            }
+            .wrap{
+                padding: 0 20px;
+                margin: 0;
+                text-align: center;
+                i{
+                    font-size: 6rem!important;
+                }
             }
         }
         .tips{
@@ -1131,18 +1140,11 @@
         }
     }
     #section0{
-        // background-position-y: 1px!important;
         h1{
-            // margin-left: -39%;
             a{
                 img{
                     height: 31px;
                 }
-            }
-        }
-        &.active{
-            h2{
-                top: 30%!important;
             }
         }
     }
@@ -1337,15 +1339,6 @@
             }
         }
     }
-    // #section2{
-    //     .sectionCon{
-    //         h2{
-    //             img{
-    //                 width: 100%;
-    //             }
-    //         }
-    //     }
-    // }
     #section3{
         .sectionCon{
             h2{

@@ -1,13 +1,22 @@
 @charset "UTF-8";
 
 @import "layout/global";
-html,body{
-	height: 100%;
-	overflow: hidden;
-	background: #262424;
+@media only screen and (max-width: 667px) { 
+	// landing page
+	html, body{
+		overflow: auto!important;
+		background: #3d5267!important;
+	}
+	#section0{
+		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat!important;
+		background-size: cover;
+	}
 }
 .main,#pagepiling,.sections,.section{
 	height: 100%;
+}
+#pagepiling{
+	display: none;
 }
 h1{
 	position: absolute;
@@ -254,7 +263,6 @@ ul.menu{
 	}
 	h2{
 		top: 30%;
-		// top: 20%\9;
 		@include animation2(0, 1s, fadeIn1);
 	}
 	@keyframes fadeIn1{
@@ -565,7 +573,7 @@ ul.menu{
 	-moz-border-radius:50%;
 	-webkit-border-radius:50%;
 	-o-border-radius:50%;
-	opacity: .7; 
+	opacity: 1; 
 	cursor:pointer;
 }
 @keyframes xguide_down{
@@ -583,7 +591,7 @@ ul.menu{
 		-o-transform:scale(1.0);
 		-webkit-transform:scale(1.0);
 		-ms-transform:scale(1.0);
-		opacity: .2;
+		opacity: .5;
 	}
 
 }
