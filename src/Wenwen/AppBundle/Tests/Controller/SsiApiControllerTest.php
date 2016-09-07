@@ -126,7 +126,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick(__CLASS__);
-        $user->setEmail('xiaoyi.chai@d8aspring.com');
+        $user->setEmail('test1@d8aspring.com');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
@@ -144,7 +144,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $user = new \Jili\ApiBundle\Entity\User();
         $user->setNick('test2');
-        $user->setEmail('rpa-sys-china@d8aspring.com');
+        $user->setEmail('test2@d8aspring.com');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setPwd('password');
