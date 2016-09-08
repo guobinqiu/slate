@@ -33,7 +33,6 @@ $(function(){
             eError('请输入有效的邮箱地址');
             return;
         }
-        $('#sendEmail').attr("disabled", true);
         $.ajax({
             type: 'GET',
             url: Routing.generate('_user_reset', { email: email }),
@@ -53,6 +52,7 @@ $(function(){
             eSucceed('');
             seconds = wait_seconds;
         } else {
+            $('#sendEmail').attr("disabled", true);
             eSucceed('重置密码邮件已经发送至您的邮箱，<strong id="second">' + seconds + '</strong>秒后可重新发送。');
             seconds--;
             setTimeout(function(){
