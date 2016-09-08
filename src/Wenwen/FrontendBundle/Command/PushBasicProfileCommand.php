@@ -24,12 +24,16 @@ class PushBasicProfileCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $surveyService = $this->getContainer()->get('app.survey_service');
         $userService = $this->getContainer()->get('app.user_service');
+        $parameterService = $this->getContainer()->get('app.parameter_service');
 
         $user_id = $input->getOption('user_id');
         $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
         $success = $surveyService->pushBasicProfile($user);
         if ($success) {
-            $userService->addPoints($user, 3, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, '属性问卷');
+            $points = $parameterService->getParameter('sop')['point']['profile'];
+            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q001 属性问卷');//birthday
+            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q002 属性问卷');//gender
+            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q004 属性问卷');//region
         }
         $output->writeln($success);
     }
