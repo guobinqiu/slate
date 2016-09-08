@@ -9,6 +9,20 @@
 {% block stylesheet %}
 	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
+	<style type="text/css">
+		html,body{
+			height: 100%;
+			overflow: hidden;
+			background: #262424;
+		}
+		@media only screen and (max-width: 667px) { 
+			// landing page
+			html, body{
+				overflow: auto!important;
+				background: #3d5267!important;
+			}
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
