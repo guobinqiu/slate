@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
 use Jili\FrontendBundle\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

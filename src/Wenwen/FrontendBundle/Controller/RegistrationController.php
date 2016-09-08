@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;

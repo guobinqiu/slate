@@ -1,8 +1,7 @@
 <?php
 
-namespace Jili\ApiBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Jili\ApiBundle\Entity\WeiBoUser;
@@ -12,8 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
@@ -57,7 +54,7 @@ class WeiBoLoginController extends Controller
         $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
 
         if ($weiboUser == null) {
-            $weiboUser = new WeiboUser();
+            $weiboUser = new WeiBoUser();
             $weiboUser->setOpenId($openId);
             $weiboUser->setNickname($userInfo->screen_name);
             $weiboUser->setPhoto($userInfo->profile_image_url);
@@ -91,8 +88,10 @@ class WeiBoLoginController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
-        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+
+        $userService = $this->get('app.user_service');
+        $provinces = $userService->getProvinces();
+        $cities = $userService->getCities();
 
         $params = array(
             'openId' => $openId,
@@ -147,66 +146,27 @@ class WeiBoLoginController extends Controller
         $userProfile = new UserProfile();
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
-        $em = $this->getDoctrine()->getManager();
-        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
-        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+        $userService = $this->get('app.user_service');
+        $weiboUser = $userService->findWeiboUser($openId);
+        $provinces = $userService->getProvinces();
+        $cities = $userService->getCities();
 
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
             if ($userForm->isValid()) {
                 $user = $weiboUser->getUser();
                 if ($user == null) {
-                    $em->getConnection()->beginTransaction();
-                    try {
-                        $user = new User();
-                        $user->setNick($weiboUser->getNickname());
-                        $user->setPoints(User::POINT_SIGNUP);
-                        $user->setIconPath($weiboUser->getPhoto());
-                        $user->setRegisterCompleteDate(new \DateTime());
-                        $user->setLastLoginDate(new \DateTime());
-                        $user->setLastLoginIp($request->getClientIp());
-                        $user->setCreatedRemoteAddr($request->getClientIp());
-                        $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                        $em->persist($user);
-
-                        $userProfile->setUser($user);
-                        $em->persist($userProfile);
-
-                        $weiboUser->setUser($user);
-                        $em->flush();
-
-                        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
-                        $pointHistory = new $classPointHistory();
-                        $pointHistory->setUserId($user->getId());
-                        $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
-                        $pointHistory->setReason(CategoryType::SOP_EXPENSE);
-                        $em->persist($pointHistory);
-
-                        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
-                        $taskHistory = new $classTaskHistory();
-                        $taskHistory->setUserid($user->getId());
-                        $taskHistory->setOrderId(0);
-                        $taskHistory->setOcdCreatedDate(new \DateTime());
-                        $taskHistory->setCategoryType(CategoryType::SOP_EXPENSE);
-                        $taskHistory->setTaskType(TaskType::RENTENTION);
-                        $taskHistory->setTaskName('完成注册');
-                        $taskHistory->setDate(new \DateTime());
-                        $taskHistory->setPoint(User::POINT_SIGNUP);
-                        $taskHistory->setStatus(1);
-                        $em->persist($taskHistory);
-
-                        $em->flush();
-                        $em->getConnection()->commit();
-
-                    } catch (\Exception $e) {
-                        $em->getConnection()->rollBack();
-                        throw $e;
-                    }
-                    $this->pushBasicProfile($user, $em);
+                    $user = $userService->createAutoGeneratedUser(
+                        $weiboUser,
+                        $userProfile,
+                        $request->getClientIp(),
+                        $request->headers->get('USER_AGENT')
+                    );
+                    $userService->addPoints($user);
+                    $this->pushBasicProfile($user);
                 }
                 $request->getSession()->set('uid', $user->getId());
-                return $this->redirect($this->generateUrl('_homepage'));
+                return $this->redirect($this->generateUrl('_user_regSuccess'));
             }
         }
 
@@ -274,12 +234,13 @@ class WeiBoLoginController extends Controller
         return json_decode($resBody);
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

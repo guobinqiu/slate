@@ -194,6 +194,7 @@ gregwar_captcha:
     reload: true 
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
+    charset: 0123456789
 
 snc_redis:
     clients:
