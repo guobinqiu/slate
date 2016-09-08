@@ -2,6 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
 use Jili\ApiBundle\Entity\WeixinUser;
@@ -160,8 +161,10 @@ class WeixinLoginController extends Controller
         $userProfile = new UserProfile();
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
+        $em = $this->getDoctrine()->getManager();
+        $weixinUser = $em->getRepository('JiliApiBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+
         $userService = $this->get('app.user_service');
-        $weixinUser = $userService->findWeixinUser($openId);
         $provinces = $userService->getProvinces();
         $cities = $userService->getCities();
 
@@ -177,7 +180,7 @@ class WeixinLoginController extends Controller
                         $request->headers->get('USER_AGENT')
                     );
                     $userService->addPoints($user);
-                    $this->pushBasicProfile($user);
+                    $this->pushBasicProfile($user, $em);
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -248,13 +251,12 @@ class WeixinLoginController extends Controller
         return $msg;
     }
 
-    private function pushBasicProfile(User $user)
+    private function pushBasicProfile(User $user, EntityManager $em)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

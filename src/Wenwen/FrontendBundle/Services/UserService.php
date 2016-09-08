@@ -96,16 +96,4 @@ class UserService
     public function getCities() {
         return $this->em->getRepository('JiliApiBundle:CityList')->findAll();
     }
-
-    public function findQQUser($openId) {
-        return $this->em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
-    }
-
-    public function findWeixinUser($openId) {
-        return $this->em->getRepository('JiliApiBundle:WeixinUser')->findOneBy(array('openId' => $openId));
-    }
-
-    public function findWeiboUser($openId) {
-        return $this->em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
-    }
 }

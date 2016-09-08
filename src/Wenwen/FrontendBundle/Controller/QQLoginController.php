@@ -2,6 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\QQUser;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
@@ -152,8 +153,10 @@ class QQLoginController extends Controller
         $userProfile = new UserProfile();
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
+        $em = $this->getDoctrine()->getManager();
+        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+
         $userService = $this->get('app.user_service');
-        $qqUser = $userService->findQQUser($openId);
         $provinces = $userService->getProvinces();
         $cities = $userService->getCities();
 
@@ -169,7 +172,7 @@ class QQLoginController extends Controller
                         $request->headers->get('USER_AGENT')
                     );
                     $userService->addPoints($user);
-                    $this->pushBasicProfile($user);
+                    $this->pushBasicProfile($user, $em);
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -255,13 +258,12 @@ class QQLoginController extends Controller
         return json_decode($resBody);
     }
 
-    private function pushBasicProfile(User $user)
+    private function pushBasicProfile(User $user, EntityManager $em)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

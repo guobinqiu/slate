@@ -29,9 +29,9 @@ class RegistrationController extends Controller
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+        $userService = $this->get('app.user_service');
+        $provinces = $userService->getProvinces();
+        $cities = $userService->getCities();
 
         $user = new User();
         $userProfile = new UserProfile();
@@ -46,10 +46,10 @@ class RegistrationController extends Controller
                 $confirmationToken = md5($user->getEmail() . $user->getPwd() . time());
                 $user->setConfirmationToken($confirmationToken);
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
-
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 
@@ -104,40 +104,14 @@ class RegistrationController extends Controller
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '验证码已过期'));
         }
 
-        $em->getConnection()->beginTransaction();
-        try {
-            $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
-            $user->setRegisterCompleteDate(new \DateTime());
-            $user->setPoints(User::POINT_SIGNUP);
-            $user->setLastGetPointsAt(new \DateTime());
+        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setPoints(User::POINT_SIGNUP);
+        $user->setLastGetPointsAt(new \DateTime());
+        $em->flush();
 
-            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
-            $pointHistory = new $classPointHistory();
-            $pointHistory->setUserId($user->getId());
-            $pointHistory->setPointChangeNum(User::POINT_SIGNUP);
-            $pointHistory->setReason(CategoryType::SOP_EXPENSE);
-            $em->persist($pointHistory);
-
-            $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
-            $taskHistory = new $classTaskHistory();
-            $taskHistory->setUserid($user->getId());
-            $taskHistory->setOrderId(0);
-            $taskHistory->setOcdCreatedDate(new \DateTime());
-            $taskHistory->setCategoryType(CategoryType::SOP_EXPENSE);
-            $taskHistory->setTaskType(TaskType::RENTENTION);
-            $taskHistory->setTaskName('完成注册');
-            $taskHistory->setDate(new \DateTime());
-            $taskHistory->setPoint(User::POINT_SIGNUP);
-            $taskHistory->setStatus(1);
-            $em->persist($taskHistory);
-
-            $em->flush();
-            $em->getConnection()->commit();
-
-        } catch(\Exception $e) {
-            $em->getConnection()->rollBack();
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => $e->getMessage()));
-        }
+        $userService = $this->get('app.user_service');
+        $userService->addPoints($user);
 
         $this->pushBasicProfile($user, $em);
 
