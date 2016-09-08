@@ -8,30 +8,6 @@
 @import "font-awesome/scss/font-awesome";
 @media only screen and (max-width: 667px) { 
 	// landing page
-	html, body{
-		overflow-y: scroll;
-	}
-	body{
-		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat;
-		background-size: cover;
-		position: absolute;
-		left: 0px;
-		top: 0px;
-		right: 0px;
-		bottom: 0px;
-	}
-	#section0{
-	    background: none;
-	    h1{
-	        top: 14px;
-	    }
-	    .reg{
-	    	margin-top: 60px;
-	    }
-	}
-	.register{
-	    top: 5px!important;
-	}
 	.login{
 	    li{
 	        input[type="text"],.regSex{
@@ -327,6 +303,7 @@
 			    top: 6px;
 			    right: 5px;
 			    font-size: 12px;
+			    z-index: 6;
 			}
 		}
 		input[type='text']{
@@ -422,24 +399,27 @@
 		}
 	}
 }
+@-moz-document url-prefix() {
+	.register li .proPrompt span i{
+		bottom: -44px;
+	}
+}
 #vcode{
 	font-size: 12px;
 	margin-bottom: 5px;
-	.vcodeImg{
-		&>div{
-			position: relative;
-			z-index: 3;
-			height: 56px;	
+	text-align: left;
+	div{
+		img{
+			margin-left: 14px;
+			margin-bottom: 9px;
 		}
 	}
 	.captcha_reload{
-		position: absolute;
-		z-index: 5;
-	    top: 61px;
-	    right: 58px;
-	    background: url(../img/user/change.png) no-repeat;
+	    background: url(../img/user/change.png) no-repeat 0px 3px;
 	    padding-left: 20px;
 	    height: 14px;
+	    vertical-align: -16px;
+	    margin-left: 5px;
 	}
 }
 @import "layout/footer-simple";
