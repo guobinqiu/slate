@@ -23,7 +23,7 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
     protected function getEmailParams(InputInterface $input){
         $templating = $this->getContainer()->get('templating');
         
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $ssiProjectSurveyParams = $this->parameterService->getParameter('ssi_project_survey');
         $waitDir = $ssiProjectSurveyParams['notification']['wait_dir'];
         $completeDir = $ssiProjectSurveyParams['notification']['complete_dir'];
@@ -38,24 +38,28 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
 
         foreach($ssiRespondentIds as $ssiRespondentId){
             $recipient = $em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
-            $userEdmUnsubscribes = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
-            if ($recipient && (count($userEdmUnsubscribes) == 0)) {
-                $email = $recipient['email'];
-                $name1 = $recipient['name1'];
-                if ($name1 == null) {
-                    $name1 = $email;
+            $email = $recipient['email'];
+            $name1 = $recipient['name1'];
+            if ($name1 == null) {
+                $name1 = $email;
+            }
+            if ($email) {
+                $userEdmUnsubscribes = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+                if(count($userEdmUnsubscribes) == 0){
+                    $subject = '亲爱的'.$name1.'，您的新问卷来了！';
+                    $surveyTitle = 'SSI海外调查';
+                    $surveyPoint = $ssiProjectSurveyParams['point'];
+                    $html = $templating->render($this->getTemplatePath(), $this->getTemplateVars($name1, $surveyTitle, $surveyPoint));
+                    $emailParams[] = array(
+                            'email' => $email,
+                            'subject' => $subject,
+                            'content' => $html
+                        );
                 }
-                $subject = '亲爱的'.$name1.'，您的新问卷来了！';
-                $surveyTitle = 'SSI海外调查';
-                $surveyPoint = $ssiProjectSurveyParams['point'];
-                $html = $templating->render($this->getTemplatePath(), $this->getTemplateVars($name1, $surveyTitle, $surveyPoint));
-                $emailParams[] = array(
-                        'email' => $email,
-                        'subject' => $subject,
-                        'content' => $html
-                    );
             }
         }
+
+        $em->clear();
 
         $fs = new Filesystem();
         $fs->copy($respondentsIdFile, $backupFile, true);
