@@ -107,9 +107,11 @@
 
                             <li>
                                 {{ form_label(userForm.userProfile.profession) }}
-                                {{ form_widget(userForm.userProfile.profession) }}
-                                {{ form_widget(userForm.userProfile.industry_code) }}
-                                {{ form_widget(userForm.userProfile.work_section_code) }}
+                                <div class="pronCon">
+                                    {{ form_widget(userForm.userProfile.profession) }}
+                                    {{ form_widget(userForm.userProfile.industry_code) }}
+                                    {{ form_widget(userForm.userProfile.work_section_code) }}
+                                </div>
                             </li>
 
                             <li>

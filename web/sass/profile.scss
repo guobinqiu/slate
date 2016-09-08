@@ -325,6 +325,17 @@ $color: #0078b6;
 					vertical-align: -1px;
 				}
 			}
+			.regProvince,.regCity{
+				display: inline-block;
+			}
+			.pronCon{
+				width: 59%;
+				display: inline-block;
+				vertical-align: top;
+				select{
+					margin-bottom: 10px;
+				}
+			}
 		}
 		.btn{
 			padding-left: 155px;
