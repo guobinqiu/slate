@@ -179,7 +179,6 @@ class WeixinLoginController extends Controller
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT')
                     );
-                    $userService->addPoints($user);
                     $this->pushBasicProfile($user, $em);
                 }
                 $request->getSession()->set('uid', $user->getId());

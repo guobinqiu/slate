@@ -11,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Jili\FrontendBundle\Form\Type\SignupType;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/user")
@@ -104,12 +106,10 @@ class RegistrationController extends Controller
 
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
         $user->setRegisterCompleteDate(new \DateTime());
-        $user->setPoints(User::POINT_SIGNUP);
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
-        $userService = $this->get('app.user_service');
-        $userService->addPoints($user);
+        $this->get('app.user_service')->addPoints($user, User::POINT_SIGNUP, CategoryType::SIGNUP, TaskType::RENTENTION, '完成注册');
 
         $this->pushBasicProfile($user, $em);
 

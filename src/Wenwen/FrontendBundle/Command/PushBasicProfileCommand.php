@@ -7,6 +7,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class PushBasicProfileCommand extends ContainerAwareCommand
 {
@@ -19,8 +21,16 @@ class PushBasicProfileCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $user_id = $input->getOption('user_id');
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $surveyService = $this->getContainer()->get('app.survey_service');
-        $output->writeln($surveyService->pushBasicProfile($user_id));
+        $userService = $this->getContainer()->get('app.user_service');
+
+        $user_id = $input->getOption('user_id');
+        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $success = $surveyService->pushBasicProfile($user);
+        if ($success) {
+            $userService->addPoints($user, 3, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, '属性问卷');
+        }
+        $output->writeln($success);
     }
 }
