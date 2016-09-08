@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Controller;
+namespace Wenwen\FrontendBundle\Controller;
 
 use Jili\FrontendBundle\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Route("/user")
+ */
 class UserController extends Controller
 {
     /**

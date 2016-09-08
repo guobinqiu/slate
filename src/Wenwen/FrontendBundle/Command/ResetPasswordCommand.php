@@ -13,16 +13,20 @@ class ResetPasswordCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('user:reset_password');
-        $this->setDescription('人工重置密码');
+        $this->setDescription('Reset password by email');
         $this->addOption('email', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('password', 'p', InputOption::VALUE_REQUIRED);
+        $this->addOption('password', 'p', InputOption::VALUE_OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $email = $input->getOption('email');
         $password = $input->getOption('password');
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        if ($password == null) {
+            $password = $this->random_password();
+        }
+
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
 
         if ($user == null) {
@@ -38,6 +42,11 @@ class ResetPasswordCommand extends ContainerAwareCommand
         $user->setPwd($password);
         $em->flush();
         $em->clear();
-        $output->writeln('Change password success.');
+        $output->writeln('Change password success. Your password is: ' . $password);
+    }
+
+    private function random_password($chars = 8) {
+        $letters = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        return substr(str_shuffle($letters), 0, $chars);
     }
 }

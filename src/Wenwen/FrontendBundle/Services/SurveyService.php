@@ -3,10 +3,9 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\UserProfile;
+use Jili\ApiBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
-use Symfony\Component\Form\Exception\Exception;
 use Symfony\Component\Templating\EngineInterface;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
@@ -449,7 +448,7 @@ class SurveyService
         return $sop_profiling_info;
     }
 
-    public function pushBasicProfile($user_id)
+    public function pushBasicProfile(User $user)
     {
         try {
             $sop_config = $this->parameterService->getParameter('sop');
@@ -457,8 +456,8 @@ class SurveyService
             $app_secret = $sop_config['auth']['app_secret'];
             $host = $sop_config['console_host'];
 
-            $app_mid = $this->getSopRespondentId($user_id);
-            $userProfile = $this->em->getRepository('JiliApiBundle:UserProfile')->findOneBy(array('userId' => $user_id));
+            $app_mid = $this->getSopRespondentId($user->getId());
+            $userProfile = $this->em->getRepository('JiliApiBundle:UserProfile')->findOneBy(array('user' => $user));
 
             $data = array(
                 'app_id' => $app_id,
@@ -472,8 +471,10 @@ class SurveyService
             );
 
             $postBody = json_encode($data, true);
+            //echo $postBody;
 
             $sig = Util::createSignature($postBody, $app_secret);
+            //echo $sig;
 
             $headers = array(
                 'Content-Type' => 'application/json',

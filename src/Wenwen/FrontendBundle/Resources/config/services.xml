@@ -41,5 +41,10 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="templating" />
         </service>
+
+        <service id="app.user_service" class="Wenwen\FrontendBundle\Services\UserService">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
     </services>
 </container>

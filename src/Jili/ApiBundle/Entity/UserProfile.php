@@ -139,13 +139,6 @@ class UserProfile
     private $user;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer", nullable=true)
-     */
-    private $userId;
-
-    /**
      * Get id
      *
      * @return integer
