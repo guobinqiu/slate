@@ -18,7 +18,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th>日期</th>
+						<th>获取时间</th>
 						<th class="title">名称</th>
 						<th>奖励积分</th>
 						<th>状态</th>
@@ -28,7 +28,7 @@
 					{% if adtaste|length > 0 %}
 					{% for item in adtaste %}
 					<tr>
-						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d') }}{% endif %}</td>
+						<td>{% if item.createTime %}{{ item.createTime.date | date('Y-m-d H:i') }}{% endif %}</td>
 						<td>{% if item.incentiveType==92 or item.incentiveType==93 %}{% else %}
 						     {{ item.displayName }}-{% endif %}{% if item.adid %}{{ item.title }}
 						{% else%}
