@@ -7,6 +7,8 @@ use Jili\ApiBundle\Entity\QQUser;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\WeiBoUser;
 use Jili\ApiBundle\Entity\WeixinUser;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class UserService
 {

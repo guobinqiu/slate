@@ -11,8 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Jili\FrontendBundle\Form\Type\SignupType;
 use Symfony\Component\Validator\Constraints as Assert;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/user")
