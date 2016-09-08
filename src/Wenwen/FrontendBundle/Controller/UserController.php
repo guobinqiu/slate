@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @Route("/user")
+ */
 class UserController extends Controller
 {
     /**
