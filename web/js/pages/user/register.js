@@ -201,7 +201,11 @@ $(function(){
 
     //生日下拉框
     $("input[name*='birthday']").on('click', function(){
-        laydate();
+        laydate({
+            start: laydate.now(-30*365), // 默认30岁
+            min: laydate.now(-120*365),  // 最大120岁
+            max: laydate.now(-5*365),    // 最小5岁
+        });
     });
 
     //输入个人信息的提示
