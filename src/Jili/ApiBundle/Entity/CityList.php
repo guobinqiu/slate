@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="cityList")
  * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CityListRepository")
  */
 class CityList
 {
@@ -107,5 +108,10 @@ class CityList
     public function getCityId()
     {
         return $this->cityId;
+    }
+
+    public function setCityId($cityId)
+    {
+        $this->cityId = $cityId;
     }
 }

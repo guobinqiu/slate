@@ -33,8 +33,15 @@ class RegistrationController extends Controller
         $provinces = $userService->getProvinces();
         $cities = $userService->getCities();
 
+        $ipLocationService = $this->get('app.ip_location_service');
+        $locationId = $ipLocationService->getLocationId($request->getClientIp());
+
         $user = new User();
         $userProfile = new UserProfile();
+        if($locationId['status']){
+            $userProfile->setCity($locationId['cityId']);
+            $userProfile->setProvince($locationId['provinceId']);
+        }
         $user->setUserProfile($userProfile);
         $userProfile->setUser($user);
         $form = $this->createForm(new SignupType(), $user);
@@ -67,6 +74,7 @@ class RegistrationController extends Controller
             'userForm' => $form->createView(),
             'provinces' => $provinces,
             'cities' => $cities,
+            'userProfile' => $userProfile
         ));
     }
 
