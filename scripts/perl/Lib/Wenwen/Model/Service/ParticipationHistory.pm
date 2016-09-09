@@ -103,7 +103,7 @@ sub select_ssi_participation_history {
                 DATE_FORMAT(sp.created_at, '%Y%m') AS yyyymm,
                 'SSI' AS 'API Type',
                 '-' AS 'Project ID', 
-                count(*)*180 AS point
+                count(*)*300 AS point
             FROM ssi_project_participation_history sp 
             WHERE 
                 sp.created_at >= ?
