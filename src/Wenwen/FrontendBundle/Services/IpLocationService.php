@@ -47,7 +47,7 @@ class IpLocationService
     /**
      * 通过IP地址获取城市和省份ID 只针对中国大陆地区
      * @param $ipAddress IP address (IPV4)
-     * @return array('cityId', 'provinceId')
+     * @return array('status', cityId', 'provinceId')
      */
     public function getLocationId($ipAddress) {
         $this->logger->debug(__METHOD__ . ' START ipAddress=' . $ipAddress);
@@ -79,10 +79,9 @@ class IpLocationService
     }
 
     /**
-     * 通过IP地址, 调用第三方API，获取城市和省份名称 只针对中国大陆地区
-     * @param $app_mid
-     * @return $sop_api_url
-     * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list#json-api-integration
+     * 通过IP地址, 调用第三方API，获取城市名称 只针对中国大陆地区
+     * @param $ipAddress
+     * @return $cityName
      */
     public function getCityName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
@@ -137,6 +136,13 @@ class IpLocationService
         return $responseBody;
     }
 
+
+    /**
+    * response的 status == 1 且，city为string类型时，返回city的内容
+    * amap的这个API只提供对大陆的IP定位，非大陆IP的时候会返回一个city的空数组
+    * @param $responseBody
+    * @return array()
+    */
     public function processResponseJson($responseBody){
         $rtn = array(
             'status' => false,
