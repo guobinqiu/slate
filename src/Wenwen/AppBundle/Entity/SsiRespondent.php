@@ -41,7 +41,7 @@ class SsiRespondent
     /**
      * @var \Wenwen\FrontendBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Wenwen\FrontendBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
