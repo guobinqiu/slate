@@ -9,7 +9,6 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 use Doctrine\Common\DataFixtures\Loader;
 
-use Jili\ApiBundle\DataFixtures\ORM\UserEdmUnsubscribeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserConfigurationsRepositoryCodeData;
 
 class UserConfigurationsRepositoryTest  extends KernelTestCase 
@@ -64,7 +63,7 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
      */
     function testIsAutoCheckin()
     {
-        $rep =  $this->em->getRepository('WenwenFrontendBundle:UserConfigurations');
+        $rep =  $this->em->getRepository('JiliApiBundle:UserConfigurations');
         $user= LoadUserConfigurationsRepositoryCodeData::$USER[0];
         $this->assertNull(  $rep->isAutoCheckin($user->getId()), 'user without configs');
         // return null
@@ -83,7 +82,7 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
      */
     function testSearchUserConfigurationa()
     {
-        $rep = $this->em->getRepository('WenwenFrontendBundle:UserConfigurations');
+        $rep = $this->em->getRepository('JiliApiBundle:UserConfigurations');
         $configs  = LoadUserConfigurationsRepositoryCodeData::$CONFIGS;
         $this->assertCount(3, $rep->searchUserConfiguration() , ' search all' );
 

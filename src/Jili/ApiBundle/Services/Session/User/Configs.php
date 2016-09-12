@@ -31,7 +31,7 @@ class Configs
         if( ! $uid ) {
             return null;
         }
-        $value =  $this->em->getRepository('WenwenFrontendBundle:UserConfigurations')
+        $value =  $this->em->getRepository('JiliApiBundle:UserConfigurations')
             ->isAutoCheckin($uid);
 
         $session->set($this->keys['checkin_op_method'], (int) $value);

@@ -57,7 +57,7 @@ class UserAdvertisermentVisitRepositoryTest extends KernelTestCase {
     public function testInsert() {
         $em = $this->em;
         $user_id = $this->user->getId();
-        $visit = $em->getRepository('WenwenFrontendBundle:UserAdvertisermentVisit')->insert(array (
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->insert(array (
             'userId' => $user_id,
             'date' => date('Ymd')
         ));

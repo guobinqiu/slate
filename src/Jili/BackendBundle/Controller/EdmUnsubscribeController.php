@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
+use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 /**
  * @Route("/edm/unsubscribe")

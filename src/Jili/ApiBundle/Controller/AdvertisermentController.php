@@ -103,10 +103,10 @@ class AdvertisermentController extends Controller
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $id = $request->getSession()->get('uid');
-        $visit = $em->getRepository('WenwenFrontendBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
         if (empty ($visit)) {
             //insert db
-            $visit = $em->getRepository('WenwenFrontendBundle:UserAdvertisermentVisit')->insert(array (
+            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->insert(array (
                 'userId' => $id,
                 'date' => $day
             ));
@@ -135,7 +135,7 @@ class AdvertisermentController extends Controller
         $request = $this->get('request');
         $em = $this->getDoctrine()->getManager();
         $id = $request->getSession()->get('uid');
-        $visit = $em->getRepository('WenwenFrontendBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+        $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
         if (empty ($visit)) {
             $gameVisit = new UserAdvertisermentVisit();
             $gameVisit->setUserId($id);

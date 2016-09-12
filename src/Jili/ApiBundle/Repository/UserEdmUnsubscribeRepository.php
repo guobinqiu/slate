@@ -1,7 +1,7 @@
 <?php
 namespace Jili\ApiBundle\Repository;
 use Doctrine\ORM\EntityRepository;
-use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
+use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 class UserEdmUnsubscribeRepository extends EntityRepository {
 

@@ -19,7 +19,7 @@ class ActivityGatheringTaobaoOrderRepository extends EntityRepository
         $em = $this->getEntityManager();
         $entity = new ActivityGatheringTaobaoOrder();
         $entity->setOrderIdentity($params['orderIdentity'] )
-            ->setUser($em->getReference('Jili\\ApiBundle\\Entity\\User', $params['userId']));
+            ->setUser($em->getReference('Wenwen\\FrontendBundle\\Entity\\User', $params['userId']));
         $em->persist($entity);
         $em->flush();
     }

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Wenwen\FrontendBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
+use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 class LoadUserEdmUnsubscribeData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface {
 
