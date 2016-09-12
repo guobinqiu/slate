@@ -64,7 +64,7 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
      */
     function testIsAutoCheckin()
     {
-        $rep =  $this->em->getRepository('JiliApiBundle:UserConfigurations');
+        $rep =  $this->em->getRepository('WenwenFrontendBundle:UserConfigurations');
         $user= LoadUserConfigurationsRepositoryCodeData::$USER[0];
         $this->assertNull(  $rep->isAutoCheckin($user->getId()), 'user without configs');
         // return null
@@ -83,7 +83,7 @@ class UserConfigurationsRepositoryTest  extends KernelTestCase
      */
     function testSearchUserConfigurationa()
     {
-        $rep = $this->em->getRepository('JiliApiBundle:UserConfigurations');
+        $rep = $this->em->getRepository('WenwenFrontendBundle:UserConfigurations');
         $configs  = LoadUserConfigurationsRepositoryCodeData::$CONFIGS;
         $this->assertCount(3, $rep->searchUserConfiguration() , ' search all' );
 

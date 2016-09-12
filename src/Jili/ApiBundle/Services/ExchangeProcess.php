@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ParameterBagInterface;
 
 use Doctrine\ORM\EntityManager;
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\AdCategory;
 use Jili\ApiBundle\Entity\PointsExchangeType;
 use Jili\ApiBundle\Entity\PointsExchange;
@@ -95,7 +95,7 @@ class ExchangeProcess {
                     $finish_time = date('Y-m-d H:i:s');
                 }
 
-                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
                 $user->setPoints(intval($user->getPoints() + $points));
                 $em->persist($user);
                 $em->flush();

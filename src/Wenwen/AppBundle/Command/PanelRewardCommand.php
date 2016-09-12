@@ -70,7 +70,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
 
             // get panelist
-            $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array (
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array (
                 'id' => $respondent->getUserId()
             ));
             if (!$user) {

@@ -3,11 +3,12 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\WeiBoUser;
-use Jili\ApiBundle\Entity\WeixinUser;
+use Wenwen\FrontendBundle\Entity\QQUser;
+use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Entity\WeiboUser;
+use Wenwen\FrontendBundle\Entity\WeixinUser;
 
 class UserService
 {
@@ -18,7 +19,7 @@ class UserService
     }
 
     /**
-     * @param $xxxUser QQUser|WeixinUser|WeiBoUser
+     * @param $xxxUser QQUser|WeixinUser|WeiboUser
      * @param $userProfile
      * @param $clientIp
      * @param $userAgent
@@ -92,10 +93,10 @@ class UserService
     }
 
     public function getProvinces() {
-        return $this->em->getRepository('JiliApiBundle:ProvinceList')->findAll();
+        return $this->em->getRepository('WenwenFrontendBundle:ProvinceList')->findAll();
     }
 
     public function getCities() {
-        return $this->em->getRepository('JiliApiBundle:CityList')->findAll();
+        return $this->em->getRepository('WenwenFrontendBundle:CityList')->findAll();
     }
 }

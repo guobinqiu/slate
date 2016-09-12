@@ -1,6 +1,6 @@
 <?php
 namespace Jili\ApiBundle\Controller;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ class TopCronController extends Controller
 
         //最新动态
         $yesterday =  date("Y-m-d", strtotime(' -1 day'));
-        $newActivity = $em->getRepository('JiliApiBundle:User')->getRecentPoint($yesterday);
+        $newActivity = $em->getRepository('WenwenFrontendBundle:User')->getRecentPoint($yesterday);
 
         $filename = $this->container->getParameter('file_path_recent_point');
 //        if (!file_exists($filename)) {
@@ -48,7 +48,7 @@ class TopCronController extends Controller
 
         $start = date("Y-m-d", strtotime(' -30 day'))." 00:00:00";
         $end = date("Y-m-d", strtotime(' -1 day'))." 23:59:59";
-        $ranking = $em->getRepository('JiliApiBundle:User')->getRanking($start,$end);
+        $ranking = $em->getRepository('WenwenFrontendBundle:User')->getRanking($start,$end);
 
         $filename = $this->container->getParameter('file_path_ranking_month');
 //        if (!file_exists($filename)) {
@@ -78,7 +78,7 @@ class TopCronController extends Controller
 
         $start = date("Y-m-d", strtotime(' -365 day'))." 00:00:00";
         $end = date("Y-m-d", strtotime(' -1 day'))." 23:59:59";
-        $ranking = $em->getRepository('JiliApiBundle:User')->getRanking($start,$end);
+        $ranking = $em->getRepository('WenwenFrontendBundle:User')->getRanking($start,$end);
 
         $filename = $this->container->getParameter('file_path_ranking_year');
 //        if (!file_exists($filename)) {

@@ -13,7 +13,7 @@ class SendMessageRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('sm');
         $query = $query->select('sm.id,sm.sendFrom,sm.sendTo,sm.title,sm.content,sm.createtime,sm.readFlag,sm.deleteFlag,u.email');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'sm.sendTo = u.id ');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'sm.sendTo = u.id ');
         $query = $query->Where('sm.deleteFlag = 0 ');
         $query = $query->orderBy('sm.createtime','DESC');
         $query =  $query->getQuery();
@@ -24,7 +24,7 @@ class SendMessageRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('sm');
         $query = $query->select('sm.id,sm.sendFrom,sm.sendTo,sm.title,sm.content,sm.createtime,sm.readFlag,sm.deleteFlag,u.email');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'sm.sendTo = u.id ');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'sm.sendTo = u.id ');
         $query = $query->Where('sm.id = :id');
         $query = $query->setParameter('id',$id);
         $query =  $query->getQuery();
@@ -35,7 +35,7 @@ class SendMessageRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('sm');
         $query = $query->select('sm.id,sm.sendFrom,sm.sendTo,sm.title,sm.content,sm.createtime,sm.readFlag,sm.deleteFlag,u.email');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'sm.sendTo = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'sm.sendTo = u.id');
         $query = $query->Where('sm.sendTo = :uid');
         $query = $query->andWhere('sm.deleteFlag = 0 ');
         $query = $query->orderBy('sm.createtime','DESC');
@@ -49,7 +49,7 @@ class SendMessageRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('sm');
         $query = $query->select('count(sm.id) as num');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'sm.sendTo = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'sm.sendTo = u.id');
         $query = $query->Where('sm.sendTo = :uid');
         $query = $query->andWhere('sm.readFlag = 0 ');
         $query = $query->andWhere('sm.deleteFlag = 0 ');

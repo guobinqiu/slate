@@ -15,7 +15,7 @@ class Manager
     {
 
         $em = $this->em;//getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
 
         if( ! isset($user ) ) {
             $this->logger->info('UpdatePoints , user not exists user.id='.var_export($userId,true));

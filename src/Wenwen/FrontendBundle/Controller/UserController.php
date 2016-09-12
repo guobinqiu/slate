@@ -36,7 +36,7 @@ class UserController extends Controller
                 $formData = $form->getData();
 
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
+                $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
                     $form->addError(new FormError('邮箱或密码不正确'));
@@ -103,7 +103,7 @@ class UserController extends Controller
         $page_size = $this->container->getParameter('page_num');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
         $arr['user'] = $user;
         if($exchangeType==1){
 
@@ -153,7 +153,7 @@ class UserController extends Controller
         $arr['type'] = $type;
 
         $arr['adtaste'] = $adtaste;
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $arr['user'] = $user;
         return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
     }
@@ -203,7 +203,7 @@ class UserController extends Controller
     {
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
         $arr['user'] = $user;
         if($sid == $this->container->getParameter('init_two')){//公告
             $sendCb = $em->getRepository('JiliApiBundle:SendCallboard')->getSendCb();
@@ -255,7 +255,7 @@ class UserController extends Controller
     {
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
         $countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
         $countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
         $countMs = $this->countSendMs($id);
@@ -297,7 +297,7 @@ class UserController extends Controller
     {
         $id = $this->get('request')->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
         $countCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountAllCallboard($user->getRegisterDate()->format('Y-m-d H:i:s'));
         $countIsCb = $em->getRepository('JiliApiBundle:SendCallboard')->CountIsReadCallboard($id);
         $countUserCb = intval($countCb[0]['num']) - intval($countIsCb[0]['num']);

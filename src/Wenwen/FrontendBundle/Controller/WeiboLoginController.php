@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Controller;
 use Doctrine\ORM\EntityManager;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
-use Wenwen\FrontendBundle\Entity\WeixinUser;
+use Wenwen\FrontendBundle\Entity\WeiboUser;
 use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,73 +15,59 @@ use Wenwen\FrontendBundle\Form\LoginType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
- * @Route("/auth/weixin")
+ * @Route("/auth/weibo")
  */
-class WeixinLoginController extends Controller
+class WeiboLoginController extends Controller
 {
     /**
-     * @Route("/login", name="weixin_login", methods={"GET"})
+     * @Route("/login", name="weibo_login", methods={"GET"})
      */
     public function loginAction(Request $request)
     {
         $state = md5(uniqid(rand(), true));
         $request->getSession()->set('state', $state);
-
         $params = array(
-            'appid' => $this->container->getParameter('weixin_appid'),
-            'redirect_uri' => $this->container->getParameter('weixin_callback'),
-            'response_type' => 'code',
-            'scope' => 'snsapi_login',
+            'client_id' => $this->container->getParameter('weibo_appid'),
+            'redirect_uri' => $this->container->getParameter('weibo_callback'),
             'state' => $state,
         );
-
-        $url = 'https://open.weixin.qq.com/connect/qrconnect?' . http_build_query($params);
+        $url = 'https://api.weibo.com/oauth2/authorize?' . http_build_query($params);
         return $this->redirect($url);
     }
 
     /**
-     * @Route("/callback", name="weixin_login_callback", methods={"GET"})
+     * @Route("/callback", name="weibo_login_callback", methods={"GET"})
      */
     public function loginCallbackAction(Request $request)
     {
         $code = $request->query->get('code');
 
-        if (!isset($code)) {
-            $this->get('logger')->info('Weixin - 用户取消了授权');
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         if ($request->query->get('state') != $request->getSession()->get('state')) {
-            $this->get('logger')->info('Weixin - The state does not match. You may be a victim of CSRF.');
+            $this->get('logger')->info('Weibo - The state does not match. You may be a victim of CSRF.');
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $msg = $this->getAccessToken($code);
-        $token = $msg->access_token;
-        $openId = $msg->openid;
+        $token = $this->getAccessToken($code);
+        $openId = $this->getOpenId($token);
         $userInfo = $this->getUserInfo($token, $openId);
 
         $em = $this->getDoctrine()->getManager();
-        $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
-        if ($weixinUser == null) {
-            $weixinUser = new WeixinUser();
-            $weixinUser->setOpenId($openId);
-            $weixinUser->setNickname($userInfo->nickname);
-            $weixinUser->setPhoto($userInfo->headimgurl);
-            $weixinUser->setGender($userInfo->sex);
-            $weixinUser->setUnionId($userInfo->unionid);
-            $em->persist($weixinUser);
+        if ($weiboUser == null) {
+            $weiboUser = new WeiboUser();
+            $weiboUser->setOpenId($openId);
+            $weiboUser->setNickname($userInfo->screen_name);
+            $weiboUser->setPhoto($userInfo->profile_image_url);
+            $weiboUser->setGender($userInfo->gender == 'f' ? 2 : 1);
+            $em->persist($weiboUser);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
-        } else if ($weixinUser->getUser() == null) {
-            return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
+            return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
+        } else if ($weiboUser->getUser() == null) {
+            return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
         } else {
-            if ($weixinUser->getUnionId() == null) {
-                $weixinUser->setUnionId($userInfo->unionid);
-            }
-            $user = $weixinUser->getUser();
+            $user = $weiboUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
             $em->flush();
@@ -92,7 +78,7 @@ class WeixinLoginController extends Controller
     }
 
     /**
-     * @Route("/bind", name="weixin_bind", methods={"GET", "POST"})
+     * @Route("/bind", name="weibo_bind", methods={"GET", "POST"})
      */
     public function bindAction(Request $request)
     {
@@ -102,7 +88,7 @@ class WeixinLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType());
 
         $em = $this->getDoctrine()->getManager();
-        $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();
@@ -110,10 +96,10 @@ class WeixinLoginController extends Controller
 
         $params = array(
             'openId' => $openId,
-            'bind_route' => 'weixin_bind',
-            'unbind_route' => 'weixin_unbind',
-            'nickname' => $weixinUser->getNickname(),
-            'photo' => $weixinUser->getPhoto(),
+            'bind_route' => 'weibo_bind',
+            'unbind_route' => 'weibo_unbind',
+            'nickname' => $weiboUser->getNickname(),
+            'photo' => $weiboUser->getPhoto(),
             'provinces' => $provinces,
             'cities' => $cities,
             'userForm' => $userForm->createView(),
@@ -138,7 +124,7 @@ class WeixinLoginController extends Controller
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
 
-                $weixinUser->setUser($user);
+                $weiboUser->setUser($user);
                 $em->flush();
 
                 $request->getSession()->set('uid', $user->getId());
@@ -151,7 +137,7 @@ class WeixinLoginController extends Controller
     }
 
     /**
-     * @Route("/unbind", name="weixin_unbind", methods={"GET", "POST"})
+     * @Route("/unbind", name="weibo_unbind", methods={"GET", "POST"})
      */
     public function unbindAction(Request $request)
     {
@@ -162,7 +148,7 @@ class WeixinLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
         $em = $this->getDoctrine()->getManager();
-        $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();
@@ -171,10 +157,10 @@ class WeixinLoginController extends Controller
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
             if ($userForm->isValid()) {
-                $user = $weixinUser->getUser();
+                $user = $weiboUser->getUser();
                 if ($user == null) {
                     $user = $userService->createAutoGeneratedUser(
-                        $weixinUser,
+                        $weiboUser,
                         $userProfile,
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT')
@@ -188,10 +174,10 @@ class WeixinLoginController extends Controller
 
         return $this->render('WenwenFrontendBundle:User:bind.html.twig', array(
             'openId' => $openId,
-            'bind_route' => 'weixin_bind',
-            'unbind_route' => 'weixin_unbind',
-            'nickname' => $weixinUser->getNickname(),
-            'photo' => $weixinUser->getPhoto(),
+            'bind_route' => 'weibo_bind',
+            'unbind_route' => 'weibo_unbind',
+            'nickname' => $weiboUser->getNickname(),
+            'photo' => $weiboUser->getPhoto(),
             'provinces' => $provinces,
             'cities' => $cities,
             'loginForm' => $loginForm->createView(),
@@ -201,53 +187,53 @@ class WeixinLoginController extends Controller
 
     private function getAccessToken($code)
     {
-        $params = array(
-            'appid' => $this->container->getParameter('weixin_appid'),
-            'secret' => $this->container->getParameter('weixin_appkey'),
+        $url = 'https://api.weibo.com/oauth2/access_token';
+        $request = $this->get('app.http_client')->post($url);
+        $request->addPostFields(array(
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->container->getParameter('weibo_appid'),
+            'client_secret' => $this->container->getParameter('weibo_appkey'),
             'code' => $code,
-            'grant_type' => 'authorization_code'
-        );
-
-        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?' . http_build_query($params);
-        $res = $this->get('app.http_client')->get($url)->send();
-        $resBody = $res->getBody();
-
-//        正确的返回
+            'redirect_uri' => $this->container->getParameter('weibo_callback'),
+        ));
+        $res = $request->send();
+//        返回数据
 //        {
-//            "access_token":"ACCESS_TOKEN",
-//            "expires_in":7200,
-//            "refresh_token":"REFRESH_TOKEN",
-//            "openid":"OPENID",
-//            "scope":"SCOPE",
-//            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+//            "access_token": "ACCESS_TOKEN",
+//            "expires_in": 1234,
+//            "remind_in":"798114",
+//            "uid":"12341234"
 //        }
-//        错误的返回
-//        {"errcode":40029,"errmsg":"invalid code"}
-        $msg = json_decode($resBody);
+        $resBody = $res->getBody();
+        return json_decode($resBody)->access_token;
+    }
 
-        if (isset($msg->errcode)) {
-            throw new \RuntimeException('Weixin - ' . $msg->errmsg);
-        }
-
-        return $msg;
+    private function getOpenId($token) {
+        $url = 'https://api.weibo.com/oauth2/get_token_info';
+        $request = $this->get('app.http_client')->post($url);
+        $request->setPostField('access_token', $token);
+        $res = $request->send();
+//        返回数据
+//        {
+//            "uid": 1073880650,
+//            "appkey": 1352222456,
+//            "scope": null,
+//            "create_at": 1352267591,
+//            "expire_in": 157679471
+//        }
+        $resBody = $res->getBody();
+        return json_decode($resBody)->uid;
     }
 
     private function getUserInfo($token, $openId) {
         $params = array(
             'access_token' => $token,
-            'openid' => $openId,
+            'uid' => $openId,
         );
-
-        $url = 'https://api.weixin.qq.com/sns/userinfo?' . http_build_query($params);
+        $url = 'https://api.weibo.com/2/users/show.json?' . http_build_query($params);
         $res = $this->get('app.http_client')->get($url)->send();
         $resBody = $res->getBody();
-        $msg = json_decode($resBody);
-
-        if (isset($msg->errcode)) {
-            throw new \RuntimeException('Weixin - ' . $msg->errmsg);
-        }
-
-        return $msg;
+        return json_decode($resBody);
     }
 
     private function pushBasicProfile(User $user, EntityManager $em)

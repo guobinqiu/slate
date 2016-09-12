@@ -95,12 +95,12 @@ class SsiProjectRespondentRepositoryTestFixture implements ContainerAwareInterfa
     public function load(ObjectManager $manager)
     {
         //load data for testing
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test1');
         $user->setEmail('zhangmm@ec-navi.com.cn');
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
-        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
+        $user->setPasswordChoice(\Wenwen\FrontendBundle\Entity\User::PWD_JILI);
         $manager->persist($user);
         $manager->flush();
 

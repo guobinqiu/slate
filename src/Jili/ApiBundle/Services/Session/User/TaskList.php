@@ -61,7 +61,7 @@ class TaskList
         if( $is_alive &&$session->has($key_game) ){
             $visit_value =  $session->get($key_game);
         } else {
-            $visit = $em->getRepository('JiliApiBundle:UserGameVisit')->getGameVisit($id, $day);
+            $visit = $em->getRepository('WenwenFrontendBundle:UserGameVisit')->getGameVisit($id, $day);
             $visit_value = (empty ($visit))? $this->getParameter('init_one'):$arr['task']['game'] = $this->getParameter('init');
             $session->set($key_game, $visit_value);
         }
@@ -77,7 +77,7 @@ class TaskList
         if( $is_alive && $session->has($key_adv)) {
                 $visit_value  =  $session->get($key_adv);
         } else {
-            $visit = $em->getRepository('JiliApiBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
+            $visit = $em->getRepository('WenwenFrontendBundle:UserAdvertisermentVisit')->getAdvertisermentVisit($id, $day);
             $visit_value = (empty ($visit))? $this->getParameter('init_one'):$arr['task']['ad'] = $this->getParameter('init');
             $session->set($key_adv, $visit_value );
         }
@@ -93,7 +93,7 @@ class TaskList
         if( $is_alive&& $session->has($key_91ww) ) {
             $visit_value  =  $session->get($key_91ww);
         } else {
-            $visit = $em->getRepository('JiliApiBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
+            $visit = $em->getRepository('WenwenFrontendBundle:UserWenwenVisit')->getWenwenVisit($id, $day);
             $visit_value =(empty ($visit))? $this->getParameter('init_one'):$arr['task']['wen'] = $this->getParameter('init');
             $session->set($key_91ww, $visit_value);
         }

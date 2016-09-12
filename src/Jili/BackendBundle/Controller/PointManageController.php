@@ -48,7 +48,7 @@ class PointManageController extends Controller implements IpAuthenticatedControl
         }
 
         // 检查用户是否存在
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
         // 用户不存在，信息提示
         if (!$user) {
             $arr['message'] = 'The user is not exist.';

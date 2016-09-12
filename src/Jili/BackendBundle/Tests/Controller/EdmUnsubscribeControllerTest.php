@@ -74,7 +74,7 @@ class EdmUnsubscribeControllerTest extends WebTestCase {
         $email = 'zhangmm2@voyagegroup.com.cn';
         $em = $this->em;
         $return = $controller->checkForAdd($email);
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
         $this->assertEquals('', $return['message']);
         $this->assertEquals($user[0]->getId(), $return['user_id']);
     }
@@ -131,7 +131,7 @@ class EdmUnsubscribeControllerTest extends WebTestCase {
         $crawler = $client->request('POST', $url, array (
             'email' => $email
         ));
-        $edms = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($email);
+        $edms = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, count($edms));
     }

@@ -251,12 +251,12 @@ class AdminPanelistControllerTestFixture implements ContainerAwareInterface, Fix
         $manager->persist($hobby);
         $manager->flush();
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test1');
         $user->setEmail('zhangmm@ec-navi.com.cn');
         $user->setIsEmailConfirmed(1);
         $user->setPwd('123qwe');
-        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
+        $user->setPasswordChoice(\Wenwen\FrontendBundle\Entity\User::PWD_JILI);
         $user->setHobby($hobby->getId());
         $user->setCity(2);
         $manager->persist($user);
@@ -301,7 +301,7 @@ class AdminPanelistControllerTestFixture implements ContainerAwareInterface, Fix
         $manager->persist($ssi_project_respondent);
         $manager->flush();
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test2');
         $user->setEmail('zhangmm2@ec-navi.com.cn');
         $user->setIsEmailConfirmed(1);
@@ -316,7 +316,7 @@ class AdminPanelistControllerTestFixture implements ContainerAwareInterface, Fix
         $manager->flush();
         self::$SSI_RESPONDENT[] = $ssi_respondent;
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test3');
         $user->setEmail('zhangmm3@ec-navi.com.cn');
         $user->setIsEmailConfirmed(1);

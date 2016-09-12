@@ -92,7 +92,7 @@ class CpaRankingActivityCommand extends ContainerAwareCommand
 
     protected function getUsers($start_time, $end_time, $limit, $offset) {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $users = $em->getRepository('JiliApiBundle:User')->getTotalCPAPointsByTime($start_time, $end_time, $limit, $offset);
+        $users = $em->getRepository('WenwenFrontendBundle:User')->getTotalCPAPointsByTime($start_time, $end_time, $limit, $offset);
         return $users;
     }
 }

@@ -71,7 +71,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
 
-        $user = $this->em->getRepository('JiliApiBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
         $this->assertSame(1000, $user->getPoints());
 
         $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
@@ -138,7 +138,7 @@ class SsiPointRewardCommandTestFixture implements FixtureInterface, ContainerAwa
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);

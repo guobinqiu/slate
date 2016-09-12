@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\CheckinPointTimes;
 
 /**
@@ -35,7 +35,7 @@ class CheckInListener
         //判断是否是当天注册
         $uid = $request->getSession()->get('uid');
         if($uid){
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
             $reg_date = $user->getRegisterDate()->format('Y-m-d');
             if(date('Y-m-d') == $reg_date){
                 //注册当天签到 type=2

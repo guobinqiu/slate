@@ -309,7 +309,7 @@ class ExpirePointService
         $result = array();
         // select expiring users from user table
         try{
-            $expiringUsers = $this->em->getRepository('JiliApiBundle:User')->findExpiringUsers($from, $to);
+            $expiringUsers = $this->em->getRepository('WenwenFrontendBundle:User')->findExpiringUsers($from, $to);
             $result['status'] = 'suceeded';
             $result['expiringUsers'] = $expiringUsers;
             $result['msg'] = sprintf("Find %d expiring users from %s to %s.", 
@@ -396,7 +396,7 @@ class ExpirePointService
             $userId = $expiringUser['id'];
             
             try{
-                $user = $this->em->getRepository('JiliApiBundle:User')->findOneById($userId);
+                $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
                 if($user){
                     // 该用户存在，该用户的积分设为0
                     $currentPoints = $user->getPoints();

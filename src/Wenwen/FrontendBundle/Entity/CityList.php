@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

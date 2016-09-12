@@ -72,7 +72,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         //login 后
         $session = $container->get('session');
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
@@ -126,7 +126,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         //login 后
         $session = $container->get('session');
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 

@@ -294,14 +294,14 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $this->assertEquals(100, $point[1]->getPointChangeNum());
         $this->assertEquals(92, $point[1]->getReason());
 
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
     }
 }
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SopRespondent;
 
 class PanelRewardCintPointCommandTestFixture implements FixtureInterface

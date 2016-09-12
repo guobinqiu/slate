@@ -1,10 +1,9 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
-
-use Symfony\Component\Validator\Constraints as Assert;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserProfile

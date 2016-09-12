@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="weibo_user")
  * @ORM\Entity
  */
-class WeiBoUser
+class WeiboUser
 {
     /**
      * @var integer

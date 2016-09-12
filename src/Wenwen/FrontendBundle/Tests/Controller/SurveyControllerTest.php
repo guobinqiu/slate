@@ -136,7 +136,7 @@ class SurveyControllerTestFixture implements FixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('user@voyagegroup.com.cn');
         $user->setPoints(100);

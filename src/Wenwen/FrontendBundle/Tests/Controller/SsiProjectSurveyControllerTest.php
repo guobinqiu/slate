@@ -123,11 +123,11 @@ class SsiProjectSurveyControllerTestFixture implements FixtureInterface, Contain
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);
-        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
+        $user->setPasswordChoice(\Wenwen\FrontendBundle\Entity\User::PWD_WENWEN);
         $user->setPwd('password');
         $manager->persist($user);
         $manager->flush();

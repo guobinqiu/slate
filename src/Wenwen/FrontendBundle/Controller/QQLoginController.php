@@ -3,9 +3,9 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\QQUser;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\QQUser;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -58,7 +58,7 @@ class QQLoginController extends Controller
         $userInfo = $this->getUserInfo($token, $openId);
 
         $em = $this->getDoctrine()->getManager();
-        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+        $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
 
         if ($qqUser == null) {
             $qqUser = new QQUser();
@@ -94,7 +94,7 @@ class QQLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType());
 
         $em = $this->getDoctrine()->getManager();
-        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+        $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();
@@ -116,7 +116,7 @@ class QQLoginController extends Controller
 
             if ($loginForm->isValid()) {
                 $formData = $loginForm->getData();
-                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
+                $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
                     $loginForm->addError(new FormError('邮箱或密码不正确'));
@@ -154,7 +154,7 @@ class QQLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
         $em = $this->getDoctrine()->getManager();
-        $qqUser = $em->getRepository('JiliApiBundle:QQUser')->findOneBy(array('openId' => $openId));
+        $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();

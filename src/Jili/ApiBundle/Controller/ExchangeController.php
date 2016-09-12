@@ -76,7 +76,7 @@ class  ExchangeController extends Controller
                 }
             }
 
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
@@ -203,7 +203,7 @@ class  ExchangeController extends Controller
             $pointschange  = new PointsExchange(); // 兑换记录表
             $id = $this->get('request')->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
@@ -398,7 +398,7 @@ class  ExchangeController extends Controller
             $pointschange  = new PointsExchange();
             $id = $this->get('request')->getSession()->get('uid');
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $points = $user->getPoints();
             $arr['user'] = $user;
             $arr['points'] = $points;
@@ -595,7 +595,7 @@ class  ExchangeController extends Controller
             // if(!empty($issetIdent)){
             //     return $this->gotoComfirmUrl($type);
             // }
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $arr['user'] = $user;
             if ($request->getMethod() == 'POST') {
                 $btn = $request->request->get('btn');
@@ -667,7 +667,7 @@ class  ExchangeController extends Controller
             if($code){
                 return $this->redirect($this->generateUrl('_default_error'));
             }
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $this->exchange_send_message($type,$id);
             if($type =='amazon'){
                 $this->get('request')->getSession()->remove('amazonToken');

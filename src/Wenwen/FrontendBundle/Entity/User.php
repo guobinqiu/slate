@@ -1,27 +1,45 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Jili\ApiBundle\Utility\PasswordEncoder;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Table(name="user_deleted")
- * @ORM\Entity
+ * User
+ *
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+ * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="邮箱地址已存在")
+ * @ORM\HasLifecycleCallbacks
  */
-class UserDeleted
+class User
 {
+    const EMAIL_NOT_CONFIRMED = 0;
+    const EMAIL_CONFIRMED = 1;
+    const PWD_WENWEN = 1;
+    const PWD_JILI = 2;
+    const POINT_EMPTY = 0;
+    const POINT_SIGNUP = 10;
+    const DEFAULT_REWARD_MULTIPE = 1;
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=250, nullable=true)
+     * @ORM\Column(name="email", type="string", length=250, nullable=true, unique=true)
+     * @Assert\Email
      */
     private $email;
 
@@ -43,6 +61,15 @@ class UserDeleted
      * @var string
      *
      * @ORM\Column(name="nick", type="string", length=100, nullable=true)
+     * @Assert\Length(
+     *      min=1,
+     *      max=100,
+     *      minMessage = "用户昵称为1-100个字符",
+     *      maxMessage = "用户昵称为1-100个字符"
+     * )
+     * @Assert\NotBlank(
+     *      message = "请输入您的昵称"
+     * )
      */
     private $nick;
 
@@ -50,6 +77,14 @@ class UserDeleted
      * @var string
      *
      * @ORM\Column(name="tel", type="string", length=45, nullable=true)
+     * @Assert\Length(
+     *      max=45,
+     *      maxMessage = "请输入有效的手机号码"
+     * )
+     * @Assert\Type(
+     *      type = "numeric",
+     *      message = "请输入有效的手机号码"
+     * )
      */
     private $tel;
 
@@ -87,7 +122,7 @@ class UserDeleted
     private $registerCompleteDate;
 
     /**
-     * @var datetime $lastLoginDate
+     *@var datetime $lastLoginDate
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
@@ -129,6 +164,11 @@ class UserDeleted
     private $iconPath;
 
     /**
+     * @Assert\File(mimeTypes={"image/bmp", "image/gif", "image/jpeg", "image/png"}, maxSize="2M")
+     */
+    private $icon;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="created_remote_addr", type="string", length=20, nullable=true, options={"comment": "remote IP when create"})
@@ -157,6 +197,11 @@ class UserDeleted
     private $lastGetPointsAt;
 
     /**
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist","remove"})
+     */
+    private $userProfile;
+
+    /**
      * 注册激活token
      *
      * @ORM\Column(name="confirmation_token", type="string", nullable=true)
@@ -181,10 +226,39 @@ class UserDeleted
      */
     private $resetPasswordTokenExpiredAt;
 
+    public function __construct()
+    {
+        $this->passwordChoice = self::PWD_WENWEN;
+        $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
+        $this->points = self::POINT_EMPTY;
+        $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
+    }
+
+    /**
+     * Get iconPath
+     *
+     * @return string
+     */
+    public function getIconPath()
+    {
+        return $this->iconPath;
+    }
+
+     /**
+     * Set iconPath
+     *
+     * @param string $iconPath
+     * @return User
+     */
+    public function setIconPath($iconPath)
+    {
+        $this->iconPath = $iconPath;
+    }
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -192,79 +266,10 @@ class UserDeleted
     }
 
     /**
-     * Set email
-     *
-     * @param string $email
-     * @return UserDeleted
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set pwd
-     *
-     * @param string $pwd
-     * @return UserDeleted
-     */
-    public function setPwd($pwd)
-    {
-        $this->pwd = $pwd;
-
-        return $this;
-    }
-
-    /**
-     * Get pwd
-     *
-     * @return string 
-     */
-    public function getPwd()
-    {
-        return $this->pwd;
-    }
-
-    /**
-     * Set isEmailConfirmed
-     *
-     * @param integer $isEmailConfirmed
-     * @return UserDeleted
-     */
-    public function setIsEmailConfirmed($isEmailConfirmed)
-    {
-        $this->isEmailConfirmed = $isEmailConfirmed;
-
-        return $this;
-    }
-
-    /**
-     * Get isEmailConfirmed
-     *
-     * @return integer 
-     */
-    public function getIsEmailConfirmed()
-    {
-        return $this->isEmailConfirmed;
-    }
-
-    /**
      * Set nick
      *
      * @param string $nick
-     * @return UserDeleted
+     * @return User
      */
     public function setNick($nick)
     {
@@ -276,7 +281,7 @@ class UserDeleted
     /**
      * Get nick
      *
-     * @return string 
+     * @return string
      */
     public function getNick()
     {
@@ -284,10 +289,94 @@ class UserDeleted
     }
 
     /**
+     * Set pwd
+     *
+     * @param string $pwd
+     * @return User
+     */
+    public function setPwd($pwd)
+    {
+        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+
+        return $this;
+    }
+
+    /**
+     * Get pwd
+     *
+     * @return string
+     */
+    public function getPwd()
+    {
+        return $this->pwd;
+    }
+
+    /**
+     * sha1 pwd
+     *
+     * @return string
+     */
+    public function pw_encode($pwd)
+    {
+        $seed = '';
+        for ($i = 1; $i <= 9; $i++)
+            $seed .= sha1($pwd.'0123456789abcdef');
+            for ($i = 1; $i <= 11; $i++)
+            $seed .= sha1($seed);
+            return sha1($seed);
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set isEmailConfirmed
+     *
+     * @param integer $isEmailConfirmed
+     * @return User
+     */
+    public function setIsEmailConfirmed($isEmailConfirmed)
+    {
+        $this->isEmailConfirmed = $isEmailConfirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get isEmailConfirmed
+     *
+     * @return integer
+     */
+    public function getIsEmailConfirmed()
+    {
+        return $this->isEmailConfirmed;
+    }
+
+    /**
      * Set tel
      *
      * @param string $tel
-     * @return UserDeleted
+     * @return User
      */
     public function setTel($tel)
     {
@@ -299,7 +388,7 @@ class UserDeleted
     /**
      * Get tel
      *
-     * @return string 
+     * @return string
      */
     public function getTel()
     {
@@ -310,7 +399,7 @@ class UserDeleted
      * Set isTelConfirmed
      *
      * @param integer $isTelConfirmed
-     * @return UserDeleted
+     * @return User
      */
     public function setIsTelConfirmed($isTelConfirmed)
     {
@@ -322,7 +411,7 @@ class UserDeleted
     /**
      * Get isTelConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsTelConfirmed()
     {
@@ -333,7 +422,7 @@ class UserDeleted
      * Set rewardMultiple
      *
      * @param float $rewardMultiple
-     * @return UserDeleted
+     * @return User
      */
     public function setRewardMultiple($rewardMultiple)
     {
@@ -345,7 +434,7 @@ class UserDeleted
     /**
      * Get rewardMultiple
      *
-     * @return float 
+     * @return float
      */
     public function getRewardMultiple()
     {
@@ -356,7 +445,7 @@ class UserDeleted
      * Set registerDate
      *
      * @param \DateTime $registerDate
-     * @return UserDeleted
+     * @return User
      */
     public function setRegisterDate($registerDate)
     {
@@ -368,7 +457,7 @@ class UserDeleted
     /**
      * Get registerDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterDate()
     {
@@ -376,33 +465,10 @@ class UserDeleted
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return UserDeleted
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
      * Set registerCompleteDate
      *
      * @param \DateTime $registerCompleteDate
-     * @return UserDeleted
+     * @return User
      */
     public function setRegisterCompleteDate($registerCompleteDate)
     {
@@ -414,7 +480,7 @@ class UserDeleted
     /**
      * Get registerCompleteDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterCompleteDate()
     {
@@ -425,7 +491,7 @@ class UserDeleted
      * Set lastLoginDate
      *
      * @param \DateTime $lastLoginDate
-     * @return UserDeleted
+     * @return User
      */
     public function setLastLoginDate($lastLoginDate)
     {
@@ -437,7 +503,7 @@ class UserDeleted
     /**
      * Get lastLoginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLoginDate()
     {
@@ -448,7 +514,7 @@ class UserDeleted
      * Set lastLoginIp
      *
      * @param string $lastLoginIp
-     * @return UserDeleted
+     * @return User
      */
     public function setLastLoginIp($lastLoginIp)
     {
@@ -460,7 +526,7 @@ class UserDeleted
     /**
      * Get lastLoginIp
      *
-     * @return string 
+     * @return string
      */
     public function getLastLoginIp()
     {
@@ -471,7 +537,7 @@ class UserDeleted
      * Set points
      *
      * @param integer $points
-     * @return UserDeleted
+     * @return User
      */
     public function setPoints($points)
     {
@@ -483,7 +549,7 @@ class UserDeleted
     /**
      * Get points
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoints()
     {
@@ -494,7 +560,7 @@ class UserDeleted
      * Set deleteFlag
      *
      * @param integer $deleteFlag
-     * @return UserDeleted
+     * @return User
      */
     public function setDeleteFlag($deleteFlag)
     {
@@ -506,7 +572,7 @@ class UserDeleted
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
@@ -516,8 +582,8 @@ class UserDeleted
     /**
      * Set deleteDate
      *
-     * @param \DateTime $deleteDate
-     * @return UserDeleted
+     * @param \DateTime $deleteFlag
+     * @return User
      */
     public function setDeleteDate($deleteDate)
     {
@@ -529,7 +595,7 @@ class UserDeleted
     /**
      * Get deleteDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeleteDate()
     {
@@ -537,33 +603,10 @@ class UserDeleted
     }
 
     /**
-     * Set iconPath
-     *
-     * @param string $iconPath
-     * @return UserDeleted
-     */
-    public function setIconPath($iconPath)
-    {
-        $this->iconPath = $iconPath;
-
-        return $this;
-    }
-
-    /**
-     * Get iconPath
-     *
-     * @return string 
-     */
-    public function getIconPath()
-    {
-        return $this->iconPath;
-    }
-
-    /**
      * Set createdRemoteAddr
      *
      * @param string $createdRemoteAddr
-     * @return UserDeleted
+     * @return User
      */
     public function setCreatedRemoteAddr($createdRemoteAddr)
     {
@@ -575,7 +618,7 @@ class UserDeleted
     /**
      * Get createdRemoteAddr
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedRemoteAddr()
     {
@@ -586,7 +629,7 @@ class UserDeleted
      * Set createdUserAgent
      *
      * @param string $createdUserAgent
-     * @return UserDeleted
+     * @return User
      */
     public function setCreatedUserAgent($createdUserAgent)
     {
@@ -598,7 +641,7 @@ class UserDeleted
     /**
      * Get createdUserAgent
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedUserAgent()
     {
@@ -609,7 +652,7 @@ class UserDeleted
      * Set passwordChoice
      *
      * @param integer $passwordChoice
-     * @return UserDeleted
+     * @return User
      */
     public function setPasswordChoice($passwordChoice)
     {
@@ -621,7 +664,7 @@ class UserDeleted
     /**
      * Get passwordChoice
      *
-     * @return integer 
+     * @return integer
      */
     public function getPasswordChoice()
     {
@@ -632,7 +675,7 @@ class UserDeleted
      * Set lastGetPointsAt
      *
      * @param \DateTime $lastGetPointsAt
-     * @return UserDeleted
+     * @return User
      */
     public function setLastGetPointsAt($lastGetPointsAt)
     {
@@ -644,7 +687,7 @@ class UserDeleted
     /**
      * Get lastGetPointsAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastGetPointsAt()
     {
@@ -652,10 +695,44 @@ class UserDeleted
     }
 
     /**
+     * Set userProfile
+     *
+     * @return UserProfile
+     */
+    public function setUserProfile(UserProfile $userProfile)
+    {
+        $this->userProfile = $userProfile;
+
+        return $this;
+    }
+
+    /**
+     * Get userProfile
+     *
+     * @return UserProfile
+     */
+    public function getUserProfile()
+    {
+        return $this->userProfile;
+    }
+
+    public function setIcon(UploadedFile $icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
      * Set confirmationToken
      *
      * @param string $confirmationToken
-     * @return UserDeleted
+     * @return User
      */
     public function setConfirmationToken($confirmationToken)
     {
@@ -667,7 +744,7 @@ class UserDeleted
     /**
      * Get confirmationToken
      *
-     * @return string 
+     * @return string
      */
     public function getConfirmationToken()
     {
@@ -678,7 +755,7 @@ class UserDeleted
      * Set confirmationTokenExpiredAt
      *
      * @param \DateTime $confirmationTokenExpiredAt
-     * @return UserDeleted
+     * @return User
      */
     public function setConfirmationTokenExpiredAt($confirmationTokenExpiredAt)
     {
@@ -690,7 +767,7 @@ class UserDeleted
     /**
      * Get confirmationTokenExpiredAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getConfirmationTokenExpiredAt()
     {
@@ -701,7 +778,7 @@ class UserDeleted
      * Set resetPasswordToken
      *
      * @param string $resetPasswordToken
-     * @return UserDeleted
+     * @return User
      */
     public function setResetPasswordToken($resetPasswordToken)
     {
@@ -713,7 +790,7 @@ class UserDeleted
     /**
      * Get resetPasswordToken
      *
-     * @return string 
+     * @return string
      */
     public function getResetPasswordToken()
     {
@@ -724,7 +801,7 @@ class UserDeleted
      * Set resetPasswordTokenExpiredAt
      *
      * @param \DateTime $resetPasswordTokenExpiredAt
-     * @return UserDeleted
+     * @return User
      */
     public function setResetPasswordTokenExpiredAt($resetPasswordTokenExpiredAt)
     {
@@ -736,10 +813,69 @@ class UserDeleted
     /**
      * Get resetPasswordTokenExpiredAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getResetPasswordTokenExpiredAt()
     {
         return $this->resetPasswordTokenExpiredAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->registerDate = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    public function isPwdCorrect($pwd)
+    {
+        if ($this->isPasswordWenwen()) {
+            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+        }
+        if ($this->isPasswordJili()) {
+            return $this->getPwd() == $this->pw_encode($pwd);
+        }
+        return false;
+    }
+
+    public function isPasswordWenwen()
+    {
+        return $this->getPasswordChoice() == self::PWD_WENWEN;
+    }
+
+    public function isPasswordJili()
+    {
+        return $this->getPasswordChoice() == self::PWD_JILI;
+    }
+
+    public function emailIsConfirmed()
+    {
+        return  $this->getIsEmailConfirmed() == self::EMAIL_CONFIRMED;
+    }
+
+    /**
+     * 注册token是否已过期
+     */
+    public function isConfirmationTokenExpired()
+    {
+        return new \DateTime() > $this->confirmationTokenExpiredAt;
+    }
+
+    /**
+     * 重置密码token是否已过期
+     */
+    public function isResetPasswordTokenExpired()
+    {
+        return new \DateTime() > $this->resetPasswordTokenExpiredAt;
     }
 }

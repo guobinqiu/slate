@@ -2,9 +2,9 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserDeleted;
-use Jili\ApiBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserDeleted;
+use Wenwen\FrontendBundle\Entity\UserProfile;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +48,7 @@ class ProfileController extends Controller
 
             $session = $request->getSession();
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
 
             if ($user == null || !$user->isPwdCorrect($formData['password'])) {
                 $cpForm->addError(new FormError('当前密码不正确'));
@@ -87,7 +87,7 @@ class ProfileController extends Controller
             $reason = $formData['reason'];
 
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $email));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
 
             if ($user == null || !$user->isPwdCorrect($password)) {
                 $wdForm->addError(new FormError('邮箱或密码不正确'));
@@ -125,7 +125,7 @@ class ProfileController extends Controller
     {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();
@@ -174,7 +174,7 @@ class ProfileController extends Controller
     {
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
         //一个页面有多个表单
         $userIconType = new UserIconType();

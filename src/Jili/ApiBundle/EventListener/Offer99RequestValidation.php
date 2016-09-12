@@ -69,7 +69,7 @@ class Offer99RequestValidation
         //4.vcpoints超过最大限额
 
         //5.uid不存在
-        $u = $this->em->getRepository("JiliApiBundle:User")->findOneById($uid);
+        $u = $this->em->getRepository("WenwenFrontendBundle:User")->findOneById($uid);
         if (is_null($u)) {
             $ret['valid_flag'] = false;
             $ret['code'] = '1005';

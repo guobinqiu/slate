@@ -144,7 +144,7 @@ class DuomaiRequestProcessor {
                 $em->getRepository('JiliApiBundle:PointHistory0'. ($userid % 10))
                     ->get( array( 'userid'=>$userid, 'point'=>$task_params['point'] ,'type'=> $task_params['categoryType'] ) );
                 // update  user.points
-                $em->getRepository('JiliApiBundle:User')->updatePointById(array('id'=> $userid, 'points'=> $task_params['point']));
+                $em->getRepository('WenwenFrontendBundle:User')->updatePointById(array('id'=> $userid, 'points'=> $task_params['point']));
             }
             $em->getConnection()->commit();
         } catch (\Exception $e) {

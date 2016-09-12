@@ -150,7 +150,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $em->flush();
 
             $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
-            $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
             $user->setPoints(intval($user->getPoints() + $adworder->getIncentive())); // point caculated when setInsentive()
             $em->persist($user);
             $em->flush();
@@ -170,7 +170,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
 
             $this->getPointHistory($userId,$adworder->getIncentive(),$adworder->getIncentiveType());
-            $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
             $user->setPoints(intval($user->getPoints() + $adworder->getIncentive()));
             $em->persist($user);
             $em->flush();
@@ -974,7 +974,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
-            $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+            $userInfo = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
             $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userInfo[0]->getId() % 10);
             $po = new $pointHistory();
             $po->setUserId($userInfo[0]->getId());
@@ -1002,8 +1002,8 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
-            $userInfo = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
-            $user = $em->getRepository('JiliApiBundle:User')->find($userInfo[0]->getId());
+            $userInfo = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userInfo[0]->getId());
             $user->setPoints(intval($user->getPoints() + $points));
             $em->persist($user);
             $em->flush();
@@ -1077,7 +1077,7 @@ class AdminController extends Controller implements IpAuthenticatedController
 
             if($status == 'ng'){
                 $user_id = $points_exchange->getUserId();
-                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
                 if(empty($user)){
                     // if exchange_id not found in points_exchange
                     // end checkfunction and return
@@ -1184,7 +1184,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $points_exchange->setFinishDate(date_create($finish_time));
 
             // Return the point for exchange back to user
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $user->setPoints(intval($user->getPoints() + $points));
 
             // Prepare the data for sendMs
@@ -1537,7 +1537,7 @@ class AdminController extends Controller implements IpAuthenticatedController
 
         $exchangeDangers = $em->getRepository('JiliApiBundle:ExchangeDanger')->findByExchangeIds($exchange_ids);
 
-        $emails = $em->getRepository('JiliApiBundle:User')->findEmailById($user_ids );
+        $emails = $em->getRepository('WenwenFrontendBundle:User')->findEmailById($user_ids );
 
         foreach($exchange as $key => $value) {
             $eid = $value['id'];
@@ -1970,7 +1970,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
         }
 
-        $result = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);
+        $result = $em->getRepository('WenwenFrontendBundle:User')->addPointHistorySearch($start_time,$end_time,$category_id,$email,$user_id);
         $paginator  = $this->get('knp_paginator');
         $arr['pagination'] = $paginator->paginate(
                   $result,
@@ -2037,11 +2037,11 @@ class AdminController extends Controller implements IpAuthenticatedController
 
         $member = array();
         if($user_id || $email || $nick){
-            $member = $em->getRepository('JiliApiBundle:User')->memberSearch($user_id, $email, $nick);
+            $member = $em->getRepository('WenwenFrontendBundle:User')->memberSearch($user_id, $email, $nick);
         }else{
             $user_id = $this->get('request')->getSession()->get('member_id');
             if($user_id){
-                $member = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+                $member = $em->getRepository('WenwenFrontendBundle:User')->findOneById($user_id);
             }
         }
 
@@ -2066,7 +2066,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $request = $this->get('request');
         $user_id = $request->get('user_id');
         $em = $this->getDoctrine()->getManager();
-        $member = $em->getRepository('JiliApiBundle:User')->findOneById($user_id);
+        $member = $em->getRepository('WenwenFrontendBundle:User')->findOneById($user_id);
         $arr['member'] = $member;
         $this->get('request')->getSession()->set( 'member_id', $user_id);
 
@@ -2117,7 +2117,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $errorMessage[] = "昵称为2-20个字符";
         }elseif($delete_flag !=1 ){
             $em = $this->getDoctrine()->getManager();
-            $user_nick = $em->getRepository('JiliApiBundle:User')->findNick($email, $nick);
+            $user_nick = $em->getRepository('WenwenFrontendBundle:User')->findNick($email, $nick);
             if ($user_nick){
                 $errorMessage[] = "昵称已经注册";
             }

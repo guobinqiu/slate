@@ -77,9 +77,9 @@ class DmdeliveryCommandTest extends KernelTestCase
         
         $commandParam = array ('command' => $command->getName(),'batch_name' => 'pointFailure');
         $commandTester->execute($commandParam);
-        $user = $em->getRepository('JiliApiBundle:User')->find(1110);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find(1110);
         $this->assertEquals(0, $user->getPoints());
-        $user = $em->getRepository('JiliApiBundle:User')->find(1113);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find(1113);
         $this->assertEquals(3, $user->getPoints());
         $sendPointFail = $em->getRepository('JiliApiBundle:SendPointFail')->findByUserId(1110);
         $this->assertEquals(4, count($sendPointFail));

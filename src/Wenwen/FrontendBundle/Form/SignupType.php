@@ -59,7 +59,7 @@ class SignupType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Jili\ApiBundle\Entity\User',//这里可以不加，但如果是复杂的嵌套类这个地方就要显式指定
+            'data_class' => 'Wenwen\FrontendBundle\Entity\User',//这里可以不加，但如果是复杂的嵌套类这个地方就要显式指定
             'csrf_protection' => true,
             'intention' => 'register', //名字随便取，即使同一个用户也让这个表单的token和其它表单的token不一致，这样更加安全
             'cascade_validation' => true,//同时验证嵌套的表单

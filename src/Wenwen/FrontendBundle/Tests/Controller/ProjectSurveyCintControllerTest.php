@@ -72,7 +72,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
         //login 后
         $session = $container->get('session');
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
@@ -123,7 +123,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
         //login 后
         $session = $container->get('session');
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
@@ -148,7 +148,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $em = $this->em;
 
         $session = $container->get('session');
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $point_1 = $users[0]->getPoints();
         $user_id = $users[0]->getId();
         $session->set('uid', $user_id);
@@ -195,7 +195,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
             $this->assertEquals(1, $point->getPointChangeNum());
             $this->assertEquals(93, $point->getReason());
 
-            $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->assertEquals($point_1 + 1, $user->getPoints());
         }
     }

@@ -68,7 +68,7 @@ class SopApiController extends Controller
         }
         $user_id = $sop_respondent->getUserId();
 
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         if (!$user) {
             return $this->render400Response('panelist not found');
         }

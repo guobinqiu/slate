@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
 use Symfony\Component\Templating\EngineInterface;
@@ -457,7 +457,7 @@ class SurveyService
             $host = $sop_config['console_host'];
 
             $app_mid = $this->getSopRespondentId($user->getId());
-            $userProfile = $this->em->getRepository('JiliApiBundle:UserProfile')->findOneBy(array('user' => $user));
+            $userProfile = $this->em->getRepository('WenwenFrontendBundle:UserProfile')->findOneBy(array('user' => $user));
 
             $data = array(
                 'app_id' => $app_id,

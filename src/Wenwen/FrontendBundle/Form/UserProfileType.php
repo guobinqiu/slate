@@ -189,7 +189,7 @@ class UserProfileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Jili\ApiBundle\Entity\UserProfile'
+            'data_class' => 'Wenwen\FrontendBundle\Entity\UserProfile'
         ));
     }
 

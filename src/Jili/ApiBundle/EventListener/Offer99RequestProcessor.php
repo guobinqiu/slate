@@ -83,7 +83,7 @@ class Offer99RequestProcessor
         $db_connection->beginTransaction();
 
         // update user.point更新user表总分数
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $user->setPoints(intval($user->getPoints()) + intval($point));
         $user->setLastGetPointsAt(new \DateTime());
 

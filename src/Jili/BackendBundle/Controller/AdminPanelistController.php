@@ -52,9 +52,9 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 // get registered user list
                 if ($values['type_registered'] == 1) {
-                    $registeredCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'registered');
+                    $registeredCount = $em->getRepository('WenwenFrontendBundle:User')->getSearchUserCount($values, 'registered');
                     $registered_page = $page > (int) ceil($registeredCount / $pageSize) ? (int) ceil($registeredCount / $pageSize) : $page;
-                    $arr['registeredUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'registered', $pageSize, $registered_page);
+                    $arr['registeredUserList'] = $em->getRepository('WenwenFrontendBundle:User')->getSearchUserList($values, 'registered', $pageSize, $registered_page);
 
                     foreach ($arr['registeredUserList'] as $key => $value) {
                         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($value['id']);
@@ -64,9 +64,9 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
 
                 // get withdrawal user list
                 if ($values['type_withdrawal'] == 1) {
-                    $withdrawalCount = $em->getRepository('JiliApiBundle:User')->getSearchUserCount($values, 'withdrawal');
+                    $withdrawalCount = $em->getRepository('WenwenFrontendBundle:User')->getSearchUserCount($values, 'withdrawal');
                     $withdrawal_page = $page > (int) ceil($withdrawalCount / $pageSize) ? (int) ceil($withdrawalCount / $pageSize) : $page;
-                    $arr['withdrawalUserList'] = $em->getRepository('JiliApiBundle:User')->getSearchUserList($values, 'withdrawal', $pageSize, $withdrawal_page);
+                    $arr['withdrawalUserList'] = $em->getRepository('WenwenFrontendBundle:User')->getSearchUserList($values, 'withdrawal', $pageSize, $withdrawal_page);
                 }
             }
         }
@@ -99,7 +99,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $completed = $request->query->get('completed');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
         // user not exist
         if (!$user) {
@@ -144,7 +144,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         }
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($values['id']);
 
         // user not exist
         if (!$user) {
@@ -195,7 +195,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         }
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($values['id']);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($values['id']);
 
         // user not exist
         if (!$user) {
@@ -239,7 +239,7 @@ class AdminPanelistController extends Controller implements IpAuthenticatedContr
         $pageSize = $this->container->getParameter('page_size_50');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
         // user not exist
         if (!$user) {

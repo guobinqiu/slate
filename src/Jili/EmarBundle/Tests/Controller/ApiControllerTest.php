@@ -76,7 +76,7 @@ class ApiControllerTest extends WebTestCase
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();
@@ -200,7 +200,7 @@ class ApiControllerTest extends WebTestCase
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();
@@ -316,7 +316,7 @@ class ApiControllerTest extends WebTestCase
 
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
         $session = $container->get('session');
         $session->set('uid', $user->getId()  );
         $session->save();
@@ -468,7 +468,7 @@ class ApiControllerTest extends WebTestCase
         $unique_id = $this->updateUniqueId() ;
         // 1.0 login for session checking.
         $email = 'alice.nima@gmail.com';
-//        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+//        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
 
         $user =LoadUserData::$ROWS[0]; 
         $session = $container->get('session');

@@ -93,7 +93,7 @@ class SsiPartnerController extends Controller
         $values = $form->getData();
 
         if ($form->isValid()) {
-            $user = $em->getRepository('JiliApiBundle:User')->findOneById($request->getSession()->get('uid'));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($request->getSession()->get('uid'));
 
             $ssi_respondent = new SsiRespondent();
             $ssi_respondent->setUser($user);

@@ -30,7 +30,7 @@ class PointsExchangeRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.id,p.userId');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('u.pwd = :pwd');
         $query = $query->andWhere('u.id <> :uid');
         $query = $query->setParameters(array('pwd'=>$pwd,'uid'=>$uid));
@@ -78,7 +78,7 @@ class PointsExchangeRepository extends EntityRepository
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.exchangeDate,p.finishDate,p.status,pt.type');
         $query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pt', 'WITH', 'p.type = pt.id');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('1 = 1');
         if($start){
             $query = $query->andWhere('p.exchangeDate>=:start_time');
@@ -102,7 +102,7 @@ class PointsExchangeRepository extends EntityRepository
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.realName,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pt.type');
         $query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pt', 'WITH', 'p.type = pt.id');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('1 = 1');
         if($start){
             $query = $query->andWhere('p.exchangeDate>=:start_time');
@@ -125,7 +125,7 @@ class PointsExchangeRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.id,p.targetAccount,p.userId,p.sourcePoint,p.targetPoint,p.exchangeDate,p.finishDate,p.status');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('p.userId = :id');
         $query = $query->setParameter('id',$id);
         $query = $query->getQuery();
@@ -148,7 +148,7 @@ class PointsExchangeRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query = $query->select('p.targetAccount,p.userId,p.sourcePoint,p.targetPoint,p.exchangeDate,p.finishDate,p.status');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'p.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('p.userId = :id');
         $query = $query->andWhere('p.status = 1');
         $query = $query->setParameter('id',$id);
