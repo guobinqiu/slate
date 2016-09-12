@@ -68,7 +68,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * @var \Wenwen\FrontendBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Wenwen\FrontendBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
