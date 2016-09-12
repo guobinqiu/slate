@@ -3,11 +3,6 @@ services:
         class: Wenwen\AppBundle\Services\SopHttpfulClient
     ssi_api.conversion_report_iterator:
         class: Wenwen\AppBundle\Services\SsiConversionReportIterator
-    withdraw_handler:
-        class: Wenwen\AppBundle\Services\WithdrawHandler
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
     monolog.logger.sop_notification:
         class: Wenwen\AppBundle\Services\Logger\SopNotificationLogger
         arguments: ["@logger"]

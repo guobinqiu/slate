@@ -1,17 +1,15 @@
 <?php
 
-namespace Jili\FrontendBundle\Form;
+namespace Wenwen\FrontendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
-use Jili\ApiBundle\Entity\VoteChoice;
 
 class VoteSuggestType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title', 'text', array (

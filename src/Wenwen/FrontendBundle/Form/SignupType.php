@@ -1,12 +1,11 @@
 <?php
 
-namespace Jili\FrontendBundle\Form\Type;
+namespace Wenwen\FrontendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Wenwen\FrontendBundle\Form\UserProfileType;
 
 class SignupType extends AbstractType
 {

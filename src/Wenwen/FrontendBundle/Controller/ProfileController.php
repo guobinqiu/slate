@@ -2,163 +2,120 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use Jili\ApiBundle\Entity\User;
+use Jili\ApiBundle\Entity\UserDeleted;
 use Jili\ApiBundle\Entity\UserProfile;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
-use Symfony\Component\Security\Acl\Exception\Exception;
-use Jili\ApiBundle\Validator\Constraints\PasswordRegex;
+use Wenwen\AppBundle\Entity\UserWithdraw;
 use Wenwen\FrontendBundle\Form\UserIconType;
 use Wenwen\FrontendBundle\Form\UserType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Route("/profile")
  */
 class ProfileController extends Controller
 {
-
     /**
-     * @Route("/index", name="_profile_index", options={"expose"=true})
+     * @Route("/index", name="_profile_index", methods={"GET"})
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_profile_index'));
+        $cpForm = $this->createChangePasswordForm();
+        $wdForm = $this->createWithdrawForm();
 
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
-        $csrfProvider = new DefaultCsrfProvider('SECRET');
-        $csrf_token = $csrfProvider->generateCsrfToken('profile');
-        $request->getSession()->set('csrf_token', $csrf_token);
-        $arr['csrf_token'] = $csrf_token;
-
-        $em = $this->getDoctrine()->getManager();
-        $arr['user'] = $em->getRepository('JiliApiBundle:User')->find($request->getSession()->get('uid'));
-
-        return $this->render('WenwenFrontendBundle:Profile:account.html.twig', $arr);
+        return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(
+            'cpForm' => $cpForm->createView(),
+            'wdForm' => $wdForm->createView(),
+        ));
     }
 
     /**
-     * @Route("/changePwd", name="_profile_changepwd", options={"expose"=true}, methods={"POST"})
+     * @Route("/changePwd", name="_profile_changepwd", methods={"POST"})
      */
-    public function changePwdAction()
+    public function changePwdAction(Request $request)
     {
-        $request = $this->get('request');
-        $result['status'] = 0;
+        $wdForm = $this->createWithdrawForm();
+        $cpForm = $this->createChangePasswordForm();
+        $cpForm->bind($request);
 
-        if (!$request->getSession()->get('uid')) {
-            $result['message'] = 'Need login';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
+        if ($cpForm->isValid()) {
+            $formData = $cpForm->getData();
 
-            return $resp;
-        }
-
-        $curPwd = $request->get('curPwd');
-        $pwd = $request->get('pwd');
-        $pwdRepeat = $request->get('pwdRepeat');
-        $csrf_token = $request->get('csrf_token');
-
-        //check csrf_token
-        if (!$csrf_token || ($csrf_token != $request->getSession()->get('csrf_token'))) {
-            $result['message'] = 'Access Forbidden';
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-
-            return $resp;
-        }
-
-        //check input
-        $id = $request->getSession()->get('uid');
-        $error_message = $this->checkPassword($curPwd, $pwd, $pwdRepeat, $id);
-        if ($error_message) {
-            $result['message'] = $error_message;
-            $resp = new Response(json_encode($result));
-            $resp->headers->set('Content-Type', 'application/json');
-
-            return $resp;
-        }
-
-        //update user password
-        try {
+            $session = $request->getSession();
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->find($id);
-            $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_WENWEN);
+            $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
+
+            if ($user == null || !$user->isPwdCorrect($formData['password'])) {
+                $cpForm->addError(new FormError('当前密码不正确'));
+                return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(
+                    'cpForm' => $cpForm->createView(),
+                    'wdForm' => $wdForm->createView(),
+                ));
+            }
+
+            $user->setPwd($formData['new_password']);
             $em->flush();
 
-            $password_crypt_type = $this->container->getParameter('signup.crypt_method');
-            $password_salt = $this->container->getParameter('signup.salt');
-            $password = \Jili\ApiBundle\Utility\PasswordEncoder::encode($password_crypt_type, $pwd, $password_salt);
-            $em->getRepository('JiliApiBundle:UserWenwenLogin')->createOne(array (
-                'user_id' => $id,
-                'password' => $password,
-                'crypt_type' => $password_crypt_type,
-                'salt' => $password_salt
-            ));
-
-            $result['status'] = 1;
-            $result['message'] = $this->container->getParameter('forget_su_pwd');
-        } catch (Exception $e) {
-            $logger = $this->get('logger');
-            $logger->error('{ProfileController:changePwdAction}' . $e->getMessage() . "user id: " . $id);
-
-            $result['message'] = $this->container->getParameter('update_password_fail');
+            $session->getFlashBag()->add('success', '密码修改成功');
+            return $this->redirect($this->generateUrl('_profile_index'));
         }
 
-        $resp = new Response(json_encode($result));
-        $resp->headers->set('Content-Type', 'application/json');
-
-        return $resp;
+        return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(
+            'cpForm' => $cpForm->createView(),
+            'wdForm' => $wdForm->createView(),
+        ));
     }
 
-    public function checkPassword($curPwd, $pwd, $pwdRepeat, $id)
+    /**
+     * @Route("/withdraw", name="_profile_withdraw", methods={"POST"})
+     */
+    public function withdrawAction(Request $request)
     {
-        //check empty
-        if (!$curPwd) {
-            return $this->container->getParameter('change_en_oldpwd');
-        }
+        $cpForm = $this->createChangePasswordForm();
+        $wdForm = $this->createWithdrawForm();
+        $wdForm->bind($request);
 
-        //check empty
-        if (!$pwd || !$pwdRepeat) {
-            return $this->container->getParameter('change_en_newpwd');
-        }
+        if ($wdForm->isValid()) {
+            $formData = $wdForm->getData();
+            $email = $formData['email'];
+            $password = $formData['password'];
+            $reason = $formData['reason'];
 
-        //2次输入的用户密码不相同
-        if ($pwd != $pwdRepeat) {
-            return $this->container->getParameter('change_unsame_pwd');
-        }
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $email));
 
-        //用户密码为5-100个字符，密码至少包含1位字母和1位数字
-        $passwordConstraint = new PasswordRegex();
-        $errorList = $this->get('validator')->validateValue($pwd, $passwordConstraint);
-        if (count($errorList) > 0) {
-            return $this->container->getParameter('change_wr_pwd');
-        }
-
-        //check old password
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
-
-        if ($user && $user->isPasswordWenwen()) {
-            // check wenwen password
-            $wenwenLogin = $em->getRepository('JiliApiBundle:UserWenwenLogin')->findOneByUser($user);
-            if (!$wenwenLogin || !$wenwenLogin->getLoginPasswordCryptType()) {
-                return $this->container->getParameter('change_wr_oldpwd');
+            if ($user == null || !$user->isPwdCorrect($password)) {
+                $wdForm->addError(new FormError('邮箱或密码不正确'));
+                return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(
+                    'cpForm' => $cpForm->createView(),
+                    'wdForm' => $wdForm->createView(),
+                ));
             }
-            if (!$wenwenLogin->isPwdCorrect($curPwd)) {
-                return $this->container->getParameter('change_wr_oldpwd');
-            }
-        } else {
-            // check jili password
-            if ($user && !$user->isPwdCorrect($curPwd)) {
-                return $this->container->getParameter('change_wr_oldpwd');
-            }
+
+            $userDeleted = $this->copyUserToUserDeleted($user);
+            $em->persist($userDeleted);
+            $em->remove($user);
+
+            $userWithdraw = new UserWithdraw();
+            $userWithdraw->setUserId($user->getId());
+            $userWithdraw->setReason($reason);
+            $em->persist($userWithdraw);
+
+            $em->flush();
+            $request->getSession()->clear();
+
+            return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
         }
 
-        return false;
+        return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(
+            'cpForm' => $cpForm->createView(),
+            'wdForm' => $wdForm->createView(),
+        ));
     }
 
     /**
@@ -166,17 +123,13 @@ class ProfileController extends Controller
      */
     public function editAction(Request $request)
     {
-        //没有登录
-        if (!$request->getSession()->has('uid')) {
-            $request->getSession()->set('referer', $this->generateUrl('_profile_edit'));
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
-        $user_id = $request->getSession()->get('uid');
+        $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
-        $provinces = $em->getRepository('JiliApiBundle:ProvinceList')->findAll();
-        $cities = $em->getRepository('JiliApiBundle:CityList')->findAll();
+        $user = $em->getRepository('JiliApiBundle:User')->find($session->get('uid'));
+
+        $userService = $this->get('app.user_service');
+        $provinces = $userService->getProvinces();
+        $cities = $userService->getCities();
 
         //建立user和userProfile之间的双向关联
         if ($user->getUserProfile() == null) {
@@ -197,7 +150,7 @@ class ProfileController extends Controller
                 $userForm->bind($request);
                 if ($userForm->isValid()) {
                     $em->flush();//保存user的同时级联保存userProfile
-                    $request->getSession()->getFlashBag()->add('success', '个人资料修改成功!');
+                    $session->getFlashBag()->add('success', '个人资料修改成功');
                     return $this->redirect($this->generateUrl('_profile_edit'));
                 }
             }
@@ -318,5 +271,77 @@ class ProfileController extends Controller
 
         imagedestroy($src_image);
         imagedestroy($dst_image);
+    }
+
+    private function createChangePasswordForm() {
+        $form = $this->createFormBuilder()
+            ->add('password', 'password', array(
+                'label' => '当前密码',
+                'constraints' => new Assert\NotBlank(array('message' => '请输入当前密码')),
+            ))
+            ->add('new_password', 'repeated', array(
+                'type' => 'password',
+                'invalid_message' => '两次输入的密码不一致',
+                'first_options' => array('label' => '新密码'),
+                'second_options' => array('label' => '确认密码'),
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => '请输入新密码')),
+                    new Assert\Length(array('min' => 5, 'max' => 100)),
+                    new Assert\Regex(array('pattern' => '/^\w+/')),
+                ),
+            ))
+            ->getForm();
+
+        return $form;
+    }
+
+    private function createWithdrawForm() {
+        $form = $this->createFormBuilder()
+            ->add('email', 'email', array(
+                'label' => '请输入您的邮箱',
+                'constraints' => new Assert\NotBlank(array('message' => '请输入您的邮箱地址')),
+            ))
+            ->add('password', 'password', array(
+                'label' => '请输入您的密码',
+                'constraints' => array(
+                    new Assert\NotBlank(array('message' => '请输入您的密码')),
+                    new Assert\Length(array('min' => 5, 'max' => 100)),
+                    new Assert\Regex(array('pattern' => '/^\w+/')),
+                )
+            ))
+            ->add('reason', 'choice', array(
+                'label' => '注销用户的理由',
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => array(
+                    '问卷调查活动的数量太少了' => '问卷调查活动的数量太少了',
+                    '每个问卷的奖励太少了' => '每个问卷的奖励太少了',
+                    '问卷所要的时间太长了' => '问卷所要的时间太长了',
+                    '相对于问题来说，积分报酬太少了' => '相对于问题来说，积分报酬太少了',
+                    '问卷的内容太难了' => '问卷的内容太难了',
+                    '工作生活太忙，没时间参加' => '工作生活太忙，没时间参加',
+                    '失去兴趣了' => '失去兴趣了',
+                )
+            ))
+            ->getForm();
+
+        return $form;
+    }
+
+    private function copyUserToUserDeleted(User $user)
+    {
+        $userDeleted = new UserDeleted();
+        $userReflection = new \ReflectionObject($user);
+        $userDeletedReflection = new \ReflectionObject($userDeleted);
+
+        foreach ($userReflection->getProperties() as $userProperty) {
+            if ($userDeletedReflection->hasProperty($userProperty->getName())) {
+                $userProperty->setAccessible(true);
+                $userDeletedProperty = $userDeletedReflection->getProperty($userProperty->getName());
+                $userDeletedProperty->setAccessible(true);
+                $userDeletedProperty->setValue($userDeleted, $userProperty->getValue($user));
+            }
+        }
+        return $userDeleted;
     }
 }

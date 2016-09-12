@@ -78,7 +78,7 @@ class UserWithdraw
      */
     public function setReason($reason)
     {
-        $this->reason = $reason;
+        $this->reason = implode(';', $reason);
 
         return $this;
     }
@@ -90,7 +90,7 @@ class UserWithdraw
      */
     public function getReason()
     {
-        return $this->reason;
+        return explode(';', $this->reason);
     }
 
     /**

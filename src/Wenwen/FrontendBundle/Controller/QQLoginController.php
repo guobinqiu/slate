@@ -6,12 +6,12 @@ use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\QQUser;
 use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserProfile;
-use Jili\FrontendBundle\Form\Type\LoginType;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Form\LoginType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
@@ -119,7 +119,7 @@ class QQLoginController extends Controller
                 $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $loginForm->addError(new FormError('邮箱或密码错误'));
+                    $loginForm->addError(new FormError('邮箱或密码不正确'));
                     $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }

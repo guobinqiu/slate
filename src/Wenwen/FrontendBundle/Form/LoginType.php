@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\FrontendBundle\Form\Type;
+namespace Wenwen\FrontendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

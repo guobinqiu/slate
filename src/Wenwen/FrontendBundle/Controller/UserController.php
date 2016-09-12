@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Jili\FrontendBundle\Form\Type\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
@@ -11,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Form\LoginType;
 
 /**
  * @Route("/user")
@@ -39,7 +39,7 @@ class UserController extends Controller
                 $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $form->addError(new FormError('邮箱或密码错误'));
+                    $form->addError(new FormError('邮箱或密码不正确'));
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
                 }
 

@@ -9,10 +9,10 @@ use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\FrontendBundle\Form\Type\SignupType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Form\SignupType;
 
 /**
  * @Route("/user")

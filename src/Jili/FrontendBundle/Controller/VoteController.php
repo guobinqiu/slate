@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
-use Jili\FrontendBundle\Form\VoteSuggestType;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Form\VoteSuggestType;
 
 /**
  * @Route("/vote")
