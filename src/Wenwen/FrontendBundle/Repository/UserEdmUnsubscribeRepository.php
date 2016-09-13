@@ -1,5 +1,7 @@
 <?php
-namespace Jili\ApiBundle\Repository;
+
+namespace Wenwen\FrontendBundle\Repository;
+
 use Doctrine\ORM\EntityRepository;
 use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 

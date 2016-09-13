@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Repository;
+namespace Wenwen\FrontendBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
