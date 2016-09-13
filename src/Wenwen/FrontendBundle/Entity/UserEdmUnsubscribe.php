@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UserEdmUnsubscribe
  *
  * @ORM\Table(name="user_edm_unsubscribe", indexes={@ORM\Index(name="user_id", columns={"user_id"})})
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserEdmUnsubscribeRepository")
+ * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserEdmUnsubscribeRepository")
  */
 class UserEdmUnsubscribe
 {

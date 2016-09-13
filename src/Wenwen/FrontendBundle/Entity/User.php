@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * User
  *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="邮箱地址已存在")
  * @ORM\HasLifecycleCallbacks
  */
