@@ -17,12 +17,13 @@ class UserProfileType extends AbstractType
 //            'constraints' => new NotBlank(array('message' => '请选择您的生日')),
 //        ));
         $builder->add('birthday', 'date', array(
-            'label' => '生日（年/月/日）：',
+            'label' => '生日：',
             'constraints' => new NotBlank(array('message' => '请选择您的生日')),
             'widget' => 'choice',
             'input' => 'string',
             'years' => range(date('Y'), date('Y') - 60),
             'format' => 'yyyy/MM/dd',
+            'empty_value' => array('year' => '年', 'month' => '月', 'day' => '日'),
         ));
 
         $builder->add('sex', 'choice', array(
