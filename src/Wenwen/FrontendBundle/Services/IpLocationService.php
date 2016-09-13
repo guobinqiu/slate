@@ -83,7 +83,7 @@ class IpLocationService
      * @param $ipAddress
      * @return $cityName
      */
-    public function getCityName($ipAddress) {
+    private function getCityName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         $cityName = null;
         
