@@ -199,20 +199,15 @@ $(function(){
         }
     );
 
-    //生日下拉框
-    $("input[name*='birthday']").on('click', function(){
-        laydate({
-            start: laydate.now(-30*365), // 默认30岁
-            min: laydate.now(-120*365),  // 最大120岁
-            max: laydate.now(-5*365),    // 最小5岁
-        });
-    });
-
     //输入个人信息的提示
-    $("input[name*='birthday']").focus(function(){
-        $('.proPrompt').show();
-    });
-    $("input[name*='birthday']").blur(function(){
-        $('.proPrompt').hide();
+    // $("#signup_userProfile_birthday").focus(function(){
+    //     $('.proPrompt').show();
+    // });
+    // $("#signup_userProfile_birthday").blur(function(){
+    //     $('.proPrompt').hide();
+    // });
+
+    $("#signup_userProfile_birthday").change(function(){
+        $('.proPrompt').show().delay(10000).hide();
     });
 });

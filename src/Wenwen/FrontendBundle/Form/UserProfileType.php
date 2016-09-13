@@ -22,7 +22,7 @@ class UserProfileType extends AbstractType
             'widget' => 'choice',
             'input' => 'string',
             'years' => range(date('Y'), date('Y') - 60),
-            'format' => 'yyyy/MM/dd',
+            'format' => 'yyyy MM dd',
         ));
 
         $builder->add('sex', 'choice', array(
