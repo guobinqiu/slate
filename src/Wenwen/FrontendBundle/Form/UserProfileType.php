@@ -20,9 +20,9 @@ class UserProfileType extends AbstractType
             'label' => '生日：',
             'constraints' => new NotBlank(array('message' => '请选择您的生日')),
             'widget' => 'choice',
-            //'input' => 'string',
+            'input' => 'string',
             'years' => range(date('Y') - 5, date('Y') - 100),
-            'format' => 'yyyy MM dd',
+            'format' => 'yyyy/MM/dd',
             'empty_value' => array('year' => '年', 'month' => '月', 'day' => '日'),
         ));
 
