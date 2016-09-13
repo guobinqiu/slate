@@ -143,7 +143,7 @@ class IpLocationService
     * @param $responseBody
     * @return array()
     */
-    public function processResponseJson($responseBody){
+    private function processResponseJson($responseBody){
         $rtn = array(
             'status' => false,
             'errmsg' => '',
