@@ -1,12 +1,11 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Tests\Services;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-
-use Jili\ApiBundle\Entity\CityList;
+use Wenwen\FrontendBundle\Entity\CityList;
 
 class IpLocationServiceTest extends WebTestCase
 {
