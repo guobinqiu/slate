@@ -51,16 +51,16 @@
 						<div class="bindInput">
 							<div class="regSex">
 								<select id="province" name="{{ userForm.province.vars.full_name }}">
-									<option value="">省、市</option>
+									<option value="">省</option>
 									{% for province in provinces %}
-										<option value="{{ province.id}}">{{ province.provinceName }}</option>
+										<option value="{{ province.id}}"{% if currentProvinceId is defined and province.id == currentProvinceId %} selected="selected"{% endif %}>{{ province.provinceName }}</option>
 									{% endfor %}
 								</select>
 
 								<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
-									<option data-province="" value="">地区</option>
+									<option data-province="" value="">市</option>
 									{% for city in cities %}
-										<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}">{{ city.cityName }}</option>
+										<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}"{% if currentCityId is defined and city.cityId == currentCityId %} selected="selected"{% endif %}>{{ city.cityName }}</option>
 									{% endfor %}
 								</select>
 							</div>

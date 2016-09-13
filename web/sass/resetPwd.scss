@@ -112,4 +112,12 @@
 		color: $error-color;
 	}
 }
+.form{
+	span{
+		&.focus{
+			border: none;
+			background: none;
+		}
+	}
+} 
 @import "layout/footer-simple";

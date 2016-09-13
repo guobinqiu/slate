@@ -105,6 +105,14 @@ class WeiboLoginController extends Controller
             'userForm' => $userForm->createView(),
         );
 
+        $ipLocationService = $this->get('app.ip_location_service');
+        $locationId = $ipLocationService->getLocationId($request->getClientIp());
+
+        if($locationId['status']){
+            $params['currentProvinceId'] = $locationId['provinceId'];
+            $params['currentCityId'] = $locationId['cityId'];
+        }
+
         if ($request->getMethod() == 'POST') {
             $loginForm->bind($request);
 
