@@ -200,14 +200,16 @@ $(function(){
     );
 
     //输入个人信息的提示
-    // $("#signup_userProfile_birthday").focus(function(){
-    //     $('.proPrompt').show();
-    // });
-    // $("#signup_userProfile_birthday").blur(function(){
-    //     $('.proPrompt').hide();
-    // });
-
-    $("#signup_userProfile_birthday").change(function(){
-        $('.proPrompt').show().delay(10000).hide();
+    $("#signup_userProfile_sex>input").change(function(){
+            var tId;
+            if (this.checked) {
+                $(".proPrompt").hide().show();
+                clearTimeout(tId);
+                tId=setTimeout(function(){
+                  $(".proPrompt").hide();        
+                }, 5000);
+            }
     });
+   
+
 });

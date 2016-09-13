@@ -261,10 +261,10 @@
 	form{
 		ul{
 			padding-bottom: 15px;
-			// padding-top: 6px;
 		}
 	}
 	li{
+		text-align: left;
 		&.subscribe{
 			text-align: left;
 			padding: 2px 10px;
@@ -369,6 +369,7 @@
 			line-height: 21px; 
 			padding: 5px;
 			top: -55px;
+			left: 0;
 			@include border-radius(8px);
 			span{
 				position: relative;
@@ -397,6 +398,8 @@
 			    border: none;
 			    height: 22px;
 			    color: #333;
+			    font-size: 14px;
+			    font-family: "Microsoft YaHei";
 			}
 		}
 	}

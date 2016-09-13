@@ -113,6 +113,34 @@ html,body{
 				    border: none;
 				    height: 22px;
 				    color: #333;
+				    font-size: 14px;
+				    font-family: "Microsoft YaHei";
+				}
+			}
+			.proPrompt{
+				display: none;
+				position: absolute; 
+				background: rgba(0,0,0,.8); 
+				background: #575757\9;
+				color: #fff; 
+				text-align: left; 
+				line-height: 21px; 
+				padding: 5px;
+				top: -65px;
+				left: 0;
+				@include border-radius(8px);
+				span{
+					position: relative;
+					line-height: 22px;
+					i{
+						position: absolute;
+					    bottom: -21px;
+					    left: -20px;
+					    color: rgba(0,0,0,.8);
+					    color: #575757\9;
+					    font-size: 26px!important;
+					    margin-left: 33px;
+					}
 				}
 			}
 		}
