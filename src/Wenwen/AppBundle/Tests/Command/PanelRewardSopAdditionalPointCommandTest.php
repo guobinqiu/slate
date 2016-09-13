@@ -225,7 +225,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $this->assertEquals('2', $history_list[0]->getQuotaId());
         $this->assertEquals($app_mid, $history_list[0]->getAppMemberId());
         $this->assertEquals('100', $history_list[0]->getPoint());
-        $this->assertEquals('92', $history_list[0]->getType());
+        $this->assertEquals('11', $history_list[0]->getType());
         $this->assertEquals('uniq6', $history_list[0]->getHash());
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getUpdatedAt()->format('Y-m-d'));
@@ -234,7 +234,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $this->assertEquals('2', $history_list[1]->getQuotaId());
         $this->assertEquals($app_mid, $history_list[1]->getAppMemberId());
         $this->assertEquals('100', $history_list[1]->getPoint());
-        $this->assertEquals('93', $history_list[1]->getType());
+        $this->assertEquals('61', $history_list[1]->getType());
         $this->assertEquals('uniq7', $history_list[1]->getHash());
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
