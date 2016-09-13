@@ -103,7 +103,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         $history_model->setFulcrumProjectQuotaID($history['quota_id']);
         $history_model->setAppMemberID($history['app_mid']);
         $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($this->type($history));
+        $history_model->setType($history['extra_info']['point_type']);
         $em->persist($history_model);
         $em->flush();
     }
