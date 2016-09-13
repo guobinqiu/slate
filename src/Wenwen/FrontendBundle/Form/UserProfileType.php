@@ -11,10 +11,18 @@ class UserProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('birthday', 'text', array(
-            'label' => '生日：',
-            'read_only' => 'true',
+//        $builder->add('birthday', 'text', array(
+//            'label' => '生日：',
+//            'read_only' => 'true',
+//            'constraints' => new NotBlank(array('message' => '请选择您的生日')),
+//        ));
+        $builder->add('birthday', 'date', array(
+            'label' => '生日（年/月/日）：',
             'constraints' => new NotBlank(array('message' => '请选择您的生日')),
+            'widget' => 'choice',
+            'input' => 'string',
+            'years' => range(date('Y'), date('Y') - 60),
+            'format' => 'yyyy/MM/dd',
         ));
 
         $builder->add('sex', 'choice', array(
