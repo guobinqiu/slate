@@ -10,7 +10,7 @@
 	color: #666;
 	.successMess{
 		width: 150px;
-		margin: 0 auto;
+	    margin-left: 133px;
 		height: 30px;
 		line-height: 30px; 
 		text-align: center;
@@ -21,7 +21,6 @@
 	}
 	li{
 		padding: 15px 0;
-		border-bottom: 1px dashed #dedee0;
 		.default_value{
 			display: inline-block;
 		}
@@ -29,6 +28,9 @@
 			.default_value{
 				display: none;
 			}
+		}
+		&:first-child{
+			border-bottom: 1px dashed #dedee0;
 		}
 	}
 	label{
@@ -41,7 +43,7 @@
 				font-weight: normal;
 				display: inline;
 				float: right;
-				color: $weak-color;
+				color: #95A3B1;
 				i{
 					margin-right: 7px;
 				}
@@ -51,10 +53,6 @@
 	a{
 		float: right;
 		color: $button-blue;
-	}
-	input[type='checkbox']{
-		vertical-align: -6px;
-		margin-right: 3px;
 	}
 	.form{
 		li{
@@ -96,7 +94,7 @@
 		}
 	}
 	.backError, .pwdBackError{
-		padding-left: 120px;
+		padding-left: 128px;
 		color: $error-color;
 	}
 	.con{
@@ -144,6 +142,7 @@
 				@include btn();
 				@include dib();
 				vertical-align: middle;
+				-webkit-appearance: none;
 				&.backStep{
 					background: #c7c7c7;
 					border: 1px solid #c7c7c7;
@@ -160,14 +159,15 @@
 				&.reason{
 					margin-top: 22px;
 					li{
-						margin-top: 10px;
-						line-height: 24px;
+						line-height: 30px;
 						label{
 							width: auto;
 							vertical-align: top;
 						}
 						input[type='email'],input[type='password']{
 							width: 200px;
+							height: 32px;
+							line-height: 32px;
 						}
 						#form_reason{
 							width: 74%;
@@ -175,6 +175,10 @@
 							label{
 								display: inline;
 							}
+						}
+						input[type='checkbox']{
+							vertical-align: -3px;
+							margin-right: 3px;
 						}
 					}
 				}
