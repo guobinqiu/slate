@@ -117,7 +117,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         $history_model->setQuotaId($history['quota_id']);
         $history_model->setAppMemberID($history['app_mid']);
         $history_model->setPoint($this->point($history));
-        $history_model->setType($this->type($history));
+        $history_model->setType($history['extra_info']['point_type']);
         $history_model->setHash($history['hash']);
         $em->persist($history_model);
         $em->flush();

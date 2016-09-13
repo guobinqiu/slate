@@ -264,7 +264,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $this->assertEquals('10002', $history_list[0]->getCintProjectQuotaID());
         $this->assertEquals($app_mid, $history_list[0]->getAppMemberID());
         $this->assertEquals('30', $history_list[0]->getPoint());
-        $this->assertEquals('92', $history_list[0]->getType());
+        $this->assertEquals(11, $history_list[0]->getType());
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[0]->getUpdatedAt()->format('Y-m-d'));
 
@@ -272,7 +272,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $this->assertEquals('20002', $history_list[1]->getCintProjectQuotaID());
         $this->assertEquals($app_mid, $history_list[1]->getAppMemberID());
         $this->assertEquals('100', $history_list[1]->getPoint());
-        $this->assertEquals('92', $history_list[1]->getType());
+        $this->assertEquals(11, $history_list[1]->getType());
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
