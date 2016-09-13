@@ -15,8 +15,8 @@ sub select_sop_participation_history {
                 DATE_FORMAT(sp.created_at, '%Y%m') AS yyyymm,
                 sp.partner_app_project_id AS app_project_id, 
                 CASE sp.type 
-                    WHEN 92 THEN 'COST'
-                    WHEN 93 THEN 'EXPENSE'
+                    WHEN 11 THEN 'COST'
+                    WHEN 61 THEN 'EXPENSE'
                     ELSE 'ERROR'
                 END AS point_type, 
                 sum(sp.point) AS point
