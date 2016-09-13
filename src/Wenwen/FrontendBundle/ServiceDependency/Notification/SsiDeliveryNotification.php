@@ -55,7 +55,7 @@ class SsiDeliveryNotification implements DeliveryNotification
     }
 
     private function isSubscribed($recipient) {
-        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
         return count($userEdmUnsubscribes) == 0;
     }
 

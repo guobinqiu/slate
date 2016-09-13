@@ -5,8 +5,8 @@ namespace Wenwen\AppBundle\Tests\Repository;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SsiRespondentRepositoryTest extends KernelTestCase

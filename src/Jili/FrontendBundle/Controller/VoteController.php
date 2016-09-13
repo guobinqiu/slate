@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
-use Jili\FrontendBundle\Form\VoteSuggestType;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Form\VoteSuggestType;
 
 /**
  * @Route("/vote")
@@ -266,7 +266,7 @@ class VoteController extends Controller
         $db_connection->beginTransaction();
 
         // update user.point更新user表总分数
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $oldPoint = $user->getPoints();
         $user->setPoints(intval($oldPoint + $point));
         $user->setLastGetPointsAt(new \DateTime());
@@ -379,7 +379,7 @@ class VoteController extends Controller
         $request = $this->get('request');
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $engine = $this->container->get('templating');
         $content = $engine->render('WenwenFrontendBundle:Vote:mailbody.html.twig', array (
             'email' => $user->getEmail(),

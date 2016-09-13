@@ -11,7 +11,7 @@ class CardRecordedRemainRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('crr');
         $query = $query->select('crr.id,crr.remainCount');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'crr.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'crr.userId = u.id');
         $query = $query->andWhere('u.id like :uid or u.email like :uid');
         $query = $query->setParameter('uid',$uid_flag);
         $query =  $query->getQuery();

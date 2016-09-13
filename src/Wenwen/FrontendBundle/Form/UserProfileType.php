@@ -11,10 +11,19 @@ class UserProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('birthday', 'text', array(
+//        $builder->add('birthday', 'text', array(
+//            'label' => '生日：',
+//            'read_only' => 'true',
+//            'constraints' => new NotBlank(array('message' => '请选择您的生日')),
+//        ));
+        $builder->add('birthday', 'birthday', array(
             'label' => '生日：',
-            'read_only' => 'true',
             'constraints' => new NotBlank(array('message' => '请选择您的生日')),
+            'widget' => 'choice',
+            'input' => 'string',
+            'years' => range(date('Y') - 5, date('Y') - 100),
+            'format' => 'yyyy/MM/dd',
+            'empty_value' => array('year' => '年', 'month' => '月', 'day' => '日'),
         ));
 
         $builder->add('sex', 'choice', array(
@@ -189,7 +198,7 @@ class UserProfileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Jili\ApiBundle\Entity\UserProfile'
+            'data_class' => 'Wenwen\FrontendBundle\Entity\UserProfile'
         ));
     }
 

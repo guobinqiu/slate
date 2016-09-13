@@ -70,7 +70,7 @@ class DefaultControllerTest extends WebTestCase
         //$email = 'alice.nima@gmail.com';
         $users = LoadDefaultRedirectCodeData::$ROWS;
 
-        $user = $users[0];//$em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $users[0];//$em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
 
         // urls by 1. open api product; 2. visitor redirect; 3.user redirect; 4. yiqifa api
         //      to 1. amazon.cn 2. generals.

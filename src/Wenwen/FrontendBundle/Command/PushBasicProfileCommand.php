@@ -27,7 +27,7 @@ class PushBasicProfileCommand extends ContainerAwareCommand
         $parameterService = $this->getContainer()->get('app.parameter_service');
 
         $user_id = $input->getOption('user_id');
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $success = $surveyService->pushBasicProfile($user);
         if ($success) {
             $points = $parameterService->getParameter('sop')['point']['profile'];

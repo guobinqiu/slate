@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Jili\ApiBundle\Entity\OfferwowOrder;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Services\OfferwowRequestService;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
@@ -645,7 +645,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $taskHistory = $taskRepository->findOneBy(array( 'orderId'=> $offerwow_order->getId(),'taskType'=> TaskType::CPA) );
         $pointHistoryRepository = $this->em->getRepository('JiliApiBundle:PointHistory0'. ($memberid % 10));
         $pointHistory = $pointHistoryRepository->findOneByUserId($memberid);
-        $user = $this->em->getRepository('JiliApiBundle:User')->find($memberid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($memberid);
 
         // 检查数据
         $this->assertTrue($result, 'eventid=[' . $eventid . '] is not properly processed.');

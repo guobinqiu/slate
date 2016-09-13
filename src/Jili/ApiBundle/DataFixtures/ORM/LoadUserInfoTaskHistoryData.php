@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\TaskHistory00;
 use Jili\ApiBundle\Entity\TaskHistory01;
 use Jili\ApiBundle\Entity\TaskHistory02;

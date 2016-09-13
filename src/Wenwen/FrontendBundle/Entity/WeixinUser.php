@@ -1,14 +1,14 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="qq_user")
+ * @ORM\Table(name="weixin_user")
  * @ORM\Entity
  */
-class QQUser
+class WeixinUser
 {
     /**
      * @var integer
@@ -48,6 +48,13 @@ class QQUser
      * @ORM\Column(name="gender", type="string")
      */
     private $gender;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="union_id", type="string", nullable=true)
+     */
+    private $unionId;
 
     public function getId()
     {
@@ -110,5 +117,17 @@ class QQUser
     public function getGender()
     {
         return $this->gender;
+    }
+
+    public function setUnionId($unionId)
+    {
+        $this->unionId = $unionId;
+
+        return $this;
+    }
+
+    public function getUnionId()
+    {
+        return $this->unionId;
     }
 }

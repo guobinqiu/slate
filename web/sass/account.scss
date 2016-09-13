@@ -4,12 +4,13 @@
 @import "layout/header";
 @import "component/personal";
 @import "component/form";
+@import "font-awesome/scss/font-awesome.scss";
 .main-personal-account{
 	padding: 20px 45px 50px;
 	color: #666;
 	.successMess{
 		width: 150px;
-		margin: 0 auto;
+	    margin-left: 133px;
 		height: 30px;
 		line-height: 30px; 
 		text-align: center;
@@ -20,8 +21,6 @@
 	}
 	li{
 		padding: 15px 0;
-		line-height: 45px;
-		border-bottom: 1px dashed #dedee0;
 		.default_value{
 			display: inline-block;
 		}
@@ -30,22 +29,30 @@
 				display: none;
 			}
 		}
+		&:first-child{
+			border-bottom: 1px dashed #dedee0;
+		}
 	}
 	label{
-		width: 105px;
-		font-size: 14px;
-		font-weight: bold;
-		color: #333;
-		@include dib();
-		vertical-align: top;
+		&.tit{
+			font-size: 14px;
+			font-weight: bold;
+			color: #333;
+			p{
+				font-size: 13px;
+				font-weight: normal;
+				display: inline;
+				float: right;
+				color: #95A3B1;
+				i{
+					margin-right: 7px;
+				}
+			}
+		}
 	}
 	a{
 		float: right;
 		color: $button-blue;
-	}
-	input[type='checkbox']{
-		vertical-align: middle;
-		margin-right: 5px;
 	}
 	.form{
 		li{
@@ -87,20 +94,18 @@
 		}
 	}
 	.backError, .pwdBackError{
-		padding-left: 120px;
+		padding-left: 128px;
 		color: $error-color;
 	}
 	.con{
 		padding: 15px 30px;
-		display: none;
 		li{
 			margin-top: 10px;
 			padding: 0;
-			line-height: 30px;
 			border-bottom: none;
 			label{
+				min-width: 14%;
 				margin-right: 30px;
-				width: 85px;
 				text-align: right;
 				font-size: 12px;
 				font-weight: normal;
@@ -108,16 +113,27 @@
 				height: 32px;
 				line-height: 32px;
 			}
-		}
-		p{
-			line-height: 24px;
-		}
-		em{
-			margin-right: 5px;
+			.pwdFrontEr{
+				display: inline-block;
+				ul{
+		            text-align: left;
+		            li{
+		                height: 30px;
+		                color: #a94442;
+		                background-color: #f2dede;
+		                border: 1px solid #ebccd1;
+		                line-height: 30px;
+		                margin: 0;
+		                padding: 0 5px;
+		                display: inline-block;
+		                @include border-radius(3px);
+		            }
+	        	}
+			}
 		}
 		.btn{
-			padding:20px 0 0 120px;
-			span{
+			padding:20px 0 0 133px;
+			input{
 				margin-right: 10px;
 				width: 74px;
 				text-align: center;
@@ -126,6 +142,7 @@
 				@include btn();
 				@include dib();
 				vertical-align: middle;
+				-webkit-appearance: none;
 				&.backStep{
 					background: #c7c7c7;
 					border: 1px solid #c7c7c7;
@@ -138,58 +155,33 @@
 			}
 		}
 		&.withdraw{
-			span{
-				@include dib();
-				vertical-align: top;
-				margin-left: 0;
-				padding-left: 0;
-				&.focus{
-					display:none;
-				}
-			}
 			ul{
-				&.tips{
-					margin-top: 10px;
-				}
 				&.reason{
-					margin-top: 10px;
-					padding: 10px 0;
-					border: $block-inner-border;
-					#email{
-						padding-left: 5px;
-					}
-					span{
-						padding-left: 5px;
-						&#reasons{
-							padding-left: 0px;
+					margin-top: 22px;
+					li{
+						line-height: 30px;
+						label{
+							width: auto;
+							vertical-align: top;
+						}
+						input[type='email'],input[type='password']{
+							width: 200px;
+							height: 32px;
+							line-height: 32px;
+						}
+						#form_reason{
+							width: 74%;
+						    display: inline-block;
+							label{
+								display: inline;
+							}
+						}
+						input[type='checkbox']{
+							vertical-align: -3px;
+							margin-right: 3px;
 						}
 					}
 				}
-				&.reason-options{
-					li{
-						margin-top: 0;
-					}
-					span{
-						width: 210px;
-						padding-left: 0px;
-					}
-				} 
-				label{
-					width: 110px;
-				}
-			}
-			li{
-				margin-top: 5px;
-				line-height: 24px;
-			}
-			.btn{
-				padding:10px 0 0 0;
-				span{
-					width: 110px;
-				}
-			}
-			.backError{
-				padding-left: 0px;
 			}
 		}
 	}

@@ -97,9 +97,9 @@ class PointManageProcessor {
 
             $user = "";
             if ($user_id) {
-                $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             } else {
-                $user = $em->getRepository('JiliApiBundle:User')->getUserByEmail($email);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->getUserByEmail($email);
             }
             if (!$user) {
                 $message = "account not exist";

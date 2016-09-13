@@ -9,7 +9,6 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader as DataFixtureLoader;
 use Doctrine\Common\DataFixtures\Loader;
 
-use Jili\ApiBundle\DataFixtures\ORM\UserEdmUnsubscribeData;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserConfigurationsRepositoryCodeData;
 
 class UserConfigurationsRepositoryTest  extends KernelTestCase 

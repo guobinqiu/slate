@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserSopData;
 use Wenwen\AppBundle\Controller\SopApiController;
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SopRespondent;
 use Wenwen\AppBundle\Entity\SopProfilePoint;
 
@@ -204,7 +204,7 @@ class SopApiControllerTest extends WebTestCase
 //        $this->assertEquals(1, $point->getPointChangeNum());
 //        $this->assertEquals(93, $point->getReason());
 //
-//        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+//        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 //        $this->assertEquals(101, $user->getPoints());
 //    }
 //

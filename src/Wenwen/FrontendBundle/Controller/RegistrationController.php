@@ -3,16 +3,16 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserProfile;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Jili\FrontendBundle\Form\Type\SignupType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Form\SignupType;
 
 /**
  * @Route("/user")
@@ -61,7 +61,7 @@ class RegistrationController extends Controller
                 $em->flush();
 
                 if ($form->get('subscribe')->getData() != true) {
-                    $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne($user->getId());
+                    $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
                 $this->send_confirmation_email($user, $em);
@@ -99,7 +99,7 @@ class RegistrationController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array(
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
             'confirmationToken' => $confirmation_token,
             'isEmailConfirmed' => User::EMAIL_NOT_CONFIRMED,
         ));

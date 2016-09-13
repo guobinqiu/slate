@@ -67,7 +67,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     public function handleSendPointFail($em, $failTime, $templatePath, $subject, $pointType)
     {
-        $user = $em->getRepository('JiliApiBundle:User')->pointFail($failTime);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->pointFail($failTime);
         echo "select count : ".count($user)."\n";
         echo 'memory after user:'.memory_get_usage()."\n";
         if(!empty($user)){
@@ -122,7 +122,7 @@ class DmdeliveryCommand extends ContainerAwareCommand
 
     private function updatePointZero($em, $userId)
     {
-        $user = $em->getRepository('JiliApiBundle:User')->find($userId);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $oldPoint = $user->getPoints();
         $user->setPoints($this->getContainer()->getParameter('init'));
         // Create new object of point_history0x

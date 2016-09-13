@@ -142,7 +142,7 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->assertNotEmpty($ssi_respondent);
         $this->assertEquals(0, $ssi_respondent->getStatusFlag());
 
-        $user = $em->getRepository('JiliApiBundle:User')->find($user->getId());
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals(SsiPartnerControllerTestFixture::$USER->getPoints() + 1, $user->getPoints());
     }
 
@@ -227,7 +227,7 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->assertNotEmpty($ssi_respondent);
         $this->assertEquals(10, $ssi_respondent->getStatusFlag());
 
-        $user = $this->em->getRepository('JiliApiBundle:User')->find($user->getId());
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals(SsiPartnerControllerTestFixture::$USER->getPoints() + 1, $user->getPoints());
     }
 
@@ -276,7 +276,7 @@ class SsiPartnerControllerTestFixture implements FixtureInterface, ContainerAwar
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setIsEmailConfirmed(1);

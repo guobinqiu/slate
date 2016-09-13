@@ -27,7 +27,7 @@ class ResetPasswordCommand extends ContainerAwareCommand
         }
 
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
 
         if ($user == null) {
             $output->writeln('User does not exist.');

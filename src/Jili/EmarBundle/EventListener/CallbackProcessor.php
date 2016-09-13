@@ -203,7 +203,7 @@ class CallbackProcessor
 
                 $point = $taskHistory->getPoint();
 
-                $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
                 $user->setPoints(intval($user->getPoints()) +$point);
                 $em->persist($user);
                 $em->flush();

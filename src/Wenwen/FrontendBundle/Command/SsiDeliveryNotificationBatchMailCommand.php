@@ -44,7 +44,7 @@ class SsiDeliveryNotificationBatchMailCommand extends AbstractBatchMailCommand {
                 $name1 = $email;
             }
             if ($email) {
-                $userEdmUnsubscribes = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+                $userEdmUnsubscribes = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
                 if(count($userEdmUnsubscribes) == 0){
                     $subject = '亲爱的'.$name1.'，您的新问卷来了！';
                     $surveyTitle = 'SSI海外调查';

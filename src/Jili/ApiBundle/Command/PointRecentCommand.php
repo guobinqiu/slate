@@ -37,7 +37,7 @@ EOT
             $filename = $this->getApplication()->getKernel()->getCacheDir().'/point_recent.cache' ;
         }
 
-        $newActivity = $em->getRepository('JiliApiBundle:User')->getRecentPoint($yesterday);
+        $newActivity = $em->getRepository('WenwenFrontendBundle:User')->getRecentPoint($yesterday);
 
         $file_path = dirname($filename);
         $fs = new Filesystem();

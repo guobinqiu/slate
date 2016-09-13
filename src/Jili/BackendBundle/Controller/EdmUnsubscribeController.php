@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
+use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 /**
  * @Route("/edm/unsubscribe")
@@ -25,7 +25,7 @@ class EdmUnsubscribeController extends Controller  implements  IpAuthenticatedCo
         $email = $this->get('request')->query->get('email', '');
 
         $em = $this->getDoctrine()->getManager();
-        $arr['userEdms'] = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail(trim($email));
+        $arr['userEdms'] = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail(trim($email));
 
         return $this->render('JiliBackendBundle:EdmUnsubscribe:list.html.twig', $arr);
     }
@@ -75,7 +75,7 @@ class EdmUnsubscribeController extends Controller  implements  IpAuthenticatedCo
         }
 
         //check email exist
-        $user = $em->getRepository('JiliApiBundle:User')->findByEmail($email);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
         if (!$user) {
             return array (
                 'message' => $this->container->getParameter('chnage_no_email')
@@ -83,7 +83,7 @@ class EdmUnsubscribeController extends Controller  implements  IpAuthenticatedCo
         }
 
         //check UserEdmUnsubscribe exist
-        $edm = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByUserId($user[0]->getId());
+        $edm = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByUserId($user[0]->getId());
         if ($edm) {
             return array (
                 'message' => $this->container->getParameter('user_edm_unsubscribe_is_exist')

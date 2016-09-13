@@ -126,7 +126,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
         $app_mid =  $respondents[0]->getId();
 
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user_id =  $users[0]->getId();
 
         // data
@@ -215,7 +215,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SopRespondent;
 
 class PanelRewardFulcrumPointCommandTestFixture implements FixtureInterface

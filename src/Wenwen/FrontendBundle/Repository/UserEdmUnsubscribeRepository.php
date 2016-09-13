@@ -1,14 +1,16 @@
 <?php
-namespace Jili\ApiBundle\Repository;
+
+namespace Wenwen\FrontendBundle\Repository;
+
 use Doctrine\ORM\EntityRepository;
-use Jili\ApiBundle\Entity\UserEdmUnsubscribe;
+use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 class UserEdmUnsubscribeRepository extends EntityRepository {
 
     public function findByEmail($email = null) {
         $query = $this->createQueryBuilder('edm');
         $query = $query->select('edm.userId, edm.createdTime, u.email');
-        $query = $query->innerJoin('JiliApiBundle:User', 'u', 'WITH', 'edm.userId = u.id');
+        $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'edm.userId = u.id');
         if ($email) {
             $query = $query->Where('u.email = :email');
             $query = $query->setParameters(array (

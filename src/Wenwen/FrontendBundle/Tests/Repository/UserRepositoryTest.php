@@ -65,16 +65,16 @@ class UserRepositoryTest extends KernelTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 
-        $user = $em->getRepository('JiliApiBundle:User')->pointFail(180);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->pointFail(180);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
         $this->assertEquals(1115, $user[1]['id']);
 
-        $user = $em->getRepository('JiliApiBundle:User')->pointFail(150);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->pointFail(150);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1110, $user[0]['id']);
 
-        $user = $em->getRepository('JiliApiBundle:User')->pointFail(173);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->pointFail(173);
         $this->assertEquals(2, count($user));
         $this->assertEquals(1115, $user[1]['id']);
     }
@@ -107,20 +107,20 @@ class UserRepositoryTest extends KernelTestCase
         $category_id = '';
         $email = '';
         $user_id = '';
-        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
         ;
         $this->assertCount(3, $user);
 
         $email = 'alice.nima@gmail.com';
         $start_time = date('Y-m-d');
         $end_time = date('Y-m-d');
-        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
         ;
         $this->assertCount(3, $user);
 
         $user = LoadUserInfoCodeData::$USERS[0];
         $user_id = $user->getId();
-        $user = $em->getRepository('JiliApiBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->addPointHistorySearch($start_time, $end_time, $category_id, $email, $user_id);
         ;
         $this->assertCount(3, $user);
     }

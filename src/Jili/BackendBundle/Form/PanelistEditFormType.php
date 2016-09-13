@@ -58,8 +58,6 @@ class PanelistEditFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array (
-            //'data_class' => 'Jili\ApiBundle\Entity\User',
-            //'data_class' => NULL,
             'csrf_protection' => true,
             'csrf_field_name' => 'token',
             'intention' => 'task_item'

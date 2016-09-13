@@ -20,7 +20,7 @@ class ComponentController extends Controller
         $id = $request->getSession()->get('uid');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
 
         return $this->render('WenwenFrontendBundle:Components:_headerNav.html.twig', array (
             'user' => $user
@@ -35,7 +35,7 @@ class ComponentController extends Controller
         $id = $request->getSession()->get('uid');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->find($id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
 
         return $this->render('WenwenFrontendBundle:Components:_homeBar.html.twig', array (
             'user' => $user

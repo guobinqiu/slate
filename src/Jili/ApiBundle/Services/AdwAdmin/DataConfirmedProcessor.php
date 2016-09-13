@@ -194,7 +194,7 @@ class DataConfirmedProcessor
                     'point'=> $point,
                     'type' => AdCategory::ID_ADW_CPS)); 
 
-            $user = $em->getRepository('JiliApiBundle:User')
+            $user = $em->getRepository('WenwenFrontendBundle:User')
                 ->updatePointById(array(
                     'id'=> $userId,
                     'points'=> $point));

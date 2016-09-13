@@ -43,7 +43,8 @@
 					</li>
 					<li class="liner">
 						<div class="bindInput">
-							<div class="regSex">{{ form_widget(userForm.birthday, {'attr': {'placeholder': '生日'}}) }}</div>
+							<div class="birthLab">{{ form_label(userForm.birthday) }}</div>
+							<div class="birthSel regSex">{{ form_widget(userForm.birthday) }}</div>
 							<div class="error">{{ form_errors(userForm.birthday) }}</div>
 						</div>
 					</li>

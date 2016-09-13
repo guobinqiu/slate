@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\ActivityGatheringTaobaoOrder;
 
 class LoadInsertData extends AbstractFixture implements  FixtureInterface {

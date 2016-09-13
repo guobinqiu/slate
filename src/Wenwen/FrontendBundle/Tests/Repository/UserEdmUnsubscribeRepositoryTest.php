@@ -58,11 +58,11 @@ class UserEdmUnsubscribeRepositoryTest extends KernelTestCase {
         $em = $this->em;
 
         $email = null;
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($email);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         $this->assertEquals('2', count($return));
 
         $email = 'zhangmm@voyagegroup.com.cn';
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($email);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         $this->assertEquals('1', count($return));
         $this->assertEquals($email, $return[0]['email']);
     }
@@ -70,15 +70,15 @@ class UserEdmUnsubscribeRepositoryTest extends KernelTestCase {
     public function testInsertOne() 
     {
         $em = $this->em;
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne('aaa');
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne('aaa');
         $this->assertNull($return);
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(-1);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne(-1);
         $this->assertNull($return);
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(0);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne(0);
         $this->assertNull($return);
 
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->insertOne(1000);
-        $return = $em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByUserId(1000);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne(1000);
+        $return = $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByUserId(1000);
         $this->assertEquals('1', count($return));
     }
 

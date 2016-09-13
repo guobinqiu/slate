@@ -39,9 +39,9 @@ class SsiRespondent
     private $userId;
 
     /**
-     * @var \Jili\ApiBundle\Entity\User
+     * @var \Wenwen\FrontendBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Wenwen\FrontendBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -119,7 +119,7 @@ class SsiRespondent
     /**
      * Set user
      */
-    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
+    public function setUser(\Wenwen\FrontendBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -129,7 +129,7 @@ class SsiRespondent
     /**
      * Get user
      *
-     * @return \Jili\ApiBundle\Entity\User 
+     * @return \Wenwen\FrontendBundle\Entity\User
      */
     public function getUser()
     {

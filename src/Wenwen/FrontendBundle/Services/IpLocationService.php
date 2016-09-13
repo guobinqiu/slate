@@ -61,7 +61,7 @@ class IpLocationService
             $cityName = $this->getCityName($ipAddress);
 
             if($cityName){
-                $city = $this->em->getRepository('JiliApiBundle:CityList')->findOneCityByNameLike($cityName);
+                $city = $this->em->getRepository('WenwenFrontendBundle:CityList')->findOneCityByNameLike($cityName);
                 $this->logger->debug(__METHOD__ . ' city=' . json_encode($city));
                 if($city){
                     $locationId['cityId'] = $city['cityId'];
@@ -83,7 +83,7 @@ class IpLocationService
      * @param $ipAddress
      * @return $cityName
      */
-    public function getCityName($ipAddress) {
+    private function getCityName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         $cityName = null;
         
@@ -98,7 +98,7 @@ class IpLocationService
         return $cityName;
     }
 
-    public function getLocationJson($ipAddress) {
+    private function getLocationJson($ipAddress) {
         $this->logger->debug(__METHOD__ . ' START ');
         if($this->dummy){
             return $this->getDummyLocationJson();
@@ -120,7 +120,7 @@ class IpLocationService
         return $responseBody;
     }
 
-    public function getDummyLocationJson() {
+    private function getDummyLocationJson() {
         $this->logger->debug(__METHOD__ . ' START ');
         $responseBody = 
         '{
@@ -143,7 +143,7 @@ class IpLocationService
     * @param $responseBody
     * @return array()
     */
-    public function processResponseJson($responseBody){
+    private function processResponseJson($responseBody){
         $rtn = array(
             'status' => false,
             'errmsg' => '',

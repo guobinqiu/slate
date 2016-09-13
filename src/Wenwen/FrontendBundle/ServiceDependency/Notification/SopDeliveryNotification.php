@@ -55,7 +55,7 @@ class SopDeliveryNotification implements DeliveryNotification
     }
 
     private function isSubscribed($email) {
-        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail($email);
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         return count($userEdmUnsubscribes) == 0;
     }
 

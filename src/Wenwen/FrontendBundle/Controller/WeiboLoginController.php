@@ -3,21 +3,21 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserProfile;
-use Jili\ApiBundle\Entity\WeiBoUser;
-use Jili\FrontendBundle\Form\Type\LoginType;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\WeiboUser;
 use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Form\LoginType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
 /**
  * @Route("/auth/weibo")
  */
-class WeiBoLoginController extends Controller
+class WeiboLoginController extends Controller
 {
     /**
      * @Route("/login", name="weibo_login", methods={"GET"})
@@ -52,10 +52,10 @@ class WeiBoLoginController extends Controller
         $userInfo = $this->getUserInfo($token, $openId);
 
         $em = $this->getDoctrine()->getManager();
-        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
         if ($weiboUser == null) {
-            $weiboUser = new WeiBoUser();
+            $weiboUser = new WeiboUser();
             $weiboUser->setOpenId($openId);
             $weiboUser->setNickname($userInfo->screen_name);
             $weiboUser->setPhoto($userInfo->profile_image_url);
@@ -88,7 +88,7 @@ class WeiBoLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType());
 
         $em = $this->getDoctrine()->getManager();
-        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();
@@ -118,10 +118,10 @@ class WeiBoLoginController extends Controller
 
             if ($loginForm->isValid()) {
                 $formData = $loginForm->getData();
-                $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $formData['email']));
+                $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $formData['email']));
 
                 if ($user == null || !$user->isPwdCorrect($formData['password'])) {
-                    $loginForm->addError(new FormError('邮箱或密码错误'));
+                    $loginForm->addError(new FormError('邮箱或密码不正确'));
                     $params['loginForm'] = $loginForm->createView();
                     return $this->render('WenwenFrontendBundle:User:bind.html.twig', $params);
                 }
@@ -156,7 +156,7 @@ class WeiBoLoginController extends Controller
         $userForm = $this->createForm(new UserProfileType(), $userProfile);
 
         $em = $this->getDoctrine()->getManager();
-        $weiboUser = $em->getRepository('JiliApiBundle:WeiBoUser')->findOneBy(array('openId' => $openId));
+        $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
         $provinces = $userService->getProvinces();

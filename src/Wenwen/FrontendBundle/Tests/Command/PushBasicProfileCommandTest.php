@@ -7,9 +7,8 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\Persistence\ObjectManager;
-use Jili\ApiBundle\Entity\User;
-use Jili\ApiBundle\Entity\UserProfile;
-use JMS\SecurityExtraBundle\Tests\Functional\MethodAccessControlTest;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -53,7 +52,7 @@ class PushBasicProfileCommandTest extends WebTestCase {
     }
 
     public function testPushBasicProfileCommand() {
-        $users = $this->em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
 
         $application = new Application(static::$kernel);
         $application->add(new PushBasicProfileCommand());

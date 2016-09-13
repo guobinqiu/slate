@@ -1,6 +1,6 @@
 <?php
 
-namespace Jili\ApiBundle\Entity;
+namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CityList
  *
  * @ORM\Table(name="cityList")
- * @ORM\Entity()
- * @ORM\Entity(repositoryClass="Jili\ApiBundle\Repository\CityListRepository")
+ * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\CityListRepository")
  */
 class CityList
 {

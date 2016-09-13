@@ -4,7 +4,7 @@ namespace Jili\ApiBundle\Tests\Repository;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 
 class SopRespondentRepositoryTest extends KernelTestCase
 {

@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,7 +39,7 @@ class PasswordController extends Controller
         $email = $request->query->get('email');
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('JiliApiBundle:User')->findOneBy(array('email' => $email));
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
 
         if ($user == null) {
             return new JsonResponse(array('error' => true, 'message' => '邮件不存在'), 404);
@@ -65,7 +65,8 @@ class PasswordController extends Controller
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
         }
 
-        $user = $this->getDoctrine()->getRepository('JiliApiBundle:User')->findOneBy(array('resetPasswordToken' => $resetPasswordToken));
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('resetPasswordToken' => $resetPasswordToken));
 
         if ($user == null) {
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
@@ -91,12 +92,10 @@ class PasswordController extends Controller
 
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
-
             if ($form->isValid()) {
                 $user->setPwd($form->get('password')->getData());
                 $user->setResetPasswordToken(null);
                 $user->setResetPasswordTokenExpiredAt(null);
-                $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('_reset_success'));

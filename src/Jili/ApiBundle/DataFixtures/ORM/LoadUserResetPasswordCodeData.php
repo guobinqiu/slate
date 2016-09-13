@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SetPasswordCode;
 
 class LoadUserResetPasswordCodeData extends AbstractFixture implements ContainerAwareInterface, FixtureInterface
@@ -42,8 +42,8 @@ class LoadUserResetPasswordCodeData extends AbstractFixture implements Container
         $user->setEmail('alice.nima@gmail.com');
         $user->setPoints($this->container->getParameter('init'));
         $user->setRewardMultiple($this->container->getParameter('init_one'));
-        $user->setPasswordChoice(\Jili\ApiBundle\Entity\User::PWD_JILI);
-        $user->setIsEmailConfirmed(\Jili\ApiBundle\Entity\User::EMAIL_CONFIRMED);
+        $user->setPasswordChoice(\Wenwen\FrontendBundle\Entity\User::PWD_JILI);
+        $user->setIsEmailConfirmed(\Wenwen\FrontendBundle\Entity\User::EMAIL_CONFIRMED);
         $user->setPwd('123qwe');
         $manager->persist($user);
         $manager->flush();

@@ -1,11 +1,11 @@
 <?php
-namespace Jili\ApiBundle\Repository;
+
+namespace Wenwen\FrontendBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
 class CityListRepository extends EntityRepository
 {
-
     public function findOneCityByNameLike($cityName)
     {
         $queryBuilder = $this->createQueryBuilder('c');

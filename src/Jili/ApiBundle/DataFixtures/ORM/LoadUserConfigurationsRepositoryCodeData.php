@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\UserConfigurations;
       
 class LoadUserConfigurationsRepositoryCodeData extends AbstractFixture  implements ContainerAwareInterface, FixtureInterface

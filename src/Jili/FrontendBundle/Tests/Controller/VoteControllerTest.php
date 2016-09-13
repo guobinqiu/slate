@@ -277,7 +277,7 @@ class VoteControllerTest extends WebTestCase
         ));
         $this->assertEquals(1, count($pointHistory));
 
-        $user = $em->getRepository('JiliApiBundle:User')->find(1);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find(1);
         $this->assertEquals(1, $user->getPoints());
     }
 

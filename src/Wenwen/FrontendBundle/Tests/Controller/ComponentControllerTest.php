@@ -61,7 +61,7 @@ class ComponentControllerTest extends WebTestCase
         $client = static::createClient();
         $container = $this->container;
         $em = $this->em;
-        $users = $em->getRepository('JiliApiBundle:User')->findAll();
+        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user_id = $users[0]->getId();
 
         $url = $container->get('router')->generate('_component_headernav');

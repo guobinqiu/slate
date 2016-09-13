@@ -56,6 +56,7 @@ html,body{
 	}
 	.bindInput{
 		margin-bottom: 11px;
+	    display: inline-flex;
 		input[type="email"],input[type="password"],input[type="text"],#province,#city{
 			width: 100%;
 			height: 42px;
@@ -93,6 +94,30 @@ html,body{
 			}
 			&:last-child{
 				margin-bottom: 10px;
+			}
+			.birthLab{
+				display: inline-block;
+				color: #a0a0a0;
+				font-size: 14px;
+				font-family: "Microsoft YaHei";
+				label{
+					width: auto;
+					text-align: left;
+				}
+			}
+			.birthSel{
+				height: 45px;
+				line-height: 45px;
+				display: inline-block;
+				select{
+					width: 61px;
+				    height: 22px;
+				    border: none;
+				    color: #333;
+				    font-size: 14px;
+				    font-family: "Microsoft YaHei";
+				    margin-right: 5px;
+				}
 			}
 		}
 	}

@@ -257,7 +257,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $this->assertEquals('100', $point[1]->getPointChangeNum());
         $this->assertEquals('93', $point[1]->getReason());
 
-        $user = $em->getRepository('JiliApiBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals('400', $user->getPoints());
     }
 }
@@ -270,7 +270,7 @@ class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterfac
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(200);

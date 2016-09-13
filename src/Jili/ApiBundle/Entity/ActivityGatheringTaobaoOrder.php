@@ -66,9 +66,9 @@ class ActivityGatheringTaobaoOrder
     private $id;
 
     /**
-     * @var \Jili\ApiBundle\Entity\User
+     * @var \Wenwen\FrontendBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="Jili\ApiBundle\Entity\User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Wenwen\FrontendBundle\Entity\User", fetch="EXTRA_LAZY")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      * })
@@ -136,10 +136,10 @@ class ActivityGatheringTaobaoOrder
     /**
      * Set user
      *
-     * @param \Jili\ApiBundle\Entity\User $user
+     * @param \Wenwen\FrontendBundle\Entity\User $user
      * @return ActivityGatheringTaobaoOrder
      */
-    public function setUser(\Jili\ApiBundle\Entity\User $user = null)
+    public function setUser(\Wenwen\FrontendBundle\Entity\User $user = null)
     {
         $this->user = $user;
 
@@ -149,7 +149,7 @@ class ActivityGatheringTaobaoOrder
     /**
      * Get user
      *
-     * @return \Jili\ApiBundle\Entity\User
+     * @return \Wenwen\FrontendBundle\Entity\User
      */
     public function getUser()
     {

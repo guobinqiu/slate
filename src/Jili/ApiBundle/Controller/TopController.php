@@ -8,11 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Jili\ApiBundle\Entity\User;
 use Jili\ApiBundle\Utility\FileUtil;
-use Jili\ApiBundle\Utility\RebateUtil;
-use Jili\ApiBundle\Entity\CheckinAdverList;
-use Jili\ApiBundle\Form\Type\CheckinConfigType;
 
 class TopController extends Controller
 {

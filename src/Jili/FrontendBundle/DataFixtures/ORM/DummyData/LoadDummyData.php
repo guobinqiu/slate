@@ -21,7 +21,7 @@ class LoadDummyData implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);

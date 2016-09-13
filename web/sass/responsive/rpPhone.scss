@@ -493,15 +493,23 @@
                 padding: 0 2%;
             }
         }
+        label{
+            &.tit{
+                p{
+                    padding: 12px 0 5px 12px;
+                    line-height: 20px;
+                }
+            }
+        }
         .con{
             padding: 10px;
             li{
+                margin-top: 0px;
                 label{
-                    margin-right: 2%;
-                    width: 30%;
+                    text-align: left;
                 }
-                input[type='text'], input[type='password']{
-                    width: 62%;
+                input[type='text'],input[type='password'],input[type='email']{
+                    width: 100%!important;
                 }
                 span{
                     padding: 0;
@@ -515,9 +523,15 @@
                         margin-left: 33%;
                     }
                 }
+                .pwdFrontEr {
+                    display: inherit;
+                    li{
+                        margin-top: 5px!important;
+                    }
+                }
             }
             .btn{
-                padding-left: 33%;
+                padding-left: 0;
             }
             &.withdraw{
                 ul{
@@ -536,6 +550,14 @@
                                 overflow: hidden;
                             }
                         }
+                        #form_reason{
+                            width: 100%!important;
+                        }
+                        .pwdFrontEr {
+                            li{
+                                margin-top: 5px;
+                            }
+                        }
                     }
                     span#reasons{
                         span{
@@ -545,6 +567,12 @@
                     }
                 }
             }
+        }
+        .pwdBackError{
+            padding-left: 0;
+        }
+        .successMess {
+            margin-left: 0;
         }
     }
     .vote-sub{

@@ -26,7 +26,7 @@ class ShoppingController extends Controller
         $em = $this->getDoctrine()->getManager();
         $actCate = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         if($uid){
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
             $reward_multiple = $user->getRewardMultiple();
         }
 
@@ -148,7 +148,7 @@ class ShoppingController extends Controller
         $campaign_multiple = $this->container->getParameter('campaign_multiple');
 
         if($uid){
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
             $reward_multiple = $user->getRewardMultiple();
         } else {
             $reward_multiple = '';

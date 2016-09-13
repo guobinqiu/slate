@@ -105,7 +105,7 @@ class DeliveryNotificationTest extends WebTestCase
     }
 
     public function testUserEdmUnsubscribe() {
-        $userEdmUnsubscribes = $this->em->getRepository('JiliApiBundle:UserEdmUnsubscribe')->findByEmail('qracle@126.com');
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail('qracle@126.com');
         $this->assertCount(1, $userEdmUnsubscribes);
     }
 }
@@ -117,7 +117,7 @@ class LoadData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('Guobin1');
         $user->setEmail('qracle@126.com');
         $user->setPoints(100);
@@ -140,13 +140,13 @@ class LoadData implements FixtureInterface
         $manager->persist($ssiRespondent);
         $manager->flush();
 
-        $userEdmUnsubscribe = new \Jili\ApiBundle\Entity\UserEdmUnsubscribe();
+        $userEdmUnsubscribe = new \Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe();
         $userEdmUnsubscribe->setUserId($user->getId());
         $userEdmUnsubscribe->setCreatedTime(new \DateTime());
         $manager->persist($userEdmUnsubscribe);
         $manager->flush();
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('Guobin2');
         $user->setEmail('guobin.qiu@d8aspring.com');
         $user->setPoints(100);

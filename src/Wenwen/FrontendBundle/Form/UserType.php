@@ -27,7 +27,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Jili\ApiBundle\Entity\User',
+            'data_class' => 'Wenwen\FrontendBundle\Entity\User',
             'cascade_validation' => true,//同时验证嵌套的表单
         ));
     }

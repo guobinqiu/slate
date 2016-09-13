@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
 
 use Jili\ApiBundle\Entity\AdwApiReturn;
 use Jili\ApiBundle\Entity\AdwOrder;
-use Jili\ApiBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\GameLog;
 use Jili\ApiBundle\Entity\PagOrder;
 use Jili\ApiBundle\Entity\PointHistory00;
@@ -288,7 +288,7 @@ class ApiController extends Controller
             }
         }
 
-        $users = $em->getRepository('JiliApiBundle:User')->find($uid);
+        $users = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
         // always 1
         $user_rate = $users->getRewardMultiple();
         // always 1
@@ -328,7 +328,7 @@ class ApiController extends Controller
             $total = $massPoint + $goalPoint + $rankingPoint + $attendancePoint;
             $em = $this->getDoctrine()->getManager();
             if($point_uid && $point && $date && $time){
-                $isset_user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                $isset_user = $em->getRepository('WenwenFrontendBundle:User')->find($point_uid);
                 if($isset_user){
                       if($point == $total){
                             $rs = $em->getRepository('JiliApiBundle:GameLog')->getGameInfo($point_uid,$date);
@@ -410,7 +410,7 @@ class ApiController extends Controller
                                       $this->getTaskHistory($parms);
                                       $this->getPoint($point_uid,$attendancePoint,$this->container->getParameter('init_seven'));
                                   }
-                                  $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                                  $user = $em->getRepository('WenwenFrontendBundle:User')->find($point_uid);
                                   $user->setPoints(intval($user->getPoints()+$point));
                                   $em->persist($user);
                                   $em->flush();
@@ -501,7 +501,7 @@ class ApiController extends Controller
                         $this->getTaskHistory($parms);
                         if($status==1){
                           $this->getPoint($point_uid,$point,$this->container->getParameter('init_three'));
-                          $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                          $user = $em->getRepository('WenwenFrontendBundle:User')->find($point_uid);
                           $user->setPoints(intval($user->getPoints()+$point));
                           $em->persist($user);
                           $em->flush();
@@ -533,7 +533,7 @@ class ApiController extends Controller
                             $this->updateTaskHistory($parms);
                             if($status==1){
                               $this->getPoint($point_uid,$point,$this->container->getParameter('init_three'));
-                              $user = $em->getRepository('JiliApiBundle:User')->find($point_uid);
+                              $user = $em->getRepository('WenwenFrontendBundle:User')->find($point_uid);
                               $user->setPoints(intval($user->getPoints()+$point));
                               $em->persist($user);
                               $em->flush();
@@ -619,7 +619,7 @@ class ApiController extends Controller
 
         if( strlen($email) > 0) {
             $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('JiliApiBundle:User')->findOneByEmail($email);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
             if($user) {
                 $result = '1';
             }
@@ -644,7 +644,7 @@ class ApiController extends Controller
 
             if( is_numeric($uid) && (int) $uid > 0 ) {
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getRepository('JiliApiBundle:User')->findOneById($uid);
+                $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($uid);
                 if($user) {
                     $icon_path = $user->getIconPath();
                     if( strlen(trim($icon_path)) > 0) {

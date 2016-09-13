@@ -8,14 +8,6 @@
 @import "font-awesome/scss/font-awesome";
 @media only screen and (max-width: 667px) { 
 	// landing page
-	.login{
-	    li{
-	        input[type="text"],.regSex{
-	            height: 35px;
-	            line-height: 35px;
-	        }
-	    }
-	} 
 	.unlogin{
 	    .btn{
 	        top: 10px;
@@ -261,10 +253,10 @@
 	form{
 		ul{
 			padding-bottom: 15px;
-			// padding-top: 6px;
 		}
 	}
 	li{
+		text-align: left;
 		&.subscribe{
 			text-align: left;
 			padding: 2px 10px;
@@ -329,28 +321,31 @@
 			width: 44%;
 		    text-align: left;
 		    overflow: hidden;
-		    background: #fff url(../img/common/arrowdown.png) no-repeat 90% 50%;
-		    background: none\9;
-		    background: none\9\0;
+		    // background: #fff url(../img/common/arrowdown.png) no-repeat 90% 50%;
+		    // background: none\9;
+		    // background: none\9\0;
 		    display: inline-block;
 		    height: 45px;
 	        line-height: 45px;
 			select{
 				width: 100%;
-				height: 100%;
+				height: 22px;
 				border: none;
-				color: #a0a0a0;
+				// color: #a0a0a0;
 				font-size: 14px;
 				font-family: "Microsoft YaHei";
 			    box-shadow: none;
-			    background-color: transparent;
-			    background-image: none;
-			    -webkit-appearance: none;
-		        -moz-appearance: none;
-	            appearance: none;
-	            &::-ms-expand{
-	            	display: none;
-	            }
+			    // background-color: transparent;
+			    // background-image: none;
+			    // -webkit-appearance: none;
+		     //    -moz-appearance: none;
+	      //       appearance: none;
+	      //       &::-ms-expand{
+	      //       	display: none;
+	      //       }
+	      		option{
+	      			color: #333;
+	      		}
 			}
 		}
 		.verificationImg{
@@ -366,6 +361,7 @@
 			line-height: 21px; 
 			padding: 5px;
 			top: -55px;
+			left: 0;
 			@include border-radius(8px);
 			span{
 				position: relative;
@@ -378,6 +374,26 @@
 				    font-size: 26px!important;
 				    margin-left: 33px;
 				}
+			}
+		}
+		.birthLab{
+			display: inline-block;
+			color: #a0a0a0;
+			font-size: 14px;
+			font-family: "Microsoft YaHei";
+		}
+		.birthSel{
+			height: 45px;
+			line-height: 45px;
+			display: inline-block;
+			select{
+				width: 61px;
+			    height: 22px;
+			    border: none;
+			    color: #333;
+			    margin-right: 5px;
+			    font-size: 14px;
+			    font-family: "Microsoft YaHei";
 			}
 		}
 	}

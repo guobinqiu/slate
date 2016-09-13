@@ -35,7 +35,7 @@ class AdvertisermentController extends Controller
         $arr['code'] = $code;
         $em = $this->getDoctrine()->getManager();
         if($uid){
-            $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
             $reward_multiple = $user->getRewardMultiple();
         }
         $arr['uid'] = $uid;

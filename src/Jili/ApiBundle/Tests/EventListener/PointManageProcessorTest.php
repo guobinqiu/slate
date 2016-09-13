@@ -54,7 +54,7 @@ class PointManageProcessorTest extends KernelTestCase {
         $container = $this->container;
         $user = LoadUserData :: $USERS[0];
 
-        $user1 = $em->getRepository('JiliApiBundle:User')->find($user->getId());
+        $user1 = $em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $points1 = $user1->getPoints();
 
         $directory = $container->getParameter('cache_data_path');
@@ -77,7 +77,7 @@ class PointManageProcessorTest extends KernelTestCase {
         $message = $this->container->get('point_manage.processor')->process($path, $log_path);
         $this->assertEquals('导入成功', $message['success']);
 
-        $user2 = $em->getRepository('JiliApiBundle:User')->find($user->getId());
+        $user2 = $em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $points2 = $user2->getPoints();
         $this->assertEquals(100, ($points2 - $points1));
 

@@ -10,8 +10,7 @@
 			overflow: hidden;
 			background: #262424;
 		}
-		@media only screen and (max-width: 667px) { 
-			// landing page
+		@media only screen and (max-width: 667px) {
 			html, body{
 				overflow: auto!important;
 				background: #3d5267!important;
@@ -55,24 +54,25 @@
 								{{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
 								<div class="error errorReg">{{ form_errors(userForm.pwd) }}</div>
 							</li>
+							<li id="vcode" class="liner">
+								{{ form_widget(userForm.captcha, {'attr': {'placeholder': '输入验证码'}}) }}
+								<div class="error errorReg">{{ form_errors(userForm.captcha) }}</div>
+							</li>
 							<li class="liner">
+								<div class="proPrompt">
+									<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+								</div>
 								<div class="regSex">{{ form_widget(userForm.userProfile.sex) }}</div>
 								<div class="error errorReg">{{ form_errors(userForm.userProfile.sex) }}</div>
 							</li>
 							<li class="liner" style="position: relative;">
-								<div class="proPrompt">
-									<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
-								</div>
-								{{ form_widget(userForm.userProfile.birthday, {'attr': {'placeholder': '选择生日'}}) }}
+								<div class="birthLab">{{ form_label(userForm.userProfile.birthday) }}</div>
+								<div class="birthSel">{{ form_widget(userForm.userProfile.birthday) }}</div>
 								<div class="error errorReg">{{ form_errors(userForm.userProfile.birthday) }}</div>
 							</li>
 							<li class="liner">
 								{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
 								{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
-							</li>
-							<li id="vcode" class="liner">
-								{{ form_widget(userForm.captcha, {'attr': {'placeholder': '输入验证码'}}) }}
-								<div class="error errorReg">{{ form_errors(userForm.captcha) }}</div>
 							</li>
 							<li class="subscribe">
 								{{ form_label(userForm.subscribe) }}

@@ -36,7 +36,7 @@ class DefaultController extends Controller
                 if( count($m) === 2 && is_numeric($m[1]) ) {
                     $uid = $m[1];
                     $em = $this->getDoctrine()->getManager();
-                    $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+                    $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
                     if($user) {
                         return $this->redirect( $url, 302);
                     }
@@ -46,7 +46,7 @@ class DefaultController extends Controller
                 if( count($m) === 2 && is_numeric($m[1]) ) {
                     $uid = $m[1];
                     $em = $this->getDoctrine()->getManager();
-                    $user = $em->getRepository('JiliApiBundle:User')->find($uid);
+                    $user = $em->getRepository('WenwenFrontendBundle:User')->find($uid);
 
                     if($user) {
                         return $this->redirect( $url, 302);

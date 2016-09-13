@@ -37,7 +37,7 @@ class SsiApiControllerTest extends WebTestCase
         $executor->purge();
 
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test');
         $user->setPoints(100);
         $user->setRewardMultiple(1);
@@ -54,7 +54,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $ssiRespondentId1 = $ssiRespondent->getId();
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('test2');
         $user->setEmail('test2@d8aspring.com');
         $user->setPoints(100);
@@ -123,7 +123,7 @@ class SsiApiControllerTest extends WebTestCase
         $executor->purge();
 
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick("弋璇翊");
         $user->setPoints(100);
         $user->setRewardMultiple(1);
@@ -140,7 +140,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $ssiRespondentId1 = $ssiRespondent->getId();
 
-        $user = new \Jili\ApiBundle\Entity\User();
+        $user = new \Wenwen\FrontendBundle\Entity\User();
         $user->setNick('いざ赱逺パ');
         $user->setEmail('test2@test.com');
         $user->setPoints(100);
@@ -347,7 +347,7 @@ class SsiApiControllerTest extends WebTestCase
 //
 //    public function load(ObjectManager $manager)
 //    {
-//        $user = new \Jili\ApiBundle\Entity\User();
+//        $user = new \Wenwen\FrontendBundle\Entity\User();
 //        $user->setNick(__CLASS__);
 //        $user->setEmail('test@d8aspring.com');
 //        $user->setPoints(100);
