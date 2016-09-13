@@ -259,7 +259,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $this->assertEquals('10002', $history_list[0]['partner_app_project_quota_id']);
         $this->assertEquals($app_mid, $history_list[0]['app_member_id']);
         $this->assertEquals('30', $history_list[0]['point']);
-        $this->assertEquals('92', $history_list[0]['type']);
+        $this->assertEquals('11', $history_list[0]['type']);
         $this->assertEquals(date('Y-m-d'), substr($history_list[0]['created_at'], 0, 10));
         $this->assertEquals(date('Y-m-d'), substr($history_list[0]['updated_at'], 0, 10));
 
@@ -267,7 +267,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $this->assertEquals('20002', $history_list[1]['partner_app_project_quota_id']);
         $this->assertEquals($app_mid, $history_list[1]['app_member_id']);
         $this->assertEquals('100', $history_list[1]['point']);
-        $this->assertEquals('93', $history_list[1]['type']);
+        $this->assertEquals('61', $history_list[1]['type']);
         $this->assertEquals(date('Y-m-d'), substr($history_list[1]['created_at'], 0, 10));
         $this->assertEquals(date('Y-m-d'), substr($history_list[1]['updated_at'], 0, 10));
 
