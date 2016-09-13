@@ -37,9 +37,6 @@
 				<ul class="unbindForm">
 					<li class="liner">
 						<div class="bindInput">
-							<div class="proPrompt">
-								<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
-							</div>
 							<div class="regSex">{{ form_widget(userForm.sex) }}</div>
 							<div class="error">{{ form_errors(userForm.sex) }}</div>
 						</div>
@@ -179,17 +176,5 @@
 		        }
 		    }
 		);
-
-		//输入个人信息的提示
-		$("#front_user_profile_sex>input").change(function(){
-		        var tId;
-		        if (this.checked) {
-		            $(".proPrompt").hide().show();
-		            clearTimeout(tId);
-		            tId=setTimeout(function(){
-		              $(".proPrompt").hide();        
-		            }, 5000);
-		        }
-		});
 	</script>
 {% endblock %}

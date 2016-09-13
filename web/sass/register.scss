@@ -8,14 +8,6 @@
 @import "font-awesome/scss/font-awesome";
 @media only screen and (max-width: 667px) { 
 	// landing page
-	.login{
-	    li{
-	        input[type="text"],.regSex{
-	            height: 35px;
-	            line-height: 35px;
-	        }
-	    }
-	} 
 	.unlogin{
 	    .btn{
 	        top: 10px;
@@ -395,9 +387,11 @@
 			line-height: 45px;
 			display: inline-block;
 			select{
-			    border: none;
+				width: 61px;
 			    height: 22px;
+			    border: none;
 			    color: #333;
+			    margin-right: 5px;
 			    font-size: 14px;
 			    font-family: "Microsoft YaHei";
 			}
