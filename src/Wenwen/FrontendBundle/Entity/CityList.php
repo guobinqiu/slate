@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  * CityList
  *
  * @ORM\Table(name="cityList")
- * @ORM\Entity()
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\CityListRepository")
  */
 class CityList
