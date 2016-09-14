@@ -72,7 +72,7 @@
 							</li>
 							<li class="liner">
 								{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-								<div class="addrLab"><label class="required" aria-required="true">居住地</label></div>
+								<div class="addrLab"><label class="required" aria-required="true">居住地：</label></div>
 								{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
 							</li>
 							<li class="subscribe">
@@ -185,7 +185,6 @@
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
     <script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
 {% endblock %}

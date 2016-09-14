@@ -158,7 +158,6 @@
 	margin-top: 50px;
 	*text-align: center;
 	a{
-		margin-left: 10px;
 		padding: 14px;
 		cursor: pointer;
 		@include border-radius(50%);
@@ -192,7 +191,6 @@
 			*background: none;
 			margin-right: 30px;
 			*margin-right: 0;
-		    margin-left: -15px;
 		    *margin-left: 0;
 			&:hover{
 				background: #77e0c8;
@@ -240,9 +238,14 @@
 			right: 0;
 		}
 	}
+	.othersItem{
+		width: 285px;
+		margin: 0 auto;
+		text-align: center;
+	}
 }	
 .indexOth{
-	width: 283px;
+	width: 285px;
 	position: absolute;
 	top: 62%;
 	left: 50%;

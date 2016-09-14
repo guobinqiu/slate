@@ -37,7 +37,8 @@
 				<ul class="unbindForm">
 					<li class="liner">
 						<div class="bindInput">
-							<div class="regSex">{{ form_widget(userForm.sex) }}</div>
+							<div class="regSexL">{{ form_label(userForm.sex) }}</div>
+							<div class="regSexS">{{ form_widget(userForm.sex) }}</div>
 							<div class="error">{{ form_errors(userForm.sex) }}</div>
 						</div>
 					</li>
@@ -50,6 +51,7 @@
 					</li>
 					<li class="liner">
 						<div class="bindInput">
+							<div class="addrLab"><label class="required" aria-required="true">居住地：</label></div>
 							<div class="regSex">
 								<select id="province" name="{{ userForm.province.vars.full_name }}">
 									<option value="">省</option>
@@ -96,7 +98,6 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/layDate/layDate.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
@@ -138,11 +139,6 @@
 			}
 		});
 
-		//生日下拉框
-		$("input[name*='birthday']").on('click', function(){
-			laydate();
-		});
-
 		//前端验证form
 		$("#bindPro").validate(
 		    {
@@ -158,6 +154,15 @@
 		            },
 		            'front_user_profile[city]':{
 		            	required: true	
+		            },
+		            'front_user_profile[birthday][year]':{
+		                required: true
+		            },
+		            'front_user_profile[birthday][month]':{
+		                required: true    
+		            },
+		            'front_user_profile[birthday][day]':{
+		                required: true
 		            }
 		        },
 		        messages: {
@@ -172,7 +177,16 @@
 		        	},
 		        	'front_user_profile[city]':{
 		        		required: "请选择居住地"	
-		        	}
+		        	},
+		        	'front_user_profile[birthday][year]':{
+		        	    required: "请选择生日"
+		        	},
+		        	'front_user_profile[birthday][month]':{
+		        	    required: "请选择生日"    
+		        	},
+		        	'front_user_profile[birthday][day]':{
+		        	    required: "请选择生日"
+		        	} 
 		        }
 		    }
 		);

@@ -87,8 +87,8 @@
             &.weixin-login{
                 display: none;
             }
-            &.weibo-login{
-                margin-left: 20px;
+            &.qq-login{
+                margin-left: -68px;
             }
             i{
                 width: initial;
@@ -786,10 +786,6 @@
                 background: none!important;
             }
         }
-        input[type='text'],input[type='password'],input[type='email']{
-            height: 30px!important;
-            line-height: 30px!important;
-        }
     }
 
     /* exchange page */
@@ -1269,36 +1265,12 @@
     .bindCon{
         width: 100%;
         padding: 10px 32px;
-        .bindInput{
-            input,#province,#city{
-                height: 35px!important;
-                line-height: 35px!important;
-            }
-        }
         .regSex{
             label{
                 vertical-align: 13px;
-                &.error{
-                    height: 26px;
-                    line-height: 26px; 
-                }
             }
             input[type="radio"]{
                 border: 1px solid #acacac;
-            }
-        }
-        .unbindForm{
-            li{
-                height: 37px;
-                line-height: 37px;
-            }
-        }
-        .bkError{
-            ul{
-                li{
-                    height: 26px;
-                    line-height: 26px;
-                }
             }
         }
     }
