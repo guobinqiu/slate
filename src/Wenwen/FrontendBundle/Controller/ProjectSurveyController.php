@@ -50,7 +50,7 @@ class ProjectSurveyController extends Controller
     }
 
     /**
-     * @Route("/profile_questionnaire/endlink/complete")
+     * @Route("/profile_questionnaire/endlink")
      */
     public function profileQuestionnaireEndlinkAction(Request $request) {
         $userId = $request->getSession()->get('uid');
