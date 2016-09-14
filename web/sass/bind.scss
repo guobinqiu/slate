@@ -53,6 +53,9 @@ html,body{
 		li{
 			position: relative;
 		}
+		.bindInput{
+			display: block;
+		}
 	}
 	.bindInput{
 		margin-bottom: 11px;
@@ -71,6 +74,7 @@ html,body{
 			width: inherit;
 		    border: 1px solid #e5e5e5;
 		    font-family: "Microsoft YaHei";
+		    color: #000;
 		}
 		#province{
 			margin-right: 7px;
@@ -96,6 +100,7 @@ html,body{
 				margin-bottom: 10px;
 			}
 			.birthLab{
+				width: 70px;
 				display: inline-block;
 				color: #a0a0a0;
 				font-size: 14px;
@@ -117,6 +122,17 @@ html,body{
 				    font-size: 14px;
 				    font-family: "Microsoft YaHei";
 				    margin-right: 5px;
+				}
+			}
+			.addrLab{
+				width: 70px;
+				display: inline-block;
+				color: #a0a0a0;
+				font-size: 14px;
+				font-family: "Microsoft YaHei";
+				vertical-align: 17px;
+				label{
+					text-align: left;
 				}
 			}
 		}
@@ -173,29 +189,45 @@ html,body{
 			}
 		}
 	}
-	.regSex{
+	.regSexL{
+		width: 70px;
+		label{
+			text-align: left;
+			color: #a0a0a0;
+		}
+	}
+	.regSexS{
 		input[type="radio"]{
 			margin: 0 5px 0 0;
 		}
 		label{
-			width: 14px;
-			color: #a0a0a0;
-			margin-right: 42px;
-			&.error{
-				margin-right: 0;
-			    width: inherit;
-			    position: absolute;
-			    right: 5px;
-			    top: 5px;
-			    height: 30px;
-			    line-height: 30px;
-			    color: #a94442!important;
-			    background-color: #f2dede;
-			    border: 1px solid #ebccd1;
-			    padding: 0 5px;
-			    display: inline-block; 
-			    @include border-radius(3px);
+			width: auto;
+			margin-right: 26px;
+			&[type='radio']{
+				width: 14px;
+				color: #a0a0a0;
+				margin-right: 42px;
 			}
+			&.error{
+				margin-top: -13px;
+			}
+		}
+	}
+	label{
+		&.error{
+			margin-right: 0;
+		    width: inherit;
+		    position: absolute;
+		    right: 5px;
+		    top: 5px;
+		    height: 30px;
+		    line-height: 30px;
+		    color: #a94442!important;
+		    background-color: #f2dede;
+		    border: 1px solid #ebccd1;
+		    padding: 0 5px;
+		    display: inline-block; 
+		    @include border-radius(3px);
 		}
 	}
 }
@@ -204,7 +236,6 @@ html,body{
 	float: right;
 	background: #f3f5f5;
 	.bindAvtInner{
-		width: 150px;
 		text-align: center;
 		margin: 0 auto;
 		padding-top: 35px;
