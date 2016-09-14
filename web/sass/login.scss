@@ -106,18 +106,18 @@
 		position: relative;
 		z-index: 2;
 		margin-bottom: 0;
-		padding: 0 5%;
 		&.liner{
 			border-bottom: 1px solid #e3e3e3;	
 		}
 		input[type="text"], input[type="email"], input[type="password"], .regSex{
-			width: 90%;
+			width: 95%;
 			height: 45px; 
 			line-height: 45px;
 			border: none;
 			font-size: 14px;
 			display: block;
 			text-align: left;
+			padding-left: 5%;
 			&:focus, &.active{
 				border: none;
 				box-shadow: none;

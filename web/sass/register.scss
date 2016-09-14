@@ -58,11 +58,6 @@
 				color: $error-color;
 			}
 		}
-		.captcha_reload{
-			background: url(../img/user/change.png) no-repeat 0px 2px;
-			padding-left: 20px;
-			color: #a1a1a1;
-		}
 	}
 	span{
 		&.succeed{
@@ -251,6 +246,7 @@
 	height: 450px;
 	top: 20%;
 	form{
+		width: 345px;
 		ul{
 			padding-bottom: 15px;
 		}
@@ -259,7 +255,7 @@
 		text-align: left;
 		&.subscribe{
 			text-align: left;
-			padding: 2px 10px;
+			padding: 3px 0 0 14px;
 			font-size: 12px;
 			label{
 				width: auto;
@@ -272,6 +268,7 @@
 				position: absolute;
 				left: 35px;
 				z-index: 2;
+				cursor: pointer;
 				@include dib();
 			}
 			&>div{
@@ -318,7 +315,7 @@
 			}
 		}
 		.regProvince,.regCity{
-			width: 44%;
+			width: 29%;
 		    text-align: left;
 		    overflow: hidden;
 		    // background: #fff url(../img/common/arrowdown.png) no-repeat 90% 50%;
@@ -348,9 +345,6 @@
 	      		}
 			}
 		}
-		.verificationImg{
-			border: 1px solid #EDEDED;
-		}
 		.proPrompt{
 			display: none;
 			position: absolute; 
@@ -377,10 +371,12 @@
 			}
 		}
 		.birthLab{
+			width: 70px;
 			display: inline-block;
 			color: #a0a0a0;
 			font-size: 14px;
 			font-family: "Microsoft YaHei";
+			padding-left: 5%;
 		}
 		.birthSel{
 			height: 45px;
@@ -395,6 +391,15 @@
 			    font-size: 14px;
 			    font-family: "Microsoft YaHei";
 			}
+		}
+		.addrLab{
+			width: 70px;
+			display: inline-block;
+			color: #a0a0a0;
+			font-size: 14px;
+			font-family: "Microsoft YaHei";
+			vertical-align: 17px;
+			padding-left: 5%;
 		}
 	}
 	.login-btn{
@@ -424,18 +429,25 @@
 	font-size: 12px;
 	margin-bottom: 5px;
 	text-align: left;
-	div{
-		img{
-			margin-left: 14px;
-			margin-bottom: 9px;
-		}
-	}
 	.captcha_reload{
-	    background: url(../img/user/change.png) no-repeat 0px 3px;
+	    background: url(../img/user/change.png) no-repeat 0px 0;
 	    padding-left: 20px;
 	    height: 14px;
 	    vertical-align: -16px;
 	    margin-left: 5px;
+	}
+	input{
+		width: 94px;
+		display: inline-block;
+	}
+	& > div{
+		display: inline-block;
+		vertical-align: top;
+		background: transparent;
+		img{
+			margin-bottom: 4px;
+			margin-top: 4px;
+		}
 	}
 }
 @import "layout/footer-simple";
