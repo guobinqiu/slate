@@ -1,10 +1,12 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Tests\Services;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 
 class SurveyServiceTest extends WebTestCase
 {
@@ -27,14 +29,11 @@ class SurveyServiceTest extends WebTestCase
 
         $this->surveyService = $container->get('app.survey_service');
 
-        // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-
-        $fixture = new SurveyServiceTestFixture();
         $loader = new Loader();
-        $loader->addFixture($fixture);
+        $loader->addFixture(new LoadUserData());
+
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($em, $purger);
         $executor->execute($loader->getFixtures());
 
         $this->em = $em;
@@ -60,29 +59,5 @@ class SurveyServiceTest extends WebTestCase
 
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
-    }
-
-
-}
-
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-
-class SurveyServiceTestFixture implements FixtureInterface
-{
-
-    public function load(ObjectManager $manager)
-    {
-        $user = new \Wenwen\FrontendBundle\Entity\User();
-        $user->setNick(__CLASS__);
-        $user->setEmail('user@voyagegroup.com.cn');
-        $user->setPoints(100);
-        $user->setIconPath('test/test_icon.jpg');
-        $user->setRewardMultiple(1);
-        $user->setPwd('11111q');
-        $user->setIsEmailConfirmed(1);
-        $user->setRegisterDate(new \DateTime());
-        $manager->persist($user);
-        $manager->flush();
     }
 }

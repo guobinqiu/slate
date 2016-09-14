@@ -44,6 +44,9 @@
 
         <service id="app.user_service" class="Wenwen\FrontendBundle\Services\UserService">
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="jms_serializer" />
+            <argument type="service" id="app.parameter_service" />
         </service>
 
         <service id="app.ip_location_service" class="Wenwen\FrontendBundle\Services\IpLocationService">

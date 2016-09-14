@@ -54,13 +54,6 @@ class SsiProjectSurveyController extends Controller
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $userId = $request->getSession()->get('uid');
-        $cacheSettings = $this->container->getParameter('cache_settings');
-        if ($cacheSettings['enable']) {
-            $redis = $this->get('snc_redis.default');
-            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 

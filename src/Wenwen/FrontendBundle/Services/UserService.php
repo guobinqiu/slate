@@ -9,13 +9,20 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserService
 {
     private $em;
+    private $redis;
+    private $serializer;
+    private $parameterService;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, $redis, $serializer, ParameterService $parameterService) {
         $this->em = $em;
+        $this->redis = $redis;
+        $this->serializer = $serializer;
+        $this->parameterService = $parameterService;
     }
 
     /**
@@ -93,10 +100,28 @@ class UserService
     }
 
     public function getProvinces() {
-        return $this->em->getRepository('WenwenFrontendBundle:ProvinceList')->findAll();
+        return $this->getLocations(CacheKeys::PROVINCES, 'Wenwen\FrontendBundle\Entity\ProvinceList');
     }
 
     public function getCities() {
-        return $this->em->getRepository('WenwenFrontendBundle:CityList')->findAll();
+        return $this->getLocations(CacheKeys::CITIES, 'Wenwen\FrontendBundle\Entity\CityList');
+    }
+
+    private function getLocations($cacheKey, $className) {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return $this->em->getRepository($className)->findAll();
+        }
+
+        $cacheVal = $this->redis->get($cacheKey);
+        if (is_null($cacheVal)) {
+            $entities = $this->em->getRepository($className)->findAll();
+            if (!empty($entities)) {
+                $this->redis->set($cacheKey, $this->serializer->serialize($entities, 'json'));
+            }
+            return $entities;
+        }
+
+        return $this->serializer->deserialize($cacheVal, 'array<'.$className.'>', 'json');
     }
 }
