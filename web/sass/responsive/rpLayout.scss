@@ -49,8 +49,7 @@
             }
             .login-btn{
                 font-size: initial!important;
-                margin-top: 17px;
-                margin-bottom: 15px;
+                margin: 17px auto 15px;
                 height: 40px;
                 -webkit-appearance: none;
             }
@@ -65,15 +64,6 @@
                         font-size: .8rem!important;
                         height: 36px;
                         line-height: 36px;
-                    }
-                }
-                label{
-                    line-height: 18px;
-                    font-size: .9rem!important;
-                }
-                &.liner{
-                    label{
-                        line-height: 24px;
                     }
                 }
             }
@@ -143,21 +133,21 @@
     }
     .register{
         li{
-            label{
-                &.error{
-                    top: 3px; 
-                }
-            }
             .proPrompt{
                 span{
                     i{
-                        bottom: -25px;
+                        bottom: -23px;
                     }
                 }
             }
             .regSex{
                 input[type="radio"]{
                     border: 1px solid #acacac;
+                }
+            }
+            &.subscribe{
+                label,label a,div{
+                    font-size: .9rem!important;
                 }
             }
         }

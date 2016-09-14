@@ -324,7 +324,14 @@
 
     /* reg page */
     .register{
+        width: 96%;
+        margin: 0 2%;
         top: 5px!important;
+        li{
+            .addrLab{
+                vertical-align: 0;
+            }
+        }
     }
     .main-register-active{
         .finish{
@@ -746,28 +753,6 @@
             top: 40px;
         }
     }
-
-    /* landing page */
-    .main{
-        .login{
-            form{
-                li{
-                    input[type="text"], input[type="email"], input[type="password"]{
-                        height: 22px;
-                        line-height: 22px;
-                    }
-                    label{
-                        line-height: 22px;
-                    }
-                    span{
-                        &.error, strong{
-                            top: -11px;
-                        }
-                    }
-                }
-            }
-        }
-    } 
 }
 
 @media only screen and (max-width: 360px){
