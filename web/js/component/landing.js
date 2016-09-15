@@ -50,7 +50,7 @@ $('#pagepiling').pagepiling({
     afterLoad: function(anchorLink, index){},
     afterRender: function(){
         $('#pagepiling').show();
-    },
+    }
 });
 
 $('.arrow-down').click(function(){

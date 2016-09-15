@@ -1,13 +1,8 @@
 /*-------------------
-引用jquery.js, routing.js, common.js, layDate.js, jcrop.js, fileUpload.js
+引用jquery.js, routing.js, common.js, jcrop.js, fileUpload.js
 -------------------*/
 $(function(){
 //初始化表单
-    //生日下拉框
-    $('.laydate-icon').on('click', function(){
-        laydate();
-    });
-
     $('#profile_save').on('click', function(){
         $('#profileForm').submit();
     });

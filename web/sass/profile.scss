@@ -236,6 +236,7 @@ $color: #0078b6;
 				line-height: 36px;
 				text-align: right;
 				color: #a1a1a1;
+				vertical-align: top;
 				&.required{
 					vertical-align: top;
 				}
@@ -335,6 +336,9 @@ $color: #0078b6;
 				select{
 					margin-bottom: 10px;
 				}
+			}
+			.laydate-icon{
+				display: inline-block;
 			}
 		}
 		.btn{

@@ -31,6 +31,18 @@ class ProjectSurveyController extends Controller
      */
     public function endlinkAction(Request $request)
     {
+        $userId = $request->getSession()->get('uid');
+        if (!$userId) {
+            $this->get('request')->getSession()->set('referer', $request->getUri());
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
+
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
             'answer_status' => $request->get('answer_status'),
             'survey_id' => $request->get('survey_id'),
@@ -38,9 +50,21 @@ class ProjectSurveyController extends Controller
     }
 
     /**
-     * @Route("/profile_questionnaire/endlink/{answer_status}")
+     * @Route("/profile_questionnaire/endlink")
      */
-    public function profileQuestionnaireEndlinkAction() {
+    public function profileQuestionnaireEndlinkAction(Request $request) {
+        $userId = $request->getSession()->get('uid');
+        if (!$userId) {
+            $this->get('request')->getSession()->set('referer', $request->getUri());
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $cacheSettings = $this->container->getParameter('cache_settings');
+        if ($cacheSettings['enable']) {
+            $redis = $this->get('snc_redis.default');
+            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
+        }
+
         return $this->redirect($this->generateUrl('_homepage'));
     }
 

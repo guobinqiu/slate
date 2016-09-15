@@ -159,7 +159,16 @@ $(function(){
                 },
                 'signup[userProfile][city]':{
                     required: true
-                }   
+                },
+                'signup[userProfile][birthday][year]':{
+                    required: true
+                },
+                'signup[userProfile][birthday][month]':{
+                    required: true    
+                },
+                'signup[userProfile][birthday][day]':{
+                    required: true
+                }  
             },
             messages: {
                 'signup[nick]':{
@@ -194,7 +203,16 @@ $(function(){
                 },
                 'signup[userProfile][city]':{
                     required: "请选择居住地"
-                }
+                },
+                'signup[userProfile][birthday][year]':{
+                    required: "请选择生日"
+                },
+                'signup[userProfile][birthday][month]':{
+                    required: "请选择生日"    
+                },
+                'signup[userProfile][birthday][day]':{
+                    required: "请选择生日"
+                } 
             }
         }
     );
