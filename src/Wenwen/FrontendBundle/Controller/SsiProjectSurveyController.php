@@ -11,7 +11,7 @@ use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
 /**
  * @Route("/ssi_project_survey")
  */
-class SsiProjectSurveyController extends Controller
+class SsiProjectSurveyController extends Controller implements UserAuthenticationController
 {
     /**
      * @Route("/information/{survey_id}", name="_ssi_project_survey_cover")
