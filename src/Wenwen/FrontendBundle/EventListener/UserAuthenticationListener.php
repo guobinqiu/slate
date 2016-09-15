@@ -29,7 +29,7 @@ class UserAuthenticationListener
             return;
         }
 
-        if ($controller[0] instanceof UserAuthController) {
+        if ($controller[0] instanceof UserAuthenticationController) {
             $request = $event->getRequest();
 
             if (!$request->getSession()->has('uid')) {

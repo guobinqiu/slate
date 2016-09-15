@@ -97,8 +97,8 @@ class QQLoginController extends Controller
         $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         $params = array(
             'openId' => $openId,
@@ -165,8 +165,8 @@ class QQLoginController extends Controller
         $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);

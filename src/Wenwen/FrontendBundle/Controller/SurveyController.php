@@ -5,12 +5,11 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/survey")
  */
-class SurveyController extends Controller
+class SurveyController extends Controller implements UserAuthenticationController
 {
     /**
      * @Route("/index", name="_survey_index")
@@ -18,11 +17,6 @@ class SurveyController extends Controller
     public function indexAction(Request $request)
     {
         $user_id = $request->getSession()->get('uid');
-        if (!$user_id) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_index'));
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();
@@ -42,11 +36,6 @@ class SurveyController extends Controller
     public function topAction(Request $request)
     {
         $user_id = $request->getSession()->get('uid');
-        if (!$user_id) {
-            $this->get('request')->getSession()->set('referer', $this->generateUrl('_survey_top'));
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();

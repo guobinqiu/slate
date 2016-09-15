@@ -2,6 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-interface UserAuthController
+interface UserAuthenticationController
 {
 }

@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
-use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/ssi_project_survey")
@@ -20,10 +19,6 @@ class SsiProjectSurveyController extends Controller
      */
     public function informationAction(Request $request, $survey_id)
     {
-        if (!$request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
@@ -50,10 +45,6 @@ class SsiProjectSurveyController extends Controller
      */
     public function completeAction(Request $request)
     {
-        if (!$request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 

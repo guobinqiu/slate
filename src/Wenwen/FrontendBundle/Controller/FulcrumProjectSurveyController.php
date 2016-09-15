@@ -1,25 +1,21 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/fulcrum_project_survey")
  */
-class FulcrumProjectSurveyController extends Controller
+class FulcrumProjectSurveyController extends Controller implements UserAuthenticationController
 {
     /**
      * @Route("/information", options={"expose"=true} )
      */
     public function informationAction(Request $request)
     {
-        if (! $request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $request->query->get('fulcrum_research')));
     }
 

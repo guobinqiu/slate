@@ -33,6 +33,6 @@
     {% if research.is_answered == 1 %}
         <span class="disabled">回答完毕</span>
     {% else %}
-        <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">可回答</a>
+        <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link">可回答</a>
     {% endif %}
 </div>

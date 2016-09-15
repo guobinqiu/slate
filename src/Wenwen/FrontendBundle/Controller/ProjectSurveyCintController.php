@@ -7,14 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
-use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 
 /**
  * @Route("/cint_project_survey")
  */
-class ProjectSurveyCintController extends Controller
+class ProjectSurveyCintController extends Controller implements UserAuthenticationController
 {
     const AGREEMENT_POINT = 1;
     const COMMENT = '同意参与海外市场调查项目';
@@ -24,11 +23,6 @@ class ProjectSurveyCintController extends Controller
      */
     public function agreementCompleteAction(Request $request)
     {
-        if (!$request->getSession()->get('uid')) {
-            $this->get('request')->getSession()->set('referer', $request->getUri());
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
 
@@ -84,11 +78,6 @@ class ProjectSurveyCintController extends Controller
      */
     public function informationAction(Request $request)
     {
-        if (!$request->getSession()->get('uid')) {
-            $request->getSession()->set('referer', $request->getUri());
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $request->query->get('cint_research')));
     }
 
