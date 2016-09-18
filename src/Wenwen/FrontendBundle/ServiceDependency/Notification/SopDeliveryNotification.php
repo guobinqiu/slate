@@ -25,7 +25,8 @@ class SopDeliveryNotification implements DeliveryNotification
                     $this->runJob($respondent, $channel);
                 }
             } else {
-                $unsubscribed_app_mids[] = $respondent['app_mid'];
+                // 没有 email 并不代表这个app_mid不存在，不用返回信息给SOP那边
+                //$unsubscribed_app_mids[] = $respondent['app_mid'];
             }
         }
         return $unsubscribed_app_mids;

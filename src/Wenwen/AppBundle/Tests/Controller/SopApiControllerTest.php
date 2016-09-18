@@ -292,6 +292,7 @@ class SopApiControllerTest extends WebTestCase
     /**
      * @group DeliveryNotificationFor91wenwen
      */
+    /* 不用测试了，不反悔NotFoundRespondent
     public function testDeliveryNotificationFor91wenwenAction200withNotFoundRespondent()
     {
         $params = array (
@@ -352,6 +353,7 @@ class SopApiControllerTest extends WebTestCase
                 )
         ), $res);
     }
+    */
 
     /**
      * @group DeliveryNotificationFor91wenwen
