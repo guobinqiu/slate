@@ -30,8 +30,8 @@ class RegistrationController extends Controller
         }
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         $ipLocationService = $this->get('app.ip_location_service');
         $locationId = $ipLocationService->getLocationId($request->getClientIp());

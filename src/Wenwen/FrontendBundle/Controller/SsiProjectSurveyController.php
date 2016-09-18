@@ -7,12 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
-use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/ssi_project_survey")
  */
-class SsiProjectSurveyController extends Controller
+class SsiProjectSurveyController extends Controller implements UserAuthenticationController
 {
     /**
      * @Route("/information/{survey_id}", name="_ssi_project_survey_cover")
@@ -20,10 +19,6 @@ class SsiProjectSurveyController extends Controller
      */
     public function informationAction(Request $request, $survey_id)
     {
-        if (!$request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
@@ -50,17 +45,6 @@ class SsiProjectSurveyController extends Controller
      */
     public function completeAction(Request $request)
     {
-        if (!$request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-
-        $userId = $request->getSession()->get('uid');
-        $cacheSettings = $this->container->getParameter('cache_settings');
-        if ($cacheSettings['enable']) {
-            $redis = $this->get('snc_redis.default');
-            $redis->del(CacheKeys::getOrderHtmlSurveyListKey($userId));
-        }
-
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 

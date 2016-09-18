@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Route("/profile")
  */
-class ProfileController extends Controller
+class ProfileController extends Controller implements UserAuthenticationController
 {
     /**
      * @Route("/index", name="_profile_index", methods={"GET"})
@@ -128,8 +128,8 @@ class ProfileController extends Controller
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         //建立user和userProfile之间的双向关联
         if ($user->getUserProfile() == null) {

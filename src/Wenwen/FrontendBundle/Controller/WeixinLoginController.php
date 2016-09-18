@@ -105,8 +105,8 @@ class WeixinLoginController extends Controller
         $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         $params = array(
             'openId' => $openId,
@@ -173,8 +173,8 @@ class WeixinLoginController extends Controller
         $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
 
         $userService = $this->get('app.user_service');
-        $provinces = $userService->getProvinces();
-        $cities = $userService->getCities();
+        $provinces = $userService->getProvinceList();
+        $cities = $userService->getCityList();
 
         if ($request->getMethod() == 'POST') {
             $userForm->bind($request);
