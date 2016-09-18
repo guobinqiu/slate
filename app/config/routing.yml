@@ -42,6 +42,20 @@ wenwen_frontend:
     resource: "@WenwenFrontendBundle/Controller/"
     type:     annotation
 
+_login:
+    path: /login
+    defaults: { _controller: WenwenFrontendBundle:User:login}
+    schemes:  [https]
+    options:
+        expose: true
+
+_logout:
+    path: /logout
+    defaults: { _controller: WenwenFrontendBundle:User:logout}
+    schemes:  [http]
+    options:
+        expose: true
+
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 
