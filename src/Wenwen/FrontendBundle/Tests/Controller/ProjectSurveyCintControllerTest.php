@@ -8,6 +8,8 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Controller\ProjectSurveyCintController;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+
 
 class ProjectSurveyCintControllerTest extends WebTestCase
 {
@@ -193,7 +195,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
             $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
             $this->assertEquals(1, $point->getPointChangeNum());
-            $this->assertEquals(93, $point->getReason());
+            $this->assertEquals(CategoryType::CINT_EXPENSE, $point->getReason());
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->assertEquals($point_1 + 1, $user->getPoints());

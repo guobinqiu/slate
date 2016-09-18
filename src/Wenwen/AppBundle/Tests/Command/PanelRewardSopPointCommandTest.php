@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\PanelRewardSopPointCommand;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 class PanelRewardSopPointCommandTest extends KernelTestCase
 {
@@ -277,17 +278,17 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $task[0]->getPoint());
         $this->assertEquals('r10001 This is a title1', $task[0]->getTaskName());
-        $this->assertEquals('92', $task[0]->getCategoryType());
+        $this->assertEquals(CategoryType::SOP_COST, $task[0]->getCategoryType());
 
         $this->assertEquals(100, $task[1]->getPoint());
         $this->assertEquals('r20001 This is a title2', $task[1]->getTaskName());
-        $this->assertEquals('93', $task[1]->getCategoryType());
+        $this->assertEquals(CategoryType::SOP_EXPENSE, $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $point[0]->getPointChangeNum());
-        $this->assertEquals(92, $point[0]->getReason());
+        $this->assertEquals(CategoryType::SOP_COST, $point[0]->getReason());
         $this->assertEquals(100, $point[1]->getPointChangeNum());
-        $this->assertEquals(93, $point[1]->getReason());
+        $this->assertEquals(CategoryType::SOP_EXPENSE, $point[1]->getReason());
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());

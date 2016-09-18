@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\PanelRewardCintPointCommand;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 class PanelRewardCintPointCommandTest extends KernelTestCase
 {
@@ -282,17 +283,17 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $task[0]->getPoint());
         $this->assertEquals('c10001 This is a title1', $task[0]->getTaskName());
-        $this->assertEquals('92', $task[0]->getCategoryType());
+        $this->assertEquals(CategoryType::CINT_COST, $task[0]->getCategoryType());
 
         $this->assertEquals(100, $task[1]->getPoint());
         $this->assertEquals('c20001 This is a title2', $task[1]->getTaskName());
-        $this->assertEquals('92', $task[1]->getCategoryType());
+        $this->assertEquals(CategoryType::CINT_COST, $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $point[0]->getPointChangeNum());
-        $this->assertEquals(92, $point[0]->getReason());
+        $this->assertEquals(CategoryType::CINT_COST, $point[0]->getReason());
         $this->assertEquals(100, $point[1]->getPointChangeNum());
-        $this->assertEquals(92, $point[1]->getReason());
+        $this->assertEquals(CategoryType::CINT_COST, $point[1]->getReason());
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());

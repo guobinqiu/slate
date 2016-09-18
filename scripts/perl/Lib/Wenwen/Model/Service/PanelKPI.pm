@@ -36,7 +36,7 @@ sub count_active_number {
             WHERE 
                 u.register_complete_date >= ?
                 AND u.register_complete_date < ?
-                AND (p.reason = 92 or p.reason = 93)
+                AND (p.reason = 92 or p.reason = 93 or p.reason between 300 and 499)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -69,7 +69,7 @@ sub count_recent_30_day_inactivated {
             SELECT distinct p.user_id 
             FROM point_history0${counter} p 
             WHERE 
-            (p.reason = 92 or p.reason = 93) 
+            (p.reason = 92 or p.reason = 93 or p.reason between 300 and 499) 
             AND p.create_time >= ? 
             AND p.create_time < ? 
             )
@@ -78,7 +78,7 @@ sub count_recent_30_day_inactivated {
             SELECT distinct p.user_id 
             FROM point_history0${counter} p 
             WHERE 
-            (p.reason = 92 or p.reason = 93) 
+            (p.reason = 92 or p.reason = 93 or p.reason between 300 and 499) 
             AND p.create_time >= ? 
             AND p.create_time < ? 
             )
@@ -118,7 +118,7 @@ sub count_inactive_register {
                                 distinct p.user_id 
                             FROM point_history0${counter} p 
                             WHERE 
-                                (p.reason = 92 or p.reason = 93) 
+                                (p.reason = 92 or p.reason = 93 or p.reason between 300 and 499) 
                                 AND p.create_time >= ? 
                                 AND p.create_time < ? 
                             )";
@@ -194,7 +194,7 @@ sub count_late_active {
                 SELECT count(distinct p.user_id) 
                     FROM point_history0${counter} p 
                 WHERE 
-                    (p.reason = 92 or p.reason = 93) 
+                    (p.reason = 92 or p.reason = 93 or p.reason between 300 and 499) 
                     AND p.create_time >= ? 
                     AND p.create_time < ? 
                     AND p.user_id IN (
@@ -211,7 +211,7 @@ sub count_late_active {
                                 WHERE
                                     p.create_time >= ?
                                     AND p.create_time < ?
-                                    AND (p.reason = 92 OR p.reason = 93)
+                                    AND (p.reason = 92 OR p.reason = 93 or p.reason between 300 and 499)
                                 )
                         )
                 ";

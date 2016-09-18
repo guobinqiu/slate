@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 use Wenwen\AppBundle\Command\PanelRewardFulcrumAgreementCommand;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 {
@@ -169,7 +170,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $this->assertCount(1, $task_history,'1 task history record');
 
         $this->assertEquals(4, $task_history[0]['task_type'],'suvey task4');
-        $this->assertEquals(93, $task_history[0]['category_type'],'ad_cateogry 93');
+        $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $task_history[0]['category_type'],'user0 task_history.category_type should be CategoryType::FULCRUM_EXPENSE');
         $this->assertEquals('同意Fulcrum问卷调查', $task_history[0]['task_name'],'task name');
 
         $task_stm =   $em->getConnection()->prepare('select * from task_history0'.( $user1_id % 10 ));      
@@ -178,7 +179,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
          $this->assertNotEmpty($task_history,'1 task history record');     
          $this->assertCount(1, $task_history,'1 task history record');     
          $this->assertEquals(4, $task_history[0]['task_type'],'suvey task4');      
-         $this->assertEquals(93, $task_history[0]['category_type'],'ad_cateogry 93');      
+         $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $task_history[0]['category_type'],'user1 task_history.category_type shoulde be CategoryType::FULCRUM_EXPENSE');      
          $this->assertEquals('同意Fulcrum问卷调查', $task_history[0]['task_name'],'task name');
         // points history
         $points_stm =   $em->getConnection()->prepare('select * from point_history0'.( $user0_id % 10 ));
@@ -187,7 +188,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $this->assertNotEmpty($points_history,'1 point history record');
         $this->assertCount(1, $points_history,'1 point history record');
         $this->assertEquals(1, $points_history[0]['point_change_num'],'7 points');
-        $this->assertEquals(93, $points_history[0]['reason'],'ad_cateogry 93');
+        $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $points_history[0]['reason'],'user0 point_history.reason shoulde be CategoryType::FULCRUM_EXPENSE');
 
 
         $points_stm =   $em->getConnection()->prepare('select * from point_history0'.( $user1_id % 10 ));
@@ -196,7 +197,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $this->assertNotEmpty($points_history,'1 point history record');
         $this->assertCount(1, $points_history,'1 point history record');
         $this->assertEquals(1, $points_history[0]['point_change_num'],'7 points');
-        $this->assertEquals(93, $points_history[0]['reason'],'ad_cateogry 93');
+        $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $points_history[0]['reason'],'user0 point_history.reason shoulde be CategoryType::FULCRUM_EXPENSE');
         // user points
         $user_stm =   $em->getConnection()->prepare('select * from user ');
         $user_stm->execute();

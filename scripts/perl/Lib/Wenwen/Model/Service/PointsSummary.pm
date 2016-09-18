@@ -18,7 +18,7 @@ sub sum_survey_cost_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                p.reason = 92
+                (p.reason = 92 or  or p.reason between 402 and 499)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -126,7 +126,7 @@ sub sum_cpa_offer99_cost_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                p.reason = 18
+                (p.reason = 18 or p.reason = 201)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -153,7 +153,7 @@ sub sum_cpa_offerwow_cost_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                p.reason = 17
+                (p.reason = 17 or p.reason = 200)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -184,7 +184,7 @@ sub sum_survey_expense_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                p.reason = 93
+                (p.reason = 93 or  or p.reason between 302 and 399)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -411,7 +411,7 @@ sub sum_cpa_offer99_order_cost_points {
                 sum(t.point)
             FROM task_history0${counter} t 
             WHERE 
-                t.category_type = 18
+                (t.category_type = 18 or t.category_type = 201)
                 AND t.ocd_created_date >= ?
                 AND t.ocd_created_date < ?
         ";
@@ -438,7 +438,7 @@ sub sum_cpa_offerwow_order_cost_points {
                 sum(t.point)
             FROM task_history0${counter} t 
             WHERE 
-                t.category_type = 17
+                (t.category_type = 17 or t.category_type = 200)
                 AND t.ocd_created_date >= ?
                 AND t.ocd_created_date < ?
         ";

@@ -12,6 +12,7 @@ use Doctrine\Common\DataFixtures\Loader;
 
 use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 use Wenwen\AppBundle\Command\PanelRewardFulcrumPointCommand;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 
 class PanelRewardFulcrumPointCommandTest extends KernelTestCase
 {
@@ -182,10 +183,10 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->assertNotEmpty($task_history,'2 task history record');
         $this->assertCount(2, $task_history,'2 task history record');
         $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
-        $this->assertEquals(92, $task_history[0]['category_type'],'ad_cateogry 92');
+        $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[0]['category_type'],'CategoryType::FULCRUM_COST');
         $this->assertEquals('f10001 This is a title1', $task_history[0]['task_name'],'task name');
         $this->assertEquals(9, $task_history[1]['task_type'],'suvey task9');
-        $this->assertEquals(92, $task_history[1]['category_type'],'ad_cateogry 92');
+        $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[1]['category_type'],'CategoryType::FULCRUM_COST');
         $this->assertEquals('f20001 This is a title2', $task_history[1]['task_name'],'task name');
 
         // points history
@@ -195,10 +196,10 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->assertNotEmpty($points_history,'2 point history record');
         $this->assertCount(2, $points_history,'2 point history record');
         $this->assertEquals(30, $points_history[0]['point_change_num'],'7 points');
-        $this->assertEquals(92, $points_history[0]['reason'],'ad_cateogry 92');
+        $this->assertEquals(CategoryType::FULCRUM_COST, $points_history[0]['reason'],'CategoryType::FULCRUM_COST');
 
         $this->assertEquals(100, $points_history[1]['point_change_num'],'7 points');
-        $this->assertEquals(92, $points_history[1]['reason'],'ad_cateogry 92');
+        $this->assertEquals(CategoryType::FULCRUM_COST, $points_history[1]['reason'],'CategoryType::FULCRUM_COST');
 
         // user points
         $user_stm =   $em->getConnection()->prepare('select * from user where id =  '. $user_id);
