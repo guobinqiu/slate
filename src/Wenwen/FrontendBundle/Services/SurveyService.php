@@ -148,31 +148,70 @@ class SurveyService
                      }
                  ],
                  "research": [
-                     {
-                         "date": "2015-07-21",
-                         "is_answered": "0",
-                         "cpi": "0.00",
-                         "is_closed": "0",
-                         "ir": "0",
-                         "extra_info": {
-                             "point": {
-                                 "screenout": "30",
-                                 "quotafull": "30",
-                                 "complete": "670"
-                             },
-                             "date": {
-                                 "end_at": "2015-08-31 00:00:00",
-                                 "start_at": "2015-07-21 00:00:00"
-                             },
-                             "content": "这是一个测试"
-                         },
-                         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-                         "loi": "15",
-                         "title": "SOP Dummy Survey 4",
-                         "survey_id": "284",
-                         "quota_id": "393"
+                  {
+                    "survey_id": "10000",
+                    "quota_id": "20000",
+                    "cpi": "1.23",
+                    "ir": "80",
+                    "loi": "10",
+                    "is_answered": "0",
+                    "is_closed": "0",
+                    "title": "Example Research Survey（Not asnwered Not closed）",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                    "is_fixed_loi": "1",
+                    "is_notifiable": "1",
+                    "date": "2015-01-01",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "2",
+                             "quotafull": "1",
+                             "complete": "400"
+                         }
                      }
-                 ],
+                  },
+                  {
+                    "survey_id": "10001",
+                    "quota_id": "20001",
+                    "cpi": "1.00",
+                    "ir": "50",
+                    "loi": "20",
+                    "is_answered": "1",
+                    "is_closed": "0",
+                    "title": "Example Research Survey (Asnwered Not Closed）",
+                    "url": "",
+                    "is_fixed_loi": "0",
+                    "is_notifiable": "1",
+                    "date": "2015-01-02",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "2",
+                             "quotafull": "1",
+                             "complete": "300"
+                         }
+                     }
+                  },
+                  {
+                    "survey_id": "10002",
+                    "quota_id": "20002",
+                    "cpi": "2.34",
+                    "ir": "90",
+                    "loi": "10",
+                    "is_answered": "0",
+                    "is_closed": "1",
+                    "title": "Example Research Survey (Closed）",
+                    "url": "",
+                    "is_fixed_loi": "0",
+                    "is_notifiable": "0",
+                    "date": "2015-01-03",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "30",
+                             "quotafull": "30",
+                             "complete": "600"
+                         }
+                     }
+                  }
+                ],
                  "user_agreement":[
                    {
                      "type": "Fulcrum",
@@ -387,11 +426,13 @@ class SurveyService
         $researches = $sop['data']['research'];
         if (count($researches) > 0) {
             foreach ($researches as $research) {
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
-                if ($research['is_answered'] == 0) {
-                    array_unshift($html_survey_list, $html);
-                } else {
-                    array_push($html_survey_list, $html);
+                if(($research['is_closed'] == 0)){
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
+                    if ($research['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
+                    }
                 }
             }
         }
@@ -413,6 +454,7 @@ class SurveyService
         $profilings = $sop['data']['profiling'];
         if (count($profilings) > 0) {
             foreach ($profilings as $profiling) {
+                $profiling['url'] = $this->toProxyAddress($profiling['url']);
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling));
                 array_unshift($html_survey_list, $html);
             }
@@ -508,5 +550,15 @@ class SurveyService
     private function hasStopWord($url) {
         $patten = "/(sign(.?)up|register|registeration)/i";
         return preg_match($patten, $url);
+    }
+    
+    /**
+     * 替换属性问卷中的SOP地址为PROXY地址
+     *
+     * @param $url
+     * @return int
+     */
+    private function toProxyAddress($url) {
+        return preg_replace('/surveyon.com/', 'surveyon.cn', $url);
     }
 }
