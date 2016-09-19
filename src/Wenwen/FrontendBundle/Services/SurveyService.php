@@ -413,6 +413,7 @@ class SurveyService
         $profilings = $sop['data']['profiling'];
         if (count($profilings) > 0) {
             foreach ($profilings as $profiling) {
+                $profiling['url'] = $this->toProxyAddress($profiling['url']);
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling));
                 array_unshift($html_survey_list, $html);
             }
@@ -508,5 +509,15 @@ class SurveyService
     private function hasStopWord($url) {
         $patten = "/(sign(.?)up|register|registeration)/i";
         return preg_match($patten, $url);
+    }
+    
+    /**
+     * 替换属性问卷中的SOP地址为PROXY地址
+     *
+     * @param $url
+     * @return int
+     */
+    private function toProxyAddress($url) {
+        return preg_replace('/surveyon.com/', 'surveyon.cn', $url);
     }
 }
