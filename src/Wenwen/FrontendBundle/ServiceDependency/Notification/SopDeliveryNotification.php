@@ -14,7 +14,7 @@ class SopDeliveryNotification implements DeliveryNotification
     }
 
     public function send(array $respondents) {
-        $unsubscribed_app_mids = array();
+        //$unsubscribed_app_mids = array();
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $recipient = $this->getRecipient($respondent['app_mid']);
@@ -24,12 +24,20 @@ class SopDeliveryNotification implements DeliveryNotification
                     //$channel = $this->getChannel($i);
                     $this->runJob($respondent);
                 }
-            } else {
+            }
+            //else {
                 // 没有 email 并不代表这个app_mid不存在，不用返回信息给SOP那边
                 //$unsubscribed_app_mids[] = $respondent['app_mid'];
-            }
+            //}
         }
-        return $unsubscribed_app_mids;
+        //return $unsubscribed_app_mids;
+
+        return array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            )
+        );
     }
 
     protected function runJob($respondent, $channel = null) {
