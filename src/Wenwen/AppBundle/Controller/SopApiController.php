@@ -100,10 +100,13 @@ class SopApiController extends Controller
             $em->flush();
 
             // add point
-            $service = $this->container->get('points_manager');
-            $ad_category_id = CategoryType::SOP_EXPENSE;
-            $task_type_id = TaskType::RENTENTION;
-            $service->updatePoints($user_id, $point_value, $ad_category_id, $task_type_id, $name . ' 属性问卷');
+            $this->get('app.user_service')->addPoints(
+                $user,
+                $point_value,
+                CategoryType::SOP_EXPENSE,
+                TaskType::RENTENTION,
+                $name . ' 属性问卷'
+            );
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {

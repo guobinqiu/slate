@@ -47,6 +47,8 @@ class ProjectSurveyCintController extends Controller implements UserAuthenticati
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (), $response);
         }
 
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+
         // start transaction
         $em->getConnection()->beginTransaction();
 
@@ -59,8 +61,13 @@ class ProjectSurveyCintController extends Controller implements UserAuthenticati
             $em->flush();
 
             // add point
-            $service = $this->container->get('points_manager');
-            $service->updatePoints($user_id, self::AGREEMENT_POINT, CategoryType::CINT_EXPENSE, TaskType::RENTENTION, self::COMMENT);
+            $this->get('app.user_service')->addPoints(
+                $user,
+                self::AGREEMENT_POINT,
+                CategoryType::CINT_EXPENSE,
+                TaskType::RENTENTION,
+                self::COMMENT
+            );
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {

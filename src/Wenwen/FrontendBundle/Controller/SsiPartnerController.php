@@ -93,7 +93,7 @@ class SsiPartnerController extends Controller
         $values = $form->getData();
 
         if ($form->isValid()) {
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($request->getSession()->get('uid'));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($request->getSession()->get('uid'));
 
             $ssi_respondent = new SsiRespondent();
             $ssi_respondent->setUser($user);
@@ -105,15 +105,14 @@ class SsiPartnerController extends Controller
             if ($ssi_respondent->needPrescreening()) {
                 return $this->redirect($this->generateUrl('_ssi_partner_redirect'));
             } else {
-                // permission no : add point
-                $point_value = 1;
-                $this->get('points_manager')->updatePoints($user->getId(), 
-                    $point_value, 
-                    CategoryType::SSI_EXPENSE, 
-                    TaskType::RENTENTION, 
+                // permission no : add point 1分
+                $this->get('app.user_service')->addPoints(
+                    $user,
+                    1,
+                    CategoryType::SSI_EXPENSE,
+                    TaskType::RENTENTION,
                     '同意参与海外市场调查项目'
-                    );
-
+                );
                 return $this->redirect($this->generateUrl('_ssi_partner_complete'));
             }
         }
@@ -206,14 +205,9 @@ class SsiPartnerController extends Controller
                 $em->flush();
 
                 // add point
-                $point_value = 1;
                 $user_id = $request->getSession()->get('uid');
-                $this->get('points_manager')->updatePoints($user_id, 
-                    $point_value, 
-                    CategoryType::SSI_EXPENSE, 
-                    TaskType::RENTENTION, 
-                    '完成海外市场调查项目Prescreen'
-                    );
+                $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+                $this->get('app.user_service')->addPoints($user, 1, CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
 
                 $db_connection->commit();
             } catch (\Exception $e) {

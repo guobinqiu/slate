@@ -17,12 +17,12 @@ class SopDeliveryNotification implements DeliveryNotification
         $unsubscribed_app_mids = array();
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
-            $recipient = $this->getRecipient($respondent);
+            $recipient = $this->getRecipient($respondent['app_mid']);
             if ($recipient['email']) {
                 if ($this->isSubscribed($recipient['email'])) {
                     $respondent['recipient'] = $recipient;
-                    $channel = $this->getChannel($i);
-                    $this->runJob($respondent, $channel);
+                    //$channel = $this->getChannel($i);
+                    $this->runJob($respondent);
                 }
             } else {
                 $unsubscribed_app_mids[] = $respondent['app_mid'];
@@ -31,7 +31,7 @@ class SopDeliveryNotification implements DeliveryNotification
         return $unsubscribed_app_mids;
     }
 
-    protected function runJob($respondent, $channel) {
+    protected function runJob($respondent, $channel = null) {
         $name1 = $respondent['recipient']['name1'];
         if ($name1 == null) {
             $name1 = $respondent['recipient']['email'];
@@ -50,8 +50,8 @@ class SopDeliveryNotification implements DeliveryNotification
         $this->em->clear();
     }
 
-    private function getRecipient($respondent) {
-        return $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($respondent['app_mid']);
+    private function getRecipient($app_mid) {
+        return $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
     }
 
     private function isSubscribed($email) {
@@ -59,7 +59,7 @@ class SopDeliveryNotification implements DeliveryNotification
         return count($userEdmUnsubscribes) == 0;
     }
 
-    private function getChannel($i) {
-        return $i % 2 == 0 ? 'channel2' : 'channel3';
-    }
+//    private function getChannel($i) {
+//        return $i % 2 == 0 ? 'channel2' : 'channel3';
+//    }
 }

@@ -41,7 +41,9 @@ class CategoryType
     const SSI_EXPENSE = 303;      // (+) SSI AGREEMENT PRESCREEN等
     const CINT_EXPENSE = 304;     // (+) Cint AGREEMENT 
     const FULCRUM_EXPENSE = 305;  // (+) Fulcrum AGREEMENT
-    const EVENT_XXX = 399;        // (+) 这个还没有被用到，具体活动的类型，需要的时候定义
+    //const EVENT_XXX = 399;        // (+) 这个还没有被用到，具体活动的类型，需要的时候定义
+    const EVENT_INVITE_SIGNUP = 380; // (+) 邀请注册加积分
+    const EVENT_INVITE_SURVEY = 381; // (+) 做问卷给邀请人加积分
 
     /** 2016/09/12之前的值
     const SIGNUP = 32;           // (+) 完成注册获得积分

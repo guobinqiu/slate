@@ -55,6 +55,7 @@ class RegistrationController extends Controller
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                $user->setInviteId($session->get('inviteId'));
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -117,8 +118,27 @@ class RegistrationController extends Controller
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
-        $this->get('app.user_service')->addPoints($user, User::POINT_SIGNUP, CategoryType::SIGNUP, TaskType::RENTENTION, '完成注册');
+        $userService = $this->get('app.user_service');
 
+        // 给当前用户加积分
+        $userService->addPoints(
+            $user,
+            User::POINT_SIGNUP,
+            CategoryType::SIGNUP,
+            TaskType::RENTENTION,
+            '完成注册'
+        );
+
+        // 同时给邀请人加积分(100分)
+        $userService->addPointsForInviter(
+            $user,
+            100,
+            CategoryType::EVENT_INVITE_SIGNUP,
+            TaskType::RENTENTION,
+            '邀请的朋友完成了注册'
+        );
+
+        // 推送用户基本属性
         $this->pushBasicProfile($user, $em);
 
         $request->getSession()->set('uid', $user->getId());

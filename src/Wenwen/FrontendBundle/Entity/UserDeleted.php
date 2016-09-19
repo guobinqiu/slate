@@ -181,6 +181,12 @@ class UserDeleted
      */
     private $resetPasswordTokenExpiredAt;
 
+
+    /**
+     * @ORM\Column(name="invite_id", type="integer", nullable=true)
+     */
+    private $inviteId;
+
     /**
      * Get id
      *
@@ -711,16 +717,6 @@ class UserDeleted
     }
 
     /**
-     * Get resetPasswordToken
-     *
-     * @return string 
-     */
-    public function getResetPasswordToken()
-    {
-        return $this->resetPasswordToken;
-    }
-
-    /**
      * Set resetPasswordTokenExpiredAt
      *
      * @param \DateTime $resetPasswordTokenExpiredAt
@@ -741,5 +737,27 @@ class UserDeleted
     public function getResetPasswordTokenExpiredAt()
     {
         return $this->resetPasswordTokenExpiredAt;
+    }
+
+    /**
+     * Get resetPasswordToken
+     *
+     * @return string
+     */
+    public function getResetPasswordToken()
+    {
+        return $this->resetPasswordToken;
+    }
+
+    public function setInviteId($inviteId)
+    {
+        $this->inviteId = $inviteId;
+
+        return $this;
+    }
+
+    public function getInviteId()
+    {
+        return $this->inviteId;
     }
 }

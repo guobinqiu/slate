@@ -61,6 +61,9 @@ class SopRespondent
     private $createdAt;
 
     /**
+     * 即APP_MID
+     * 也即sop_respondent表的id
+     *
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
