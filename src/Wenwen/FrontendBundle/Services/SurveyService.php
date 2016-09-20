@@ -523,7 +523,7 @@ class SurveyService
                 'X-Sop-Sig' => $sig
             );
 
-            $url = 'https://' . $host . '/api/v1_1/resource/app/member';
+            $url = 'http://' . $host . '/api/v1_1/resource/app/member';
             $request = $this->httpClient->post($url, $headers, $postBody, array('timeout' => 30, 'connect_timeout' => 30));
             $response = $request->send();
             $this->logger->info(__METHOD__ . $response->getBody());
