@@ -126,16 +126,16 @@ class RegistrationController extends Controller
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            '完成注册'
+            User::COMMENT_SIGNUP
         );
 
-        // 同时给邀请人加积分(100分)
+        // 同时给邀请人加积分
         $userService->addPointsForInviter(
             $user,
-            100,
+            User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            '邀请的朋友完成了注册'
+            User::COMMENT_INVITE_SIGNUP
         );
 
         // 推送用户基本属性

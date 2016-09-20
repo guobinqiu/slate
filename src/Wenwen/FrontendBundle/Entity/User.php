@@ -25,9 +25,14 @@ class User
     const EMAIL_CONFIRMED = 1;
     const PWD_WENWEN = 1;
     const PWD_JILI = 2;
+    const DEFAULT_REWARD_MULTIPE = 1;
+
     const POINT_EMPTY = 0;
     const POINT_SIGNUP = 10;
-    const DEFAULT_REWARD_MULTIPE = 1;
+    const POINT_INVITE_SIGNUP = 10;
+
+    const COMMENT_SIGNUP = '完成了注册';
+    const COMMENT_INVITE_SIGNUP = '你的朋友完成了注册';
 
     /**
      * @var integer
