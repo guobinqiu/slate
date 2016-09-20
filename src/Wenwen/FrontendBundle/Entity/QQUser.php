@@ -30,7 +30,7 @@ class QQUser
     /**
      * @var string
      *
-     * @ORM\Column(name="open_id", type="string", nullable=false)
+     * @ORM\Column(name="open_id", type="string")
      */
     private $openId;
 
@@ -40,12 +40,12 @@ class QQUser
     private $nickname;
 
     /**
-     * @ORM\Column(name="photo", type="string")
+     * @ORM\Column(name="photo", type="string", nullable=true)
      */
     private $photo;
 
     /**
-     * @ORM\Column(name="gender", type="string")
+     * @ORM\Column(name="gender", type="string", nullable=true)
      */
     private $gender;
 

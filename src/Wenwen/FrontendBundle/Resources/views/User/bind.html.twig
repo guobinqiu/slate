@@ -108,12 +108,14 @@
 		$(function() {
 			{% if not loginForm.vars.valid %}
 				$('.bindForm').slideDown(duration);
+				$('.bindBtn').val('绑定');
 			{% else %}
 				$('.bindForm').slideUp(duration);
 			{% endif %}
 
 			{% if not userForm.vars.valid %}
 				$('.unbindForm').slideDown(duration);
+				$('.skipBtn').val('注册');
 			{% else %}
 				$('.unbindForm').slideUp(duration);
 			{% endif %}
@@ -123,7 +125,7 @@
 			if ($('.bindForm').is(':hidden')) {
 				$('.bindForm').slideDown(duration);
 				$('.unbindForm').slideUp(duration);
-				$(this).val('提交');
+				$(this).val('绑定');
 				$('.skipBtn').val('我是新用户');
 				e.preventDefault();
 			}
@@ -133,7 +135,7 @@
 			if ($('.unbindForm').is(':hidden')) {
 				$('.unbindForm').slideDown(duration);
 				$('.bindForm').slideUp(duration);
-				$(this).val('提交');
+				$(this).val('注册');
 				$('.bindBtn').val('我是老用户');
 				e.preventDefault();
 			}
@@ -150,16 +152,16 @@
 		            	required: true
 		            },
 		            'front_user_profile[province]':{
-		            	required: true		
+		            	required: true
 		            },
 		            'front_user_profile[city]':{
-		            	required: true	
+		            	required: true
 		            },
 		            'front_user_profile[birthday][year]':{
 		                required: true
 		            },
 		            'front_user_profile[birthday][month]':{
-		                required: true    
+		                required: true
 		            },
 		            'front_user_profile[birthday][day]':{
 		                required: true
@@ -173,20 +175,20 @@
 		        		required: "请选择生日"
 		        	},
 		        	'front_user_profile[province]':{
-		        		required: "请选择居住地"		
+		        		required: "请选择居住地"
 		        	},
 		        	'front_user_profile[city]':{
-		        		required: "请选择居住地"	
+		        		required: "请选择居住地"
 		        	},
 		        	'front_user_profile[birthday][year]':{
 		        	    required: "请选择生日"
 		        	},
 		        	'front_user_profile[birthday][month]':{
-		        	    required: "请选择生日"    
+		        	    required: "请选择生日"
 		        	},
 		        	'front_user_profile[birthday][day]':{
 		        	    required: "请选择生日"
-		        	} 
+		        	}
 		        }
 		    }
 		);

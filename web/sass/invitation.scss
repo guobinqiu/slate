@@ -1,8 +1,10 @@
 @charset "UTF-8";
 
-@import "layout/common-simple";
-@import "layout/header-simple";
+@import "layout/common";
+@import "layout/header";
 @import "font-awesome/scss/font-awesome.scss";
+@media only screen and (min-width: 668px) and (max-width: 1024px)  {
+}
 .header{ 
 	height: 45px;
 	border-bottom: none!important;
@@ -98,7 +100,7 @@
 					text-align: center;
 					color: #fff;
 					font-size: 16px;
-					padding: 15px 5px;
+					padding: 22px 5px;
 					@include border-radius(5px);
 				}
 			}

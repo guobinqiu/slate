@@ -91,12 +91,24 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $dbh->beginTransaction();
 
             try {
-                $this->getContainer()->get('points_manager')->updatePoints(
-                    $user->getId(),
+                $userService = $this->getContainer()->get('app.user_service');
+
+                // 给当前用户加积分
+                $userService->addPoints(
+                    $user,
                     $ssiProjectConfig['point'],
                     CategoryType::SSI_COST,
                     TaskType::SURVEY,
                     sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
+                );
+
+                // 同时给邀请人加积分(10%)
+                $userService->addPointsForInviter(
+                    $user,
+                    $ssiProjectConfig['point'] * 0.1,
+                    CategoryType::EVENT_INVITE_SURVEY,
+                    TaskType::RENTENTION,
+                    '你的朋友回答了ssi商业问卷'
                 );
 
                 $this->recordParticipationHistory($ssiRespondent, $row);

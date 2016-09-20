@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -8,6 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
@@ -86,12 +89,25 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 // insert participation history
                 $this->createParticipationHistory($history);
 
-                // insert point history, task history, user points
-                $this->getContainer()->get('points_manager')->updatePoints($respondent->getUserId(),
-                  $this->point($history),
-                  $this->type($history), // ad_category_id or point.exec_type
-                  $this->task($history), //task_type_id
-                  $this->comment($history));// task_name
+                $userService = $this->getContainer()->get('app.user_service');
+
+                // 给当前用户加积分
+                $userService->addPoints(
+                    $user,
+                    $this->point($history),
+                    $this->type($history),
+                    $this->task($history),
+                    $this->comment($history)
+                );
+
+                // 同时给邀请人加积分(10%)
+                $userService->addPointsForInviter(
+                    $user,
+                    $this->point($history) * 0.1,
+                    CategoryType::EVENT_INVITE_SURVEY,
+                    TaskType::RENTENTION,
+                    '你的朋友回答了sop商业问卷'
+                );
 
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
