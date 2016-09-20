@@ -295,14 +295,13 @@ class SurveyService
         $sop_api_url = $this->buildSopSurveListUrl($app_mid);
 
         $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 3, 'connect_timeout' => 3));
-        try{
-            $response = $request->send();
-            $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
-            return $response->getBody();
-        } catch(\Exception $e){
-            $this->logger->error($e);
+        $response = $request->send();
+        if ($response->getStatusCode() != 200) {
+            $this->logger->error($response->getStatusCode() . ' ' . $response->getBody());
+            return '';
         }
-        return '';
+        $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
+        return $response->getBody();
     }
 
     /**
