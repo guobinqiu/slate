@@ -32,6 +32,11 @@
                         <div class="pointExp pointExpUnlog"><span>100积分=<i>1元</i></span></div>
                     {% endif %}
                 </a>
+                {% if app.request.attributes.get('_route') == '_user_login' %}
+                    <a title="邀请好友">邀请好友</a>
+                {% else %}
+                    <a href="{{ path('_user_invite') }}" title="邀请好友" {{ router_current == '_user_invite' ? 'class="active"':'' }}>邀请好友</a>
+                {% endif %}
                 <a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="active"':'' }}>帮助中心</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
                 {% else %}

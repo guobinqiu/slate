@@ -16,7 +16,7 @@
 	.col-t-11 {width: 91.66%;}
 	.col-t-12 {width: 100%;}
 
-	html{
+	html{ 
 	    font-size: 16px!important;
 	}
 	.visibleTablet{ 
@@ -38,9 +38,11 @@
 	}
 
     /* header */
-    
     .header-nav{
         padding: 0 5%;
+        img{
+            margin: 10px 0 0 0;
+        }
         .header-nav-con{
             .navR{
                 width: 85%;
@@ -240,9 +242,9 @@
         }
     }
     .vote-sub{
-    	// .vote-txt{
-     //        width: 80%;
-    	// } 
+    	.vote-txt{
+            width: 80%;
+    	} 
         .vote-new{
             .vote-btn{
                 top: 22px!important;

@@ -3,8 +3,6 @@
 @import "layout/common";
 @import "layout/header";
 @import "font-awesome/scss/font-awesome.scss";
-@media only screen and (min-width: 668px) and (max-width: 1024px)  {
-}
 body{ 
 	font-family: $font-family!important;
 }
@@ -141,6 +139,7 @@ a:hover{
 	        text-align: right;
 	        font-size: 14px!important;
 	        margin-right: 5px;
+	        display: inline-block;
 		}
 		.copy{
 			font-size: 12px;
@@ -152,6 +151,7 @@ a:hover{
 		}
 		input{
 			width: 40%;
+			display: inline-block;
 		}
 	}
 	.ruleTit{
@@ -234,4 +234,12 @@ a:hover{
 		color: #a39662;
 		font-size: 12px!important;
 	}
+}
+
+@media only screen and (max-width: 768px) {
+	.bannerWrap{
+		.bannerCon{
+			padding-top: 20px;	
+		}
+	} 
 }
