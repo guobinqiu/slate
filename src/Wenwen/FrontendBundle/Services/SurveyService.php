@@ -110,29 +110,6 @@ class SurveyService
 //        回答了user_agreement[cint]后cint_research才有数据
 
     /**
-     * @param $user_id
-     * @return string json格式字符串
-     */
-    private function getSopSurveyListJson($user_id) {
-        $this->logger->debug(__METHOD__ . ' - START - ');
-        if($this->dummy){
-            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
-            return $this->getDummySurveyListJson();
-        }
-
-        // 取得app_mid
-        $app_mid = $this->getSopRespondentId($user_id);
-
-        // 生成sop_api_url
-        $sop_api_url = $this->buildSopSurveListUrl($app_mid);
-
-        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 30, 'connect_timeout' => 30));
-        $response = $request->send();
-        $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
-        return $response->getBody();
-    }
-
-    /**
      * @return json $dummy_res 模拟一个SOP survey list返回的数据
      */
     private function getDummySurveyListJson() {
@@ -295,6 +272,60 @@ class SurveyService
 
         return $dummy_res;
     }
+    
+    /**
+     * @param $user_id
+     * @return string json格式字符串
+     */
+    private function getSopSurveyListJson($user_id) {
+        $this->logger->debug(__METHOD__ . ' - START - ');
+        if($this->dummy){
+            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
+            return $this->getDummySurveyListJson();
+        }
+
+        // 取得app_mid
+        $app_mid = $this->getSopRespondentId($user_id);
+
+        // 生成sop_api_url
+        $sop_api_url = $this->buildSopSurveListUrl($app_mid);
+
+        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 30, 'connect_timeout' => 30));
+        $response = $request->send();
+        $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
+        return $response->getBody();
+    }
+
+    /**
+     * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
+     * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
+     * @return array $ssi_res
+     */
+    private function getDummySsiSurveyList() {
+        $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
+        // 造一个假的ssi project survey数据
+        // *这里需要注意* 2016/06/17
+        // 由于这版修改的时候对于ssi的整体调用设计还不是很清楚
+        // 这里准备的dummy数据仅仅保证的survey list中ssi的cover page正常显示
+        // 但是对应的实际问卷的页面显示会不正常，需要在数据库中准备相应的数据才能正常显示
+        // 理想中，假数据的准备不应该在这里做，应该在ssi的模块中做
+        // 将来ssi的对接考虑重新做，到时候再整体调整
+        $ssi_res = array ();
+        $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
+        $ssi_res['needPrescreening'] = true;
+        $item = [];
+        $item['id'] = '555';
+        $item['ssi_project_id'] = '555';
+        $item['ssi_respondent_id'] = '555';
+        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
+        $item['answer_status'] = '0';
+        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
+        $ssi_surveys = [];
+        $ssi_surveys[] = new ProjectSurvey($item);
+        $ssi_res['ssi_surveys'] = $ssi_surveys;
+        $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
+        return $ssi_res;
+    }
 
     /**
      * 返回该用户的可回答问卷数据
@@ -333,36 +364,6 @@ class SurveyService
         return $ssi_res;
     }
 
-    /**
-     * ssi的数据设计的耦合性太大，测试时需要在数据库里准备很多关联数据
-     * 这里返回一个假的ssi数据 方便本地测试以及单纯的页面改动
-     * @return array $ssi_res
-     */
-    private function getDummySsiSurveyList() {
-        $this->logger->debug(__METHOD__ . ' - START - Dummy mode - ');
-        // 造一个假的ssi project survey数据
-        // *这里需要注意* 2016/06/17
-        // 由于这版修改的时候对于ssi的整体调用设计还不是很清楚
-        // 这里准备的dummy数据仅仅保证的survey list中ssi的cover page正常显示
-        // 但是对应的实际问卷的页面显示会不正常，需要在数据库中准备相应的数据才能正常显示
-        // 理想中，假数据的准备不应该在这里做，应该在ssi的模块中做
-        // 将来ssi的对接考虑重新做，到时候再整体调整
-        $ssi_res = array ();
-        $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
-        $ssi_res['needPrescreening'] = true;
-        $item = [];
-        $item['id'] = '555';
-        $item['ssi_project_id'] = '555';
-        $item['ssi_respondent_id'] = '555';
-        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
-        $item['answer_status'] = '0';
-        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
-        $ssi_surveys = [];
-        $ssi_surveys[] = new ProjectSurvey($item);
-        $ssi_res['ssi_surveys'] = $ssi_surveys;
-        $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
-        return $ssi_res;
-    }
 
     /**
      * @param $user_id 用户id
