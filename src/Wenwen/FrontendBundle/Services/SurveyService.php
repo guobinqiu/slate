@@ -297,7 +297,7 @@ class SurveyService
         $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 3, 'connect_timeout' => 3));
         $response = $request->send();
         if ($response->getStatusCode() != 200) {
-            $this->logger->error($response->getStatusCode() . ' ' . $response->getBody());
+            $this->logger->error('url=' . $sop_api_url . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
             return '';
         }
         $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
@@ -409,7 +409,7 @@ class SurveyService
 
             // 处理sop的数据
             if ($sop['meta']['code'] != 200) {
-                $this->logger->error($result);
+                $this->logger->error('sopJson=' . $result);
                 return $html_survey_list;
             }
             //$this->logger->info($result);
