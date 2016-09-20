@@ -71,7 +71,7 @@ class IpLocationService
             }
             $this->logger->debug(__METHOD__ . ' locationId=' . json_encode($locationId));
         } catch(\Exception $e){
-            $this->logger->error(__METHOD__ . $e);
+            $this->logger->error($e);
         }
 
         $this->logger->debug(__METHOD__ . ' END   ipAddress=' . $ipAddress . ' locationId=' . json_encode($locationId));
@@ -114,6 +114,10 @@ class IpLocationService
         $this->logger->debug(__METHOD__ . ' ipLocateApiUrl=' . $ipLocateApiUrl);
         $request = $this->httpClient->get($ipLocateApiUrl, null, array('timeout' => 1, 'connect_timeout' => 1)); // 要快，不要精准
         $response = $request->send();
+        if ($response->getStatusCode() != 200) {
+            $this->logger->error($response->getStatusCode() . ' ' . $response->getBody());
+            return '';
+        }
         $this->logger->debug(__METHOD__ . ' response=' . $response);
         $responseBody = $response->getBody();
         $this->logger->debug(__METHOD__ . ' END responseBody=' . $responseBody);
@@ -150,6 +154,7 @@ class IpLocationService
             'city' => '没找到对应的城市',
             'province' => '没找到对应的省份'
             );
+        
         $responseData = json_decode($responseBody, true);
         if($responseData['status'] == 1 && is_string($responseData['city'])){
             // 给的IP找不到对应城市时，返回的city是个空，json_decode以后就是个空数组
