@@ -18,7 +18,14 @@ class HttpClient {
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client(
+            '',
+                array(
+                    'request.options' => array(
+                        'exceptions' => false
+                    )
+                )
+            );
     }
 
     public function get($uri, $headers = null, array $options = array())
