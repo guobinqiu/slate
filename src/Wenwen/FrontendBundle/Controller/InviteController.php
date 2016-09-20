@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/user")
- */
 class InviteController extends Controller //implements UserAuthenticationController
 {
     const ENCODE_TYPE = 'blowfish';
@@ -28,18 +25,28 @@ class InviteController extends Controller //implements UserAuthenticationControl
         }
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
-        $inviteUrl = $this->generateUrl('_user_invite_landing', array('inviteId' => PasswordEncoder::encode(self::ENCODE_TYPE, (string)$user->getId(), self::SALT)), true);
-        return $this->render('WenwenFrontendBundle:Event:invitation.html.twig', array('inviteUrl' => $inviteUrl));
+        $inviteUrl = $this->generateUrl('_user_invite_landing', array('userId' => $this->encode($user->getId())), true);
+        return $this->render('WenwenFrontendBundle:User:invite.html.twig', array('inviteUrl' => $inviteUrl));
     }
 
     /**
-     * @Route("/lp/{inviteId}", name="_user_invite_landing", methods={"GET"})
+     * @Route("/share/{userId}", name="_user_invite_landing", methods={"GET"})
      */
-    public function inviteLandingAction(Request $request, $inviteId)
+    public function inviteLandingAction(Request $request, $userId)
     {
-        if (isset($inviteId)) {
-            $request->getSession()->set('inviteId', PasswordEncoder::decode(self::ENCODE_TYPE, $inviteId, self::SALT));
+        if (isset($userId)) {
+            $request->getSession()->set('inviteId', $this->decode($userId));
         }
         return $this->redirect($this->generateUrl('_user_reg'), 301);
+    }
+
+    private function encode($userId)
+    {
+        return urlencode(PasswordEncoder::encode(self::ENCODE_TYPE, (string)$userId, self::SALT));
+    }
+
+    private function decode($userId)
+    {
+        return PasswordEncoder::decode(self::ENCODE_TYPE, urldecode($userId), self::SALT);
     }
 }

@@ -184,7 +184,7 @@
         position: relative;
         z-index: 2;
         .logo{
-            height: 30px;
+            // height: 30px;
             display: inline-flex;
             span{
                 display: none;
@@ -683,7 +683,7 @@
             margin-top: 10px;
         }
         .vote-txt{
-            width: 68%;
+            width: 100%;
             .con{
                 color: $sub-con-color;
             }
