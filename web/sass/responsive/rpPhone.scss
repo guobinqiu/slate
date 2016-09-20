@@ -32,13 +32,6 @@
     }
 
     /* header */
-    .header{
-        position: relative;
-        z-index: 2;
-    }
-    .nav{
-        display: none;
-    }
     .header-nav{
         .login-btn{
             display: none;
@@ -47,9 +40,9 @@
             padding: 0;
         }
     } 
-    .header-nav-con{
-        position: relative;
-    }
+    // .header-nav-con{
+    //     position: relative;
+    // }
     .navCollapsed{
         position: absolute;
         right: 6%;

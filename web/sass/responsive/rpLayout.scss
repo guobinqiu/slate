@@ -24,13 +24,13 @@
             margin-bottom: 10px;
         }
     }
-    .header-nav{
-        .logo{
-            span{
-                display: none;
-            }
-        }
-    } 
+    // .header-nav{
+    //     .logo{
+    //         span{
+    //             display: none;
+    //         }
+    //     }
+    // } 
     .main{
         &.unlogin{
             margin-top: 0;
@@ -179,19 +179,87 @@
             height: initial;
         }
     }
-
     .header{
-        height: 52px;
-        position: initial;
-        &.unlogin{
-            height: 51px;
-        }
+        height: 51px;
+        position: relative;
+        z-index: 2;
         .logo{
-            a{
-                padding: 0;
+            height: 30px;
+            display: inline-flex;
+            span{
+                display: none;
             }
         }
+        .header-nav-con{
+            line-height: 51px;
+        }
+        p{
+            height: 51px;
+            line-height: 51px;
+        }
     }
+    .header-nav{
+        height: 51px;
+        line-height: 51px; 
+        .header-nav-con{
+            overflow: hidden;
+            height: 100%;
+       }
+        .login-btn{
+            margin-right: 20px;   
+            a{
+                font-size: .8rem!important;
+                vertical-align: 2px;
+            }
+        }
+        img{
+            height: 32px;
+        }
+        .headQnCon{
+            .navTit{
+                margin: -1px auto 0!important;
+                font-size: 1.3rem!important;
+            }
+            p.right, p.right a{
+                font-size: 12px!important;
+            }
+            p.right{
+                margin-right: 5%;
+                margin-top: 15px!important;
+            }
+            .logo img{
+                height: 40px;
+                margin: 17px 0 0 15px;
+            }
+            p{
+                margin-right: 5%;
+                margin-top: 10px!important;
+            }
+            p,p a{
+                font-size: .8rem!important;
+            }
+        }
+        .navTit{
+            text-align: center; 
+            width: 60%;
+            margin: 0 auto;
+            font-size: 1.2rem!important;
+            color: #7A8190;
+        }
+    }
+    
+    // .header{
+    //     height: 52px;
+    //     position: initial;
+    //     &.unlogin{
+    //         height: 51px;
+    //     }
+    //     .logo{
+    //         a{
+    //             padding: 0;
+    //         }
+    //     }
+    // }
     
     /* footer */
     .footer{
@@ -376,63 +444,6 @@
         i{
             font-size: 1.3rem!important;
             font-weight: bold;
-        }
-    }
-    .header-nav{
-        height: 100%;
-        line-height: 51px;
-        .header-nav-con{
-            overflow: hidden;
-            height: 100%;
-       }
-        .login-btn{
-            margin-right: 20px;   
-            a{
-                font-size: .8rem!important;
-                vertical-align: 2px;
-            }
-        }
-        img{
-            height: 32px;
-            margin: 11px 0 0 15px;
-            vertical-align: initial;
-        }
-        .headQnCon{
-            .navTit{
-                margin: -1px auto 0!important;
-                font-size: 1.3rem!important;
-            }
-            p.right, p.right a{
-                font-size: 12px!important;
-            }
-            p.right{
-                margin-right: 5%;
-                margin-top: 15px!important;
-            }
-            .logo img{
-                height: 40px;
-                margin: 17px 0 0 15px;
-            }
-            p{
-                margin-right: 5%;
-                margin-top: 10px!important;
-            }
-            p,p a{
-                font-size: .8rem!important;
-            }
-        }
-        .navTit{
-            text-align: center; 
-            width: 60%;
-            margin: 0 auto;
-            font-size: 1.2rem!important;
-            color: #7A8190;
-        }
-    }
-    .header{
-        p{
-            height: 52px;
-            line-height: 52px;
         }
     }
     .vote li:after{

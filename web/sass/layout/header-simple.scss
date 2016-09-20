@@ -2,14 +2,28 @@
 
 @import "global";
 $header-height: 92px;
+.clearfix{
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 .header{
 	background: #fff;
 	height: $header-height;
 	border-bottom: 3px solid #fa8611;
 	@include box-shadow(0px 1px 5px #d8d8d8);
+	.header-nav-con{
+		padding: 0 5%;
+		height: 100%;
+		line-height: $header-height;
+	}
 	.logo{
+		vertical-align: middle;
 		a{
-			padding: 15px 20px 15px 0;
+			// padding: 15px 20px 15px 0;
 			vertical-align: middle;
 			@include dib();
 		}
@@ -19,8 +33,9 @@ $header-height: 92px;
 			font-size: 22px;
 			color: #595654;
 			border-left: 1px solid #ddd;
-			vertical-align: middle;
+			// vertical-align: middle;
 			@include dib();
+			margin-left: 10px;
 			b{
 				color: #f26f21;
 				font-weight: normal;
