@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
 /**
  * @Route("/auth/weixin")
  */
-class WeixinLoginController extends Controller
+class WeixinLoginController extends BaseController
 {
     /**
      * @Route("/login", name="weixin_login", methods={"GET"})
@@ -186,7 +186,8 @@ class WeixinLoginController extends Controller
                         $userProfile,
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId')
+                        $request->getSession()->get('inviteId'),
+                        $this->noStubInBrowser($request)
                     );
                     $this->pushBasicProfile($user, $em);
                 }

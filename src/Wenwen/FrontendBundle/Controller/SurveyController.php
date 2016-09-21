@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 /**
  * @Route("/survey")
  */
-class SurveyController extends Controller implements UserAuthenticationController
+class SurveyController extends BaseController implements UserAuthenticationController
 {
     /**
      * @Route("/index", name="_survey_index")

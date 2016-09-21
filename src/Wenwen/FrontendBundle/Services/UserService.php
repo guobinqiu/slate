@@ -36,18 +36,19 @@ class UserService
      * @param $userProfile
      * @param $clientIp
      * @param $userAgent
-     * @return User
-     * @throws \Doctrine\DBAL\ConnectionException
+     * @param $inviteId
+     * @param $canRewardInviter bool
      * @throws \Exception
      */
-    public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId) {
+    public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter) {
         // 创建用户
         $user = $this->createUser(
             $xxxUser,
             $userProfile,
             $clientIp,
             $userAgent,
-            $inviteId
+            $inviteId,
+            $canRewardInviter
         );
 
         // 给当前用户加积分
@@ -67,6 +68,8 @@ class UserService
             TaskType::RENTENTION,
             User::COMMENT_INVITE_SIGNUP
         );
+
+        return $user;
     }
 
     public function addPoints(User $user, $points, $categoryType, $taskType, $taskName) {
@@ -140,7 +143,7 @@ class UserService
         return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
 
-    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId) {
+    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user = new User();
@@ -151,7 +154,9 @@ class UserService
             $user->setLastLoginIp($clientIp);
             $user->setCreatedRemoteAddr($clientIp);
             $user->setCreatedUserAgent($userAgent);
-            $user->setInviteId($inviteId);
+            if ($canRewardInviter) {
+                $user->setInviteId($inviteId);
+            }
             $this->em->persist($user);
 
             $userProfile->setUser($user);
@@ -161,6 +166,7 @@ class UserService
 
             $this->em->flush();
             $this->em->getConnection()->commit();
+
             return $user;
 
         } catch (\Exception $e) {

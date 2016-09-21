@@ -14,7 +14,7 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 /**
  * @Route("/ssi_partner")
  */
-class SsiPartnerController extends Controller
+class SsiPartnerController extends BaseController
 {
 
     /**
