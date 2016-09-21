@@ -35,7 +35,7 @@ class SsiProjectRespondent
     /**
      * @var integer
      *
-     * @ORM\Column(name="ssi_mail_batch_id", type="integer")
+     * @ORM\Column(name="ssi_mail_batch_id", type="integer", nullable=true)
      */
     private $ssiMailBatchId;
 
