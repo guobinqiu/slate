@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Form\SignupType;
 /**
  * @Route("/user")
  */
-class RegistrationController extends Controller
+class RegistrationController extends BaseController
 {
     /**
      * @Route("/reg", name="_user_reg", methods={"GET", "POST"})
@@ -55,7 +55,9 @@ class RegistrationController extends Controller
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                $user->setInviteId($session->get('inviteId'));
+                if ($this->noStubInBrowser($request)) {
+                    $user->setInviteId($session->get('inviteId'));
+                }
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -142,6 +144,7 @@ class RegistrationController extends Controller
         $this->pushBasicProfile($user, $em);
 
         $request->getSession()->set('uid', $user->getId());
+
         return $this->redirect($this->generateUrl('_user_regSuccess'));
     }
 

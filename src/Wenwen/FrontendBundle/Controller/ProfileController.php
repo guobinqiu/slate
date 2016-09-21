@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Route("/profile")
  */
-class ProfileController extends Controller implements UserAuthenticationController
+class ProfileController extends BaseController implements UserAuthenticationController
 {
     /**
      * @Route("/index", name="_profile_index", methods={"GET"})
@@ -108,6 +108,7 @@ class ProfileController extends Controller implements UserAuthenticationControll
 
             $em->flush();
             $request->getSession()->clear();
+            $this->clearCookies();
 
             return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
         }

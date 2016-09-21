@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
 /**
  * @Route("/auth/weibo")
  */
-class WeiboLoginController extends Controller
+class WeiboLoginController extends BaseController
 {
     /**
      * @Route("/login", name="weibo_login", methods={"GET"})
@@ -172,7 +172,8 @@ class WeiboLoginController extends Controller
                         $userProfile,
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId')
+                        $request->getSession()->get('inviteId'),
+                        $this->noStubInBrowser($request)
                     );
                     $this->pushBasicProfile($user, $em);
                 }

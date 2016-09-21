@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Offerwow 数据回传用Controller
  */
-class OfferwowRequestController extends Controller
+class OfferwowRequestController extends BaseController
 {
     /**
      * Offerwow 数据回传用Action

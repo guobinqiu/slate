@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
 /**
  * @Route("/auth/qq")
  */
-class QQLoginController extends Controller
+class QQLoginController extends BaseController
 {
     /**
      * @Route("/login", name="qq_login", methods={"GET"})
@@ -178,7 +178,8 @@ class QQLoginController extends Controller
                         $userProfile,
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId')
+                        $request->getSession()->get('inviteId'),
+                        $this->noStubInBrowser($request)
                     );
                     $this->pushBasicProfile($user, $em);
                 }

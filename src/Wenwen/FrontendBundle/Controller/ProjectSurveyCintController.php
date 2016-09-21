@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 /**
  * @Route("/cint_project_survey")
  */
-class ProjectSurveyCintController extends Controller implements UserAuthenticationController
+class ProjectSurveyCintController extends BaseController implements UserAuthenticationController
 {
     const AGREEMENT_POINT = 1;
     const COMMENT = '同意参与海外市场调查项目';

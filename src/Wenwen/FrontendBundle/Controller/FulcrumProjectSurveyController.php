@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @Route("/fulcrum_project_survey")
  */
-class FulcrumProjectSurveyController extends Controller implements UserAuthenticationController
+class FulcrumProjectSurveyController extends BaseController implements UserAuthenticationController
 {
     /**
      * @Route("/information", options={"expose"=true} )
