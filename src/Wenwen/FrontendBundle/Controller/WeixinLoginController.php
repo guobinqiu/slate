@@ -3,6 +3,8 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
@@ -87,7 +89,12 @@ class WeixinLoginController extends BaseController
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
-            return $this->redirect($this->generateUrl('_homepage'));
+
+            $response = new RedirectResponse($this->generateUrl('_homepage'));
+            $response->headers->setCookie(new Cookie('uid', $user->getId(), time() + 3600 * 24 * 365 * 10));
+            $response->send();
+
+            return $response;
         }
     }
 

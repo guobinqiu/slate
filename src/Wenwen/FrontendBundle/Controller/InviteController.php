@@ -29,7 +29,11 @@ class InviteController extends BaseController //implements UserAuthenticationCon
         //不直接跳转到注册页，目的是给将来做运营留推广留一个口
         $inviteUrl = $this->generateUrl('_user_invite_landing', array('userId' => $this->encode($user->getId())), true);
 
-        return $this->render('WenwenFrontendBundle:User:invite.html.twig', array('inviteUrl' => $inviteUrl, 'invitees' => $invitees));
+        return $this->render('WenwenFrontendBundle:User:invite.html.twig', array(
+            'inviteUrl' => $inviteUrl,
+            'inviter' => $user,
+            'invitees' => $invitees
+        ));
     }
 
     /**
