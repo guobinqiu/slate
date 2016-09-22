@@ -18,25 +18,19 @@
 
 namespace JMS\Serializer\Exception;
 
-use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 
 class ValidationFailedException extends RuntimeException
 {
-    /**
-     * @var ConstraintViolationListInterface
-     */
     private $list;
 
-    public function __construct(ConstraintViolationListInterface $list)
+    public function __construct(ConstraintViolationList $list)
     {
         parent::__construct(sprintf('Validation failed with %d error(s).', count($list)));
 
         $this->list = $list;
     }
 
-    /**
-     * @return ConstraintViolationListInterface
-     */
     public function getConstraintViolationList()
     {
         return $this->list;

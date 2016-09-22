@@ -42,7 +42,7 @@ class DoctrinePHPCRTypeDriver extends AbstractDoctrineTypeDriver
     {
         $propertyName = $propertyMetadata->name;
         if ($doctrineMetadata->hasField($propertyName) && $fieldType = $this->normalizeFieldType($doctrineMetadata->getTypeOfField($propertyName))) {
-            $field = $doctrineMetadata->getFieldMapping($propertyName);
+            $field = $doctrineMetadata->getField($propertyName);
             if ( ! empty($field['multivalue'])) {
                 $fieldType = 'array';
             }

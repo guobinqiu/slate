@@ -43,15 +43,25 @@ class SerializerExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('serialize', array($this, 'serialize')),
+            'serialize'      => new \Twig_Filter_Method($this, 'serialize'),
         );
     }
 
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('serialization_context', '\JMS\Serializer\SerializationContext::create'),
+            'serialization_context' => new \Twig_Function_Method($this, 'createContext'),
         );
+    }
+
+    /**
+     * Creates the serialization context
+     *
+     * @return SerializationContext
+     */
+    public function createContext()
+    {
+        return SerializationContext::create();
     }
 
     /**

@@ -3644,51 +3644,6 @@
         ]
     },
     {
-        "name": "voyagechinagroup/ssi_api",
-        "version": "1.0.2",
-        "version_normalized": "1.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "git@github.com:voyagechinagroup/ssi_api.git",
-            "reference": "ef159e863d8a5ef2f10fb3b935096cc208476522"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/ef159e863d8a5ef2f10fb3b935096cc208476522",
-            "reference": "ef159e863d8a5ef2f10fb3b935096cc208476522",
-            "shasum": ""
-        },
-        "require": {
-            "nategood/httpful": "^0.2.20",
-            "pear/net_url2": "^2.2",
-            "php": ">=5.4"
-        },
-        "require-dev": {
-            "phake/phake": "^2.2",
-            "phpunit/phpunit": "4.*",
-            "piece/stagehand-testrunner": "4.1.*"
-        },
-        "time": "2016-05-06 01:31:43",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "VendorIntegration\\SSI\\": "src/"
-            }
-        },
-        "authors": [
-            {
-                "name": "takafumi sekiguchi",
-                "email": "takafumi.sekiguchi@d8aspring.com"
-            }
-        ],
-        "description": "ssi api integration",
-        "support": {
-            "source": "https://github.com/voyagechinagroup/ssi_api/tree/1.0.2",
-            "issues": "https://github.com/voyagechinagroup/ssi_api/issues"
-        }
-    },
-    {
         "name": "guzzle/guzzle",
         "version": "v3.9.3",
         "version_normalized": "3.9.3.0",
@@ -4647,82 +4602,6 @@
         ]
     },
     {
-        "name": "jms/serializer",
-        "version": "1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/schmittjoh/serializer.git",
-            "reference": "705d0b4633b9c44e6253aa18306b3972282cd3a3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/705d0b4633b9c44e6253aa18306b3972282cd3a3",
-            "reference": "705d0b4633b9c44e6253aa18306b3972282cd3a3",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/annotations": "^1.0",
-            "doctrine/instantiator": "^1.0.3",
-            "jms/metadata": "~1.1",
-            "jms/parser-lib": "1.*",
-            "php": ">=5.5.0",
-            "phpcollection/phpcollection": "~0.1",
-            "phpoption/phpoption": "^1.1"
-        },
-        "conflict": {
-            "twig/twig": "<1.12"
-        },
-        "require-dev": {
-            "doctrine/orm": "~2.1",
-            "doctrine/phpcr-odm": "^1.3|^2.0",
-            "jackalope/jackalope-doctrine-dbal": "^1.1.5",
-            "phpunit/phpunit": "^4.8|^5.0",
-            "propel/propel1": "~1.7",
-            "symfony/filesystem": "^2.1",
-            "symfony/form": "~2.1",
-            "symfony/translation": "^2.1",
-            "symfony/validator": "^2.2",
-            "symfony/yaml": "^2.1",
-            "twig/twig": "~1.12|~2.0"
-        },
-        "suggest": {
-            "symfony/yaml": "Required if you'd like to serialize data to YAML format."
-        },
-        "time": "2016-08-23 17:20:24",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.3-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "JMS\\Serializer": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache2"
-        ],
-        "authors": [
-            {
-                "name": "Johannes M. Schmitt",
-                "email": "schmittjoh@gmail.com"
-            }
-        ],
-        "description": "Library for (de-)serializing data of any complexity; supports XML, JSON, and YAML.",
-        "homepage": "http://jmsyst.com/libs/serializer",
-        "keywords": [
-            "deserialization",
-            "jaxb",
-            "json",
-            "serialization",
-            "xml"
-        ]
-    },
-    {
         "name": "jms/serializer-bundle",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -4792,5 +4671,122 @@
             "serialization",
             "xml"
         ]
+    },
+    {
+        "name": "jms/serializer",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/schmittjoh/serializer.git",
+            "reference": "a29d9a204efc3ca3f39a9d182a83fd34462fef3f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/a29d9a204efc3ca3f39a9d182a83fd34462fef3f",
+            "reference": "a29d9a204efc3ca3f39a9d182a83fd34462fef3f",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/annotations": "1.*",
+            "doctrine/instantiator": "~1.0.3",
+            "jms/metadata": "~1.1",
+            "jms/parser-lib": "1.*",
+            "php": ">=5.4.0",
+            "phpcollection/phpcollection": "~0.1"
+        },
+        "require-dev": {
+            "doctrine/orm": "~2.1",
+            "doctrine/phpcr-odm": "~1.0.1",
+            "jackalope/jackalope-doctrine-dbal": "1.0.*",
+            "phpunit/phpunit": "~4.0",
+            "propel/propel1": "~1.7",
+            "symfony/filesystem": "2.*",
+            "symfony/form": "~2.1",
+            "symfony/translation": "~2.0",
+            "symfony/validator": "~2.0",
+            "symfony/yaml": "2.*",
+            "twig/twig": ">=1.8,<2.0-dev"
+        },
+        "suggest": {
+            "symfony/yaml": "Required if you'd like to serialize data to YAML format."
+        },
+        "time": "2015-06-16 11:50:24",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.17-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "JMS\\Serializer": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache2"
+        ],
+        "authors": [
+            {
+                "name": "Johannes M. Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Library for (de-)serializing data of any complexity; supports XML, JSON, and YAML.",
+        "homepage": "http://jmsyst.com/libs/serializer",
+        "keywords": [
+            "deserialization",
+            "jaxb",
+            "json",
+            "serialization",
+            "xml"
+        ]
+    },
+    {
+        "name": "voyagechinagroup/ssi_api",
+        "version": "1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:voyagechinagroup/ssi_api.git",
+            "reference": "0d8b60a7c9f4ec24d907fd62f37abbef2dbf35fc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/voyagechinagroup/ssi_api/zipball/0d8b60a7c9f4ec24d907fd62f37abbef2dbf35fc",
+            "reference": "0d8b60a7c9f4ec24d907fd62f37abbef2dbf35fc",
+            "shasum": ""
+        },
+        "require": {
+            "nategood/httpful": "^0.2.20",
+            "pear/net_url2": "^2.2",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "phake/phake": "^2.2",
+            "phpunit/phpunit": "4.*",
+            "piece/stagehand-testrunner": "4.1.*"
+        },
+        "time": "2016-09-21 04:29:19",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "VendorIntegration\\SSI\\": "src/"
+            }
+        },
+        "authors": [
+            {
+                "name": "takafumi sekiguchi",
+                "email": "takafumi.sekiguchi@d8aspring.com"
+            }
+        ],
+        "description": "ssi api integration",
+        "support": {
+            "source": "https://github.com/voyagechinagroup/ssi_api/tree/master",
+            "issues": "https://github.com/voyagechinagroup/ssi_api/issues"
+        }
     }
 ]
