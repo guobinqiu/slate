@@ -40,12 +40,12 @@ class BaseController extends Controller
     }
 
     /**
-     * 判定用户是否曾今在其浏览器上留下过登录痕迹 (为了防止用户自己邀请自己，或某人被多人同时邀请，被判定为有过登录痕迹的用户就算通过邀请链接注册多次，其邀请人也不能够获得积分)
+     * 被判定为在浏览器上留下过登录痕迹的用户就算多次注册，其邀请人也不能够获得积分
      *
      * @param Request $request
      * @return bool
      */
-    protected function noStubInBrowser(Request $request)
+    protected function allowRewardInviter(Request $request)
     {
         return !$request->cookies->has('uid');
     }

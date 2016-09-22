@@ -55,7 +55,7 @@ class RegistrationController extends BaseController
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                if ($this->noStubInBrowser($request)) {
+                if ($this->allowRewardInviter($request)) {
                     $user->setInviteId($session->get('inviteId'));
                 }
 

@@ -179,7 +179,7 @@ class QQLoginController extends BaseController
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
                         $request->getSession()->get('inviteId'),
-                        $this->noStubInBrowser($request)
+                        $this->allowRewardInviter($request)
                     );
                     $this->pushBasicProfile($user, $em);
                 }
