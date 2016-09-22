@@ -17,10 +17,10 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
     <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
+    {% block stylesheet %}{% endblock %}
     {% block global_css %}
         <link href="{{ asset('css/responsive/rpLayout.css') }} " rel="stylesheet" type="text/css">
     {% endblock %}
-    {% block stylesheet %}{% endblock %}
 </head>
 <body>
     {% block header %}{% endblock %}

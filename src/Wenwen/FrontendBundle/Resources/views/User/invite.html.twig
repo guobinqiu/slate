@@ -2,8 +2,11 @@
 {% block title %}{{ parent() }}邀请好友，让好友帮你赚钱啦，10%积分奖励{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{{ asset('css/invitation.css') }} " rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/invitation.css') }} " type="text/css">
+    <!--[if lt IE 8]>
+        <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
+    <![endif]-->
 {% endblock %}
 
 {% block header %}
@@ -46,7 +49,7 @@
 
                      <div class="bdsharebuttonbox center-block">
                          <div class="row">
-                             <div class="col-xs-6 col-sm-6 col-md-3">
+                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
                                  <div class="ibtnItem">
                                      <a href="#" class="ibtn pull-left bds_sqq" data-cmd="sqq" title="分享到QQ好友">
                                          <i class="fa fa-qq" aria-hidden="true"></i>分享到QQ好友
@@ -54,7 +57,7 @@
                                  </div>
                              </div>
 
-                             <div class="col-xs-6 col-sm-6 col-md-3">
+                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
                                  <div class="ibtnItem">
                                      <a href="#" class="ibtn pull-left bds_qzone" data-cmd="qzone" title="分享到QQ空间">
                                          <img class="qzoneIcon" src="{{ asset('img/invitation/qzoneIcon.png') }}">分享到QQ空间
@@ -62,7 +65,7 @@
                                  </div>
                              </div>
 
-                             <div class="col-xs-6 col-sm-6 col-md-3">
+                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
                                  <div class="ibtnItem">
                                      <a href="#" class="ibtn pull-left bds_tsina" data-cmd="tsina" title="分享到新浪微博">
                                          <i class="fa fa-weibo" aria-hidden="true"></i>分享到新浪微博
@@ -70,7 +73,7 @@
                                  </div>
                              </div>
 
-                             <div class="col-xs-6 col-sm-6 col-md-3">
+                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
                                  <div class="ibtnItem">
                                      <a href="#" class="ibtn pull-left bds_weixin" data-cmd="weixin" title="分享到微信">
                                          <i class="fa fa-weixin" aria-hidden="true"></i>分享到微信
@@ -81,18 +84,16 @@
                      </div>
                      <div class="row center-block">
                          <div class="others center-block col-sm-12">
-                             <div class="note">或者粘贴以下地址发送给好友</div>
+                             <div class="note">或者复制粘贴以下地址发送给好友</div>
                              <input id="clipboard_text" type="text" class="form-control" value="{{ inviteUrl }}">
-                             <button id="copy-button" class="copy btn btn-default btn-lg" role="button" data-clipboard-target="clipboard_text"><i class="fa fa-files-o" aria-hidden="true"></i>复制</button>
+                             <button id="copy-button" class="copy btn btn-default btn-lg hiddenPhone" role="button" data-clipboard-target="clipboard_text"><i class="fa fa-files-o" aria-hidden="true"></i>复制</button>
                          </div>
                      </div>
                  </div>
                  <div class="ruleTit row">
-                     {# <div class="col-sm-1"></div> #}
                      <div class="rtCon col-sm-12 text-left">
                          <h2><i class="fa fa-paper-plane" aria-hidden="true"></i>活动规则</h2>
                      </div>
-                     {# <div class="col-sm-1"></div> #}
                  </div>
                  <div class="ruleCon row">
                      <div class="rcText col-sm-12">
@@ -100,7 +101,7 @@
                              <div class="col-sm-1"></div>
                              <div class="col-sm-10">
                                  <p>1. 被邀请的好友注册成功，您可获得100积分。</p>
-                                 <p>2. 好友每完成一份商业类问卷，好友获得全部积分，同时您也获得10%的积分！</p>
+                                 <p>2. 好友每完成一份<i class="fa fa-angle-left" aria-hidden="true"></i>商业类问卷<i class="fa fa-angle-right" aria-hidden="true"></i>，好友获得全部积分，同时您也获得10%的积分！</p>
                                  <p>3. 活动中如果发现通过作弊手段获得奖励的，将取消奖励。</p>
                              </div>
                              <div class="col-sm-1"></div>
@@ -161,13 +162,14 @@
 {% endblock %}
 
 {% block javascript %}
- <script type="text/javascript" src="http://cdn.jsdelivr.net/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+ <script type="text/javascript" src="http://cdn.css.net/libs/zeroclipboard/2.0.0/ZeroClipboard.min.js"></script>
  <script type="text/javascript">
      var client = new ZeroClipboard($("#copy-button"));
      client.on("ready", function(readyEvent) {
-         alert("ZeroClipboard SWF is ready!");
+         // alert("ZeroClipboard SWF is ready!");
          client.on( "aftercopy", function(event) {
-             alert("Copied text to clipboard: " + event.data["text/plain"] );
+             // alert("Copied text to clipboard: " + event.data["text/plain"] );
+             alert("复制成功！");
          });
      });
  </script>

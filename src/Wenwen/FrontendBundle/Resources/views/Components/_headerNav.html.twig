@@ -33,7 +33,6 @@
                     {% endif %}
                 </a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
-                    <a title="邀请好友">邀请好友</a>
                 {% else %}
                     <a href="{{ path('_user_invite') }}" title="邀请好友" {{ router_current == '_user_invite' ? 'class="active"':'' }}>邀请好友</a>
                 {% endif %}
@@ -98,6 +97,7 @@
         {% elseif router_current2 == '_homepage'%}问卷列表
         {% elseif router_current2 == 'help_feedback'%}联系客服
         {% elseif router_current2 == '_profile_edit' or router_current2 == '_profile_index' or router_current2 == '_user_adtaste' or router_current2 == '_user_exchange' or router_current2 == '_user_message'%}个人中心
+        {% elseif router_current2 == '_user_invite'%}邀请好友
         {% endif %}
         </p>
     </div>
