@@ -18,7 +18,6 @@ XML Reference
                       since-version="1.0"
                       until-version="1.1"
                       xml-attribute="true"
-                      xml-value="true"
                       access-type="public_method"
                       accessor-getter="getSomeProperty"
                       accessor-setter="setSomeProperty"
@@ -33,7 +32,7 @@ XML Reference
                      your type contains "<" or ">" characters. -->
                 <type><![CDATA[]]></type>
                 <xml-list inline="true" entry-name="foobar" />
-                <xml-map inline="true" key-attribute-name="foo" entry-name="bar" namespace="http://www.w3.org/2005/Atom" />
+                <xml-map inline="true" key-attribute-name="foo" entry-name="bar" />
                 <xml-element cdata="false" namespace="http://www.w3.org/2005/Atom"/>
             </property>
             <callback-method name="foo" type="pre-serialize" />

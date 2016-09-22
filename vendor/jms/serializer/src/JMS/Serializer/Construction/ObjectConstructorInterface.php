@@ -39,7 +39,6 @@ interface ObjectConstructorInterface
      * @param ClassMetadata $metadata
      * @param mixed $data
      * @param array $type ["name" => string, "params" => array]
-     * @param DeserializationContext $context
      *
      * @return object
      */

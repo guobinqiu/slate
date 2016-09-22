@@ -29,14 +29,4 @@ abstract class XmlCollection
      * @var boolean
      */
     public $inline = false;
-
-    /**
-     * @var string
-     */
-    public $namespace;
-
-    /**
-     * @var boolean
-     */
-    public $skipWhenEmpty = true;
 }

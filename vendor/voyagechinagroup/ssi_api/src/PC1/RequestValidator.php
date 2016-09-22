@@ -24,9 +24,6 @@ class RequestValidator
         if (!$this->request->getProjectId()) {
             $errors['projectId']['NOT_NULL'] = '1';
         }
-        if (!$this->request->getMailBatchId()) {
-            $errors['mailBatchId']['NOT_NULL'] = '1';
-        }
         if (!$this->request->getContactMethodId()) {
             $errors['contactMethodId']['NOT_NULL'] = '1';
         }

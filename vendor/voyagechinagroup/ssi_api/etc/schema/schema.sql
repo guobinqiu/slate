@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `ssi_project_respondent` ;
 CREATE TABLE IF NOT EXISTS `ssi_project_respondent` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ssi_project_id` INT UNSIGNED NOT NULL,
-  `ssi_mail_batch_id` INT NOT NULL,
+  `ssi_mail_batch_id` INT DEFAULT NULL,
   `ssi_respondent_id` INT UNSIGNED NOT NULL,
   `start_url_id` VARCHAR(255) NOT NULL,
   `answer_status` TINYINT NOT NULL DEFAULT 1,

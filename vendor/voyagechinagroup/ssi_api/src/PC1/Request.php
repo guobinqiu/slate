@@ -37,12 +37,7 @@ class Request
 
         return isset($request_header['contactMethodId']) ? $request_header['contactMethodId'] : null;
     }
-    public function getMailBatchId()
-    {
-        $request_header = $this->getRequestHeader();
 
-        return isset($request_header['mailBatchId']) ? $request_header['mailBatchId'] : null;
-    }
     public function getProjectId()
     {
         $request_header = $this->getRequestHeader();
@@ -60,7 +55,6 @@ class Request
 
         return [
           'ssi_project_id' => $this->getProjectId(),
-          'ssi_mail_batch_id' => $this->getMailBatchId(),
           'respondent_id' => $respondent['respondentId'],
           'start_url_id' => $respondent['startUrlId'],
           'stash_data' => [

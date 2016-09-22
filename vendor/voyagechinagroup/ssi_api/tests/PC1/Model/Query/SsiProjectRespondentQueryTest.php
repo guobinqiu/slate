@@ -32,7 +32,6 @@ class SsiProjectRespondentQueryTest extends \PHPUnit_Framework_TestCase
     {
         $params = [
             'ssi_project_id' => 1001,
-            'ssi_mail_batch_id' => 1,
             'start_url_id' => 'fuga',
             'stash_data' => [
               'foo' => 'bar',
@@ -53,7 +52,6 @@ class SsiProjectRespondentQueryTest extends \PHPUnit_Framework_TestCase
     {
         $params = [
             'ssi_project_id' => 1001,
-            'ssi_mail_batch_id' => 1,
             'start_url_id' => 'fuga',
             'stash_data' => [
               'foo' => 'bar',
@@ -99,9 +97,8 @@ class SsiProjectRespondentQueryTest extends \PHPUnit_Framework_TestCase
     {
         return [
         [ [], ], # w/o ssi_project_id
-        [ [ 'ssi_project_id' => 1] ], # w/o ssi_mail_batch_id
-        [ [ 'ssi_project_id' => 1, 'ssi_mail_batch_id' => 1,], ], # w/o start_url_id
-        [ [ 'ssi_project_id' => 1, 'ssi_mail_batch_id' => 1, 'start_url_id' => 'hoge'], ], # w/o stash_data
+        [ [ 'ssi_project_id' => 1, ], ], # w/o start_url_id
+        [ [ 'ssi_project_id' => 1, 'start_url_id' => 'hoge'], ], # w/o stash_data
         ];
     }
 

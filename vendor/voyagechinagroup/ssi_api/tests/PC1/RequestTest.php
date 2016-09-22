@@ -33,7 +33,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($request->getContactMethodId());
         $this->assertNull($request->getProjectId());
-        $this->assertNull($request->getMailBatchId());
 
         $request->loadJson(
             json_encode(
@@ -41,7 +40,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'requestHeader' => [
                 'contactMethodId' => 1,
                 'projectId' => 2,
-                'mailBatchId' => 3,
                 ],
                 'startUrlHead' => 'String',
                 'respondentList' => ['key' => 'value'],
@@ -51,7 +49,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $request->getContactMethodId());
         $this->assertEquals(2, $request->getProjectId());
-        $this->assertEquals(3, $request->getMailBatchId());
     }
 
     public function testCreateNextRespondent()
@@ -63,7 +60,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 'requestHeader' => [
                 'contactMethodId' => 1,
                 'projectId' => 2,
-                'mailBatchId' => 3,
                 ],
                 'startUrlHead' => 'String',
                 'respondentList' => [
@@ -83,7 +79,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
             'ssi_project_id' => 2,
-            'ssi_mail_batch_id' => 3,
             'respondent_id' => 'wwcn-473',
             'start_url_id' => 'c37xkNG9WDnfTS6Y6IYJ1h3tECGN8vZn',
             'stash_data' => [
@@ -96,7 +91,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
             'ssi_project_id' => 2,
-            'ssi_mail_batch_id' => 3,
             'respondent_id' => 'wwcn-474',
             'start_url_id' => 'hogefuga',
             'stash_data' => [

@@ -46,7 +46,6 @@ class RequestValidatorTest extends \PHPUnit_Framework_TestCase
                 'requestHeader' => [
                 'contactMethodId' => 1,
                 'projectId' => 2,
-                'mailBatchId' => 3,
                 ],
                 'startUrlHead' => 'String',
                 'respondentList' => ['test'],
@@ -66,7 +65,7 @@ class RequestValidatorTest extends \PHPUnit_Framework_TestCase
         return [
           [
             [],
-            ['mailBatchId' => ['NOT_NULL' => 1],
+            [
             'startUrlHead' => ['NOT_NULL' => 1],
             'projectId' => ['NOT_NULL' => 1],
             'contactMethodId' => ['NOT_NULL' => 1],
@@ -77,7 +76,6 @@ class RequestValidatorTest extends \PHPUnit_Framework_TestCase
             [
               'requestHeader' => [
                 'contactMethodId' => 1,
-                'mailBatchId' => 3,
               ],
               'startUrlHead' => 'String',
               'respondentList' => ['test'],
@@ -88,7 +86,6 @@ class RequestValidatorTest extends \PHPUnit_Framework_TestCase
             [
               'requestHeader' => [
                 'projectId' => 1,
-                'mailBatchId' => 3,
               ],
               'startUrlHead' => 'String',
               'respondentList' => ['test'],
@@ -100,7 +97,6 @@ class RequestValidatorTest extends \PHPUnit_Framework_TestCase
               'requestHeader' => [
                 'contactMethodId' => 1,
                 'projectId' => 2,
-                'mailBatchId' => 3,
               ],
               'startUrlHead' => 'String',
               'respondentList' => [],

@@ -28,7 +28,7 @@ class SsiProjectRespondentQuery
 
     public static function insertRespondent($dbh, $ssi_respondent_id, $params)
     {
-        $required = ['ssi_project_id', 'ssi_mail_batch_id', 'start_url_id', 'stash_data'];
+        $required = ['ssi_project_id', 'start_url_id', 'stash_data'];
         foreach ($required as $key) {
             if (!isset($params["$key"])) {
                 throw new \Exception("$key is required");
@@ -38,13 +38,12 @@ class SsiProjectRespondentQuery
         $stmt = $dbh->prepare(
             'INSERT INTO ssi_project_respondent (
               ssi_project_id,
-              ssi_mail_batch_id,
               ssi_respondent_id,
               start_url_id,
               stash_data,
               created_at,
               updated_at
-          ) VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+          ) VALUES (?, ?, ?, ?, NOW(), NOW())
           ON DUPLICATE KEY UPDATE
               answer_status = ?,
               start_url_id = ?,
@@ -56,7 +55,6 @@ class SsiProjectRespondentQuery
         $stmt->execute(
             [
             $params['ssi_project_id'],
-            $params['ssi_mail_batch_id'],
             $ssi_respondent_id,
             $params['start_url_id'],
             $stash_data,

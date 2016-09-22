@@ -32,7 +32,7 @@ class Author
     protected $id;
 
     /**
-     * @PHPCRODM\Field(type="string")
+     * @PHPCRODM\String()
      * @SerializedName("full_name")
      */
     private $name;
