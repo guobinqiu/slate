@@ -100,7 +100,7 @@
                              <div class="col-sm-1"></div>
                              <div class="col-sm-10">
                                  <p>1. 被邀请的好友注册成功，您可获得100积分。</p>
-                                 <p>2. 好友每完成一份商业类问卷，好友获得全部积分，同时您也获得10%的积分！</p>
+                                 <p>2. 好友每完成一份商业类问卷，好友获得全部积分，您获得好友所获积分的10%！</p>
                                  <p>3. 活动中如果发现通过作弊手段获得奖励的，将取消奖励。</p>
                              </div>
                              <div class="col-sm-1"></div>
@@ -143,17 +143,14 @@
  <script>
      window._bd_share_config = {
          common: {
-             "bdSnsKey": {},
-             "bdText": "",
-             "bdMini": "1",
-             "bdMiniList": false,
-             "bdPic": "",
-             "bdStyle": "0",
-             "bdSize": "32"
+             bdText: '邀请好友帮你赚钱啦！', //分享的内容
+             bdDesc: '被邀请的好友注册成功，您可获得100积分；好友每完成一份商业类问卷，好友获得全部积分，您获得好友所获积分的10%！', //分享的摘要
+             bdUrl: '{{ inviteUrl }}', //分享的Url地址
+             bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/banner.png') }}', //分享的图片
          },
          share: [{
-             "bdSize": 16,
-             "bdCustomStyle": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+             bdSize: 16,
+             bdCustomStyle: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
          }]
      };
      with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
@@ -165,9 +162,10 @@
  <script type="text/javascript">
      var client = new ZeroClipboard($("#copy-button"));
      client.on("ready", function(readyEvent) {
-         alert("ZeroClipboard SWF is ready!");
+         //alert("ZeroClipboard SWF is ready!");
          client.on( "aftercopy", function(event) {
-             alert("Copied text to clipboard: " + event.data["text/plain"] );
+             //alert("Copied text to clipboard: " + event.data["text/plain"] );
+             alert("复制成功");
          });
      });
  </script>
