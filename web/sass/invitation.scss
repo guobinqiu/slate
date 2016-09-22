@@ -105,7 +105,7 @@ a:hover{
 				height: 100%;
 				@include border-radius(5px);
 				i{
-					font-size: 20px;
+					font-size: 20px!important;
 					margin-right: 10px;
 				}
 				.row{
@@ -118,9 +118,6 @@ a:hover{
 			.qzoneIcon{
 				height: 22px;
 				margin-right: 10px;
-			}
-			a[data-cmd="qzone"]{
-
 			}
 		}
 		
