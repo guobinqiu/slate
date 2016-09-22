@@ -108,9 +108,10 @@ class ProfileController extends BaseController implements UserAuthenticationCont
 
             $em->flush();
             $request->getSession()->clear();
-            $this->clearCookies();
 
-            return $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
+            $response = $this->render('WenwenFrontendBundle:Profile:withdraw_finish.html.twig');
+            $this->clearCookies($request, $response);
+            return $response;
         }
 
         return $this->render('WenwenFrontendBundle:Profile:account.html.twig', array(

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,10 +56,11 @@ class UserController extends BaseController
 
                 $session->set('uid', $user->getId());
 
-                $forever = time() + 3600 * 24 * 365 * 10;
-                $this->setCookie('uid', $user->getId(), $forever);
+                $response = new RedirectResponse($this->generateUrl('_homepage'));
+                $response->headers->setCookie(new Cookie('uid', $user->getId(), time() + 3600 * 24 * 365 * 10));
+                $response->send();
 
-                return $this->redirect($this->generateUrl('_homepage'));
+                return $response;
             }
         }
 

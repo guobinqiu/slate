@@ -3,27 +3,18 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 // 不能加在service的公共代码，比方需要对session，cookie，request等对象进行操作的公共方法可以加到这里
 class BaseController extends Controller
 {
-    protected function setCookie($name, $value, $expire = 0)
+    protected function clearCookies(Request $request, Response $response)
     {
-        $response = new Response();
-        $response->headers->setCookie(new Cookie($name, $value, $expire));
-        $response->send();
-    }
-
-    protected function clearCookies()
-    {
-        $response = new Response();
-        foreach ($response->headers->getCookies() as $cookie) {
-            $response->headers->clearCookie($cookie->getName());
+        $cookieNames = $request->cookies->keys();
+        foreach($cookieNames as $name) {
+            $response->headers->clearCookie($name);
         }
-        $response->send();
     }
 
     /**
