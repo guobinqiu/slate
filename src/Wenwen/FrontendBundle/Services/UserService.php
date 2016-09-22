@@ -37,10 +37,10 @@ class UserService
      * @param $clientIp
      * @param $userAgent
      * @param $inviteId
-     * @param $canRewardInviter bool
+     * @param $allowRewardInviter bool
      * @throws \Exception
      */
-    public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter) {
+    public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
         // 创建用户
         $user = $this->createUser(
             $xxxUser,
@@ -48,7 +48,7 @@ class UserService
             $clientIp,
             $userAgent,
             $inviteId,
-            $canRewardInviter
+            $allowRewardInviter
         );
 
         // 给当前用户加积分
@@ -143,7 +143,7 @@ class UserService
         return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
 
-    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter) {
+    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user = new User();
@@ -154,7 +154,7 @@ class UserService
             $user->setLastLoginIp($clientIp);
             $user->setCreatedRemoteAddr($clientIp);
             $user->setCreatedUserAgent($userAgent);
-            if ($canRewardInviter) {
+            if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
             $this->em->persist($user);

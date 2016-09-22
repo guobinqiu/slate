@@ -24,10 +24,12 @@ class InviteController extends BaseController //implements UserAuthenticationCon
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($request->getSession()->get('uid'));
 
+        $invitees = $em->getRepository('WenwenFrontendBundle:User')->findBy(array('inviteId' => $user->getId()));
+
         //不直接跳转到注册页，目的是给将来做运营留推广留一个口
         $inviteUrl = $this->generateUrl('_user_invite_landing', array('userId' => $this->encode($user->getId())), true);
 
-        return $this->render('WenwenFrontendBundle:User:invite.html.twig', array('inviteUrl' => $inviteUrl));
+        return $this->render('WenwenFrontendBundle:User:invite.html.twig', array('inviteUrl' => $inviteUrl, 'invitees' => $invitees));
     }
 
     /**
