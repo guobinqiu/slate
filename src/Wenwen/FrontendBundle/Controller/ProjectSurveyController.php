@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 /**
  * @Route("/project_survey")
  */
-class ProjectSurveyController extends Controller implements UserAuthenticationController
+class ProjectSurveyController extends BaseController implements UserAuthenticationController
 {
     /**
      * @Route("/information", name="_project_survey_information", options={"expose"=true})

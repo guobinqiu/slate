@@ -4,7 +4,7 @@
 
 @media only screen and (max-width: 1024px)  {
     /* For Phone&Tablet: */
-    *{
+    *{ 
         box-sizing: border-box;
     }
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -17,20 +17,13 @@
       font-size: 1.2rem!important;
     }
     .w1000{
-        width: auto;   
+        width: auto!important;   
     }
     .page{
         span{
             margin-bottom: 10px;
         }
     }
-    .header-nav{
-        .logo{
-            span{
-                display: none;
-            }
-        }
-    } 
     .main{
         &.unlogin{
             margin-top: 0;
@@ -191,8 +184,67 @@
                 padding: 0;
             }
         }
+        p{
+            height: 52px;
+            line-height: 52px;
+        }
     }
-    
+    .header-nav{
+        height: 52px;
+        line-height: 52px;
+        .header-nav-con{
+            overflow: hidden;
+            height: 100%;
+        }
+        .logo{
+            span{
+                display: none;
+            }
+        }
+        .login-btn{
+            margin-right: 20px;   
+            a{
+                font-size: .8rem!important;
+                vertical-align: 2px;
+            }
+        }
+        img{
+            height: 32px;
+            margin: 11px 0 0 15px;
+            vertical-align: initial;
+        }
+        .headQnCon{
+            .navTit{
+                margin: -1px auto 0!important;
+                font-size: 1.3rem!important;
+            }
+            p.right, p.right a{
+                font-size: 12px!important;
+            }
+            p.right{
+                margin-right: 5%;
+                margin-top: 15px!important;
+            }
+            .logo img{
+                height: 40px;
+                margin: 17px 0 0 15px;
+            }
+            p{
+                margin-right: 5%;
+                margin-top: 10px!important;
+            }
+            p,p a{
+                font-size: .8rem!important;
+            }
+        }
+        .navTit{
+            text-align: center; 
+            width: 60%;
+            margin: 0 auto;
+            font-size: 1.2rem!important;
+            color: #7A8190;
+        }
+    }
     /* footer */
     .footer{
         padding: 20px 0 0;
@@ -376,63 +428,6 @@
         i{
             font-size: 1.3rem!important;
             font-weight: bold;
-        }
-    }
-    .header-nav{
-        height: 100%;
-        line-height: 51px;
-        .header-nav-con{
-            overflow: hidden;
-            height: 100%;
-       }
-        .login-btn{
-            margin-right: 20px;   
-            a{
-                font-size: .8rem!important;
-                vertical-align: 2px;
-            }
-        }
-        img{
-            height: 32px;
-            margin: 11px 0 0 15px;
-            vertical-align: initial;
-        }
-        .headQnCon{
-            .navTit{
-                margin: -1px auto 0!important;
-                font-size: 1.3rem!important;
-            }
-            p.right, p.right a{
-                font-size: 12px!important;
-            }
-            p.right{
-                margin-right: 5%;
-                margin-top: 15px!important;
-            }
-            .logo img{
-                height: 40px;
-                margin: 17px 0 0 15px;
-            }
-            p{
-                margin-right: 5%;
-                margin-top: 10px!important;
-            }
-            p,p a{
-                font-size: .8rem!important;
-            }
-        }
-        .navTit{
-            text-align: center; 
-            width: 60%;
-            margin: 0 auto;
-            font-size: 1.2rem!important;
-            color: #7A8190;
-        }
-    }
-    .header{
-        p{
-            height: 52px;
-            line-height: 52px;
         }
     }
     .vote li:after{

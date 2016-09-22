@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Form\SignupType;
 /**
  * @Route("/user")
  */
-class RegistrationController extends Controller
+class RegistrationController extends BaseController
 {
     /**
      * @Route("/reg", name="_user_reg", methods={"GET", "POST"})
@@ -55,6 +55,9 @@ class RegistrationController extends Controller
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
+                if ($this->allowRewardInviter($request)) {
+                    $user->setInviteId($session->get('inviteId'));
+                }
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -117,11 +120,31 @@ class RegistrationController extends Controller
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
-        $this->get('app.user_service')->addPoints($user, User::POINT_SIGNUP, CategoryType::SIGNUP, TaskType::RENTENTION, '完成注册');
+        $userService = $this->get('app.user_service');
 
+        // 给当前用户加积分
+        $userService->addPoints(
+            $user,
+            User::POINT_SIGNUP,
+            CategoryType::SIGNUP,
+            TaskType::RENTENTION,
+            User::COMMENT_SIGNUP
+        );
+
+        // 同时给邀请人加积分
+        $userService->addPointsForInviter(
+            $user,
+            User::POINT_INVITE_SIGNUP,
+            CategoryType::EVENT_INVITE_SIGNUP,
+            TaskType::RENTENTION,
+            User::COMMENT_INVITE_SIGNUP
+        );
+
+        // 推送用户基本属性
         $this->pushBasicProfile($user, $em);
 
         $request->getSession()->set('uid', $user->getId());
+
         return $this->redirect($this->generateUrl('_user_regSuccess'));
     }
 

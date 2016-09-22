@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Entity\TaskType;
 /**
  * @Route("/cint_project_survey")
  */
-class ProjectSurveyCintController extends Controller implements UserAuthenticationController
+class ProjectSurveyCintController extends BaseController implements UserAuthenticationController
 {
     const AGREEMENT_POINT = 1;
     const COMMENT = '同意参与海外市场调查项目';
@@ -47,6 +47,8 @@ class ProjectSurveyCintController extends Controller implements UserAuthenticati
             return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (), $response);
         }
 
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+
         // start transaction
         $em->getConnection()->beginTransaction();
 
@@ -59,8 +61,13 @@ class ProjectSurveyCintController extends Controller implements UserAuthenticati
             $em->flush();
 
             // add point
-            $service = $this->container->get('points_manager');
-            $service->updatePoints($user_id, self::AGREEMENT_POINT, CategoryType::CINT_EXPENSE, TaskType::RENTENTION, self::COMMENT);
+            $this->get('app.user_service')->addPoints(
+                $user,
+                self::AGREEMENT_POINT,
+                CategoryType::CINT_EXPENSE,
+                TaskType::RENTENTION,
+                self::COMMENT
+            );
 
             $em->getConnection()->commit();
         } catch (\Exception $e) {

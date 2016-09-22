@@ -16,7 +16,7 @@
 	.col-t-11 {width: 91.66%;}
 	.col-t-12 {width: 100%;}
 
-	html{
+	html{ 
 	    font-size: 16px!important;
 	}
 	.visibleTablet{ 
@@ -39,14 +39,14 @@
 
     /* header */
     .header-nav{
-        padding: 0 5%;
+        padding: 0 2%;
         img{
             margin: 10px 0 0 0;
         }
         .header-nav-con{
             .navR{
                 width: 85%;
-                text-align: right;
+                text-align: left;
                 .tabletQuit{
                     font-size: .8rem!important;
                     padding-left: 30px;
@@ -57,8 +57,11 @@
                     color: #A7ABAF;
                 }
             }
+            a{
+                padding: 0 12px;
+            }
         }
-        .nav{
+        .navBar{
             width: 85%;
             a{
                 &.tabletProfile{

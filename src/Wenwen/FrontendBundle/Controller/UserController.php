@@ -5,6 +5,8 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,7 @@ use Wenwen\FrontendBundle\Form\LoginType;
 /**
  * @Route("/user")
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @Route("/login", name="_user_login", methods={"GET", "POST"})
@@ -54,7 +56,11 @@ class UserController extends Controller
 
                 $session->set('uid', $user->getId());
 
-                return $this->redirect($this->generateUrl('_homepage'));
+                $response = new RedirectResponse($this->generateUrl('_homepage'));
+                $response->headers->setCookie(new Cookie('uid', $user->getId(), time() + 3600 * 24 * 365 * 10));
+                $response->send();
+
+                return $response;
             }
         }
 
@@ -66,7 +72,9 @@ class UserController extends Controller
      */
     public function logoutAction(Request $request)
     {
+        //登出时只清除session，不清除cookie，注销时清除cookie
         $request->getSession()->clear();
+
         return $this->redirect($this->generateUrl('_homepage'));
     }
 

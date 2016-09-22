@@ -52,6 +52,7 @@
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="jms_serializer" />
             <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="logger" />
         </service>
 
         <service id="app.ip_location_service" class="Wenwen\FrontendBundle\Services\IpLocationService">

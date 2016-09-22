@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @Route("/user")
  */
-class PasswordController extends Controller
+class PasswordController extends BaseController
 {
     /**
      * @Route("/resetPwd", name="_user_resetPwd", methods={"GET"})

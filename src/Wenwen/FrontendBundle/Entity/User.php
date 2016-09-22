@@ -11,7 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * User
  *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+ * @ORM\Table(name="user",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
+ *     indexes={@ORM\Index(name="user_invite_id", columns={"invite_id"})}
+ * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="邮箱地址已存在")
  * @ORM\HasLifecycleCallbacks
@@ -22,9 +25,14 @@ class User
     const EMAIL_CONFIRMED = 1;
     const PWD_WENWEN = 1;
     const PWD_JILI = 2;
+    const DEFAULT_REWARD_MULTIPE = 1;
+
     const POINT_EMPTY = 0;
     const POINT_SIGNUP = 10;
-    const DEFAULT_REWARD_MULTIPE = 1;
+    const POINT_INVITE_SIGNUP = 100;
+
+    const COMMENT_SIGNUP = '完成了注册';
+    const COMMENT_INVITE_SIGNUP = '你的朋友完成了注册';
 
     /**
      * @var integer
@@ -225,6 +233,13 @@ class User
      * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
      */
     private $resetPasswordTokenExpiredAt;
+
+    /**
+     * 邀请人的用户id
+     *
+     * @ORM\Column(name="invite_id", type="integer", nullable=true)
+     */
+    private $inviteId;
 
     public function __construct()
     {
@@ -818,6 +833,18 @@ class User
     public function getResetPasswordTokenExpiredAt()
     {
         return $this->resetPasswordTokenExpiredAt;
+    }
+
+    public function setInviteId($inviteId)
+    {
+        $this->inviteId = $inviteId;
+
+        return $this;
+    }
+
+    public function getInviteId()
+    {
+        return $this->inviteId;
     }
 
     /**
