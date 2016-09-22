@@ -144,8 +144,8 @@
  <script>
      window._bd_share_config = {
          common: {
-             bdText: '邀请好友帮你赚钱啦！', //分享的内容
-             bdDesc: '被邀请的好友注册成功，您可获得100积分；好友每完成一份商业类问卷，好友获得全部积分，您获得好友所获积分的10%！', //分享的摘要
+             bdText: '您的好友{{ inviter.nick }}给您发了一个邀请！', //分享的内容
+             bdDesc: '答问卷送积分，积分可兑换现金和礼品！', //分享的摘要
              bdUrl: '{{ inviteUrl }}', //分享的Url地址
              bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/banner.png') }}', //分享的图片
          },
