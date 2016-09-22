@@ -12,7 +12,7 @@
             <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
         </div>
         <div class="navR right">
-            <div class="nav left">
+            <div class="navBar left">
                 {% set router_current = app.request.attributes.get('_route') %}
                 <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="active"':'' }}>首页</a>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
