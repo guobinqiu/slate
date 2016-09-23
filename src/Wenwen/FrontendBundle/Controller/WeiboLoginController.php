@@ -77,7 +77,7 @@ class WeiboLoginController extends BaseController
 
             $forever = time() + 3600 * 24 * 365 * 10;
             $cookie = new Cookie('uid', $user->getId(), $forever);
-            $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
+            return $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
         }
     }
 

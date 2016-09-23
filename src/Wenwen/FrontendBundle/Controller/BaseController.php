@@ -15,7 +15,6 @@ class BaseController extends Controller
     {
         $response = new RedirectResponse($url, $status);
         $response->headers->setCookie($cookie);
-        $response->send();
         return $response;
     }
 
