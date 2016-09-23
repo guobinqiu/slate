@@ -27,19 +27,6 @@ class BaseController extends Controller
     }
 
     /**
-     * UserAuthenticationEventListener粒度太粗，作用于类的所有方法。如果仅希望针对某些方法进行认证过滤可以调用此方法
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    protected function loginAuthenticate(Request $request)
-    {
-        if (!$request->getSession()->has('uid')) {
-            return $this->redirect($this->generateUrl('_user_login'));
-        }
-    }
-
-    /**
      * 被判定为在浏览器上留下过登录痕迹的用户就算多次注册，其邀请人也不能够获得积分
      *
      * @param Request $request
