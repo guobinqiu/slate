@@ -106,14 +106,6 @@ $slider-height: 305px;
 	.taskHis{
 		margin-right: 5px;
 	}
-	.incentive{
-		display: inline;
-		margin-right: 50px;
-		img{
-			height: 54px;
-			margin-top: 20px;
-		}
-	}
 }
 .main-con-left{
 	h1{
@@ -193,6 +185,14 @@ $slider-height: 305px;
 	padding: 10px 25px 6px;
 }
 .main-con-right{
+	.topBr{
+		a{
+			img{
+				width: 230px;
+				height: 176px;
+			}
+		}
+	}
 	.notice{
 		ul{
 			padding: 0 25px 23px 22px;

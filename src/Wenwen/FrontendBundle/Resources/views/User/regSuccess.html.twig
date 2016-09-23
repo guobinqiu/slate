@@ -15,8 +15,10 @@
 		<div class="con finish">
 			<div class="text">
 				{% for flashMessage in app.session.flashbag.get('notice') %}
+					<i class="fa fa-check-circle" aria-hidden="true"></i>
 				    <h2 class="title">{{ flashMessage }}</h2>
 				{% else %}
+					<i class="fa fa-check-circle" aria-hidden="true"></i>
 				    <h2 class="title">恭喜您！可以开始您的问卷之旅啦！</h2>
 				{% endfor %}
 			</div>

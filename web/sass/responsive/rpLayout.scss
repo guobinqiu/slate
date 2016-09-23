@@ -330,12 +330,6 @@
                 vertical-align: 0;
             }
         }
-        .incentive{
-            margin-right: 15px;
-            img{
-                margin-top: -15px;
-            }
-        }
     }
     .survey{
         padding-top: 10px!important;
@@ -988,15 +982,15 @@
             }
             .qnEnd{
                 .qnEndTxt{
-                    padding: 60px 0 0 0;
                     .txt{
                         width: 100%;
                         background-position: center 56px;
                         text-align: center;
                         margin-left: 0;
-                        padding: 155px 0 0 0;
+                        padding: 155px 0 20px 0;
                         h2{
-                            padding-bottom: 0;
+                            padding-bottom: 10px;
+                            font-size: 2rem!important;
                         }
                         &.sad{
                             background-position: center 56px;
