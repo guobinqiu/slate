@@ -23,10 +23,6 @@
 		}
 	}
 	.con{
-		height: 130px;
-		.text{
-			background: url(../img/common/success_email.png) no-repeat center 2px;
-		}
 		a{
 			margin-top: 10px;
 			width: 118px;
@@ -36,10 +32,20 @@
 			@include btn();
 			@include dib();
 		}
+		.text{
+			text-align: center;
+			padding-bottom: 20px;
+			i{
+				font-size: 60px!important;
+				color: #68c04a;
+				margin-bottom: 10px;
+				margin-right: 12px;
+				vertical-align: -15px;
+			}
+		}
 	}
 	.finish{
 		.title{
-			line-height: 165px;
 		    height: 75px;
 		    text-align: center;
 		    font-weight: normal;

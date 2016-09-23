@@ -11,7 +11,7 @@
                     <![endif]-->
                 </a>
                 {% if theme is defined  %}<span>{{ theme }}</span>{% else %}<span>用户<b>注册</b></span>{% endif %}</div>
-            <p class="nav right hiddenTablet"><span>已有91问问账号？</span><a href="{{ path('_user_login') }}">马上登录</a></p>
+            <p class="nav right hiddenPhone hiddenTablet"><span>已有91问问账号？</span><a href="{{ path('_user_login') }}">马上登录</a></p>
             {% set router_current = app.request.attributes.get('_route') %}
             <p class="navTit hiddenDesktop visiblePhone hiddenTablet">
             {% if router_current == '_user_reg' %}用户注册
