@@ -7,7 +7,8 @@ $(function(){
     var emailError = $('#email_error');
 
     function isEmail(str){
-        return new RegExp("^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$").test(str);
+        var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        return new RegExp(pattern).test(str);
     }
 
     function eFocus(prompt){
