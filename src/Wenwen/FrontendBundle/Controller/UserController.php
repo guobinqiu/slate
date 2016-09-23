@@ -56,11 +56,9 @@ class UserController extends BaseController
 
                 $session->set('uid', $user->getId());
 
-                $response = new RedirectResponse($this->generateUrl('_homepage'));
-                $response->headers->setCookie(new Cookie('uid', $user->getId(), time() + 3600 * 24 * 365 * 10));
-                $response->send();
-
-                return $response;
+                $forever = time() + 3600 * 24 * 365 * 10;
+                $cookie = new Cookie('uid', $user->getId(), $forever);
+                $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
             }
         }
 

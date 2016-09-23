@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -82,11 +81,9 @@ class QQLoginController extends BaseController
 
             $request->getSession()->set('uid', $user->getId());
 
-            $response = new RedirectResponse($this->generateUrl('_homepage'));
-            $response->headers->setCookie(new Cookie('uid', $user->getId(), time() + 3600 * 24 * 365 * 10));
-            $response->send();
-
-            return $response;
+            $forever = time() + 3600 * 24 * 365 * 10;
+            $cookie = new Cookie('uid', $user->getId(), $forever);
+            $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
         }
     }
 
