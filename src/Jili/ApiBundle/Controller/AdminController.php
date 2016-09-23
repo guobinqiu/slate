@@ -969,15 +969,15 @@ class AdminController extends Controller implements IpAuthenticatedController
 
     }
 
-    public function exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type)
+    public function exchangeOK($exchange_id,$tel,$points,$finish_time,$type)
     {
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
-            $userInfo = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
-            $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userInfo[0]->getId() % 10);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('tel' => $tel));
+            $pointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
             $po = new $pointHistory();
-            $po->setUserId($userInfo[0]->getId());
+            $po->setUserId($user->getId());
             $po->setPointChangeNum('-'.$points);
             if($type == 1)
               $po->setReason($this->container->getParameter('init_eight'));
@@ -997,13 +997,12 @@ class AdminController extends Controller implements IpAuthenticatedController
         return true;
     }
 
-    public function exchangeNg($exchange_id,$email,$status,$points,$finish_time)
+    public function exchangeNg($exchange_id,$tel,$points,$finish_time)
     {
         $em = $this->getDoctrine()->getManager();
         $exchanges = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         if(!$exchanges->getStatus()){
-            $userInfo = $em->getRepository('WenwenFrontendBundle:User')->findByEmail($email);
-            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userInfo[0]->getId());
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('tel' => $tel));
             $user->setPoints(intval($user->getPoints() + $points));
             $em->persist($user);
             $em->flush();
@@ -1229,7 +1228,7 @@ class AdminController extends Controller implements IpAuthenticatedController
        if($type == 1 || $type == 3 || $type == 4){
           foreach ($file as $k=>$v){
               $exchange_id = $v[0];
-              $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+              $tel = iconv('gb2312','UTF-8//IGNORE',$v[2]);
               if($type == 1){
                   $status = $v[6];
                   $finish_time = $v[7];
@@ -1247,10 +1246,10 @@ class AdminController extends Controller implements IpAuthenticatedController
               }
               $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
               if(strtolower(trim($status)) == 'ok'){
-                  $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
+                  $this->exchangeOK($exchange_id,$tel,$points,$finish_time,$type);
                   $this->exchangeSendMs($type,$ear->getUserId());
               }elseif(strtolower(trim($status)) == 'ng'){
-                  $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
+                  $this->exchangeNg($exchange_id,$tel,$points,$finish_time);
                   $this->exchangeSendMsFail($type,$ear->getUserId());
               }
           }
@@ -1258,7 +1257,7 @@ class AdminController extends Controller implements IpAuthenticatedController
        if($type == 2){
           foreach ($file as $k=>$v){
                 $exchange_id = $v[0];
-                $email = iconv('gb2312','UTF-8//IGNORE',$v[1]);
+                $tel = iconv('gb2312','UTF-8//IGNORE',$v[2]);
                 $status = $v[6];
                 $finish_time = $v[7];
                 $points = $v[3];
@@ -1269,7 +1268,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $amazonCard5 = $v[12];
                 $ear = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
                 if(strtolower(trim($status)) == 'ok'){
-                    $this->exchangeOK($exchange_id,$email,$status,$points,$finish_time,$type);
+                    $this->exchangeOK($exchange_id,$tel,$points,$finish_time,$type);
                     $ex = $em->getRepository('JiliApiBundle:ExchangeAmazonResult')->findByExchangeId($exchange_id);
                     if(empty($ex)){
                       $exchangeAmazon = new ExchangeAmazonResult();
@@ -1284,7 +1283,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                       $this->exchangeSendMs($type,$ear->getUserId());
                     }
                 }elseif(strtolower(trim($status)) == 'ng'){
-                    $this->exchangeNg($exchange_id,$email,$status,$points,$finish_time);
+                    $this->exchangeNg($exchange_id,$tel,$points,$finish_time);
                     $this->exchangeSendMsFail($type,$ear->getUserId());
                 }
             }
