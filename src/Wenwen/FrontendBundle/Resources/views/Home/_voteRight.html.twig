@@ -1,4 +1,7 @@
 <div class="main-con-right right topRight visibleDesktop hiddenPhone hiddenTablet">
+	<div class="topBr">
+		<a href="{{ path('_user_invite') }}" title="邀请好友"><img src="{{ asset('img/invitation/inviteBanner.jpg') }}" alt="weibo"></a>
+	</div>
     {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
     <div class="exchange-dynamics">
         <h2>最新动态</h2>

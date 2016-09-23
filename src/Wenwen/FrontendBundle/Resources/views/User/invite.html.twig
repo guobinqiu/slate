@@ -120,9 +120,9 @@
                              {% if invitees | length  > 0 %}
                                  <div class="fdList clearfix col-sm-12">
                                      {% for invitee in invitees %}
-                                         <div class="col-sm-2 col-xs-3">
+                                         <div class="fdItem col-sm-2 col-xs-3">
                                              <img class="img-responsive" src="{{ asset(invitee.icon_path|default('img/common/default_tx.png')) }}">
-                                             <p class="text-center">{{ invitee.nick }}</p>
+                                             <p class="nick text-center">{{ invitee.nick }}</p>
                                          </div>
                                      {% endfor %}
                                  </div>
@@ -147,11 +147,11 @@
              bdText: '您的好友{{ inviter.nick }}给您发了一个邀请！', //分享的内容
              bdDesc: '答问卷送积分，积分可兑换现金和礼品！', //分享的摘要
              bdUrl: '{{ inviteUrl }}', //分享的Url地址
-             bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/banner.png') }}', //分享的图片
+             bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/inviteBanner.jpg') }}', //分享的图片
          },
          share: [{
              bdSize: 16,
-             bdCustomStyle: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+             bdCustomStyle: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('css/bootstrap.min.css') }}'
          }]
      };
      with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
@@ -159,7 +159,7 @@
 {% endblock %}
 
 {% block javascript %}
- <script type="text/javascript" src="http://cdn.css.net/libs/zeroclipboard/2.0.0/ZeroClipboard.min.js"></script>
+ <script type="text/javascript" src="{{ asset('js/plugin/ZeroClipboard.min.js') }}"></script>
  <script type="text/javascript">
      var client = new ZeroClipboard($("#copy-button"));
      client.on("ready", function(readyEvent) {

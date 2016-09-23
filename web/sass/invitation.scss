@@ -216,7 +216,16 @@ a:hover{
 			background: #fff0b2;
 			padding: 20px 10px;
 			@include border-radius(5px);
-
+			.fdItem{
+				padding-bottom: 15px;
+				p.nick{
+					width: 102px;
+					padding: 0 6px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
 		}
 		.vcenter{
 			line-height: 140px;
