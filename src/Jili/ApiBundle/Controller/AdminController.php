@@ -1253,7 +1253,6 @@ class AdminController extends Controller implements IpAuthenticatedController
        if($type == 2){
           foreach ($file as $k=>$v){
                 $exchange_id = $v[0];
-                $tel = iconv('gb2312','UTF-8//IGNORE',$v[2]);
                 $status = $v[6];
                 $finish_time = $v[7];
                 $points = $v[3];
