@@ -19,7 +19,7 @@ class InviteController extends BaseController //implements UserAuthenticationCon
      */
     public function inviteAction(Request $request)
     {
-        $this->loginAuthenticate($request);
+        return $this->loginAuthenticate($request);
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($request->getSession()->get('uid'));
