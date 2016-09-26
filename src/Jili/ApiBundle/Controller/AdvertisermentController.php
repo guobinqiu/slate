@@ -50,7 +50,7 @@ class AdvertisermentController extends Controller
         $advertiserment = $em->getRepository('JiliApiBundle:Advertiserment')->find($id);
 
         if( empty( $advertiserment) ){
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
 
         $time =  $advertiserment->getEndTime()->getTimestamp() ;

@@ -33,7 +33,7 @@ class  CallboardController extends Controller
         if($callboard)
             $arr['callboard'] = $callboard;
         else
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         
         return $this->render('WenwenFrontendBundle:Callboard:info.html.twig',$arr);
     }

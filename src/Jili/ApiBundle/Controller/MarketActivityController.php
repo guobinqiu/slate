@@ -24,7 +24,7 @@ class MarketActivityController extends Controller
         $actCate = $em->getRepository('JiliApiBundle:ActivityCategory')->findAll();
         $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->nowActivity($aid);
         if(empty($busiAct)){
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
         $nowMall = $em->getRepository('JiliApiBundle:MarketActivity')->nowMall();
         $nowCate = $em->getRepository('JiliApiBundle:MarketActivity')->nowCate();
@@ -43,7 +43,7 @@ class MarketActivityController extends Controller
         }
         if($cateId){
             if(!in_array($cateId,$allCate)){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             foreach ($busiAct as $key => $value) {
                 $cate = explode(",",$value['categoryId']);
@@ -78,7 +78,7 @@ class MarketActivityController extends Controller
         $uid = $this->get('request')->getSession()->get('uid');
         $busiAct = $em->getRepository('JiliApiBundle:MarketActivity')->existMarket($id);
         if(empty($busiAct)){
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
         $adver = $em->getRepository('JiliApiBundle:Advertiserment')->find($busiAct[0]['aid']);
         $adw_info = explode("u=",$adver->getImageurl());

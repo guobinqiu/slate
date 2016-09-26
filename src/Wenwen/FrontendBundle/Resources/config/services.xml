@@ -21,7 +21,11 @@
 
         <service id="app.listener.exception_listener" class="Wenwen\FrontendBundle\EventListener\ExceptionListener">
             <argument type="service" id="logger" />
-            <tag name="kernel.event_listener" event="kernel.exception" />
+            <argument type="service" id="templating" />
+            <argument type="service" id="kernel" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <!--<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />-->
+            <!--<tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />-->
         </service>
 
         <service id="app.listener.console_exception_listener" class="Wenwen\FrontendBundle\EventListener\ConsoleExceptionListener">

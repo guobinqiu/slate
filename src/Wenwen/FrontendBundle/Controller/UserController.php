@@ -124,7 +124,7 @@ class UserController extends BaseController
             $arr['total'] = $total_count;
 
         }else{
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
 
         }
         $arr['exchangeType'] = $exchangeType;
@@ -138,30 +138,15 @@ class UserController extends BaseController
 	 */
     public function adtasteAction(Request $request)
     {
-        if(!$this->get('session')->has('uid')){
-           return $this->redirect($this->generateUrl('_user_login'));
+        if (!$request->getSession()->has('uid')) {
+            return $this->redirect($this->generateUrl('_user_login'));
         }
-        $page = $request->query->get('p', 1);
-        $type = $request->query->get('type', 0);
-        $page_size = $this->container->getParameter('page_num');
-
-        $user_id = $this->get('session')->get('uid');
+        $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $total_count = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id%10))->getTaskHistoryCount($user_id, $type);
-        $page = $page > (int) ceil($total_count / $page_size) ? (int) ceil($total_count / $page_size) : $page;
-
-        $this->get('session.my_task_list')->remove(array('alive'));
-        $adtaste = $this->get('session.my_task_list')->selTaskHistory($type, $page);
-
-        $arr['p'] = $page;
-        $arr['page_size'] = $page_size;
-        $arr['total'] = $total_count;
-        $arr['type'] = $type;
-
-        $arr['adtaste'] = $adtaste;
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-        $arr['user'] = $user;
-        return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig',$arr);
+        $tasks = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id % 10))->findBy(array('userId' => $user_id));
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($tasks, $request->query->getInt('page', 1), 100);
+        return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig', array('pagination' => $pagination));
     }
 
     /**

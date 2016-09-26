@@ -106,7 +106,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->point($history) * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '你的朋友回答了sop商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份SOP商业问卷'
                 );
 
             } catch (\Exception $e) {

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
@@ -42,9 +43,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $sig = $params['sig'];
         unset($params['sig']);
         if (!$auth->verifySignature($sig, $params)) {
-            $response = new Response();
-            $response->setStatusCode(404);
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array (), $response);
+            throw new Exception('签名验证失败');
         }
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);

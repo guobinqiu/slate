@@ -62,18 +62,18 @@ class PasswordController extends BaseController
     {
         $resetPasswordToken = $request->query->get('reset_password_token');
         if ($resetPasswordToken == null) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('resetPasswordToken' => $resetPasswordToken));
 
         if ($user == null) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         if ($user->isResetPasswordTokenExpired()) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '验证码已过期'));
+            throw new \Exception('验证码已过期');
         }
 
         $form = $this->createFormBuilder()

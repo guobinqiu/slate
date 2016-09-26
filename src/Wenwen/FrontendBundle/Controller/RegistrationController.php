@@ -98,7 +98,7 @@ class RegistrationController extends BaseController
         $confirmation_token = $request->query->get('confirmation_token');
 
         if (!isset($confirmation_token)) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -108,11 +108,11 @@ class RegistrationController extends BaseController
         ));
 
         if ($user == null) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         if ($user->isConfirmationTokenExpired()) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '验证码已过期'));
+            throw new \Exception('验证码已过期');
         }
 
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
@@ -128,7 +128,7 @@ class RegistrationController extends BaseController
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            User::COMMENT_SIGNUP
+            '完成注册'
         );
 
         // 同时给邀请人加积分
@@ -137,7 +137,7 @@ class RegistrationController extends BaseController
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            User::COMMENT_INVITE_SIGNUP
+            '您的好友' . $user->getNick(). '完成了注册'
         );
 
         // 推送用户基本属性

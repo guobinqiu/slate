@@ -108,7 +108,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     $ssiProjectConfig['point'] * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '你的朋友回答了ssi商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份SSI商业问卷'
                 );
 
                 $this->recordParticipationHistory($ssiRespondent, $row);
