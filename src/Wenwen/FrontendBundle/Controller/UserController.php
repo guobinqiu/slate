@@ -143,7 +143,7 @@ class UserController extends BaseController
         }
         $user_id = $request->getSession()->get('uid');
         $em = $this->getDoctrine()->getManager();
-        $tasks = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id % 10))->findBy(array('userId' => $user_id));
+        $tasks = $em->getRepository('JiliApiBundle:TaskHistory0'.($user_id % 10))->findBy(array('userId' => $user_id), array('date' => 'DESC'));
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($tasks, $request->query->getInt('page', 1), 100);
         return $this->render('WenwenFrontendBundle:Personal:taskHistory.html.twig', array('pagination' => $pagination));
