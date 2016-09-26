@@ -31,9 +31,6 @@ class User
     const POINT_SIGNUP = 10;
     const POINT_INVITE_SIGNUP = 100;
 
-    const COMMENT_SIGNUP = '完成了注册';
-    const COMMENT_INVITE_SIGNUP = '你的朋友完成了注册';
-
     /**
      * @var integer
      *

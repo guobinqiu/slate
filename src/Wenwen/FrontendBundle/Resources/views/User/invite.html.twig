@@ -1,173 +1,175 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}邀请好友，让好友帮你赚钱啦，10%积分奖励{% endblock %}
+{% block title %}{{ parent() }}邀请好友{% endblock %}
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/invitation.css') }} " type="text/css">
     <!--[if lt IE 8]>
-        <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
     <![endif]-->
 {% endblock %}
 
 {% block header %}
- {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+    {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
- <div class="bannerWrap">
-     <div class="flowBg">
-         <div class="container">
-             <div class="bannerCon center-block row">
-                 <div class="col-sm-12">
-                     <img class="img-responsive" src="{{ asset('img/invitation/banner.png') }}">
-                 </div>
+    <div class="bannerWrap">
+        <div class="flowBg">
+            <div class="container">
+                <div class="bannerCon center-block row">
+                    <div class="col-sm-12">
+                        <img class="img-responsive" src="{{ asset('img/invitation/banner.png') }}">
+                    </div>
+                </div>
 
-             </div>
-             <div class="row">
-                 <div class="col-sm-1"></div>
-                 <div class="bannerRule col-sm-10">
-                     <div class="con">
-                         <p>赚钱引导流程</p>
-                         <div class="rulePic">
-                             <img class="img-responsive" src="{{ asset('img/invitation/rulePic.jpg') }}">
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-sm-1"></div>
-             </div>
-         </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="bannerRule col-sm-10">
+                        <div class="con">
+                            <p>赚钱引导流程</p>
+                            <div class="rulePic">
+                                <img class="img-responsive" src="{{ asset('img/invitation/rulePic.jpg') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="contWrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <div class="btns">
+                        <div class="bdsharebuttonbox center-block">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
+                                    <div class="ibtnItem">
+                                        <a href="#" class="ibtn pull-left bds_sqq" data-cmd="sqq" title="分享到QQ好友">
+                                            <i class="fa fa-qq" aria-hidden="true"></i>分享到QQ好友
+                                        </a>
+                                    </div>
+                                </div>
 
-     </div>
- </div>
- <div class="contWrap">
-     <div class="container">
-         <div class="row">
-             <div class="col-sm-1"></div>
-             <div class="col-sm-10">
-                 <div class="btns">
+                                <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
+                                    <div class="ibtnItem">
+                                        <a href="#" class="ibtn pull-left bds_qzone" data-cmd="qzone" title="分享到QQ空间">
+                                            <img class="qzoneIcon" src="{{ asset('img/invitation/qzoneIcon.png') }}">分享到QQ空间
+                                        </a>
+                                    </div>
+                                </div>
 
-                     <div class="bdsharebuttonbox center-block">
-                         <div class="row">
-                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
-                                 <div class="ibtnItem">
-                                     <a href="#" class="ibtn pull-left bds_sqq" data-cmd="sqq" title="分享到QQ好友">
-                                         <i class="fa fa-qq" aria-hidden="true"></i>分享到QQ好友
-                                     </a>
-                                 </div>
-                             </div>
+                                <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
+                                    <div class="ibtnItem">
+                                        <a href="#" class="ibtn pull-left bds_tsina" data-cmd="tsina" title="分享到新浪微博">
+                                            <i class="fa fa-weibo" aria-hidden="true"></i>分享到新浪微博
+                                        </a>
+                                    </div>
+                                </div>
 
-                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
-                                 <div class="ibtnItem">
-                                     <a href="#" class="ibtn pull-left bds_qzone" data-cmd="qzone" title="分享到QQ空间">
-                                         <img class="qzoneIcon" src="{{ asset('img/invitation/qzoneIcon.png') }}">分享到QQ空间
-                                     </a>
-                                 </div>
-                             </div>
-
-                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
-                                 <div class="ibtnItem">
-                                     <a href="#" class="ibtn pull-left bds_tsina" data-cmd="tsina" title="分享到新浪微博">
-                                         <i class="fa fa-weibo" aria-hidden="true"></i>分享到新浪微博
-                                     </a>
-                                 </div>
-                             </div>
-
-                             <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
-                                 <div class="ibtnItem">
-                                     <a href="#" class="ibtn pull-left bds_weixin" data-cmd="weixin" title="分享到微信">
-                                         <i class="fa fa-weixin" aria-hidden="true"></i>分享到微信
-                                     </a>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="row center-block">
-                         <div class="others center-block col-sm-12">
-                             <div class="note">或者复制粘贴以下地址发送给好友</div>
-                             <input id="clipboard_text" type="text" class="form-control" value="{{ inviteUrl }}">
-                             <button id="copy-button" class="copy btn btn-default btn-lg hiddenTablet hiddenPhone" role="button" data-clipboard-target="clipboard_text"><i class="fa fa-files-o" aria-hidden="true"></i>复制</button>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="ruleTit row">
-                     <div class="rtCon col-sm-12 text-left">
-                         <h2><i class="fa fa-paper-plane" aria-hidden="true"></i>活动规则</h2>
-                     </div>
-                 </div>
-                 <div class="ruleCon row">
-                     <div class="rcText col-sm-12">
-                         <div class="row">
-                             <div class="col-sm-1"></div>
-                             <div class="col-sm-10">
-                                 <p>1. 被邀请的好友注册成功，您可获得100积分。</p>
-                                 <p>2. 好友每完成一份【商业类问卷】，好友获得全部积分，您获得好友所获积分的10%！</p>
-                                 <p>3. 活动中如果发现通过作弊手段获得奖励的，将取消奖励。</p>
-                             </div>
-                             <div class="col-sm-1"></div>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="friendsTit row">
-                     <div class="ftCon col-sm-12 text-left">
-                         <h2><i class="fa fa-paper-plane" aria-hidden="true"></i>我成功邀请的好友</h2>
-                     </div>
-                 </div>
-                 <div class="friendsCon row">
-                     <div class="col-sm-1"></div>
-                     <div class="col-sm-10">
-                         <div class="row">
-                             {% if invitees | length  > 0 %}
-                                 <div class="fdList clearfix col-sm-12">
-                                     {% for invitee in invitees %}
-                                         <div class="fdItem col-sm-2 col-xs-3">
-                                             <img class="img-responsive" src="{{ asset(invitee.icon_path|default('img/common/default_tx.png')) }}">
-                                             <p class="nick text-center">{{ invitee.nick }}</p>
-                                         </div>
-                                     {% endfor %}
-                                 </div>
-                             {% else %}
-                                 <div class="fdList clearfix col-sm-12">
-                                     <p class="vcenter text-center">你还没有成功邀请的好友哦！</p>
-                                 </div>
-                             {% endif %}
-                         </div>
-                     </div>
-                     <div class="col-sm-1"></div>
-                 </div>
-             </div>
-             <div class="col-sm-1"></div>
-         </div>
-
-     </div>
- </div>
- <script>
-     window._bd_share_config = {
-         common: {
-             bdText: '您的好友{{ inviter.nick }}给您发了一个邀请！', //分享的内容
-             bdDesc: '答问卷送积分，积分可兑换现金和礼品！', //分享的摘要
-             bdUrl: '{{ inviteUrl }}', //分享的Url地址
-             bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/inviteBanner.jpg') }}', //分享的图片
-         },
-         share: [{
-             bdSize: 16,
-             bdCustomStyle: '{{ asset('css/bootstrap.min.css') }}'
-         }]
-     };
-     with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
- </script>
+                                <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
+                                    <div class="ibtnItem">
+                                        <a href="#" class="ibtn pull-left bds_weixin" data-cmd="weixin" title="分享到微信">
+                                            <i class="fa fa-weixin" aria-hidden="true"></i>分享到微信
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row center-block">
+                            <div class="others center-block col-sm-12">
+                                <div class="note">或者复制粘贴以下地址发送给好友</div>
+                                <input id="clipboard_text" type="text" class="form-control" value="{{ inviteUrl }}">
+                                <button id="copy-button" class="copy btn btn-default btn-lg hiddenTablet hiddenPhone"
+                                        role="button" data-clipboard-target="clipboard_text"><i class="fa fa-files-o"
+                                                                                                aria-hidden="true"></i>复制
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ruleTit row">
+                        <div class="rtCon col-sm-12 text-left">
+                            <h2><i class="fa fa-paper-plane" aria-hidden="true"></i>活动规则</h2>
+                        </div>
+                    </div>
+                    <div class="ruleCon row">
+                        <div class="rcText col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <p>1. 被邀请的好友注册成功，您可获得100积分奖励。</p>
+                                    <p>2. 您的好友每回答一份【商业类问卷】，该好友获得全部积分，而您可获得该好友所获积分的10%！</p>
+                                    <p>3. 活动中如果发现通过作弊手段获得奖励的，将取消奖励。</p>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="friendsTit row">
+                        <div class="ftCon col-sm-12 text-left">
+                            <h2><i class="fa fa-paper-plane" aria-hidden="true"></i>我成功邀请的好友</h2>
+                        </div>
+                    </div>
+                    <div class="friendsCon row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                {% if invitees | length  > 0 %}
+                                    <div class="fdList clearfix col-sm-12">
+                                        {% for invitee in invitees %}
+                                            <div class="fdItem col-sm-2 col-xs-3">
+                                                <img class="img-responsive"
+                                                     src="{{ asset(invitee.icon_path|default('img/common/default_tx.png')) }}">
+                                                <p class="nick text-center">{{ invitee.nick }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="fdList clearfix col-sm-12">
+                                        <p class="vcenter text-center">你还没有成功邀请的好友哦！</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascript %}
- <script type="text/javascript" src="http://cdn.css.net/libs/zeroclipboard/2.0.0/ZeroClipboard.min.js"></script>
- <script type="text/javascript">
-     var client = new ZeroClipboard($("#copy-button"));
-     client.on("ready", function(readyEvent) {
-         //alert("ZeroClipboard SWF is ready!");
-         client.on( "aftercopy", function(event) {
-             //alert("Copied text to clipboard: " + event.data["text/plain"] );
-             alert("复制成功");
-         });
-     });
- </script>
+    <script type="text/javascript">
+        window._bd_share_config = {
+            common: {
+                bdText: '您的好友{{ inviter.nick }}给您发来一个邀请', //分享的内容
+                bdDesc: '赚零用钱就来【91问问】，答问卷赚积分，积分可兑换现金和礼品！', //分享的摘要
+                bdUrl: '{{ inviteUrl }}', //分享的Url地址
+                bdPic: '{{ app.request.scheme ~ '://' ~ app.request.httpHost ~ asset('img/invitation/inviteBanner.jpg') }}', //分享的图片
+            },
+            share: [{
+                bdSize: 16,
+                bdCustomStyle: '{{ asset('css/bootstrap.min.css') }}'
+            }]
+        };
+        with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+    </script>
+
+    <script type="text/javascript" src="http://cdn.css.net/libs/zeroclipboard/2.0.0/ZeroClipboard.min.js"></script>
+    <script type="text/javascript">
+        var client = new ZeroClipboard($("#copy-button"));
+        client.on("ready", function (readyEvent) {
+            //alert("ZeroClipboard SWF is ready!");
+            client.on("aftercopy", function (event) {
+                //alert("Copied text to clipboard: " + event.data["text/plain"] );
+                alert("复制成功");
+            });
+        });
+    </script>
 {% endblock %}

@@ -120,6 +120,7 @@ swiftmailer:
 #            username:   %qqmail_username%
 #            password:   %qqmail_password%
 
+#https://github.com/KnpLabs/KnpPaginatorBundle
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
     default_options:

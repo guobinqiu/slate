@@ -128,7 +128,7 @@ class RegistrationController extends BaseController
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            User::COMMENT_SIGNUP
+            '完成注册'
         );
 
         // 同时给邀请人加积分
@@ -137,7 +137,7 @@ class RegistrationController extends BaseController
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            User::COMMENT_INVITE_SIGNUP
+            '您的好友' . $user->getNick(). '完成了注册'
         );
 
         // 推送用户基本属性
