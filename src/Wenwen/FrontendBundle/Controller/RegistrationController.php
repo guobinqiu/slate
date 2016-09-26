@@ -98,7 +98,7 @@ class RegistrationController extends BaseController
         $confirmation_token = $request->query->get('confirmation_token');
 
         if (!isset($confirmation_token)) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -108,11 +108,11 @@ class RegistrationController extends BaseController
         ));
 
         if ($user == null) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '无效链接'));
+            throw new \Exception('无效链接');
         }
 
         if ($user->isConfirmationTokenExpired()) {
-            return $this->render('WenwenFrontendBundle:Exception:index.html.twig', array('error' => '验证码已过期'));
+            throw new \Exception('验证码已过期');
         }
 
         $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);

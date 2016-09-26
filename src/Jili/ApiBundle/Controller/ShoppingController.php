@@ -85,7 +85,7 @@ class ShoppingController extends Controller
 
         if($id){
             if(!in_array($id,$allCate)){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             foreach ($advertise as $key => $value) {
                 $cate = explode(",",$value['cate']);

@@ -113,14 +113,14 @@ class VoteController extends Controller
 
         $vote_id = $request->query->get('id');
         if (!$vote_id) {
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
 
         $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
 
         # voteが無い/開始前 => 404
         if (!$vote || $vote->getStartTime()->getTimestamp() > $current_timestamp) {
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
 
         # voteが終了済み => 結果へ
@@ -284,7 +284,7 @@ class VoteController extends Controller
             $this->get('logger')->critical('[JiliFrontend][vote][click]' . $e->getMessage());
             $this->get('session')->getFlashBag()->add('error', '投票失败，内部出错');
 
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
         $session->remove('csrf_token');
 
@@ -303,14 +303,14 @@ class VoteController extends Controller
 
         $vote_id = $request->query->get('id');
         if (!$vote_id) {
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
 
         $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
 
         # voteが無い/開始前 => 404
         if (!$vote || $vote->getStartTime()->getTimestamp() > $current_timestamp) {
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
         }
 
         $vote_image_path = false;

@@ -124,7 +124,7 @@ class UserController extends BaseController
             $arr['total'] = $total_count;
 
         }else{
-            return $this->redirect($this->generateUrl('_default_error'));
+            throw new \Exception();
 
         }
         $arr['exchangeType'] = $exchangeType;

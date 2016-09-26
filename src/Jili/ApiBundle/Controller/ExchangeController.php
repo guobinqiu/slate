@@ -64,15 +64,15 @@ class  ExchangeController extends Controller
                 $arr['tokenKey'] = $tokenKey;
             }
             if(!$this->get('request')->getSession()->get('alipayToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             if($getToken){
                 if($getToken != $this->get('request')->getSession()->get('alipayToken')){
-                    return $this->redirect($this->generateUrl('_default_error'));
+                    throw new \Exception();
                 }
             }else{
                 if($tokenKey != $this->get('request')->getSession()->get('alipayToken')){
-                    return $this->redirect($this->generateUrl('_default_error'));
+                    throw new \Exception();
                 }
             }
 
@@ -218,10 +218,10 @@ class  ExchangeController extends Controller
             $session = $this->getRequest()->getSession();
             $session->set('mobileToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('mobileToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             if($tokenKey != $this->get('request')->getSession()->get('mobileToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             $targetAcc = $em->getRepository('JiliApiBundle:PointsExchange')->getTargetAccount($id,$this->container->getParameter('init_four'));
             if(!empty($targetAcc)){
@@ -411,10 +411,10 @@ class  ExchangeController extends Controller
             $session = $this->getRequest()->getSession();
             $session->set('amazonToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('amazonToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             if($tokenKey != $this->get('request')->getSession()->get('amazonToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             if ($request->getMethod() == 'POST' && $change_point) {
                 if($change_point){
@@ -545,7 +545,7 @@ class  ExchangeController extends Controller
                 return $this->redirect($this->generateUrl('_exchange_mobileInfo'));
                 break;
             default:
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
                 break;
         }
     }
@@ -585,10 +585,10 @@ class  ExchangeController extends Controller
             $session = $this->getRequest()->getSession();
             $session->set('alipayToken', $tokenKey);
             if(!$this->get('request')->getSession()->get('alipayToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             if($tokenKey != $this->get('request')->getSession()->get('alipayToken')){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             $em = $this->getDoctrine()->getManager();
             // $issetIdent = $em->getRepository('JiliApiBundle:IdentityConfirm')->findByUserId($id);
@@ -665,7 +665,7 @@ class  ExchangeController extends Controller
             $id = $this->get('request')->getSession()->get('uid');
             $code = $this->checkFinish($type);
             if($code){
-                return $this->redirect($this->generateUrl('_default_error'));
+                throw new \Exception();
             }
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
             $this->exchange_send_message($type,$id);
