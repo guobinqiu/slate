@@ -40,6 +40,7 @@ class AdminProjectController extends Controller
         $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
         $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
+        $builder->add('Location', 'text', array('label' => 'Location', 'trim' => true));
         $form = $builder->getForm();
 
         $uploadDir = $this->container->getParameter('affiliate.url_upload_directory');
@@ -56,10 +57,12 @@ class AdminProjectController extends Controller
                 $fieldFile = $form->get('urlFile');
                 $fieldRFQId = $form->get('RFQId');
                 $fieldCompletePoints = $form->get('CompletePoints');
+                $fieldLocation = $form->get('Location');
 
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
                 $completePoints = $fieldCompletePoints->getData();
+                $location = $fieldLocation->getData();
 
                 if($completePoints <= 2000) {
                     $originalFileName = $uploadedFile->getClientOriginalName();
@@ -69,8 +72,8 @@ class AdminProjectController extends Controller
 
                     $adminProjectService = $this->get('app.admin_project_service');
                     // 改partnerId
-                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints);
-                    
+                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $location);
+
 
                     //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
                     // print 'status=' . $rtn['status'] . '<br>';

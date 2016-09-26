@@ -23,5 +23,14 @@
             <argument type="service" id="knp_paginator" />
         </service>
 
+        <service id="app.ip_location_service" class="Affiliate\AppBundle\Services\ProjectLocation">
+            <argument type="service" id="logger" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.http_client" />
+        </service>
+    
+        <service id="app.http_client" class="Wenwen\FrontendBundle\ServiceDependency\HttpClient" />
+
     </services>
 </container>

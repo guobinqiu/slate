@@ -7,12 +7,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Doctrine\ORM\EntityManager;
+use Psr\Log\LoggerInterface;
+
+
 /**
  * 问卷代理
  * 对还没有注册的用户提供回答问卷的机会
  */
 class AffiliateSurveyController extends Controller
 {
+
+    private $logger;
+
+    private $em;
+
+    private $knp_paginator;
+
+    private $router;
+
+    public function __construct(LoggerInterface $logger,
+                                EntityManager $em,
+                                $knp_paginator,
+                                $router)
+    {
+        $this->logger = $logger;
+        $this->em = $em;
+        $this->knp_paginator = $knp_paginator;
+        $this->router = $router;
+    }
 
     public function showSurveyAction(Request $request, $affiliateProjectId = null)
     {
@@ -65,5 +88,35 @@ class AffiliateSurveyController extends Controller
     		);
         return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
     }
+
+ 
+    /**
+     * @Route("/test/{affiliateProjectId}", affiliateProjectId="2")
+     */
+    #public function getProjectLocation($affiliateProjectId){
+        #$this->logger->debug(__METHOD__ . " START getLocation  affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
+
+        #$rtn = array();
+        #$rtn['status'] = 'success';
+        #try{
+        #    $param = array(
+        #       'id' => $affiliateProjectId
+        #       #'location' => AffiliateProject::getLocation
+        #       );
+        #    #$affiliateProjectLocation = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneBy($param);
+        #    $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find(1);
+        #    var_dump($rtn);
+        #    #$rtn = '上海';
+        #    #print $rtn;
+        #    #$af = $rtn['location'];
+        #} catch(\Exception $e){
+        #    #$rtn['status'] = 'failure';
+        #    $rtn['errmsg'] = 'Error happened. Errmsg=' . $e->getMessage();
+        #    $this->logger->error(__METHOD__ . " getLocation failed    affiliateProjectId=" .  $affiliateProjectId . "errMsg=" . $rtn['errmsg'] . PHP_EOL);
+        #}
+        ##$this->logger->debug(__METHOD__ . " END    affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
+        #return $rtn;
+    #}
+
 
 }
