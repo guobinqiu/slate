@@ -37,3 +37,4 @@ security:
         - { path: ^/jobs, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
         - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
