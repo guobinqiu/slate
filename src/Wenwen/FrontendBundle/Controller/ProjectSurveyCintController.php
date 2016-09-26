@@ -43,9 +43,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $sig = $params['sig'];
         unset($params['sig']);
         if (!$auth->verifySignature($sig, $params)) {
-            $response = new Response();
-            $response->setStatusCode(404);
-            throw new Exception();
+            throw new Exception('签名验证失败');
         }
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
