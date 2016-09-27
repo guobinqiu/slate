@@ -654,7 +654,8 @@ class SurveyService
     */
     private function getSurveyLOI($loi){
         if($loi == 0){
-            return '10 ~ 30'; 
+            // 随便显示一个时间，当loi为0的时候
+            return 20; 
         }
         return $loi;
     }
