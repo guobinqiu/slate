@@ -496,7 +496,7 @@ class SurveyService
                     if(($research['is_closed'] == 0)){
                         $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                         $research['loi'] = $this->getSurveyLOI($research['loi']);
-                        $research['title'] = 'r' . $cint_research['survey_id'] . ' ' . $research['title'];
+                        $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
