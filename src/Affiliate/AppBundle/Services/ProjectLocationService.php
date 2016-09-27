@@ -5,12 +5,13 @@ namespace Affiliate\AppBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
+use Wenwen\FrontendBundle\Services\ParameterService;
 
 /**
  * 通过IP获得地域属性
  * Ref: http://lbs.amap.com/api/webservice/guide/api/ipconfig/#t2
  */
-class ProjectLocation
+class ProjectLocationService
 {
     private $logger;
 
@@ -23,7 +24,7 @@ class ProjectLocation
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
-    private $dummy = false;
+    private $dummy = true;
     private $dummyCityName = '上海市';
     private $dummyProvinceName = '上海市';
 
@@ -49,7 +50,7 @@ class ProjectLocation
      * @param $ipAddress
      * @return $cityName
      */
-    private function getCityName($ipAddress) {
+    public function getCityName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         $cityName = null;
 
@@ -130,6 +131,11 @@ class ProjectLocation
             $rtn['errmsg'] = $responseBody;
         }
         return $rtn;
+    }
+
+    public function getProjectLocation($affiliateProjectId){
+        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+        return $rtn->getlocation();
     }
 }
 

@@ -4,6 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+    
+        <service id="app.http_client" class="Wenwen\FrontendBundle\ServiceDependency\HttpClient" />
+
+        <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
+            <argument type="service" id="service_container" />
+        </service>
 
         <service id="app.affiliate_survey_service" class="Affiliate\AppBundle\Services\AffiliateSurveyService">
             <argument type="service" id="logger" />
@@ -23,14 +29,12 @@
             <argument type="service" id="knp_paginator" />
         </service>
 
-        <service id="app.ip_location_service" class="Affiliate\AppBundle\Services\ProjectLocation">
+        <service id="app.ip_location_service" class="Affiliate\AppBundle\Services\ProjectLocationService">
             <argument type="service" id="logger" />
-            <argument type="service" id="app.parameter_service" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
         </service>
     
-        <service id="app.http_client" class="Wenwen\FrontendBundle\ServiceDependency\HttpClient" />
-
     </services>
 </container>

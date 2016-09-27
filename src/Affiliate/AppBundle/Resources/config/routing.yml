@@ -50,9 +50,3 @@ admin_project_close:
     requirements:
         page: '\d+'
 
-admin_project_test:
-    path: /admin/test/{affiliatePartnerId}
-    defaults: { _controller: AffiliateAppBundle:ProjectLocation:GetProjectLocation}
-    methods:  [GET, POST]
-    requirements:
-        page: '\d+'
