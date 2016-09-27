@@ -1,13 +1,13 @@
 <div class="survey-item">
-    <div class="title"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">海外调查问卷<span></span></a></div>
+    <div class="title"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">S市场调查项目<span></span></a></div>
     <ul class="con clearfix">
         <li class="first">
-            问卷编号：s{{ ssi_surveys[0].ssiProjectId }}
+            调查所需时间：由参与问卷的个数决定
         </li>
-        <li class="last">
-            问卷类型：商业问卷
+        <li class="first">
+            内含问卷个数：{{ count }} 个
         </li>
     </ul>
 </div>
-<div class="rewardPoint"><i>{{ ssi_project_config.point }}</i>积分</div>
+<div class="rewardPoint"><i>{{ ssi_project_config.point * count }}</i>积分</div>
 <div class="survey-btn"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">可回答</a></div>
