@@ -76,31 +76,14 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $dummy_data = '{
-         "date": "2015-07-21",
-         "is_answered": "0",
-         "cpi": "0.00",
-         "is_closed": "0",
-         "ir": "0",
-         "extra_info": {
-             "point": {
-                 "screenout": "30",
-                 "quotafull": "30",
-                 "complete": "670"
-             },
-             "date": {
-                 "end_at": "2015-08-31 00:00:00",
-                 "start_at": "2015-07-21 00:00:00"
-             },
-             "content": "这是一个测试"
-         },
-         "url": "https://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=aaeca59caa406fff786976df7300ddc69992f75ffdbb4ea0616a868cf58062e5&next=%2Fproject_survey%2F393&time=1438677550&app_id=25&sop_locale=&app_mid=13",
-         "loi": "15",
-         "title": "Test 4",
-         "survey_id": "284",
-         "quota_id": "393"
-        }';
-        $research = json_decode($dummy_data, true);
+
+        $research = array();
+        $research['title'] = 'dummy title';
+        $research['difficulty'] = 'normal';
+        $research['loi'] = 10;
+        $research['extra_info']['point']['complete'] = 400;
+        $research['url'] = 'dummy url';
+
         $url = $container->get('router')->generate('_project_survey_information', array('research' => $research));
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

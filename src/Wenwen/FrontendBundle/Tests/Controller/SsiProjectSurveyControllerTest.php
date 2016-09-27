@@ -52,7 +52,6 @@ class SsiProjectSurveyControllerTest extends WebTestCase
         $client->request('GET', '/ssi_project_survey/information/'.$ssi_project->getId());
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
-        $this->assertRegExp(sprintf('/s%d/', $ssi_project->getId()), $client->getResponse()->getContent());
     }
 
     public function testCoverPageForUnavailableProject()

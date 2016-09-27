@@ -76,11 +76,7 @@ class SsiPartnerControllerTest extends WebTestCase
         //status: login, will show permission page
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($crawler->filter('input[name="SsiPartnerPermission[token]"]')->count() > 0);
-
-        //permission: yes , redirect commit
         $form = $crawler->filter('form[id=ssi_permission_form]')->form();
-        $form['SsiPartnerPermission[permission_flag]'] = '1';
         $crawler = $client->submit($form);
         //$this->assertEquals('http://localhost/ssi_partner/commit', $client->getRequest()->getUri());
         $this->assertRegExp('/ssi_partner\/commit$/', $client->getRequest()->getUri());
@@ -115,8 +111,8 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->login($client);
 
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_permission'));
+
         $form = $crawler->filter('form[id=ssi_permission_form]')->form();
-        $form['SsiPartnerPermission[permission_flag]'] = '1';
         $crawler = $client->submit($form);
 
         $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user->getId());
@@ -148,8 +144,8 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->login($client);
 
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_permission'));
+
         $form = $crawler->filter('form[id=ssi_permission_form]')->form();
-        $form['SsiPartnerPermission[permission_flag]'] = '1';
         $crawler = $client->submit($form);
 
         $crawler = $client->request('GET', $container->get('router')->generate('_ssi_partner_prescreeningcomplete'));

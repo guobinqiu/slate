@@ -137,7 +137,7 @@ class SurveyService
                     "loi": "10",
                     "is_answered": "0",
                     "is_closed": "0",
-                    "title": "Example Research Survey（Not asnwered Not closed）",
+                    "title": "关于工作的调查（Not asnwered Not closed）",
                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
@@ -156,6 +156,27 @@ class SurveyService
                     "cpi": "1.00",
                     "ir": "50",
                     "loi": "20",
+                    "is_answered": "1",
+                    "is_closed": "0",
+                    "title": "Example Research Survey (Asnwered Not Closed）",
+                    "url": "",
+                    "is_fixed_loi": "1",
+                    "is_notifiable": "1",
+                    "date": "2015-01-02",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "2",
+                             "quotafull": "1",
+                             "complete": "300"
+                         }
+                     }
+                  },
+                  {
+                    "survey_id": "10011",
+                    "quota_id": "20001",
+                    "cpi": "1.00",
+                    "ir": "50",
+                    "loi": "0",
                     "is_answered": "1",
                     "is_closed": "0",
                     "title": "Example Research Survey (Asnwered Not Closed）",
@@ -214,7 +235,7 @@ class SurveyService
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
                      "extra_info": {
-                         "point": {"complete": "10"}
+                         "point": {"complete": "300"}
                      }
                    },
                    {
@@ -227,7 +248,7 @@ class SurveyService
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
                      "extra_info": {
-                         "point": {"complete": "10"}
+                         "point": {"complete": "500"}
                      }
                    }
                  ],
@@ -245,7 +266,7 @@ class SurveyService
                        "date": "2015-01-01",
                        "extra_info": {
                          "point": {
-                           "complete": "40",
+                           "complete": "400",
                            "screenout": "10",
                            "quotafull": "10"
                          }
@@ -264,7 +285,7 @@ class SurveyService
                        "date": "2015-01-01",
                        "extra_info": {
                          "point": {
-                           "complete": "40",
+                           "complete": "500",
                            "screenout": "10",
                            "quotafull": "10"
                          }
@@ -323,12 +344,36 @@ class SurveyService
         $ssi_res['needPrescreening'] = true;
         $item = [];
         $item['id'] = '555';
-        $item['ssi_project_id'] = '555';
-        $item['ssi_respondent_id'] = '555';
+        $item['ssi_project_id'] = '1';
+        $item['ssi_respondent_id'] = '4';
         $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
         $item['answer_status'] = '0';
         $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
         $ssi_surveys = [];
+        $ssi_surveys[] = new ProjectSurvey($item);
+
+        $item['id'] = '555';
+        $item['ssi_project_id'] = '2';
+        $item['ssi_respondent_id'] = '4';
+        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
+        $item['answer_status'] = '0';
+        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
+        $ssi_surveys[] = new ProjectSurvey($item);
+
+        $item['id'] = '555';
+        $item['ssi_project_id'] = '3';
+        $item['ssi_respondent_id'] = '4';
+        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
+        $item['answer_status'] = '0';
+        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
+        $ssi_surveys[] = new ProjectSurvey($item);
+
+        $item['id'] = '555';
+        $item['ssi_project_id'] = '4';
+        $item['ssi_respondent_id'] = '4';
+        $item['start_url_id'] = 'wiS0MTjBuaAI-yBaBgWj1RlxlIgMWFrQ';
+        $item['answer_status'] = '0';
+        $item['stash_data'] = '{"contactMethodId":74,"startUrlHead":"http:\/\/dkr1.ssisurveys.com\/projects\/boomerang?psid="}';
         $ssi_surveys[] = new ProjectSurvey($item);
         $ssi_res['ssi_surveys'] = $ssi_surveys;
         $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
@@ -394,6 +439,7 @@ class SurveyService
             }
             if (!empty($ssi_res['ssi_surveys'])) {
                 // 该用户有可回答的商业问卷，显示ssi的coverpage
+                $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
                 array_unshift($html_survey_list, $html);
             }
@@ -418,6 +464,9 @@ class SurveyService
             if (count($fulcrum_researches) > 0) {
                 foreach ($fulcrum_researches as $fulcrum_research) {
                     if (!$this->hasStopWord($fulcrum_research['url'])) {
+                        $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
+                        $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
+                        $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                         array_unshift($html_survey_list, $html);
                     }
@@ -428,6 +477,9 @@ class SurveyService
             if (count($cint_researches) > 0) {
                 foreach ($cint_researches as $cint_research) {
                     if (!$this->hasStopWord($cint_research['url'])) {
+                        $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
+                        $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
+                        $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                         if ($cint_research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
@@ -442,6 +494,9 @@ class SurveyService
             if (count($researches) > 0) {
                 foreach ($researches as $research) {
                     if(($research['is_closed'] == 0)){
+                        $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
+                        $research['loi'] = $this->getSurveyLOI($research['loi']);
+                        $research['title'] = 'r' . $cint_research['survey_id'] . ' ' . $research['title'];
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
@@ -578,6 +633,31 @@ class SurveyService
      */
     private function toProxyAddress($url) {
         return preg_replace('/surveyon.com/', 'surveyon.cn', $url);
+    }
+
+    /**
+    * 替换ir 至 难易度表现文字
+    */
+    private function getSurveyDifficulty($ir){
+        $difficulty = '普通';
+        if($ir < 30){
+            $difficulty = '困难';
+        }
+        if($ir > 70){
+            $difficulty = '简单';
+        }
+        return $difficulty;
+    }
+    
+    /**
+    * loi 为 0 的时候，替换显示内容
+    */
+    private function getSurveyLOI($loi){
+        if($loi == 0){
+            // 随便显示一个时间，当loi为0的时候
+            return 20; 
+        }
+        return $loi;
     }
 
 }
