@@ -51,6 +51,14 @@ class AffiliateProject
     private $url;
 
     /**
+     * Location to access
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=255, nullable=true, options={"comment": "location to access"})
+     */
+    private $location;
+
+    /**
      * File name of redirector url
      * @var string
      *
@@ -184,6 +192,24 @@ class AffiliateProject
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+      *
+     * @param string $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**

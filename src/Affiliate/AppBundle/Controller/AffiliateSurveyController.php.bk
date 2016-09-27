@@ -7,12 +7,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Doctrine\ORM\EntityManager;
+use Psr\Log\LoggerInterface;
+
+
 /**
  * 问卷代理
  * 对还没有注册的用户提供回答问卷的机会
  */
 class AffiliateSurveyController extends Controller
 {
+
+    private $logger;
+
+    private $em;
+
+    private $knp_paginator;
+
+    private $router;
+
+    public function __construct(LoggerInterface $logger,
+                                EntityManager $em,
+                                $knp_paginator,
+                                $router)
+    {
+        $this->logger = $logger;
+        $this->em = $em;
+        $this->knp_paginator = $knp_paginator;
+        $this->router = $router;
+    }
 
     public function showSurveyAction(Request $request, $affiliateProjectId = null)
     {
@@ -30,25 +53,12 @@ class AffiliateSurveyController extends Controller
         	return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
         }
 
-        // 判断用户Location与项目中的Location是否一致
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
-        $affiliateProjectLocationService = $this->get('app.ip_location_service');
+        #$affiliateProjectLocationService = $this->get('app.app.ip_location_service');
+        #$projectLocation = $affiliateProjectLocationService->getProjectLocation($affiliateProjectId);
 
-        $ProjectLocation = $affiliateProjectLocationService->getProjectLocation($affiliateProjectId);
-
-        if(is_null($ProjectLocation)){
-            $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
-        }else{
-            $ClientLocation = $affiliateProjectLocationService->getCityName($request->getClientIp());
-            if($ProjectLocation == $ClientLocation){
-                $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
-            }else{
-                $param = array(
-                'answer_status' => 'other'
-                );
-                return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
-            }
-        }       
+        #$redirectURL = "shanghai";
+        #$redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
 
         if(is_null($redirectURL)){
             $param = array(
@@ -82,5 +92,5 @@ class AffiliateSurveyController extends Controller
     		);
         return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
     }
-
+ 
 }
