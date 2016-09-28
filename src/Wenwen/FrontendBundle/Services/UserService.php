@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\TaskType;
@@ -20,7 +21,8 @@ class UserService
     private $parameterService;
 
     public function __construct(EntityManager $em,
-                                $redis, $serializer,
+                                $redis,
+                                $serializer,
                                 ParameterService $parameterService,
                                 LoggerInterface $logger
     ) {
@@ -32,7 +34,7 @@ class UserService
     }
 
     /**
-     * @param $xxxUser QQUser|WeixinUser|WeiboUser
+     * @param QQUser|WeixinUser|WeiboUser $xxxUser
      * @param $userProfile
      * @param $clientIp
      * @param $userAgent
@@ -72,10 +74,34 @@ class UserService
         return $user;
     }
 
-    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName) {
+    public function addPointsWithoutTaskHistory(User $user, $points, $categoryType) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user->setPoints($user->getPoints() + $points);
+            $user->setLastGetPointsAt(new \DateTime());
+
+            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
+            $pointHistory = new $classPointHistory();
+            $pointHistory->setUserId($user->getId());
+            $pointHistory->setPointChangeNum($points);
+            $pointHistory->setReason($categoryType);
+            $this->em->persist($pointHistory);
+
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+
+        } catch (\Exception $e) {
+            $this->em->getConnection()->rollBack();
+            $this->em->close();
+            throw $e;
+        }
+    }
+
+    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null) {
+        $this->em->getConnection()->beginTransaction();
+        try {
+            $user->setPoints($user->getPoints() + $points);
+            $user->setLastGetPointsAt(new \DateTime());
 
             $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
             $pointHistory = new $classPointHistory();
@@ -87,14 +113,15 @@ class UserService
             $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
             $taskHistory = new $classTaskHistory();
             $taskHistory->setUserid($user->getId());
-            $taskHistory->setOrderId(0);
+            $taskHistory->setOrderId($orderId);
             $taskHistory->setOcdCreatedDate(new \DateTime());
             $taskHistory->setCategoryType($categoryType);
             $taskHistory->setTaskType($taskType);
             $taskHistory->setTaskName($taskName);
-            $taskHistory->setDate(new \DateTime());
+            $taskHistory->setDate($happenTime == null ? new \DateTime() : $happenTime);
             $taskHistory->setPoint($points);
             $taskHistory->setStatus(1);
+            $taskHistory->setRewardPercent(0);
             $this->em->persist($taskHistory);
 
             $this->em->flush();
@@ -105,6 +132,17 @@ class UserService
             $this->em->close();
             throw $e;
         }
+
+//        const RENTENTION = 4;  // (+) 自己负担的积分，如，完成注册，快速问答，属性问卷，AGREEMENT，网站活动等
+//        const CPA = 5;         // (+) Cost per action类型的任务，如，offer99，offerwow之类的任务型平台
+//        const CPS = 8;         // (+) Cost per action类型的任务，如，购物返利平台
+//        const SURVEY = 9;      // (+) 问卷类型的任务
+//        const EXCHANGE = 10;   // (-) 将积分兑换成钱
+//        const RECOVER = 11;    // (-) 积分回收
+//        if ()
+//
+//        if ()
+//        $this->insertLatestNews($taskName);
     }
 
     public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName) {
@@ -123,6 +161,45 @@ class UserService
 
     public function getCityList() {
         return $this->getList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
+    }
+
+    /**
+     * 插入一条最新动态
+     *
+     * @param $news string
+     */
+    public function insertLatestNews($news)
+    {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return;
+        }
+
+        $latestNewsList = $this->getLatestNews();
+        $count = array_unshift($latestNewsList, $news);
+        if ($count > 100) {
+            array_pop($latestNewsList);
+        }
+        $this->redis->set(CacheKeys::LATEST_NEWS_LIST, $this->serializer->serialize($latestNewsList, 'json'));
+    }
+
+    /**
+     * 显示最新动态
+     *
+     * @return array
+     */
+    public function getLatestNews()
+    {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return array();
+        }
+
+        $val = $this->redis->get(CacheKeys::LATEST_NEWS_LIST);
+        if (is_null($val)) {
+            return array();
+        }
+        return $this->serializer->deserialize($val, 'array', 'json');
     }
 
     private function getList($key, $className) {

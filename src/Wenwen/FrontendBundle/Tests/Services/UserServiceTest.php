@@ -85,4 +85,19 @@ class UserServiceTest extends WebTestCase
 
         $this->assertEquals(200, $user1->getPoints());
     }
+
+    public function testInsertLatestNews()
+    {
+        $userService = $this->container->get('app.user_service');
+        for($i=0; $i<100; $i++) {
+            $userService->insertLatestNews('最新动态'.$i);
+        }
+        print_r($userService->getLatestNews());
+
+        $userService->insertLatestNews('最新动态100');
+        print_r($userService->getLatestNews());
+
+        $userService->insertLatestNews('最新动态101');
+        print_r($userService->getLatestNews());
+    }
 }
