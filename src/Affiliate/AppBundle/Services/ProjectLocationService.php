@@ -24,7 +24,7 @@ class ProjectLocationService
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
-    private $dummy = true;
+    private $dummy = false;
     private $dummyCityName = '上海市';
     private $dummyProvinceName = '上海市';
 

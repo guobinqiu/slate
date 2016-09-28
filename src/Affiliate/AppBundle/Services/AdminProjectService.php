@@ -299,30 +299,4 @@ ion=" . $location . " errMsg=" . $e->getMessage();
         return $rtn;
     }
 
-    #public function getProjectLocation($affiliateProjectId){
-    #    $this->logger->debug(__METHOD__ . " START getLocation  affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
-        
-        #$rtn = array();
-        #$rtn['status'] = 'success';
-    #    try{
-    #        $param = array(
-    #           'id' => $affiliateProjectId
-    #           #'location' => AffiliateProject::getLocation
-    #           );
-    #        #$affiliateProjectLocation = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneBy($param);
-    #        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find(1);
-    #        var_dump($rtn);
-    #        #$rtn = '上海';
-    #        #print $rtn;
-    #        #$af = $rtn['location'];
-    #    } catch(\Exception $e){
-    #    #    #$rtn['status'] = 'failure';
-    #    #    $rtn['errmsg'] = 'Error happened. Errmsg=' . $e->getMessage();
-    #        $this->logger->error(__METHOD__ . " getLocation failed    affiliateProjectId=" .  $affiliateProjectId . "errMsg=" . $rtn['errmsg'] . PHP_EOL);
-##
-#        }
-##        $this->logger->debug(__METHOD__ . " END    affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
-#        return $rtn;
-#    }
-
 }
