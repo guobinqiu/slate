@@ -16,15 +16,17 @@
         <div class="qnTxt">
             <h2 id="title"></h2>
             <div class="subtit">
-                <strong >问卷标题： {{ ssi_config.title}} <br></strong>
-                <strong id="no">问卷编号： <span>s{{ ssi_survey.ssiProjectId }}</span><br></strong>
-                <strong id="points">积分数：<span class="point">{{ ssi_config.point }}</span></strong>
+                <strong >S市场调查项目 <br></strong>
+                <strong id="points">每份问卷积分数：<span class="point">{{ ssi_config.point }}</span></strong>
             </div>
-            <div class="prompt" id="note">※ 注意：在回答问卷过程中，请不要中断，避免失去获得积分的机会。</div>
+            <div class="prompt" id="note">
+            * 这是一个由多份问卷组成的调查项目。<br>
+            * 您可以选择连续回答，或者仅参与其中部分问卷。<br>
+            * 每完成（并通过审核）一份问卷即可获得{{ ssi_config.point }}积分。<br>
+            * 积分将在本次调查结束后统一发放。</div>
             <div class="notice">
                 <strong>注意事项：</strong>
                 <p>回答中请不要点击浏览器的返回按钮。<br>
-                    请开启浏览器对JAVA的支持。<br>
                     推荐浏览器6.0版本以上的Internet Explorer。<br>
                     根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
                     保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>

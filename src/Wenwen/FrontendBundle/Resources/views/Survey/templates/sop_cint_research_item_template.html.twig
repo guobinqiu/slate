@@ -1,17 +1,17 @@
 <div class="survey-item">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
-            海外调查问卷
+            {{ cint_research.title }}
         {% else %}
-            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">海外调查问卷<span></span></a>
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">{{ cint_research.title }}<span></span></a>
        {% endif %}    
     </div>
     <ul class="con clearfix">
         <li class="first">
-            问卷编号：c{{ cint_research.survey_id }}
+            调查所需时间：约 {{ cint_research.loi }} 分钟
         </li>
         <li class="last">
-            问卷类型：商业问卷
+            调查难易程度：{{ cint_research.difficulty }} 
         </li>
     </ul>
 </div>

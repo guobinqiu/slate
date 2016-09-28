@@ -87,39 +87,22 @@ class SsiPartnerController extends BaseController
             return $this->redirect($this->generateUrl('_ssi_partner_error'));
         }
 
-        $form = $this->createForm(new SsiPartnerPermissionType());
-        $form->bind($request);
+        //$form = $this->createForm(new SsiPartnerPermissionType());
+        //$form->bind($request);
 
-        $values = $form->getData();
+        //$values = $form->getData();
 
-        if ($form->isValid()) {
+        //if ($form->isValid()) {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($request->getSession()->get('uid'));
 
             $ssi_respondent = new SsiRespondent();
             $ssi_respondent->setUser($user);
-            $ssi_respondent->setStatusFlag($values['permission_flag']);
+            $ssi_respondent->setStatusFlag(SsiRespondent::STATUS_PERMISSION_YES);
             $em->persist($ssi_respondent);
             $em->flush();
 
-            // permission: yes
-            if ($ssi_respondent->needPrescreening()) {
-                return $this->redirect($this->generateUrl('_ssi_partner_redirect'));
-            } else {
-                // permission no : add point 1分
-                $this->get('app.user_service')->addPoints(
-                    $user,
-                    1,
-                    CategoryType::SSI_EXPENSE,
-                    TaskType::RENTENTION,
-                    '同意参与海外市场调查项目'
-                );
-                return $this->redirect($this->generateUrl('_ssi_partner_complete'));
-            }
-        }
-
-        return $this->render('WenwenFrontendBundle:SsiPartner:permission.html.twig', array (
-            'form' => $form->createView()
-        ));
+            return $this->redirect($this->generateUrl('_ssi_partner_redirect'));
+            
     }
 
     /**
@@ -184,6 +167,10 @@ class SsiPartnerController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $ssi_respondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($request->getSession()->get('uid'));
 
+        $parameterService = $this->get('app.parameter_service');
+
+        $configSsi = $parameterService->getParameter('ssi_project_survey');
+
         // 資格なし
         if (!$ssi_respondent || !$ssi_respondent->needPrescreening()) {
             $request->getSession()->set('errors', array (
@@ -207,7 +194,7 @@ class SsiPartnerController extends BaseController
                 // add point
                 $user_id = $request->getSession()->get('uid');
                 $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-                $this->get('app.user_service')->addPoints($user, 1, CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
+                $this->get('app.user_service')->addPoints($user, $configSsi['agreement_point'], CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
 
                 $db_connection->commit();
             } catch (\Exception $e) {
@@ -216,7 +203,7 @@ class SsiPartnerController extends BaseController
             }
         }
 
-        return $this->render('WenwenFrontendBundle:SsiPartner:complete.html.twig');
+        return $this->render('WenwenFrontendBundle:SsiPartner:complete.html.twig', array('agreementPoint' => $configSsi['agreement_point']));
     }
 
     /**
