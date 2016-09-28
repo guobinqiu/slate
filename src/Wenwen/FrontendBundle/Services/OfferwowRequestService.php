@@ -233,8 +233,7 @@ class OfferwowRequestService
                 $user->setPoints(intval($user->getPoints()) + intval($points));
                 $user->setLastGetPointsAt(new \DateTime());
 
-                $this->userService->addPointsWithoutTaskHistory($user, $points, CategoryType::OFFERWOW_COST);
-                $this->userService->insertLatestNews(substr($user->getNick(), 0, 3) . '**任务体验获得' . $points . '积分');
+                $this->userService->addPointsWithoutTaskHistory($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
             }
 
             $this->em->flush();

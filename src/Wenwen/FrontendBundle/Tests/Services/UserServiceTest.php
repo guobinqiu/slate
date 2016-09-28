@@ -7,6 +7,8 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class UserServiceTest extends WebTestCase
 {
@@ -99,5 +101,22 @@ class UserServiceTest extends WebTestCase
 
         $userService->insertLatestNews('最新动态101');
         print_r($userService->getLatestNews());
+    }
+
+    public function testBuildNews()
+    {
+        $userService = $this->container->get('app.user_service');
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::SSI_EXPENSE, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::CINT_EXPENSE, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::FULCRUM_EXPENSE, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::SIGNUP, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::QUICK_POLL, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::EVENT_INVITE_SIGNUP, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::EVENT_INVITE_SURVEY, TaskType::RENTENTION);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::OFFERWOW_COST, TaskType::CPA);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::OFFER99_COST, TaskType::CPA);
+        echo PHP_EOL . $userService->buildNews($user, 100, null, TaskType::CPS);
+        echo PHP_EOL . $userService->buildNews($user, 100, CategoryType::SOP_COST, TaskType::SURVEY);
     }
 }

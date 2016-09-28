@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\TaskType;
@@ -74,7 +73,7 @@ class UserService
         return $user;
     }
 
-    public function addPointsWithoutTaskHistory(User $user, $points, $categoryType) {
+    public function addPointsWithoutTaskHistory(User $user, $points, $categoryType, $taskType) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user->setPoints($user->getPoints() + $points);
@@ -95,6 +94,9 @@ class UserService
             $this->em->close();
             throw $e;
         }
+
+        $news = $this->buildNews($user, $points, $categoryType, $taskType);
+        $this->insertLatestNews($news);
     }
 
     public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null) {
@@ -133,16 +135,8 @@ class UserService
             throw $e;
         }
 
-//        const RENTENTION = 4;  // (+) 自己负担的积分，如，完成注册，快速问答，属性问卷，AGREEMENT，网站活动等
-//        const CPA = 5;         // (+) Cost per action类型的任务，如，offer99，offerwow之类的任务型平台
-//        const CPS = 8;         // (+) Cost per action类型的任务，如，购物返利平台
-//        const SURVEY = 9;      // (+) 问卷类型的任务
-//        const EXCHANGE = 10;   // (-) 将积分兑换成钱
-//        const RECOVER = 11;    // (-) 积分回收
-//        if ()
-//
-//        if ()
-//        $this->insertLatestNews($taskName);
+        $news = $this->buildNews($user, $points, $taskType, $categoryType);
+        $this->insertLatestNews($news);
     }
 
     public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName) {
@@ -251,5 +245,45 @@ class UserService
             $this->em->close();
             throw $e;
         }
+    }
+
+    public function buildNews(User $user, $points, $categoryType, $taskType) {
+        $message = substr($user->getNick(), 0, 3) . '**';
+        switch($taskType) {
+            case TaskType::RENTENTION:
+                switch($categoryType) {
+                    case CategoryType::SOP_EXPENSE:
+                    case CategoryType::SSI_EXPENSE:
+                    case CategoryType::CINT_EXPENSE:
+                    case CategoryType::FULCRUM_EXPENSE:
+                        $message .= '属性问卷';
+                        break;
+                    case CategoryType::SIGNUP:
+                        $message .= '完成注册';
+                        break;
+                    case CategoryType::QUICK_POLL:
+                        $message .= '快速问答';
+                        break;
+                    case CategoryType::EVENT_INVITE_SIGNUP:
+                        $message .= '好友';
+                        break;
+                    case CategoryType::EVENT_INVITE_SURVEY:
+                        $message .= '好友';
+                        break;
+                }
+                break;
+            case TaskType::CPA:
+                $message .= '任务墙';
+                break;
+            case TaskType::CPS:
+                $message .= '购物返利';
+                break;
+            case TaskType::SURVEY:
+                $message .= '商业问卷';
+                break;
+
+        }
+        $message .= '获得' . $points . '积分';
+        return $message;
     }
 }

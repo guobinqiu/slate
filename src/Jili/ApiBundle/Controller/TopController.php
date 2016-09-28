@@ -13,21 +13,12 @@ use Jili\ApiBundle\Utility\FileUtil;
 class TopController extends Controller
 {
     /**
-     * @Route("/event/{tmpl_prefix}",requirements={"tmpl_prefix"="signup"}, defaults={"tmpl_prefix"=""})
-     * @Template
+     * @Route("/event")
      */
-    public function eventAction($tmpl_prefix='')
+    public function eventAction()
     {
-        //最新动态 :从文件中读取
-        $filename = $this->container->getParameter('file_path_recent_point');
-        $recentPoint = FileUtil::readCsvContent($filename);
-        $arr['recentPoint'] = $recentPoint;
-
-        if( ! empty($tmpl_prefix)) {
-            $tmpl_prefix =  '_'. $tmpl_prefix;
-        }
-        // return $this->render('JiliApiBundle:Top:event'.$tmpl_prefix.'.html.twig', $arr);
-        return $this->render('WenwenFrontendBundle:Vote:_topEvent'.$tmpl_prefix.'.html.twig', $arr);
+        $latestNews = $this->get('app.user_service')->getLatestNews();
+        return $this->render('WenwenFrontendBundle:Vote:_topEvent.html.twig', array('latestNews' => $latestNews));
     }
 
     /**
