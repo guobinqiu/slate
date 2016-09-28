@@ -250,6 +250,15 @@ class UserService
     public function buildNews(User $user, $points, $categoryType, $taskType) {
         $message = substr($user->getNick(), 0, 3) . '**';
         switch($taskType) {
+            case TaskType::CPA:
+                $message .= '任务墙';
+                break;
+            case TaskType::CPS:
+                $message .= '购物返利';
+                break;
+            case TaskType::SURVEY:
+                $message .= '商业问卷';
+                break;
             case TaskType::RENTENTION:
                 switch($categoryType) {
                     case CategoryType::SOP_EXPENSE:
@@ -271,17 +280,6 @@ class UserService
                         $message .= '好友';
                         break;
                 }
-                break;
-            case TaskType::CPA:
-                $message .= '任务墙';
-                break;
-            case TaskType::CPS:
-                $message .= '购物返利';
-                break;
-            case TaskType::SURVEY:
-                $message .= '商业问卷';
-                break;
-
         }
         $message .= '获得' . $points . '积分';
         return $message;
