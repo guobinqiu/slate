@@ -205,7 +205,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json']
+            ['CONTENT_TYPE' => 'application/json', 'https' => true]
         );
         $this->assertTrue(
             $client->getResponse()->headers->contains(
@@ -232,7 +232,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            ['CONTENT_TYPE' => 'application/json', 'https' => true],
             '{"requestHeader":{}}'
         );
         $this->assertTrue(
