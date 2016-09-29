@@ -34,21 +34,27 @@ class AffiliateSurveyController extends Controller
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
         $affiliateProjectLocationService = $this->get('app.ip_location_service');
 
-        $ProjectLocation = $affiliateProjectLocationService->getProjectLocation($affiliateProjectId);
+        $projectProvince = $affiliateProjectLocationService->getProjectProvince($affiliateProjectId);
+        $projectCity = $affiliateProjectLocationService->getProjectCity($affiliateProjectId);
 
-        if(is_null($ProjectLocation)){
+        $clientCity = $affiliateProjectLocationService->getCityName($request->getClientIp());
+        $clientProvince = $affiliateProjectLocationService->getProvinceName($request->getClientIp());
+
+        if(is_null($projectProvince) and is_null($projectCity)){
             $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
-        }else{
-            $ClientLocation = $affiliateProjectLocationService->getCityName($request->getClientIp());
-            if($ProjectLocation == $ClientLocation){
-                $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
-            }else{
+        } else {
+            $checkResult=$affiliateProjectLocationService->confirmLocation($projectProvince, $projectCity, $clientCity, $clientProvince);
+            if(empty($checkResult)){
                 $param = array(
-                'answer_status' => 'other'
+                    'answer_status' => 'other'
                 );
                 return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
+            } else {
+                $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
             }
-        }       
+        }
+
+        #$redirectURL = $clientCity;
 
         if(is_null($redirectURL)){
             $param = array(

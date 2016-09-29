@@ -51,14 +51,6 @@ class AffiliateProject
     private $url;
 
     /**
-     * Location to access
-     * @var string
-     *
-     * @ORM\Column(name="location", type="string", length=255, nullable=true, options={"comment": "location to access"})
-     */
-    private $location;
-
-    /**
      * File name of redirector url
      * @var string
      *
@@ -113,7 +105,22 @@ class AffiliateProject
      */
     private $createdAt;
 
-    
+    /**
+     * Province to access
+     * @var string
+     *
+     * @ORM\Column(name="province", type="string", length=255, nullable=true, options={"comment": "province to access"})
+     */
+    private $province;
+   
+    /**
+     * City to access
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=255, nullable=true, options={"comment": "city to access"})
+     */ 
+
+    private $city;
 
     public function __construct()
     {
@@ -192,24 +199,6 @@ class AffiliateProject
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-      *
-     * @param string $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->location;
     }
 
     /**
@@ -346,5 +335,24 @@ class AffiliateProject
     {
         $this->initNum --;
     }
-
+ 
+    public function setProvince($province)
+    {
+        $this->province = $province;
+    }
+       
+    public function getProvince()
+    {
+        return $this->province;
+    }
+  
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+  
+    public function getCity()
+    {
+        return $this->city;
+    }
 }

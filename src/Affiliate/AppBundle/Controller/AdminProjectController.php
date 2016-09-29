@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 /**
@@ -40,12 +40,16 @@ class AdminProjectController extends Controller
         $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
         $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
-        $builder->add('Location', 'text', array('label' => 'Location. 请输入XX市、XX省或空格', 'empty_data' => null));
+        #$builder->add('Location', 'text', array('label' => 'Location. 请输入XX市、XX省或空格', 'empty_data' => null));
+        $builder->add('Province', 'text', array('label' => 'Province:', 'data' => null, 'empty_data' => null));
+        $builder->add('City', 'text', array('label' => 'City:', 'data' => null, 'empty_data' => null));
+
         $form = $builder->getForm();
 
         $uploadDir = $this->container->getParameter('affiliate.url_upload_directory');
 
         $errmsg = '';
+
         // Check if we are posting stuff
         if ($request->getMethod() == 'POST') {
             // Bind request to the form
@@ -57,12 +61,15 @@ class AdminProjectController extends Controller
                 $fieldFile = $form->get('urlFile');
                 $fieldRFQId = $form->get('RFQId');
                 $fieldCompletePoints = $form->get('CompletePoints');
-                $fieldLocation = $form->get('Location');
+                $fieldProvince = $form->get('Province');
+                $fieldCity = $form->get('City');
 
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
                 $completePoints = $fieldCompletePoints->getData();
-                $location = $fieldLocation->getData();
+                #$location = $fieldLocation->getData();
+                $province = $fieldProvince->getData();
+                $city = $fieldCity->getData();
 
                 if($completePoints <= 2000) {
                     $originalFileName = $uploadedFile->getClientOriginalName();
@@ -72,7 +79,7 @@ class AdminProjectController extends Controller
 
                     $adminProjectService = $this->get('app.admin_project_service');
                     // 改partnerId
-                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $location);
+                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
 
 
                     //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
