@@ -230,7 +230,20 @@ class SurveyService
                      "quota_id": "10",
                      "cpi": "0.00",
                      "ir": "80",
-                     "loi": "10",
+                     "loi": "31",
+                     "title": "Fulcrum Dummy Survey 4",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "300"}
+                     }
+                   },
+                   {
+                     "survey_id": "4",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "20",
                      "title": "Fulcrum Dummy Survey 4",
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",

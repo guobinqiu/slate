@@ -2,10 +2,14 @@
     <div class="title"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">S市场调查项目<span></span></a></div>
     <ul class="con clearfix">
         <li class="first">
-            调查所需时间：不定
-        </li>
-        <li class="first">
-            内含问卷个数：{{ count }} 个
+            难度：
+            {% if count == 1 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% elseif count == 2 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% else %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
+            {% endif %}
         </li>
     </ul>
 </div>
