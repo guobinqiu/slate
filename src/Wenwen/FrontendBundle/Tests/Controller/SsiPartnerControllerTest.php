@@ -68,8 +68,6 @@ class SsiPartnerControllerTest extends WebTestCase
         //not login, will follow redirect to _ssi_partner_error
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $this->assertTrue($client->getResponse()->isRedirect('/ssi_partner/error'));
-        $crawler = $client->followRedirect();
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
 
         $this->login($client);
 
