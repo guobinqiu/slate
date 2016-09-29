@@ -17,8 +17,15 @@
             <div class="subtit">
                 <strong>问卷名称：<span id="no">{{ research.title }}</span><br></strong>
                 <strong id="points">积分数：<span class="point" id="point">{{ research.extra_info.point.complete }}分</span><br></strong>
-                <strong id="loi">调查所需时间：<span class="loi" id="loi">约 {{ research.loi }} 分钟</span><br></strong>
-                <strong id="difficulty">调查难易程度：<span class="difficulty" id="difficulty">{{ research.difficulty }}</span><br></strong>
+                <strong id="loi">时长：<span class="loi" id="loi">约 {{ research.loi }} 分钟</span><br></strong>
+                <strong id="difficulty">难度：
+                    {% if research.difficulty == '普通' %}
+                        <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                    {% elseif research.difficulty == '困难' %}
+                        <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
+                    {% elseif research.difficulty == '简单' %}
+                        <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                    {% endif %}
             </div>
             {% set note = '※ 在回答问卷过程中，请不要中断，避免失去获得积分的机会。<br>※ 积分将在本次调查结束后统一发放。' %}
             {% if research.extra_info.content is defined and research.extra_info.content != '' %}

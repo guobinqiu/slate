@@ -59,6 +59,14 @@ $survey-border-color: #f6f6f6;
 		height: 22px;
 		line-height: 22px;
 		color: $weak-color;
+		span.difficulty{
+			vertical-align: -1px;
+			i{
+				color: #ffac13;
+				font-size: 17px;
+				margin-right: 4px;
+			}
+		}
 	}
 	.proTit{
 		height: 28px;
@@ -103,33 +111,35 @@ $survey-border-color: #f6f6f6;
 	}
 }
 .proNew{
-	width: 95%;
+	display: inline-block;
 	.proNot{
 		color: #60666C;
 		margin-top: 5px;
 		white-space: nowrap;
-		em{
-			width: 19px;
-			height: 19px;
+		background: #fffbed;
+		padding: 9px;
+		i{
+			color: #56bc2c;
 			margin-right: 5px;
-			margin-top: 1px;
-			background: url(../img/common/notice19x19.png) no-repeat;
+			font-size: 15px;
+		    vertical-align: -6px;;
 		}
 		span{
-			background: #fffbed;
-			padding: 5px 4px;
+			width: 300px;
+			line-height: 22px;
+			white-space: normal;
 		}
 	}
 }
 .rewardPoint{
 	width: 90px;
     display: inline-block;
-    color: #A7B2BE;
+    color: $weak-color;
     vertical-align: 11px;
     text-align: right;
     position: absolute;
-    right: 108px;
-    top: 41px;
+    right: 121px;
+    top: 32px;
 	i{
 		font-size: 22px;
 		color: $orange-color;
@@ -138,16 +148,19 @@ $survey-border-color: #f6f6f6;
 		font-weight: bold;
 	}
 }
+.rewardPointNew{
+	top: 70px;
+}
 .survey {
 	padding-bottom: 40px;
 	.survey-btn{
 		cursor: default;
 		position: absolute;
 		right: 12px;
-		top: 36px;
+		top: 26px;
 		a{
 			color: #fff;
-			width: 80px;
+			width: 93px;
 			height: 30px;
 			line-height: 30px;
 			text-align: center;
@@ -160,13 +173,16 @@ $survey-border-color: #f6f6f6;
 			background: #a7a7a7;
 			border: 1px solid #a7a7a7;
 			border-radius: 3px;
-			width: 80px;
+			width: 93px;
 			height: 30px;
 			line-height: 30px;
 			text-align: center;
 			font-size: 12px;
 			@include dib();
 		}
+	}
+	.proBtn{
+		top: 62px;	
 	}
 	li{
 		padding: 27px 24px 12px 10px;
@@ -181,13 +197,14 @@ $survey-border-color: #f6f6f6;
 	.title{
 		font-size: 16px;
 		height: 28px;
-	    line-height: 20px;
+	    line-height: 28px;
 		color: $list-tit-color; 
+		margin-bottom: 5px;
 	}
 }
 .vote .vote-btn{
 	color: #fff;
-	width: 80px;
+	width: 93px;
 	height: 30px;
 	line-height: 30px;
 	text-align: center;
@@ -205,16 +222,16 @@ $survey-border-color: #f6f6f6;
 	background: #a7a7a7;
 	border: 1px solid #a7a7a7;
 	border-radius: 3px;
-	width: 80px;
+	width: 93px;
 	height: 30px;
 	line-height: 30px;
 	text-align: center;
 	font-size: 12px;
 	@include dib();
-	&:hover:enabled, &:active:enabled{
-		background: #FF531F;
-		border: 1px solid #FA3E00;
-	}
+	// &:hover:enabled, &:active:enabled{
+	// 	background: #FF531F;
+	// 	border: 1px solid #FA3E00;
+	// }
 }
 .vote{
 	li{
@@ -320,7 +337,7 @@ $survey-border-color: #f6f6f6;
     vertical-align: 11px;
     text-align: right;
     position: absolute;
-    right: 108px;
+    right: 121px;
     top: 37px;
 	i{
 		font-size: 22px;
