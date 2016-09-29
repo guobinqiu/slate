@@ -213,8 +213,6 @@ class SopApiControllerTest extends WebTestCase
      */
     public function testDeliveryNotificationFor91wenwenAction200andNoNotFoundRespondent()
     {
-        $client = static::createClient();
-        
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $purger = new ORMPurger($em);
         $executor = new ORMExecutor($em, $purger);
@@ -271,6 +269,7 @@ class SopApiControllerTest extends WebTestCase
         $sopConfig = $this->container->getParameter('sop');
         $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
 
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
@@ -396,7 +395,7 @@ class SopApiControllerTest extends WebTestCase
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
@@ -433,7 +432,7 @@ class SopApiControllerTest extends WebTestCase
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
