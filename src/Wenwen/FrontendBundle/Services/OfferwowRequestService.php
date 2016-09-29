@@ -222,17 +222,7 @@ class OfferwowRequestService
 
             // 20160707 给用户发放积分
             if (self::IMMEDIATE_1 == $immediate || self::IMMEDIATE_2 == $immediate) {
-                $pointHistoryClass = 'Jili\ApiBundle\Entity\PointHistory0' . ($userId % 10);
-                $pointHistory = new $pointHistoryClass();
-                $pointHistory->setUserId($userId);
-                $pointHistory->setPointChangeNum($points);
-                $pointHistory->setReason(CategoryType::OFFERWOW_COST);
-                $this->em->persist($pointHistory);
-
                 $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
-                $user->setPoints(intval($user->getPoints()) + intval($points));
-                $user->setLastGetPointsAt(new \DateTime());
-
                 $this->userService->addPointsWithoutTaskHistory($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
             }
 
