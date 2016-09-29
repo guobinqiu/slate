@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 use Wenwen\FrontendBundle\Services\ParameterService;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * 通过IP获得地域属性
@@ -46,6 +47,40 @@ class ProjectLocationService
     }
 
     /**
+     * 通过IP地址获取城市和省份ID 只针对中国大陆地区
+     * @param $ipAddress IP address (IPV4)
+     * @return array('status', cityId', 'provinceId')
+     */
+    public function getLocationId($ipAddress) {
+        $this->logger->debug(__METHOD__ . ' START ipAddress=' . $ipAddress);
+        $locationId = array(
+            'status' => false,
+            'cityId' => 0,
+            'provinceId' => 0
+            );
+
+        try{
+            $cityName = $this->getCityName($ipAddress);
+
+            if($cityName){
+                $city = $this->em->getRepository('WenwenFrontendBundle:CityList')->findOneCityByNameLike($cityName);
+                $this->logger->debug(__METHOD__ . ' city=' . json_encode($city));
+                if($city){
+                    $locationId['cityId'] = $city['cityId'];
+                    $locationId['provinceId'] = $city['provinceId'];
+                    $locationId['status'] = true;
+                }
+            }   
+            $this->logger->debug(__METHOD__ . ' locationId=' . json_encode($locationId));
+        } catch(\Exception $e){
+            $this->logger->error($e);
+        }   
+        
+        $this->logger->debug(__METHOD__ . ' END   ipAddress=' . $ipAddress . ' locationId=' . json_encode($locationId));
+        return $locationId;
+    }
+
+    /**
      * 通过IP地址, 调用第三方API，获取城市名称 只针对中国大陆地区
      * @param $ipAddress
      * @return $cityName
@@ -63,6 +98,21 @@ class ProjectLocationService
 
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $cityName;
+    }
+
+    public function getProvinceName($ipAddress) {
+        $this->logger->debug(__METHOD__ . ' - START - ');
+        $provinceName = null;
+
+        $responseBody = $this->getLocationJson($ipAddress);
+        $this->logger->debug(__METHOD__ . ' responseBody=' . json_encode($responseBody));
+        $rtn = $this->processResponseJson($responseBody);
+        if($rtn['status']){
+            $provinceName = $rtn['province'];
+        }
+
+        $this->logger->debug(__METHOD__ . ' - END - ');
+        return $provinceName;
     }
 
     private function getLocationJson($ipAddress) {
@@ -133,9 +183,23 @@ class ProjectLocationService
         return $rtn;
     }
 
-    public function getProjectLocation($affiliateProjectId){
+    public function getProjectCity($affiliateProjectId){
         $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
-        return $rtn->getlocation();
+        return $rtn->getcity();
     }
+
+    public function getProjectProvince($affiliateProjectId){
+        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+        return $rtn->getprovince();
+    }
+    
+    public function confirmLocation($projectProvince, $projectCity, $clientCity, $clientProvince){
+        $projectLocation = explode(",", $projectProvince . "," . $projectCity);
+        if(is_null($projectCity)){
+            return $rtn = preg_grep("/$clientProvince/", $projectLocation);
+        } else {
+            return $rtn = preg_grep("/$clientCity/", $projectLocation);
+        }
+    } 
 }
 

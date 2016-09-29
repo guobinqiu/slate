@@ -121,8 +121,10 @@ class AdminProjectService
     * @param integer $RFQId
     * @param string $originalFileName
     * @param string $fullPath
+    * @param string $province
+    * @param string $city
     */
-    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints = 0, $location){
+    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints = 0, $province, $city){
 
         $status = 'success';
         $msg = '';
@@ -136,18 +138,19 @@ class AdminProjectService
             $affiliateProject->setRealFullPath($fullPath);
             $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_INIT);
             $affiliateProject->setCompletePoints($completePoints);
-            $affiliateProject->setLocation($location);
+            #$affiliateProject->setLocation($location);
+            $affiliateProject->setProvince($province);
+            $affiliateProject->setCity($city);
             $this->em->persist($affiliateProject);
             $this->em->flush();
             $affiliateProjectId = $affiliateProject->getId();
-            $msg = " Created new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Location=" . $location;
+            $msg = " Created new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Location=" . $province . $city;
             $this->logger->info(__METHOD__ . $msg . PHP_EOL);
             // 异步动作
             $this->asynchUploadUrl($affiliateProjectId, $fullPath);
         } catch (\Exception $e) {
             $status = 'failure';
-            $msg = " Failed to create new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Locat
-ion=" . $location . " errMsg=" . $e->getMessage();
+            $msg = " Failed to create new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Location=" . $province . $city . " errMsg=" . $e->getMessage();
             $this->logger->error(__METHOD__ . $msg . PHP_EOL);
         }
 
@@ -298,31 +301,5 @@ ion=" . $location . " errMsg=" . $e->getMessage();
         $this->logger->debug(__METHOD__ . " END   " . PHP_EOL);
         return $rtn;
     }
-
-    #public function getProjectLocation($affiliateProjectId){
-    #    $this->logger->debug(__METHOD__ . " START getLocation  affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
-        
-        #$rtn = array();
-        #$rtn['status'] = 'success';
-    #    try{
-    #        $param = array(
-    #           'id' => $affiliateProjectId
-    #           #'location' => AffiliateProject::getLocation
-    #           );
-    #        #$affiliateProjectLocation = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneBy($param);
-    #        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find(1);
-    #        var_dump($rtn);
-    #        #$rtn = '上海';
-    #        #print $rtn;
-    #        #$af = $rtn['location'];
-    #    } catch(\Exception $e){
-    #    #    #$rtn['status'] = 'failure';
-    #    #    $rtn['errmsg'] = 'Error happened. Errmsg=' . $e->getMessage();
-    #        $this->logger->error(__METHOD__ . " getLocation failed    affiliateProjectId=" .  $affiliateProjectId . "errMsg=" . $rtn['errmsg'] . PHP_EOL);
-##
-#        }
-##        $this->logger->debug(__METHOD__ . " END    affiliateProjectId=" .  $affiliateProjectId . PHP_EOL);
-#        return $rtn;
-#    }
 
 }
