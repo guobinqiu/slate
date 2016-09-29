@@ -61,7 +61,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
      */
     public function testInformationAction()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $container = $client->getContainer();
         $em = $this->em;
 
@@ -95,7 +95,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
      */
     public function testEndlinkAction()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $container = $client->getContainer();
         $em = $this->em;
 
@@ -130,7 +130,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
      */
     public function testAgreementCompleteAction()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $container = $client->getContainer();
         $em = $this->em;
 

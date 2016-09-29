@@ -640,7 +640,7 @@ class SurveyService
     */
     private function getSurveyDifficulty($ir){
         $difficulty = '普通';
-        if($ir < 10){
+        if($ir < 20 && $ir > 0){
             $difficulty = '困难';
         }
         if($ir > 70){

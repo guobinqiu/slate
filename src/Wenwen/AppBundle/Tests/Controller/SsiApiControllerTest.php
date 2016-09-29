@@ -74,7 +74,7 @@ class SsiApiControllerTest extends WebTestCase
 
 
 
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -158,7 +158,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $ssiRespondentId2 = $ssiRespondent->getId();
 
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -199,7 +199,7 @@ class SsiApiControllerTest extends WebTestCase
 
     public function testWithoutBody()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -226,7 +226,7 @@ class SsiApiControllerTest extends WebTestCase
 
     public function testWithInvalidRequest()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
