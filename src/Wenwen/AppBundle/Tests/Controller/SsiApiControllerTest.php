@@ -28,7 +28,7 @@ class SsiApiControllerTest extends WebTestCase
         parent::tearDown();
     }
 
-        public function testRequestWithValidRespondentList()
+    public function testRequestWithValidRespondentList()
     {
 
     	$em = static::$kernel->getContainer()->get('doctrine')->getManager();
@@ -74,7 +74,7 @@ class SsiApiControllerTest extends WebTestCase
 
 
 
-        $client = static::createClient(array(),array('HTTPS' => true));
+        $client = static::createClient();
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -158,7 +158,7 @@ class SsiApiControllerTest extends WebTestCase
 
         $ssiRespondentId2 = $ssiRespondent->getId();
 
-        $client = static::createClient(array(),array('HTTPS' => true));
+        $client = static::createClient();
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -199,7 +199,7 @@ class SsiApiControllerTest extends WebTestCase
 
     public function testWithoutBody()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
+        $client = static::createClient();
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
@@ -226,7 +226,7 @@ class SsiApiControllerTest extends WebTestCase
 
     public function testWithInvalidRequest()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
+        $client = static::createClient();
         $crawler = $client->request(
             'POST',
             '/ssi_pc1_protocol/request_api',
