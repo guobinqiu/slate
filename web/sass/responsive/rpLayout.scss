@@ -164,7 +164,7 @@
         &>div{
             padding: 0;
             margin-top: -2px;
-        } 
+        }
         h1{
             padding: 4px 0 0 5%;
         }
@@ -341,6 +341,16 @@
             height: 2.8rem !important;
             line-height: 3.6rem !important;
             color: #51718A!important; 
+        }
+        .noSurvey{
+            width: 100%;
+            padding: 10px 5% 20px;
+            margin: 0 0 13px;
+            img{
+               display: block;
+               max-width: 100%;
+               height: auto;
+            }
         }
         #surveyList{
             margin-bottom: -3px;

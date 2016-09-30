@@ -273,7 +273,8 @@ class SopApiControllerTest extends WebTestCase
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
-            'HTTP_X-Sop-Sig' => $sig
+            'HTTP_X-Sop-Sig' => $sig,
+            'HTTPS' => true
         ));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Valid request to 91wenwen');
@@ -398,7 +399,8 @@ class SopApiControllerTest extends WebTestCase
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
-            'HTTP_X-Sop-Sig' => $sig
+            'HTTP_X-Sop-Sig' => $sig,
+            'HTTPS' => true
         ));
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'authentication failed');
@@ -434,7 +436,8 @@ class SopApiControllerTest extends WebTestCase
         $crawler = $client->request('POST', $url, array (
             'request_body' => $requestBody
         ), array (), array (
-            'HTTP_X-Sop-Sig' => $sig
+            'HTTP_X-Sop-Sig' => $sig,
+            'HTTPS' => true
         ));
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'data.respondents not found');

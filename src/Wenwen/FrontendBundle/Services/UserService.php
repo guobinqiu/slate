@@ -20,7 +20,8 @@ class UserService
     private $parameterService;
 
     public function __construct(EntityManager $em,
-                                $redis, $serializer,
+                                $redis,
+                                $serializer,
                                 ParameterService $parameterService,
                                 LoggerInterface $logger
     ) {
@@ -32,7 +33,7 @@ class UserService
     }
 
     /**
-     * @param $xxxUser QQUser|WeixinUser|WeiboUser
+     * @param QQUser|WeixinUser|WeiboUser $xxxUser
      * @param $userProfile
      * @param $clientIp
      * @param $userAgent
@@ -72,10 +73,11 @@ class UserService
         return $user;
     }
 
-    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName) {
+    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user->setPoints($user->getPoints() + $points);
+            $user->setLastGetPointsAt(new \DateTime());
 
             $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
             $pointHistory = new $classPointHistory();
@@ -87,14 +89,15 @@ class UserService
             $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
             $taskHistory = new $classTaskHistory();
             $taskHistory->setUserid($user->getId());
-            $taskHistory->setOrderId(0);
+            $taskHistory->setOrderId($orderId);
             $taskHistory->setOcdCreatedDate(new \DateTime());
             $taskHistory->setCategoryType($categoryType);
             $taskHistory->setTaskType($taskType);
             $taskHistory->setTaskName($taskName);
-            $taskHistory->setDate(new \DateTime());
+            $taskHistory->setDate($happenTime == null ? new \DateTime() : $happenTime);
             $taskHistory->setPoint($points);
             $taskHistory->setStatus(1);
+            $taskHistory->setRewardPercent(0);
             $this->em->persist($taskHistory);
 
             $this->em->flush();
@@ -105,6 +108,9 @@ class UserService
             $this->em->close();
             throw $e;
         }
+
+        $news = $this->buildNews($user, $points, $categoryType, $taskType);
+        $this->insertLatestNews($news);
     }
 
     public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName) {
@@ -123,6 +129,45 @@ class UserService
 
     public function getCityList() {
         return $this->getList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
+    }
+
+    /**
+     * 插入一条最新动态
+     *
+     * @param $news string
+     */
+    public function insertLatestNews($news)
+    {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return;
+        }
+
+        $latestNewsList = $this->getLatestNews();
+        $count = array_unshift($latestNewsList, $news);
+        if ($count > 100) {
+            array_pop($latestNewsList);
+        }
+        $this->redis->set(CacheKeys::LATEST_NEWS_LIST, $this->serializer->serialize($latestNewsList, 'json'));
+    }
+
+    /**
+     * 显示最新动态
+     *
+     * @return array
+     */
+    public function getLatestNews()
+    {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return array();
+        }
+
+        $val = $this->redis->get(CacheKeys::LATEST_NEWS_LIST);
+        if (is_null($val)) {
+            return array();
+        }
+        return $this->serializer->deserialize($val, 'array', 'json');
     }
 
     private function getList($key, $className) {
@@ -174,5 +219,43 @@ class UserService
             $this->em->close();
             throw $e;
         }
+    }
+
+    public function buildNews(User $user, $points, $categoryType, $taskType) {
+        $message = substr($user->getNick(), 0, 3) . '**';
+        switch($taskType) {
+            case TaskType::CPA:
+                $message .= '任务墙';
+                break;
+            case TaskType::CPS:
+                $message .= '购物返利';
+                break;
+            case TaskType::SURVEY:
+                $message .= '商业问卷';
+                break;
+            case TaskType::RENTENTION:
+                switch($categoryType) {
+                    case CategoryType::SOP_EXPENSE:
+                    case CategoryType::SSI_EXPENSE:
+                    case CategoryType::CINT_EXPENSE:
+                    case CategoryType::FULCRUM_EXPENSE:
+                        $message .= '属性问卷';
+                        break;
+                    case CategoryType::SIGNUP:
+                        $message .= '完成注册';
+                        break;
+                    case CategoryType::QUICK_POLL:
+                        $message .= '快速问答';
+                        break;
+                    case CategoryType::EVENT_INVITE_SIGNUP:
+                        $message .= '邀请好友';
+                        break;
+                    case CategoryType::EVENT_INVITE_SURVEY:
+                        $message .= '好友答问卷';
+                        break;
+                }
+        }
+        $message .= '获得' . $points . '积分';
+        return $message;
     }
 }

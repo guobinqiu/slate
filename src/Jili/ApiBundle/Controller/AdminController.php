@@ -977,20 +977,32 @@ class AdminController extends Controller implements IpAuthenticatedController
             $po = new $pointHistory();
             $po->setUserId($exchange->getUserId());
             $po->setPointChangeNum('-'.$points);
-            if($type == 1)
-              $po->setReason($this->container->getParameter('init_eight'));
-            if($type == 2)
-              $po->setReason(10); //随便啦，amazon 根本用不到   
-            if($type == 3)
-              $po->setReason($this->container->getParameter('init_eleven'));
-            if($type == 4)
-              $po->setReason(CategoryType::MOBILE);
+            //扯蛋的编号！！！
+            if($type == 1) {
+                $po->setReason($this->container->getParameter('init_eight'));
+                $comment = '91问问';
+            }
+            if($type == 2) {
+                $po->setReason(10); //随便啦，amazon 根本用不到
+                $comment = '亚马逊礼品卡';
+            }
+            if($type == 3) {
+                $po->setReason($this->container->getParameter('init_eleven'));
+                $comment = '支付宝';
+            }
+            if($type == 4) {
+                $po->setReason(CategoryType::MOBILE);
+                $comment = '手机充值';
+            }
             $em->persist($po);
             $em->flush();
             $exchange->setStatus($this->container->getParameter('init_one'));
             $exchange->setFinishDate(date_create($finish_time));
             $em->persist($exchange);
             $em->flush();
+
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($exchange->getUserId());
+            $this->get('app.user_service')->insertLatestNews(substr($user->getNick(), 0, 3) . '**' . $comment .'兑换' . $points . '积分');
         }
         return true;
     }
@@ -1155,11 +1167,14 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $em->flush();
                 $em->getConnection()->commit();
                 $em->clear();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $em->getConnection()->rollBack();
                 $logger->error('alipayExchangeOK update failed: ' . $e->getMessage());
                 throw $e;
             }
+
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+            $this->get('app.user_service')->insertLatestNews(substr($user->getNick(), 0, 3) . '**支付宝兑换' . $points . '积分');
 
         } else {
             // Do nothing if points_exchange.status is not NULL(exchange result already updated)
@@ -1205,7 +1220,7 @@ class AdminController extends Controller implements IpAuthenticatedController
                 $em->flush();
                 $em->getConnection()->commit();
                 $em->clear();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $em->getConnection()->rollBack();
                 $logger->error_log('alipayExchangeOK update failed: ' . $e->getMessage());
                 throw $e;
