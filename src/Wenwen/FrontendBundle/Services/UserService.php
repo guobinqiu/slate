@@ -109,7 +109,7 @@ class UserService
             throw $e;
         }
 
-        $news = $this->buildNews($user, $points, $taskType, $categoryType);
+        $news = $this->buildNews($user, $points, $categoryType, $taskType);
         $this->insertLatestNews($news);
     }
 
