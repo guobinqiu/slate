@@ -248,10 +248,10 @@ class UserService
                         $message .= '快速问答';
                         break;
                     case CategoryType::EVENT_INVITE_SIGNUP:
-                        $message .= '好友';
+                        $message .= '邀请好友';
                         break;
                     case CategoryType::EVENT_INVITE_SURVEY:
-                        $message .= '好友';
+                        $message .= '好友答问卷';
                         break;
                 }
         }
