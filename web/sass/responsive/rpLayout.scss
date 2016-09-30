@@ -164,7 +164,7 @@
         &>div{
             padding: 0;
             margin-top: -2px;
-        } 
+        }
         h1{
             padding: 4px 0 0 5%;
         }
@@ -338,15 +338,34 @@
         }
         .title{
             font-size: 1.1rem!important;
-            height: 2.6rem !important;
-            line-height: 2.6rem !important;
+            height: 2.8rem !important;
+            line-height: 3.6rem !important;
             color: #51718A!important; 
+        }
+        .noSurvey{
+            width: 100%;
+            padding: 10px 5% 20px;
+            margin: 0 0 13px;
+            img{
+               display: block;
+               max-width: 100%;
+               height: auto;
+            }
         }
         #surveyList{
             margin-bottom: -3px;
         }
         .survey-item{
-            width: 100%;
+            width: 49%;
+            li{
+                span{
+                    &.difficulty{
+                        i{
+                            font-size: 1.2rem!important;
+                        }
+                    }
+                }
+            }
             .proRow{
                 width: 100%;
                 .proNum{
@@ -372,9 +391,6 @@
             .proRow, .proRow i{
                 font-size: .9rem!important;
             }
-            .proTag{
-                font-size: 10px!important;
-            }
             .proTit{
                 height: 38px;
             }
@@ -384,6 +400,9 @@
                 font-size: 1.3rem!important;
                 font-weight: bold;
             }
+        }
+        .rewardPointNew{
+            top: 47px;
         }
         .survey-btn{
             right: 5%;
@@ -412,9 +431,6 @@
                } 
             }
         }
-    }
-    .votePoint{
-        top: 50px;
     }
     .votePoint{
         i{
