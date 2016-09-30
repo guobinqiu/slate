@@ -73,32 +73,6 @@ class UserService
         return $user;
     }
 
-    public function addPointsWithoutTaskHistory(User $user, $points, $categoryType, $taskType) {
-        $this->em->getConnection()->beginTransaction();
-        try {
-            $user->setPoints($user->getPoints() + $points);
-            $user->setLastGetPointsAt(new \DateTime());
-
-            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
-            $pointHistory = new $classPointHistory();
-            $pointHistory->setUserId($user->getId());
-            $pointHistory->setPointChangeNum($points);
-            $pointHistory->setReason($categoryType);
-            $this->em->persist($pointHistory);
-
-            $this->em->flush();
-            $this->em->getConnection()->commit();
-
-        } catch (\Exception $e) {
-            $this->em->getConnection()->rollBack();
-            $this->em->close();
-            throw $e;
-        }
-
-        $news = $this->buildNews($user, $points, $categoryType, $taskType);
-        $this->insertLatestNews($news);
-    }
-
     public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null) {
         $this->em->getConnection()->beginTransaction();
         try {
