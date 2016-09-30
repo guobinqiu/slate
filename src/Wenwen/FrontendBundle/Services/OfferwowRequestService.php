@@ -233,8 +233,10 @@ class OfferwowRequestService
                 $pointHistory->setReason(CategoryType::OFFERWOW_COST);
                 $this->em->persist($pointHistory);
 
-                $news = $this->userService->buildNews($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
-                $this->userService->insertLatestNews($news);
+                if ($points >= 100) {
+                    $news = $this->userService->buildNews($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
+                    $this->userService->insertLatestNews($news);
+                }
             }
 
             $this->em->flush();

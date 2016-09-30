@@ -109,8 +109,10 @@ class UserService
             throw $e;
         }
 
-        $news = $this->buildNews($user, $points, $categoryType, $taskType);
-        $this->insertLatestNews($news);
+        if ($points >= 100) {
+            $news = $this->buildNews($user, $points, $categoryType, $taskType);
+            $this->insertLatestNews($news);
+        }
     }
 
     public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName) {
