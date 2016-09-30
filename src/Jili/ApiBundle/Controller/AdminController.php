@@ -992,7 +992,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
             if($type == 4) {
                 $po->setReason(CategoryType::MOBILE);
-                $comment = '手机费';
+                $comment = '手机充值';
             }
             $em->persist($po);
             $em->flush();
