@@ -18,7 +18,7 @@ sub sum_survey_cost_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                (p.reason = 92 or  or p.reason between 402 and 499)
+                (p.reason = 92 or p.reason between 402 and 499)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
@@ -184,7 +184,7 @@ sub sum_survey_expense_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                (p.reason = 93 or  or p.reason between 302 and 399)
+                (p.reason = 93 or p.reason between 302 and 399)
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
