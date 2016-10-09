@@ -3,11 +3,14 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use JMS\Serializer\Serializer;
+use Predis\Client;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
@@ -18,28 +21,43 @@ class UserService
     private $redis;
     private $serializer;
     private $parameterService;
+    private $latestNewsService;
 
+    /**
+     * UserService constructor.
+     * @param EntityManager $em
+     * @param Client $redis
+     * @param Serializer $serializer
+     * @param ParameterService $parameterService
+     * @param LoggerInterface $logger
+     * @param LatestNewsService $latestNewsService
+     */
     public function __construct(EntityManager $em,
-                                $redis,
-                                $serializer,
+                                Client $redis,
+                                Serializer $serializer,
                                 ParameterService $parameterService,
-                                LoggerInterface $logger
+                                LoggerInterface $logger,
+                                LatestNewsService $latestNewsService
     ) {
         $this->em = $em;
         $this->redis = $redis;
         $this->serializer = $serializer;
         $this->parameterService = $parameterService;
         $this->logger = $logger;
+        $this->latestNewsService = $latestNewsService;
     }
 
     /**
+     * 自动注册一个用户.
+     *
      * @param QQUser|WeixinUser|WeiboUser $xxxUser
-     * @param $userProfile
-     * @param $clientIp
-     * @param $userAgent
-     * @param $inviteId
-     * @param $allowRewardInviter bool
-     * @throws \Exception
+     * @param UserProfile $userProfile
+     * @param string $clientIp
+     * @param string $userAgent
+     * @param int $inviteId
+     * @param bool $allowRewardInviter
+     *
+     * @return User
      */
     public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
         // 创建用户
@@ -110,8 +128,8 @@ class UserService
         }
 
         if ($points >= 100) {
-            $news = $this->buildNews($user, $points, $categoryType, $taskType);
-            $this->insertLatestNews($news);
+            $news = $this->latestNewsService->buildNews($user, $points, $categoryType, $taskType);
+            $this->latestNewsService->insertLatestNews($news);
         }
     }
 
@@ -126,68 +144,11 @@ class UserService
     }
 
     public function getProvinceList() {
-        return $this->getList(CacheKeys::PROVINCE_LIST, 'Wenwen\FrontendBundle\Entity\ProvinceList');
+        return $this->getPlaceList(CacheKeys::PROVINCE_LIST, 'Wenwen\FrontendBundle\Entity\ProvinceList');
     }
 
     public function getCityList() {
-        return $this->getList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
-    }
-
-    /**
-     * 插入一条最新动态
-     *
-     * @param $news string
-     */
-    public function insertLatestNews($news)
-    {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return;
-        }
-
-        $latestNewsList = $this->getLatestNews();
-        $count = array_unshift($latestNewsList, $news);
-        if ($count > 100) {
-            array_pop($latestNewsList);
-        }
-        $this->redis->set(CacheKeys::LATEST_NEWS_LIST, $this->serializer->serialize($latestNewsList, 'json'));
-    }
-
-    /**
-     * 显示最新动态
-     *
-     * @return array
-     */
-    public function getLatestNews()
-    {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return array();
-        }
-
-        $val = $this->redis->get(CacheKeys::LATEST_NEWS_LIST);
-        if (is_null($val)) {
-            return array();
-        }
-        return $this->serializer->deserialize($val, 'array', 'json');
-    }
-
-    private function getList($key, $className) {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return $this->em->getRepository($className)->findAll();
-        }
-
-        $val = $this->redis->get($key);
-        if (is_null($val)) {
-            $entities = $this->em->getRepository($className)->findAll();
-            if (!empty($entities)) {
-                $this->redis->set($key, $this->serializer->serialize($entities, 'json'));
-            }
-            return $entities;
-        }
-
-        return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
+        return $this->getPlaceList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
     }
 
     private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
@@ -223,41 +184,21 @@ class UserService
         }
     }
 
-    public function buildNews(User $user, $points, $categoryType, $taskType) {
-        $message = substr($user->getNick(), 0, 3) . '**';
-        switch($taskType) {
-            case TaskType::CPA:
-                $message .= '任务墙';
-                break;
-            case TaskType::CPS:
-                $message .= '购物返利';
-                break;
-            case TaskType::SURVEY:
-                $message .= '商业问卷';
-                break;
-            case TaskType::RENTENTION:
-                switch($categoryType) {
-                    case CategoryType::SOP_EXPENSE:
-                    case CategoryType::SSI_EXPENSE:
-                    case CategoryType::CINT_EXPENSE:
-                    case CategoryType::FULCRUM_EXPENSE:
-                        $message .= '属性问卷';
-                        break;
-                    case CategoryType::SIGNUP:
-                        $message .= '完成注册';
-                        break;
-                    case CategoryType::QUICK_POLL:
-                        $message .= '快速问答';
-                        break;
-                    case CategoryType::EVENT_INVITE_SIGNUP:
-                        $message .= '邀请好友';
-                        break;
-                    case CategoryType::EVENT_INVITE_SURVEY:
-                        $message .= '好友答问卷';
-                        break;
-                }
+    private function getPlaceList($key, $className) {
+        $cacheSettings = $this->parameterService->getParameter('cache_settings');
+        if (!$cacheSettings['enable']) {
+            return $this->em->getRepository($className)->findAll();
         }
-        $message .= '获得' . $points . '积分';
-        return $message;
+
+        $val = $this->redis->get($key);
+        if (is_null($val)) {
+            $entities = $this->em->getRepository($className)->findAll();
+            if (!empty($entities)) {
+                $this->redis->set($key, $this->serializer->serialize($entities, 'json'));
+            }
+            return $entities;
+        }
+
+        return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
 }

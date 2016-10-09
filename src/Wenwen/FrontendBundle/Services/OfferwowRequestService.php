@@ -28,7 +28,7 @@ class OfferwowRequestService
 
     private $offerwowParamsKey;
 
-    private $userService;
+    private $latestNewsService;
 
     const IMMEDIATE_0 = '0'; // 非即时返利活动,处于待审核状态
     const IMMEDIATE_1 = '1'; // 即时返利活动，需发放奖励给会员
@@ -38,12 +38,12 @@ class OfferwowRequestService
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
-                                UserService $userService)
+                                LatestNewsService $latestNewsService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
-        $this->userService = $userService;
+        $this->latestNewsService = $latestNewsService;
         $this->offerwowParamsWebsiteid = $this->parameterService->getParameter('offerwow_com.websiteid');
         $this->offerwowParamsKey = $this->parameterService->getParameter('offerwow_com.key');
     }
@@ -234,8 +234,8 @@ class OfferwowRequestService
                 $this->em->persist($pointHistory);
 
                 if ($points >= 100) {
-                    $news = $this->userService->buildNews($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
-                    $this->userService->insertLatestNews($news);
+                    $news = $this->latestNewsService->buildNews($user, $points, CategoryType::OFFERWOW_COST, TaskType::CPA);
+                    $this->latestNewsService->insertLatestNews($news);
                 }
             }
 

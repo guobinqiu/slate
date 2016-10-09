@@ -125,6 +125,7 @@ class PasswordController extends BaseController
             '--reset_password_token='.$user->getResetPasswordToken(),
         );
         $job = new Job('mail:reset_password', $args, true, '91wenwen_reset', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
         $em->persist($job);
         $em->flush();
     }
