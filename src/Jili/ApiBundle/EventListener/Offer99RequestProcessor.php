@@ -53,9 +53,11 @@ class Offer99RequestProcessor
             $order->setDeleteFlag(0);
             $em->persist($order);
             $em->flush();
-        }
 
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-        $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $happen_time);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+            $this->logger->info('-----------------' . ($this->userService == null));
+            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $happen_time);
+            $this->logger->info('-----------------' . __METHOD__ . ' userid=' . $user->getId() . ', points=' . $points);
+        }
     }
 }
