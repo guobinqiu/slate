@@ -37,8 +37,8 @@ class AffiliateSurveyController extends Controller
         $projectProvince = $affiliateProjectLocationService->getProjectProvince($affiliateProjectId);
         $projectCity = $affiliateProjectLocationService->getProjectCity($affiliateProjectId);
 
-        $clientCity = $affiliateProjectLocationService->getCityName($request->getClientIp());
-        $clientProvince = $affiliateProjectLocationService->getProvinceName($request->getClientIp());
+        $clientCity = $affiliateProjectLocationService->getClientCityName($request->getClientIp());
+        $clientProvince = $affiliateProjectLocationService->getClientProvinceName($request->getClientIp());
 
         if(is_null($projectProvince) and is_null($projectCity)){
             $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
@@ -53,8 +53,6 @@ class AffiliateSurveyController extends Controller
                 $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
             }
         }
-
-        #$redirectURL = $clientCity;
 
         if(is_null($redirectURL)){
             $param = array(

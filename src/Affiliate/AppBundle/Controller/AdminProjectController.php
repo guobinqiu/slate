@@ -7,8 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 
 /**
  * 问卷代理 的 管理页面
@@ -40,9 +38,8 @@ class AdminProjectController extends Controller
         $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
         $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
-        #$builder->add('Location', 'text', array('label' => 'Location. 请输入XX市、XX省或空格', 'empty_data' => null));
-        $builder->add('Province', 'text', array('label' => 'Province:', 'data' => null, 'empty_data' => null));
-        $builder->add('City', 'text', array('label' => 'City:', 'data' => null, 'empty_data' => null));
+        $builder->add('Province', 'text', array('label' => 'Province 输入XX省,不限制输入空格:', 'data' => '直辖市', 'empty_data' => null));
+        $builder->add('City', 'text', array('label' => 'City 输入XX市,不限制输入空格:', 'data' => null, 'empty_data' => null));
 
         $form = $builder->getForm();
 
@@ -67,7 +64,6 @@ class AdminProjectController extends Controller
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
                 $completePoints = $fieldCompletePoints->getData();
-                #$location = $fieldLocation->getData();
                 $province = $fieldProvince->getData();
                 $city = $fieldCity->getData();
 
@@ -78,11 +74,40 @@ class AdminProjectController extends Controller
                     $fullPath = $uploadDir . "/" . $realUploadName;
 
                     $adminProjectService = $this->get('app.admin_project_service');
+                    $adminLocationService = $this->get('app.ip_location_service');                   
                     // 改partnerId
-                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
+                    //检查输入的省份，城市
 
-
-                    //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
+                    if(is_null($province)){
+                        if(is_null($city)){
+                            $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
+                        } else {
+                            $status = $adminLocationService->checkInputCity($city);
+                            if('success' == $status){           
+                                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
+                            } else {
+                                 $rtn = array('status' => $status, 'msg' => "Input City Error");
+                            }
+                        }
+                    } else {
+                        $status = $adminLocationService->checkInputProvince($province);
+                        if('success' == $status){
+                            if(is_null($city)){                            
+                                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
+                            } else {
+                                $status = $adminLocationService->checkInputCity($city);
+                                if('success' == $status){                                           
+                                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
+                                } else {
+                                 $rtn = array('status' => $status, 'msg' => "Input City Error");
+                                }   
+                           }
+                        } else {
+                            $rtn = array('status' => $status, 'msg' => "Input Province Error");
+                        }  
+        
+                   }  
+                  //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
                     // print 'status=' . $rtn['status'] . '<br>';
                     // print 'errmsg' . $rtn['errmsg'] . '<br>';
                     if('success' == $rtn['status']){
@@ -134,4 +159,5 @@ class AdminProjectController extends Controller
         }
         return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
     }
+   
 }

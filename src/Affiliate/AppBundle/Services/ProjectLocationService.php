@@ -7,6 +7,8 @@ use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 use Wenwen\FrontendBundle\Services\ParameterService;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+use Wenwen\FrontendBundle\Entity\ProvinceList;
+use Wenwen\FrontendBundle\Entity\CityList;
 
 /**
  * 通过IP获得地域属性
@@ -60,7 +62,7 @@ class ProjectLocationService
             );
 
         try{
-            $cityName = $this->getCityName($ipAddress);
+            $cityName = $this->getClientCityName($ipAddress);
 
             if($cityName){
                 $city = $this->em->getRepository('WenwenFrontendBundle:CityList')->findOneCityByNameLike($cityName);
@@ -85,7 +87,7 @@ class ProjectLocationService
      * @param $ipAddress
      * @return $cityName
      */
-    public function getCityName($ipAddress) {
+    public function getClientCityName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         $cityName = null;
 
@@ -100,7 +102,7 @@ class ProjectLocationService
         return $cityName;
     }
 
-    public function getProvinceName($ipAddress) {
+    public function getClientProvinceName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         $provinceName = null;
 
@@ -200,6 +202,41 @@ class ProjectLocationService
         } else {
             return $rtn = preg_grep("/$clientCity/", $projectLocation);
         }
-    } 
+    }
+   
+    public function checkInputProvince($province){
+        if(isset($province)){
+            $checkProvince = $this->em->getRepository('Wenwen\FrontendBundle\Entity\ProvinceList')->findOneBy(array('provinceName'=>$province));
+            if($checkProvince !== null){
+                $status = 'success';
+                $msg = "Province check success";
+                $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+                return $status;
+            } else { 
+                $status = 'failure';
+                $msg = " 输入省份错误" . $province;
+                $this->logger->error(__METHOD__ . $msg . PHP_EOL); 
+                return $status;
+            }
+        }
+    }
+
+    public function checkInputCity($city){
+        if(isset($city)){
+            $checkCity = $this->em->getRepository('Wenwen\FrontendBundle\Entity\CityList')->findOneBy(array('cityName'=>$city));
+            if($checkCity !== null){
+                $status = 'success';
+                $msg = "City check success"; 
+                $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+                return $status;
+            } else {
+                $status = 'failure';
+                $msg = " 输入城市错误" . $city;
+                $this->logger->error(__METHOD__ . $msg . PHP_EOL);            
+                return $status;
+            }
+       }
+    }
+    
 }
 

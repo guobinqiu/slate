@@ -8,7 +8,7 @@ use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use JMS\JobQueueBundle\Entity\Job;
 
-
+#use Wenwen\FrontendBundle\Entity\ProvinceList;
 
 /**
  * 
@@ -138,7 +138,6 @@ class AdminProjectService
             $affiliateProject->setRealFullPath($fullPath);
             $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_INIT);
             $affiliateProject->setCompletePoints($completePoints);
-            #$affiliateProject->setLocation($location);
             $affiliateProject->setProvince($province);
             $affiliateProject->setCity($city);
             $this->em->persist($affiliateProject);
@@ -301,5 +300,5 @@ class AdminProjectService
         $this->logger->debug(__METHOD__ . " END   " . PHP_EOL);
         return $rtn;
     }
-
+        
 }
