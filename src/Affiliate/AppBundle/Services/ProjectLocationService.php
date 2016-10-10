@@ -29,7 +29,7 @@ class ProjectLocationService
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
     private $dummy = true;
     private $dummyCityName = '上海市';
-    private $dummyProvinceName = '上海市';
+    private $dummyProvinceName = '吉林省';
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,

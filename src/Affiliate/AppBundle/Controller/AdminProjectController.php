@@ -38,7 +38,7 @@ class AdminProjectController extends Controller
         $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
         $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
-        $builder->add('Province', 'text', array('label' => 'Province 输入XX省,不限制输入空格:', 'data' => '直辖市', 'empty_data' => null));
+        $builder->add('Province', 'text', array('label' => 'Province 输入XX省,不限制输入空格:', 'data' => null, 'empty_data' => null));
         $builder->add('City', 'text', array('label' => 'City 输入XX市,不限制输入空格:', 'data' => null, 'empty_data' => null));
 
         $form = $builder->getForm();
