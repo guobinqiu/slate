@@ -24,7 +24,6 @@ class UserService
     private $latestNewsService;
 
     /**
-     * UserService constructor.
      * @param EntityManager $em
      * @param Client $redis
      * @param Serializer $serializer
