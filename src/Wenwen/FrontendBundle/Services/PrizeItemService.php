@@ -59,7 +59,7 @@ class PrizeItemService
         $prizeItem = $this->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points == PrizeItem::FIRST_PRIZE_POINTS && $prizeItem->getQuantity() == 0) {
-            $this->bigPrizeBox($user);//重抽一次
+            $this->bigPrizeBox($user);//再抽一次
         }
         if ($points > 0) {
             $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
@@ -87,9 +87,9 @@ class PrizeItemService
         return $points;
     }
 
-    public function hasPointBalance()
+    public function isPointBalanceEmpty()
     {
-        return $this->getPointBalance() > 0;
+        return $this->getPointBalance() == 0;
     }
 
     public function getPointBalance()
