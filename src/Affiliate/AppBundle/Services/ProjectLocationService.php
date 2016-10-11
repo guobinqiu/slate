@@ -27,9 +27,9 @@ class ProjectLocationService
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
-    private $dummy = true;
+    private $dummy = false;
     private $dummyCityName = '上海市';
-    private $dummyProvinceName = '吉林省';
+    private $dummyProvinceName = '上海市';
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
@@ -194,48 +194,77 @@ class ProjectLocationService
         $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
         return $rtn->getprovince();
     }
-    
+
+    //匹配范围内的用户    
     public function confirmLocation($projectProvince, $projectCity, $clientCity, $clientProvince){
         $projectLocation = explode(",", $projectProvince . "," . $projectCity);
-        if(is_null($projectCity)){
-            return $rtn = preg_grep("/$clientProvince/", $projectLocation);
-        } else {
-            return $rtn = preg_grep("/$clientCity/", $projectLocation);
-        }
-    }
-   
-    public function checkInputProvince($province){
-        if(isset($province)){
-            $checkProvince = $this->em->getRepository('Wenwen\FrontendBundle\Entity\ProvinceList')->findOneBy(array('provinceName'=>$province));
-            if($checkProvince !== null){
-                $status = 'success';
-                $msg = "Province check success";
-                $this->logger->error(__METHOD__ . $msg . PHP_EOL);
-                return $status;
-            } else { 
-                $status = 'failure';
-                $msg = " 输入省份错误" . $province;
-                $this->logger->error(__METHOD__ . $msg . PHP_EOL); 
-                return $status;
-            }
-        }
+        return $rtn = preg_grep("/$clientProvince|$clientCity/", $projectLocation);
     }
 
-    public function checkInputCity($city){
-        if(isset($city)){
-            $checkCity = $this->em->getRepository('Wenwen\FrontendBundle\Entity\CityList')->findOneBy(array('cityName'=>$city));
-            if($checkCity !== null){
-                $status = 'success';
-                $msg = "City check success"; 
-                $this->logger->error(__METHOD__ . $msg . PHP_EOL);
-                return $status;
-            } else {
-                $status = 'failure';
-                $msg = " 输入城市错误" . $city;
-                $this->logger->error(__METHOD__ . $msg . PHP_EOL);            
-                return $status;
+    private function checkMultLocationInput($location){
+        $tmpArray = explode(",", $location);
+        if(count($tmpArray) > 1){
+            return $locationArray = $tmpArray;
+        } else {
+            return $locationArray = $location;
+        }
+        
+    }
+
+    private function checkInputError($checkLocation){
+        if($checkLocation !== null){
+            $status = 'success';
+            $msg = "Province/City check success";
+            $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+            return $status;
+        } else {
+            $status = 'failure';
+            $msg = " 输入省份/城市错误" . $checkLocation;
+            $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+            return $status;
+        }   
+    }
+  
+    //检查输入的省份是否正确
+    public function checkInputProvince($province){
+        $provinceArray = $this->checkMultLocationInput($province);
+        if(is_array($provinceArray)){
+            $status = 'success';
+            foreach ($provinceArray as $provinceKey){
+                $checkProvince = $this->em->getRepository('Wenwen\FrontendBundle\Entity\ProvinceList')->findOneBy(array('provinceName'=>$provinceKey));
+                if($checkProvince == null){
+                    $status = 'failure';
+                    $msg = " 输入省份错误";
+                    $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+                    return $status;
+                }
             }
-       }
+            return $status;
+        } else {
+            $checkProvince = $this->em->getRepository('Wenwen\FrontendBundle\Entity\ProvinceList')->findOneBy(array('provinceName'=>$province));
+            return $status = $this->checkInputError($checkProvince);
+        }
+    }   
+
+    //检查输入的城市是否正确
+    public function checkInputCity($city){
+        $cityArray = $this->checkMultLocationInput($city);
+        if(is_array($cityArray)){
+            $status = 'success';
+            foreach ($cityArray as $cityKey){
+                $checkCity = $this->em->getRepository('Wenwen\FrontendBundle\Entity\CityList')->findOneBy(array('cityName'=>$cityKey));
+                if($checkCity == null){
+                    $status = 'failure';
+                    $msg = " 输入城市错误";
+                    $this->logger->error(__METHOD__ . $msg . PHP_EOL);
+                    return $status;
+                }
+            }
+            return $status;
+        } else {
+            $checkCity = $this->em->getRepository('Wenwen\FrontendBundle\Entity\CityList')->findOneBy(array('cityName'=>$city));
+	    return $status = $this->checkInputError($checkCity);
+        }
     }
     
 }

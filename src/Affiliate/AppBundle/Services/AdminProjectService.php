@@ -124,7 +124,7 @@ class AdminProjectService
     * @param string $province
     * @param string $city
     */
-    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints = 0){
+    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints = 0, $province, $city){
 
         $status = 'success';
         $msg = '';
