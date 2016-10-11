@@ -5,13 +5,15 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LuckyDraw
- *
- * @ORM\Table(name="lucky_draw")
- * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\LuckyDrawRepository")
+ * @ORM\Table(name="prize_items")
+ * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\PrizeItemRepository")
  */
-class LuckyDraw
+class PrizeItem
 {
+    const PRIZE_BOX_BIG = '大奖池';
+    const PRIZE_BOX_SMALL = '小奖池';
+    const FIRST_PRIZE_POINTS = 300000;
+
     /**
      * @var integer
      *
@@ -31,7 +33,7 @@ class LuckyDraw
     /**
      * @var string
      *
-     * @ORM\Column(name="percent", type="string", length=10)
+     * @ORM\Column(name="percent", type="string", length=10, nullable=true)
      */
     private $percent;
 
@@ -56,6 +58,12 @@ class LuckyDraw
      */
     private $type;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="quantity", type="integer")
+     */
+    private $quantity;
 
     /**
      * Get id
@@ -71,7 +79,7 @@ class LuckyDraw
      * Set points
      *
      * @param integer $points
-     * @return LuckyDraw
+     * @return PrizeItem
      */
     public function setPoints($points)
     {
@@ -94,7 +102,7 @@ class LuckyDraw
      * Set percent
      *
      * @param string $percent
-     * @return LuckyDraw
+     * @return PrizeItem
      */
     public function setPercent($percent)
     {
@@ -117,7 +125,7 @@ class LuckyDraw
      * Set min
      *
      * @param integer $min
-     * @return LuckyDraw
+     * @return PrizeItem
      */
     public function setMin($min)
     {
@@ -140,7 +148,7 @@ class LuckyDraw
      * Set max
      *
      * @param integer $max
-     * @return LuckyDraw
+     * @return PrizeItem
      */
     public function setMax($max)
     {
@@ -163,7 +171,7 @@ class LuckyDraw
      * Set type
      *
      * @param string $type
-     * @return LuckyDraw
+     * @return PrizeItem
      */
     public function setType($type)
     {
@@ -180,5 +188,28 @@ class LuckyDraw
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $max
+     * @return PrizeItem
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get $quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 }
