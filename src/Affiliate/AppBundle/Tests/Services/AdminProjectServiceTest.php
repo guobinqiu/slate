@@ -240,8 +240,10 @@ class AdminProjectServiceTest extends WebTestCase
         $RFQId = 777;
         $originalFileName = 'test1.txt';
         $fullPath = '/xxx/xxx/xxx.txt';
+        $province = '上海市';
+        $city = '上海市';
 
-        $rtn = $this->adminProjectService->initProject($partnerId, $RFQId, $originalFileName, $fullPath);
+        $rtn = $this->adminProjectService->initProject($partnerId, $RFQId, $originalFileName, $fullPath, $province, $city);
 
         $this->assertEquals('failure', $rtn['status']);
 
