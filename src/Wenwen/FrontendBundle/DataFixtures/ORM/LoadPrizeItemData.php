@@ -17,7 +17,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(1)
             ->setMax(100)
             ->setType(PrizeItem::PRIZE_BOX_BIG)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -27,7 +27,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(101)
             ->setMax(8100)
             ->setType(PrizeItem::PRIZE_BOX_BIG)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -37,7 +37,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(8101)
             ->setMax(9600)
             ->setType(PrizeItem::PRIZE_BOX_BIG)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -47,7 +47,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(9601)
             ->setMax(9990)
             ->setType(PrizeItem::PRIZE_BOX_BIG)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -57,7 +57,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(9991)
             ->setMax(9999)
             ->setType(PrizeItem::PRIZE_BOX_BIG)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -77,7 +77,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(1)
             ->setMax(10)
             ->setType(PrizeItem::PRIZE_BOX_SMALL)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $prizeItem = new PrizeItem();
@@ -87,7 +87,7 @@ class LoadPrizeItemData implements FixtureInterface
             ->setMin(11)
             ->setMax(100)
             ->setType(PrizeItem::PRIZE_BOX_SMALL)
-            ->setQuantity(10);
+            ->setQuantity(9999999);
         $manager->persist($prizeItem);
 
         $manager->flush();

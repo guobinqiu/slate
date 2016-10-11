@@ -62,7 +62,10 @@ class PrizeItemService
             $this->bigPrizeBox($user);//再抽一次
         }
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
+            if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
+                echo '--------' . PHP_EOL.$points;
+            }
+            //$this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
