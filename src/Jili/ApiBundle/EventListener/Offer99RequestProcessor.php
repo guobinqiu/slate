@@ -50,8 +50,9 @@ class Offer99RequestProcessor
             $em->flush();
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            $this->logger->info(__METHOD__ . ' userid=' . $user->getId() . ', points=' . $points);
-            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name);
+            $this->logger->info(__METHOD__ . ' userid=' . $user->getId() . ', points=' . $points, ', tid=' . $tid, ', offer_name=' . $offer_name);
+            //task_name有编码问题
+            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $task_name, $tid);
         }
     }
 }
