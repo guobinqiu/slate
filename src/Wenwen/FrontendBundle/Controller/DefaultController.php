@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends BaseController
 {
-	/**
+    /**
      * @Route("/jiliNotice", name="_jili_notice")
      * @Template
      */
@@ -33,5 +33,14 @@ class DefaultController extends BaseController
     public function maintain91jiliAction()
     {
         return $this->render('WenwenFrontendBundle:Exception:maintain91jili.html.twig');
+    }
+
+	/**
+     * @Route("/luckyDraw", name="_luckyDraw")
+     * @Template
+     */
+    public function luckyDrawAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:luckyDraw.html.twig');
     }
 }
