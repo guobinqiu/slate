@@ -193,6 +193,27 @@ class SurveyService
                      }
                   },
                   {
+                    "survey_id": "7436",
+                    "quota_id": "20002",
+                    "cpi": "2.34",
+                    "ir": "90",
+                    "loi": "10",
+                    "is_answered": "0",
+                    "is_closed": "0",
+                    "title": "testtesttest",
+                    "url": "",
+                    "is_fixed_loi": "0",
+                    "is_notifiable": "0",
+                    "date": "2015-01-03",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "30",
+                             "quotafull": "30",
+                             "complete": "400"
+                         }
+                     }
+                  },
+                  {
                     "survey_id": "10002",
                     "quota_id": "20002",
                     "cpi": "2.34",
@@ -509,6 +530,13 @@ class SurveyService
             $researches = $sop['data']['research'];
             if (count($researches) > 0) {
                 foreach ($researches as $research) {
+                    ///临时增加代码。将7436问卷显示分数改为5000分
+                    ///项目关闭时删除
+                    if(($research['survey_id'] == 7436)){
+                            $research['extra_info']['point']['complete']= 5000;
+                        }
+                    ///
+                    ///
                     if(($research['is_closed'] == 0)){
                         $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                         $research['loi'] = $this->getSurveyLOI($research['loi']);
