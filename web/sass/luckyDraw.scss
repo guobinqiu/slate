@@ -40,7 +40,8 @@ a:hover{
     }
     .bannerCon{
         width: 100%;
-        padding-top: 50px;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
         position: relative;
         .PointNum{
         	width: 400px;
@@ -275,4 +276,31 @@ a:hover{
             }
         }
     }
+}
+
+@media only screen and (max-width: 768px) {
+	.bannerWrap .bannerCon .PointNum{
+		left: 0;
+		bottom: 0;
+	}
+	.contWrap .cont .conWrap .state .stateText{
+		padding-left: 10px;
+	}
+	.tmWrap{
+		margin-top: 15px;
+	}
+	.contWrap .cont{
+		padding: 10px 0 30px;
+		.conWrap{
+			.draw{
+				margin-top: 10px;
+				.drawBox .button{
+					display: inline;
+				}
+			}
+			.state .luckyTimeline{
+				padding-left: 10px;
+			}
+		} 
+	}
 }
