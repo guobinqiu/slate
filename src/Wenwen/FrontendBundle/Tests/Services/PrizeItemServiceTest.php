@@ -110,21 +110,21 @@ class PrizeItemServiceTest extends WebTestCase
     }
 
     // 由于时间比较长，测试通过后注释掉了，如果你要修改bigPrizeBox方法，可在本地把注释放开
-    public function testGetPrizePointsFromBigBox()
-    {
-        $this->prizeItemService->addPointBalance(99999999);
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-        $firstPrizeItem = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')
-            ->findOneByPoints(PrizeItem::FIRST_PRIZE_POINTS);
-        echo PHP_EOL . 'before quantity=' . $firstPrizeItem->getQuantity();
-        $before = $this->prizeItemService->getPointBalance();
-        $points = 0;
-        //万分之一的大奖概率但不等于说10000次内必中1次,20000的话命中率高点
-        for ($i=0; $i<20000; $i++) {
-            $points += $this->prizeItemService->bigPrizeBox($user);
-        }
-        $after = $this->prizeItemService->getPointBalance();
-        $this->assertEquals($before - $after, $points);
-        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
-    }
+//    public function testGetPrizePointsFromBigBox()
+//    {
+//        $this->prizeItemService->addPointBalance(99999999);
+//        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
+//        $firstPrizeItem = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')
+//            ->findOneByPoints(PrizeItem::FIRST_PRIZE_POINTS);
+//        echo PHP_EOL . 'before quantity=' . $firstPrizeItem->getQuantity();
+//        $before = $this->prizeItemService->getPointBalance();
+//        $points = 0;
+//        //万分之一的大奖概率但不等于说10000次内必中1次,20000的话命中率高点
+//        for ($i=0; $i<20000; $i++) {
+//            $points += $this->prizeItemService->bigPrizeBox($user);
+//        }
+//        $after = $this->prizeItemService->getPointBalance();
+//        $this->assertEquals($before - $after, $points);
+//        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
+//    }
 }
