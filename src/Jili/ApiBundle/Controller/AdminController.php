@@ -1132,7 +1132,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em->getConnection()->getConfiguration()->setSQLLogger(null);
         $points_exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         $user_id = $points_exchange->getUserId();
-        if(!$points_exchange->getStatus()){
+        if($points_exchange != null){
             // Start to update the alipay exchange result if points_exchange.status is NULL(exchange result not updated yet)
 
             // Prepare the data to update points_exchange.status 
@@ -1187,7 +1187,7 @@ class AdminController extends Controller implements IpAuthenticatedController
         $em->getConnection()->getConfiguration()->setSQLLogger(null);
         $points_exchange = $em->getRepository('JiliApiBundle:PointsExchange')->find($exchange_id);
         $user_id = $points_exchange->getUserId();
-        if(!$points_exchange->getStatus()){
+        if($points_exchange != null){
             // Start to update the alipay exchange result if points_exchange.status is NULL(exchange result not updated yet)
 
             // Prepare the data to update points_exchange.status to 2 (exchange failed)
