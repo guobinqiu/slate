@@ -41,3 +41,11 @@ var textScroll = new RPATextScroll({
         timer: 2000,
         direction: 'top'}
 });
+
+var textScroll_lottery = new RPATextScroll({
+    scrollEle: $('.luckyTimeline ul'),
+    config: {
+        animateTimer: 1000,
+        timer: 2000,
+        direction: 'top'}
+});
