@@ -38,6 +38,7 @@ class PrizeItemService
      */
     public function getPrizeItem($type, $pointBalance)
     {
+        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems($type, $pointBalance);
         $randNum = mt_rand(1, $prizeItems[0]->getMax());
         foreach($prizeItems as $prizeItem) {
@@ -58,14 +59,15 @@ class PrizeItemService
     {
         $prizeItem = $this->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, $this->getPointBalance());
         $points = $prizeItem->getPoints();
-        if ($points == PrizeItem::FIRST_PRIZE_POINTS && $prizeItem->getQuantity() == 0) {
-            $this->bigPrizeBox($user);//再抽一次
-        }
         if ($points > 0) {
             if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
-                echo '--------' . PHP_EOL.$points;
+                if ($prizeItem->getQuantity() == 0) {
+                    $this->logger->info('userid=' . $user->getId() . '杯具了，中了头奖，但很遗憾由于库存不足作废');
+                    return $this->bigPrizeBox($user);//再抽一次
+                }
+                $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
             }
-            //$this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_RAFFLE, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -83,7 +85,7 @@ class PrizeItemService
         $prizeItem = $this->getPrizeItem(PrizeItem::PRIZE_BOX_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_SMALL);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_RAFFLE, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_SMALL);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -97,7 +99,7 @@ class PrizeItemService
 
     public function getPointBalance()
     {
-        $pointBalance = $this->redis->get(CacheKeys::LUCKY_DRAW_POINT_BALANCE);
+        $pointBalance = $this->redis->get(CacheKeys::PRIZE_POINT_BALANCE);
         if ($pointBalance == null) {
             $this->resetPointBalance();
         }
@@ -106,17 +108,17 @@ class PrizeItemService
 
     public function addPointBalance($points)
     {
-        $this->redis->set(CacheKeys::LUCKY_DRAW_POINT_BALANCE, $this->getPointBalance() + $points);
+        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, $this->getPointBalance() + $points);
     }
 
     public function minusPointBalance($points)
     {
-        $this->redis->set(CacheKeys::LUCKY_DRAW_POINT_BALANCE, $this->getPointBalance() - $points);
+        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, $this->getPointBalance() - $points);
     }
 
     public function resetPointBalance()
     {
-        $this->redis->set(CacheKeys::LUCKY_DRAW_POINT_BALANCE, 0);
+        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, 0);
     }
 
     private function minusPrizeQuantity(PrizeItem $prizeItem) {
