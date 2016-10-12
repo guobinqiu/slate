@@ -32,7 +32,7 @@ class Offer99RequestProcessor
         $points = $request->query->get('vcpoints');
         // 20160716 暂时懒得重构这块的代码，先把需要的数据补齐
         // 记录offer99那边回传的任务名称，因为现在没有检查这个任务名称的参数是否存在，万一没有的话用固定名称
-        $offer_name = $request->query->get('offer_name', $task_name);
+        $offer_name = urldecode($request->query->get('offer_name', $task_name));
 
         $em = $this->em;
 
@@ -51,8 +51,7 @@ class Offer99RequestProcessor
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->logger->info(__METHOD__ . ' userid=' . $user->getId() . ', points=' . $points . ', tid=' . $tid . ', offer_name=' . $offer_name);
-            //offer_name有编码问题
-            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $task_name);
+            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $order->getId());
         }
     }
 }
