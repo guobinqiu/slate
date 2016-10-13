@@ -42,46 +42,6 @@ class ProjectLocationService
         $this->httpClient = $httpClient;
     }
 
-    public function setDummy($dummy, $cityName, $provinceName){
-        $this->dummy = $dummy;
-        $this->dummyCityName = $cityName;
-        $this->dummyProvinceName = $provinceName;
-    }
-
-    /**
-     * 通过IP地址获取城市和省份ID 只针对中国大陆地区
-     * @param $ipAddress IP address (IPV4)
-     * @return array('status', cityId', 'provinceId')
-     */
-    public function getLocationId($ipAddress) {
-        $this->logger->debug(__METHOD__ . ' START ipAddress=' . $ipAddress);
-        $locationId = array(
-            'status' => false,
-            'cityId' => 0,
-            'provinceId' => 0
-            );
-
-        try{
-            $cityName = $this->getClientCityName($ipAddress);
-
-            if($cityName){
-                $city = $this->em->getRepository('WenwenFrontendBundle:CityList')->findOneCityByNameLike($cityName);
-                $this->logger->debug(__METHOD__ . ' city=' . json_encode($city));
-                if($city){
-                    $locationId['cityId'] = $city['cityId'];
-                    $locationId['provinceId'] = $city['provinceId'];
-                    $locationId['status'] = true;
-                }
-            }   
-            $this->logger->debug(__METHOD__ . ' locationId=' . json_encode($locationId));
-        } catch(\Exception $e){
-            $this->logger->error($e);
-        }   
-        
-        $this->logger->debug(__METHOD__ . ' END   ipAddress=' . $ipAddress . ' locationId=' . json_encode($locationId));
-        return $locationId;
-    }
-
     /**
      * 通过IP地址, 调用第三方API，获取城市名称 只针对中国大陆地区
      * @param $ipAddress
