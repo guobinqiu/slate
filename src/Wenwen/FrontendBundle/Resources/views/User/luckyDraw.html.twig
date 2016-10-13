@@ -18,10 +18,9 @@
 		    <div class="flowBg">
 		        <div class="container">
 		            <div class="bannerCon center-block row">
-		                <div class="col-sm-12">
+		                <div class="bcIn col-sm-12">
 		                    <img class="img-responsive center-block" src="/img/luckyDraw/bannerImg.png?v000022">
-		                    <div class="PointNum counter4 center-block">
-		                    </div>
+	                    	<div class="PointNum counter4"></div>
 		                </div>
 		            </div>
 		        </div>
@@ -90,7 +89,7 @@
     				<div class="status row">
     					<div class="col-sm-12 col-xs-12">
     						<img class="img-responsive center-block" src="/img/luckyDraw/survey.png?v000022" alt="回答问卷">
-    						<button type="button" class="btn btn-default center-block">回答问卷</button>
+    						<a href="{{ path('_survey_index') }}" title="问卷列表"><button type="button" class="btn btn-default center-block">回答问卷</button></a>
     					</div>
     				</div>
     			</div>
@@ -104,28 +103,10 @@
     <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
     <script type="text/javascript" src="/js/plugin/jquery.jodometer.min.js?v000022"></script>
 	<script type="text/javascript">
-		$('.counter4').jOdometer({increment: 1, counterStart:'1254455555',numbersImage:'/img/luckyDraw/jodometer-numbers.png?v000022', formatNumber: true, spaceNumbers: 2, widthDot: 8});
+		$('.counter4').jOdometer({increment: 1, counterStart:'12545555',numbersImage:'/img/luckyDraw/jodometer-numbers.png?v000022', formatNumber: true, spaceNumbers: 2, widthDot: 8});
 		$('.drawBox .button').click(function(){
 			$(this).css('display','none');
 			$('.drawResult').css('display','block');
 		});
-		// var totalWidth = 0;
-		// var numItem = $(".PointNum img");
-		// numItem.each(function(index){
-		// 	totalWidth += parseInt($(this).width(), 10);
-		// });
-		// alert(totalWidth);
-		// $('.PointNum').css('width', totalWidth);
-
-		// function GetWidths(id){
-		// 	var i = 0;
-		// 	$(id).each(function(index){
-		// 		i += parseInt($(this).width(), 10);
-		// 	})
-		// 	return i;
-		// }
-		// var w = GetWidths('.PointNum img');
-		// $('.PointNum').css('width', w);
-
 	</script> 
 {% endblock %}
