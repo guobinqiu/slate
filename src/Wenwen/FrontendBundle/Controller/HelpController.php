@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Acl\Exception\Exception;
 
 class HelpController extends BaseController
 {
@@ -103,11 +104,16 @@ class HelpController extends BaseController
      */
     public function contactAction()
     {
-        $request = $this->get('request');
-        $content = $request->query->get('content');
-        $email = $request->query->get('email');
-        $code = $this->checkContact($content, $email);
-        return new Response($code);
+        try{
+            $request = $this->get('request');
+            $content = $request->query->get('content');
+            $email = $request->query->get('email');
+            $code = $this->checkContact($content, $email);
+            return new Response($code);
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
     }
 
     private function checkContact($content, $email)
@@ -147,7 +153,6 @@ class HelpController extends BaseController
             ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
             ->setSender($this->container->getParameter('webpower_signup_sender'))
             ->setTo($this->container->getParameter('cs_mail'))
-            ->setReplyTo(array($user->getEmail() => $user->getNick()))
             ->setBody('<html>' .
                 '<head></head>' .
                 '<body>' .
