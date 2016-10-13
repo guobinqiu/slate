@@ -124,7 +124,7 @@ class AdminProjectService
     * @param string $province
     * @param string $city
     */
-    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints = 0, $province, $city){
+    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints = 0){
 
         $status = 'success';
         $msg = '';
@@ -137,9 +137,9 @@ class AdminProjectService
             $affiliateProject->setOriginalFileName($originalFileName);
             $affiliateProject->setRealFullPath($fullPath);
             $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_INIT);
-            $affiliateProject->setCompletePoints($completePoints);
             $affiliateProject->setProvince($province);
             $affiliateProject->setCity($city);
+            $affiliateProject->setCompletePoints($completePoints);
             $this->em->persist($affiliateProject);
             $this->em->flush();
             $affiliateProjectId = $affiliateProject->getId();

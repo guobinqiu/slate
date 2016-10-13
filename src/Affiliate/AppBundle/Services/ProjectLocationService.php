@@ -87,34 +87,17 @@ class ProjectLocationService
      * @param $ipAddress
      * @return $cityName
      */
-    public function getClientCityName($ipAddress) {
+    private function getLocationName($ipAddress) {
         $this->logger->debug(__METHOD__ . ' - START - ');
-        $cityName = null;
-
+        $locationName = array();
         $responseBody = $this->getLocationJson($ipAddress);
         $this->logger->debug(__METHOD__ . ' responseBody=' . json_encode($responseBody));
         $rtn = $this->processResponseJson($responseBody);
         if($rtn['status']){
-            $cityName = $rtn['city'];
+            $locationName = array($rtn['province'], $rtn['city']);
         }
-
         $this->logger->debug(__METHOD__ . ' - END - ');
-        return $cityName;
-    }
-
-    public function getClientProvinceName($ipAddress) {
-        $this->logger->debug(__METHOD__ . ' - START - ');
-        $provinceName = null;
-
-        $responseBody = $this->getLocationJson($ipAddress);
-        $this->logger->debug(__METHOD__ . ' responseBody=' . json_encode($responseBody));
-        $rtn = $this->processResponseJson($responseBody);
-        if($rtn['status']){
-            $provinceName = $rtn['province'];
-        }
-
-        $this->logger->debug(__METHOD__ . ' - END - ');
-        return $provinceName;
+        return $locationName;
     }
 
     private function getLocationJson($ipAddress) {
@@ -185,22 +168,45 @@ class ProjectLocationService
         return $rtn;
     }
 
-    public function getProjectCity($affiliateProjectId){
-        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
-        return $rtn->getcity();
+    /**
+    * 将多维数组变成一维数组
+    * @param array
+    * @return array
+    */
+    private function arrayChange($array){
+        static $arrayTmp;
+        foreach($array as $v)
+        {
+            if(is_array($v)){
+                $this->arrayChange($v);
+            } else {
+                $arrayTmp[]=$v;
+            }
+        }
+        return $arrayTmp;
     }
 
-    public function getProjectProvince($affiliateProjectId){
-        $rtn = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
-        return $rtn->getprovince();
+    /**
+    * 匹配允许省份城市内的用户
+    * @param $ipAddress, $affiliateProjectId
+    * @return array entries
+    */   
+    public function confirmLocation($ipAddress, $affiliateProjectId){
+        $projectLocationdb = $this->em->createQuery('SELECT p.province, p.city from AffiliateAppBundle:AffiliateProject p where p.id = :id')->setParameter('id', $affiliateProjectId)->getResult();
+        
+        $getClientLocation = $this->getLocationName($ipAddress);         
+        $projectLocation = $this->arrayChange($projectLocationdb);
+        foreach($getClientLocation as $clientLocation){
+            $rtn = preg_grep("/$clientLocation/", $projectLocation);
+        }
+        return $rtn;
     }
-
-    //匹配范围内的用户    
-    public function confirmLocation($projectProvince, $projectCity, $clientCity, $clientProvince){
-        $projectLocation = explode(",", $projectProvince . "," . $projectCity);
-        return $rtn = preg_grep("/$clientProvince|$clientCity/", $projectLocation);
-    }
-
+    
+    /**
+    * 多城市多省份输入转换成数组
+    * @param $city or $province
+    * @return array
+    */ 
     private function checkMultLocationInput($location){
         $tmpArray = explode(",", $location);
         if(count($tmpArray) > 1){
@@ -226,7 +232,7 @@ class ProjectLocationService
     }
   
     //检查输入的省份是否正确
-    public function checkInputProvince($province){
+    private function checkInputProvince($province){
         $provinceArray = $this->checkMultLocationInput($province);
         if(is_array($provinceArray)){
             $status = 'success';
@@ -247,7 +253,7 @@ class ProjectLocationService
     }   
 
     //检查输入的城市是否正确
-    public function checkInputCity($city){
+    private function checkInputCity($city){
         $cityArray = $this->checkMultLocationInput($city);
         if(is_array($cityArray)){
             $status = 'success';
@@ -263,9 +269,26 @@ class ProjectLocationService
             return $status;
         } else {
             $checkCity = $this->em->getRepository('Wenwen\FrontendBundle\Entity\CityList')->findOneBy(array('cityName'=>$city));
-	    return $status = $this->checkInputError($checkCity);
+            return $status = $this->checkInputError($checkCity);
         }
     }
-    
+
+    /**
+     * 检查输入的City和Province内容是否正确
+     * @param $province, @city
+     * @return $status string
+     */ 
+    public function checkInputLocation($province, $city){
+        if(is_null($province)){
+            if(is_null($city)){
+                $status = 'success';
+            } else {
+                $status = $this->checkInputCity($city);                                                    
+            }
+        } else {
+            $status = $this->checkInputProvince($province);
+        }
+        return $status;
+    }    
 }
 

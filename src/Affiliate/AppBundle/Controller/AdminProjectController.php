@@ -57,9 +57,9 @@ class AdminProjectController extends Controller
                 // Get fields
                 $fieldFile = $form->get('urlFile');
                 $fieldRFQId = $form->get('RFQId');
-                $fieldCompletePoints = $form->get('CompletePoints');
                 $fieldProvince = $form->get('Province');
                 $fieldCity = $form->get('City');
+                $fieldCompletePoints = $form->get('CompletePoints');
 
                 $uploadedFile = $fieldFile->getData();
                 $RFQId = $fieldRFQId->getData();
@@ -74,39 +74,17 @@ class AdminProjectController extends Controller
                     $fullPath = $uploadDir . "/" . $realUploadName;
 
                     $adminProjectService = $this->get('app.admin_project_service');
-                    $adminLocationService = $this->get('app.ip_location_service');                   
+                    $adminLocationService = $this->get('app.ip_location_service');                  
+ 
                     // 改partnerId
-                    //检查输入的省份，城市
-
-                    if(is_null($province)){
-                        if(is_null($city)){
-                            $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
-                        } else {
-                            $status = $adminLocationService->checkInputCity($city);
-                            if('success' == $status){           
-                                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
-                            } else {
-                                 $rtn = array('status' => $status, 'msg' => "Input City Error");
-                            }
-                        }
+                    //检查输入的省份，城市                 
+                    $status = $adminLocationService->checkInputLocation($province, $city);
+                    if('success' == $status){
+                        $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints);
                     } else {
-                        $status = $adminLocationService->checkInputProvince($province);
-                        if('success' == $status){
-                            if(is_null($city)){                            
-                                $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
-                            } else {
-                                $status = $adminLocationService->checkInputCity($city);
-                                if('success' == $status){                                           
-                                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints, $province, $city);
-                                } else {
-                                    $rtn = array('status' => $status, 'msg' => "输入城市错误，请输入XX市");
-                                }   
-                           }
-                        } else {
-                            $rtn = array('status' => $status, 'msg' => "输入省份错误，请输入XX省");
-                        }  
-        
-                   }  
+                        $rtn = array('status' => $status, 'msg' => "输入城市/省份错误，请检查");   
+                    }
+                    
                   //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
                     // print 'status=' . $rtn['status'] . '<br>';
                     // print 'errmsg' . $rtn['errmsg'] . '<br>';

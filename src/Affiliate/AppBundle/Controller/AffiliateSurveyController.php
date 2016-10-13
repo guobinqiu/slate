@@ -30,28 +30,18 @@ class AffiliateSurveyController extends Controller
         	return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
         }
 
-        // 判断用户Location与项目中的Location是否一致
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
         $affiliateProjectLocationService = $this->get('app.ip_location_service');
-
-        $projectProvince = $affiliateProjectLocationService->getProjectProvince($affiliateProjectId);
-        $projectCity = $affiliateProjectLocationService->getProjectCity($affiliateProjectId);
-
-        $clientCity = $affiliateProjectLocationService->getClientCityName($request->getClientIp());
-        $clientProvince = $affiliateProjectLocationService->getClientProvinceName($request->getClientIp());
-
-        if(is_null($projectProvince) and is_null($projectCity)){
-            $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
+        
+        // 判断用户Location与项目中的Location是否一致       
+        $checkResult=$affiliateProjectLocationService->confirmLocation($request->getClientIp(),$affiliateProjectId);
+        if(empty($checkResult)){
+            $param = array(
+                'answer_status' => 'other'
+            );
+            return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
         } else {
-            $checkResult=$affiliateProjectLocationService->confirmLocation($projectProvince, $projectCity, $clientCity, $clientProvince);
-            if(empty($checkResult)){
-                $param = array(
-                    'answer_status' => 'other'
-                );
-                return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
-            } else {
-                $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
-            }
+            $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
         }
 
         if(is_null($redirectURL)){
