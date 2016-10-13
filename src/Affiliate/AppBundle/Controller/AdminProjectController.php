@@ -74,7 +74,7 @@ class AdminProjectController extends Controller
                     $fullPath = $uploadDir . "/" . $realUploadName;
 
                     $adminProjectService = $this->get('app.admin_project_service');
-                    $adminLocationService = $this->get('app.ip_location_service');                  
+                    $adminLocationService = $this->get('app.af_location_service');                  
  
                     // 改partnerId
                     //检查输入的省份，城市                 

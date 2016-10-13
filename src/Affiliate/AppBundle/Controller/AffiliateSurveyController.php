@@ -31,7 +31,7 @@ class AffiliateSurveyController extends Controller
         }
 
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
-        $affiliateProjectLocationService = $this->get('app.ip_location_service');
+        $affiliateProjectLocationService = $this->get('app.af_location_service');
         
         // 判断用户Location与项目中的Location是否一致       
         $checkResult=$affiliateProjectLocationService->confirmLocation($request->getClientIp(),$affiliateProjectId);
