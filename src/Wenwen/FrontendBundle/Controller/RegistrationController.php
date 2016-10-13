@@ -175,6 +175,7 @@ class RegistrationController extends BaseController
             '--confirmation_token='.$user->getConfirmationToken(),
         );
         $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
         $em->persist($job);
         $em->flush();
     }

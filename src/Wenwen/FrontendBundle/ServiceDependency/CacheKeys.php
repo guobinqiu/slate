@@ -8,4 +8,6 @@ namespace Wenwen\FrontendBundle\ServiceDependency;
 class CacheKeys {
     const PROVINCE_LIST = 'province_list';
     const CITY_LIST = 'city_list';
+    const LATEST_NEWS_LIST = 'latest_news_list';
+    const PRIZE_POINT_BALANCE = 'prize_point_balance';
 }
