@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 class HelpController extends BaseController
 {
@@ -109,7 +110,7 @@ class HelpController extends BaseController
         return new Response($code);
     }
 
-    public function checkContact($content, $email)
+    private function checkContact($content, $email)
     {
         $code = 0;
         //check content null
@@ -133,7 +134,7 @@ class HelpController extends BaseController
         $nick = $session->get('nick');
 
         //send email
-        $subject = "来自非91jili会员的咨询";
+        $subject = "来自非91wenwen会员的咨询";
         if ($nick) {
             $id = $session->get('uid');
             $em = $this->getDoctrine()->getManager();
@@ -141,20 +142,24 @@ class HelpController extends BaseController
             $subject = "来自" . $nick . " [" . $user->getEmail() . "] 的咨询";
         }
 
-        $transport = \Swift_SmtpTransport :: newInstance('smtp.exmail.qq.com', 25)->setUsername('contact@91jili.com')->setPassword('91jili');
-        $mailer = \Swift_Mailer :: newInstance($transport);
-        $message = \Swift_Message :: newInstance()->setSubject($subject)->setFrom(array (
-            'contact@91jili.com' => '积粒网'
-        ))->setTo('cs@91jili.com')->setBody('<html>' .
-            '<head></head>' .
-            '<body>' .
-            '咨询内容<br/>' .
-            $content . '<br/><br/>' .
-            '联系方式<br/>' .
-            $email . '<br/><br/>' .
-            '浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
-            '</body>' .
-            '</html>', 'text/html');
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom(array($this->container->getParameter('webpower_from') => '91问问调查网'))
+            ->setSender($this->container->getParameter('webpower_signup_sender'))
+            ->setTo($this->container->getParameter('cs_mail'))
+            ->setReplyTo(array($user->getEmail() => $user->getNick()))
+            ->setBody('<html>' .
+                '<head></head>' .
+                '<body>' .
+                '咨询内容<br/>' .
+                $content . '<br/><br/>' .
+                '联系方式<br/>' .
+                $email . '<br/><br/>' .
+                '浏览器<br/>'.$_SERVER['HTTP_USER_AGENT'] . '<br/>' .
+                '</body>' .
+                '</html>', 'text/html');
+
+        $mailer = $this->container->get('swiftmailer.mailer.webpower_signup_mailer');
         $flag = $mailer->send($message);
         if (!$flag) {
             $code = 4;
