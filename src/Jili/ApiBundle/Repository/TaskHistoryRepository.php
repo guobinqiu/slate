@@ -198,7 +198,7 @@ class TaskHistoryRepository extends EntityRepository
 //        $qb->andwhere('th.date BETWEEN :start AND :end');
 //
 //        $qb->setParameter('taskType', TaskType::RENTENTION);
-//        $qb->setParameter('categoryType', CategoryType::EVENT_RAFFLE);
+//        $qb->setParameter('categoryType', CategoryType::EVENT_LOTTERY);
 //        $qb->setParameter('points', PrizeItem::FIRST_PRIZE_POINTS);
 //        $qb->setParameter('start', date('Y-m-d 00:00:00', strtotime('first day of this month', time())));
 //        $qb->setParameter('end', date('Y-m-d 23:59:59', strtotime('last day of this month', time())));

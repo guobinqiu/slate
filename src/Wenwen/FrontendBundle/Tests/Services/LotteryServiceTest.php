@@ -10,10 +10,10 @@ use Wenwen\FrontendBundle\DataFixtures\ORM\LoadPrizeItemData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 
-class PrizeItemServiceTest extends WebTestCase
+class LotteryServiceTest extends WebTestCase
 {
     private $em;
-    private $prizeItemService;
+    private $lotteryService;
 
     /**
      * {@inheritDoc}
@@ -34,11 +34,11 @@ class PrizeItemServiceTest extends WebTestCase
         $executor = new ORMExecutor($em, $purger);
         $executor->execute($loader->getFixtures());
 
-        $prizeItemService = $container->get('app.prize_item_service');
-        $prizeItemService->resetPointBalance();
+        $lotteryService = $container->get('app.lottery_service');
+        $lotteryService->resetPointBalance();
 
         $this->em = $em;
-        $this->prizeItemService = $prizeItemService;
+        $this->lotteryService = $lotteryService;
     }
 
     /**
@@ -52,78 +52,91 @@ class PrizeItemServiceTest extends WebTestCase
 
     public function testPointBalance()
     {
-        //$this->prizeItemService->resetPointBalance();
-        $this->assertEquals(0, $this->prizeItemService->getPointBalance());
+        //$this->lotteryService->resetPointBalance();
+        $this->assertEquals(0, $this->lotteryService->getPointBalance());
 
-        $this->prizeItemService->addPointBalance(10);
-        $this->prizeItemService->addPointBalance(10);
-        $this->assertEquals(20, $this->prizeItemService->getPointBalance());
+        $this->lotteryService->addPointBalance(10);
+        $this->lotteryService->addPointBalance(10);
+        $this->assertEquals(20, $this->lotteryService->getPointBalance());
 
-        $this->prizeItemService->minusPointBalance(1);
-        $this->assertEquals(19, $this->prizeItemService->getPointBalance());
+        $this->lotteryService->minusPointBalance(1);
+        $this->assertEquals(19, $this->lotteryService->getPointBalance());
     }
 
     public function testGetPrizeItem()
     {
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeItemService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 0);
+            $prizeItem = $this->lotteryService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 0);
             $this->assertEquals(0, $prizeItem->getPoints());
             $this->assertLessThanOrEqual(100, $prizeItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeItemService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 1);
+            $prizeItem = $this->lotteryService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 1);
             $this->assertLessThanOrEqual(1, $prizeItem->getPoints());
             $this->assertLessThanOrEqual(8100, $prizeItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeItemService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 10);
+            $prizeItem = $this->lotteryService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 10);
             $this->assertLessThanOrEqual(10, $prizeItem->getPoints());
             $this->assertLessThanOrEqual(9600, $prizeItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeItemService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 100);
+            $prizeItem = $this->lotteryService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 100);
             $this->assertLessThanOrEqual(100, $prizeItem->getPoints());
             $this->assertLessThanOrEqual(9990, $prizeItem->getMax());
         }
 
         for ($i=0; $i<1000; $i++) {
-            $prizeItem = $this->prizeItemService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 500);
+            $prizeItem = $this->lotteryService->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, 500);
             $this->assertLessThanOrEqual(500, $prizeItem->getPoints());
             $this->assertLessThanOrEqual(9999, $prizeItem->getMax());
         }
     }
 
-    public function testGetPrizePointsFromSmallBox()
+    public function testAddPointsByPrizeBoxSmall()
     {
-        $this->prizeItemService->addPointBalance(999);
+        $this->lotteryService->addPointBalance(99999999);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-        $before = $this->prizeItemService->getPointBalance();
+        $before = $this->lotteryService->getPointBalance();
         $points = 0;
         for ($i=0; $i<100; $i++) {
-            $points += $this->prizeItemService->smallPrizeBox($user);
+            $points += $this->lotteryService->addPointsByPrizeBoxSmall($user);
         }
-        $after = $this->prizeItemService->getPointBalance();
+        $after = $this->lotteryService->getPointBalance();
         $this->assertEquals($before - $after, $points);
     }
 
+    public function testLotteryTicket()
+    {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
+
+        $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_BIG);
+        $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
+        $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
+        $this->assertEquals(3, $this->lotteryService->getLotteryTicketNumberLeft($user));
+
+        $this->lotteryService->deleteLotteryTicket($user);
+        $this->assertEquals(2, $this->lotteryService->getLotteryTicketNumberLeft($user));
+    }
+
     // 由于时间比较长，测试通过后注释掉了，如果你要修改bigPrizeBox方法，可在本地把注释放开
-//    public function testGetPrizePointsFromBigBox()
+//    public function testAddPointsByPrizeBoxBig()
 //    {
-//        $this->prizeItemService->addPointBalance(99999999);
+//        $this->lotteryService->addPointBalance(99999999);
 //        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
 //        $firstPrizeItem = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')
 //            ->findOneByPoints(PrizeItem::FIRST_PRIZE_POINTS);
 //        echo PHP_EOL . 'before quantity=' . $firstPrizeItem->getQuantity();
-//        $before = $this->prizeItemService->getPointBalance();
+//        $before = $this->lotteryService->getPointBalance();
 //        $points = 0;
 //        //万分之一的大奖概率但不等于说10000次内必中1次,20000的话命中率高点
 //        for ($i=0; $i<20000; $i++) {
-//            $points += $this->prizeItemService->bigPrizeBox($user);
+//            $points += $this->lotteryService->addPointsByPrizeBoxBig($user);
 //        }
-//        $after = $this->prizeItemService->getPointBalance();
+//        $after = $this->lotteryService->getPointBalance();
 //        $this->assertEquals($before - $after, $points);
 //        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
 //    }
