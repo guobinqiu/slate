@@ -42,6 +42,12 @@ class ProjectLocationService
         $this->httpClient = $httpClient;
     }
 
+    public function setDummy($dummy, $cityName, $provinceName){
+        $this->dummy = $dummy;
+        $this->dummyCityName = $cityName;
+        $this->dummyProvinceName = $provinceName;
+    }
+
     /**
      * 通过IP地址, 调用第三方API，获取城市名称 只针对中国大陆地区
      * @param $ipAddress
@@ -167,7 +173,7 @@ class ProjectLocationService
     * @param $city or $province
     * @return array
     */ 
-    private function checkMultLocationInput($location){
+    private function checkMultiLocationInput($location){
         $tmpArray = explode(",", $location);
         if(count($tmpArray) > 1){
             return $locationArray = $tmpArray;
@@ -193,7 +199,7 @@ class ProjectLocationService
   
     //检查输入的省份是否正确
     private function checkInputProvince($province){
-        $provinceArray = $this->checkMultLocationInput($province);
+        $provinceArray = $this->checkMultiLocationInput($province);
         if(is_array($provinceArray)){
             $status = 'success';
             foreach ($provinceArray as $provinceKey){
@@ -214,7 +220,7 @@ class ProjectLocationService
 
     //检查输入的城市是否正确
     private function checkInputCity($city){
-        $cityArray = $this->checkMultLocationInput($city);
+        $cityArray = $this->checkMultiLocationInput($city);
         if(is_array($cityArray)){
             $status = 'success';
             foreach ($cityArray as $cityKey){
@@ -246,7 +252,14 @@ class ProjectLocationService
                 $status = $this->checkInputCity($city);                                                    
             }
         } else {
-            $status = $this->checkInputProvince($province);
+            if(is_null($city)){
+                $status = $this->checkInputProvince($province);
+            } else {
+                $status = $this->checkInputCity($city);
+                if('success' == $status){
+                    $status = $this->checkInputProvince($province);
+                }
+            }
         }
         return $status;
     }    
