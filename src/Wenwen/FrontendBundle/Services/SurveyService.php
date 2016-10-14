@@ -230,7 +230,20 @@ class SurveyService
                      "quota_id": "10",
                      "cpi": "0.00",
                      "ir": "80",
-                     "loi": "10",
+                     "loi": "31",
+                     "title": "Fulcrum Dummy Survey 4",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "300"}
+                     }
+                   },
+                   {
+                     "survey_id": "4",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "20",
                      "title": "Fulcrum Dummy Survey 4",
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
@@ -460,6 +473,7 @@ class SurveyService
             }
             //$this->logger->info($result);
 
+            $answerableSurveyCount = 0;
             $fulcrum_researches = $sop['data']['fulcrum_research'];
             if (count($fulcrum_researches) > 0) {
                 foreach ($fulcrum_researches as $fulcrum_research) {
@@ -469,6 +483,7 @@ class SurveyService
                         $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                         array_unshift($html_survey_list, $html);
+                        $answerableSurveyCount++;
                     }
                 }
             }
@@ -483,6 +498,7 @@ class SurveyService
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                         if ($cint_research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
                         } else {
                             array_push($html_survey_list, $html);
                         }
@@ -500,6 +516,7 @@ class SurveyService
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
                         } else {
                             array_push($html_survey_list, $html);
                         }
@@ -525,7 +542,8 @@ class SurveyService
             if (count($profilings) > 0) {
                 foreach ($profilings as $profiling) {
                     $profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling));
+                    // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                     array_unshift($html_survey_list, $html);
                 }
             }

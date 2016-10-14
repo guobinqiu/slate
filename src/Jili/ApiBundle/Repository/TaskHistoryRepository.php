@@ -3,6 +3,9 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
+use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Entity\TaskType;
 
 class TaskHistoryRepository extends EntityRepository
 {
@@ -185,4 +188,21 @@ class TaskHistoryRepository extends EntityRepository
         return  $q_update->execute();
     }
 
+//    public function isFirstPrizeAvailable()
+//    {
+//        $qb = $this->createQueryBuilder('th');
+//
+//        $qb->where('th.task_type = :taskType');
+//        $qb->andWhere('th.category_type = :categoryType');
+//        $qb->andWhere('th.point = :points');
+//        $qb->andwhere('th.date BETWEEN :start AND :end');
+//
+//        $qb->setParameter('taskType', TaskType::RENTENTION);
+//        $qb->setParameter('categoryType', CategoryType::EVENT_LOTTERY);
+//        $qb->setParameter('points', PrizeItem::FIRST_PRIZE_POINTS);
+//        $qb->setParameter('start', date('Y-m-d 00:00:00', strtotime('first day of this month', time())));
+//        $qb->setParameter('end', date('Y-m-d 23:59:59', strtotime('last day of this month', time())));
+//
+//        return $qb->getQuery()->getOneOrNullResult() == null;
+//    }
 }
