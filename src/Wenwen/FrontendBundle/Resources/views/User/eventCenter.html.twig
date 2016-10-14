@@ -1,0 +1,47 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}活动中心{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/eventCenter.css') }} " type="text/css">
+    <!--[if lt IE 8]>
+    <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
+    <![endif]-->
+{% endblock %}
+
+{% block header %}
+    {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<a href="{{ path('_luckyDraw') }}">
+			<div class="eventItem row">
+				<div class="eventImg col-sm-7 col-xs-12 pull-left"><img src="/img/event/luckyDrawBr.jpg" alt="幸运抽奖券" class="img-responsive center-block pull-right"></div>
+				<div class="eventText col-sm-5 col-xs-12 pull-left">
+					<h3>幸运抽奖券</h3>
+					<p>每完成回答一份商业问卷，都会获得一枚抽奖券；每完成一题属性问卷，都有机会获得一枚抽奖券；每成功邀请一个好友完成注册，都会获得一枚抽奖券。</p>
+				</div>
+				<span class="status"><i class="fa fa-clock-o" aria-hidden="true"></i>活动正在进行</span>
+			</div>
+		</a>
+		<a href="{{ path('_user_invite') }}">
+			<div class="eventItem row">
+				<div class="eventImg col-sm-7 col-xs-12 pull-left"><img src="/img/event/inviteBr.jpg" alt="邀请好友" class="img-responsive center-block pull-right"></div>
+				<div class="eventText col-sm-5 col-xs-12 pull-left">
+					<h3>邀请好友帮你赚钱</h3>
+					<p>被邀请的好友注册成功，您可获得100积分奖励。您的好友每回答一份【商业类问卷】，该好友获得全部积分，而您可获得该好友所获积分的10%！</p>
+				</div>
+				<span class="status"><i class="fa fa-clock-o" aria-hidden="true"></i>活动正在进行</span>
+			</div>
+		</a>
+	</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+{% block javascript %}
+    
+{% endblock %}

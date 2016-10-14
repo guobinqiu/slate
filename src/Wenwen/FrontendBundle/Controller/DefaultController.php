@@ -35,12 +35,21 @@ class DefaultController extends BaseController
         return $this->render('WenwenFrontendBundle:Exception:maintain91jili.html.twig');
     }
 
-	/**
+    /**
      * @Route("/luckyDraw", name="_luckyDraw")
      * @Template
      */
     public function luckyDrawAction()
     {
         return $this->render('WenwenFrontendBundle:User:luckyDraw.html.twig');
+    }
+
+	/**
+     * @Route("/eventCenter", name="_eventCenter")
+     * @Template
+     */
+    public function eventCenterAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:eventCenter.html.twig');
     }
 }
