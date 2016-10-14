@@ -84,7 +84,9 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $request->query->get('cint_research')));
+        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
+            'cint_research' => $request->query->get('cint_research')
+        ));
     }
 
     /**
@@ -92,6 +94,12 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function endlinkAction(Request $request)
     {
+        // 获得一次抽奖机会
+        $this->get('app.survey_service')->createLotteryTicketForResearchSurvey(
+            $this->getCurrentUser(),
+            $request->get('answer_status')
+        );
+
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
             'answer_status' => $request->get('answer_status'),
             'survey_id' => $request->get('survey_id'),

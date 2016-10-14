@@ -13,6 +13,7 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
             <argument type="service" id="templating" />
+            <argument type="service" id="app.lottery_service" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
@@ -59,6 +60,7 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="logger" />
             <argument type="service" id="app.latest_news_service" />
+            <argument type="service" id="app.lottery_service" />
         </service>
 
         <service id="app.latest_news_service" class="Wenwen\FrontendBundle\Services\LatestNewsService">

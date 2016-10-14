@@ -16,7 +16,9 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function informationAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $request->query->get('fulcrum_research')));
+        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array(
+            'fulcrum_research' => $request->query->get('fulcrum_research')
+        ));
     }
 
     /**
@@ -24,7 +26,12 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function endlinkAction()
     {
+        // 获得一次抽奖机会
+        $this->get('app.survey_service')->createLotteryTicketForResearchSurvey(
+            $this->getCurrentUser(),
+            $this->container->getParameter('research_survey_status_complete')
+        );
+
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig');
     }
-
 }

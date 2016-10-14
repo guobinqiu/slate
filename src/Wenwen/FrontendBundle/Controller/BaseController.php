@@ -36,4 +36,14 @@ class BaseController extends Controller
     {
         return !$request->cookies->has('uid');
     }
+
+    protected function getCurrentUser()
+    {
+        $user = null;
+        $session = $this->getRequest()->getSession();
+        if ($session->has('uid')) {
+            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
+        }
+        return $user;
+    }
 }

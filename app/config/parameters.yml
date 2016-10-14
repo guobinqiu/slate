@@ -394,3 +394,12 @@ parameters:
     weibo_appkey: af3e112c53a2357b201f3ddd6c8e69e7
     weibo_callback: %union_base_url%/auth/weibo/callback
 
+    #回答商业问卷后返回的状态
+    research_survey_status_complete: complete
+    research_survey_status_screenout: screenout
+    research_survey_status_quotafull: quotafull
+    research_survey_status_error: error
+
+    #回答属性问卷后返回的状态
+    profile_questionnaire_status_complete: complete
+    profile_questionnaire_status_quit: quit

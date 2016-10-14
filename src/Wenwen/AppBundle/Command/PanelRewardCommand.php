@@ -18,16 +18,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $date = $input->getArgument('date');
-
-        $env = $this->getContainer()->get('kernel')->getEnvironment();
-
-        // options
-        $definitive = ($input->hasOption('definitive')) ? true : false;
-
-        $this->logger->info('Start executing');
-        $this->logger->info('definitive= ' . ($definitive ? 'true' : 'false'));
-        $this->logger->info('date=' . $date);
+        $date = $input->getArgument('date');;
 
         // configs
         $url = $this->url();
@@ -109,24 +100,15 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     '您的好友' . $user->getNick() . '回答了一份SOP商业问卷'
                 );
 
+                $dbh->commit();
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
                 $notice_flag = true;
                 $dbh->rollBack();
-                throw $e;
             }
 
-            // rollBack or commit
-            if ($definitive) {
-                $this->logger->info('definitive true: commit');
-                $dbh->commit();
-            } else {
-                $this->logger->info('definitive false: rollback');
-                $dbh->rollBack();
-            }
-
-            $em->flush();
-            $em->clear();
+            // 给奖池注入积分(5%)
+            $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($this->point($history) * 0.05));
 
             $this->logger->info('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
         }

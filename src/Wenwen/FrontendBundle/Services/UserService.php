@@ -7,6 +7,7 @@ use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
@@ -22,6 +23,7 @@ class UserService
     private $serializer;
     private $parameterService;
     private $latestNewsService;
+    private $lotteryService;
 
     /**
      * @param EntityManager $em
@@ -36,7 +38,8 @@ class UserService
                                 Serializer $serializer,
                                 ParameterService $parameterService,
                                 LoggerInterface $logger,
-                                LatestNewsService $latestNewsService
+                                LatestNewsService $latestNewsService,
+                                LotteryService $lotteryService
     ) {
         $this->em = $em;
         $this->redis = $redis;
@@ -44,6 +47,7 @@ class UserService
         $this->parameterService = $parameterService;
         $this->logger = $logger;
         $this->latestNewsService = $latestNewsService;
+        $this->lotteryService = $lotteryService;
     }
 
     /**
@@ -86,6 +90,9 @@ class UserService
             TaskType::RENTENTION,
             '您的好友' . $user->getNick(). '完成了注册'
         );
+
+        // 获得一次抽奖机会
+        $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
 
         return $user;
     }

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -139,6 +140,9 @@ class RegistrationController extends BaseController
             TaskType::RENTENTION,
             '您的好友' . $user->getNick(). '完成了注册'
         );
+
+        // 获得一次抽奖机会
+        $this->get('app.lottery_service')->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
 
         // 推送用户基本属性
         $this->pushBasicProfile($user, $em);
