@@ -52,6 +52,7 @@ class SopDeliveryNotification implements DeliveryNotification
             '--survey_point='.$respondent['extra_info']['point']['complete'],
             '--survey_length='.$respondent['loi'],
             '--subject=亲爱的'.$name1.'，您的新问卷来了！',
+            '--survey_id='.$respondent['survey_id'],
             //'--channel='.$channel,//sendcloud
         ), true, '91wenwen');
         $this->em->persist($job);
