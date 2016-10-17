@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Cookie;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -185,7 +186,8 @@ class QQLoginController extends BaseController
                         $request->getSession()->get('inviteId'),
                         $this->allowRewardInviter($request)
                     );
-                    $this->pushBasicProfile($user, $em);
+                    $this->get('app.lottery_service')->createLotteryTicket($user, PrizeItem::TYPE_SMALL, 'qq注册');// 获得一次抽奖机会
+                    $this->pushBasicProfile($user);// 推送用户基本属性
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -271,12 +273,13 @@ class QQLoginController extends BaseController
         return json_decode($resBody);
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

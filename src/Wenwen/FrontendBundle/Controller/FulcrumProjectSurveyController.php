@@ -27,9 +27,10 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     public function endlinkAction()
     {
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createLotteryTicketForResearchSurvey(
+        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
             $this->getCurrentUser(),
-            $this->container->getParameter('research_survey_status_complete')
+            $this->container->getParameter('research_survey_status_complete'),
+            'fulcrum商业问卷complete'
         );
 
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig');

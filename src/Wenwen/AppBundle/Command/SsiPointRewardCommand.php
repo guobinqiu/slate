@@ -46,7 +46,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
 
-        $notice_flag = false;
+        $hasErrors = false;
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         while ($row = $iterator->nextConversion()) {
@@ -105,22 +105,23 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     '您的好友' . $user->getNick() . '回答了一份SSI商业问卷'
                 );
 
-                $this->recordParticipationHistory($ssiRespondent, $row, $em);
+                $this->recordParticipationHistory($ssiRespondent, $row);
 
-                $em->flush();
                 $dbh->commit();
 
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
-                $notice_flag = true;
+                $hasErrors = true;
                 $dbh->rollBack();
             }
 
-            // 给奖池注入积分(5%)
-            $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($ssiProjectConfig['point'] * 0.05));
+            if (!$hasErrors) {
+                // 给奖池注入积分(5%)
+                $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($ssiProjectConfig['point'] * 0.05));
+            }
         } // while
 
-        if ($notice_flag) {
+        if ($hasErrors) {
             $content = date('Y-m-d H:i:s');
             $subject = 'Panel reward ssi survey point fail, please check log';
             $this->notice($content, $subject);
@@ -156,8 +157,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $this->logger = $logger;
     }
 
-    public function recordParticipationHistory($ssiRespondent, $row, $em)
+    public function recordParticipationHistory($ssiRespondent, $row)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
         $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE));
 
         $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
@@ -166,5 +168,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $history->setCompletedAt($dt);
 
         $em->persist($history);
+        $em->flush();
     }
 }

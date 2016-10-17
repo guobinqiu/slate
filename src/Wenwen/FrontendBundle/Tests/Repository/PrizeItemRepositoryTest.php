@@ -45,31 +45,31 @@ class PrizeItemRepositoryTest extends KernelTestCase
 
     public function testGetPrizeItems()
     {
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_BIG, 300000);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_BIG, 300000);
         $this->assertEquals(6, count($prizeItems));
         $this->assertEquals(10000, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_BIG, 500);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_BIG, 500);
         $this->assertEquals(5, count($prizeItems));
         $this->assertEquals(9999, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_BIG, 499);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_BIG, 499);
         $this->assertEquals(4, count($prizeItems));
         $this->assertEquals(9990, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_BIG, 99);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_BIG, 99);
         $this->assertEquals(3, count($prizeItems));
         $this->assertEquals(9600, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_SMALL, 0);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_SMALL, 0);
         $this->assertEquals(1, count($prizeItems));
         $this->assertEquals(10, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_SMALL, 1);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_SMALL, 1);
         $this->assertEquals(2, count($prizeItems));
         $this->assertEquals(100, $prizeItems[0]->getMax());
 
-        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::PRIZE_BOX_SMALL, 10);
+        $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems(PrizeItem::TYPE_SMALL, 10);
         $this->assertEquals(2, count($prizeItems));
         $this->assertEquals(100, $prizeItems[0]->getMax());
     }

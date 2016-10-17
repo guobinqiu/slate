@@ -49,6 +49,12 @@ class LotteryTicket
      */
     private $deletedAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=100, nullable=true)
+     */
+    private $comment;
 
     /**
      * Get id
@@ -150,5 +156,28 @@ class LotteryTicket
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param string $comment
+     * @return LotteryTicket
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

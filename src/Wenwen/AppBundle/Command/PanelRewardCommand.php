@@ -37,7 +37,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $dbh->getConfiguration()->setSQLLogger(null);
 
         $num = 0;
-        $notice_flag = false;
+        $hasErrors = false;
 
         //start inserting
         foreach ($history_list as $history) {
@@ -103,17 +103,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->commit();
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
-                $notice_flag = true;
+                $hasErrors = true;
                 $dbh->rollBack();
             }
 
-            // 给奖池注入积分(5%)
-            $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($this->point($history) * 0.05));
+            if (!$hasErrors) {
+                // 给奖池注入积分(5%)
+                $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($this->point($history) * 0.05));
+            }
 
             $this->logger->info('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
         }
 
-        if ($notice_flag) {
+        if ($hasErrors) {
             $content = date('Y-m-d H:i:s');
             $subject = 'Panel reward point fail, please check email or log at web server';
             $this->notice($content, $subject);

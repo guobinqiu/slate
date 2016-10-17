@@ -27,14 +27,17 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function endlinkAction(Request $request)
     {
+        $anwerStatus = $request->get('answer_status');
+
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createLotteryTicketForResearchSurvey(
+        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
             $this->getCurrentUser(),
-            $request->get('answer_status')
+            $anwerStatus,
+            'sop商业问卷' . $anwerStatus
         );
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
+            'answer_status' => $anwerStatus,
             'survey_id' => $request->get('survey_id'),
         ));
     }
@@ -45,9 +48,10 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     public function profileQuestionnaireEndlinkCompleteAction()
     {
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createLotteryTicketForProfileQuestionnaire(
+        $this->get('app.lottery_service')->createLotteryTicket(
             $this->getCurrentUser(),
-            $this->container->getParameter('profile_questionnaire_status_complete')
+            PrizeItem::TYPE_SMALL,
+            'sop属性问卷complete'
         );
 
         return $this->redirect($this->generateUrl('_homepage'));
@@ -58,12 +62,6 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function profileQuestionnaireEndlinkQuitAction()
     {
-        // 获得一次抽奖机会
-        $this->get('app.survey_service')->createLotteryTicketForProfileQuestionnaire(
-            $this->getCurrentUser(),
-            $this->container->getParameter('profile_questionnaire_status_quit')
-        );
-
         return $this->redirect($this->generateUrl('_homepage'));
     }
 }

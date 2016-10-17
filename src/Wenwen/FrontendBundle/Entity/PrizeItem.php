@@ -5,14 +5,19 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * 奖池.
+ *
  * @ORM\Table(name="prize_items")
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\PrizeItemRepository")
  */
 class PrizeItem
 {
-    const PRIZE_BOX_BIG = '大奖池';
-    const PRIZE_BOX_SMALL = '小奖池';
+    const TYPE_BIG = '大奖池';
+    const TYPE_SMALL = '小奖池';
     const FIRST_PRIZE_POINTS = 300000;
+    const POINT_BALANCE_BASE = 500;
+    const POINT_BALANCE_MIN = 0;
+    const POINT_BALANCE_MAX = 99999999;
 
     /**
      * @var integer

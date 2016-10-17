@@ -643,27 +643,13 @@ class SurveyService
      * @param User $user
      * @param $answerStatuts
      */
-    public function createLotteryTicketForResearchSurvey(User $user, $answerStatus) {
+    public function createResearchSurveyLotteryTicket(User $user, $answerStatus, $comment) {
         if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_BIG);
+            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_BIG, $comment);
         } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
+            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL, $comment);
         } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
-        }
-    }
-
-    /**
-     * 回答属性问卷后得到抽奖机会.
-     *
-     * @param User $user
-     * @param $answerStatus
-     */
-    public function createLotteryTicketForProfileQuestionnaire(User $user, $answerStatus) {
-        if ($answerStatus == $this->parameterService->getParameter('profile_questionnaire_status_complete')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_BIG);
-        } elseif ($answerStatus == $this->parameterService->getParameter('profile_questionnaire_status_quit')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::PRIZE_BOX_SMALL);
+            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL, $comment);
         }
     }
 

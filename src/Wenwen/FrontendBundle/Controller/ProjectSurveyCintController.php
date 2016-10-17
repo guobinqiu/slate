@@ -94,14 +94,17 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function endlinkAction(Request $request)
     {
+        $anwerStatus = $request->get('answer_status');
+
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createLotteryTicketForResearchSurvey(
+        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
             $this->getCurrentUser(),
-            $request->get('answer_status')
+            $anwerStatus,
+            'cint商业问卷' . $anwerStatus
         );
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
+            'answer_status' => $anwerStatus,
             'survey_id' => $request->get('survey_id'),
         ));
     }

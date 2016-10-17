@@ -57,19 +57,19 @@ class LotteryService
      * @param User $user
      * @return int
      */
-    public function addPointsByPrizeBoxBig(User $user)
+    public function addPointsBig(User $user)
     {
-        $prizeItem = $this->getPrizeItem(PrizeItem::PRIZE_BOX_BIG, $this->getPointBalance());
+        $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_BIG, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
             if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
                 if ($prizeItem->getQuantity() == 0) {
                     $this->logger->info('userid=' . $user->getId() . '杯具了，中了头奖，但很遗憾由于库存不足作废');
-                    return $this->addPointsByPrizeBoxBig($user);//再抽一次
+                    return $this->addPointsBig($user);//再抽一次
                 }
                 $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
             }
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_BIG);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::TYPE_BIG);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -82,12 +82,12 @@ class LotteryService
      * @param User $user
      * @return int
      */
-    public function addPointsByPrizeBoxSmall(User $user)
+    public function addPointsSmall(User $user)
     {
-        $prizeItem = $this->getPrizeItem(PrizeItem::PRIZE_BOX_SMALL, $this->getPointBalance());
+        $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::PRIZE_BOX_SMALL);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::TYPE_SMALL);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -119,13 +119,27 @@ class LotteryService
     }
 
     /**
+     * 设置奖池积分.
+     *
+     * @param $points
+     */
+    public function setPointBalance($points)
+    {
+        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, $points);
+    }
+
+    /**
      * 增加奖池积分.
      *
      * @param int $points
      */
     public function addPointBalance($points)
     {
-        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, $this->getPointBalance() + $points);
+        $points = $this->getPointBalance() + $points;
+        if ($points > PrizeItem::POINT_BALANCE_MAX) {
+            $points = PrizeItem::POINT_BALANCE_MAX;
+        }
+        $this->setPointBalance($points);
     }
 
     /**
@@ -135,15 +149,19 @@ class LotteryService
      */
     public function minusPointBalance($points)
     {
-        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, $this->getPointBalance() - $points);
+        $points = $this->getPointBalance() - $points;
+        if ($points < PrizeItem::POINT_BALANCE_MIN) {
+            $points = PrizeItem::POINT_BALANCE_MIN;
+        }
+        $this->setPointBalance($points);
     }
 
     /**
-     * 奖池积分清零.
+     * 重置奖池积分.
      */
     public function resetPointBalance()
     {
-        $this->redis->set(CacheKeys::PRIZE_POINT_BALANCE, 0);
+        $this->setPointBalance(PrizeItem::POINT_BALANCE_BASE);
     }
 
     /**
@@ -151,12 +169,14 @@ class LotteryService
      *
      * @param User $user
      * @param $type
+     * @param null $comment
      */
-    public function createLotteryTicket(User $user, $type)
+    public function createLotteryTicket(User $user, $type, $comment = null)
     {
         $lotteryTicket = new LotteryTicket();
         $lotteryTicket->setUserId($user->getId());
         $lotteryTicket->setType($type);
+        $lotteryTicket->setComment($comment);
         $lotteryTicket->setCreatedAt(new \DateTime());
         $this->em->persist($lotteryTicket);
         $this->em->flush();
