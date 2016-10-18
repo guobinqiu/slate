@@ -117,7 +117,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
             if (!$hasErrors) {
                 // 给奖池注入积分(5%)
-                $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($ssiProjectConfig['point'] * 0.05));
+                $this->getContainer()->get('app.prize_service')->addPointBalance(intval($ssiProjectConfig['point'] * 0.05));
             }
         } // while
 

@@ -209,9 +209,9 @@ class User
     private $userProfile;
 
     /**
-     * @ORM\OneToMany(targetEntity="LotteryTicket", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="PrizeTicket", mappedBy="user")
      */
-    private $lotteryTickets;
+    private $prizeTickets;
 
     /**
      * 注册激活token
@@ -251,7 +251,7 @@ class User
         $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
         $this->points = self::POINT_EMPTY;
         $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
-        $this->lotteryTickets = new ArrayCollection();
+        $this->prizeTickets = new ArrayCollection();
     }
 
     /**
@@ -911,11 +911,16 @@ class User
         return new \DateTime() > $this->resetPasswordTokenExpiredAt;
     }
 
-    public function getUnusedLotteryTickets()
+    /**
+     * 检索出该用户所有未使用过的奖券.
+     *
+     * @return \Doctrine\Common\Collections\Collection|static
+     */
+    public function getUnusedPrizeTickets()
     {
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->isNull('deletedAt'));
 
-        return $this->lotteryTickets->matching($criteria);
+        return $this->prizeTickets->matching($criteria);
     }
 }

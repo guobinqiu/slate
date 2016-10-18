@@ -97,7 +97,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $anwerStatus = $request->get('answer_status');
 
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
+        $this->get('app.survey_service')->createPrizeTicketForResearchSurvey(
             $this->getCurrentUser(),
             $anwerStatus,
             'cint商业问卷' . $anwerStatus

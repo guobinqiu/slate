@@ -104,7 +104,7 @@ class LatestNewsService
                     case CategoryType::EVENT_INVITE_SURVEY:
                         $message .= '好友答问卷';
                         break;
-                    case CategoryType::EVENT_LOTTERY:
+                    case CategoryType::EVENT_PRIZE:
                         $message .= '抽奖';
                 }
         }

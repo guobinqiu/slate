@@ -5,12 +5,12 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 目前只用作抽奖的计数，暂不考虑生成票码.
+ * 奖券
  *
- * @ORM\Table(name="lottery_tickets")
+ * @ORM\Table(name="prize_tickets")
  * @ORM\Entity
  */
-class LotteryTicket
+class PrizeTicket
 {
     /**
      * @var integer
@@ -22,7 +22,7 @@ class LotteryTicket
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="LotteryTicket")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="PrizeTicket")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -68,8 +68,8 @@ class LotteryTicket
     /**
      * Set user
      *
-     * @param integer $user
-     * @return LotteryTicket
+     * @param User $user
+     * @return PrizeTicket
      */
     public function setUser(User $user)
     {
@@ -92,7 +92,7 @@ class LotteryTicket
      * Set type
      *
      * @param string $type
-     * @return LotteryTicket
+     * @return PrizeTicket
      */
     public function setType($type)
     {
@@ -104,7 +104,7 @@ class LotteryTicket
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -115,7 +115,7 @@ class LotteryTicket
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return LotteryTicket
+     * @return PrizeTicket
      */
     public function setCreatedAt($createdAt)
     {
@@ -138,7 +138,7 @@ class LotteryTicket
      * Set deletedAt
      *
      * @param \DateTime $deletedAt
-     * @return LotteryTicket
+     * @return PrizeTicket
      */
     public function setDeletedAt($deletedAt)
     {
@@ -161,7 +161,7 @@ class LotteryTicket
      * Set comment
      *
      * @param string $comment
-     * @return LotteryTicket
+     * @return PrizeTicket
      */
     public function setComment($comment)
     {

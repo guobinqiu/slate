@@ -27,7 +27,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     public function endlinkAction()
     {
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
+        $this->get('app.survey_service')->createPrizeTicketForResearchSurvey(
             $this->getCurrentUser(),
             $this->container->getParameter('research_survey_status_complete'),
             'fulcrum商业问卷complete'

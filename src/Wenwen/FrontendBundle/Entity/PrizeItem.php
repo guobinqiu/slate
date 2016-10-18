@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * 奖池.
+ * 奖池
  *
  * @ORM\Table(name="prize_items")
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\PrizeItemRepository")

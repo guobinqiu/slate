@@ -62,18 +62,24 @@ class SurveyServiceTest extends WebTestCase
         $this->assertTrue(is_array($html_survey_list));
     }
 
-    public function testCreateResearchSurveyLotteryTicket()
+    public function testCreatePrizeTicketForResearchSurvey()
     {
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findAll()[0];
-        $this->surveyService->createResearchSurveyLotteryTicket($user, 'complete', 'complete');
-        $this->surveyService->createResearchSurveyLotteryTicket($user, 'screenout', 'screenout');
-        $this->surveyService->createResearchSurveyLotteryTicket($user, 'quotafull', 'quotafull');
-        $tickets = $this->em->getRepository('WenwenFrontendBundle:LotteryTicket')->findAll();
+
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'complete', 'complete');
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'screenout', 'screenout');
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'quotafull', 'quotafull');
+
+        $tickets = $user->getUnusedPrizeTickets();
+
         $this->assertEquals(count($tickets), 3);
+
         $this->assertEquals(PrizeItem::TYPE_BIG, $tickets[0]->getType());
         $this->assertEquals('complete', $tickets[0]->getComment());
+
         $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[1]->getType());
         $this->assertEquals('screenout', $tickets[1]->getComment());
+
         $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[2]->getType());
         $this->assertEquals('quotafull', $tickets[2]->getComment());
     }

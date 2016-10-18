@@ -27,7 +27,7 @@ class SurveyService
 
     private $templating;
 
-    private $lotteryService;
+    private $prizeService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -39,14 +39,14 @@ class SurveyService
                                 ParameterService $parameterService,
                                 HttpClient $httpClient,
                                 EngineInterface $templating,
-                                LotteryService $lotteryService)
+                                PrizeService $prizeService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
-        $this->lotteryService = $lotteryService;
+        $this->prizeService = $prizeService;
     }
 
     public function setDummy($dummy){
@@ -643,13 +643,13 @@ class SurveyService
      * @param User $user
      * @param $answerStatuts
      */
-    public function createResearchSurveyLotteryTicket(User $user, $answerStatus, $comment) {
+    public function createPrizeTicketForResearchSurvey(User $user, $answerStatus, $comment) {
         if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_BIG, $comment);
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
         } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL, $comment);
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
         } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-            $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL, $comment);
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
         }
     }
 

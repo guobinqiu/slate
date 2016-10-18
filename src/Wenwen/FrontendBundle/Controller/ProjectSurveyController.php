@@ -30,7 +30,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         $anwerStatus = $request->get('answer_status');
 
         // 获得一次抽奖机会
-        $this->get('app.survey_service')->createResearchSurveyLotteryTicket(
+        $this->get('app.survey_service')->createPrizeTicketForResearchSurvey(
             $this->getCurrentUser(),
             $anwerStatus,
             'sop商业问卷' . $anwerStatus
@@ -48,7 +48,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     public function profileQuestionnaireEndlinkCompleteAction()
     {
         // 获得一次抽奖机会
-        $this->get('app.lottery_service')->createLotteryTicket(
+        $this->get('app.prize_service')->createPrizeTicket(
             $this->getCurrentUser(),
             PrizeItem::TYPE_SMALL,
             'sop属性问卷complete'

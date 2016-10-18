@@ -9,11 +9,10 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
-use Wenwen\FrontendBundle\Entity\LotteryTicket;
-use Wenwen\FrontendBundle\Entity\UserPrizeChances;
+use Wenwen\FrontendBundle\Entity\PrizeTicket;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
-class LotteryService
+class PrizeService
 {
     private $em;
     private $logger;
@@ -69,7 +68,7 @@ class LotteryService
                 }
                 $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
             }
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::TYPE_BIG);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, PrizeItem::TYPE_BIG);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -87,7 +86,7 @@ class LotteryService
         $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_LOTTERY, TaskType::RENTENTION, PrizeItem::TYPE_SMALL);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, PrizeItem::TYPE_SMALL);
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -97,16 +96,16 @@ class LotteryService
     /**
      * 抽奖.
      *
-     * @param LotteryTicket $lotteryTicket
+     * @param PrizeTicket $prizeTicket
      * @return int
      */
-    public function drawPrize(LotteryTicket $lotteryTicket)
+    public function drawPrize(PrizeTicket $prizeTicket)
     {
         $points = 0;
-        if ($lotteryTicket->getType() == PrizeItem::TYPE_BIG) {
-            $points = $this->drawBigPrize($lotteryTicket->getUser());
-        } elseif ($lotteryTicket->getType() == PrizeItem::TYPE_SMALL) {
-            $points = $this->drawSmallPrize($lotteryTicket->getUser());
+        if ($prizeTicket->getType() == PrizeItem::TYPE_BIG) {
+            $points = $this->drawBigPrize($prizeTicket->getUser());
+        } elseif ($prizeTicket->getType() == PrizeItem::TYPE_SMALL) {
+            $points = $this->drawSmallPrize($prizeTicket->getUser());
         }
         return $points;
     }
@@ -114,11 +113,11 @@ class LotteryService
     /**
      * 作废一张奖券.
      *
-     * @param LotteryTicket $lotteryTicket
+     * @param PrizeTicket $prizeTicket
      */
-    public function deleteLotteryTicket(LotteryTicket $lotteryTicket)
+    public function deletePrizeTicket(PrizeTicket $prizeTicket)
     {
-        $lotteryTicket->setDeletedAt(new \DateTime());
+        $prizeTicket->setDeletedAt(new \DateTime());
         $this->em->flush();
     }
 
@@ -198,18 +197,18 @@ class LotteryService
      * @param User $user
      * @param $type
      * @param null $comment
-     * @return LotteryTicket
+     * @return PrizeTicket
      */
-    public function createLotteryTicket(User $user, $type, $comment = null)
+    public function createPrizeTicket(User $user, $type, $comment = null)
     {
-        $lotteryTicket = new LotteryTicket();
-        $lotteryTicket->setUser($user);
-        $lotteryTicket->setType($type);
-        $lotteryTicket->setComment($comment);
-        $lotteryTicket->setCreatedAt(new \DateTime());
-        $this->em->persist($lotteryTicket);
+        $prizeTicket = new PrizeTicket();
+        $prizeTicket->setUser($user);
+        $prizeTicket->setType($type);
+        $prizeTicket->setComment($comment);
+        $prizeTicket->setCreatedAt(new \DateTime());
+        $this->em->persist($prizeTicket);
         $this->em->flush();
-        return $lotteryTicket;
+        return $prizeTicket;
     }
 
     /**

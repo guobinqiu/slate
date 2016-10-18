@@ -141,7 +141,7 @@ class RegistrationController extends BaseController
             '您的好友' . $user->getNick(). '完成了注册'
         );
 
-        $this->get('app.lottery_service')->createLotteryTicket($user, PrizeItem::TYPE_SMALL, '注册');// 获得一次抽奖机会
+        $this->get('app.prize_service')->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '注册');// 获得一次抽奖机会
 
         $this->pushBasicProfile($user);// 推送用户基本属性
 

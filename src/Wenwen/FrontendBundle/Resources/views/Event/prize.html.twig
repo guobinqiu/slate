@@ -40,13 +40,13 @@
     					<div class="col-sm-12 col-xs-12">
     						<div class="cbOuter row">
 		    					<div class="col-sm-12">
-		    						<h3>您有<b class="text-warning">{{ ticketCount }}张</b>抽奖券</h3>
+		    						<h3>您有<b class="text-warning">{{ prizeTicketCount }}张</b>抽奖券</h3>
 									<div class="drawBox">
 										{% if message is defined %}
 											<div class="drawResult center-block">{{ message }}</div>
 										{% else %}
 											{% if drawable %}
-												<a href="{{ path('event_lottery_draw') }}">
+												<a href="{{ path('event_prize_draw') }}">
 													<div class="button"><div class="outer"><div class="height"><div class="inner">点击抽奖</div></div></div></div>
 												</a>
 											{% else %}
@@ -56,7 +56,7 @@
 									</div>
 									{% if message is defined and drawable %}
 										<div class="drawNext">
-											<a href="{{ path('event_lottery') }}">
+											<a href="{{ path('event_prize') }}">
 												<button type="button" class="btn btn-default pull-right">点击抽下一张>></button>
 											</a>
 										</div>

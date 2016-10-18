@@ -13,7 +13,7 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
             <argument type="service" id="templating" />
-            <argument type="service" id="app.lottery_service" />
+            <argument type="service" id="app.prize_service" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
@@ -69,7 +69,7 @@
             <argument type="service" id="logger" />
         </service>
 
-        <service id="app.lottery_service" class="Wenwen\FrontendBundle\Services\LotteryService">
+        <service id="app.prize_service" class="Wenwen\FrontendBundle\Services\prizeService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="logger" />
             <argument type="service" id="snc_redis.default" />

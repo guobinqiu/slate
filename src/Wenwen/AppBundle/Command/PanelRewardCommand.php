@@ -109,7 +109,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             if (!$hasErrors) {
                 // 给奖池注入积分(5%)
-                $this->getContainer()->get('app.lottery_service')->addPointBalance(intval($this->point($history) * 0.05));
+                $this->getContainer()->get('app.prize_service')->addPointBalance(intval($this->point($history) * 0.05));
             }
 
             $this->logger->info('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
