@@ -38,19 +38,19 @@ class LatestNewsService
      *
      * @param string $news
      */
-    public function insertLatestNews($news)
+    public function insertLatestNews($news, $key = CacheKeys::LATEST_NEWS_LIST)
     {
         $cacheSettings = $this->parameterService->getParameter('cache_settings');
         if (!$cacheSettings['enable']) {
             return;
         }
 
-        $latestNewsList = $this->getLatestNews();
+        $latestNewsList = $this->getLatestNews($key);
         $count = array_unshift($latestNewsList, $news);
         if ($count > 100) {
             array_pop($latestNewsList);
         }
-        $this->redis->set(CacheKeys::LATEST_NEWS_LIST, $this->serializer->serialize($latestNewsList, 'json'));
+        $this->redis->set($key, $this->serializer->serialize($latestNewsList, 'json'));
     }
 
     /**
@@ -58,14 +58,14 @@ class LatestNewsService
      *
      * @return array
      */
-    public function getLatestNews()
+    public function getLatestNews($key = CacheKeys::LATEST_NEWS_LIST)
     {
         $cacheSettings = $this->parameterService->getParameter('cache_settings');
         if (!$cacheSettings['enable']) {
             return array();
         }
 
-        $val = $this->redis->get(CacheKeys::LATEST_NEWS_LIST);
+        $val = $this->redis->get($key);
         if (is_null($val)) {
             return array();
         }
@@ -104,6 +104,8 @@ class LatestNewsService
                     case CategoryType::EVENT_INVITE_SURVEY:
                         $message .= '好友答问卷';
                         break;
+                    case CategoryType::EVENT_LOTTERY:
+                        $message .= '抽奖';
                 }
         }
         $message .= '获得' . $points . '积分';

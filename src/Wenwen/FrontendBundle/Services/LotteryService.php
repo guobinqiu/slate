@@ -52,12 +52,12 @@ class LotteryService
     }
 
     /**
-     * 给大奖池获奖用户加积分.
+     * 抽大奖.
      *
      * @param User $user
      * @return int
      */
-    public function addPointsBig(User $user)
+    public function drawBigPrize(User $user)
     {
         $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_BIG, $this->getPointBalance());
         $points = $prizeItem->getPoints();
@@ -65,7 +65,7 @@ class LotteryService
             if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
                 if ($prizeItem->getQuantity() == 0) {
                     $this->logger->info('userid=' . $user->getId() . '杯具了，中了头奖，但很遗憾由于库存不足作废');
-                    return $this->addPointsBig($user);//再抽一次
+                    return $this->drawBigPrize($user);//再抽一次
                 }
                 $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
             }
@@ -77,12 +77,12 @@ class LotteryService
     }
 
     /**
-     * 给小奖池获奖用户加积分.
+     * 抽小奖.
      *
      * @param User $user
      * @return int
      */
-    public function addPointsSmall(User $user)
+    public function drawSmallPrize(User $user)
     {
         $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
@@ -92,6 +92,34 @@ class LotteryService
         }
         $this->minusPrizeQuantity($prizeItem);
         return $points;
+    }
+
+    /**
+     * 抽奖.
+     *
+     * @param LotteryTicket $lotteryTicket
+     * @return int
+     */
+    public function drawPrize(LotteryTicket $lotteryTicket)
+    {
+        $points = 0;
+        if ($lotteryTicket->getType() == PrizeItem::TYPE_BIG) {
+            $points = $this->drawBigPrize($lotteryTicket->getUser());
+        } elseif ($lotteryTicket->getType() == PrizeItem::TYPE_SMALL) {
+            $points = $this->drawSmallPrize($lotteryTicket->getUser());
+        }
+        return $points;
+    }
+
+    /**
+     * 作废一张奖券.
+     *
+     * @param LotteryTicket $lotteryTicket
+     */
+    public function deleteLotteryTicket(LotteryTicket $lotteryTicket)
+    {
+        $lotteryTicket->setDeletedAt(new \DateTime());
+        $this->em->flush();
     }
 
     /**
@@ -170,53 +198,18 @@ class LotteryService
      * @param User $user
      * @param $type
      * @param null $comment
+     * @return LotteryTicket
      */
     public function createLotteryTicket(User $user, $type, $comment = null)
     {
         $lotteryTicket = new LotteryTicket();
-        $lotteryTicket->setUserId($user->getId());
+        $lotteryTicket->setUser($user);
         $lotteryTicket->setType($type);
         $lotteryTicket->setComment($comment);
         $lotteryTicket->setCreatedAt(new \DateTime());
         $this->em->persist($lotteryTicket);
         $this->em->flush();
-    }
-
-    /**
-     * 每抽一次奖作废一张奖券.
-     *
-     * @param User $user
-     */
-    public function deleteLotteryTicket(User $user)
-    {
-        $lotteryTickets = $this->getUnusedLotteryTickets($user);
-        if (!empty($lotteryTickets)) {
-            $lotteryTicket = $lotteryTickets[0];
-            $lotteryTicket->setDeletedAt(new \DateTime());
-            $this->em->flush();
-        }
-    }
-
-    /**
-     * 用户剩余抽奖次数.
-     *
-     * @param User $user
-     * @return int
-     */
-    public function getLotteryTicketNumberLeft(User $user)
-    {
-        return count($this->getUnusedLotteryTickets($user));
-    }
-
-    /**
-     * 查询所有未使用奖券.
-     *
-     * @param User $user
-     * @return array
-     */
-    public function getUnusedLotteryTickets(User $user)
-    {
-        return $this->em->getRepository('WenwenFrontendBundle:LotteryTicket')->getUnusedLotteryTickets($user->getId());
+        return $lotteryTicket;
     }
 
     /**

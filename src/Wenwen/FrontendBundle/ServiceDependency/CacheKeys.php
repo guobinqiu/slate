@@ -10,4 +10,5 @@ class CacheKeys {
     const CITY_LIST = 'city_list';
     const LATEST_NEWS_LIST = 'latest_news_list';
     const PRIZE_POINT_BALANCE = 'prize_point_balance';
+    const LATEST_PRIZE_NEWS_LIST = 'latest_prize_news_list';
 }

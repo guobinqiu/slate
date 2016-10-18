@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 目前只用作抽奖的计数，暂不考虑生成票码.
  *
  * @ORM\Table(name="lottery_tickets")
- * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\LotteryTicketRepository")
+ * @ORM\Entity
  */
 class LotteryTicket
 {
@@ -22,11 +22,10 @@ class LotteryTicket
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="LotteryTicket")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -67,26 +66,26 @@ class LotteryTicket
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param integer $userId
+     * @param integer $user
      * @return LotteryTicket
      */
-    public function setUserId($userId)
+    public function setUser(User $user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
-     * @return integer
+     * @return User
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     /**

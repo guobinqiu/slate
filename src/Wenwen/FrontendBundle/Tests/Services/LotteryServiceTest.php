@@ -96,14 +96,14 @@ class LotteryServiceTest extends WebTestCase
         }
     }
 
-    public function testAddPointsSmall()
+    public function testDrawSmallPrize()
     {
         $this->lotteryService->setPointBalance(99999999);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
         $before = $this->lotteryService->getPointBalance();
         $points = 0;
         for ($i=0; $i<100; $i++) {
-            $points += $this->lotteryService->addPointsSmall($user);
+            $points += $this->lotteryService->drawSmallPrize($user);
         }
         $after = $this->lotteryService->getPointBalance();
         $this->assertEquals($before - $after, $points);
@@ -113,17 +113,19 @@ class LotteryServiceTest extends WebTestCase
     {
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
 
-        $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_BIG, '大');
+        $ticket = $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_BIG, '大');
         $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL, '小');
         $this->lotteryService->createLotteryTicket($user, PrizeItem::TYPE_SMALL);
-        $this->assertEquals(3, $this->lotteryService->getLotteryTicketNumberLeft($user));
+        $this->assertEquals(3, count($user->getUnusedLotteryTickets()));
 
-        $this->lotteryService->deleteLotteryTicket($user);
-        $this->assertEquals(2, $this->lotteryService->getLotteryTicketNumberLeft($user));
+        echo $this->lotteryService->drawPrize($ticket);
+
+        $this->lotteryService->deleteLotteryTicket($ticket);
+        $this->assertEquals(2, count($user->getUnusedLotteryTickets()));
     }
 
-    // 由于时间比较长，测试通过后注释掉了，如果你要修改bigPrizeBox方法，可在本地把注释放开
-//    public function testAddPointsBig()
+    // 由于时间比较长，测试通过后注释掉了，本地测试时可以把注释放开
+//    public function testDrawBigPrize()
 //    {
 //        $this->lotteryService->setPointBalance(99999999);
 //        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
@@ -134,7 +136,7 @@ class LotteryServiceTest extends WebTestCase
 //        $points = 0;
 //        //万分之一的大奖概率但不等于说10000次内必中1次,20000的话命中率高点
 //        for ($i=0; $i<20000; $i++) {
-//            $points += $this->lotteryService->addPointsBig($user);
+//            $points += $this->lotteryService->drawBigPrize($user);
 //        }
 //        $after = $this->lotteryService->getPointBalance();
 //        $this->assertEquals($before - $after, $points);
