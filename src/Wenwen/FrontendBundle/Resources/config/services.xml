@@ -69,7 +69,7 @@
             <argument type="service" id="logger" />
         </service>
 
-        <service id="app.prize_service" class="Wenwen\FrontendBundle\Services\prizeService">
+        <service id="app.prize_service" class="Wenwen\FrontendBundle\Services\PrizeService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="logger" />
             <argument type="service" id="snc_redis.default" />
