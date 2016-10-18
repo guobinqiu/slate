@@ -15,7 +15,7 @@ class PrizeItem
     const TYPE_BIG = '大奖池';
     const TYPE_SMALL = '小奖池';
     const FIRST_PRIZE_POINTS = 300000;
-    const POINT_BALANCE_BASE = 500;
+    const POINT_BALANCE_BASE = 89991;
     const POINT_BALANCE_MIN = 0;
     const POINT_BALANCE_MAX = 99999999;
 

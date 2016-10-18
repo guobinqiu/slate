@@ -20,7 +20,7 @@
 				<div class="bannerCon center-block row">
 					<div class="bcIn col-sm-12">
 						<img class="img-responsive center-block" src="/img/luckyDraw/bannerImg.png?v000022">
-						<div class="PointNum counter4">{{ pointBalance }}</div>
+						<div class="PointNum counter4"></div>
 					</div>
 				</div>
 			</div>
@@ -108,8 +108,8 @@
 
 {% block javascript %}
     <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-    {#<script type="text/javascript" src="/js/plugin/jquery.jodometer.min.js?v000022"></script>#}
+    <script type="text/javascript" src="/js/plugin/jquery.jodometer.min.js?v000022"></script>
 	<script type="text/javascript">
-		{#$('.counter4').jOdometer({increment: 1, counterStart:'12545555',numbersImage:'/img/luckyDraw/jodometer-numbers.png?v000022', formatNumber: true, spaceNumbers: 2, widthDot: 8});#}
+		$('.counter4').jOdometer({increment: 1, counterStart: {{ pointBalance }}, numbersImage:'/img/luckyDraw/jodometer-numbers.png?v000022', formatNumber: true, spaceNumbers: 2, widthDot: 8});
 	</script>
 {% endblock %}

@@ -39,7 +39,6 @@ class PrizeService
      */
     public function getPrizeItem($type, $pointBalance)
     {
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems($type, $pointBalance);
         $randNum = mt_rand(1, $prizeItems[0]->getMax());
         foreach($prizeItems as $prizeItem) {
