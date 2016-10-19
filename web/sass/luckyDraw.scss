@@ -41,20 +41,20 @@ a:hover{
         background-size: contain;
         text-align: center;
         .bcIn{
-        	padding-top: 188px;
+        	padding-top: 180px;
         	display: inline-block;
         	.PointNum{
         	    z-index: 3;
         	    color: #fff;
         	    text-align: center;
         	    font-size: 26px;
+        	    font-weight: bold;
         	    background: #75411b;
         	    padding: 0 10px;
         	    letter-spacing: 2px;
         	    @include box-shadow(2px 0 3px rgba(0,0,0,.5) inset);
         	}
         }
-        
     }
 }
 .contWrap{
@@ -307,6 +307,9 @@ a:hover{
 					margin-top: 10px;
 					.drawBox .button{
 						display: inline;
+						.outer .height .inner{
+							font-size: 1.5rem!important;
+						}
 					}
 				}
 				.state .luckyTimeline{
@@ -317,6 +320,13 @@ a:hover{
 	}
 }
 @media only screen and (min-width: 668px) and (max-width: 1024px)  {
+	.bannerWrap{
+		.bannerCon{
+			.PointNum{
+				left: 19%;
+			}
+		}
+	}
 	.contWrap{
 			.cont{
 				.conWrap{
@@ -337,7 +347,16 @@ a:hover{
 		.bannerCon{
 			.bcIn{
 				height: 159px;
-				padding-top: 110px;
+				padding-top: 103px;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 374px) {
+	.bannerWrap{
+		.bannerCon{
+			.PointNum{
+				left: -28%;
 			}
 		}
 	}
