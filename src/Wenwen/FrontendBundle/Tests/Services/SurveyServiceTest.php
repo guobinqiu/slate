@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 
 class SurveyServiceTest extends WebTestCase
 {
@@ -59,5 +60,27 @@ class SurveyServiceTest extends WebTestCase
 
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
+    }
+
+    public function testCreatePrizeTicketForResearchSurvey()
+    {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findAll()[0];
+
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'complete', 'complete');
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'screenout', 'screenout');
+        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'quotafull', 'quotafull');
+
+        $tickets = $user->getUnusedPrizeTickets();
+
+        $this->assertEquals(count($tickets), 3);
+
+        $this->assertEquals(PrizeItem::TYPE_BIG, $tickets[0]->getType());
+        $this->assertEquals('complete', $tickets[0]->getComment());
+
+        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[1]->getType());
+        $this->assertEquals('screenout', $tickets[1]->getComment());
+
+        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[2]->getType());
+        $this->assertEquals('quotafull', $tickets[2]->getComment());
     }
 }

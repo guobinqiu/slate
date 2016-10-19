@@ -1,0 +1,344 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+
+body{ 
+	font-family: $font-family!important;
+}
+a:hover{
+	text-decoration: none;
+}
+.bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{
+	cursor: pointer!important;
+	margin: initial!important;
+	text-indent: initial!important;
+	overflow: hidden!important;
+}
+.header{
+	position: relative;
+    z-index: 10;
+    @include box-shadow(0 0 3px rgba(0,0,0,0.5));
+}
+.main{
+	margin-top: 0;
+}
+
+.bannerWrap{
+    background: #494949 center 40px;
+    position: relative;
+    z-index: 0;
+    .flowBg{
+        background: url(../img/luckyDraw/bannerBgflow.png) repeat;
+        position: relative;
+        z-index: 1;
+        padding-top: 60px;
+    }
+    .bannerCon{
+        width: 100%;
+        min-height: 261px; 
+        background: url(../img/luckyDraw/bannerImg.png) no-repeat center;
+        background-size: contain;
+        text-align: center;
+        .bcIn{
+        	padding-top: 188px;
+        	display: inline-block;
+        	.PointNum{
+        	    z-index: 3;
+        	    color: #fff;
+        	    text-align: center;
+        	    font-size: 26px;
+        	    background: #75411b;
+        	    padding: 0 10px;
+        	    letter-spacing: 2px;
+        	    @include box-shadow(2px 0 3px rgba(0,0,0,.5) inset);
+        	}
+        }
+        
+    }
+}
+.contWrap{
+    background: url(../img/luckyDraw/seamless-noise-bg.png) repeat #1b7a76;
+    padding-bottom: 150px;
+    .cont{
+        background: #47a39e;
+        padding: 35px;
+        margin-top: -23px;
+        position: relative;
+        z-index: 1;
+        .conWrap{
+        	.draw{
+	            background: #fff;
+	            margin-top: 20px;
+	            @include border-radius(25px);
+	            .cbOuter {
+	                padding: 10px 20px 30px;
+	                h3{
+	                	font-size: 18px;
+	                	height: 42px;
+	                	line-height: 42px;
+	                }
+	                .drawNext{
+	                	button{
+	                		margin-top: 10px;
+	                		padding: 3px 8px;
+	                		border: 2px solid #2fb5ae;
+	                		color: #2fb5ae;
+	                	}
+	                }
+	            }
+	            .drawBox{
+	            	width: 100%;
+	            	height: 155px;
+	            	line-height: 105px;
+    				background: url(../img/luckyDraw/flowbgxy.png) repeat #f2f2f2;
+					padding: 20px;
+					.button{
+						width: 300px;
+						height: 115px;
+						cursor: pointer;
+						margin: 0 auto;
+						.outer{
+							position: relative;
+							width: 100%;
+							height: 100%;
+							padding: 10px;
+							background: rgba(0,0,0,0.65);
+							border-radius: 14px;
+							-webkit-border-radius: 14px;
+							-moz-border-radius: 14px;
+							box-shadow: inset rgba(0,0,0,0.85) 0px 1px 5px;
+							-webkit-box-shadow: inset rgba(0,0,0,0.85) 0px 1px 5px;
+							-moz-box-shadow: inset rgba(0,0,0,0.85) 0px 1px 5px;
+							-webkit-transform: perspective(500px) rotateX(35deg);
+							-moz-transform: perspective(500px) rotateX(35deg);
+							.height{
+								position: relative;
+								height: 100%;
+								margin-top: -15px;
+								padding-bottom: 15px;
+								background: #39a02d;
+								border-radius: 16px;
+								-webkit-border-radius: 16px;
+								-moz-border-radius: 16px;
+								box-shadow: rgba(0,0,0,0.85) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 8px;
+								-webkit-box-shadow: rgba(0,0,0,0.85) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 8px;
+								-moz-box-shadow: rgba(0,0,0,0.85) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 8px;
+								-webkit-transition: all 0.1s ease-in-out;
+								-moz-transition: all 0.1s ease-in-out;
+								.inner{
+									line-height: 77px;
+									font-size: 30px;
+									font-weight: bold;
+									letter-spacing: .05em;
+									position: relative;
+									height: 100%;
+									text-align: center;
+									text-shadow: #8aff7b 0px 0px 1px;
+									background: #44d135;
+									background: -moz-linear-gradient(top, #80ec75 0%, #43d034 100%); /* FF3.6+ */
+									background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#80ec75), color-stop(100%,#43d034)); /* Chrome,Safari4+ */
+									background: -webkit-linear-gradient(top, #80ec75 0%,#43d034 100%); /* Chrome10+,Safari5.1+ */
+									background: linear-gradient(top, #80ec75 0%,#43d034 100%); /* W3C */
+									@include border-radius(12px);
+									@include box-shadow(0px 0px 1px rgba(255,255,255,0.85) inset);
+									-webkit-transition: all 0.1s ease-in-out;
+									-moz-transition: all 0.1s ease-in-out;
+								}
+							}       
+						}
+						&:hover .outer .height{
+							margin-top: -10px;
+							padding-bottom: 10px;
+							background: #3aaf2d;
+							box-shadow: rgba(0,0,0,0.25) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 6px;
+							-webkit-box-shadow: rgba(0,0,0,0.25) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 6px;
+							-moz-box-shadow: rgba( 0,0,0,0.25) 0px 1px 1px, inset rgba(0,0,0,0.35) 0px -2px 6px;
+							.inner{
+								text-shadow: #99f48d 0px 0px 1px;
+								background: #43d034; /* Old browsers */
+								background: -moz-linear-gradient(top, #43d034 0%, #67e45c 100%); /* FF3.6+ */
+								background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#43d034), color-stop(100%,#67e45c)); /* Chrome,Safari4+ */
+								background: -webkit-linear-gradient(top, #43d034 0%,#67e45c 100%); /* Chrome10+,Safari5.1+ */
+								background: linear-gradient(top, #43d034 0%,#67e45c 100%); /* W3C */
+							}
+						}
+						&:active .outer .height{
+							margin-top: 0px;
+							padding-bottom: 0px;
+							.inner{
+								text-shadow: #319926 0px 1px 0px;
+								@include border-radius(16px);
+								@include box-shadow(0px 0px 8px rgba(0,0,0,0.9) inset);
+								background: #1d7d12; /* Old browsers */
+								background: -moz-linear-gradient(top, #1d7d12 0%, #4fd342 100%); /* FF3.6+ */
+								background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1d7d12), color-stop(100%,#4fd342)); /* Chrome,Safari4+ */
+								background: -webkit-linear-gradient(top, #1d7d12 0%,#4fd342 100%); /* Chrome10+,Safari5.1+ */
+								background: linear-gradient(top, #1d7d12 0%,#4fd342 100%); /* W3C */
+							}
+						}
+					}
+					.drawResult{
+						font-size: 28px;
+						text-align: center;
+					}
+	            }
+	        }
+	        .state{
+	            margin-top: 20px;
+	            padding-bottom: 20px;
+	            white-space: nowrap;
+	            overflow: hidden;
+	            text-overflow: ellipsis;
+	            border-bottom: 1px solid rgba(255,255,255,0.2);
+	            .stateTit{
+	                background: #3e8c88;
+	                color: #ffe59e;
+	                font-size: 16px;
+	                padding: 10px 14px;
+	            }
+	            .stateText{
+	                color: #fff;
+	                font-size: 14px;
+	                line-height: 28px;
+	                padding: 11px 0 0 30px;
+	                white-space: nowrap;
+	                overflow: hidden;
+	                text-overflow: ellipsis;
+	            }
+	            .tmWrap{
+	                .tmTit{
+	                    background: #3e8c88;
+	                    color: #ffe59e;
+	                    font-size: 16px;
+	                    padding: 10px 14px;
+	                }
+	            }
+	            .luckyTimeline{
+	                padding-left: 20px;
+	                margin-top: 11px;
+	                .mask{
+	                    height: 138px;
+	                    overflow: hidden;
+	                    position: relative;
+	                    z-index: 1;
+	                    ul{
+	                    	position: absolute;
+	                    	z-index: 2;
+	                    	top: 0;
+	                    	left: 0;
+	                    	width: 100%;
+	                    	li{
+	                    	    line-height: 28px;
+	                    	    color: #fff;
+	                    	    font-size: 14px;
+	                    	    white-space: nowrap;
+	                    	    overflow: hidden;
+	                    	    text-overflow: ellipsis;
+	                    	    b{
+	                    	    	color: #ffe59e;
+	                    	    }
+	                    	}
+	                    }
+	                }
+	                
+	            }
+	        }
+	        .status{
+	            margin-top: 20px;
+	            button{
+	                background: #efae16;
+	                border: none;
+	                padding: 14px 44px;
+	                margin-top: 25px;
+	            }
+	        }
+    	} 
+    }
+    .prize{
+        background: rgba(255,255,255,0.1);
+        padding-top: 20px;
+        padding-bottom: 20px;
+        @include border-radius(25px);
+        .prizeCon{
+            position: relative;
+            i{
+                width: 309px;
+                height: 153px;
+                position: absolute;
+                left: 60px;
+                top: -176px;
+                background: url(../img/luckyDraw/coins.png) no-repeat;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 668px) {
+	.bannerWrap{
+		.flowBg{
+			padding-top: 0;
+			.container{
+				padding: 0;
+			}
+		}
+		.bannerCon{
+			min-height: initial;
+			.bcIn{
+				height: 174px;
+			    padding-top: 123px;
+			}
+		}
+	} 
+	.tmWrap{
+		margin-top: 15px;
+	}
+	.contWrap{
+		.cont{
+			padding: 10px 0 30px;
+			.conWrap{
+				.state{
+					.stateText{
+						padding-left: 10px;
+					}
+				} 
+				.draw{
+					margin-top: 10px;
+					.drawBox .button{
+						display: inline;
+					}
+				}
+				.state .luckyTimeline{
+					padding-left: 10px;
+				}
+			} 
+		}
+	}
+}
+@media only screen and (min-width: 668px) and (max-width: 1024px)  {
+	.contWrap{
+			.cont{
+				.conWrap{
+					.state{
+						.stateText{
+							padding-left: 0;
+						}
+					} 
+					.state .luckyTimeline{
+						padding-left: 0;
+					}
+				} 
+			}
+		}
+}
+@media only screen and (min-width: 320px) and (max-width: 668px) {
+	.bannerWrap{
+		.bannerCon{
+			.bcIn{
+				height: 159px;
+				padding-top: 110px;
+			}
+		}
+	}
+}

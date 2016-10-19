@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
@@ -26,6 +27,8 @@ class SurveyService
 
     private $templating;
 
+    private $prizeService;
+
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
@@ -35,13 +38,15 @@ class SurveyService
                                 EntityManager $em,
                                 ParameterService $parameterService,
                                 HttpClient $httpClient,
-                                EngineInterface $templating)
+                                EngineInterface $templating,
+                                PrizeService $prizeService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
+        $this->prizeService = $prizeService;
     }
 
     public function setDummy($dummy){
@@ -658,6 +663,22 @@ class SurveyService
 
         //return $response->getBody();
         return true;
+    }
+
+    /**
+     * 回答商业问卷后得到抽奖机会.
+     *
+     * @param User $user
+     * @param $answerStatuts
+     */
+    public function createPrizeTicketForResearchSurvey(User $user, $answerStatus, $comment) {
+        if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
+        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
+        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
+            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
+        }
     }
 
     /**

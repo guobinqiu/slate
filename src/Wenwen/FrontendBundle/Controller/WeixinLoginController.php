@@ -193,7 +193,8 @@ class WeixinLoginController extends BaseController
                         $request->getSession()->get('inviteId'),
                         $this->allowRewardInviter($request)
                     );
-                    $this->pushBasicProfile($user, $em);
+                    $this->get('app.prize_service')->createPrizeTicket($user, PrizeItem::TYPE_SMALL, 'weixin注册');// 获得一次抽奖机会
+                    $this->pushBasicProfile($user);// 推送用户基本属性
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -264,12 +265,13 @@ class WeixinLoginController extends BaseController
         return $msg;
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

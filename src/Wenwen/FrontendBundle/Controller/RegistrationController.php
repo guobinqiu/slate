@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -67,7 +68,7 @@ class RegistrationController extends BaseController
                     $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
-                $this->send_confirmation_email($user, $em);
+                $this->send_confirmation_email($user);
 
                 return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
             }
@@ -140,8 +141,9 @@ class RegistrationController extends BaseController
             '您的好友' . $user->getNick(). '完成了注册'
         );
 
-        // 推送用户基本属性
-        $this->pushBasicProfile($user, $em);
+        $this->get('app.prize_service')->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '注册');// 获得一次抽奖机会
+
+        $this->pushBasicProfile($user);// 推送用户基本属性
 
         $request->getSession()->set('uid', $user->getId());
 
@@ -166,7 +168,7 @@ class RegistrationController extends BaseController
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
-    private function send_confirmation_email(User $user, EntityManager $em)
+    private function send_confirmation_email(User $user)
     {
         $args = array(
             '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
@@ -175,16 +177,19 @@ class RegistrationController extends BaseController
             '--confirmation_token='.$user->getConfirmationToken(),
         );
         $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

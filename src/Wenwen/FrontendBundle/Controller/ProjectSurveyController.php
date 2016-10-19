@@ -17,7 +17,9 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function informationAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $request->query->get('research')));
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array(
+            'research' => $request->query->get('research')
+        ));
     }
 
     /**
@@ -25,33 +27,41 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function endlinkAction(Request $request)
     {
+        $anwerStatus = $request->get('answer_status');
+
+        // 获得一次抽奖机会
+        $this->get('app.survey_service')->createPrizeTicketForResearchSurvey(
+            $this->getCurrentUser(),
+            $anwerStatus,
+            'sop商业问卷' . $anwerStatus
+        );
+
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
+            'answer_status' => $anwerStatus,
             'survey_id' => $request->get('survey_id'),
         ));
     }
 
     /**
-     * @Route("/profile_questionnaire/endlink")
+     * @Route("/profile_questionnaire/endlink/complete")
      */
-    public function profileQuestionnaireEndlinkAction() {
+    public function profileQuestionnaireEndlinkCompleteAction()
+    {
+        // 获得一次抽奖机会
+        $this->get('app.prize_service')->createPrizeTicket(
+            $this->getCurrentUser(),
+            PrizeItem::TYPE_SMALL,
+            'sop属性问卷complete'
+        );
+
         return $this->redirect($this->generateUrl('_homepage'));
     }
 
     /**
-     * 供外部系统调用的endlink
-     *
-     * @Route("/outer/endlink/{answer_status}")
+     * @Route("/profile_questionnaire/endlink/quit")
      */
-    public function outerEndlinkAction(Request $request) {
-        $answer_status = $request->get('answer_status');
-
-        if (!in_array($answer_status, array('complete', 'screenout', 'quotafull'))) {
-            throw new \InvalidArgumentException('Wrong status');
-        }
-
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:outer_endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
-        ));
+    public function profileQuestionnaireEndlinkQuitAction()
+    {
+        return $this->redirect($this->generateUrl('_homepage'));
     }
 }

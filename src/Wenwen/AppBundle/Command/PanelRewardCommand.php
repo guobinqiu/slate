@@ -18,16 +18,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $date = $input->getArgument('date');
-
-        $env = $this->getContainer()->get('kernel')->getEnvironment();
-
-        // options
-        $definitive = ($input->hasOption('definitive')) ? true : false;
-
-        $this->logger->info('Start executing');
-        $this->logger->info('definitive= ' . ($definitive ? 'true' : 'false'));
-        $this->logger->info('date=' . $date);
+        $date = $input->getArgument('date');;
 
         // configs
         $url = $this->url();
@@ -46,7 +37,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $dbh->getConfiguration()->setSQLLogger(null);
 
         $num = 0;
-        $notice_flag = false;
+        $hasErrors = false;
 
         //start inserting
         foreach ($history_list as $history) {
@@ -109,29 +100,26 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     '您的好友' . $user->getNick() . '回答了一份SOP商业问卷'
                 );
 
+                $dbh->commit();
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
-                $notice_flag = true;
-                $dbh->rollBack();
-                throw $e;
-            }
-
-            // rollBack or commit
-            if ($definitive) {
-                $this->logger->info('definitive true: commit');
-                $dbh->commit();
-            } else {
-                $this->logger->info('definitive false: rollback');
+                $hasErrors = true;
                 $dbh->rollBack();
             }
 
-            $em->flush();
-            $em->clear();
+            if (!$hasErrors) {
+                if (in_array($this->type($history), CategoryType::$cost_types)) {
+                    // 给奖池注入积分(5%)
+                    $injectPoints = intval($this->point($history) * 0.05);
+                    $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
+                    $this->logger->info(__METHOD__ . '给奖池注入积分' . $injectPoints);
+                }
+            }
 
             $this->logger->info('end process : num: ' . $num . ' app_mid: ' . $history['app_mid']);
         }
 
-        if ($notice_flag) {
+        if ($hasErrors) {
             $content = date('Y-m-d H:i:s');
             $subject = 'Panel reward point fail, please check email or log at web server';
             $this->notice($content, $subject);
