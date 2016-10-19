@@ -79,4 +79,6 @@ class CategoryType
     const CINT_COST = 92;        // (+) 回答Cint的实际商业问卷
     const FULCRUM_COST = 92;     // (+) 回答Fulcrum的实际商业问卷
     */
+
+    static $cost_types = array(self::SOP_COST, self::FULCRUM_COST, self::CINT_COST);
 }

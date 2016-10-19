@@ -67,7 +67,7 @@ class PrizeService
                 }
                 $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
             }
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, PrizeItem::TYPE_BIG);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖');
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -85,7 +85,7 @@ class PrizeService
         $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, PrizeItem::TYPE_SMALL);
+            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖');
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
