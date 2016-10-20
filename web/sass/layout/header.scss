@@ -251,14 +251,11 @@ $header-nav-height: 80px;
 		z-index: 3;
 	}
 	.pointExp{
-		width: 92px;
 		display: inline-block;
 		position: absolute;
         right: 14px;
         top: -3px;
         *top: 60px;
-        opacity: 0;
-        filter: alpha(opacity = 0);
         span{
         	position: relative;
         	background: #fffbed;
