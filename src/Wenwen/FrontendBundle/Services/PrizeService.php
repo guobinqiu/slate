@@ -215,22 +215,6 @@ class PrizeService
     }
 
     /**
-     * 回答商业问卷后得到抽奖机会.
-     *
-     * @param User $user
-     * @param $answerStatuts
-     */
-    public function createPrizeTicketForResearchSurvey(User $user, $answerStatus, $comment) {
-        if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
-            $this->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
-        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
-            $this->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
-        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-            $this->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
-        }
-    }
-
-    /**
      * 检索出该用户所有未使用过的奖券.
      *
      * @param $user

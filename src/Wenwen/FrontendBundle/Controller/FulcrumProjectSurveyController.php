@@ -16,12 +16,9 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function informationAction(Request $request)
     {
-        $sop_custom_token = uniqid();
-        $request->getSession()->set('sop_custom_token', $sop_custom_token);
-
+        $user_id = $request->getSession()->get('uid');
         $fulcrum_research = $request->query->get('fulcrum_research');
-        $fulcrum_research['url'] = $this->get('app.survey_service')
-            ->urlAddExtraParameters($fulcrum_research['url'], array('sop_custom_token' => $sop_custom_token));
+        $fulcrum_research = $this->get('app.survey_service')->addUrlToken($fulcrum_research, $user_id);
 
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array(
             'fulcrum_research' => $fulcrum_research
@@ -31,22 +28,18 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     /**
      * @Route("/endlink/{survey_id}/complete")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id)
     {
-        $tid = $request->query->get('tid');
-        $sop_custom_token = $request->getSession()->get('sop_custom_token');
-        if ($sop_custom_token == $tid) {
-            // 获得一次抽奖机会
-            $this->get('app.prize_service')->createPrizeTicketForResearchSurvey(
-                $this->getCurrentUser(),
-                $this->container->getParameter('research_survey_status_complete'),
-                'fulcrum商业问卷complete'
-            );
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+            $survey_id,
+            $request->query->get('tid'),
+            $this->getCurrentUser(),
+            $this->container->getParameter('research_survey_status_complete'),
+            'fulcrum商业问卷complete' . $survey_id
+        );
 
-            //防止通过反复刷页面来进行作弊
-            $request->getSession()->set('sop_custom_token', uniqid());
-        }
-
-        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig');
+        return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig', array(
+            'ticket_created' => $ticket_created
+        ));
     }
 }

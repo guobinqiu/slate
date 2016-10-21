@@ -61,13 +61,4 @@ class SurveyServiceTest extends WebTestCase
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
     }
-
-    public function testUrlAddExtraParameters()
-    {
-        $this->assertEquals('xxx?a=1&sop_custom_token=ABCDEF123456',
-            $this->surveyService->urlAddExtraParameters('xxx?a=1', array('sop_custom_token' => 'ABCDEF123456')));
-
-        $this->assertEquals('xxx?sop_custom_token=ABCDEF123456',
-            $this->surveyService->urlAddExtraParameters('xxx', array('sop_custom_token' => 'ABCDEF123456')));
-    }
 }

@@ -84,12 +84,9 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
-        $sop_custom_token = uniqid();
-        $request->getSession()->set('sop_custom_token', $sop_custom_token);
-
+        $user_id = $request->getSession()->get('uid');
         $cint_research = $request->query->get('cint_research');
-        $cint_research['url'] = $this->get('app.survey_service')
-            ->urlAddExtraParameters($cint_research['url'], array('sop_custom_token' => $sop_custom_token));
+        $cint_research = $this->get('app.survey_service')->addUrlToken($cint_research, $user_id);
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
             'cint_research' => $cint_research
@@ -99,26 +96,20 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
     /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_cint_project_survey_endlink")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $anwerStatus = $request->query->get('answer_status');
-        $tid = $request->query->get('tid');
-        $sop_custom_token = $request->getSession()->get('sop_custom_token');
-        if ($sop_custom_token == $tid) {
-            // 获得一次抽奖机会
-            $this->get('app.prize_service')->createPrizeTicketForResearchSurvey(
-                $this->getCurrentUser(),
-                $anwerStatus,
-                'cint商业问卷' . $anwerStatus
-            );
-
-            //防止通过反复刷页面来进行作弊
-            $request->getSession()->set('sop_custom_token', uniqid());
-        }
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+            $survey_id,
+            $request->query->get('tid'),
+            $this->getCurrentUser(),
+            $answer_status,
+            'cint商业问卷' . $answer_status . $survey_id
+        );
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
-            'answer_status' => $anwerStatus,
-            'survey_id' => $request->get('survey_id'),
+            'answer_status' => $answer_status,
+            'survey_id' => $survey_id,
+            'ticket_created' => $ticket_created
         ));
     }
 }

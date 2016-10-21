@@ -18,16 +18,9 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function informationAction(Request $request)
     {
+        $user_id = $request->getSession()->get('uid');
         $research = $request->query->get('research');
-        $surveyId = $research['survey_id'];
-        $userId = $this->getCurrentUser()->getId();
-        $key = $userId . '_' . $surveyId;
-        $token = md5(uniqid());
-        $redis = $this->container->get('snc_redis.default');
-        $redis->set($key, $token);
-
-        $research['url'] = $this->get('app.survey_service')
-            ->urlAddExtraParameters($research['url'], array('sop_custom_token' => $token));
+        $research = $this->get('app.survey_service')->addUrlToken($research, $user_id);
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array(
             'research' => $research
@@ -37,45 +30,37 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_project_survey_endlink")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $anwerStatus = $request->query->get('answer_status');
-        $tid = $request->query->get('tid');
-        $surveyId = $request->get('survey_id');
-        $userId = $this->getCurrentUser()->getId();
-        $key = $userId . '_' . $surveyId;
-
-        if ($sop_custom_token == $tid) {
-            // 获得一次抽奖机会
-            $this->get('app.prize_service')->createPrizeTicketForResearchSurvey(
-                $this->getCurrentUser(),
-                $anwerStatus,
-                'sop商业问卷' . $anwerStatus
-            );
-
-            //防止通过反复刷页面来进行作弊
-            $request->getSession()->set('sop_custom_token', uniqid());
-        }
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+            $survey_id,
+            $request->query->get('tid'),
+            $this->getCurrentUser(),
+            $answer_status,
+            'sop商业问卷' . $answer_status . $survey_id
+        );
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
-            'answer_status' => $anwerStatus,
-            'survey_id' => ,
+            'answer_status' => $answer_status,
+            'survey_id' => $survey_id,
+            'ticket_created' => $ticket_created
         ));
     }
 
     /**
      * @Route("/profile_questionnaire/endlink/complete")
      */
-    public function profileQuestionnaireEndlinkCompleteAction()
+    public function profileQuestionnaireEndlinkCompleteAction(Request $request)
     {
-        // 获得一次抽奖机会
-        $this->get('app.prize_service')->createPrizeTicket(
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicketProfiling(
             $this->getCurrentUser(),
-            PrizeItem::TYPE_BIG,
+            $request->query->get('tid'),
             'sop属性问卷complete'
         );
 
-        return $this->redirect($this->generateUrl('_homepage'));
+        return $this->redirect($this->generateUrl('_homepage'), array(
+            'ticket_created' => $ticket_created
+        ));
     }
 
     /**

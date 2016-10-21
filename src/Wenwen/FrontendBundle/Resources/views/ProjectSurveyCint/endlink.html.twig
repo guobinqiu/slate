@@ -14,33 +14,40 @@
     <div class="qnCon qnEnd">
         <div class="qnEndTxt">
             {% if answer_status == 'complete' %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>
-                感谢您参加并成功完成本次问卷调查。<br>
-                积分会在调查结束审核过后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-            </div>
+                <div class="txt"><h2>亲爱的用户！您好！</h2>
+                    感谢您参加并成功完成本次问卷调查。<br>
+                    积分会在调查结束审核过后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+                    {% if ticket_created %}
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% endif %}
+                </div>
             {% elseif answer_status == 'screenout' %}
-            <div class="txt sad"><h2>亲爱的用户！您好！</h2>
-                非常感谢您参加本次调查。<br>
-                由于您不符合本次调查内容，您将获得<b>1个积分</b>，积分会在调查结束后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-            </div>
+                <div class="txt sad"><h2>亲爱的用户！您好！</h2>
+                    非常感谢您参加本次调查。<br>
+                    由于您不符合本次调查内容，您将获得<b>1个积分</b>，积分会在调查结束后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+                    {% if ticket_created %}
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% endif %}
+                </div>
             {% elseif answer_status == 'quotafull' %}
                 <div class="txt sad"><h2>亲爱的用户！您好！</h2>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% if ticket_created %}
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% endif %}
                 </div>
             {% elseif answer_status == 'error' %}
-            <div class="txt sad"><h2>亲爱的用户！您好！</h2>
-                对不起，您不符合这次问卷的要求，敬请期待下次的高积分问卷。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-            </div>
+                <div class="txt sad"><h2>亲爱的用户！您好！</h2>
+                    对不起，您不符合这次问卷的要求，敬请期待下次的高积分问卷。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+                    {% if ticket_created %}
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% endif %}
+                </div>
             {% else %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>
-                编号为 c{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
-                请联系我们的客服，告知问卷编号（c{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
-                给您添麻烦了，请继续关注91问问，谢谢！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-            </div>
+                <div class="txt"><h2>亲爱的用户！您好！</h2>
+                    编号为 c{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
+                    请联系我们的客服，告知问卷编号（c{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
+                    给您添麻烦了，请继续关注91问问，谢谢！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+                </div>
             {% endif %}
         </div>
     </div>
