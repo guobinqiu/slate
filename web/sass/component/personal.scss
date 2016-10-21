@@ -15,47 +15,23 @@ h1{
 	margin-right: 15px;
 	padding-left: 15px;
 	padding-top: 27px;
-	em{
+	i{
+		width: 18px;
+	    height: 18px;
 		margin-right: 10px;
-		width: 19px;
-		height: 20px;
-		background: url(../img/personal/icons.png) no-repeat 0 2px;
 		@include dib();
 		vertical-align: middle;
-		&.icon2{
-			background-position: 0 -47px;
-		}
-		&.icon3{
-			background-position: 0 -94px;
-		}
-		&.icon4{
-			background-position: 0 -142px;
-		}
-		&.icon5{
-			background-position: 0 -191px;
-		}
+		font-size: 18px;
 	}
 	li{
 		margin-top: 10px;
 		height: 35px;
 		line-height: 35px;
 		font-size: 14px;
+		a{
+			color: #66696B;
+		}
 		&.active, &:hover{
-			em{
-				background-position: -24px 2px;
-				&.icon2{
-					background-position: -24px -47px;
-				}
-				&.icon3{
-					background-position: -24px -94px;
-				}
-				&.icon4{
-					background-position: -24px -142px;
-				}
-				&.icon5{
-					background-position: -24px -191px;
-				}
-			}
 			a{
 				color: $orange-color;
 			}
