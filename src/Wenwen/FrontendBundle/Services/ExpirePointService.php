@@ -8,6 +8,7 @@ use Symfony\Component\Templating\EngineInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Services\UserService;
 
 /**
  * 积分清零以及邮件通知用户的功能
@@ -21,6 +22,8 @@ class ExpirePointService
     private $em;
 
     private $parameterService;
+
+    private $userService;
 
     private $templating;
 
@@ -51,11 +54,13 @@ class ExpirePointService
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
+                                UserService $userService,
                                 EngineInterface $templating)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
+        $this->userService = $userService;
         $this->templating = $templating;
 
         $this->mailerForUser = MailerFactory::createWebpowerMailer($this->parameterService);
@@ -398,41 +403,22 @@ class ExpirePointService
             try{
                 $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
                 if($user){
-                    // 该用户存在，该用户的积分设为0
-                    $currentPoints = $user->getPoints();
-                    
-                    $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $userId % 10);
-                    $pointHistory = new $classPointHistory();
-                    $pointHistory->setUserId($userId);
-                    $pointHistory->setPointChangeNum(-$currentPoints);
-                    $pointHistory->setReason(CategoryType::EXPIRE);
-
-                    $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $userId % 10);
-                    $taskHistory = new $classTaskHistory();
-                    $taskHistory->setUserid($userId);
-                    $taskHistory->setOrderId(0);
-                    $taskHistory->setOcdCreatedDate($expireTime);
-                    $taskHistory->setCategoryType(CategoryType::EXPIRE);
-                    $taskHistory->setTaskType(TaskType::RECOVER);
-                    $taskHistory->setTaskName(self::TASK_NAME);
-                    $taskHistory->setDate($expireTime);
-                    $taskHistory->setPoint(-$currentPoints);
-                    $taskHistory->setStatus(self::TASK_STATUS);
-
-                    $db_connection = $this->em->getConnection();
-                    $db_connection->beginTransaction();
                     try{
                         if(false == $this->skipExpiringFlag){
-                            $user->setPoints(0);
-                            $this->em->persist($pointHistory);
-                            $this->em->persist($taskHistory);
-                            $this->em->flush();
+
+                            // 用户现有分数的负数
+                            $points = -$user->getPoints();
+
+                            $this->userService->addPoints(
+                                $user, 
+                                $points, 
+                                CategoryType::EXPIRE, 
+                                TaskType::RECOVER, 
+                                self::TASK_NAME);
                         }
-                        $db_connection->commit();
                         $totalExpiredPoints += $expiringUser['points'];
                         $expireSucceededUsers[] = $expiringUser;
                     } catch(\Exception $e){
-                        $db_connection->rollback();
                         $errmsg = "Failed to expire user.points. " . $e->getMessage();
                         $expiringUser['errmsg'] = $errmsg;
                         $expireFailedUsers[] = $expiringUser;
