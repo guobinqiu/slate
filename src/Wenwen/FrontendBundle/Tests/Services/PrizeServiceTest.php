@@ -142,26 +142,4 @@ class PrizeServiceTest extends WebTestCase
 //        $this->assertEquals($before - $after, $points);
 //        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
 //    }
-
-    public function testCreatePrizeTicketForResearchSurvey()
-    {
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findAll()[0];
-
-        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'complete', 'complete');
-        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'screenout', 'screenout');
-        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'quotafull', 'quotafull');
-
-        $tickets = $this->prizeService->getUnusedPrizeTickets($user);
-
-        $this->assertEquals(count($tickets), 3);
-
-        $this->assertEquals(PrizeItem::TYPE_BIG, $tickets[0]->getType());
-        $this->assertEquals('complete', $tickets[0]->getComment());
-
-        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[1]->getType());
-        $this->assertEquals('screenout', $tickets[1]->getComment());
-
-        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[2]->getType());
-        $this->assertEquals('quotafull', $tickets[2]->getComment());
-    }
 }
