@@ -84,8 +84,15 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
+        $sop_custom_token = uniqid();
+        $request->getSession()->set('sop_custom_token', $sop_custom_token);
+
+        $cint_research = $request->query->get('cint_research');
+        $cint_research['url'] = $this->get('app.survey_service')
+            ->urlAddExtraParameters($cint_research['url'], array('sop_custom_token' => $sop_custom_token));
+
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
-            'cint_research' => $request->query->get('cint_research')
+            'cint_research' => $cint_research
         ));
     }
 
@@ -94,14 +101,20 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function endlinkAction(Request $request)
     {
-        $anwerStatus = $request->get('answer_status');
+        $anwerStatus = $request->query->get('answer_status');
+        $tid = $request->query->get('tid');
+        $sop_custom_token = $request->getSession()->get('sop_custom_token');
+        if ($sop_custom_token == $tid) {
+            // 获得一次抽奖机会
+            $this->get('app.prize_service')->createPrizeTicketForResearchSurvey(
+                $this->getCurrentUser(),
+                $anwerStatus,
+                'cint商业问卷' . $anwerStatus
+            );
 
-        // 获得一次抽奖机会
-        $this->get('app.survey_service')->createPrizeTicketForResearchSurvey(
-            $this->getCurrentUser(),
-            $anwerStatus,
-            'cint商业问卷' . $anwerStatus
-        );
+            //防止通过反复刷页面来进行作弊
+            $request->getSession()->set('sop_custom_token', uniqid());
+        }
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
             'answer_status' => $anwerStatus,

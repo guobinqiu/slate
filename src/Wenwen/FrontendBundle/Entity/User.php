@@ -852,6 +852,11 @@ class User
         return $this->inviteId;
     }
 
+    public function getPrizeTickets()
+    {
+        return $this->prizeTickets;
+    }
+
     /**
      * @ORM\PrePersist
      */
@@ -909,18 +914,5 @@ class User
     public function isResetPasswordTokenExpired()
     {
         return new \DateTime() > $this->resetPasswordTokenExpiredAt;
-    }
-
-    /**
-     * 检索出该用户所有未使用过的奖券.
-     *
-     * @return \Doctrine\Common\Collections\Collection|static
-     */
-    public function getUnusedPrizeTickets()
-    {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->isNull('deletedAt'));
-
-        return $this->prizeTickets->matching($criteria);
     }
 }

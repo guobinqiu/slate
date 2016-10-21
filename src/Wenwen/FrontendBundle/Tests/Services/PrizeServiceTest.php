@@ -116,12 +116,12 @@ class PrizeServiceTest extends WebTestCase
         $ticket = $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, '大');
         $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '小');
         $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL);
-        $this->assertEquals(3, count($user->getUnusedPrizeTickets()));
+        $this->assertEquals(3, count($this->prizeService->getUnusedPrizeTickets($user)));
 
         $this->assertGreaterThanOrEqual(0, $this->prizeService->drawPrize($ticket));
 
         $this->prizeService->deletePrizeTicket($ticket);
-        $this->assertEquals(2, count($user->getUnusedPrizeTickets()));
+        $this->assertEquals(2, count($this->prizeService->getUnusedPrizeTickets($user)));
     }
 
     // 由于时间比较长，测试通过后注释掉了，本地测试时可以把注释放开
@@ -142,4 +142,26 @@ class PrizeServiceTest extends WebTestCase
 //        $this->assertEquals($before - $after, $points);
 //        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
 //    }
+
+    public function testCreatePrizeTicketForResearchSurvey()
+    {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findAll()[0];
+
+        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'complete', 'complete');
+        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'screenout', 'screenout');
+        $this->prizeService->createPrizeTicketForResearchSurvey($user, 'quotafull', 'quotafull');
+
+        $tickets = $this->prizeService->getUnusedPrizeTickets($user);
+
+        $this->assertEquals(count($tickets), 3);
+
+        $this->assertEquals(PrizeItem::TYPE_BIG, $tickets[0]->getType());
+        $this->assertEquals('complete', $tickets[0]->getComment());
+
+        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[1]->getType());
+        $this->assertEquals('screenout', $tickets[1]->getComment());
+
+        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[2]->getType());
+        $this->assertEquals('quotafull', $tickets[2]->getComment());
+    }
 }

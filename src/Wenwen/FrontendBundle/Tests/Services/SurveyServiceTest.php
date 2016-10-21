@@ -62,25 +62,12 @@ class SurveyServiceTest extends WebTestCase
         $this->assertTrue(is_array($html_survey_list));
     }
 
-    public function testCreatePrizeTicketForResearchSurvey()
+    public function testUrlAddExtraParameters()
     {
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findAll()[0];
+        $this->assertEquals('xxx?a=1&sop_custom_token=ABCDEF123456',
+            $this->surveyService->urlAddExtraParameters('xxx?a=1', array('sop_custom_token' => 'ABCDEF123456')));
 
-        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'complete', 'complete');
-        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'screenout', 'screenout');
-        $this->surveyService->createPrizeTicketForResearchSurvey($user, 'quotafull', 'quotafull');
-
-        $tickets = $user->getUnusedPrizeTickets();
-
-        $this->assertEquals(count($tickets), 3);
-
-        $this->assertEquals(PrizeItem::TYPE_BIG, $tickets[0]->getType());
-        $this->assertEquals('complete', $tickets[0]->getComment());
-
-        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[1]->getType());
-        $this->assertEquals('screenout', $tickets[1]->getComment());
-
-        $this->assertEquals(PrizeItem::TYPE_SMALL, $tickets[2]->getType());
-        $this->assertEquals('quotafull', $tickets[2]->getComment());
+        $this->assertEquals('xxx?sop_custom_token=ABCDEF123456',
+            $this->surveyService->urlAddExtraParameters('xxx', array('sop_custom_token' => 'ABCDEF123456')));
     }
 }

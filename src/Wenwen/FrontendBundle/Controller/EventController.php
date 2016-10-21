@@ -96,10 +96,11 @@ class EventController extends BaseController //implements UserAuthenticationCont
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
-        $prizeTickets = $user->getUnusedPrizeTickets();
+        $prizeService = $this->get('app.prize_service');
+
+        $prizeTickets = $prizeService->getUnusedPrizeTickets($user);
         $prizeTicketCount = count($prizeTickets);
 
-        $prizeService = $this->get('app.prize_service');
         $pointBalance = $prizeService->getPointBalance();
 
         $message = '感谢参与！';
@@ -137,10 +138,13 @@ class EventController extends BaseController //implements UserAuthenticationCont
         $prizeService = $this->get('app.prize_service');
         $latestNewsService = $this->get('app.latest_news_service');
 
-        $prizeTickets = $user->getUnusedPrizeTickets();
+        $prizeTickets = $prizeService->getUnusedPrizeTickets($user);
         $prizeTicketCount = count($prizeTickets);
+
         $pointBalance = $prizeService->getPointBalance();
+
         $drawable = $pointBalance > 0 && $prizeTicketCount > 0;
+
         $latestNewsList = $latestNewsService->getLatestNews(CacheKeys::LATEST_PRIZE_NEWS_LIST);
 
         return array(

@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
@@ -665,20 +664,12 @@ class SurveyService
         return true;
     }
 
-    /**
-     * 回答商业问卷后得到抽奖机会.
-     *
-     * @param User $user
-     * @param $answerStatuts
-     */
-    public function createPrizeTicketForResearchSurvey(User $user, $answerStatus, $comment) {
-        if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
-            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
-        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
-            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
-        } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
+    public function urlAddExtraParameters($url, $params)
+    {
+        if (strrpos($url, '?') > 0) {
+            return $url . '&' . http_build_query($params);
         }
+        return $url . '?' . http_build_query($params);
     }
 
     /**
