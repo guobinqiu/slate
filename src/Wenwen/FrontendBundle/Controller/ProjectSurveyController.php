@@ -58,7 +58,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
             'sop属性问卷complete'
         );
 
-        return $this->redirect($this->generateUrl('_homepage'), array(
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig', array(
             'ticket_created' => $ticket_created
         ));
     }
