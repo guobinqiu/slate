@@ -49,6 +49,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="app.user_service" />
             <argument type="service" id="templating" />
         </service>
 
