@@ -242,49 +242,24 @@ class VoteController extends Controller
         $answer->setVoteId($vote_id);
         $answer->setAnswerNumber($answer_number);
 
-        // Create new object of point_history0x
-        $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ( $user_id % 10);
-        $pointHistory = new $classPointHistory();
-        $pointHistory->setUserId($user_id);
-        $pointHistory->setPointChangeNum($point);
-        $pointHistory->setReason(CategoryType::QUICK_POLL);
-
-        $vote_time = date_create();
-        // Create new object of task_history0x
-        $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ( $user_id % 10);
-        $taskHistory = new $classTaskHistory();
-        $taskHistory->setUserid($user_id);
-        $taskHistory->setOrderId(0);
-        $taskHistory->setOcdCreatedDate($vote_time);
-        $taskHistory->setCategoryType(CategoryType::QUICK_POLL);
-        $taskHistory->setTaskType(TaskType::RENTENTION);
-        $taskHistory->setTaskName('快速问答');
-        $taskHistory->setDate($vote_time);
-        $taskHistory->setPoint($point);
-        $taskHistory->setStatus(1);
-        $db_connection = $em->getConnection();
-        $db_connection->beginTransaction();
-
-        // update user.point更新user表总分数
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-        $oldPoint = $user->getPoints();
-        $user->setPoints(intval($oldPoint + $point));
-        $user->setLastGetPointsAt(new \DateTime());
+        $userService = $this->get('app.user_service');
 
         try {
-            $em->persist($user);
-            $em->persist($answer);
-            $em->persist($pointHistory);
-            $em->persist($taskHistory);
-            $em->flush();
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
-            $db_connection->commit();
+            // 给当前用户加积分
+            $userService->addPoints(
+                $user,
+                $point,
+                CategoryType::QUICK_POLL,
+                TaskType::RENTENTION,
+                '快速问答'
+            );
         } catch (\Exception $e) {
-            $db_connection->rollback();
-            $this->get('logger')->critical('[JiliFrontend][vote][click]' . $e->getMessage());
+            $this->get('logger')->error($e->getMessage());
+            $this->get('logger')->error($e->getTraceAsString());
             $this->get('session')->getFlashBag()->add('error', '投票失败，内部出错');
-
-            throw new \Exception();
+            throw $e;
         }
         $session->remove('csrf_token');
 
