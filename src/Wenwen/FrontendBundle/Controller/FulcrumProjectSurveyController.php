@@ -18,7 +18,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $user_id = $request->getSession()->get('uid');
         $fulcrum_research = $request->query->get('fulcrum_research');
-        $fulcrum_research = $this->get('app.survey_service')->addUrlToken($fulcrum_research, $user_id);
+        $fulcrum_research = $this->get('app.survey_service')->addSurveyUrlToken($fulcrum_research, $user_id);
 
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array(
             'fulcrum_research' => $fulcrum_research
@@ -30,12 +30,12 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function endlinkAction(Request $request, $survey_id)
     {
-        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
             $survey_id,
             $request->query->get('tid'),
             $this->getCurrentUser(),
             $this->container->getParameter('research_survey_status_complete'),
-            'fulcrum商业问卷complete' . $survey_id
+            'fulcrum商业问卷'
         );
 
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:endlink.html.twig', array(

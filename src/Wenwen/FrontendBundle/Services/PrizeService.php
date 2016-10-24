@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Services;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
@@ -10,7 +9,6 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
-use Wenwen\FrontendBundle\Entity\PrizeTicket;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class PrizeService
@@ -18,20 +16,20 @@ class PrizeService
     private $em;
     private $logger;
     private $redis;
-    private $userService;
-    private $parameterService;
+    private $pointService;
+    private $prizeTicketService;
 
     public function __construct(EntityManager $em,
                                 LoggerInterface $logger,
                                 Client $redis,
-                                UserService $userService,
-                                ParameterService $parameterService)
+                                PointService $pointService,
+                                PrizeTicketService $prizeTicketService)
     {
         $this->em = $em;
         $this->logger = $logger;
         $this->redis = $redis;
-        $this->userService = $userService;
-        $this->parameterService = $parameterService;
+        $this->pointService = $pointService;
+        $this->prizeTicketService = $prizeTicketService;
     }
 
     /**
@@ -65,14 +63,17 @@ class PrizeService
         $points = $prizeItem->getPoints();
         if ($points > 0) {
             if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
-                if ($prizeItem->getQuantity() == 0) {
+                if ($prizeItem->getQuantity() > 0) {
+                    $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
+                    $this->processFirstPrize();
+                } else {
                     $this->logger->info('userid=' . $user->getId() . '杯具了，中了头奖，但很遗憾由于库存不足作废');
-                    return $this->drawBigPrize($user);//再抽一次
+                    return $this->drawBigPrize($user);//重抽
                 }
-                $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
+            } else {
+                $this->pointService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '中奖');
+                $this->minusPointBalance($points);
             }
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖');
-            $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
         return $points;
@@ -89,7 +90,7 @@ class PrizeService
         $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
         $points = $prizeItem->getPoints();
         if ($points > 0) {
-            $this->userService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖');
+            $this->pointService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '中奖');
             $this->minusPointBalance($points);
         }
         $this->minusPrizeQuantity($prizeItem);
@@ -99,29 +100,25 @@ class PrizeService
     /**
      * 抽奖.
      *
-     * @param PrizeTicket $prizeTicket
+     * @param User $user
      * @return int
      */
-    public function drawPrize(PrizeTicket $prizeTicket)
+    public function drawPrize(User $user)
     {
         $points = 0;
-        if ($prizeTicket->getType() == PrizeItem::TYPE_BIG) {
-            $points = $this->drawBigPrize($prizeTicket->getUser());
-        } elseif ($prizeTicket->getType() == PrizeItem::TYPE_SMALL) {
-            $points = $this->drawSmallPrize($prizeTicket->getUser());
+        $prizeTickets = $this->prizeTicketService->getUnusedPrizeTickets($user);
+        if ($this->getPointBalance() > 0 && count($prizeTickets) > 0) {
+            $prizeTicket = $prizeTickets[0];
+
+            if ($prizeTicket->getType() == PrizeItem::TYPE_BIG) {
+                $points = $this->drawBigPrize($user);
+            } elseif ($prizeTicket->getType() == PrizeItem::TYPE_SMALL) {
+                $points = $this->drawSmallPrize($user);
+            }
+
+            $this->prizeTicketService->deletePrizeTicket($prizeTicket);
         }
         return $points;
-    }
-
-    /**
-     * 作废一张奖券.
-     *
-     * @param PrizeTicket $prizeTicket
-     */
-    public function deletePrizeTicket(PrizeTicket $prizeTicket)
-    {
-        $prizeTicket->setDeletedAt(new \DateTime());
-        $this->em->flush();
     }
 
     /**
@@ -195,39 +192,6 @@ class PrizeService
     }
 
     /**
-     * 创建一张奖券即一次抽奖机会.
-     *
-     * @param User $user
-     * @param $type
-     * @param null $comment
-     * @return PrizeTicket
-     */
-    public function createPrizeTicket(User $user, $type, $comment = null)
-    {
-        $prizeTicket = new PrizeTicket();
-        $prizeTicket->setUser($user);
-        $prizeTicket->setType($type);
-        $prizeTicket->setComment($comment);
-        $prizeTicket->setCreatedAt(new \DateTime());
-        $this->em->persist($prizeTicket);
-        $this->em->flush();
-        return $prizeTicket;
-    }
-
-    /**
-     * 检索出该用户所有未使用过的奖券.
-     *
-     * @param $user
-     * @return mixed
-     */
-    public function getUnusedPrizeTickets($user) {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->isNull('deletedAt'));
-
-        return $user->getPrizeTickets()->matching($criteria);
-    }
-
-    /**
      * 减去奖品库存.
      *
      * @param PrizeItem $prizeItem
@@ -240,4 +204,7 @@ class PrizeService
         $prizeItem->setQuantity($quantity);
         $this->em->flush($prizeItem);
     }
+
+    // Todo: 中头奖后的业务处理逻辑，目前预算有限，只好先空着
+    private function processFirstPrize(){}
 }

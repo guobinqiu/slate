@@ -6,6 +6,7 @@ use Jili\ApiBundle\Utility\PasswordEncoder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
@@ -30,7 +31,8 @@ class EventController extends BaseController //implements UserAuthenticationCont
      */
     public function inviteAction(Request $request)
     {
-        if (!$request->getSession()->has('uid')) {
+        $user = $this->getCurrentUser();
+        if ($user == null) {
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -78,7 +80,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
-            return $this->redirect($this->generateUrl('_homepage'));
+            return $this->redirect($this->generateUrl('_user_login'));
         }
 
         $pageData = $this->getPageData($user);
@@ -93,32 +95,21 @@ class EventController extends BaseController //implements UserAuthenticationCont
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
-            return $this->redirect($this->generateUrl('_homepage'));
+            return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $prizeService = $this->get('app.prize_service');
+        $points = $this->get('app.prize_service')->drawPrize($user);
+        if ($points > 0 && $points < PrizeItem::FIRST_PRIZE_POINTS) {
+            $message = '恭喜您，获得' . $points . '积分！';
+        } elseif ($points == PrizeItem::FIRST_PRIZE_POINTS) {
+            $message = '恭喜您，获得一等奖！请联系客服！';
+        } else {
+            $message = '感谢参与！';
+        }
 
-        $prizeTickets = $prizeService->getUnusedPrizeTickets($user);
-        $prizeTicketCount = count($prizeTickets);
-
-        $pointBalance = $prizeService->getPointBalance();
-
-        $message = '感谢参与！';
-        if ($pointBalance > 0 && $prizeTicketCount > 0) {
-            //取得一张奖券
-            $prizeTicket = $prizeTickets[0];
-
-            //使用奖券来进行抽奖
-            $points = $prizeService->drawPrize($prizeTicket);
-            if ($points > 0) {
-                $message = '恭喜您，获得' . $points . '积分！';
-            }
-
-            //使用过的奖券要作废
-            $prizeService->deletePrizeTicket($prizeTicket);
-
+        if ($points > 0) {
             //中奖用户最新动态
-            $news = substr($user->getNick(), 0, 3) . '** 恭喜成为幸运用户，抽中获得' . $points . '积分';
+            $news = date('Y-m-d') . ' 用户' . substr($user->getNick(), 0, 3) . '** 抽奖获得' . $points . '积分';
             $this->get('app.latest_news_service')->insertLatestNews($news, CacheKeys::LATEST_PRIZE_NEWS_LIST);
         }
 
@@ -135,17 +126,14 @@ class EventController extends BaseController //implements UserAuthenticationCont
      * @return array
      */
     private function getPageData(User $user) {
-        $prizeService = $this->get('app.prize_service');
-        $latestNewsService = $this->get('app.latest_news_service');
-
-        $prizeTickets = $prizeService->getUnusedPrizeTickets($user);
+        $prizeTickets = $this->get('app.prize_ticket_service')->getUnusedPrizeTickets($user);
         $prizeTicketCount = count($prizeTickets);
 
-        $pointBalance = $prizeService->getPointBalance();
+        $pointBalance = $this->get('app.prize_service')->getPointBalance();
 
         $drawable = $pointBalance > 0 && $prizeTicketCount > 0;
 
-        $latestNewsList = $latestNewsService->getLatestNews(CacheKeys::LATEST_PRIZE_NEWS_LIST);
+        $latestNewsList = $this->get('app.latest_news_service')->getLatestNews(CacheKeys::LATEST_PRIZE_NEWS_LIST);
 
         return array(
             'prizeTicketCount' => $prizeTicketCount,

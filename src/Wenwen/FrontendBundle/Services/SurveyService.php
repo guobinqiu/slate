@@ -28,7 +28,7 @@ class SurveyService
 
     private $templating;
 
-    private $prizeService;
+    private $prizeTicketService;
 
     private $redis;
 
@@ -42,7 +42,7 @@ class SurveyService
                                 ParameterService $parameterService,
                                 HttpClient $httpClient,
                                 EngineInterface $templating,
-                                PrizeService $prizeService,
+                                PrizeTicketService $prizeTicketService,
                                 Client $redis)
     {
         $this->logger = $logger;
@@ -50,7 +50,7 @@ class SurveyService
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
-        $this->prizeService = $prizeService;
+        $this->prizeTicketService = $prizeTicketService;
         $this->redis = $redis;
     }
 
@@ -580,7 +580,7 @@ class SurveyService
             if (count($profilings) > 0) {
                 foreach ($profilings as $profiling) {
                     $profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $profiling = $this->addUrlTokenProfiling($profiling, $user_id);
+                    $profiling = $this->addProfilingUrlToken($profiling, $user_id);
                     // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                     array_unshift($html_survey_list, $html);
@@ -671,29 +671,29 @@ class SurveyService
         return true;
     }
 
-    public function addUrlToken($research, $user_id)
+    public function addSurveyUrlToken($research, $user_id)
     {
         $token = md5(uniqid(rand()));
-        $key = $user_id . '_' . $research['survey_id'];
+        $key = 'sop_' . $user_id . '_' . $research['survey_id'];
         $this->redis->set($key, $token);
         $this->redis->expire($key, 60 * 60 * 24);
         $research['url'] = $research['url'] . '&sop_custom_token=' . $token;
         return $research;
     }
 
-    public function createPrizeTicket($survey_id, $tid, User $user, $answerStatus, $comment)
+    public function createSurveyPrizeTicket($survey_id, $tid, User $user, $answer_status, $comment)
     {
-        $key = $user->getId() . '_' . $survey_id;
+        $key = 'sop_' . $user->getId() . '_' . $survey_id;
         $token = $this->redis->get($key);
         //echo ' token=' . $token;
         //echo ' tid=' . $tid;
         if ($token != null && $tid == $token) {
-            if ($answerStatus == $this->parameterService->getParameter('research_survey_status_complete')) {
-                $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
-            } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_screenout')) {
-                $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
-            } elseif ($answerStatus == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-                $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment);
+            if ($answer_status == $this->parameterService->getParameter('research_survey_status_complete')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, $survey_id, $answer_status);
+            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_screenout')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
+            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_quotafull')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
             }
             $this->redis->del($key);
             return true;
@@ -701,22 +701,22 @@ class SurveyService
         return false;
     }
 
-    public function addUrlTokenProfiling($profiling, $user_id)
+    public function addProfilingUrlToken($profiling, $user_id)
     {
         $token = md5(uniqid(rand()));
-        $key = 'p_' . $user_id;
+        $key = 'sop_p_' . $user_id;
         $this->redis->set($key, $token);
         $this->redis->expire($key, 60 * 60 * 24);
         $profiling['url'] = $profiling['url'] . '&sop_custom_token=' . $token;
         return $profiling;
     }
 
-    public function createPrizeTicketProfiling(User $user, $tid, $comment)
+    public function createProfilingPrizeTicket(User $user, $tid, $comment)
     {
-        $key = 'p_' . $user->getId();
+        $key = 'sop_p_' . $user->getId();
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
-            $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment);
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, null, 'complete');
             $this->redis->del($key);
             return true;
         }

@@ -31,10 +31,6 @@ parameters:
             11: 92  # 91wenwen.point.exec_types: 11, アンケート回答, questionnaire(cost)
             61: 93  # 91wenwen.point.exec_types: 61, アンケート回答（自社）, questionnaire(expense)
 
-    cache_settings:
-        enable: %cache_enable%
-        lifetime: %cache_lifetime%
-
 #配置第三方邮件服务
     mailer:
         sendcloud:

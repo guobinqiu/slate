@@ -56,6 +56,20 @@ class PrizeTicket
     private $comment;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="survey_id", type="string", length=20, nullable=true)
+     */
+    private $surveyId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=20, nullable=true)
+     */
+    private $status;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -178,5 +192,51 @@ class PrizeTicket
     public function getComment()
     {
         return $this->comment;
+    }
+
+    /**
+     * Set surveyId
+     *
+     * @param string $surveyId
+     * @return PrizeTicket
+     */
+    public function setSurveyId($surveyId)
+    {
+        $this->surveyId = $surveyId;
+
+        return $this;
+    }
+
+    /**
+     * Get surveyId
+     *
+     * @return string
+     */
+    public function getSurveyId()
+    {
+        return $this->surveyId;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return PrizeTicket
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

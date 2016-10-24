@@ -100,7 +100,7 @@ class SopApiController extends Controller
             $em->flush();
 
             // add point
-            $this->get('app.user_service')->addPoints(
+            $this->get('app.point_service')->addPoints(
                 $user,
                 $point_value,
                 CategoryType::SOP_EXPENSE,

@@ -80,10 +80,10 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 // insert participation history
                 $this->createParticipationHistory($history);
 
-                $userService = $this->getContainer()->get('app.user_service');
+                $pointService = $this->getContainer()->get('app.point_service');
 
                 // 给当前用户加积分
-                $userService->addPoints(
+                $pointService->addPoints(
                     $user,
                     $this->point($history),
                     $this->type($history),
@@ -92,7 +92,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 );
 
                 // 同时给邀请人加积分(10%)
-                $userService->addPointsForInviter(
+                $pointService->addPointsForInviter(
                     $user,
                     $this->point($history) * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,

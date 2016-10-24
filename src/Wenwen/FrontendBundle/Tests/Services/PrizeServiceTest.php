@@ -109,21 +109,6 @@ class PrizeServiceTest extends WebTestCase
         $this->assertEquals($before - $after, $points);
     }
 
-    public function testPrizeTicket()
-    {
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-
-        $ticket = $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_BIG, '大');
-        $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '小');
-        $this->prizeService->createPrizeTicket($user, PrizeItem::TYPE_SMALL);
-        $this->assertEquals(3, count($this->prizeService->getUnusedPrizeTickets($user)));
-
-        $this->assertGreaterThanOrEqual(0, $this->prizeService->drawPrize($ticket));
-
-        $this->prizeService->deletePrizeTicket($ticket);
-        $this->assertEquals(2, count($this->prizeService->getUnusedPrizeTickets($user)));
-    }
-
     // 由于时间比较长，测试通过后注释掉了，本地测试时可以把注释放开
 //    public function testDrawBigPrize()
 //    {

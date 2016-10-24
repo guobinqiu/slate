@@ -6,12 +6,14 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadPrizeItemData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 
-class UserServiceTest extends WebTestCase
+class PrizeTicketServiceTest extends WebTestCase
 {
-    private $container;
     private $em;
+    private $prizeTicketService;
 
     /**
      * {@inheritDoc}
@@ -26,13 +28,14 @@ class UserServiceTest extends WebTestCase
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
+        $loader->addFixture(new LoadPrizeItemData());
 
         $purger = new ORMPurger();
         $executor = new ORMExecutor($em, $purger);
         $executor->execute($loader->getFixtures());
 
-        $this->container = $container;
         $this->em = $em;
+        $this->prizeTicketService = $container->get('app.prize_ticket_service');
     }
 
     /**
@@ -44,15 +47,16 @@ class UserServiceTest extends WebTestCase
         $this->em->close();
     }
 
-    public function testSerializer()
+    public function testPrizeTicket()
     {
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
 
-        $serializer = $this->container->get('jms_serializer');
-        $str = $serializer->serialize($user, 'json');
-        echo $str;
+        $ticket = $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, '大');
+        $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '小');
+        $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL);
+        $this->assertEquals(3, count($this->prizeTicketService->getUnusedPrizeTickets($user)));
 
-        $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
-        $this->assertEquals('user1', $user->getNick());
+        $this->prizeTicketService->deletePrizeTicket($ticket);
+        $this->assertEquals(2, count($this->prizeTicketService->getUnusedPrizeTickets($user)));
     }
 }

@@ -193,7 +193,6 @@ class WeixinLoginController extends BaseController
                         $request->getSession()->get('inviteId'),
                         $this->allowRewardInviter($request)
                     );
-                    $this->get('app.prize_service')->createPrizeTicket($user, PrizeItem::TYPE_SMALL, 'weixin注册');// 获得一次抽奖机会
                     $this->pushBasicProfile($user);// 推送用户基本属性
                 }
                 $request->getSession()->set('uid', $user->getId());

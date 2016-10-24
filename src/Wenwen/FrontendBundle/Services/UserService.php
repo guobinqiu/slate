@@ -7,7 +7,6 @@ use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
@@ -21,30 +20,19 @@ class UserService
     private $em;
     private $redis;
     private $serializer;
-    private $parameterService;
-    private $latestNewsService;
+    private $pointService;
 
-    /**
-     * @param EntityManager $em
-     * @param Client $redis
-     * @param Serializer $serializer
-     * @param ParameterService $parameterService
-     * @param LoggerInterface $logger
-     * @param LatestNewsService $latestNewsService
-     */
     public function __construct(EntityManager $em,
                                 Client $redis,
                                 Serializer $serializer,
-                                ParameterService $parameterService,
                                 LoggerInterface $logger,
-                                LatestNewsService $latestNewsService
+                                PointService $pointService
     ) {
         $this->em = $em;
         $this->redis = $redis;
         $this->serializer = $serializer;
-        $this->parameterService = $parameterService;
         $this->logger = $logger;
-        $this->latestNewsService = $latestNewsService;
+        $this->pointService = $pointService;
     }
 
     /**
@@ -71,16 +59,19 @@ class UserService
         );
 
         // 给当前用户加积分
-        $this->addPoints(
+        $this->pointService->addPoints(
             $user,
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            '完成注册'
+            '完成注册',
+            0,
+            null,
+            true
         );
 
         // 给邀请人加积分
-        $this->addPointsForInviter(
+        $this->pointService->addPointsForInviter(
             $user,
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
@@ -89,66 +80,6 @@ class UserService
         );
 
         return $user;
-    }
-
-    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null) {
-        $this->em->getConnection()->beginTransaction();
-        try {
-            $user->setPoints($user->getPoints() + $points);
-            $user->setLastGetPointsAt(new \DateTime());
-
-            $classPointHistory = 'Jili\ApiBundle\Entity\PointHistory0'. ($user->getId() % 10);
-            $pointHistory = new $classPointHistory();
-            $pointHistory->setUserId($user->getId());
-            $pointHistory->setPointChangeNum($points);
-            $pointHistory->setReason($categoryType);
-            $this->em->persist($pointHistory);
-
-            $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
-            $taskHistory = new $classTaskHistory();
-            $taskHistory->setUserid($user->getId());
-            $taskHistory->setOrderId($orderId);
-            $taskHistory->setOcdCreatedDate(new \DateTime());
-            $taskHistory->setCategoryType($categoryType);
-            $taskHistory->setTaskType($taskType);
-            $taskHistory->setTaskName($taskName);
-            $taskHistory->setDate($happenTime == null ? new \DateTime() : $happenTime);
-            $taskHistory->setPoint($points);
-            $taskHistory->setStatus(1);
-            $taskHistory->setRewardPercent(0);
-            $this->em->persist($taskHistory);
-
-            $this->em->flush();
-            $this->em->getConnection()->commit();
-
-        } catch (\Exception $e) {
-            $this->em->getConnection()->rollBack();
-            $this->em->close();
-            throw $e;
-        }
-
-        if ($points >= 100) {
-            $news = $this->latestNewsService->buildNews($user, $points, $categoryType, $taskType);
-            $this->latestNewsService->insertLatestNews($news);
-        }
-    }
-
-    public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName) {
-        if ($user->getInviteId() != null) {
-            $inviter = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getInviteId());
-            if ($inviter != null) {
-                $this->logger->info(__METHOD__ . '给邀请人加积分，邀请人ID：' . $user->getInviteId() . '，当前用户ID：' . $user->getId());
-                $this->addPoints($inviter, $points, $categoryType, $taskType, $taskName);
-            }
-        }
-    }
-
-    public function getProvinceList() {
-        return $this->getPlaceList(CacheKeys::PROVINCE_LIST, 'Wenwen\FrontendBundle\Entity\ProvinceList');
-    }
-
-    public function getCityList() {
-        return $this->getPlaceList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
     }
 
     private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
@@ -184,12 +115,15 @@ class UserService
         }
     }
 
-    private function getPlaceList($key, $className) {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return $this->em->getRepository($className)->findAll();
-        }
+    public function getProvinceList() {
+        return $this->getPlaceList(CacheKeys::PROVINCE_LIST, 'Wenwen\FrontendBundle\Entity\ProvinceList');
+    }
 
+    public function getCityList() {
+        return $this->getPlaceList(CacheKeys::CITY_LIST, 'Wenwen\FrontendBundle\Entity\CityList');
+    }
+
+    private function getPlaceList($key, $className) {
         $val = $this->redis->get($key);
         if (is_null($val)) {
             $entities = $this->em->getRepository($className)->findAll();

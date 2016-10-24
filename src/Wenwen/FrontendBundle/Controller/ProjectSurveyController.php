@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 
 /**
  * @Route("/project_survey")
@@ -20,7 +19,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     {
         $user_id = $request->getSession()->get('uid');
         $research = $request->query->get('research');
-        $research = $this->get('app.survey_service')->addUrlToken($research, $user_id);
+        $research = $this->get('app.survey_service')->addSurveyUrlToken($research, $user_id);
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array(
             'research' => $research
@@ -32,12 +31,12 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
             $survey_id,
             $request->query->get('tid'),
             $this->getCurrentUser(),
             $answer_status,
-            'sop商业问卷' . $answer_status . $survey_id
+            'sop商业问卷'
         );
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
@@ -52,10 +51,10 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function profileQuestionnaireEndlinkCompleteAction(Request $request)
     {
-        $ticket_created = $this->get('app.survey_service')->createPrizeTicketProfiling(
+        $ticket_created = $this->get('app.survey_service')->createProfilingPrizeTicket(
             $this->getCurrentUser(),
             $request->query->get('tid'),
-            'sop属性问卷complete'
+            'sop属性问卷'
         );
 
         return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig', array(

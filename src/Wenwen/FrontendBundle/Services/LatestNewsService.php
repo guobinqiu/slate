@@ -40,11 +40,6 @@ class LatestNewsService
      */
     public function insertLatestNews($news, $key = CacheKeys::LATEST_NEWS_LIST)
     {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return;
-        }
-
         $latestNewsList = $this->getLatestNews($key);
         $count = array_unshift($latestNewsList, $news);
         if ($count > 100) {
@@ -60,11 +55,6 @@ class LatestNewsService
      */
     public function getLatestNews($key = CacheKeys::LATEST_NEWS_LIST)
     {
-        $cacheSettings = $this->parameterService->getParameter('cache_settings');
-        if (!$cacheSettings['enable']) {
-            return array();
-        }
-
         $val = $this->redis->get($key);
         if (is_null($val)) {
             return array();
@@ -73,7 +63,7 @@ class LatestNewsService
     }
 
     public function buildNews(User $user, $points, $categoryType, $taskType) {
-        $message = substr($user->getNick(), 0, 3) . '**';
+        $message = date('Y-m-d') . ' ' . substr($user->getNick(), 0, 3) . '**';
         switch($taskType) {
             case TaskType::CPA:
                 $message .= '任务墙';

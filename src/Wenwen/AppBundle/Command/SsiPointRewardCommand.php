@@ -85,10 +85,10 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $dbh->beginTransaction();
 
             try {
-                $userService = $this->getContainer()->get('app.user_service');
+                $pointService = $this->getContainer()->get('app.point_service');
 
                 // 给当前用户加积分
-                $userService->addPoints(
+                $pointService->addPoints(
                     $user,
                     $ssiProjectConfig['point'],
                     CategoryType::SSI_COST,
@@ -97,7 +97,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 );
 
                 // 同时给邀请人加积分(10%)
-                $userService->addPointsForInviter(
+                $pointService->addPointsForInviter(
                     $user,
                     $ssiProjectConfig['point'] * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,

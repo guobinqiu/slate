@@ -60,7 +60,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $em->flush();
 
             // add point
-            $this->get('app.user_service')->addPoints(
+            $this->get('app.point_service')->addPoints(
                 $user,
                 self::AGREEMENT_POINT,
                 CategoryType::CINT_EXPENSE,
@@ -86,7 +86,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
     {
         $user_id = $request->getSession()->get('uid');
         $cint_research = $request->query->get('cint_research');
-        $cint_research = $this->get('app.survey_service')->addUrlToken($cint_research, $user_id);
+        $cint_research = $this->get('app.survey_service')->addSurveyUrlToken($cint_research, $user_id);
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
             'cint_research' => $cint_research
@@ -98,12 +98,12 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
             $survey_id,
             $request->query->get('tid'),
             $this->getCurrentUser(),
             $answer_status,
-            'cint商业问卷' . $answer_status . $survey_id
+            'cint商业问卷'
         );
 
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(

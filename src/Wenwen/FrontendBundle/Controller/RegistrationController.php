@@ -121,27 +121,28 @@ class RegistrationController extends BaseController
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
-        $userService = $this->get('app.user_service');
+        $pointService = $this->get('app.point_service');
 
         // 给当前用户加积分
-        $userService->addPoints(
+        $pointService->addPoints(
             $user,
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            '完成注册'
+            '完成注册',
+            0,
+            null,
+            true
         );
 
         // 同时给邀请人加积分
-        $userService->addPointsForInviter(
+        $pointService->addPointsForInviter(
             $user,
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
             '您的好友' . $user->getNick(). '完成了注册'
         );
-
-        $this->get('app.prize_service')->createPrizeTicket($user, PrizeItem::TYPE_SMALL, '注册');// 获得一次抽奖机会
 
         $this->pushBasicProfile($user);// 推送用户基本属性
 
