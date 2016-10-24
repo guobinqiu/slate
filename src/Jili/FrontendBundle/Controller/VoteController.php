@@ -247,6 +247,10 @@ class VoteController extends Controller
         try {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
+            // 更新快速问答的回答状态
+            $em->persist($answer);
+            $em->flush();
+
             // 给当前用户加积分
             $userService->addPoints(
                 $user,
