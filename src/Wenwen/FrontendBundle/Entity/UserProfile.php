@@ -448,7 +448,8 @@ class UserProfile
     /**
      * Set user
      *
-     * @return UserProfile
+     * @param User $user
+     * @return $this
      */
     public function setUser(User $user)
     {
@@ -459,7 +460,7 @@ class UserProfile
     /**
      * Get user
      *
-     * @return UserProfile
+     * @return User
      */
     public function getUser()
     {

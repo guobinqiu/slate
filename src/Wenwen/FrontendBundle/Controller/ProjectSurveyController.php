@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 
 /**
  * @Route("/project_survey")
@@ -17,41 +18,56 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function informationAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $request->query->get('research')));
+        $user_id = $request->getSession()->get('uid');
+        $research = $request->query->get('research');
+        $research = $this->get('app.survey_service')->addUrlToken($research, $user_id);
+
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array(
+            'research' => $research
+        ));
     }
 
     /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_project_survey_endlink")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicket(
+            $survey_id,
+            $request->query->get('tid'),
+            $this->getCurrentUser(),
+            $answer_status,
+            'sop商业问卷' . $answer_status . $survey_id
+        );
+
         return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
-            'survey_id' => $request->get('survey_id'),
+            'answer_status' => $answer_status,
+            'survey_id' => $survey_id,
+            'ticket_created' => $ticket_created
         ));
     }
 
     /**
-     * @Route("/profile_questionnaire/endlink")
+     * @Route("/profile_questionnaire/endlink/complete")
      */
-    public function profileQuestionnaireEndlinkAction() {
+    public function profileQuestionnaireEndlinkCompleteAction(Request $request)
+    {
+        $ticket_created = $this->get('app.survey_service')->createPrizeTicketProfiling(
+            $this->getCurrentUser(),
+            $request->query->get('tid'),
+            'sop属性问卷complete'
+        );
+
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig', array(
+            'ticket_created' => $ticket_created
+        ));
+    }
+
+    /**
+     * @Route("/profile_questionnaire/endlink/quit")
+     */
+    public function profileQuestionnaireEndlinkQuitAction()
+    {
         return $this->redirect($this->generateUrl('_homepage'));
-    }
-
-    /**
-     * 供外部系统调用的endlink
-     *
-     * @Route("/outer/endlink/{answer_status}")
-     */
-    public function outerEndlinkAction(Request $request) {
-        $answer_status = $request->get('answer_status');
-
-        if (!in_array($answer_status, array('complete', 'screenout', 'quotafull'))) {
-            throw new \InvalidArgumentException('Wrong status');
-        }
-
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:outer_endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
-        ));
     }
 }

@@ -134,14 +134,14 @@ body{
 					line-height: 24px;
 					margin-left: 31px;
 					padding: 25px 0 25px 130px;
-					background: url(../img/questionnaire/normalface.png) no-repeat left center;
+					background: url(../img/questionnaire/normalface.png) no-repeat left 50px;
 					h2{
 						font-size: 26px;
 						line-height: 30px;
 						padding-bottom: 12px;
 					}
 					&.sad{
-						background: url(../img/questionnaire/sadface.png) no-repeat left center;
+						background: url(../img/questionnaire/sadface.png) no-repeat left 50px;
 					}
 					b{
 						color: $main-color;
@@ -156,7 +156,15 @@ body{
 						display: table;
 						@include border-radius(3px);
 						font-size: 12px;
-					    margin-top: 25px;
+					    margin-top: 10px;
+					}
+					.luckyNot{
+						margin-top: 30px;
+						display: block;
+						img{
+							max-width: 100%;
+							height: auto;
+						}
 					}
 				}
 				.refer{

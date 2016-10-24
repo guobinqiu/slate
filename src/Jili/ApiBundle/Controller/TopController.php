@@ -17,7 +17,7 @@ class TopController extends Controller
      */
     public function eventAction()
     {
-        $latestNews = $this->get('app.user_service')->getLatestNews();
+        $latestNews = $this->get('app.latest_news_service')->getLatestNews();
         return $this->render('WenwenFrontendBundle:Vote:_topEvent.html.twig', array('latestNews' => $latestNews));
     }
 

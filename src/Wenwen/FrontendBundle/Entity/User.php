@@ -2,6 +2,8 @@
 
 namespace Wenwen\FrontendBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Jili\ApiBundle\Utility\PasswordEncoder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -207,6 +209,11 @@ class User
     private $userProfile;
 
     /**
+     * @ORM\OneToMany(targetEntity="PrizeTicket", mappedBy="user")
+     */
+    private $prizeTickets;
+
+    /**
      * 注册激活token
      *
      * @ORM\Column(name="confirmation_token", type="string", nullable=true)
@@ -244,6 +251,7 @@ class User
         $this->isEmailConfirmed = self::EMAIL_NOT_CONFIRMED;
         $this->points = self::POINT_EMPTY;
         $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
+        $this->prizeTickets = new ArrayCollection();
     }
 
     /**
@@ -842,6 +850,11 @@ class User
     public function getInviteId()
     {
         return $this->inviteId;
+    }
+
+    public function getPrizeTickets()
+    {
+        return $this->prizeTickets;
     }
 
     /**

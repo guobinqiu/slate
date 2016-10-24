@@ -185,13 +185,29 @@ $slider-height: 305px;
 	padding: 10px 25px 6px;
 }
 .main-con-right{
-	.topBr{
-		a{
-			img{
-				width: 230px;
-				height: 176px;
-			}
-		}
+	#planbanner{
+	    position: relative;
+	    height: 176px;
+	    .planpicnum{
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            ul{
+            	li{
+            		float: left;
+    	            width: 10px;
+    	            height: 10px;
+    	            background: #fff;
+    	            margin: 10px 5px;
+    	            @include border-radius(50%);
+    	            @include box-shadow(2px 2px 6px -1px rgba(0,0,0,0.6));
+    	            &.hover{
+    	            	cursor: pointer;
+    	                background: #f16e3e;
+    	            }
+            	}
+            }
+        }
 	}
 	.notice{
 		ul{

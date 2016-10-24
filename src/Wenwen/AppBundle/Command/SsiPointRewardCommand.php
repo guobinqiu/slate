@@ -25,25 +25,19 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-      ->setName('panel:reward-ssi-point')
-      ->setDescription('Reward Point for SSI API conversion')
-      ->addArgument('date', null, InputOption::VALUE_REQUIRED, 'conversion-date', date('Y-m-d', strtotime('2 days ago')))
-      ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
-      ;
+          ->setName('panel:reward-ssi-point')
+          ->setDescription('Reward Point for SSI API conversion')
+          ->addArgument('date', null, InputOption::VALUE_REQUIRED, 'conversion-date', date('Y-m-d', strtotime('2 days ago')))
+          ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-ssi-point: '.date('Y-m-d H:i:s'));
 
-        $env = $this->getContainer()->get('kernel')->getEnvironment();
         $date = $input->getArgument('date');
-        $definitive = $input->getOption('definitive');
         $this->setLogger($this->getName());
-
-        $this->logger->info('Start executing');
-        $this->logger->info('definitive= ' . ($definitive ? 'true' : 'false'));
-        $this->logger->info('date=' . $date);
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
@@ -52,7 +46,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
 
-        $notice_flag = false;
+        $hasErrors = false;
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
         while ($row = $iterator->nextConversion()) {
@@ -113,23 +107,23 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
                 $this->recordParticipationHistory($ssiRespondent, $row);
 
+                $dbh->commit();
+
             } catch (\Exception $e) {
                 $this->logger->error('RollBack: ' . $e->getMessage());
-                $notice_flag = true;
-                $dbh->rollBack();
-                throw $e;
-            }
-
-            if ($definitive) {
-                $this->logger->info('definitive true: commit');
-                $dbh->commit();
-            } else {
-                $this->logger->info('definitive false: rollBack');
+                $hasErrors = true;
                 $dbh->rollBack();
             }
-        }
 
-        if ($notice_flag) {
+            if (!$hasErrors) {
+                // 给奖池注入积分(5%)
+                $injectPoints = intval($ssiProjectConfig['point'] * 0.05);
+                $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
+                $this->logger->info(__METHOD__ . '给奖池注入积分' . $injectPoints);
+            }
+        } // while
+
+        if ($hasErrors) {
             $content = date('Y-m-d H:i:s');
             $subject = 'Panel reward ssi survey point fail, please check log';
             $this->notice($content, $subject);
