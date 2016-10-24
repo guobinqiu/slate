@@ -10,36 +10,37 @@
 {% endblock %}
 
 {% block body %}
-<div class="qnWrap">
-    <div class="qnCon">
-        <div class="qnTxt">
-           <div class="permissionMain">
-              <div class="prmTit">
-                <div class="left">
-                    <h1><span>S市场调查项目</span>邀请函</h1>
+<div class="main-con w1000 clearfix">
+  <div class="qnWrap">
+      <div class="qnCon">
+          <div class="qnTxt">
+             <div class="permissionMain">
+                <div class="prmTit">
+                  <div class="left">
+                      <h1><span>S市场调查项目</span>邀请函</h1>
+                  </div>
+                  <div class="right prmIco">
+                  </div> 
                 </div>
-                <div class="right prmIco">
-                </div> 
-              </div>
-              <div class="prmState">想要问卷答不停吗，您可以加入S市场调查项目，获得更多回答问卷的机会。
-              </div>
-              <ul class="prmPrompt">
-                <li>请完成一份非常简单的调查问卷。</li>
-                <li>不需要任何个人联系信息。</li>
-                <li>您可以随时和我们的客服联系退出该活动。</li>
-              </ul>
-              <form action="{{ path('_ssi_partner_commit') }}" method="post" id="ssi_permission_form">
-                <div class="prmBtn">
-                  <input type="image" alt="发送" src="{{ asset('img/questionnaire/send.jpg') }} "  />
+                <div class="prmState">想要问卷答不停吗，您可以加入S市场调查项目，获得更多回答问卷的机会。
                 </div>
-                <div style="display: none;">{{ form_widget(form.token) }}</div>
-              </form>
+                <ul class="prmPrompt">
+                  <li>请完成一份非常简单的调查问卷。</li>
+                  <li>不需要任何个人联系信息。</li>
+                  <li>您可以随时和我们的客服联系退出该活动。</li>
+                </ul>
+                <form action="{{ path('_ssi_partner_commit') }}" method="post" id="ssi_permission_form">
+                  <div class="prmBtn">
+                    <input type="image" alt="发送" src="{{ asset('img/questionnaire/send.jpg') }} "  />
+                  </div>
+                  <div style="display: none;">{{ form_widget(form.token) }}</div>
+                </form>
+            </div>
           </div>
-        </div>
-    </div>
-    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
-</div>
-    
+      </div>
+      {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+  </div>
+</div>    
 {% endblock %}
 
 {% block footer %}
