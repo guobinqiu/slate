@@ -2,9 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Cookie;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -78,6 +76,17 @@ class QQLoginController extends BaseController
             $user = $qqUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
+
+            $userTrack = $user->getUserTrack();
+            $userTrack->setLastFingerprint(null);
+            $userTrack->setCurrentFingerprint(null);
+            $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+            $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+            $userTrack->setCurrentSignInAt(new \DateTime());
+            $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+            $userTrack->setCurrentSignInIp($request->getClientIp());
+            $userTrack->setOauth('qq');
+
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -184,7 +193,7 @@ class QQLoginController extends BaseController
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
                         $request->getSession()->get('inviteId'),
-                        $this->allowRewardInviter($request)
+                        !$request->cookies->has('uid')
                     );
                     $this->pushBasicProfile($user);// 推送用户基本属性
                 }

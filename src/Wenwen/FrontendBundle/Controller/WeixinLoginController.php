@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Cookie;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
@@ -27,7 +26,6 @@ class WeixinLoginController extends BaseController
     {
         $state = md5(uniqid(rand(), true));
         $request->getSession()->set('state', $state);
-
         $params = array(
             'appid' => $this->container->getParameter('weixin_appid'),
             'redirect_uri' => $this->container->getParameter('weixin_callback'),
@@ -85,6 +83,17 @@ class WeixinLoginController extends BaseController
             $user = $weixinUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
+
+            $userTrack = $user->getUserTrack();
+            $userTrack->setLastFingerprint(null);
+            $userTrack->setCurrentFingerprint(null);
+            $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+            $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+            $userTrack->setCurrentSignInAt(new \DateTime());
+            $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+            $userTrack->setCurrentSignInIp($request->getClientIp());
+            $userTrack->setOauth('weixin');
+
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -191,7 +200,7 @@ class WeixinLoginController extends BaseController
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
                         $request->getSession()->get('inviteId'),
-                        $this->allowRewardInviter($request)
+                        !$request->cookies->has('uid')
                     );
                     $this->pushBasicProfile($user);// 推送用户基本属性
                 }

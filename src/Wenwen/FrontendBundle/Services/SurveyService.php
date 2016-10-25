@@ -673,7 +673,7 @@ class SurveyService
 
     public function addSurveyUrlToken($research, $user_id)
     {
-        $token = md5(uniqid(rand()));
+        $token = md5(uniqid(rand(), true));
         $key = 'sop_' . $user_id . '_' . $research['survey_id'];
         $this->redis->set($key, $token);
         $this->redis->expire($key, 60 * 60 * 24);
@@ -703,7 +703,7 @@ class SurveyService
 
     public function addProfilingUrlToken($profiling, $user_id)
     {
-        $token = md5(uniqid(rand()));
+        $token = md5(uniqid(rand(), true));
         $key = 'sop_p_' . $user_id;
         $this->redis->set($key, $token);
         $this->redis->expire($key, 60 * 60 * 24);

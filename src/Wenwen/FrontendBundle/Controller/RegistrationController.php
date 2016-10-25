@@ -2,17 +2,16 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
 
 /**
@@ -51,16 +50,40 @@ class RegistrationController extends BaseController
             $form->bind($request);
 
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
                 $confirmationToken = md5($user->getEmail() . $user->getPwd() . time());
                 $user->setConfirmationToken($confirmationToken);
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                if ($this->allowRewardInviter($request)) {
-                    $user->setInviteId($session->get('inviteId'));
+
+                $fingerprint = $form->get('fingerprint')->getData();
+                if (!$request->cookies->has('uid')) {
+                    //再加一道防护
+                    //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+                    //说实话没啥用
+                    //服务端写浏览器是安全的，浏览器传给服务端，懂点技术的人都可以修改这个fingerprint
+                    //先试试看吧
+                    $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+                    if ($userTrack == null) {
+                        $user->setInviteId($session->get('inviteId'));
+                    }
                 }
 
-                $em = $this->getDoctrine()->getManager();
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint($fingerprint);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth(null);
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+
                 $em->persist($user);
                 $em->flush();
 

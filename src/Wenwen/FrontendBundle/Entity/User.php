@@ -209,6 +209,11 @@ class User
     private $userProfile;
 
     /**
+     * @ORM\OneToOne(targetEntity="UserTrack", mappedBy="user", cascade={"persist","remove"})
+     */
+    private $userTrack;
+
+    /**
      * @ORM\OneToMany(targetEntity="PrizeTicket", mappedBy="user")
      */
     private $prizeTickets;
@@ -734,6 +739,28 @@ class User
     public function getUserProfile()
     {
         return $this->userProfile;
+    }
+
+    /**
+     * Set userTrack
+     *
+     * @return UserTrack
+     */
+    public function setUserTrack(UserTrack $userTrack)
+    {
+        $this->userTrack = $userTrack;
+
+        return $this;
+    }
+
+    /**
+     * Get userTrack
+     *
+     * @return UserTrack
+     */
+    public function getUserTrack()
+    {
+        return $this->userTrack;
     }
 
     public function setIcon(UploadedFile $icon)

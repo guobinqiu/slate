@@ -26,17 +26,6 @@ class BaseController extends Controller
         }
     }
 
-    /**
-     * 被判定为在浏览器上留下过登录痕迹的用户就算多次注册，其邀请人也不能够获得积分
-     *
-     * @param Request $request
-     * @return bool
-     */
-    protected function allowRewardInviter(Request $request)
-    {
-        return !$request->cookies->has('uid');
-    }
-
     protected function getCurrentUser()
     {
         $user = null;
