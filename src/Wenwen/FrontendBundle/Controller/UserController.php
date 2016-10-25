@@ -53,14 +53,16 @@ class UserController extends BaseController
                 $user->setLastLoginDate(new \DateTime());
 
                 $userTrack = $user->getUserTrack();
-                $userTrack->setLastFingerprint($userTrack->getCurrentFingerprint());
-                $userTrack->setCurrentFingerprint($form->get('fingerprint')->getData());
-                $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
-                $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth(null);
+                if ($userTrack) {
+                    $userTrack->setLastFingerprint($userTrack->getCurrentFingerprint());
+                    $userTrack->setCurrentFingerprint($form->get('fingerprint')->getData());
+                    $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+                    $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+                    $userTrack->setCurrentSignInAt(new \DateTime());
+                    $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+                    $userTrack->setCurrentSignInIp($request->getClientIp());
+                    $userTrack->setOauth(null);
+                }
 
                 $em->flush();
 
