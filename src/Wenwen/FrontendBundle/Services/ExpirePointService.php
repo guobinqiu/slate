@@ -8,7 +8,6 @@ use Symfony\Component\Templating\EngineInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
-use Wenwen\FrontendBundle\Services\UserService;
 
 /**
  * 积分清零以及邮件通知用户的功能
@@ -410,10 +409,10 @@ class ExpirePointService
                             $points = -$user->getPoints();
 
                             $this->pointService->addPoints(
-                                $user, 
-                                $points, 
-                                CategoryType::EXPIRE, 
-                                TaskType::RECOVER, 
+                                $user,
+                                $points,
+                                CategoryType::EXPIRE,
+                                TaskType::RECOVER,
                                 self::TASK_NAME);
                         }
                         $totalExpiredPoints += $expiringUser['points'];
