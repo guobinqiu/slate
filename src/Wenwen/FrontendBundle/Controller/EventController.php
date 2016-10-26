@@ -109,7 +109,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
 
         if ($points > 0) {
             //中奖用户最新动态
-            $news = date('Y-m-d') . ' 用户' . substr($user->getNick(), 0, 3) . '** 抽奖获得' . $points . '积分';
+            $news = date('Y-m-d') . ' 用户' . mb_substr($user->getNick(), 0, 3, 'utf8') . '** 抽奖获得' . $points . '积分';
             $this->get('app.latest_news_service')->insertLatestNews($news, CacheKeys::LATEST_PRIZE_NEWS_LIST);
         }
 

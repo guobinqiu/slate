@@ -31,6 +31,8 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
+        $this->get('logger')->info('sop endlink tid=' . $request->query->get('tid'));
+
         $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
             $survey_id,
             $request->query->get('tid'),

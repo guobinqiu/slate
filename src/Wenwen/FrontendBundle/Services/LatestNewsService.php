@@ -63,7 +63,7 @@ class LatestNewsService
     }
 
     public function buildNews(User $user, $points, $categoryType, $taskType) {
-        $message = date('Y-m-d') . ' ' . substr($user->getNick(), 0, 3) . '**';
+        $message = date('Y-m-d') . ' ' . mb_substr($user->getNick(), 0, 3, 'utf8') . '**';
         switch($taskType) {
             case TaskType::CPA:
                 $message .= '任务墙';

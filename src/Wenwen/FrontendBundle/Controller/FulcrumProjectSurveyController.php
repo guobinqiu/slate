@@ -30,6 +30,8 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function endlinkAction(Request $request, $survey_id)
     {
+        $this->get('logger')->info('fulcrum endlink tid=' . $request->query->get('tid'));
+
         $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
             $survey_id,
             $request->query->get('tid'),
