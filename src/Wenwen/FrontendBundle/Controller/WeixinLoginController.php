@@ -94,6 +94,20 @@ class WeixinLoginController extends BaseController
                 $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('weixin');
+            } else {
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint(null);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth('weixin');
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+                $em->persist($user);
             }
 
             $em->flush();

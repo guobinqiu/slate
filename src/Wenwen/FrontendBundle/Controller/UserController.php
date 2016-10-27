@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
 
 /**
@@ -52,16 +53,31 @@ class UserController extends BaseController
                 $user->setLastLoginIp($request->getClientIp());
                 $user->setLastLoginDate(new \DateTime());
 
+                $fingerprint = $form->get('fingerprint')->getData();
                 $userTrack = $user->getUserTrack();
                 if ($userTrack) {
                     $userTrack->setLastFingerprint($userTrack->getCurrentFingerprint());
-                    $userTrack->setCurrentFingerprint($form->get('fingerprint')->getData());
+                    $userTrack->setCurrentFingerprint($fingerprint);
                     $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
                     $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
                     $userTrack->setCurrentSignInAt(new \DateTime());
                     $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth(null);
+                } else {
+                    $userTrack = new UserTrack();
+                    $userTrack->setLastFingerprint(null);
+                    $userTrack->setCurrentFingerprint($fingerprint);
+                    $userTrack->setSignInCount(1);
+                    $userTrack->setLastSignInAt(null);
+                    $userTrack->setCurrentSignInAt(new \DateTime());
+                    $userTrack->setLastSignInIp(null);
+                    $userTrack->setCurrentSignInIp($request->getClientIp());
+                    $userTrack->setOauth(null);
+
+                    $userTrack->setUser($user);
+                    $user->setUserTrack($userTrack);
+                    $em->persist($user);
                 }
 
                 $em->flush();

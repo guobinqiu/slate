@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
@@ -87,6 +88,20 @@ class QQLoginController extends BaseController
                 $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('qq');
+            } else {
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint(null);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth('qq');
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+                $em->persist($user);
             }
 
             $em->flush();

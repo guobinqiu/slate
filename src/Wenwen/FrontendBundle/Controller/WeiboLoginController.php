@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Controller;
 use Symfony\Component\HttpFoundation\Cookie;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -81,6 +82,20 @@ class WeiboLoginController extends BaseController
                 $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('weibo');
+            } else {
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint(null);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth('weibo');
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+                $em->persist($user);
             }
 
             $em->flush();
