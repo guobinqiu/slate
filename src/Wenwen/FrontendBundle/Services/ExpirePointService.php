@@ -8,7 +8,6 @@ use Symfony\Component\Templating\EngineInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
-use Wenwen\FrontendBundle\Services\UserService;
 
 /**
  * 积分清零以及邮件通知用户的功能
@@ -23,7 +22,7 @@ class ExpirePointService
 
     private $parameterService;
 
-    private $userService;
+    private $pointService;
 
     private $templating;
 
@@ -54,13 +53,13 @@ class ExpirePointService
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
-                                UserService $userService,
+                                PointService $pointService,
                                 EngineInterface $templating)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
-        $this->userService = $userService;
+        $this->pointService = $pointService;
         $this->templating = $templating;
 
         $this->mailerForUser = MailerFactory::createWebpowerMailer($this->parameterService);
@@ -409,11 +408,11 @@ class ExpirePointService
                             // 用户现有分数的负数
                             $points = -$user->getPoints();
 
-                            $this->userService->addPoints(
-                                $user, 
-                                $points, 
-                                CategoryType::EXPIRE, 
-                                TaskType::RECOVER, 
+                            $this->pointService->addPoints(
+                                $user,
+                                $points,
+                                CategoryType::EXPIRE,
+                                TaskType::RECOVER,
                                 self::TASK_NAME);
                         }
                         $totalExpiredPoints += $expiringUser['points'];

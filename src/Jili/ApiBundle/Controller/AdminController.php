@@ -1002,7 +1002,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             $em->flush();
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($exchange->getUserId());
-            $this->get('app.user_service')->insertLatestNews(substr($user->getNick(), 0, 3) . '**' . $comment .'兑换' . $points . '积分');
+            $this->get('app.latest_news_service')->insertLatestNews(mb_substr($user->getNick(), 0, 3, 'utf8') . '**' . $comment .'兑换' . $points . '积分');
         }
         return true;
     }
@@ -1174,7 +1174,7 @@ class AdminController extends Controller implements IpAuthenticatedController
             }
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            $this->get('app.user_service')->insertLatestNews(substr($user->getNick(), 0, 3) . '**支付宝兑换' . $points . '积分');
+            $this->get('app.latest_news_service')->insertLatestNews(mb_substr($user->getNick(), 0, 3, 'utf8') . '**支付宝兑换' . $points . '积分');
 
         } else {
             // Do nothing if points_exchange.status is not NULL(exchange result already updated)

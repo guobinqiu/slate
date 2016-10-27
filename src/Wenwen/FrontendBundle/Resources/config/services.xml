@@ -13,6 +13,8 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
             <argument type="service" id="templating" />
+            <argument type="service" id="app.prize_ticket_service" />
+            <argument type="service" id="snc_redis.default" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
@@ -42,14 +44,14 @@
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.parameter_service" />
-            <argument type="service" id="app.user_service" />
+            <argument type="service" id="app.latest_news_service" />
         </service>
 
         <service id="app.expire_point_service" class="Wenwen\FrontendBundle\Services\ExpirePointService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.parameter_service" />
-            <argument type="service" id="app.user_service" />
+            <argument type="service" id="app.point_service" />
             <argument type="service" id="templating" />
         </service>
 
@@ -57,8 +59,34 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="jms_serializer" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="app.point_service" />
+        </service>
+
+        <service id="app.point_service" class="Wenwen\FrontendBundle\Services\PointService">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="app.latest_news_service" />
+            <argument type="service" id="app.prize_ticket_service" />
+        </service>
+
+        <service id="app.latest_news_service" class="Wenwen\FrontendBundle\Services\LatestNewsService">
+            <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="jms_serializer" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="logger" />
+        </service>
+
+        <service id="app.prize_service" class="Wenwen\FrontendBundle\Services\PrizeService">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="app.point_service" />
+            <argument type="service" id="app.prize_ticket_service" />
+        </service>
+
+        <service id="app.prize_ticket_service" class="Wenwen\FrontendBundle\Services\PrizeTicketService">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
         <service id="app.ip_location_service" class="Wenwen\FrontendBundle\Services\IpLocationService">

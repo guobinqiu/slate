@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,6 +51,19 @@ class UserController extends BaseController
 
                 $user->setLastLoginIp($request->getClientIp());
                 $user->setLastLoginDate(new \DateTime());
+
+                $userTrack = $user->getUserTrack();
+                if ($userTrack) {
+                    $userTrack->setLastFingerprint($userTrack->getCurrentFingerprint());
+                    $userTrack->setCurrentFingerprint($form->get('fingerprint')->getData());
+                    $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+                    $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+                    $userTrack->setCurrentSignInAt(new \DateTime());
+                    $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+                    $userTrack->setCurrentSignInIp($request->getClientIp());
+                    $userTrack->setOauth(null);
+                }
+
                 $em->flush();
 
                 $session->set('uid', $user->getId());

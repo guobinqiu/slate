@@ -50,8 +50,9 @@
 									<div class="error">{{ form_errors(form.password) }}</div>
 								</li>
 							</ul>
-							<input type="submit" class="login-btn" value="登录"/>
+							{{ form_row(form.fingerprint) }}
 							{{ form_row(form._token) }}
+							<input type="submit" class="login-btn" value="登录"/>
 			            </form>
 			            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
 			            <div class="subCon login-btn-others">
@@ -153,4 +154,10 @@
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
+	<script type="text/javascript">
+		var client = new ClientJS(); // Create A New Client Object
+		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+		$('#login_fingerprint').val(fingerprint);
+	</script>
 {% endblock %}

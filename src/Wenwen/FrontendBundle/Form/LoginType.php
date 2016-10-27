@@ -22,6 +22,7 @@ class LoginType extends AbstractType
                     new Assert\Regex(array('pattern' => '/^\w+/')),
                 )
             ))
+            ->add('fingerprint', 'hidden', array('mapped' => false))
             ->getForm();
     }
 
