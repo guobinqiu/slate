@@ -7,8 +7,6 @@
     <!--[if lt IE 8]>
     <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
     <![endif]-->
-
-      
 {% endblock %}
 
 {% block header %}
@@ -32,42 +30,42 @@
                 <div class="contBox col-sm-8">
                     <h2 class="tit"><img class="bug pull-left img-responsive" src="{{ asset('img/checkin/ladybugIco.png') }}">签到进度</h2>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="proBar col-sm-12">
                             <div class="progress">
                               <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            <div class="step well">
+                            <div class="step well" style="display: none;">
                                 <div class="checkSuc center-block">
                                     <h2 class="res">签到成功！继续努力！</h2>
                                     <p>还需连续签到3天即可获得抽奖券。</p>
                                 </div>
                             </div>
-                            <div class="step well">
+                            <div class="step well" style="display: none;">
                                 <div class="checkSuc center-block">
                                     <h2 class="res">签到成功！你最棒了！</h2>
                                     <p>还需连续签到3天即可获得抽奖券。</p>
                                 </div>
                             </div>
-                            <div class="step well">
+                            <div class="step well" style="display: none;">
                                 <div class="checkFail center-block">
                                     <h2 class="res">呀！你漏签了！</h2>
                                     <p>不要紧，重头再来吧！</p>
                                 </div>    
                             </div>
-                            <div class="step well">
+                            <div class="step well" style="display: none;">
                                 <div class="checkSuc center-block">
                                     <h2 class="res">签到成功！最后冲刺！</h2>
                                     <p>还需连续签到3天即可获得抽奖券。</p>
                                 </div>
                             </div>
-                            <div class="step well">
+                            <div class="step well" style="display: none;">
                                  <div class="checkWin center-block">
                                      <h2 class="res">签到成功！恭喜您！</h2>
                                      <p>获得一张抽奖券！前去抽奖吧！</p>
                                  </div>       
                             </div>
                             <button class="action next checkBtn center-block btn btn-default btn-lg">点击签到</button>
-                            <button class="action submit checkBtn center-block btn btn-default btn-lg">Submit</button>
+                            <button class="action submit checkBtn center-block btn btn-default btn-lg" style="display: none;">Submit</button>
                             {# <button type="button" class="checkBtn center-block btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">点击签到</button> #}
                             {# <p class="text-center">您已连续签到2天！再连续签到3天就可以得到抽奖券啦!</p> #}
                         </div>
@@ -88,14 +86,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            var current = 1;
-            
+            var current = 0;
             widget = $(".step");
             btnnext = $(".next");
             btnsubmit = $(".submit");
          
             // Init buttons and UI
-            widget.not(':eq(0)').hide();
+            // widget.not(':eq(0)').hide();
+            // widget.hide();
             hideButtons(current);
             setProgress(current);
          
@@ -108,7 +106,6 @@
                }        
                hideButtons(current);    
            })   
-
         });
          
         // Change progress bar action
@@ -121,15 +118,12 @@
         // Hide buttons according to the current step
         hideButtons = function(current){
             var limit = parseInt(widget.length); 
-         
-            $(".action").hide();
-         
+            // $(".action").hide();
             if(current < limit) btnnext.show();  
             if(current == limit){ 
                 btnnext.hide(); 
                 btnsubmit.show(); 
             }
         }
-
     </script>
 {% endblock %}

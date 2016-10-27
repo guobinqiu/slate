@@ -27,7 +27,7 @@ a:hover{
 .bannerWrap{
 	background: url(../img/checkin/bannerbg.jpg) no-repeat #93ae4f center top;
 	background-size: cover;
-	padding-bottom: 5rem;
+	padding-bottom: 3rem;
 	position: relative;
 	z-index: 2;
 	.bannerCon{
@@ -38,8 +38,7 @@ a:hover{
 	background: url(../img/checkin/grassBg.jpg) repeat;
 	position: relative;
 	z-index: 1;
-	padding-top: 20px;
-	padding-bottom: 80px;
+	padding-bottom: 220px;
 	.contBox{
 		padding: 3rem;
 		background: #fff;
@@ -61,13 +60,13 @@ a:hover{
 		}
 		.step{
 			.checkSuc{
-				background: url(../img/checkin/successExp.png) no-repeat left center;
+				background: url(../img/checkin/successExp.gif) no-repeat left center;
 			}
 			.checkFail{
-				background: url(../img/checkin/failExp.png) no-repeat left center;
+				background: url(../img/checkin/failExp.gif) no-repeat left center;
 			}
 			.checkWin{
-				background: url(../img/checkin/winExp.png) no-repeat left center;
+				background: url(../img/checkin/winExp.gif) no-repeat left center;
 			}
 			.checkSuc,.checkFail,.checkWin{
 				background-size: contain;
@@ -82,7 +81,7 @@ a:hover{
 			color: #fff;
 			border: 1px solid #FF5C7A;
 		    padding: 15px 58px;
-		    margin-bottom: 50px;
+		    margin-bottom: 36px;
 			@include border-radius(34px);
 		}
 		.rule{
@@ -92,6 +91,14 @@ a:hover{
 				font-size: 15px;
 			}
 		}
+		.proBar{
+			position: relative;
+			border-bottom: 2px dashed #d3d7d6;
+			margin-bottom: 30px;
+		}
+	}
+	.progress-bar{
+		background-color: #27ae60;
 	}
 }
 
@@ -107,7 +114,7 @@ a:hover{
 			}
 			h2.res{
 				line-height: 29px;
-				font-size: 1.6rem!important;
+				font-size: 1.3rem!important;
 				margin-bottom: 10px;
 			}
 			.step{
