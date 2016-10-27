@@ -34,4 +34,13 @@ class DefaultController extends BaseController
     {
         return $this->render('WenwenFrontendBundle:Exception:maintain91jili.html.twig');
     }
+
+    /**
+     * @Route("/checkIn", name="checkIn")
+     * @Template
+     */
+    public function checkInAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:checkIn.html.twig');
+    }
 }
