@@ -28,4 +28,43 @@ $(function(){
     }else{
         $('#mask, #newguideWrap').hide();
     }
+
+    //home banner slider
+    //点击按钮更换图片
+    var e = $("#planbanner").children(".planpicnum").find("li");
+    $(".planpicnum li").hover(function (val) {
+        num = $(this).index();
+        //获取图片数量
+        var imgCount = e.length;
+        //获得下一个元素在其父元素中的下标
+        if (num < (imgCount - 1)) {
+            num += 1;
+        }
+        else {
+            num = 0;
+        }
+        //
+        $(".planpicshow a").hide();
+        $(".planpicshow a").eq($(this).index()).show();
+    })
+
+    //自动更换图片
+    function showImg(val) {
+       //获取图片数量
+       var imgCount = e.length;
+       //显示索引为val的图片
+       $(".planpicshow a").hide();
+       $(".planpicshow a").eq(val).show();
+       $(".planpicnum li").eq(val).addClass('hover').siblings().removeClass('hover');
+       if (num < (imgCount - 1)) {
+           num += 1;
+       }
+       else {
+           num = 0;
+       }
+       //3秒后重新绑定图片
+       setTimeout(function () { showImg(num); }, 6000);
+    }
+    //加载图片
+    var num = 0; showImg(num);
 });

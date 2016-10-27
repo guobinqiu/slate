@@ -23,7 +23,7 @@ class PushBasicProfileCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $surveyService = $this->getContainer()->get('app.survey_service');
-        $userService = $this->getContainer()->get('app.user_service');
+        $pointService = $this->getContainer()->get('app.point_service');
         $parameterService = $this->getContainer()->get('app.parameter_service');
 
         $user_id = $input->getOption('user_id');
@@ -31,9 +31,9 @@ class PushBasicProfileCommand extends ContainerAwareCommand
         $success = $surveyService->pushBasicProfile($user);
         if ($success) {
             $points = $parameterService->getParameter('sop')['point']['profile'];
-            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q001 属性问卷');//birthday
-            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q002 属性问卷');//gender
-            $userService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q004 属性问卷');//region
+            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q001 属性问卷');//birthday
+            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q002 属性问卷');//gender
+            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q004 属性问卷');//region
         }
         $output->writeln($success);
     }

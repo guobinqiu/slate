@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 
 class SurveyServiceTest extends WebTestCase
 {

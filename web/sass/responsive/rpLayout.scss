@@ -959,14 +959,17 @@
     }
     .main{
         .qnWrap{
-            background-color: #fff;
-            background-position: center -40px;
+            
             .qnCon{
-                width: 90%;
-                left: 0;
-                top: 20px!important;
+                background-color: #fff;
+                // background-position: center -40px;
+                // width: 90%;
+                // left: 0;
+                // top: 20px!important;
                 margin-left: 5%;
                 margin-right: 5%;
+                padding-left: 5%;
+                padding-right: 5%;
                 .qnTxt{
                     width: 100%;
                     .prompt{
@@ -997,49 +1000,16 @@
             .qnEnd{
                 .qnEndTxt{
                     .txt{
-                        width: 100%;
-                        background-position: center 56px;
-                        text-align: center;
-                        margin-left: 0;
-                        padding: 155px 0 20px 0;
                         h2{
-                            padding-bottom: 10px;
-                            font-size: 2rem!important;
-                        }
-                        &.sad{
-                            background-position: center 56px;
-                        }
-                        .backBtn{
-                            margin: 15px auto;
+                            font-size: 1.5rem!important;   
                         }
                     }
-                    .refer{
-                        width: 100%;
-                        padding: 20px;
-                        font-size: .8rem!important;
-                    }
-                    .confirmBtn{
-                        width: 50%;
-                        height: 40px;
-                        line-height: 40px;
-                    }
-                }
-            }
-            .qnConBg{
-                .bottom{
-                    line-height: 1.8rem;
-                    font-size: .8rem!important;
-                    color: #A1A1A1;
-                }
-                .qnConBot{
-                    width: 100%!important;
-                    background: none; 
                 }
             }
         }
     }
     .prmTit{
-        span{
+        h1,span{
             font-size: 1.6rem!important;
         }
     }

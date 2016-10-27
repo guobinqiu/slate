@@ -85,6 +85,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $cint_research['loi'] = 10;
         $cint_research['extra_info']['point']['complete'] = 400;
         $cint_research['url'] = 'dummy url';
+        $cint_research['survey_id'] = 1;
         $url = $container->get('router')->generate('_cint_project_survey_information', array('cint_research' => $cint_research, 'difficulty' => '普通'));
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

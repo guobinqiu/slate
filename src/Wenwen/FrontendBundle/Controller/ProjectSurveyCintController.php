@@ -60,7 +60,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $em->flush();
 
             // add point
-            $this->get('app.user_service')->addPoints(
+            $this->get('app.point_service')->addPoints(
                 $user,
                 self::AGREEMENT_POINT,
                 CategoryType::CINT_EXPENSE,
@@ -84,17 +84,34 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $request->query->get('cint_research')));
+        $user_id = $request->getSession()->get('uid');
+        $cint_research = $request->query->get('cint_research');
+        $cint_research = $this->get('app.survey_service')->addSurveyUrlToken($cint_research, $user_id);
+
+        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
+            'cint_research' => $cint_research
+        ));
     }
 
     /**
      * @Route("/endlink/{survey_id}/{answer_status}", name="_cint_project_survey_endlink")
      */
-    public function endlinkAction(Request $request)
+    public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
+        $this->get('logger')->info('cint endlink tid=' . $request->query->get('tid'));
+
+        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
+            $survey_id,
+            $request->query->get('tid'),
+            $this->getCurrentUser(),
+            $answer_status,
+            'cint商业问卷'
+        );
+
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
-            'answer_status' => $request->get('answer_status'),
-            'survey_id' => $request->get('survey_id'),
+            'answer_status' => $answer_status,
+            'survey_id' => $survey_id,
+            'ticket_created' => $ticket_created
         ));
     }
 }

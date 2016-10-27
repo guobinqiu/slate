@@ -236,23 +236,22 @@ class VoteController extends Controller
 
         $point = $this->calcRewardPoint($vote->getPointValue(), $vote->getStartTime());
 
-        //insert vote answer
-        $answer = new VoteAnswer();
-        $answer->setUserId($user_id);
-        $answer->setVoteId($vote_id);
-        $answer->setAnswerNumber($answer_number);
 
-        $userService = $this->get('app.user_service');
+        $pointService = $this->get('app.point_service');
 
         try {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
             // 更新快速问答的回答状态
+            $answer = new VoteAnswer();
+            $answer->setUserId($user_id);
+            $answer->setVoteId($vote_id);
+            $answer->setAnswerNumber($answer_number);
             $em->persist($answer);
             $em->flush();
 
             // 给当前用户加积分
-            $userService->addPoints(
+            $pointService->addPoints(
                 $user,
                 $point,
                 CategoryType::QUICK_POLL,
