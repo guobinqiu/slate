@@ -1,0 +1,129 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}签到领奖券{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/checkInEvent.css') }} " type="text/css">
+    <!--[if lt IE 8]>
+    <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
+    <![endif]-->
+{% endblock %}
+
+{% block header %}
+    {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="bannerWrap">
+        <div class="container">
+            <div class="bannerCon row">
+                <div class="col-sm-12">
+                    <img class="img-responsive center-block" src="{{ asset('img/checkin/titleImage.png') }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contWrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="contBox col-sm-8">
+                    <h2 class="tit"><img class="bug pull-left img-responsive" src="{{ asset('img/checkin/ladybugIco.png') }}">签到进度</h2>
+                    <div class="row">
+                        <div class="proBar col-sm-12">
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="step well" style="display: none;">
+                                <div class="checkSuc center-block">
+                                    <h2 class="res">签到成功！继续努力！</h2>
+                                    <p>还需连续签到3天即可获得抽奖券。</p>
+                                </div>
+                            </div>
+                            <div class="step well" style="display: none;">
+                                <div class="checkSuc center-block">
+                                    <h2 class="res">签到成功！你最棒了！</h2>
+                                    <p>还需连续签到3天即可获得抽奖券。</p>
+                                </div>
+                            </div>
+                            <div class="step well" style="display: none;">
+                                <div class="checkFail center-block">
+                                    <h2 class="res">呀！你漏签了！</h2>
+                                    <p>不要紧，重头再来吧！</p>
+                                </div>    
+                            </div>
+                            <div class="step well" style="display: none;">
+                                <div class="checkSuc center-block">
+                                    <h2 class="res">签到成功！最后冲刺！</h2>
+                                    <p>还需连续签到3天即可获得抽奖券。</p>
+                                </div>
+                            </div>
+                            <div class="step well" style="display: none;">
+                                 <div class="checkWin center-block">
+                                     <h2 class="res">签到成功！恭喜您！</h2>
+                                     <p>获得一张抽奖券！前去抽奖吧！</p>
+                                 </div>       
+                            </div>
+                            <button class="action next checkBtn center-block btn btn-default btn-lg">点击签到</button>
+                            <button class="action submit checkBtn center-block btn btn-default btn-lg" style="display: none;">Submit</button>
+                            {# <button type="button" class="checkBtn center-block btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">点击签到</button> #}
+                            {# <p class="text-center">您已连续签到2天！再连续签到3天就可以得到抽奖券啦!</p> #}
+                        </div>
+                    </div>
+                    <h2 class="tit"><img class="bug pull-left img-responsive" src="{{ asset('img/checkin/ladybugIco.png') }}">签到规则</h2>
+                    <div class="rule">
+                        <p>1. 连续签到5天，自动获得1张抽奖券。</p>
+                        <p>2. 抽奖券的使用规则请前往抽奖活动页面。</p>
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var current = 0;
+            widget = $(".step");
+            btnnext = $(".next");
+            btnsubmit = $(".submit");
+         
+            // Init buttons and UI
+            // widget.not(':eq(0)').hide();
+            // widget.hide();
+            hideButtons(current);
+            setProgress(current);
+         
+            // Next button click action
+            btnnext.click(function(){
+                if(current < widget.length){             
+                   widget.show();           
+                   widget.not(':eq('+(current++)+')').hide();
+                   setProgress(current); 
+               }        
+               hideButtons(current);    
+           })   
+        });
+         
+        // Change progress bar action
+        setProgress = function(currstep){
+            var percent = parseFloat(100 / widget.length) * currstep;
+            percent = percent.toFixed();
+            $(".progress-bar").css("width",percent+"%").html("第"+currstep+"天");     
+        }
+         
+        // Hide buttons according to the current step
+        hideButtons = function(current){
+            var limit = parseInt(widget.length); 
+            // $(".action").hide();
+            if(current < limit) btnnext.show();  
+            if(current == limit){ 
+                btnnext.hide(); 
+                btnsubmit.show(); 
+            }
+        }
+    </script>
+{% endblock %}
