@@ -6,22 +6,26 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSurvey.html.twig' %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
-<div class="qnWrap">
-    <div class="qnCon qnEnd">
-        <div class="qnEndTxt">
-            <div class="txt"><h2>亲爱的用户！恭喜！</h2>
-               您已经成功接受了本次调查项目的邀请，并获得了<b>{{agreementPoint}}积分</b>。<br>
-               请耐心等候1-2日，新的调查问卷即将到来。<br>
-               稍后可在问卷列表里看到新的问卷。<br>
-               您可以关闭您的浏览器窗口。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
-            </div>
-        </div>
-    </div>
-    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+<div class="main-con w1000 clearfix">
+  <div class="qnWrap">
+      <div class="qnCon qnEnd">
+          <div class="qnEndTxt">
+              <div class="txt">
+                <img src="{{ asset('img/questionnaire/normalface.png') }}">
+                <h2>亲爱的用户！恭喜！</h2>
+                <p>您已经成功接受了本次调查项目的邀请，并获得了<b>{{agreementPoint}}积分</b>。<br>
+                 请耐心等候1-2日，新的调查问卷即将到来。<br>
+                 稍后可在问卷列表里看到新的问卷。<br>
+                 您可以关闭您的浏览器窗口。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+              </div>
+          </div>
+      </div>
+      {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+  </div>
 </div>
 {% endblock %}
 

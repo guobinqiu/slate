@@ -133,9 +133,7 @@ class PointHistoryRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('ph');
 
-        $query = $query->select('ph.id, ph.userId, a.displayName, ph.pointChangeNum, ph.createTime');
-        $query = $query->innerJoin('JiliApiBundle:AdCategory', 'a', 'WITH', 'ph.reason = a.id ');
-
+        $query = $query->select('ph.id, ph.userId, ph.reason, ph.pointChangeNum, ph.createTime');
         $query = $query->Where('ph.userId = :userId');
 
         $param['userId'] = $user_id;

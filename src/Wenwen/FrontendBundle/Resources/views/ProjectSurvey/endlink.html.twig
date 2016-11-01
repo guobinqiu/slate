@@ -6,28 +6,44 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_headerSurvey.html.twig' %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
-<div class="qnWrap">
-	<div class="qnCon qnEnd">
-		<div class="qnEndTxt">
-            {% if answer_status == 'complete' %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>感谢您参加本次的问卷调查，积分会在调查结束后的3周内自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
-            {% elseif answer_status == 'screenout' %}
-            <div class="txt sad"><h2>亲爱的用户！您好！</h2>感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
-            {% elseif answer_status == 'quotafull' %}
-            <div class="txt sad"><h2>亲爱的用户！您好！</h2>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
-            {% else %}
-            <div class="txt"><h2>亲爱的用户！您好！</h2>
-                编号为 r{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
-                请联系我们的客服，告知问卷编号（r{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
-                给您添麻烦了，请继续关注91问问，谢谢！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></div>
-            {% endif %}
-		</div>
-	</div>
-	{% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+<div class="main-con w1000 clearfix">
+    <div class="qnWrap">
+        <div class="qnCon qnEnd">
+    		<div class="qnEndTxt">
+                <div class="txt">
+                    {% if answer_status == 'complete' %}
+                        <img src="{{ asset('img/questionnaire/normalface.png') }}">
+                        <h2>亲爱的用户！您好！</h2>
+                        <p>感谢您参加本次的问卷调查，积分会在调查结束后的3周内自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                    {% elseif answer_status == 'screenout' %}
+                        <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                        <h2>亲爱的用户！您好！</h2>
+                        <p>感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                    {% elseif answer_status == 'quotafull' %}
+                        <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                        <h2>亲爱的用户！您好！</h2>
+                        <p>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                    {% else %}
+                        <img src="{{ asset('img/questionnaire/normalface.png') }}">
+                        <h2>亲爱的用户！您好！</h2>
+                        <p>编号为 r{{survey_id}} 的问卷出现了一些小问题，此时无法确认您的回答是否有效。<br>
+                        请联系我们的客服，告知问卷编号（r{{survey_id}}）和您的账号，我们的客服会尽最快的速度答复您。<br>
+                        给您添麻烦了，请继续关注91问问，谢谢！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                    {% endif %}
+                </div>
+                {% if answer_status == 'complete' or answer_status == 'screenout' or answer_status == 'quotafull' %}
+                    {% if ticket_created %}
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                    {% endif %}
+                {% endif %}
+    		</div>
+        </div>
+	   {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+    </div>
 </div>
 {% endblock %}
 

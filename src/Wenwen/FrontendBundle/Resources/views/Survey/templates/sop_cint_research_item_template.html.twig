@@ -7,11 +7,15 @@
        {% endif %}    
     </div>
     <ul class="con clearfix">
-        <li class="first">
-            调查所需时间：约 {{ cint_research.loi }} 分钟
-        </li>
         <li class="last">
-            调查难易程度：{{ cint_research.difficulty }} 
+            难度：
+            {% if cint_research.loi <= 10 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% elseif cint_research.loi <= 30 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% else %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
+            {% endif %}
         </li>
     </ul>
 </div>

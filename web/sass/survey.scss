@@ -17,18 +17,12 @@
 		border-bottom: $block-inner-border;
 	}
 	li{
-		padding: 25px 30px 17px;
+		padding: 17px 30px 17px;
 	}
 	#noSurvey{
 		text-align: center;
 	}
-	.title{
-		font-size: 17px;
-		height: 24px;
-	}
 	.survey-btn{
-		top: 36px;
-		right: 22px;
 		.disabled{
 			width: 112px;
 			height: 34px;
@@ -42,7 +36,6 @@
 	}
 	.rewardPoint{
 		right: 148px;
-		top: 44px;
 	}
 }
 @import "component/page";

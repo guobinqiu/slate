@@ -55,34 +55,4 @@ class UserServiceTest extends WebTestCase
         $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
         $this->assertEquals('user1', $user->getNick());
     }
-
-    public function testAddPoints()
-    {
-        $userService = $this->container->get('app.user_service');
-
-        $user1 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-        $user2 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user2');
-
-        $this->assertEquals(100, $user1->getPoints());
-        $this->assertEquals(0, $user2->getPoints());
-
-        $userService->addPoints($user1, 10, 0, 0, 'test add points');
-        $userService->addPoints($user2, 10, 0, 0, 'test add points');
-
-        $this->assertEquals(110, $user1->getPoints());
-        $this->assertEquals(10, $user2->getPoints());
-    }
-
-    public function testAddPointsForInviter()
-    {
-        $userService = $this->container->get('app.user_service');
-
-        $user1 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-        $this->assertEquals(100, $user1->getPoints());
-
-        $user2 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user2');
-        $userService->addPointsForInviter($user2, 100, 0, 0, 'test add points for inviter');
-
-        $this->assertEquals(200, $user1->getPoints());
-    }
 }

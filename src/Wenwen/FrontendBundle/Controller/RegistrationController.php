@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,6 +11,7 @@ use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
 
 /**
@@ -50,16 +50,40 @@ class RegistrationController extends BaseController
             $form->bind($request);
 
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
                 $confirmationToken = md5($user->getEmail() . $user->getPwd() . time());
                 $user->setConfirmationToken($confirmationToken);
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-                if ($this->allowRewardInviter($request)) {
-                    $user->setInviteId($session->get('inviteId'));
+
+                $fingerprint = $form->get('fingerprint')->getData();
+                if (!$request->cookies->has('uid')) {
+                    //再加一道防护
+                    //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+                    //说实话没啥用
+                    //服务端写浏览器是安全的，浏览器传给服务端，懂点技术的人都可以修改这个fingerprint
+                    //先试试看吧
+                    $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+                    if ($userTrack == null) {
+                        $user->setInviteId($session->get('inviteId'));
+                    }
                 }
 
-                $em = $this->getDoctrine()->getManager();
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint($fingerprint);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth(null);
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+
                 $em->persist($user);
                 $em->flush();
 
@@ -67,7 +91,7 @@ class RegistrationController extends BaseController
                     $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
-                $this->send_confirmation_email($user, $em);
+                $this->send_confirmation_email($user);
 
                 return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
             }
@@ -120,19 +144,22 @@ class RegistrationController extends BaseController
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
-        $userService = $this->get('app.user_service');
+        $pointService = $this->get('app.point_service');
 
         // 给当前用户加积分
-        $userService->addPoints(
+        $pointService->addPoints(
             $user,
             User::POINT_SIGNUP,
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
-            '完成注册'
+            '完成注册',
+            0,
+            null,
+            true
         );
 
         // 同时给邀请人加积分
-        $userService->addPointsForInviter(
+        $pointService->addPointsForInviter(
             $user,
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
@@ -140,8 +167,7 @@ class RegistrationController extends BaseController
             '您的好友' . $user->getNick(). '完成了注册'
         );
 
-        // 推送用户基本属性
-        $this->pushBasicProfile($user, $em);
+        $this->pushBasicProfile($user);// 推送用户基本属性
 
         $request->getSession()->set('uid', $user->getId());
 
@@ -166,7 +192,7 @@ class RegistrationController extends BaseController
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
-    private function send_confirmation_email(User $user, EntityManager $em)
+    private function send_confirmation_email(User $user)
     {
         $args = array(
             '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
@@ -175,16 +201,19 @@ class RegistrationController extends BaseController
             '--confirmation_token='.$user->getConfirmationToken(),
         );
         $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

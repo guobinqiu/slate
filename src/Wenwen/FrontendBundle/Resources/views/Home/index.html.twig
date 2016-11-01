@@ -1,9 +1,8 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}专业在线调研网站{% endblock %}
+{% block title %}{{ parent() }}专业问卷调研网站{% endblock %}
 {% block meta %}
 <meta name="keywords" content="调查,调研,问卷,赚钱,在线样本服务,消费者调查" />
 <meta name="description" content="欢迎访问91问问调查网，隶属于一家专业的全球在线调研服务公司，提供在线调查、市场调查、问卷调查、市场调研，在线样本服务等服务。如有任何需求请访问www.d8aspring.com与我们取得联系。" />
-<meta name="title" content="91问问调查网" />
 {% endblock %}
 
 {% block stylesheet %}
@@ -137,7 +136,7 @@
 			<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
 			<li class="liner"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
 			<li class="liner"><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
-			<li class="liner"><a href="{{ path('_user_invite') }}" title="邀请好友">邀请好友</a></li>
+			<li class="liner"><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
 			<li>
 				<a class="visibleDesktop visibleTablet hiddenPhone" href="{{ path('help_help') }}" title="帮助中心">帮助中心</a>
 				<a class="visiblePhone hiddenDesktop hiddenTablet" href="{{ path('help_feedback') }}" title="联系客服">联系客服</a>

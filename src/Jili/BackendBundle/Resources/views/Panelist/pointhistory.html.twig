@@ -57,7 +57,7 @@
       <th>Time</th>
       <th>Total Point(s)</th>
       <th>Added Point(s)</th>
-      <th>Comment</th>
+      <th>Reason</th>
     </tr>
     </thead>
     <tbody>
@@ -67,7 +67,7 @@
         <td class="center">{{item.createTime|date("Y-m-d H:i:s")}}</td>
         <td class="right">{{item.total_point}}</td>
         <td class="right">{{item.pointChangeNum}}</td>
-        <td class="left">{{item.displayName}}</td>
+        <td class="left">{{item.reason}}</td>
       </tr>
        {% endfor %}
      {% else %}

@@ -2,10 +2,10 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Cookie;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -71,6 +71,33 @@ class WeiboLoginController extends BaseController
             $user = $weiboUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
+
+            $userTrack = $user->getUserTrack();
+            if ($userTrack) {
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint(null);
+                $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+                $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth('weibo');
+            } else {
+                $userTrack = new UserTrack();
+                $userTrack->setLastFingerprint(null);
+                $userTrack->setCurrentFingerprint(null);
+                $userTrack->setSignInCount(1);
+                $userTrack->setLastSignInAt(null);
+                $userTrack->setCurrentSignInAt(new \DateTime());
+                $userTrack->setLastSignInIp(null);
+                $userTrack->setCurrentSignInIp($request->getClientIp());
+                $userTrack->setOauth('weibo');
+
+                $userTrack->setUser($user);
+                $user->setUserTrack($userTrack);
+                $em->persist($user);
+            }
+
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -177,9 +204,9 @@ class WeiboLoginController extends BaseController
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
                         $request->getSession()->get('inviteId'),
-                        $this->allowRewardInviter($request)
+                        !$request->cookies->has('uid')
                     );
-                    $this->pushBasicProfile($user, $em);
+                    $this->pushBasicProfile($user);// 推送用户基本属性
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -250,12 +277,13 @@ class WeiboLoginController extends BaseController
         return json_decode($resBody);
     }
 
-    private function pushBasicProfile(User $user, EntityManager $em)
+    private function pushBasicProfile(User $user)
     {
         $args = array(
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

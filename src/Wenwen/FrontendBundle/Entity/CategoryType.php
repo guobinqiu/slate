@@ -19,6 +19,8 @@ class CategoryType
 
     // TaskType.RECOVER
     const EXPIRE = 15;           // (-) 积分过期清零
+
+
     
     // TaskType.CPS
     // 100 ~ 199
@@ -42,8 +44,10 @@ class CategoryType
     const CINT_EXPENSE = 304;     // (+) Cint AGREEMENT 
     const FULCRUM_EXPENSE = 305;  // (+) Fulcrum AGREEMENT
     //const EVENT_XXX = 399;        // (+) 这个还没有被用到，具体活动的类型，需要的时候定义
-    const EVENT_INVITE_SIGNUP = 380; // (+) 邀请注册加积分
-    const EVENT_INVITE_SURVEY = 381; // (+) 做问卷给邀请人加积分
+    const EVENT_INVITE_SIGNUP = 380; // 邀请注册加积分
+    const EVENT_INVITE_SURVEY = 381; // 做问卷给邀请人加积分
+    const EVENT_PRIZE = 382; // 抽奖活动
+    const MANUAL = 399;           // (+) 客服手动增加积分
 
     /** 2016/09/12之前的值
     const SIGNUP = 32;           // (+) 完成注册获得积分
@@ -76,5 +80,5 @@ class CategoryType
     const FULCRUM_COST = 92;     // (+) 回答Fulcrum的实际商业问卷
     */
 
-
+    static $cost_types = array(self::SOP_COST, self::FULCRUM_COST, self::CINT_COST);
 }

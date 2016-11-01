@@ -7,7 +7,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: inherit;
     vertical-align: baseline;
     -webkit-font-smoothing: antialiased;
 }
@@ -138,4 +137,31 @@ i, cite, em, var, address, dfn {
 	clear: both;
 }
 
-
+// pagination
+.pagination{
+    text-align: center;
+    margin-top: 30px;
+    span{
+        &.first,&.previous,&.next,&.last,&.page,&.current{
+            color: #999;
+            margin: 0 2px;
+            a{
+                height: 20px;
+                line-height: 20px;
+                color: #999;
+                padding: 4px 10px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                display: inline;
+                @include border-radius(3px);
+            }
+        }
+        &.current{
+            padding: 4px 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            color: #337ab7;
+            @include border-radius(3px);
+        }
+    }
+}

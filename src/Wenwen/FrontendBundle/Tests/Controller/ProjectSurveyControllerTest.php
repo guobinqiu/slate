@@ -59,7 +59,7 @@ class ProjectSurveyControllerTest extends WebTestCase
      */
     public function testInformationAction()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $container = $client->getContainer();
         $em = $this->em;
 
@@ -83,7 +83,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $research['loi'] = 10;
         $research['extra_info']['point']['complete'] = 400;
         $research['url'] = 'dummy url';
-
+        $research['survey_id'] = 1;
         $url = $container->get('router')->generate('_project_survey_information', array('research' => $research));
         $crawler = $client->request('GET', $url);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -94,7 +94,7 @@ class ProjectSurveyControllerTest extends WebTestCase
      */
     public function testEndlinkAction()
     {
-        $client = static::createClient();
+        $client = static::createClient(array(),array('HTTPS' => true));
         $container = $client->getContainer();
         $em = $this->em;
 

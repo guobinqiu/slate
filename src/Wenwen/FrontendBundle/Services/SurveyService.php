@@ -3,6 +3,8 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Predis\Client;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
@@ -26,6 +28,10 @@ class SurveyService
 
     private $templating;
 
+    private $prizeTicketService;
+
+    private $redis;
+
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
@@ -35,13 +41,17 @@ class SurveyService
                                 EntityManager $em,
                                 ParameterService $parameterService,
                                 HttpClient $httpClient,
-                                EngineInterface $templating)
+                                EngineInterface $templating,
+                                PrizeTicketService $prizeTicketService,
+                                Client $redis)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
+        $this->prizeTicketService = $prizeTicketService;
+        $this->redis = $redis;
     }
 
     public function setDummy($dummy){
@@ -193,6 +203,27 @@ class SurveyService
                      }
                   },
                   {
+                    "survey_id": "7436",
+                    "quota_id": "20002",
+                    "cpi": "2.34",
+                    "ir": "90",
+                    "loi": "10",
+                    "is_answered": "0",
+                    "is_closed": "0",
+                    "title": "testtesttest",
+                    "url": "",
+                    "is_fixed_loi": "0",
+                    "is_notifiable": "0",
+                    "date": "2015-01-03",
+                    "extra_info": { 
+                        "point": {
+                             "screenout": "30",
+                             "quotafull": "30",
+                             "complete": "400"
+                         }
+                     }
+                  },
+                  {
                     "survey_id": "10002",
                     "quota_id": "20002",
                     "cpi": "2.34",
@@ -230,7 +261,20 @@ class SurveyService
                      "quota_id": "10",
                      "cpi": "0.00",
                      "ir": "80",
-                     "loi": "10",
+                     "loi": "31",
+                     "title": "Fulcrum Dummy Survey 4",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "date": "2015-01-01",
+                     "extra_info": {
+                         "point": {"complete": "300"}
+                     }
+                   },
+                   {
+                     "survey_id": "4",
+                     "quota_id": "10",
+                     "cpi": "0.00",
+                     "ir": "80",
+                     "loi": "20",
                      "title": "Fulcrum Dummy Survey 4",
                      "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
                      "date": "2015-01-01",
@@ -460,6 +504,7 @@ class SurveyService
             }
             //$this->logger->info($result);
 
+            $answerableSurveyCount = 0;
             $fulcrum_researches = $sop['data']['fulcrum_research'];
             if (count($fulcrum_researches) > 0) {
                 foreach ($fulcrum_researches as $fulcrum_research) {
@@ -469,6 +514,7 @@ class SurveyService
                         $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                         array_unshift($html_survey_list, $html);
+                        $answerableSurveyCount++;
                     }
                 }
             }
@@ -483,6 +529,7 @@ class SurveyService
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                         if ($cint_research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
                         } else {
                             array_push($html_survey_list, $html);
                         }
@@ -493,6 +540,13 @@ class SurveyService
             $researches = $sop['data']['research'];
             if (count($researches) > 0) {
                 foreach ($researches as $research) {
+                    ///临时增加代码。将7436问卷显示分数改为5000分
+                    ///项目关闭时删除
+                    if(($research['survey_id'] == 7436)){
+                            $research['extra_info']['point']['complete']= 5000;
+                        }
+                    ///
+                    ///
                     if(($research['is_closed'] == 0)){
                         $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                         $research['loi'] = $this->getSurveyLOI($research['loi']);
@@ -500,6 +554,7 @@ class SurveyService
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
                         } else {
                             array_push($html_survey_list, $html);
                         }
@@ -524,8 +579,10 @@ class SurveyService
             $profilings = $sop['data']['profiling'];
             if (count($profilings) > 0) {
                 foreach ($profilings as $profiling) {
-                    $profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling));
+                    //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                    $profiling = $this->addProfilingUrlToken($profiling, $user_id);
+                    // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                     array_unshift($html_survey_list, $html);
                 }
             }
@@ -614,6 +671,58 @@ class SurveyService
         return true;
     }
 
+    public function addSurveyUrlToken($research, $user_id)
+    {
+        $token = md5(uniqid(rand(), true));
+        $key = 'sop_' . $user_id . '_' . $research['survey_id'];
+        $this->redis->set($key, $token);
+        $this->redis->expire($key, 60 * 60 * 24);
+        $research['url'] = $research['url'] . '&sop_custom_token=' . $token;
+        return $research;
+    }
+
+    public function createSurveyPrizeTicket($survey_id, $tid, User $user, $answer_status, $comment)
+    {
+        $key = 'sop_' . $user->getId() . '_' . $survey_id;
+        $token = $this->redis->get($key);
+        //echo ' token=' . $token;
+        //echo ' tid=' . $tid;
+        if ($token != null && $tid == $token) {
+            if ($answer_status == $this->parameterService->getParameter('research_survey_status_complete')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, $survey_id, $answer_status);
+            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_screenout')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
+            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_quotafull')) {
+                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
+            }
+            $this->redis->del($key);
+            return true;
+        }
+        return false;
+    }
+
+    public function addProfilingUrlToken($profiling, $user_id)
+    {
+        $token = md5(uniqid(rand(), true));
+        $key = 'sop_p_' . $user_id;
+        $this->redis->set($key, $token);
+        $this->redis->expire($key, 60 * 60 * 24);
+        $profiling['url'] = $profiling['url'] . '&sop_custom_token=' . $token;
+        return $profiling;
+    }
+
+    public function createProfilingPrizeTicket(User $user, $tid, $comment)
+    {
+        $key = 'sop_p_' . $user->getId();
+        $token = $this->redis->get($key);
+        if ($token != null && $tid == $token) {
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, null, 'complete');
+            $this->redis->del($key);
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 屏蔽带有注册URL的问卷
      *
@@ -640,7 +749,7 @@ class SurveyService
     */
     private function getSurveyDifficulty($ir){
         $difficulty = '普通';
-        if($ir < 10){
+        if($ir < 20 && $ir > 0){
             $difficulty = '困难';
         }
         if($ir > 70){
@@ -659,5 +768,4 @@ class SurveyService
         }
         return $loi;
     }
-
 }

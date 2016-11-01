@@ -28,7 +28,7 @@ class SsiApiControllerTest extends WebTestCase
         parent::tearDown();
     }
 
-        public function testRequestWithValidRespondentList()
+    public function testRequestWithValidRespondentList()
     {
 
     	$em = static::$kernel->getContainer()->get('doctrine')->getManager();
@@ -80,7 +80,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            ['CONTENT_TYPE' => 'application/json', 'HTTPS' => true],
             json_encode(
                 [
                 'requestHeader' => [
@@ -164,7 +164,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            ['CONTENT_TYPE' => 'application/json', 'HTTPS' => true],
             json_encode(
                 [
                 'requestHeader' => [
@@ -205,7 +205,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json']
+            ['CONTENT_TYPE' => 'application/json', 'HTTPS' => true]
         );
         $this->assertTrue(
             $client->getResponse()->headers->contains(
@@ -232,7 +232,7 @@ class SsiApiControllerTest extends WebTestCase
             '/ssi_pc1_protocol/request_api',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            ['CONTENT_TYPE' => 'application/json', 'HTTPS' => true],
             '{"requestHeader":{}}'
         );
         $this->assertTrue(

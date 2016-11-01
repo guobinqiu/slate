@@ -194,7 +194,7 @@ class SsiPartnerController extends BaseController
                 // add point
                 $user_id = $request->getSession()->get('uid');
                 $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-                $this->get('app.user_service')->addPoints($user, $configSsi['agreement_point'], CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
+                $this->get('app.point_service')->addPoints($user, $configSsi['agreement_point'], CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
 
                 $db_connection->commit();
             } catch (\Exception $e) {

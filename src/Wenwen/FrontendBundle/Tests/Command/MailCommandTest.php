@@ -21,20 +21,20 @@ class MailCommandTest extends WebTestCase {
         $this->container = static::$kernel->getContainer();
     }
 
-    public function testSignupConfirmationMailCommand() {
-        $application = new Application(static::$kernel);
-        $application->add(new SignupConfirmationMailCommand());
-
-        $command = $application->find('mail:signup_confirmation');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            'command' => $command->getName(),
-            '--subject' => 'signup confirmation',
-            '--email' => 'qracle@126.com',
-            '--name' => 'Guobin',
-            '--register_key' => '1234567890',
-        ));
-    }
+//    public function testSignupConfirmationMailCommand() {
+//        $application = new Application(static::$kernel);
+//        $application->add(new SignupConfirmationMailCommand());
+//
+//        $command = $application->find('mail:signup_confirmation');
+//        $commandTester = new CommandTester($command);
+//        $commandTester->execute(array(
+//            'command' => $command->getName(),
+//            '--subject' => 'signup confirmation',
+//            '--email' => 'qracle@126.com',
+//            '--name' => 'Guobin',
+//            '--register_key' => '1234567890',
+//        ));
+//    }
 
     public function testSignupSuccessMailCommand() {
         $application = new Application(static::$kernel);
@@ -64,6 +64,7 @@ class MailCommandTest extends WebTestCase {
             '--survey_point' => 10,
             '--survey_length' => 10,
             '--subject' => 'sop delivery notification',
+            '--survey_id' => 7548
             //'--channel' => 'channel2',//sendcloud
         ));
     }
