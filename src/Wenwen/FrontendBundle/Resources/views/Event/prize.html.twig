@@ -1,0 +1,110 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}幸运抽奖券{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/luckyDraw.css') }} " type="text/css">
+    <!--[if lt IE 8]>
+    <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
+    <![endif]-->
+{% endblock %}
+
+{% block header %}
+    {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	<div class="bannerWrap">
+		<div class="flowBg">
+			<div class="container">
+				<div class="bannerCon center-block row">
+					<div class="bcIn">
+						<div class="PointNum">{{ pointBalance }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="contWrap">
+    	<div class="container">
+    		<div class="cont row">
+    			<div class="conWrap col-sm-12">
+    				<div class="prize row">
+	    				<div class="prizeCon col-sm-12 col-xs-12">
+	    					<img class="img-responsive center-block" src="/img/luckyDraw/prize.png?v000022" alt="奖项">
+	    					<i class="hidden-xs"></i>
+	    				</div>
+    				</div>
+    				<div class="draw row">
+    					<div class="col-sm-12 col-xs-12">
+    						<div class="cbOuter row">
+		    					<div class="col-sm-12">
+		    						<h3>您有<b class="text-warning">{{ prizeTicketCount }}张</b>抽奖券</h3>
+									<div class="drawBox">
+										{% if message is defined %}
+											<div class="drawResult center-block">{{ message }}</div>
+										{% else %}
+											{% if drawable %}
+												<a href="{{ path('event_prize_draw') }}">
+													<div class="button"><div class="outer"><div class="height"><div class="inner">点击抽奖</div></div></div></div>
+												</a>
+											{% else %}
+												<div class="drawResult center-block">当前不可抽奖</div>
+											{% endif %}
+										{% endif %}
+									</div>
+									{% if message is defined and drawable %}
+										<div class="drawNext">
+											<a href="{{ path('event_prize') }}">
+												<button type="button" class="btn btn-default pull-right">点击抽下一张>></button>
+											</a>
+										</div>
+									{% endif %}
+		    					</div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    		<div class="state row">
+		    			<div class="col-sm-12 col-xs-12">
+		    				<div class="row">
+		    					<div class="col-sm-6 col-xs-12">
+			    					<div class="stateTit">抽奖规则</div>
+			    					<div class="stateText">
+										1、注册成功，获得一次抽奖机会。<br>
+										2、邀请的好友注册成功，获得一次抽奖机会。<br>
+										3、90%的商业问卷，每回答一份，获得一次抽奖机会。<br>
+										4、当奖池积分余额不足时不能抽奖，但保留奖券。<br>
+										5、有人完成商业问卷，就会往奖池注入积分。 <br>
+			    					</div>
+		    					</div>
+		    					<div class="tmWrap col-sm-6 col-xs-12">
+		    						<div class="tmTit">中奖用户</div>
+		    						<div class="luckyTimeline">
+		    							<div class="mask">
+			    						    <ul style="top: -28.3528px;">
+												{% for news in latestNewsList %}
+													<li>{{ news }}</li>
+												{% endfor %}
+									         </ul>
+									    </div>
+		    						</div>
+		    					</div>
+		    				</div>
+    					</div>
+    				</div>
+    				<div class="status row">
+    					<div class="col-sm-12 col-xs-12">
+    						<img class="img-responsive center-block" src="/img/luckyDraw/survey.png?v000022" alt="回答问卷">
+    						<a href="{{ path('_survey_index') }}" title="问卷列表"><button type="button" class="btn btn-default center-block">回答问卷</button></a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+	</div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
+{% endblock %}

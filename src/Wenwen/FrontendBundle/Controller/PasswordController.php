@@ -50,7 +50,7 @@ class PasswordController extends BaseController
         $user->setResetPasswordTokenExpiredAt(new \DateTime('+ 24 hour'));
         $em->flush();
 
-        $this->send_reset_password_email($user, $em);
+        $this->send_reset_password_email($user);
 
         return new JsonResponse(array('error' => false, 'message' => '邮件已发送'), 200);
     }
@@ -116,7 +116,7 @@ class PasswordController extends BaseController
         return $this->render('WenwenFrontendBundle:User:resetSuccess.html.twig');
     }
 
-    private function send_reset_password_email(User $user, EntityManager $em)
+    private function send_reset_password_email(User $user)
     {
         $args = array(
             '--subject=91问问-帐号密码重置',
@@ -125,6 +125,8 @@ class PasswordController extends BaseController
             '--reset_password_token='.$user->getResetPasswordToken(),
         );
         $job = new Job('mail:reset_password', $args, true, '91wenwen_reset', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
+        $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
     }

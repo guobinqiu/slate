@@ -8,18 +8,18 @@ use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\Offer99Order;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
-use Wenwen\FrontendBundle\Services\UserService;
+use Wenwen\FrontendBundle\Services\PointService;
 
 class Offer99RequestProcessor
 {
     private $em;
     private $logger;
-    private $userService;
+    private $pointService;
 
-    public function __construct(LoggerInterface $logger, EntityManager $em, UserService $userService) {
+    public function __construct(LoggerInterface $logger, EntityManager $em, PointService $pointService) {
         $this->logger = $logger;
         $this->em = $em;
-        $this->userService = $userService;
+        $this->pointService = $pointService;
     }
 
     //service方法里怎么能出现request对象？扯蛋
@@ -51,7 +51,7 @@ class Offer99RequestProcessor
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->logger->info(__METHOD__ . ' userid=' . $user->getId() . ', points=' . $points . ', tid=' . $tid . ', offer_name=' . $offer_name);
-            $this->userService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $order->getId());
+            $this->pointService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $order->getId());
         }
     }
 }

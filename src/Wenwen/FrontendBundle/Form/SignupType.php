@@ -53,7 +53,8 @@ class SignupType extends AbstractType
                 'data' => true,
                 'constraints' => new Assert\True(array('message' => '只有接受会员协议才能注册')),
                 'mapped' => false,
-            ));
+            ))
+            ->add('fingerprint', 'hidden', array('mapped' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

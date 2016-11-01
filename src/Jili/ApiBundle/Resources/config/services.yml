@@ -104,7 +104,7 @@ services:
 
     offer99_request.processor:
         class: %offer99_request.processor.class%
-        arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.user_service" ]
+        arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
 
     duomai_request.validation:
         class: %duomai_request.validation.class%

@@ -86,8 +86,9 @@
 								<div class="error errorReg errorSub">{{ form_errors(userForm.termAccepted) }}</div>
 							</li>
 						</ul>
+						{{ form_row(userForm.fingerprint) }}
+						{{ form_row(userForm._token) }}
 						<input class="login-btn" type="submit" value="注册" />
-			        	{{ form_row(userForm._token) }}
 					</form>
 				</div>
 			</div>
@@ -187,5 +188,11 @@
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
+	<script type="text/javascript">
+		var client = new ClientJS(); // Create A New Client Object
+		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+		$('#signup_fingerprint').val(fingerprint);
+	</script>
 {% endblock %}
 
