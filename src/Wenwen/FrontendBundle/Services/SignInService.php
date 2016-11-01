@@ -1,0 +1,129 @@
+<?php
+
+namespace Wenwen\FrontendBundle\Services;
+
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserSignInDetail;
+use Wenwen\FrontendBundle\Entity\UserSignInSummary;
+
+class SignInService
+{
+    private $em;
+    private $prizeTicketService;
+
+    public function __construct(EntityManager $em, PrizeTicketService $prizeTicketService) {
+        $this->em = $em;
+        $this->prizeTicketService = $prizeTicketService;
+    }
+
+    public function alreadySignedIn(User $user, \DateTime $date = null) {
+        if ($date == null) {
+            $date = new \DateTime();
+        }
+        return !$this->findUserSignInDetailsByDate($user, $date)->isEmpty();
+    }
+
+    public function createUserSignInDetail(User $user, \DateTime $date)
+    {
+        $userSignInDetail = new UserSignInDetail();
+        $userSignInDetail->setSignInDate($date);
+        $userSignInDetail->setSignInTime($date);
+
+        $userSignInDetail->setUser($user);
+        $user->getUserSignInDetails()->add($userSignInDetail);
+
+        $this->em->persist($userSignInDetail);
+        $this->em->flush();
+    }
+
+    public function createUserSignInSummary(User $user, \DateTime $date)
+    {
+        $userSignInSummary = new UserSignInSummary();
+        $userSignInSummary->setTotalSignInCount(1);
+        $userSignInSummary->setConsecutiveDays(1);
+        $userSignInSummary->setStartDate($date);
+
+        $userSignInSummary->setUser($user);
+        $user->setUserSignInSummary($userSignInSummary);
+
+        $this->em->persist($userSignInSummary);
+        $this->em->flush();
+    }
+
+    /**
+     * 每日签到.
+     *
+     * @param User $user
+     * @param \DateTime|null $date
+     */
+    public function signIn(User $user, \DateTime $date = null)
+    {
+        if ($date == null) {
+            $date = new \DateTime();
+        }
+        $today = $date;
+        $this->createUserSignInDetail($user, $today);
+
+        $userSignInSummary = $user->getUserSignInSummary();
+        if ($userSignInSummary == null) {
+            $this->createUserSignInSummary($user, $today);
+
+        } else {
+            $yesterday = clone $today;
+            $yesterday = $yesterday->modify('-1 day');
+            $userSignInDetails = $this->findUserSignInDetailsByDate($user, $yesterday);
+
+            if ($userSignInDetails->isEmpty()) {
+                $consecutiveDays = 1;
+                $startDate = $today;
+
+            } else {
+                $consecutiveDays = $userSignInSummary->getConsecutiveDays() + 1;
+
+                if ($consecutiveDays == UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
+                    $taskName = '连续签到'. UserSignInSummary::MAX_CONSECUTIVE_DAYS . '天';
+                    $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $taskName);// 获得一次抽奖机会
+
+                } elseif ($consecutiveDays > UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
+                    $consecutiveDays = 1;
+                    $startDate = $today;
+                }
+            }
+            $userSignInSummary->setTotalSignInCount($userSignInSummary->getTotalSignInCount() + 1);
+            $userSignInSummary->setConsecutiveDays($consecutiveDays);
+            if (isset($startDate)) {
+                $userSignInSummary->setStartDate($startDate);
+            }
+            $this->em->flush();
+        }
+    }
+
+    public function getSignInData(User $user) {
+        $data = array();
+
+        for ($i=0; $i<UserSignInSummary::MAX_CONSECUTIVE_DAYS; $i++) {
+            $data[$i] = null;
+        }
+
+        $userSignInSummary = $user->getUserSignInSummary();
+        $consecutiveDays = $userSignInSummary->getConsecutiveDays();
+        $startDate = $userSignInSummary->getStartDate();
+
+        $data[0] = $startDate;
+        for ($i=1; $i<$consecutiveDays; $i++) {
+            $data[$i] = $startDate->modify('+1 day');
+        }
+
+        return $data;
+    }
+
+    //http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections
+    public function findUserSignInDetailsByDate(User $user, \DateTime $date) {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('signInDate', $date));
+        return $user->getUserSignInDetails()->matching($criteria);
+    }
+}
