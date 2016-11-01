@@ -142,4 +142,12 @@ class EventController extends BaseController //implements UserAuthenticationCont
             'latestNewsList' => $latestNewsList,
         );
     }
+
+    /**
+     * @Route("/checkInEvent", name="check_in_event", methods={"GET"})
+     */
+    public function checkInEventAction()
+    {
+        return $this->render('WenwenFrontendBundle:Event:checkIn.html.twig');
+    }
 }
