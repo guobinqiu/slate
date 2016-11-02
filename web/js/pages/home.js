@@ -46,7 +46,7 @@ $(function(){
         //
         $(".planpicshow a").hide();
         $(".planpicshow a").eq($(this).index()).show();
-    })
+    });
 
     //自动更换图片
     function showImg(val) {

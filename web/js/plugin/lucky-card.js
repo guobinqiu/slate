@@ -45,8 +45,7 @@
         };
 
         this.init(settings, callback);
-    };
-
+    }
     function _calcArea(ctx, callback, ratio) {
         var pixels = ctx.getImageData(0, 0, 300, 100);
         var transPixels = [];
@@ -83,8 +82,7 @@
         this.endEventHandler = _endEventHandler.bind(this);
         document.addEventListener(this.events[2],this.endEventHandler,false);
         event.preventDefault();
-    };
-
+    }
     /**
      * touchmove/mousemove event handler
      */
@@ -103,8 +101,7 @@
         this.ctx.fill();
 
         event.preventDefault();
-    };
-
+    }
     /**
      * touchend/mouseup event handler
      */
@@ -113,8 +110,7 @@
         this.cover.removeEventListener(this.events[1],this.moveEventHandler,false);
         document.removeEventListener(this.events[2],this.endEventHandler,false);
         event.preventDefault();
-    };
-
+    }
     /**
      * Create Canvas element
      */
@@ -136,7 +132,7 @@
             this.ctx.fillRect(0, 0, this.cover.width, this.cover.height);
         }
         this.scratchDiv.appendChild(this.cover);
-    }
+    };
 
     /**
      * To detect whether support touch events
