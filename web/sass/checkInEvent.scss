@@ -28,6 +28,7 @@ a:hover{
 	background: url(../img/checkin/bannerbg.jpg) no-repeat #93ae4f center top;
 	background-size: cover;
 	padding-bottom: 3rem;
+	padding-bottom: 50px\9;
 	position: relative;
 	z-index: 2;
 	.bannerCon{
@@ -41,6 +42,7 @@ a:hover{
 	padding-bottom: 220px;
 	.contBox{
 		padding: 3rem;
+		padding: 50px\9;
 		background: #fff;
 		@include border-radius(15px);
 		h2{
@@ -61,6 +63,8 @@ a:hover{
 		.step{
 			.checkSuc{
 				background: url(../img/checkin/successExp.gif) no-repeat left center;
+				filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/checkin/successExp.gif', sizingMethod='scale');
+				-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='../img/checkin/successExp.gif', sizingMethod='scale')";
 			}
 			.checkFail{
 				background: url(../img/checkin/failExp.gif) no-repeat left center;
@@ -70,6 +74,9 @@ a:hover{
 			}
 			.checkSuc,.checkFail,.checkWin{
 				background-size: contain;
+
+				
+
 				min-height: 100px;
 				padding-left: 100px;
 				padding-top: 24px;
@@ -83,6 +90,7 @@ a:hover{
 		    padding: 15px 58px;
 		    margin-bottom: 36px;
 			@include border-radius(34px);
+			display: table;
 		}
 		.rule{
 			padding: 0 0 0 20px;
