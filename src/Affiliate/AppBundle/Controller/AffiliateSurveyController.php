@@ -31,7 +31,18 @@ class AffiliateSurveyController extends Controller
         }
 
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
-        $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
+        $affiliateProjectLocationService = $this->get('app.af_location_service');
+        
+        // 判断用户Location与项目中的Location是否一致       
+        $checkResult=$affiliateProjectLocationService->confirmLocation($request->getClientIp(),$affiliateProjectId);
+        if(empty($checkResult)){
+            $param = array(
+                'answer_status' => 'other'
+            );
+            return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
+        } else {
+            $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
+        }
 
         if(is_null($redirectURL)){
             $param = array(

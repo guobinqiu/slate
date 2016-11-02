@@ -8,7 +8,7 @@ use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use JMS\JobQueueBundle\Entity\Job;
 
-
+#use Wenwen\FrontendBundle\Entity\ProvinceList;
 
 /**
  * 
@@ -121,8 +121,10 @@ class AdminProjectService
     * @param integer $RFQId
     * @param string $originalFileName
     * @param string $fullPath
+    * @param string $province
+    * @param string $city
     */
-    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $completePoints = 0){
+    public function initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints = 0){
 
         $status = 'success';
         $msg = '';
@@ -135,17 +137,19 @@ class AdminProjectService
             $affiliateProject->setOriginalFileName($originalFileName);
             $affiliateProject->setRealFullPath($fullPath);
             $affiliateProject->setStatus(AffiliateProject::PROJECT_STATUS_INIT);
+            $affiliateProject->setProvince($province);
+            $affiliateProject->setCity($city);
             $affiliateProject->setCompletePoints($completePoints);
             $this->em->persist($affiliateProject);
             $this->em->flush();
             $affiliateProjectId = $affiliateProject->getId();
-            $msg = " Created new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId;
+            $msg = " Created new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Location=" . $province . $city;
             $this->logger->info(__METHOD__ . $msg . PHP_EOL);
             // 异步动作
             $this->asynchUploadUrl($affiliateProjectId, $fullPath);
         } catch (\Exception $e) {
             $status = 'failure';
-            $msg = " Failed to create new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " errMsg=" . $e->getMessage();
+            $msg = " Failed to create new project. affiliatePartnerId=" . $affiliatePartnerId . "  RFQId=" .  $RFQId . " Location=" . $province . $city . " errMsg=" . $e->getMessage();
             $this->logger->error(__METHOD__ . $msg . PHP_EOL);
         }
 
@@ -296,5 +300,5 @@ class AdminProjectService
         $this->logger->debug(__METHOD__ . " END   " . PHP_EOL);
         return $rtn;
     }
-
+        
 }
