@@ -184,7 +184,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     /**
      * @Route("/checkin/update", name="event_checkin_update", methods={"GET"})
      */
-    public function checkInUpdateAction(Request $request)
+    public function checkInUpdateAction()
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
