@@ -40,14 +40,18 @@ class PrizeTicketService
     public function createPrizeTicket(User $user, $type, $comment = null, $surveyId = null, $status = null)
     {
         $prizeTicket = new PrizeTicket();
-        $prizeTicket->setUser($user);
         $prizeTicket->setType($type);
         $prizeTicket->setComment($comment);
         $prizeTicket->setCreatedAt(new \DateTime());
         $prizeTicket->setSurveyId($surveyId);
         $prizeTicket->setStatus($status);
+
+        $prizeTicket->setUser($user);
+        $user->getPrizeTickets()->add($prizeTicket);
+
         $this->em->persist($prizeTicket);
         $this->em->flush();
+
         return $prizeTicket;
     }
 

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserSignInSummary;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
@@ -89,7 +90,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     }
 
     /**
-     * @Route("/prize/draw", name="event_prize_draw", methods={"GET"})
+     * @Route("/prize/draw", name="event_prize_draw", methods={"POST"})
      */
     public function prizeDrawAction()
     {
@@ -141,5 +142,61 @@ class EventController extends BaseController //implements UserAuthenticationCont
             'drawable' => $drawable,
             'latestNewsList' => $latestNewsList,
         );
+    }
+
+    /**
+     * @Route("/checkin", name="event_checkin", methods={"GET"})
+     */
+    public function checkInAction()
+    {
+        $user = $this->getCurrentUser();
+        if ($user == null) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $alreadySigned = $this->get('app.sign_in_service')->alreadySigned($user);
+
+        $userSignInSummary = $user->getUserSignInSummary();
+        if ($userSignInSummary != null) {
+            $signedDays = $userSignInSummary->getConsecutiveDays();
+            $unsignedDays = UserSignInSummary::MAX_CONSECUTIVE_DAYS - $signedDays;
+            $progress = 100 / UserSignInSummary::MAX_CONSECUTIVE_DAYS * $signedDays;
+
+            if ($signedDays == UserSignInSummary::MAX_CONSECUTIVE_DAYS && !$alreadySigned) {
+                $signedDays = 0;
+                $unsignedDays = UserSignInSummary::MAX_CONSECUTIVE_DAYS;
+                $progress = 0;
+            }
+        } else {
+            $signedDays = 0;
+            $unsignedDays = UserSignInSummary::MAX_CONSECUTIVE_DAYS;
+            $progress = 0;
+        }
+
+        return $this->render('WenwenFrontendBundle:Event:checkin.html.twig', array(
+            'alreadySigned' => $alreadySigned,
+            'signedDays' => $signedDays,
+            'unsignedDays' => $unsignedDays,
+            'progress' => $progress
+        ));
+    }
+
+    /**
+     * @Route("/checkin/update", name="event_checkin_update", methods={"POST"})
+     */
+    public function checkInUpdateAction()
+    {
+        $user = $this->getCurrentUser();
+        if ($user == null) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $signInService = $this->get('app.sign_in_service');
+        $alreadySigned = $signInService->alreadySigned($user);
+        if (!$alreadySigned) {
+            $signInService->signIn($user);
+        }
+
+        return $this->redirect($this->generateUrl('event_checkin'));
     }
 }

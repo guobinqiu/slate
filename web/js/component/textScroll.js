@@ -5,7 +5,7 @@ var RPATextScroll = function(options){
     this.scrollEle = options.scrollEle;
     this.config = options.config;
     this.init();
-}
+};
 RPATextScroll.prototype = {
     init: function(){
         var _self = this, s;
