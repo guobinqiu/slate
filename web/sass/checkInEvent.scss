@@ -63,8 +63,6 @@ a:hover{
 		.step{
 			.checkSuc{
 				background: url(../img/checkin/successExp.gif) no-repeat left center;
-				filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/checkin/successExp.gif', sizingMethod='scale');
-				-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='../img/checkin/successExp.gif', sizingMethod='scale')";
 			}
 			.checkFail{
 				background: url(../img/checkin/failExp.gif) no-repeat left center;
