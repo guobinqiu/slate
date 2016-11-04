@@ -109,4 +109,8 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
         $em->persist($history_model);
         $em->flush();
     }
+
+    protected function getVendorName() {
+        return 'Cint';
+    }
 }

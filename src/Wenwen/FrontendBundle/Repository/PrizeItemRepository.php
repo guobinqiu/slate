@@ -15,10 +15,11 @@ class PrizeItemRepository extends EntityRepository
      */
     public function getPrizeItems($type, $pointBalance)
     {
-        $qb = $this->createQueryBuilder('ld');
-        $qb->where('ld.type = :type');
-        $qb->andWhere('ld.points <= :pointBalance');
-        $qb->orderBy('ld.max', 'DESC');
+        $qb = $this->createQueryBuilder('t');
+        $qb->where('t.type = :type');
+        $qb->andWhere('t.points <= :pointBalance');
+        $qb->andWhere('t.quantity > 0');
+        $qb->orderBy('t.max', 'DESC');
         $qb->setParameter('type', $type);
         $qb->setParameter('pointBalance', $pointBalance);
 

@@ -145,7 +145,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $successMessage);
             }
         }
-        $subject = 'Report of panel SOP reward points';
+        $subject = 'Report of panel ['. $this->getVendorName() .'] reward points';
         $this->notice($content, $subject);
 
         $this->logger->info("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
@@ -253,6 +253,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function skipRewardAlreadyExisted($history);
 
     abstract protected function createParticipationHistory($history);
+
+    abstract protected function getVendorName();
 
     protected function notice($content, $subject)
     {
