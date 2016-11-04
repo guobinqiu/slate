@@ -63,8 +63,6 @@ a:hover{
 		.step{
 			.checkSuc{
 				background: url(../img/checkin/successExp.gif) no-repeat left center;
-				filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/checkin/successExp.gif', sizingMethod='scale');
-				-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader( src='../img/checkin/successExp.gif', sizingMethod='scale')";
 			}
 			.checkFail{
 				background: url(../img/checkin/failExp.gif) no-repeat left center;
@@ -74,12 +72,15 @@ a:hover{
 			}
 			.checkSuc,.checkFail,.checkWin{
 				background-size: contain;
-
-				
-
 				min-height: 100px;
+				min-height: 160px\0;
+				*min-height: 160px;
 				padding-left: 100px;
+				padding-left: 150px\0;
+				*padding-left: 150px;
 				padding-top: 24px;
+				padding-top: 54px\0;
+				*padding-top: 54px;
 				display: table;
 			}
 		}
