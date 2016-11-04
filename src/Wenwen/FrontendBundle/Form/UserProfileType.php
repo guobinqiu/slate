@@ -36,6 +36,8 @@ class UserProfileType extends AbstractType
             )
         ));
 
+        $builder->add('fingerprint', 'hidden', array('mapped' => false));
+
         $builder->add('personalDes', 'textarea', array(
             'label' => '个性签名：',
             'attr' => array(

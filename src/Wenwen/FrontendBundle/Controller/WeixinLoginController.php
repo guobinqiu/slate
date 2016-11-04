@@ -211,14 +211,40 @@ class WeixinLoginController extends BaseController
             if ($userForm->isValid()) {
                 $user = $weixinUser->getUser();
                 if ($user == null) {
+                    $allowRewardInviter = false;
+                    $fingerprint = $userForm->get('fingerprint')->getData();
+                    if (!$request->cookies->has('uid')) {
+                        $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+                        if ($userTrack == null) {
+                            $allowRewardInviter = true;
+                        }
+                    }
+
                     $user = $userService->autoRegister(
                         $weixinUser,
                         $userProfile,
                         $request->getClientIp(),
                         $request->headers->get('USER_AGENT'),
                         $request->getSession()->get('inviteId'),
-                        !$request->cookies->has('uid')
+                        $allowRewardInviter
                     );
+
+                    $userTrack = new UserTrack();
+                    $userTrack->setLastFingerprint(null);
+                    $userTrack->setCurrentFingerprint($fingerprint);
+                    $userTrack->setSignInCount(1);
+                    $userTrack->setLastSignInAt(null);
+                    $userTrack->setCurrentSignInAt(new \DateTime());
+                    $userTrack->setLastSignInIp(null);
+                    $userTrack->setCurrentSignInIp($request->getClientIp());
+                    $userTrack->setOauth(null);
+
+                    $userTrack->setUser($user);
+                    $user->setUserTrack($userTrack);
+
+                    $em->persist($user);
+                    $em->flush();
+
                     $this->pushBasicProfile($user);// 推送用户基本属性
                 }
                 $request->getSession()->set('uid', $user->getId());

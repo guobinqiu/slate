@@ -29,6 +29,7 @@
 						</div>
 					</li>
 				</ul>
+				{{ form_row(loginForm.fingerprint) }}
 				{{ form_row(loginForm._token) }}
 				<input class="bindBtn" type="submit" value="我是老用户" />
 			</form>
@@ -74,6 +75,7 @@
 						</div>
 					</li>
 				</ul>
+				{{ form_row(userForm.fingerprint) }}
 				{{ form_row(userForm._token) }}
 				<input class="skipBtn" type="submit" value="我是新用户" />
 			</form>
