@@ -47,6 +47,7 @@ class CategoryType
     const EVENT_INVITE_SIGNUP = 380; // 邀请注册加积分
     const EVENT_INVITE_SURVEY = 381; // 做问卷给邀请人加积分
     const EVENT_PRIZE = 382; // 抽奖活动
+    const EVENT_SIGNIN = 383; // 签到
     const MANUAL = 399;           // (+) 客服手动增加积分
 
     /** 2016/09/12之前的值

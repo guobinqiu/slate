@@ -4,7 +4,9 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserSignInDetail;
 use Wenwen\FrontendBundle\Entity\UserSignInSummary;
@@ -13,10 +15,14 @@ class SignInService
 {
     private $em;
     private $prizeTicketService;
+    private $pointService;
 
-    public function __construct(EntityManager $em, PrizeTicketService $prizeTicketService) {
+    public function __construct(EntityManager $em,
+                                PrizeTicketService $prizeTicketService,
+                                PointService $pointService) {
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
+        $this->pointService = $pointService;
     }
 
     public function alreadySigned(User $user, \DateTime $date = null) {
@@ -85,6 +91,7 @@ class SignInService
                 if ($consecutiveDays == UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $taskName = '连续签到'. UserSignInSummary::MAX_CONSECUTIVE_DAYS . '天';
                     $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $taskName);// 获得一次抽奖机会
+                    $this->pointService->addPoints($user, 0, CategoryType::EVENT_SIGNIN, TaskType::RENTENTION, '签到');
 
                 } elseif ($consecutiveDays > UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $consecutiveDays = 1;

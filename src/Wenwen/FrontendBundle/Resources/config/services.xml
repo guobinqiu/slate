@@ -92,6 +92,7 @@
         <service id="app.sign_in_service" class="Wenwen\FrontendBundle\Services\SignInService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
+            <argument type="service" id="app.point_service" />
         </service>
 
         <service id="app.ip_location_service" class="Wenwen\FrontendBundle\Services\IpLocationService">
