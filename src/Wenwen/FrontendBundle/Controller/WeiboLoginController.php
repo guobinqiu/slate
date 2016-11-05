@@ -74,8 +74,8 @@ class WeiboLoginController extends BaseController
 
             $userTrack = $user->getUserTrack();
             if ($userTrack) {
-                $userTrack->setLastFingerprint(null);
-                $userTrack->setCurrentFingerprint(null);
+                //$userTrack->setLastFingerprint(null);
+                //$userTrack->setCurrentFingerprint(null);
                 $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
                 $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
                 $userTrack->setCurrentSignInAt(new \DateTime());
@@ -84,8 +84,8 @@ class WeiboLoginController extends BaseController
                 $userTrack->setOauth('weibo');
             } else {
                 $userTrack = new UserTrack();
-                $userTrack->setLastFingerprint(null);
-                $userTrack->setCurrentFingerprint(null);
+                //$userTrack->setLastFingerprint(null);
+                //$userTrack->setCurrentFingerprint(null);
                 $userTrack->setSignInCount(1);
                 $userTrack->setLastSignInAt(null);
                 $userTrack->setCurrentSignInAt(new \DateTime());
@@ -224,7 +224,7 @@ class WeiboLoginController extends BaseController
                     $userTrack->setCurrentSignInAt(new \DateTime());
                     $userTrack->setLastSignInIp(null);
                     $userTrack->setCurrentSignInIp($request->getClientIp());
-                    $userTrack->setOauth(null);
+                    $userTrack->setOauth('weibo');
 
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);

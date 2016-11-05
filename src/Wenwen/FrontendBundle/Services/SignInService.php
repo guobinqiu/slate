@@ -91,7 +91,6 @@ class SignInService
                 if ($consecutiveDays == UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $taskName = '连续签到'. UserSignInSummary::MAX_CONSECUTIVE_DAYS . '天';
                     $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $taskName);// 获得一次抽奖机会
-                    $this->pointService->addPoints($user, 0, CategoryType::EVENT_SIGNIN, TaskType::RENTENTION, '签到');
 
                 } elseif ($consecutiveDays > UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $consecutiveDays = 1;
@@ -105,6 +104,7 @@ class SignInService
             }
             $this->em->flush();
         }
+        $this->pointService->addPoints($user, 0, CategoryType::EVENT_SIGNIN, TaskType::RENTENTION, '签到');
     }
 
     //http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections
