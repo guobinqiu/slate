@@ -25,7 +25,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $auth = $this->sop_configure['auth'];
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
         $this->logger->info(count($history_list));
-        $this->logger->info(print_r($history_list));
+        $this->logger->info(var_export($history_list, true));
 
 
         // initialize the database connection
