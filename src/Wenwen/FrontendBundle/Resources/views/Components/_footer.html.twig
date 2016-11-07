@@ -1,4 +1,4 @@
-<div class="footer-con w1000 clearfix hiddenPhone hiddenTablet">
+{# <div class="footer-con w1000 clearfix hiddenPhone hiddenTablet">
     <div class="footer-con-left left clearfix col-m-11">
         <div class="footer-nav-group col-m-3">
             <span>关于我们</span>
@@ -44,5 +44,59 @@
 <div class="footerMini visiblePhone visibleTablet hiddenDesktop">
     <a href="{{ path('help_feedback') }}" title="联系客服">联系客服</a>
     <a class="goTop">返回顶部</a>
-</div>
-{% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+</div> #}
+
+<footer>
+    <div class="footer hidden-sm hidden-xs" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="{{ path('help_company') }}" title="公司介绍">公司介绍</a></li>
+                        <li><a href="{{ path('help_ww') }}" title="网站介绍">网站介绍</a></li>
+                        <li><a href="{{ path('help_map') }}" title="网站地图">网站地图</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3>集团网站</h3>
+                    <ul>
+                        <li><a href="http://www.d8aspring.com/" target="_blank" title="dataSpring, Inc.(日本) ">dataSpring</a></li>
+                        <li><a href="http://research-panel.jp/" target="_blank" title="Japan Panel">Japan Panel</a></li>
+                        <li><a href="http://www.panelnow.co.kr/" target="_blank" title="South Korea Panel">South Korea Panel</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3>帮助中心</h3>
+                    <ul>
+                        <li><a href="{{ path('help_issue') }}" title="常见问题">常见问题</a></li>
+                        <li><a href="{{ path('help_feedback') }}" title="联系客服">联系客服</a></li>
+                        <li><a href="{{ path('help_newGuide') }}" title="新手上路">新手上路</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3>其它</h3>
+                    <ul>
+                        <li><a href="{{ path('help_regulations') }}" title="会员协议">会员协议</a></li>
+                        <li><a href="{{ path('help_cooperation') }}" title="业务合作">业务合作</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12 ">
+                    <ul>
+                        <li>
+                            <a class="goTop">返回<br>顶部</a>
+                                <div class="QRcode right">
+                                    <span class="wb"><img src="{{ asset('img/common/weiboQRcode.jpg') }}" alt="weibo">官方微博</span>
+                                    <span class="wx"><img src="{{ asset('img/common/weixinQRcode.jpg') }}" alt="weixin">官方微信</span>
+                                </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--/.row--> 
+        </div>
+        <!--/.container--> 
+    </div>
+    <!--/.footer-->
+    {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
+</footer>

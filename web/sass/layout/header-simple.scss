@@ -7,26 +7,26 @@ $header-height: 92px;
 	height: $header-height;
 	border-bottom: 3px solid #fa8611;
 	@include box-shadow(0px 1px 5px #d8d8d8);
-	.logo{
-		a{
-			padding: 15px 20px 15px 0;
-			vertical-align: middle;
-			@include dib();
-		}
-		span{
-			padding: 0 20px;
-			line-height: 35px;
-			font-size: 22px;
-			color: #595654;
-			border-left: 1px solid #ddd;
-			vertical-align: middle;
-			@include dib();
-			b{
-				color: #f26f21;
-				font-weight: normal;
-			}
-		}
-	}
+	// .logo{
+	// 	a{
+	// 		padding: 15px 20px 15px 0;
+	// 		vertical-align: middle;
+	// 		@include dib();
+	// 	}
+	// 	span{
+	// 		padding: 0 20px;
+	// 		line-height: 35px;
+	// 		font-size: 22px;
+	// 		color: #595654;
+	// 		border-left: 1px solid #ddd;
+	// 		vertical-align: middle;
+	// 		@include dib();
+	// 		b{
+	// 			color: #f26f21;
+	// 			font-weight: normal;
+	// 		}
+	// 	}
+	// }
 	p{
 		color: #a0a0a0;
 		font-size: 14px;

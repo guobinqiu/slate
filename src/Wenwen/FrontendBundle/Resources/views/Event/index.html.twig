@@ -2,11 +2,7 @@
 {% block title %}{{ parent() }}活动中心{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/eventCenter.css') }} " type="text/css">
-    <!--[if lt IE 8]>
-    <link href="{{ asset('css/bootstrap-ie7.css') }}" rel="stylesheet">
-    <![endif]-->
 {% endblock %}
 
 {% block header %}
@@ -52,4 +48,8 @@
 		   </div>
 		</a>
 	</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}

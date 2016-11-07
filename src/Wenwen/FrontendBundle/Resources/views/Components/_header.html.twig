@@ -1,7 +1,7 @@
-<div id="top-header" {% if app.session.has('uid') %} class="header" {% else %}  class="header unlogin" {% endif %} >
+<nav id="top-header" {% if app.session.has('uid') %} class="navbar-default header" {% else %}  class="navbar-default header unlogin" {% endif %} role="navigation">
     {% include "WenwenFrontendBundle:Components:_headerNav.html.twig" %}
-</div>
-<div class="navLayerBg hiddenDesktop hiddenTablet navbarUn"></div>
+</nav>
+{# <div class="navLayerBg hiddenDesktop hiddenTablet navbarUn"></div>
 <div class="navLayer hiddenDesktop hiddenTablet navbarUn">
     {% if app.session.has('uid') %}
     <div class="navs">
@@ -28,5 +28,5 @@
         <a href="{{ path('help_feedback') }}"><em class="icons5"></em>联系客服<span></span></a>
     </div>
     {% endif %}
- </div>
+ </div> #}
  

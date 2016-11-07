@@ -2,112 +2,73 @@
 
 @import "layout/common";
 @import "layout/header";
-@import "component/survey";
+@import "component/timeline";
 .vote{
 	li{
 		padding: 22px 22px 2px 22px; 
 	}
 }
-.vote-sub{
- 	position: relative;
-	z-index: 1;
-	h1{
-		font-size: 34px;
-		margin: 10px 0 15px 14px; 
-	}
-	li{
-		border-top: none;
-		padding-bottom: 16px;
-		&.vote-txt{
-			width: 94%;
-			.relate{
-				margin-left: 0;
-				margin-top: 10px;	
-			}
-		}
-		&:after{
-			width: 100%;
-		}
-	}
-	.vote-btn{
-		top: 64px;
-	}
-	.vote-txt{
-		width: 62%;
-		span{
-			strong{
-				font-weight: normal;
-			}
-		}
-		.title{
-			line-height: 20px;
-			a{
-				line-height: 20px;
-				font-size: 16px;
-				text-indent: -3px;
-			}
-		}
-		.con{
-			padding-left: 7px;
-		    line-height: 23px;
-		    font-size: 13px;
-		}
-		.relate{
-			margin-top: 4px;
-		    margin-left: 7px;	
-		}
-	}
-	.countdown{
-		top: 29px;
-	}
-	.vote-new{
-		.tips{
-			top: 24px!important;
-		}
-		.vote-btn{
-			top: 64px!important;
-		}
-	}
-}
-.exchange-dynamics{
-	padding: 10px 20px 15px; 
-	line-height: 24px;
-	.mask{
-		height: 335px;
-		overflow: hidden;
-		position: relative;
-		z-index: 1;
-	}
-	ul{
-		position: absolute;
-		z-index: 1000;
-		top: 0;
-		left: 0;
-		width: 100%;
-	}
-	h2{
-		padding: 10px 0 0 0;
-	}
-	li{
-		padding: 15px 10px 0 5px;
-		border-bottom: $block-inner-border;
-		b{
-			color: $main-color;
-		}
-		p{
-			@include ell();
-			.name{
-				    width: 40px;
-				    display: inline-block;
-				    vertical-align: -7px;
-				    text-overflow: ellipsis;
-				    overflow: hidden;
-			}
-		}
-		.date{
-			color: #bfbfbf;
-		}
-	}
-}
+// .vote-sub{
+//  	position: relative;
+// 	z-index: 1;
+// 	h1{
+// 		font-size: 34px;
+// 		margin: 10px 0 15px 14px; 
+// 	}
+// 	li{
+// 		border-top: none;
+// 		padding-bottom: 16px;
+// 		&.vote-txt{
+// 			width: 94%;
+// 			.relate{
+// 				margin-left: 0;
+// 				margin-top: 10px;	
+// 			}
+// 		}
+// 		&:after{
+// 			width: 100%;
+// 		}
+// 	}
+// 	.vote-btn{
+// 		top: 64px;
+// 	}
+// 	.vote-txt{
+// 		width: 62%;
+// 		span{
+// 			strong{
+// 				font-weight: normal;
+// 			}
+// 		}
+// 		.title{
+// 			line-height: 20px;
+// 			a{
+// 				line-height: 20px;
+// 				font-size: 16px;
+// 				text-indent: -3px;
+// 			}
+// 		}
+// 		.con{
+// 			padding-left: 7px;
+// 		    line-height: 23px;
+// 		    font-size: 13px;
+// 		}
+// 		.relate{
+// 			margin-top: 4px;
+// 		    margin-left: 7px;	
+// 		}
+// 	}
+// 	.countdown{
+// 		top: 29px;
+// 	}
+// 	.vote-new{
+// 		.tips{
+// 			top: 24px!important;
+// 		}
+// 		.vote-btn{
+// 			top: 64px!important;
+// 		}
+// 	}
+// }
+
 @import "component/page";
 @import "layout/footer";

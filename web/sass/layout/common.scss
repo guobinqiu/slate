@@ -35,7 +35,7 @@ a img {
     border: none;
 }
 a {
-    color: #404040;
+    color: #333;
     background: transparent;
     text-decoration: none;
 }
@@ -97,26 +97,25 @@ h1,h2,h3,h4,h5{
 i, cite, em, var, address, dfn {
     font-style: normal;
 }
-.main{
-    overflow: auto\9;
-    margin-top: 1px;
-    &.unlogin{
-    	margin-top: 0px;
-    }
-}
+// .main{
+//     overflow: auto\9;
+//     margin-top: 1px;
+//     &.unlogin{
+//     	margin-top: 0px;
+//     }
+// }
 .main-con-left>div, .main-con-right>div{
 	margin-top: 20px;
 	background: $block-bg-color;
-	@include box-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
-.main-con-left>div{
-	padding: 10px 25px 40px;
-}
-.main-con-left{
-	width: 75%;
-}
+// .main-con-left>div{
+// 	padding: 10px 25px 40px;
+// }
+// .main-con-left{
+// 	width: 75%;
+// }
 .main-con-right{
-	width: 23%;
+	// width: 23%;
 	h2{
 		padding: 16px 15px 15px 20px;
 		line-height: 30px;
@@ -135,6 +134,32 @@ i, cite, em, var, address, dfn {
 	content: "";
 	display: table;
 	clear: both;
+}
+
+//responsive
+@media only screen and (max-width: 667px) { 
+    .visiblePhone{
+        display: inherit!important;
+    }
+    .hiddenPhone{
+        display: none!important; 
+    }
+}
+@media only screen and (min-width: 668px) and (max-width: 1024px)  {
+    .visibleTablet{ 
+        display: inherit!important;
+    }
+    .hiddenTablet{
+        display: none!important; 
+    }
+}
+@media only screen and (min-width: 1024px)  {
+    .visibleDesktop{
+        display: inherit!important;
+    }
+    .hiddenDesktop{
+        display: none!important;
+    }
 }
 
 // pagination

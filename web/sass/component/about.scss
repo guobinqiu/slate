@@ -5,7 +5,6 @@
 	padding-top: 20px;
 	.aboutL{
 		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
-		width: 190px;
 		background: $block-bg-color;
 		border: $block-border;
 		padding-bottom: 16px;
@@ -26,10 +25,10 @@
 				cursor: pointer;
 				font-size: 14px;
 				a{
-					padding-left: 74px;
+					padding-left: 20px;
   					display: block; 
   					&.active, &:hover{
-					padding-left: 71px;
+					padding-left: 20px;
 					color: $orange-color;
 					font-weight: bold;
 					background: $block-line-color;
@@ -44,7 +43,6 @@
 		}
 	}
 	.aboutR{
-		width: 729px;
 		margin-left: -1px;
 		padding: 10px 30px 20px;
 		background: $block-bg-color;

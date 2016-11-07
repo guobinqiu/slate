@@ -111,32 +111,6 @@
 					<div class="row">
 						<div class="process col-sm-6">
 							<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
-							{# <h2><img src="{{ asset('img/landingpage/text02.png') }}" alt="怎样赚积分"></h2>
-							<div class="scoredPoints">
-								<div class="scoredPointsItem">
-									<div class="icon"></div>
-									<div class="liner"></div>
-									<div class="con">
-										<h3>免费注册会员</h3>
-										<p>只需两步就可以完成注册。</p>
-									</div>
-								</div>
-								<div class="scoredPointsItem">
-									<div class="icon icon2"></div>
-									<div class="liner liner2"></div>
-									<div class="con">
-										<h3>回答问卷赚积分</h3>
-										<p>回答问卷，快速问答投票，做任务都可以赚取积分。</p>
-									</div>
-								</div>
-								<div class="scoredPointsItem">
-									<div class="icon icon3"></div>
-									<div class="con">
-										<h3>兑换奖品</h3>
-										<p>1元=100积分，奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等。</p>
-									</div>
-								</div>
-							</div> #}
 						</div>
 						<div class="pcImg col-sm-6">
 							<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
@@ -153,24 +127,32 @@
 							<h2>
 								<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
 							</h2>
-							<div class="item item1">
-								<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
-								<div class="personal"><img src="{{ asset('img/landingpage/tx1.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
-							</div>
-							<div class="item item2">
-								<div class="talkCon">我刚开始工作才1年，常常感觉自己的世界观与外界有些脱轨，无意中发现91问问这个网站，在这里，我不仅可以赚点零花钱，快速问答这个栏目让我了解了大家对不同事物的观点，增长了我的见识。</div>
-								<div class="personal"><img src="{{ asset('img/landingpage/tx2.png') }}" alt="头像"><span>小夏<br>上班族</span></div>
-							</div>
-							<div class="item item3">
-								<div class="talkCon">我是一位孕妈妈，辞职在家专心等待宝宝的出生，天天闲着太无聊了，于是，我没事就打开91问问做做问卷和投票，通过它，我获取到了很多生活常识和一些社会上最新的热点消息，真的很棒！</div>
-								<div class="personal"><img src="{{ asset('img/landingpage/tx3.png') }}" alt="头像"><span>Vivian<br>孕妈</span></div>
-							</div>
-							<div class="item item4">
-								<div class="talkCon">我退休在家好些年了，平时又不爱出门，唯一的兴趣爱好就是打开91问问，做做问卷和投票，打发打发时间，重点是既可以赚钱还可以学到平时没听到过的知识。</div>
-								<div class="personal"><img src="{{ asset('img/landingpage/tx4.png') }}" alt="头像"><span>老顾<br>退休老人</span></div>
-							</div>
 						</div>
 					</div>
+					<div class="voices row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<div class="contain-fluid">
+								<div class="row">
+									<div class="col-md-6">
+										<img class="item1 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
+									</div>
+									<div class="col-md-6">
+										<img class="item2 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<img class="item3 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
+									</div>
+									<div class="col-md-6">
+										<img class="item4 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -181,7 +163,11 @@
 						<div class="col-sm-12">
 							<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
 							<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
-							<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<div class="btns center-block"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

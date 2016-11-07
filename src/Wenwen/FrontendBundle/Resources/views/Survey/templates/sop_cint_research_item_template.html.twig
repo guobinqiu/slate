@@ -1,4 +1,4 @@
-<div class="survey-item">
+<div class="survey-item col-sm-8">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
             {{ cint_research.title }}
@@ -19,8 +19,8 @@
         </li>
     </ul>
 </div>
-<div class="rewardPoint"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
-<div class="survey-btn">
+<div class="rewardPoint col-sm-2"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
+<div class="survey-btn col-sm-2">
     {% if cint_research.is_answered == 1 %}
         <span class="disabled">回答完毕</span>
     {% else %}

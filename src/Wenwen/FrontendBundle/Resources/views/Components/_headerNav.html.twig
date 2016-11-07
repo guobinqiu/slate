@@ -1,97 +1,73 @@
-<div class="header-nav">
-    <div class="header-nav-con w1000 clearfix">
-        <div class="logo left">
-            <a href="{{ path('_homepage') }}" title="91问问调查网logo">
-                <!--[if !IE]><!-->
-                    <img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo">
-                <!--<![endif]-->
-                <!--[if IE]>
-                    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
-                <![endif]-->
-            </a>
-            <span><img src="{{ asset('img/common/slogan.png') }}" alt="每个人都是社会的决策者！"></span>
-        </div>
-        <div class="navR right">
-            <div class="navBar left">
+<div class="container header-nav-con clearfix">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="{{ path('_homepage') }}" title="91问问调查网logo">
+            <!--[if !IE]><!-->
+                <img class="logo img-responsive" src="{{ asset('img/common/logo.svg') }}" alt="91问问调查网logo">
+            <!--<![endif]-->
+            <!--[if IE]>
+                <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+            <![endif]-->
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
                 {% set router_current = app.request.attributes.get('_route') %}
-                <a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="active"':'' }}>首页</a>
+                    <li class="nav-item"><a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="nav-link active"':'class="nav-link"' }}>首页</a></li>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
-                    <a class="surUnlog" title="问卷列表">问卷列表</a>
+                    <li class="nav-item"><a title="问卷列表">问卷列表</a></li>
                 {% else %}
-                    <a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="active"':'' }}>问卷列表</a>
+                    <li class="nav-item"><a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="nav-link active"':'class="nav-link"' }}>问卷列表</a></li>
                 {% endif %}
-                <a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="active"':'' }}>快速问答</a>
+                    <li class="nav-item"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="nav-link active"':'class="nav-link"' }}>快速问答</a></li>
                 {% if app.session.has('uid') %}
-                <a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="active hiddenPhone hiddenTablet"':'class="hiddenPhone hiddenTablet"' }}>任务体验</a>
+                    <li class="nav-item"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active visible-md-block"':'class="visible-md-block"' }}>任务体验</a></li>
                 {% endif %}
-                <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="exchangeNav active"':'class="exchangeNav"' }}>
-                    兑换中心
-                    <div class="pointExp"><span>100积分=<i>1元</i></span></div>
-                </a>
-                <a href="{{ path('event') }}" title="活动中心" {{ router_current == 'event' ? 'class="active"':'' }}>活动中心</a>
-                <a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="active"':'' }}>帮助中心</a>
-                {% if app.request.attributes.get('_route') == '_user_login' %}
-                {% else %}
-                <a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="active tabletProfile hiddenDesktop visibleTablet hiddenPhone"':'class="tabletProfile hiddenDesktop visibleTablet hiddenPhone"' }}>个人中心</a>
-                {% endif %}
-                {% if app.session.has('uid') %}
-                {#{% set count_new_msgs =  render(controller('WenwenFrontendBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}#}
-                <a class="mailWrap"  href="{{ path('_user_message',{'sid': 1}) }}" >
-                    {#<em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>#}
-                </a>
-                <div class="special expand-btn">
-                    <div class="expand-title">
-                        <label for="personal_links">个人中心</label><b></b>
-                    </div>
-                    <div id="personal_links" class="personal expand-con">
-                        <div class="psInner">
-                            <ul>
-                                <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>
-                                <li><a href="{{ path('_profile_index') }}">账户设置</a></li>
-                                <li><a href="{{ path('_user_adtaste',{'type':0}) }}">任务历史</a></li>
-                                <li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}">兑换历史</a></li>
-                                <li><a href="{{ path('_user_logout') }}" class="exit">退出</a></li>
-                            </ul>
+                    <li class="nav-item">
+                        <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="nav-link active"':'class="nav-link"' }}>兑换中心</a>
+                        <div class="popover bottom hidden-xs hidden-sm">
+                            <div class="arrow"></div>
+                            <div class="popover-content">100积分=1元</div>
                         </div>
-                    </div>
-                </div>
-                {% endif %}
-                <div class="border"></div>
-                <span class="logFirst"><em></em>您需要先登录，才能查看<br>专属您的问卷哦！</span>
-                
-            </div>
-            {% if app.request.attributes.get('_route') == '_user_login' %}
-            {% else %}
-            <a class="tabletQuit hiddenDesktop visibleTablet hiddenPhone" href="{{ path('_user_logout') }}" class="exit">退出</a>
-            {% endif %}
-            <button type="button" class="navCollapsed hiddenDesktop hiddenTablet visiblePhone">
-                <span class="iconBar"></span>
-                <span class="iconBar"></span>
-                <span class="iconBar"></span>
-            </button>
-             {% if app.session.has('uid') %}
-             {% else %}
-             <div class="login-btn right">
-                <a href="{{ path('_user_reg') }}" title="注册" class="sign">注册</a>
+                    </li>
+                    <li class="nav-item"><a href="{{ path('event') }}" title="活动中心" {{ router_current == 'event' ? 'class="nav-link active"':'class="nav-link"' }}>活动中心</a></li>
+                    <li class="nav-item"><a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="nav-link active"':'class="nav-link"' }}>帮助中心</a></li>
                 {% if app.request.attributes.get('_route') == '_user_login' %}
-                <a href="javascript: void(0)" title="登录">登录</a>
                 {% else %}
-                <a href="{{ path('_user_login') }}" title="登录">登录</a>
+                    <li class="nav-item"><a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="nav-link active visible-md-block"':'class="nav-link visible-md-block"' }}>个人中心</a></li>
                 {% endif %}
-             </div>
-             {% endif %}
-        </div>
-        {% set router_current2 = app.request.attributes.get('_route') %}
-        <p class="navTit hiddenDesktop visiblePhone hiddenTablet">
-        {% if router_current2 == '_exchange_index' or router_current2 == '_exchange_mobileInfo' or router_current2 == '_exchange_alipayInfo' or router_current2 == '_exchange_identityCardComfirm'%}兑换中心
-        {% elseif router_current2 == '_signup_confirm_register'%}激活完成
-        {% elseif router_current2 == 'jili_frontend_vote_index' or router_current2 == 'jili_frontend_vote_show' or router_current2 == 'jili_frontend_vote_result' or router_current2 == 'jili_frontend_vote_suggest'%}快速问答
-        {% elseif router_current2 == '_survey_index'%}问卷列表
-        {% elseif router_current2 == '_homepage'%}问卷列表
-        {% elseif router_current2 == 'help_feedback'%}联系客服
-        {% elseif router_current2 == '_profile_edit' or router_current2 == '_profile_index' or router_current2 == '_user_adtaste' or router_current2 == '_user_exchange' or router_current2 == '_user_message'%}个人中心
-        {% elseif router_current2 == 'event'%}活动中心
-        {% endif %}
-        </p>
+                {% if app.session.has('uid') %}
+                    {#{% set count_new_msgs =  render(controller('WenwenFrontendBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}#}
+                    {# <a class="mailWrap"  href="{{ path('_user_message',{'sid': 1}) }}" > #}
+                        {#<em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>#}
+                    {# </a> #}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人中心 <span class="caret hidden-xs hidden-sm"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>
+                          <li><a href="{{ path('_profile_index') }}">账户设置</a></li>
+                          <li><a href="{{ path('_user_adtaste',{'type':0}) }}">任务历史</a></li>
+                          <li><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}">兑换历史</a></li>
+                          <li><a href="{{ path('_user_logout') }}" class="exit">退出</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if app.session.has('uid') %}
+                {% else %}
+                    <div class="login-btn right">
+                        <a href="{{ path('_user_reg') }}" title="注册" class="sign">注册</a>
+                        {% if app.request.attributes.get('_route') == '_user_login' %}
+                        <a href="javascript: void(0)" title="登录">登录</a>
+                        {% else %}
+                        <a href="{{ path('_user_login') }}" title="登录">登录</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+        </ul>
     </div>
 </div>

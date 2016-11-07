@@ -1,15 +1,20 @@
-
-<div class="survey" id="surveyHome">
-	<h1 class="visibleDesktop hiddenPhone hiddenTablet">问卷列表<a class="more" href="{{ path('_survey_index') }}">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a></h1>
-	{% if html_survey_list|length > 0 %}
-	<ul id="surveyList">
-		{% for html_survey in html_survey_list %}
-			<li class="col-t-12 col-m-12">{{ html_survey | raw }}</li>
-		{% endfor %}
-	</ul>
-	{% else %}
-	<div class="noSurvey">
-		<img src="{{ asset('img/questionnaire/noSurvey.jpg') }}">
+	<div class="survey panel panel-default" id="surveyHome">
+		<div class="panel-heading clearfix"><h3 class="pull-left">问卷列表</h3><a class="more pull-right" href="{{ path('_survey_index') }}">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a></div>
+		<div class="panel-body">
+			{% if html_survey_list|length > 0 %}
+			<ul id="surveyList">
+				{% for html_survey in html_survey_list %}
+					<li>
+						<div class="row">
+							{{ html_survey | raw }}
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<div class="noSurvey">
+				<img src="{{ asset('img/questionnaire/noSurvey.jpg') }}">
+			</div>
+			{% endif %}	
+		</div>
 	</div>
-	{% endif %}
-</div>
