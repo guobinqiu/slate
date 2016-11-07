@@ -102,7 +102,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->point($history) * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '您的好友' . $user->getNick() . '回答了一份SOP商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份' . $this->getVendorName() . '商业问卷'
                 );
 
                 $dbh->commit();
@@ -218,7 +218,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 if ($key == 'extra_info') {
                     foreach ($this->extraInfoKeys() as $extra_info_key) {
                         if (!isset($rec['extra_info'][$extra_info_key])) {
-                            throw new Exception("extra_info.$extra_info_key not exist", 1);
+                            throw new \Exception("extra_info.$extra_info_key not exist", 1);
                         }
                     }
                 }
