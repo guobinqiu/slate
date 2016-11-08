@@ -17,9 +17,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9">
-			<div class="panel panel-default">
+			<div class="vote panel panel-default top20">
 				<div class="panel-heading"><h3>快速问答</h3></div>
-				<div class="panel-body">
+				<div class="panel-body top15">
 		            {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
 		            <div class="page-wrapper">
 		                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
@@ -27,7 +27,7 @@
 		        </div>
 			</div>
 		</div>
-		<div class="col-sm-3">{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}</div>
+		<div class="col-sm-3 top20">{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}</div>
 	</div>
 </div>
 {% endblock %}

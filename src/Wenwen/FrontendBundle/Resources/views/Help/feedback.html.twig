@@ -10,30 +10,35 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-help-con w1000">
-	<div class="direct w1000">
-	    <strong>您现在的位置：</strong><a href="{{ path('help_help') }}">帮助中心</a> &gt; 联系客服
-	</div>
-	<div class="main-help-feedback form">
-		<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
-		<form action="" id="feedback_form">
-		<ul>
-			<li>
-				<label for="content"><em>*</em>您想咨询的内容：</label>
-				<textarea id="content" name="content"></textarea>
-				<span id="content_succeed"></span>
-				<span id="content_error"></span>
-			</li>
-			<li>
-				<label for="feedbackEmail"><em>*</em>91问问注册邮箱：</label>
-				<input type="text" id="feedbackEmail" name="feedbackEmail">
-				<span id="feedbackEmail_succeed"></span>
-				<span id="feedbackEmail_error"></span>
-			</li>
-		</ul>
-		<div class="sys_error" id="sys_error"></div>
-		<div class="btn"><a href="javascript:void(0)" id="feedback_save">提交</a></div>
-		</form>
+<div class="container">		
+	<div class="main-help-con">
+		<ol class="breadcrumb top15">
+		  <li class="breadcrumb-item"><a href="{{ path('help_help') }}">帮助中心</a></li>
+		  <li class="breadcrumb-item active">联系客服</li>
+		</ol>
+		<div class="main-help-feedback form">
+			<h2>请填写完您的问题之后，点击提交按钮。有<b>*</b>的项目为必填项目。</h2>
+			<form action="" id="feedback_form">
+				<div class="form-group row">
+					<label class="col-xs-2" for="content"><em>*</em>您想咨询的内容：</label>
+					<div class="col-xs-10">
+						<textarea id="content" name="content"></textarea>
+						<span id="content_succeed"></span>
+						<span id="content_error"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-2" for="feedbackEmail"><em>*</em>91问问注册邮箱：</label>
+					<div class="col-xs-10">
+						<input type="text" id="feedbackEmail" name="feedbackEmail">
+						<span id="feedbackEmail_succeed"></span>
+						<span id="feedbackEmail_error"></span>
+					</div>
+				</div>
+				<div class="sys_error" id="sys_error"></div>
+				<div class="btn"><a href="javascript:void(0)" id="feedback_save">提交</a></div>
+			</form>
+		</div>
 	</div>
 </div>
 {% endblock %}

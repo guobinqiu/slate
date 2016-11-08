@@ -109,27 +109,31 @@ $slider-height: 305px;
 		margin-right: 5px;
 	}
 }
-.survey-item{
-	.title{
-		font-size: 16px;
-		line-height: 28px;
-		color: #475a70;
-	}
-	li{
-		span.difficulty{
-			color: #ffac13;
-		    font-size: 17px;
-		    margin-right: 4px;
-		}
-	}
+
+#planbanner{
+    position: relative;
+    .planpicnum{
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        ul{
+        	li{
+        		float: left;
+	            width: 10px;
+	            height: 10px;
+	            background: #fff;
+	            margin: 10px 5px;
+	            @include border-radius(50%);
+	            @include box-shadow(2px 2px 6px -1px rgba(0,0,0,0.6));
+	            &.hover{
+	            	cursor: pointer;
+	                background: #f16e3e;
+	            }
+        	}
+        }
+    }
 }
-.rewardPoint i {
-    font-size: 22px;
-    color: #f55e00;
-    margin-right: 4px;
-    vertical-align: -2px;
-    font-weight: bold;
-}
+
 // // .main-con-left{
 // // 	h1{
 // // 		color: $main-title-color2;

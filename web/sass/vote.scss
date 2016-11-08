@@ -4,8 +4,82 @@
 @import "layout/header";
 @import "component/timeline";
 .vote{
-	li{
-		padding: 22px 22px 2px 22px; 
+	.panel-heading{
+		padding: 18px 22px;
+		.more{
+			color: #7F8390;
+			i{
+				margin-left: 5px;
+			}
+		}
+	}
+	.panel-body{
+		padding-bottom: 28px;
+		li{
+			.row{
+				padding: 0 44px 0 25px;
+			}
+		}
+		hr:last-child{
+			display: none;
+		}
+	}
+	.vote-txt{
+		.title{
+			font-size: 18px;
+			line-height: 28px;
+			font-weight: bold;
+			text-indent: -7px;    
+			a{
+				color: #475a70;
+			}
+		}
+		.con{
+			font-size: 13px;
+			line-height: 21px;
+		}
+		.relate{
+			span,div{
+				color: #9296a1;
+				font-size: 13px;
+				line-height: 21px;
+			}
+		}
+	}
+	.votePoint{
+		text-align: right;
+		i{
+			font-size: 22px;
+		    color: #f55e00;
+		    margin-right: 4px;
+		    vertical-align: -2px;
+		    font-weight: bold;
+		}
+	}
+	.vote-btn{
+		color: #fff;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		position: absolute;
+		z-index: 1000;
+		font-size: 13px;
+		cursor: pointer;
+		@include btn();			
+		@include dib();
+	}
+	.voteDisabled{
+		color: #fff;
+		background: #a7a7a7;
+		border: 1px solid #a7a7a7;
+		border-radius: 3px;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		font-size: 13px;
+		@include dib();
 	}
 }
 // .vote-sub{

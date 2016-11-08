@@ -137,31 +137,51 @@ i, cite, em, var, address, dfn {
 }
 
 //responsive
-@media only screen and (max-width: 667px) { 
-    .visiblePhone{
-        display: inherit!important;
-    }
-    .hiddenPhone{
-        display: none!important; 
-    }
+// @media only screen and (max-width: 667px) { 
+//     .visiblePhone{
+//         display: inherit!important;
+//     }
+//     .hiddenPhone{
+//         display: none!important; 
+//     }
+// }
+// @media only screen and (min-width: 668px) and (max-width: 1024px)  {
+//     .visibleTablet{ 
+//         display: inherit!important;
+//     }
+//     .hiddenTablet{
+//         display: none!important; 
+//     }
+// }
+// @media only screen and (min-width: 1024px)  {
+//     .visibleDesktop{
+//         display: inherit!important;
+//     }
+//     .hiddenDesktop{
+//         display: none!important;
+//     }
+// }
+.top5{ 
+    margin-top:5px; 
 }
-@media only screen and (min-width: 668px) and (max-width: 1024px)  {
-    .visibleTablet{ 
-        display: inherit!important;
-    }
-    .hiddenTablet{
-        display: none!important; 
-    }
+.top7{ 
+    margin-top:7px; 
 }
-@media only screen and (min-width: 1024px)  {
-    .visibleDesktop{
-        display: inherit!important;
-    }
-    .hiddenDesktop{
-        display: none!important;
-    }
+.top10{ 
+    margin-top:10px; 
 }
-
+.top15{ 
+    margin-top:15px; 
+}
+.top17{ 
+    margin-top:17px; 
+}
+.top20{ 
+    margin-top:20px; 
+}
+.top30{ 
+    margin-top:30px; 
+}
 // pagination
 .pagination{
     text-align: center;
