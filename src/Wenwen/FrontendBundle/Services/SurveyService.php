@@ -78,7 +78,7 @@ class SurveyService
      * @return $sop_api_url
      * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list#json-api-integration
      */
-    private function buildSopSurveListUrl($app_mid) {
+    private function buildSopSurveyListUrl($app_mid) {
         $this->logger->debug(__METHOD__ . ' - START - ');
 
         $sop_config = $this->parameterService->getParameter('sop');
@@ -357,7 +357,7 @@ class SurveyService
         $app_mid = $this->getSopRespondentId($user_id);
 
         // 生成sop_api_url
-        $sop_api_url = $this->buildSopSurveListUrl($app_mid);
+        $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
 
         $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 3, 'connect_timeout' => 3));
         $response = $request->send();

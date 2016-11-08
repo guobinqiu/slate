@@ -46,14 +46,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             if ($this->skipReward($history)) {
                 $info = 'Skip reward';
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $info = 'Skip reward, already existed: app_mid: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -64,7 +64,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             ));
             if (!$respondent) {
                 $info = 'Skip reward, No SopRespondent for: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -76,7 +76,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$user) {
                 // maybe panelist withdrew
                 $info = 'Skip reward, No User. Skip user_id: ' . $respondent->getUserId();
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -111,7 +111,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->commit();
 
             } catch (\Exception $e) {
-                array_push($errorMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $e->getMessage()));
+                array_push($errorMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $e->getMessage()));
                 $error += 1;
                 $hasErrors = true;
                 $dbh->rollBack();
@@ -125,7 +125,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
                     $info = '给奖池注入积分' . $injectPoints;
                 }
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
                 $success += 1;
             }
         } // end for
@@ -136,14 +136,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $content .= '<br/>Error:' . $error;
         if ($error > 0) {
             $content .= '<br/>----- Error details -----';
-            $content .= '<br/>id, app_mid, points, error';
+            $content .= '<br/>id, survey_id, app_mid, points, error';
             foreach($errorMessages as $i => $errorMessage) {
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $errorMessage);
             }
         }
         if ($success > 0) {
             $content .= '<br/>----- Success details -----';
-            $content .= '<br/>id, app_mid, points, info';
+            $content .= '<br/>id, survey_id, app_mid, points, info';
             foreach($successMessages as $i => $successMessage) {
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $successMessage);
             }
