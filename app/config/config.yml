@@ -208,4 +208,4 @@ snc_redis:
             dsn: redis://localhost/1
     session:
         client: session
-        ttl: 1200000
+        ttl: 0
