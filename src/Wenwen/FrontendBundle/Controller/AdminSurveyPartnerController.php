@@ -9,8 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Form\SurveyPartnerType;
+use Jili\BackendBundle\Controller\IpAuthenticatedController;
 
-class AdminSurveyPartnerController extends BaseController
+class AdminSurveyPartnerController extends BaseController implements IpAuthenticatedController
 {
     /**
      * @Route("/admin/surveypartner/list/", name="admin_surveypartner_list")
