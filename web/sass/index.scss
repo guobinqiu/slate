@@ -1,13 +1,6 @@
 @charset "UTF-8";
 
 @import "layout/global";
-@media only screen and (max-width: 667px) { 
-	// landing page
-	#section0{
-		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat!important;
-		background-size: cover;
-	}
-}
 .main,#pagepiling,.sections,.section{
 	height: 100%;
 }
@@ -145,13 +138,14 @@
 	*display: none;
 	.sectionCon{
 		color: #fff;
-		height: 75%;
+		height: 80%;
 		background: url(../img/landingpage/2.jpg) no-repeat top;
+		background-size: cover;
 	}
 	.refNum{
 		width: 1000px;
 		margin: 0 auto;
-		height: 25%;
+		height: 20%;
 		font-size: 42px;
 		position: absolute;
 		bottom: 0;
@@ -186,21 +180,21 @@
 			color: #26292e;
 		}
 	}
-	h2{
-		margin-top: 22%;
-	}
 	.sec1Intro{
 		margin-top: 50px;
 		font-size: 16px;
+	}
+	h2{
+		margin-top: 24%;
 	}
 	&.active{
 		h2{
 			@include animation2(0, 1s, fadeIn2);
 		}
 		@keyframes fadeIn2{
-		    0% { margin-top: 15%; opacity: 0.3; } 
-		    50% { margin-top: 20%; opacity: 0.6; }
-		    100% { margin-top: 22%; opacity: 1; }
+		    0% { margin-top: 17%; opacity: 0.3; } 
+		    50% { margin-top: 22%; opacity: 0.6; }
+		    100% { margin-top: 24%; opacity: 1; }
 		}
 	}
 }
@@ -220,40 +214,42 @@
 	background-image: url(../img/landingpage/4.jpg);
 	*display: none;
 	.voices{
-		margin-top: 30px;
+		margin-top: 80px;
 		img{
-			// margin: 29px auto 0;
 			max-width: 479px;
 		}
 	}
-	h2{
-		margin-top: 15%;
-	}
-	.item1{opacity: 0;
-		margin-top: 30px;
-			}
-	.item2{opacity: 0;
+	.item1{
+		opacity: 0;
 		margin-top: 30px;
 	}
-	.item3{opacity: 0;
+	.item2{
+		opacity: 0;
+		margin-top: 30px;
+	}
+	.item3{
+		opacity: 0;
 		margin-top: 60px;
 		
 	}
-	.item4{opacity: 0;
+	.item4{
+		opacity: 0;
 		margin-top: 60px;
+	}
+	h2{
+		margin-top: 19%;
 	}
 	&.active{
 		h2{
 			@include animation2(0, 1s, fadeIn4);
 		}
 		@keyframes fadeIn4{
-		    0% { margin-top: 18%; opacity: 0.3; } 
-		    50% { margin-top: 16%; opacity: 0.6; }
-		    100% { margin-top: 15%; opacity: 1; }
+		    0% { margin-top: 22%; opacity: 0.3; } 
+		    50% { margin-top: 20%; opacity: 0.6; }
+		    100% { margin-top: 19%; opacity: 1; }
 		}
 		.item1{
 			margin-top: 20px;opacity: 1;transition: all 1s ease 1s;
-
 		}
 		.item2{
 			margin-top: 20px;opacity: 1;transition: all 1s ease 1.5s;
@@ -290,9 +286,6 @@
 			background-color: rgba(27, 11, 3, .3);
 		}
 	}
-	h2{
-		margin-top: 22%;
-	}
 	.btns{
 		margin-top: 62px;
 	}
@@ -301,14 +294,17 @@
 		font-size: 16px;
 		color:#fff;
 	}
+	h2{
+		margin-top: 27%;
+	}
 	&.active{
 		h2{
 			@include animation2(0, 1s, fadeIn5);
 		}
 		@keyframes fadeIn5{
-		    0% { margin-top: 23%; opacity: 0.5; } 
-		    50% { margin-top: 21%; opacity: 0.6; }
-		    100% { margin-top: 22%; opacity: 1; }
+		    0% { margin-top: 28%; opacity: 0.5; } 
+		    50% { margin-top: 26%; opacity: 0.6; }
+		    100% { margin-top: 27%; opacity: 1; }
 		}
 		.briefIntro{
 			opacity: 1;
@@ -523,3 +519,16 @@
 	}
 }
 
+@media only screen and (max-width: 667px) { 
+	// landing page
+	#section0{
+		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat!important;
+		background-size: cover;
+	}
+	#pp-nav{
+		display: none;
+	}
+	.sectionCon{
+		top: 12px;
+	}
+}

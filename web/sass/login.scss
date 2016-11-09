@@ -13,26 +13,22 @@
 	background: url(../img/home/loginBg.png) no-repeat center bottom;
 	padding: 0 70px 5px;
 }
+.logIxWrap{
+	min-height: 100%;  
+	min-height: 100vh; 
+	display: flex;
+	margin-top: 300px\9;
+	padding-top: 7%\9;
+}
 .login{
-	width: 80%;
-	height: 360px;
-	background: none;
-	position: absolute;
-	z-index: 6;
-	top: 28%;
-	margin: 0 10%;
-	padding-right: 142px;
 	color: #757982;
+	margin-top: 200px;
 	form{
 	    width: 285px;
 	    margin: 0 auto;
 	    ul{
 	    	background: #fff;
 	    }
-	}
-	.login-con{
-		padding: 40px 38px;
-		
 	}
 	.error{
 		ul{
@@ -188,9 +184,6 @@
 		&.weixin-login{
 			background: #7cebd2;
 			*background: none;
-			margin-right: 30px;
-			*margin-right: 0;
-		    *margin-left: 0;
 			&:hover{
 				background: #77e0c8;
 				*background: none;
@@ -207,8 +200,6 @@
 		&.weibo-login{
 			background: #f57f87;
 			*background: none;
-			margin-left: 30px;
-			*margin-left: 10px;
 			&:hover{
 				background: #ed7b83;
 				*background: none;

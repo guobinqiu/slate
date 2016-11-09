@@ -483,7 +483,15 @@ $count-bg: #f5f5f5;
 			padding: 0 44px 0 25px;
 		}
 		.rewardPoint{
-			text-align: right;
+			float: right;
+			white-space: nowrap;
+			i {
+			    font-size: 22px;
+			    color: #f55e00;
+			    margin-right: 4px;
+			    vertical-align: -2px;
+			    font-weight: bold;
+			}
 		}
 	}
 }
@@ -512,6 +520,7 @@ $count-bg: #f5f5f5;
 }
 .survey-btn{
 	cursor: default;
+	text-align: right;
 	a{
 		color: #fff;
 		width: 120px;
@@ -519,6 +528,7 @@ $count-bg: #f5f5f5;
 		line-height: 36px;
 		text-align: center;
 		font-size: 13px;
+		float: right;
 		@include btn();			
 		@include dib();
 	}
@@ -532,13 +542,17 @@ $count-bg: #f5f5f5;
 		line-height: 36px;
 		text-align: center;
 		font-size: 13px;
+		float: right;
 		@include dib();
 	}
 }
-.rewardPoint i {
-    font-size: 22px;
-    color: #f55e00;
-    margin-right: 4px;
-    vertical-align: -2px;
-    font-weight: bold;
+@media only screen and (min-width: 992px) { 
+	#surveyList>li .rewardPoint{
+		float: left;
+	}
+}
+@media only screen and (max-width: 970px) { 
+	#surveyList>li .row{
+		padding: 0 10px;
+	}
 }

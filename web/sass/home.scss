@@ -50,39 +50,16 @@ $slider-height: 305px;
 	}
 }
 .homeBr{
-	.left{
-		margin-top: 10px;
-		margin-left: 12px;
-	}
-	.right{
-		margin-top: 0;
-	}
 	height: 91px; 
 	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
-	// background-size: cover;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg?v000016',sizingMethod='scale');
 	.faceWapper{
-		margin-right: 13px;
-		@include dib();
-		img{
-			border-radius: 50%;
-		}
+		white-space: nowrap;
 	}
 	.infoText{
-		@include dib();
 		color: #f0f4fa;
-		.l1{
-			font-size: 15px;
-			height: 52px;
-			line-height: 52px;
-			i{
-				width: 12px;
-			    height: 13px;
-				background: url(../img/home/homeIcons.svg) no-repeat -46px -5px;
-				display: inline-block;
-				vertical-align: -1px;
-			}
-		}
+		line-height: 52px;
+		margin-left: 5px;
+		font-size: 14px;
 		.point{
 			font-size: 18px;
 			padding: 0 8px;
@@ -91,14 +68,10 @@ $slider-height: 305px;
 			margin-left: 4px;
 			@include border-radius(15px);
 		}
-
 	}
 	.taskHis, .exchangeHis{
 		color: #f0f4fa;
 		margin-top: 30px;
-		// padding: 0 20px;
-		// height: 16px;
-		// line-height: 16px;
 		font-size: 13px;
 		border: 1px solid #bbc4ce;
 		@include border-radius(4px);
@@ -108,6 +81,55 @@ $slider-height: 305px;
 	.taskHis{
 		margin-right: 5px;
 	}
+// 	// background-size: cover;
+// 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg?v000016',sizingMethod='scale');
+// 	.faceWapper{
+// 		margin-right: 13px;
+// 		@include dib();
+// 		img{
+// 			border-radius: 50%;
+// 		}
+// 	}
+// 	.infoText{
+// 		@include dib();
+// 		color: #f0f4fa;
+// 		.l1{
+// 			font-size: 15px;
+// 			height: 52px;
+// 			line-height: 52px;
+// 			i{
+// 				width: 12px;
+// 			    height: 13px;
+// 				background: url(../img/home/homeIcons.svg) no-repeat -46px -5px;
+// 				display: inline-block;
+// 				vertical-align: -1px;
+// 			}
+// 		}
+// 		.point{
+// 			font-size: 18px;
+// 			padding: 0 8px;
+// 			vertical-align: -2px;
+// 			background: #1ca8dd;
+// 			margin-left: 4px;
+// 			@include border-radius(15px);
+// 		}
+
+// 	}
+// 	.taskHis, .exchangeHis{
+// 		color: #f0f4fa;
+// 		margin-top: 30px;
+// 		// padding: 0 20px;
+// 		// height: 16px;
+// 		// line-height: 16px;
+// 		font-size: 13px;
+// 		border: 1px solid #bbc4ce;
+// 		@include border-radius(4px);
+// 		padding: 7px 13px;
+// 		@include dib();
+// 	}
+// 	.taskHis{
+// 		margin-right: 5px;
+// 	}
 }
 
 #planbanner{

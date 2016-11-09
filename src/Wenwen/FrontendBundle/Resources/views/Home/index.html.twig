@@ -58,7 +58,7 @@
 			<div class="sectionCon">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-8 col-sm-offset-2">
+						<div class="col-sm-10 col-sm-offset-1">
 							<h2>
 								<img class="img-responsive center-block" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
 							</h2>
@@ -80,7 +80,7 @@
 	            
 			</div>
 		</div>
-		<div class="section" id="section1">
+		<div class="section hidden-xs" id="section1">
 			
 			<div class="sectionCon">
 				<div class="container">
@@ -105,21 +105,21 @@
 				
 			</div>
 		</div>
-		<div class="section" id="section2">
+		<div class="section hidden-xs" id="section2">
 			<div class="sectionCon">
 				<div class="container">
 					<div class="row">
-						<div class="process col-sm-6">
+						<div class="process col-sm-6 col-sm-offset-1">
 							<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
 						</div>
-						<div class="pcImg col-sm-6">
+						<div class="pcImg col-sm-4">
 							<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
 						</div>
 					</div>
 				</div>
 			</div> 
 		</div>
-		<div class="section" id="section3">
+		<div class="section hidden-xs" id="section3">
 			<div class="sectionCon">
 				<div class="container">
 					<div class="row">
@@ -141,10 +141,10 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-6 hidden-sm">
 										<img class="item3 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
 									</div>
-									<div class="col-md-6">
+									<div class="col-md-6 hidden-sm">
 										<img class="item4 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
 									</div>
 								</div>
@@ -156,7 +156,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="section" id="section4">
+		<div class="section hidden-xs" id="section4">
 			<div class="sectionCon">
 				<div class="container">
 					<div class="row">
@@ -174,23 +174,10 @@
 			</div>
 		</div>
 	</div>
-	{# <div class="dropMenu">
-		<a href="javascript:void(0)" class="btn expandBtn"></a>
-		<ul class="menu">
-			<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
-			<li class="liner"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
-			<li class="liner"><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
-			<li class="liner"><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
-			<li>
-				<a class="visibleDesktop visibleTablet hiddenPhone" href="{{ path('help_help') }}" title="帮助中心">帮助中心</a>
-				<a class="visiblePhone hiddenDesktop hiddenTablet" href="{{ path('help_feedback') }}" title="联系客服">联系客服</a>
-			</li>
-		</ul>
-	</div> #}
 	<div class="contact">
 		<a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
 	</div>
-	<div class="arrow">
+	<div class="arrow hidden-xs">
     	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
 		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
     </div>

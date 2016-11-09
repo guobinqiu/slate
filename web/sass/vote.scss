@@ -15,11 +15,11 @@
 	}
 	.panel-body{
 		padding-bottom: 28px;
-		li{
-			.row{
-				padding: 0 44px 0 25px;
-			}
-		}
+		// li{
+		// 	.row{
+		// 		padding: 0 44px 0 25px;
+		// 	}
+		// }
 		hr:last-child{
 			display: none;
 		}
@@ -47,7 +47,7 @@
 		}
 	}
 	.votePoint{
-		text-align: right;
+		white-space: nowrap;
 		i{
 			font-size: 22px;
 		    color: #f55e00;
@@ -82,6 +82,45 @@
 		@include dib();
 	}
 }
+@media only screen and (max-width: 767px) { 
+	.voteBW{
+		margin-left: -72px;
+	}
+	.vote{
+		.vote-btn,.voteDisabled{
+			float: right;
+		}
+	} 
+	.vote-info{
+		margin-top: 13px;
+	}
+}
+@media only screen and (min-width: 768px) { 
+	.vote .panel-body li .row{
+		padding: 0 15px;
+	}
+	.vote-info{
+		float: left;
+	}
+	.vote .votePoint{
+		text-align: left;
+	}
+}
+@media only screen and (min-width: 992px) { 
+	.vote .votePoint{
+		width: 65px;
+	    float: left;
+	    margin-right: 45px;
+	}
+	.vote .panel-body li .row {
+	    padding: 0 44px 0 25px;
+	}
+}
+// @media only screen and (max-width: 970px) { 
+// 	.vote .panel-body li .row{
+// 		padding: 0 15px;
+// 	}
+// }
 // .vote-sub{
 //  	position: relative;
 // 	z-index: 1;
