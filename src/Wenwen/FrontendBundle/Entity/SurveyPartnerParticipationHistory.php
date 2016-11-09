@@ -33,13 +33,13 @@ class SurveyPartnerParticipationHistory
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SurveyPartner", inversedBy="SurveyPartnerParticipationHistory")
+     * @ORM\ManyToOne(targetEntity="SurveyPartner", inversedBy="SurveyPartnerParticipationHistorys")
      * @ORM\JoinColumn(name="survey_partner_id", referencedColumnName="id")
      */
     private $surveyPartner;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="SurveyPartnerParticipationHistory")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
