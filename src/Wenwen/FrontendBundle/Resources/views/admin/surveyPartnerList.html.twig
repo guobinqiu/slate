@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+{% endblock %}
+
+{% block content %}
+问卷项目一览<br>
+<a href="{{ path('admin_surveypartner_create') }}">新建一个问卷项目</a><br>
+<br>
+<table class='surveypartnerList'>
+<tr>
+  <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'sp.updatedAt') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'sp.createdAt') }}</th>
+  <th>查看信息</th>
+</tr>
+ 
+{% for surveyPartner in pagination %}
+<tr>
+  <td>{{ surveyPartner.id }}</td>
+  <td>{{ surveyPartner.partnerName }}</td>
+  <td>{{ surveyPartner.surveyId }}</td>
+  <td>{{ surveyPartner.title }}</td>
+  <td>{{ surveyPartner.status }}</td>
+  <td>{{ surveyPartner.updatedAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ surveyPartner.createdAt |date('Y-m-d H:i:s') }}</td>
+  <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartner.id}) }}">查看</a></td>
+</tr>
+{% endfor %}
+</table>
+ 
+<div class="navigation">
+  {{ knp_pagination_render(pagination) }}
+</div>
+<br>
+
+{% endblock %}
+
+<style type="text/css">
+table.surveypartnerList { 
+  border-collapse: collapse; 
+  }
+table.surveypartnerList td, 
+table.surveypartnerList th { 
+  border: 1px solid yellowgreen;
+  padding: 5px; 
+  }
+</style>

@@ -2,9 +2,12 @@
 
 namespace Wenwen\FrontendBundle\Services;
 
+use Predis\Client;
+use JMS\Serializer\Serializer;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * 通过IP获得地域属性
@@ -12,6 +15,8 @@ use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
  */
 class IpLocationService
 {
+    private $redis;
+
     private $logger;
 
     private $em;
@@ -27,11 +32,14 @@ class IpLocationService
     private $dummyCityName = '上海市';
     private $dummyProvinceName = '上海市';
 
-    public function __construct(LoggerInterface $logger,
+    public function __construct(
+                                Client $redis,
+                                LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
                                 HttpClient $httpClient)
     {
+        $this->redis = $redis;
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
@@ -98,10 +106,14 @@ class IpLocationService
         return $cityName;
     }
 
-    private function getLocationJson($ipAddress) {
+    public function getLocationJson($ipAddress) {
         $this->logger->debug(__METHOD__ . ' START ');
         if($this->dummy){
             return $this->getDummyLocationJson();
+        }
+
+        if($ipAddress == '127.0.0.1'){
+            return '';
         }
 
         $ipLocateApiKey = $this->parameterService->getParameter('amap.ip_locate_api.key');
@@ -147,7 +159,7 @@ class IpLocationService
     * @param $responseBody
     * @return array()
     */
-    private function processResponseJson($responseBody){
+    public function processResponseJson($responseBody){
         $rtn = array(
             'status' => false,
             'errmsg' => '',
@@ -164,6 +176,52 @@ class IpLocationService
         } else {
             $rtn['errmsg'] = $responseBody;
         }
+        $this->logger->debug(__METHOD__ . ' END rtn=' . json_encode($rtn));
         return $rtn;
+    }
+
+    /**
+     * 获取IP所对应的地区信息（省份名称，城市名称）
+     * 先查找缓存，缓存中有的话，就不访问高德的API
+     * 如果缓存没有，则访问高德的API，并记录该信息
+     * @param $clientIp
+     *
+     */
+    public function getLocationInfo($clientIp){
+        $this->logger->debug(__METHOD__ . ' START clientIp=' . $clientIp);
+        $val = $this->redis->get(CacheKeys::IP_LOCATION_PRE . $clientIp);
+        if (is_null($val)) {
+            $this->logger->debug(__METHOD__ . ' not found in redis. clientIp=' . $clientIp);
+            $locationInfo = array(
+                    'status' => false,
+                    'errmsg' => '',
+                    'city' => '没找到对应的城市',
+                    'province' => '没找到对应的省份',
+                    'clientIp' => $clientIp,
+                    );
+
+            // 缓存里没有该IP的位置信息，访问高德的API获取信息，并存在缓存里
+            try {
+                $responseBody = $this->getLocationJson($clientIp);
+                $locationInfo = $this->processResponseJson($responseBody);
+                $locationInfo['clientIp'] = $clientIp;
+                if($locationInfo['status'] == true){
+                    $this->logger->debug(__METHOD__ . ' got available info from apam.. ' . json_encode($locationInfo, true));
+                    // 高德API有正常响应时，json化并记录在redis里，保留24小时
+                    $this->redis->set(CacheKeys::IP_LOCATION_PRE . $clientIp, json_encode($locationInfo, true));
+                    $this->redis->expire(CacheKeys::IP_LOCATION_PRE . $clientIp, CacheKeys::IP_LOCATION_TIMEOUT);
+                } else {
+                    $this->logger->debug(__METHOD__ . ' not available from apam. ' . json_encode($locationInfo, true));
+                }
+            } catch (\Exception $e){
+                $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+                $this->logger->error(__METHOD__ . ' ' . $e->getTraceAsString());
+                $locationInfo['errmsg'] = $e->getMessage();
+            }
+        } else {
+            $locationInfo = json_decode($val, true);
+            $this->logger->debug(__METHOD__ . ' XX found in redis. locationInfo=' . json_encode($locationInfo, true));
+        }
+        return $locationInfo;
     }
 }

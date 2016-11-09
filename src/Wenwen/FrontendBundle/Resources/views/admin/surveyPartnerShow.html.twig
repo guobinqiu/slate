@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+{% endblock %}
+
+{% block content %}
+<p>
+    <a href="{{ path('admin_surveypartner_list') }}">返回问卷项目列表</a>
+</p>
+<h3>
+    问卷项目详细信息
+</h3>
+<form name="surveyPartnerForm" id="surveyPartnerForm">
+<div class="error errorLogBack">{{ form_errors(surveyPartnerForm) }}</div>
+    <p>
+        {{ form_label(surveyPartnerForm.partnerName) }}
+        {{ form_widget(surveyPartnerForm.partnerName) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.surveyId) }}
+        {{ form_widget(surveyPartnerForm.surveyId) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.url) }}
+        {{ form_widget(surveyPartnerForm.url) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.title) }}
+        {{ form_widget(surveyPartnerForm.title) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.content) }}
+        {{ form_widget(surveyPartnerForm.content) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.reentry) }}
+        {{ form_widget(surveyPartnerForm.reentry) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.loi) }}
+        {{ form_widget(surveyPartnerForm.loi) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.ir) }}
+        {{ form_widget(surveyPartnerForm.ir) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.completePoint) }}
+        {{ form_widget(surveyPartnerForm.completePoint) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.screenoutPoint) }}
+        {{ form_widget(surveyPartnerForm.screenoutPoint) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.quotafullPoint) }}
+        {{ form_widget(surveyPartnerForm.quotafullPoint) }}
+    </p>
+    <p>
+    问卷项目的参与条件
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.minAge) }}
+        {{ form_widget(surveyPartnerForm.minAge) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.maxAge) }}
+        {{ form_widget(surveyPartnerForm.maxAge) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.gender) }}
+        {{ form_widget(surveyPartnerForm.gender) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.province) }}
+        {{ form_widget(surveyPartnerForm.province) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.city) }}
+        {{ form_widget(surveyPartnerForm.city) }}
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.status) }}
+        {{ form_widget(surveyPartnerForm.status) }}
+    </p>
+        {{ form_row(surveyPartnerForm._token) }}
+</form>
+
+{% if surveyPartnerStatus == 'open' %}
+    <p>
+        <a href="{{ path('admin_surveypartner_close', {'surveyPartnerId': surveyPartnerId}) }}">
+            <button>停止</button>
+        </a>
+    </p>
+    <p>
+        <a href="{{ path('admin_surveypartner_edit', {'surveyPartnerId': surveyPartnerId}) }}">
+            <button disabled = "disabled">编辑</button>
+        </a>
+    </p>
+{% else %}
+    <p>
+        <a href="{{ path('admin_surveypartner_open', {'surveyPartnerId': surveyPartnerId}) }}">
+            <button>开启</button>
+        </a>
+    </p>
+    <p>
+        <a href="{{ path('admin_surveypartner_edit', {'surveyPartnerId': surveyPartnerId}) }}">
+            <button>编辑</button>
+        </a>
+    </p>
+{% endif %}
+
+
+<table class='surveyPartnerParticipationHistorys'>
+<caption>项目完成数量统计</caption>
+    <tr>
+        <th>initCount</th>
+        <th>forwardCount</th>
+        <th>completeCount</th>
+        <th>screenoutCount</th>
+        <th>quotafullCount</th>
+        <th>errorCount</th>
+    </tr>
+    <tr>
+        <th>{{summary.initCount}}</th>
+        <th>{{summary.forwardCount}}</th>
+        <th>{{summary.completeCount}}</th>
+        <th>{{summary.screenoutCount}}</th>
+        <th>{{summary.quotafullCount}}</th>
+        <th>{{summary.errorCount}}</th>
+    </tr>
+
+</table>
+
+<table class='surveyPartnerParticipationHistorys'>
+<caption>详细参与信息</caption>
+<tr>
+  <th>{{ knp_pagination_sortable(pagination, 'UserId', 'spph.user.id') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'Status', 'spph.status') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'spph.createdAt') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'spph.updatedAt') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'UKey', 'spph.uKey') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'Comment', 'spph.comment') }}</th>
+  <th>{{ knp_pagination_sortable(pagination, 'ClientIp', 'spph.clientIp') }}</th>
+</tr>
+
+{% for surveyPartnerParticipationHistory in pagination %}
+<tr>
+  <td>{{ surveyPartnerParticipationHistory.user.id }}</td>
+  <td>{{ surveyPartnerParticipationHistory.status }}</td>
+  <td>{{ surveyPartnerParticipationHistory.createdAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ surveyPartnerParticipationHistory.updatedAt |date('Y-m-d H:i:s') }}</td>
+  <td>{{ surveyPartnerParticipationHistory.uKey }}</td>
+  <td>{{ surveyPartnerParticipationHistory.comment }}</td>
+  <td>{{ surveyPartnerParticipationHistory.clientIp }}</td>
+</tr>
+{% endfor %}
+</table>
+ 
+<div class="navigation">
+  {{ knp_pagination_render(pagination) }}
+</div>
+
+{% endblock %}
+
+<style type="text/css">
+table.surveyPartnerParticipationHistorys { 
+  border-collapse: collapse; 
+  }
+table.surveyPartnerParticipationHistorys td, 
+table.surveyPartnerParticipationHistorys th { 
+  border: 1px solid yellowgreen;
+  padding: 5px; 
+  }
+</style>

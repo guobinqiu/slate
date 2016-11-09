@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+{% endblock %}
+
+{% block content %}
+<p>
+    <a href="{{ path('admin_surveypartner_list') }}">返回问卷项目列表</a>
+</p>
+<h3>
+    编辑/更新 问卷项目信息
+</h3>
+<form name="surveyPartnerForm" id="surveyPartnerForm" method="post">
+<div class="error errorLogBack">{{ form_errors(surveyPartnerForm) }}</div>
+
+    <p>
+        {{ form_label(surveyPartnerForm.partnerName) }}
+        {{ form_widget(surveyPartnerForm.partnerName, {'attr': {'readonly':'true'}}) }} 选择一个合作方问卷系统
+        <div class="error">{{ form_errors(surveyPartnerForm.partnerName) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.surveyId) }}
+        {{ form_widget(surveyPartnerForm.surveyId, {'attr': {'readonly':'true'}}) }} 对方系统的问卷编号
+        <div class="error">{{ form_errors(surveyPartnerForm.surveyId) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.url) }}
+        {{ form_widget(surveyPartnerForm.url, {'attr': {'readonly':'true'}}) }} http://r.researchpanelasia.com/redirect/forward/__PROJECT_ID__/__PARTNERID__/?uid=__UID__
+        <div class="error">{{ form_errors(surveyPartnerForm.url) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.title) }} 
+        {{ form_widget(surveyPartnerForm.title, {'attr': {'readonly':'true'}}) }} 给用户看的中文标题，不能超过20个字
+        <div class="error">{{ form_errors(surveyPartnerForm.title) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.content) }} 
+        {{ form_widget(surveyPartnerForm.content, {'attr': {'placeholder': '输入问卷说明'}}) }} 给用户看的问卷内容说明，用来写一些这个问卷项目的说明内容
+        <div class="error">{{ form_errors(surveyPartnerForm.content) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.reentry) }} 
+        {{ form_widget(surveyPartnerForm.reentry, {'attr': {'readonly':'true'}}) }} 这个问卷是否可以中途退出后再次进入，默认为不可
+        <div class="error">{{ form_errors(surveyPartnerForm.reentry) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.loi) }}
+        {{ form_widget(surveyPartnerForm.loi) }} 回答问卷需要的估计时间（分钟）
+        <div class="error">{{ form_errors(surveyPartnerForm.loi) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.ir) }}
+        {{ form_widget(surveyPartnerForm.ir) }} 这个问卷的预估通过率(%)
+        <div class="error">{{ form_errors(surveyPartnerForm.ir) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.completePoint) }}
+        {{ form_widget(surveyPartnerForm.completePoint) }} 完成问卷时的奖励积分数
+        <div class="error">{{ form_errors(surveyPartnerForm.completePoint) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.screenoutPoint) }}
+        {{ form_widget(surveyPartnerForm.screenoutPoint) }} screenout时的奖励积分数
+        <div class="error">{{ form_errors(surveyPartnerForm.screenoutPoint) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.quotafullPoint) }}
+        {{ form_widget(surveyPartnerForm.quotafullPoint) }} quotafull时的奖励积分数
+        <div class="error">{{ form_errors(surveyPartnerForm.quotafullPoint) }}</div>
+    </p>
+    <p>
+    问卷项目的参与条件
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.minAge) }}
+        {{ form_widget(surveyPartnerForm.minAge) }} 允许参加问卷的最小年龄
+        <div class="error">{{ form_errors(surveyPartnerForm.minAge) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.maxAge) }}
+        {{ form_widget(surveyPartnerForm.maxAge) }} 允许参加问卷的最大年龄
+        <div class="error">{{ form_errors(surveyPartnerForm.maxAge) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.gender) }}
+        {{ form_widget(surveyPartnerForm.gender) }} 允许参加问卷的性别 both/male/female
+        <div class="error">{{ form_errors(surveyPartnerForm.gender) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.province) }}
+        {{ form_widget(surveyPartnerForm.province, {'attr': {'placeholder': '可以输入省份的中文，逗号分隔'}}) }} 允许参与的省份
+        <div class="error">{{ form_errors(surveyPartnerForm.province) }}</div>
+    </p>
+    <p>
+        {{ form_label(surveyPartnerForm.city) }}
+        {{ form_widget(surveyPartnerForm.city, {'attr': {'placeholder': '可以输入省份的中文，逗号分隔'}}) }} 允许参与的市区
+        <div class="error">{{ form_errors(surveyPartnerForm.city) }}</div>
+    </p>
+        {{ form_row(surveyPartnerForm._token) }}
+
+<input class="surveyPartnerCreate" type="submit" id ="create" value="保存" />
+</form>
+
+</BODY>
+
+{% endblock %}
