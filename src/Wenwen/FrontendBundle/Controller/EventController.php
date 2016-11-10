@@ -90,7 +90,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     }
 
     /**
-     * @Route("/prize/draw", name="event_prize_draw", methods={"GET"})
+     * @Route("/prize/draw", name="event_prize_draw", methods={"POST"})
      */
     public function prizeDrawAction()
     {
@@ -182,7 +182,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     }
 
     /**
-     * @Route("/checkin/update", name="event_checkin_update", methods={"GET"})
+     * @Route("/checkin/update", name="event_checkin_update", methods={"POST"})
      */
     public function checkInUpdateAction()
     {

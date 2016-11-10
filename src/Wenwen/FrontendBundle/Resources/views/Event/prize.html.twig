@@ -45,9 +45,10 @@
 											<div class="drawResult center-block">{{ message }}</div>
 										{% else %}
 											{% if drawable %}
-												<a href="{{ path('event_prize_draw') }}">
+												<form action="{{ path('event_prize_draw') }}" method="post">
 													<div class="button"><div class="outer"><div class="height"><div class="inner">点击抽奖</div></div></div></div>
-												</a>
+													{#<button class="action next checkBtn center-block btn btn-default btn-lg">点击抽奖</button>#}
+												</form>
 											{% else %}
 												<div class="drawResult center-block">当前不可抽奖</div>
 											{% endif %}

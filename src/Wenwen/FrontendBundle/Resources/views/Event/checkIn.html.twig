@@ -53,7 +53,9 @@
                                 </div>
                             </div>
                             {% if alreadySigned == false  %}
-                                <a href="{{ path('event_checkin_update') }}" class="action next checkBtn center-block btn btn-default btn-lg" role="button">点击签到</a>
+                                <form action="{{ path('event_checkin_update') }}" method="post">
+                                    <button class="action next checkBtn center-block btn btn-default btn-lg">点击签到</button>
+                                </form>
                             {% endif %}
                             {% if alreadySigned == true and signedDays == 5 %}
                                 <a href="{{ path('event_prize') }}" class="action submit checkBtn center-block btn btn-default btn-lg" role="button">去抽奖</a>
