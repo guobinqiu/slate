@@ -36,6 +36,8 @@ class SurveyPartnerService
         '54.254.98.246', // staff.researchpanelasia.com. 299
         );
 
+    const TEST_USER_EMAIL = 'rpa-sys-china@d8aspring.com';
+
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
@@ -59,6 +61,17 @@ class SurveyPartnerService
         $availableSurveyPartners = array();
 
         try{
+            
+            if(self::TEST_USER_EMAIL == $user->getEmail()){
+                // 如果是测试用户，则显示所有处于init状态的项目
+                $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
+                    array(
+                        'status' => SurveyPartner::STATUS_INIT,
+                        ));
+                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                return $surveyPartners;
+            }
+
             $now = new \DateTime();
             // 注册三天以上的用户不显示这个类型的问卷
             if($user->getRegisterCompleteDate() <= $now->sub(new \DateInterval('P03D'))){
@@ -149,11 +162,22 @@ class SurveyPartnerService
         $rtn = array();
         $rtn['status'] = 'failure';
         try{
-            // 检查这个项目是否存在并且处于open状态
-            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
-                array('id' => $surveyPartnerId,
-                    'status' => SurveyPartner::STATUS_OPEN
-                    ));
+            $surveyPartner = null;
+            if(self::TEST_USER_EMAIL == $user->getEmail()){
+                // 如果是测试用用户，检查这个项目是否存在并且处于init状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('id' => $surveyPartnerId,
+                        'status' => SurveyPartner::STATUS_INIT
+                        ));
+                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+            } else {
+                // 检查这个项目是否存在并且处于open状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('id' => $surveyPartnerId,
+                        'status' => SurveyPartner::STATUS_OPEN
+                        ));
+            }
+            
             if(is_null($surveyPartner)){
                 // open状态的项目不存在，更改返回状态为不可参与
                 $errMsg = 'Survey is not exist(open). surveyPartnerId=' . $surveyPartnerId;
@@ -240,6 +264,11 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
+        if(self::TEST_USER_EMAIL == $user->getEmail()){
+            // 如果是测试用户的话，不做细节检查
+            $rtn['result'] = 'success';
+            return $rtn;
+        }
 
         $birthday = $user->getUserProfile()->getBirthday();
         $age = \DateTime::createFromFormat('Y-m-d', $birthday)->diff(new \DateTime())->y;
@@ -326,11 +355,22 @@ class SurveyPartnerService
         $rtn['status'] = 'failure';
 
         try{
-            // 检查这个项目是否存在并且处于open状态
-            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
-                array('id' => $surveyPartnerId,
-                    'status' => SurveyPartner::STATUS_OPEN
-                    ));
+            $surveyPartner = null;
+            if(self::TEST_USER_EMAIL == $user->getEmail()){
+                // 测试用户的话，检查这个项目是否存在并且处于init状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('id' => $surveyPartnerId,
+                        'status' => SurveyPartner::STATUS_INIT
+                        ));
+                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+            } else {
+                // 检查这个项目是否存在并且处于open状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('id' => $surveyPartnerId,
+                        'status' => SurveyPartner::STATUS_OPEN
+                        ));
+            }
+
             if(is_null($surveyPartner)){
                 // open状态的项目不存在，结束处理，返回状态为不可参与
                 $errMsg = 'Survey is not exist(open). surveyPartnerId=' . $surveyPartnerId;
@@ -447,12 +487,35 @@ class SurveyPartnerService
         $rtn['key'] = $key;
 
         try{
-            // 检查这个项目是否存在并且处于open状态
-            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
-                array('surveyId' => $surveyId,
-                    'partnerName' => $partnerName,
-                    'status' => SurveyPartner::STATUS_OPEN
-                    ));
+            // 先检查这个用户是否存在
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            if(is_null($user)){
+                // 用户不存在 不做继续处理
+                $errMsg = 'User not exist. userId = ' . $userId;
+                $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+                $rtn['status'] = 'failure';
+                $rtn['errMsg'] = $errMsg;
+                return $rtn;
+            }
+
+            // 用户存在的情况
+            $surveyPartner = null;
+            if(self::TEST_USER_EMAIL == $user->getEmail()){
+                // 测试用户的话，检查这个项目是否存在并且处于init状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('surveyId' => $surveyId,
+                        'partnerName' => $partnerName,
+                        'status' => SurveyPartner::STATUS_INIT
+                        ));
+            } else {
+                // 检查这个项目是否存在并且处于open状态
+                $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
+                    array('surveyId' => $surveyId,
+                        'partnerName' => $partnerName,
+                        'status' => SurveyPartner::STATUS_OPEN
+                        ));
+            }
+
             if(is_null($surveyPartner)){
                 // 该项目不处于open状态的话，不做积分处理
                 $errMsg = 'Opening survey is not exist. surveyId=' . $surveyId . ' partnerName=' . $partnerName;
@@ -464,17 +527,7 @@ class SurveyPartnerService
             // 该项目处于open状态
             $rtn['title'] = $this->generateSurveyTitleWithSurveyId($surveyPartner);
 
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
-            if(is_null($user)){
-                // 用户不存在 不做继续处理
-                $errMsg = 'User not exist. userId = ' . $userId;
-                $this->logger->warn(__METHOD__ . ' ' . $errMsg);
-                $rtn['status'] = 'failure';
-                $rtn['errMsg'] = $errMsg;
-                return $rtn;
-            }
-
-            // 用户存在
+            
             // 检查这个用户的参与记录 from surveyPartnerParticipationHistory
             $surveyPartnerParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findBy(
                 array('user' => $user,

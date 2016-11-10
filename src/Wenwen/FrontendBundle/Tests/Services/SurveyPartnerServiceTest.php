@@ -10,6 +10,7 @@ use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
 use Wenwen\FrontendBundle\Entity\PrizeTicket;
+use Wenwen\FrontendBundle\Services\SurveyPartnerService;
 
 
 class SurveyPartnerServiceTest extends WebTestCase
@@ -336,6 +337,112 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
         $this->assertEquals('success', $rtn['result'] );
+    }
+
+    public function testGetSurveyPartnerListForUser_forTestUser()
+    {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性 
+
+        $user = new User();
+        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        // 项目处于close状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1001');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner->setMinAge(90);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+        $this->em->persist($surveyPartner);
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1002');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1002');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_FEMALE);
+        $surveyPartner->setCreatedAt($now);
+        $this->em->persist($surveyPartner);
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1003');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1003');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+        $this->em->persist($surveyPartner);
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1004');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1004');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+        $this->em->persist($surveyPartner);
+
+        $this->em->flush();
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '天津市';
+        $locationInfo['clientIp'] = '139.111.111.111';
+
+        $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser($user, $locationInfo);
+
+        $this->assertEquals(2, count($rtn), '测试用户，显示INIT状态的项目');
+
     }
 
     public function testGetSurveyPartnerListForUser_noOpenProjects()
@@ -1072,6 +1179,149 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('participated', $rtn6['status'], 'Should be participated.');
     }
 
+    public function testProcessInformation_forTestUser()
+    {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性 
+
+        $user = new User();
+        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+
+        $url = 'http://www.d8aspring.com/?uid=__UID__';
+
+        // 项目处于init状态，没有该用户的参与记录 ->显示
+        $surveyId1 = '1001';
+        $title1 = '测试用问卷标题1';
+        $content1 = '测试用问卷说明1';
+        $loi1 = 10;
+        $ir1 = 10;
+        $completePoint1 = 298;
+        $screenoutPoint1 = 10;
+        $quotafullPoint1 = 2;
+
+        $surveyPartner1 = new SurveyPartner();
+        $surveyPartner1->setPartnerName('triples');
+        $surveyPartner1->setSurveyId($surveyId1);
+        $surveyPartner1->setUrl($url);
+        $surveyPartner1->setTitle($title1);
+        $surveyPartner1->setContent($content1);
+        $surveyPartner1->setReentry(false);
+        $surveyPartner1->setLoi($loi1);
+        $surveyPartner1->setIr($ir1);
+        $surveyPartner1->setCompletePoint($completePoint1);
+        $surveyPartner1->setScreenoutPoint($screenoutPoint1);
+        $surveyPartner1->setQuotafullPoint($quotafullPoint1);
+        $surveyPartner1->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner1->setMinAge(10);
+        $surveyPartner1->setMaxAge(100);
+        $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner1->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner1);
+        $this->em->flush();
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '天津市';
+        $locationInfo['clientIp'] = '139.111.111.111';
+
+        $rtn1 = $this->surveyPartnerService->processInformation($user, $surveyPartner1->getId(), $locationInfo);
+        $this->assertEquals('success', $rtn1['status'], 'Should be success.');
+        $this->assertEquals($surveyPartner1->getId() . ' ' . $title1, $rtn1['title'], 'Should be success.');
+        $this->assertEquals($content1, $rtn1['content'], 'Should be success.');
+        $this->assertEquals($loi1, $rtn1['loi'], 'Should be success.');
+        $this->assertEquals($completePoint1, $rtn1['completePoint'], 'Should be success.');
+        $this->assertEquals($url, $rtn1['url'], 'Should be success.');
+        $this->assertEquals('简单', $rtn1['difficulty'], 'Should be success.');
+        $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                    array('user' => $user,
+                        'surveyPartner' => $surveyPartner1,
+                        ));
+        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
+    }
+
+    public function testRedirectToSurvey_forTestUser()
+    {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性 
+
+        $user = new User();
+        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $partnername = 'triples';
+        $url = 'http://www.d8aspring.com/?uid=__UID__';
+
+        //  项目处于open状态，但是项目要求60岁到100岁，该用户是36岁，所以不允许参加
+        $surveyId1 = '1001';
+        $title1 = '测试用问卷标题1';
+        $content1 = '测试用问卷说明1';
+        $loi1 = 10;
+        $ir1 = 10;
+        $completePoint1 = 298;
+        $screenoutPoint1 = 10;
+        $quotafullPoint1 = 2;
+
+        $surveyPartner1 = new SurveyPartner();
+        $surveyPartner1->setPartnerName($partnername);
+        $surveyPartner1->setSurveyId($surveyId1);
+        $surveyPartner1->setUrl($url);
+        $surveyPartner1->setTitle($title1);
+        $surveyPartner1->setContent($content1);
+        $surveyPartner1->setReentry(false);
+        $surveyPartner1->setLoi($loi1);
+        $surveyPartner1->setIr($ir1);
+        $surveyPartner1->setCompletePoint($completePoint1);
+        $surveyPartner1->setScreenoutPoint($screenoutPoint1);
+        $surveyPartner1->setQuotafullPoint($quotafullPoint1);
+        $surveyPartner1->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner1->setMinAge(60);
+        $surveyPartner1->setMaxAge(100);
+        $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner1->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner1);
+        $this->em->flush();
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+        $locationInfo['clientIp'] = '191.111.111.111';
+
+        $rtn1 = $this->surveyPartnerService->redirectToSurvey($user, $surveyPartner1->getId(), $locationInfo);
+        $this->assertEquals('success', $rtn1['status'], 'Should be success.');
+    }
+
     public function testRedirectToSurvey_NotAllowed()
     {
         $purger = new ORMPurger();
@@ -1539,6 +1789,86 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('participated', $rtn['status'], 'Should be participated.');
     }
 
+    public function testProcessEndlink_forTestUser()
+    {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+        $currentPoint = 100;
+
+        $user = new User();
+        $user->setEmail('rpa-sys-china@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints($currentPoint);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        // 项目处于close状态 ->不处理endlink
+        $surveyId = '1005';
+        $partnerName = 'triples';
+        $answerStatus = 'complete';
+        $key = 'XKDGR';
+        $title = '测试用问卷标题5';
+        $url = 'http://www.d8aspring.com/?uid=__UID__';
+        $loi = 10;
+        $ir = 50;
+        $completePoint = 298;
+        $screenoutPoint = 10;
+        $quotafullPoint = 2;
+        $minAge = 10;
+        $maxAge = 100;
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setSurveyId($surveyId);
+        $surveyPartner->setUrl($url);
+        $surveyPartner->setTitle($title);
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi($loi);
+        $surveyPartner->setIr($ir);
+        $surveyPartner->setCompletePoint($completePoint);
+        $surveyPartner->setScreenoutPoint($screenoutPoint);
+        $surveyPartner->setQuotafullPoint($quotafullPoint);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner->setMinAge($minAge);
+        $surveyPartner->setMaxAge($maxAge);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+        $this->em->persist($surveyPartner);
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now);
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+
+        $this->em->flush();
+
+        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key);
+        $this->assertEquals('success', $rtn['status'], '正常处理处于init状态的问卷项目');
+
+        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBy(
+                    array(
+                        'comment' => $key,
+                        ));
+        $this->assertEquals($surveyId, $prizeTicket->getSurveyId(), 'Prize ticket should be created.');
+        $this->assertEquals($user, $prizeTicket->getUser(), 'Prize ticket should be created.');
+
+
+    }
+
     public function testProcessEndlink_projectClosed()
     {
         $purger = new ORMPurger();
@@ -1559,7 +1889,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         // 项目处于close状态 ->不处理endlink
         $surveyId = '1005';
-        $partnerId = '9001';
+        $partnerName = 'triples';
         $answerStatus = 'complete';
         $key = 'XKDGR';
         $title = '测试用问卷标题5';
@@ -1573,7 +1903,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $maxAge = 100;
 
         $surveyPartner = new SurveyPartner();
-        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setPartnerName($partnerName);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -1592,7 +1922,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartner);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerId, $key);
+        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure because this project is not open. 项目处于close状态 ->不处理endlink');
     }
 
