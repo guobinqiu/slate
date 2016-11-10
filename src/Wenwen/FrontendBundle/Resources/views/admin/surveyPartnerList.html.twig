@@ -3,64 +3,73 @@
 {% block header %}
     <meta charset="UTF-8">
     <title>Admin - Partner Lists</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
 {% endblock %}
 
 {% block content %}
-问卷项目一览<br>
-<a href="{{ path('admin_surveypartner_create') }}">新建一个问卷项目</a><br>
-<br>
-<table class='surveypartnerList'>
-<tr>
-  <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'sp.updatedAt') }}</th>
-  <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'sp.createdAt') }}</th>
-  <th>查看信息</th>
-</tr>
- 
-{% for surveyPartner in pagination %}
-<tr>
-  <td>{{ surveyPartner.id }}</td>
-  <td>{{ surveyPartner.partnerName }}</td>
-  <td>{{ surveyPartner.surveyId }}</td>
-  <td>{{ surveyPartner.title }}</td>
-  <td>{{ surveyPartner.status }}</td>
-  <td>{{ surveyPartner.updatedAt |date('Y-m-d H:i:s') }}</td>
-  <td>{{ surveyPartner.createdAt |date('Y-m-d H:i:s') }}</td>
-  <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartner.id}) }}">查看</a></td>
-</tr>
-{% endfor %}
-</table>
- 
-<div class="navigation">
-  {{ knp_pagination_render(pagination) }}
-</div>
-<br>
+  <div class="container">
+    <div class="row">
+      <h3>问卷项目一览</h3>
+      <a class="btn btn-primary" role="button" href="{{ path('admin_surveypartner_create') }}">新建一个问卷项目</a><br>
+      <br>
+      <table class='surveypartnerList table'>
+        <thead>
+          <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'sp.updatedAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'sp.createdAt') }}</th>
+            <th>查看信息</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for surveyPartner in pagination %}
+          <tr>
+            <td>{{ surveyPartner.id }}</td>
+            <td>{{ surveyPartner.partnerName }}</td>
+            <td>{{ surveyPartner.surveyId }}</td>
+            <td>{{ surveyPartner.title }}</td>
+            <td>{{ surveyPartner.status }}</td>
+            <td>{{ surveyPartner.updatedAt |date('Y-m-d H:i:s') }}</td>
+            <td>{{ surveyPartner.createdAt |date('Y-m-d H:i:s') }}</td>
+            <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartner.id}) }}">查看</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+       
+      <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+      </div>
+      <br>
 
-<div class="infomation">
-  <p> 对外提供的endlink </p>
-  <p> complete: http://www.91wenwen.net/survey_partner/endlink/complete/{partnerName}/{surveyId}/{uid}/{key}/ </p>
-  <p> screenout: http://www.91wenwen.net/survey_partner/endlink/screenout/{partnerName}/{surveyId}/{uid}/{key}/ </p>
-  <p> quotafull: http://www.91wenwen.net/survey_partner/endlink/quotafull/{partnerName}/{surveyId}/{uid}/{key}/ </p>
-  <p> error: http://www.91wenwen.net/survey_partner/endlink/error/{partnerName}/{surveyId}/{uid}/{key}/ </p>
-  <p>{partnerName}: 要跟问卷项目里设置的partnerName一致</p>
-  <p>{surveyId}: 要跟问卷项目里设置的surveyId一致</p>
-  <p>{uid}: 要跟问卷入口URL中提供的uid一致，一般需要跟本系统的用户id一致，用来识别哪个用户完成的</p>
-  <p>{uid}: 对方系统提供的唯一识别号，对方不提供时，随便固定一个就可以</p>
-</div>
+      <div class="infomation well">
+        <h4> 对外提供的endlink </h4>
+        <hr>
+        <p> complete: http://www.91wenwen.net/survey_partner/endlink/complete/{partnerName}/{surveyId}/{uid}/{key}/ </p>
+        <p> screenout: http://www.91wenwen.net/survey_partner/endlink/screenout/{partnerName}/{surveyId}/{uid}/{key}/ </p>
+        <p> quotafull: http://www.91wenwen.net/survey_partner/endlink/quotafull/{partnerName}/{surveyId}/{uid}/{key}/ </p>
+        <p> error: http://www.91wenwen.net/survey_partner/endlink/error/{partnerName}/{surveyId}/{uid}/{key}/ </p>
+        <p>{partnerName}: 要跟问卷项目里设置的partnerName一致</p>
+        <p>{surveyId}: 要跟问卷项目里设置的surveyId一致</p>
+        <p>{uid}: 要跟问卷入口URL中提供的uid一致，一般需要跟本系统的用户id一致，用来识别哪个用户完成的</p>
+        <p>{uid}: 对方系统提供的唯一识别号，对方不提供时，随便固定一个就可以</p>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
 
 <style type="text/css">
-table.surveypartnerList { 
+/*table.surveypartnerList { 
   border-collapse: collapse; 
   }
 table.surveypartnerList td, 
 table.surveypartnerList th { 
   border: 1px solid yellowgreen;
   padding: 5px; 
-  }
+  }*/
 </style>

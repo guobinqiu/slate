@@ -95,6 +95,12 @@ body{
 				text-align: center;
 				margin-top: 50px;
 			}
+			.backBtn{
+				color: $text-blue;
+				font-size: 12px;
+			    display: inline-block; 
+			    line-height: 24px;
+			}
 		}
 		.qnEnd{
 			text-align: center;
@@ -115,10 +121,11 @@ body{
 					.cor666{
 						color: #666;
 					}
-					.backBtn{
-						color: $text-blue;
-						font-size: 12px;
-					    display: inline-block; 
+					img{
+						margin-bottom: 10px;
+					}
+					p{
+						line-height: 22px;
 					}
 				}
 				.luckyNot{
