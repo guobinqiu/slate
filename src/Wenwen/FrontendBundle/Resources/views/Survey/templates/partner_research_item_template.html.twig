@@ -7,7 +7,7 @@
                 {{ partnerResearch.title }}
             {% endif %}
         {% else %}
-            <a href="{{ path('_project_survey_information', {'partnerResearch': partnerResearch}) }}" class="open-link" target="_brank">
+            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link">
                 {% if partnerResearch.title|length > 35 %}
                     {{ partnerResearch.title[:35] }}...
                 {% else %}
