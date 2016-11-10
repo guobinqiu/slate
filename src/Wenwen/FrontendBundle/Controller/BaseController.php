@@ -35,4 +35,23 @@ class BaseController extends Controller
         }
         return $user;
     }
+
+    /**
+     * @return locationInfo = array(
+     *                             'status' => true/false,
+     *                             'errmsg' => '', // status是false时 的错误信息
+     *                             'city' => '没找到对应的城市', // 城市名
+     *                             'province' => '没找到对应的省份' // 省份名
+     *                             'clientIp' => 'xxx.xxx.xxx.xxx' // ip地址
+     *                             )
+     */
+    protected function getLocationInfoByClientIp(Request $request)
+    {
+        // 获取clientIp
+        $clientIp = $request->getClientIp();
+        $ipLocationService = $this->get('app.ip_location_service');
+        // 通过IP获取地区信息
+        $locationInfo = $ipLocationService->getLocationInfo($clientIp);
+        return $locationInfo;
+    }
 }

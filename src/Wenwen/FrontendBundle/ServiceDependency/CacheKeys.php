@@ -11,4 +11,7 @@ class CacheKeys {
     const LATEST_NEWS_LIST = 'latest_news_list';
     const PRIZE_POINT_BALANCE = 'prize_point_balance';
     const LATEST_PRIZE_NEWS_LIST = 'latest_prize_news_list';
+    const IP_LOCATION_PRE = 'ip_location_';
+    const IP_LOCATION_TIMEOUT = 86400; // 保存时间秒
+
 }

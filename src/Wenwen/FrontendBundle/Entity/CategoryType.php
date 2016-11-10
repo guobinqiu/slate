@@ -43,6 +43,7 @@ class CategoryType
     const SSI_EXPENSE = 303;      // (+) SSI AGREEMENT PRESCREEN等
     const CINT_EXPENSE = 304;     // (+) Cint AGREEMENT 
     const FULCRUM_EXPENSE = 305;  // (+) Fulcrum AGREEMENT
+    const SURVEY_PARTNER_EXPENSE = 306;     // (+) 回答survey partner的实际商业问卷
     //const EVENT_XXX = 399;        // (+) 这个还没有被用到，具体活动的类型，需要的时候定义
     const EVENT_INVITE_SIGNUP = 380; // 邀请注册加积分
     const EVENT_INVITE_SURVEY = 381; // 做问卷给邀请人加积分
@@ -70,6 +71,7 @@ class CategoryType
     const SSI_COST = 403;         // (+) 回答SSI的实际商业问卷  
     const CINT_COST = 404;        // (+) 回答Cint的实际商业问卷
     const FULCRUM_COST = 405;     // (+) 回答Fulcrum的实际商业问卷
+    const SURVEY_PARTNER_COST = 406;     // (+) 回答survey partner的实际商业问卷
 
     /** 2016/09/12之前的值
     // 这里，将来希望分成 自己公司的问卷，各类对接API的类型（Cint SSI Fulcrum）
@@ -81,5 +83,5 @@ class CategoryType
     const FULCRUM_COST = 92;     // (+) 回答Fulcrum的实际商业问卷
     */
 
-    static $cost_types = array(self::SOP_COST, self::FULCRUM_COST, self::CINT_COST);
+    static $cost_types = array(self::SOP_COST, self::FULCRUM_COST, self::CINT_COST, self::SURVEY_PARTNER_COST);
 }

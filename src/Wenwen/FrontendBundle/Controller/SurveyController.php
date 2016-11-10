@@ -17,6 +17,12 @@ class SurveyController extends BaseController implements UserAuthenticationContr
     public function indexAction(Request $request)
     {
         $user_id = $request->getSession()->get('uid');
+
+        $this->get('logger')->debug(__METHOD__ . ' ' . $request->getClientIp());
+
+        // 根据Ip获取该用户的地区信息
+        $locationInfo = $this->getLocationInfoByClientIp($request);
+
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();
@@ -25,7 +31,7 @@ class SurveyController extends BaseController implements UserAuthenticationContr
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
+        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
 
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
     }
@@ -36,6 +42,12 @@ class SurveyController extends BaseController implements UserAuthenticationContr
     public function topAction(Request $request)
     {
         $user_id = $request->getSession()->get('uid');
+
+        $this->get('logger')->debug(__METHOD__ . ' ' . $request->getClientIp());
+
+        // 根据Ip获取该用户的地区信息
+        $locationInfo = $this->getLocationInfoByClientIp($request);
+
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();
@@ -44,7 +56,7 @@ class SurveyController extends BaseController implements UserAuthenticationContr
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id);
+        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
     }
