@@ -38,7 +38,7 @@ class SurveyPartnerParticipationHistoryRepository extends EntityRepository
         return $count;
     }
 
-    public function getSurveyPartnersParticipationHistorySummary($surveyPartner, $status){
+    public function getCountBySurveyPartnerAndStatus($surveyPartner, $status){
 
         $query = $this->createQueryBuilder('spph');
         $query = $query->select('count(spph)');
@@ -51,4 +51,5 @@ class SurveyPartnerParticipationHistoryRepository extends EntityRepository
         $count = $query->getSingleScalarResult();
         return $count;
     }
+
 }
