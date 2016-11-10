@@ -43,17 +43,21 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         //start inserting
         foreach ($history_list as $history) {
+            $survey_id = null;
+            if (isset($history['survey_id'])) {
+                $survey_id = $history['survey_id'];
+            }
 
             if ($this->skipReward($history)) {
                 $info = 'Skip reward';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $info = 'Skip reward, already existed: app_mid: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -64,7 +68,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             ));
             if (!$respondent) {
                 $info = 'Skip reward, No SopRespondent for: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -76,7 +80,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$user) {
                 // maybe panelist withdrew
                 $info = 'Skip reward, No User. Skip user_id: ' . $respondent->getUserId();
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -111,7 +115,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->commit();
 
             } catch (\Exception $e) {
-                array_push($errorMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $e->getMessage()));
+                array_push($errorMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $e->getMessage()));
                 $error += 1;
                 $hasErrors = true;
                 $dbh->rollBack();
@@ -125,7 +129,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
                     $info = '给奖池注入积分' . $injectPoints;
                 }
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
             }
         } // end for
