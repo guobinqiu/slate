@@ -57,7 +57,7 @@ class SurveyPartnerService
      * @return array $surveyPartners
      */
     public function getSurveyPartnerListForUser($user, $locationInfo) {
-        $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId());
+        $this->logger->info(__METHOD__ . ' START userId=' . $user->getId());
         $availableSurveyPartners = array();
 
         try{
@@ -79,19 +79,13 @@ class SurveyPartnerService
                 return array();
             }
 
-            // 获取该用户的参与记录
-            // 没有参与记录，可以参与
-            // 参与状态为open，可以参与
-            // 参与状态为init/forward（且允许中途退出的项目）的，可以参与
-            // 其他状态，不可再次参与，不显示
-            // $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->getSurveyPartnersForUser($user);
-
             // 找到所有open的问卷项目
             $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                 array(
                     'status' => SurveyPartner::STATUS_OPEN,
                     ));
             // 循环检查每个项目，不符合参与条件或者已经参与过的话就继续处理下一个项目
+            $this->logger->info(__METHOD__ . ' START of processing surveyPartners userId=' . $user->getId());
             foreach($surveyPartners as $surveyPartner){
                 $this->logger->debug(__METHOD__ . ' check started. id=' . $surveyPartner->getId());
                 // 核对用户信息是否满足该项目的参与条件
@@ -130,13 +124,13 @@ class SurveyPartnerService
                 $this->logger->debug(__METHOD__ . ' check passed. id=' . $surveyPartner->getId());
                 array_push($availableSurveyPartners, $surveyPartner);
             }
-            $this->logger->debug(__METHOD__ . ' availableSurveyPartners count: ' . count($availableSurveyPartners));
+            $this->logger->info(__METHOD__ . ' END of processing surveyPartners userId=' . $user->getId() . ' availableSurveyPartners count: ' . count($availableSurveyPartners));
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . ' ErrorMsg:   ' . $e->getMessage());
             $this->logger->error(__METHOD__ . ' ErrorStack:   ' . $e->getTraceAsString());
         }
 
-        $this->logger->debug(__METHOD__ . ' END   ');
+        $this->logger->info(__METHOD__ . ' END userId=' . $user->getId());
         return $availableSurveyPartners;
     }
 
