@@ -10,6 +10,11 @@
 		padding: 15px 40px 40px;
 	}
 }
+.voteDet{
+	.panel-body{
+		padding: 25px 70px 50px;
+	}
+}
 .vote-sub{
  	.backLink{
  		display: inline-block;
@@ -22,22 +27,18 @@
  		margin-top: 54px;
  	}
  	.relate{
- 		margin: 25px 10px 27px;
- 		padding-left: 122px;
- 		padding-right: 12px;
- 		position: relative;
- 		z-index: 1;
- 		@include minHeight(90px);
- 		img{
- 			position: absolute;
- 			z-index: 100;
- 			top: 0;
- 			left: 15px;
- 		}
+ 		margin: 25px 10px 0;
+ 		// img{
+ 		// 	position: absolute;
+ 		// 	z-index: 100;
+ 		// 	top: 0;
+ 		// 	left: 15px;
+ 		// }
  	}
  	.relateText{
  		color: #9da1a8;
  		line-height: 20px;
+ 		padding-left: 0;
  		h1{
  			font-size: 24px;
  			font-weight: bold;
@@ -61,19 +62,17 @@
  		}
  	}
  	.options{
- 		padding-left: 130px;
- 		padding-right: 20px;
- 		li{
- 			margin-top: 18px;
- 			line-height: 22px;
- 			span{
- 				margin-left: 5px;
- 			}
- 			label{
- 				cursor: pointer;
- 				font-size: 14px; 
- 			}
- 		}
+ 		// li{
+ 		// 	margin-top: 18px;
+ 		// 	line-height: 22px;
+ 		// 	span{
+ 		// 		margin-left: 5px;
+ 		// 	}
+ 		// 	label{
+ 		// 		cursor: pointer;
+ 		// 		font-size: 14px; 
+ 		// 	}
+ 		// }
  		.btn{
  			padding:20px 0 0 0;
 			.submit{

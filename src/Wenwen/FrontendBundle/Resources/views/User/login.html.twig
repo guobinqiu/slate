@@ -28,30 +28,19 @@
 	<div id="pagepiling">
 		<nav class="navbar navbar-fixed-top">
 	        <div class="container">
-	        	<div class="navbar-header pull-left">
-					<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
-						<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-						<!--[if IE]>
-							<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
-						<![endif]-->
-	        		</a>
+	        	<div class="row">
+        			<div class="col-xs-12">
+			        	<div class="navbar-header pull-left">
+							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
+								<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+								<!--[if IE]>
+									<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+								<![endif]-->
+			        		</a>
+			        	</div>
+						<a href="{{ path('_user_reg') }}" class="btn pull-right top17" type="button">注册</a>
+					</div>
 	        	</div>
-	        	<ul class="nav navbar-nav navbar-right pull-right">
-    	            <li class="dropdown">
-    	              <div class="navbar-toggler" type="div" data-toggle="collapse" data-target="#exCollapsingNavbar" aria-controls="exCollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars" aria-hidden="true"></i></button>
-    	              <div class="collapse" id="exCollapsingNavbar">
-    	                <div class="bg-inverse text-muted p-1">
-    	                   <ul class="menu dropdown-menu" role="menu">
-    	                   	<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
-    	                   	<li class="liner"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
-    	                   	<li class="liner"><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
-    	                   	<li class="liner"><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
-    	                   	<li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
-    	                   </ul>
-    	                </div>
-    	              </div>
-    	            </li>
-    	          </ul>
 			</div>
 		</nav>
 		<div class="section" id="section0">
@@ -59,7 +48,7 @@
 				<div class="logIxWrap">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-2 col-md-offset-5">
+							<div class="col-md-8 col-md-offset-2">
 							    <div class="login loginUq">
 							        <div class="login-con logWrap">
 										<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
@@ -79,7 +68,7 @@
 											<input type="submit" class="login-btn" value="登录"/>
 							            </form>
 							            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
-							            <div class="subCon login-btn-others">
+							            <div class="login-btn-others">
 							            	<p class="othersLine">快捷登录</p>
 							                <p class="othersItem row">
 												<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
@@ -198,6 +187,13 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
+	<script type="text/javascript">
+		var client = new ClientJS(); // Create A New Client Object
+		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+		$('#login_fingerprint').val(fingerprint);
+	</script>
 {% endblock %}

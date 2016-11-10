@@ -27,7 +27,7 @@
     </head>
     <body>
         {% block header %}{% endblock %}
-        <div {% if app.session.has('uid') %} class="container-full" {% else %}  class="container-full unlogin" {% endif %}>
+        <div {% if app.session.has('uid') %} class="mainWrap container-full" {% else %}  class="container-full unlogin" {% endif %}>
             {% block body %}{% endblock %}
         </div>
         <div class="footer top30">

@@ -135,7 +135,9 @@ i, cite, em, var, address, dfn {
 	display: table;
 	clear: both;
 }
-
+.mainWrap{
+    margin-top: 20px;
+}
 //responsive
 // @media only screen and (max-width: 667px) { 
 //     .visiblePhone{
@@ -208,5 +210,10 @@ i, cite, em, var, address, dfn {
             color: #337ab7;
             @include border-radius(3px);
         }
+    }
+}
+@media only screen and (max-width: 768px)  {
+    .mainWrap{
+        margin-top: 85px;
     }
 }

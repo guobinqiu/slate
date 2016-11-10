@@ -3,21 +3,21 @@
     {% for item in vote_list %}
         <li {% if item.timelimit is defined %} class="vote-new" {% endif %}>
             <div class="row">
-                <span class="vote-img col-sm-2">
+                <div class="vote-img col-xs-4 col-sm-2 col-md-2">
                     {% if (item.sqPath) %}
                     <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img class="img-thumbnail" src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>
                     {% else %}
                     <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                     {% endif %}
-                </span>
-                <span class="vote-txt col-sm-8">
+                </div>
+                <div class="vote-txt col-xs-8 col-sm-10 col-md-8">
                     <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}<span></span></a></div>
-                    <div class="con top15">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
+                    <div class="con top10">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
                     <div class="relate corWeak relateVlist">
-                        <span>参与人气：<span>{{ item.answerCount }}</span></span><span class="vline"></span>
-                        <span>截止日期：{{ item.endTime|date("Y-m-d") }}</span>
+                        <div>参与人气：<span>{{ item.answerCount }}</span></div>
+                        <div>截止日期：{{ item.endTime|date("Y-m-d") }}</div>
                     </div>
-                </span>
+                </div>
                 
                 {% if item.timelimit is defined %}
                 <div>
@@ -28,18 +28,19 @@
                     <div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
                 </div>
                 {% endif %}
-                <span class="col-sm-2">
+                <span class="col-xs-12 col-sm-12 col-md-2">
+                    <span class="col-sm-2"></span>
                 {% if app.session.has('uid')%}
                     {% if(item.endTime|date("Ymd") >= "now"|date('Ymd')) and item.answerable %}
-                    <a class="vote-btn" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
+                    <a class="vote-btn btn top15" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                     {% else %}
-                    <a class="vote-btn voteDisabled" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
+                    <a class="vote-btn voteDisabled btn top15" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
                     {% endif %}
                 {% else %}
                     {% if (item.endTime|date("Ymd") >= "now"|date('Ymd')) %}
-                    <a class="vote-btn" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
+                    <a class="vote-btn btn top15" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                     {% else %}
-                    <a class="vote-btn voteDisabled" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
+                    <a class="vote-btn voteDisabled btn btn-md top15" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
                     {% endif %}
                 {% endif %}
                 </span>

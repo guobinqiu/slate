@@ -1,5 +1,5 @@
-<a href="{{ path('jili_frontend_vote_suggest') }}"><img class="img-responsive" src="{{asset('img/vote/prize.jpg')}}" alt="有奖出题"></a>
-<div class="exchange-dynamics panel panel-default top20">
+<div class="clearfix"><a href="{{ path('jili_frontend_vote_suggest') }}"><img class="col-xs-12 img-responsive" src="{{asset('img/vote/prize.jpg')}}" alt="有奖出题"></a></div>
+<div class="exchange-dynamics panel panel-default hidden-xs top20">
     <h4>最新动态</h4>
     {{ render(controller('JiliApiBundle:Top:event') ) }}
 </div>

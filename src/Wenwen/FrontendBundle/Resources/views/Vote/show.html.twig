@@ -20,9 +20,9 @@
         <div class="vote vote-sub">
             <div class="relate">
                 {% if vote_image_path %}
-                <img src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
+                <img class="pull-right" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                 {% else %}
-                <img src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
+                <img class="pull-right" src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
                 {% endif %}
                 <div class="relateText">
                     <h1>{{vote.title}}</h1>

@@ -1,4 +1,4 @@
-<nav id="top-header" {% if app.session.has('uid') %} class="navbar-default header" {% else %}  class="navbar-default header unlogin" {% endif %} role="navigation">
+<nav id="top-header" {% if app.session.has('uid') %} class="navbar-default" {% else %}  class="navbar-default unlogin" {% endif %} role="navigation">
     {% include "WenwenFrontendBundle:Components:_headerNav.html.twig" %}
 </nav>
 {# <div class="navLayerBg hiddenDesktop hiddenTablet navbarUn"></div>
