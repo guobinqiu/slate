@@ -75,7 +75,6 @@ class SurveyPartnerType extends AbstractType
             ->add('completePoint', 'text', array(
                 'label' => 'completePoint',
                 'attr' => array('size' => '5'),
-                'data' => 300,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入completePoint')),
                     new Assert\Range(array('min' => 100, 'max' => 5000)),
@@ -84,7 +83,6 @@ class SurveyPartnerType extends AbstractType
             ->add('screenoutPoint', 'text', array(
                 'label' => 'screenoutPoint',
                 'attr' => array('size' => '5'),
-                'data' => 10,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入screenoutPoint')),
                     new Assert\Range(array('min' => 1, 'max' => 50)),
@@ -93,7 +91,6 @@ class SurveyPartnerType extends AbstractType
             ->add('quotafullPoint', 'text', array(
                 'label' => 'quotafullPoint',
                 'attr' => array('size' => '5'),
-                'data' => 2,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入quotafullPoint')),
                     new Assert\Range(array('min' => 1, 'max' => 10)),
@@ -102,7 +99,6 @@ class SurveyPartnerType extends AbstractType
             ->add('minAge', 'text', array(
                 'label' => 'minAge',
                 'attr' => array('size' => '5'),
-                'data' => 0,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入minAge')),
                     new Assert\Range(array('min' => 0, 'max' => 100)),
@@ -111,7 +107,6 @@ class SurveyPartnerType extends AbstractType
             ->add('maxAge', 'text', array(
                 'label' => 'maxAge',
                 'attr' => array('size' => '5'),
-                'data' => 150,
                 'constraints' => array(
                     new Assert\NotBlank(array('message' => '请输入completePoints')),
                     new Assert\Range(array('min' => 10, 'max' => 150)),
