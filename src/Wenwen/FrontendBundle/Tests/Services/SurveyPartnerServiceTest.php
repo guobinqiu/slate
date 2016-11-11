@@ -2481,11 +2481,11 @@ class SurveyPartnerServiceTest extends WebTestCase
         $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia_error.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
         $this->assertTrue(! $result);
 
-        $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', 'error');
+        $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', 'sdfdf');
         $this->assertTrue(! $result);
 
         $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
-        $this->assertTrue(! $result);
+        $this->assertTrue($result);
     }
 
 }
