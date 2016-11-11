@@ -109,6 +109,13 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
     {
         $this->get('logger')->debug(__METHOD__ . ' START');
         $surveyPartner = new SurveyPartner();
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setCompletePoint(300);
+        $surveyPartner->setScreenoutPoint(1);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setMinAge(0);
+        $surveyPartner->setMaxAge(150);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
         $surveyPartner->setStatus('init');
         $surveyPartner->setCreatedAt(new \Datetime());
         $surveyPartner->setUpdatedAt(new \Datetime());

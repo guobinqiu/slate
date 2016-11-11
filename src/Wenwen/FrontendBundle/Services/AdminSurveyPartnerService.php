@@ -106,7 +106,7 @@ class AdminSurveyPartnerService
     }
 
     /**
-     * 新建问卷项目
+     * 查找一个问卷项目
      * @param $surveryPartnerId
      */
     public function findSurveyPartner($surveryPartnerId) {
@@ -114,9 +114,9 @@ class AdminSurveyPartnerService
 
         $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
 
-        return $surveyPartner;
-
+        $this->logger->debug(__METHOD__ . ' completePoint=' . $surveyPartner->getCompletePoint());
         $this->logger->debug(__METHOD__ . ' END   ');
+        return $surveyPartner;
     }
 
     public function getSurveyPartnerParticipationSummary($surveryPartner){
