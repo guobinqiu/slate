@@ -28,6 +28,24 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
     }
 
     /**
+     * @Route("/admin/surveypartner/daily_report/", name="admin_surveypartner_daily_report")
+     * @Template
+     */
+    public function showParticipationDailyReportAction(Request $request){
+        // 
+        $adminSurveyPartnerService = $this->get('app.admin_survey_partner_service');
+
+        // 先直接显示过去一周的参与情况情况
+        $result = $adminSurveyPartnerService->getParticipationDailyReport();
+
+        return $this->render('WenwenFrontendBundle:admin:surveyPartnerDailyReport.html.twig', 
+            array(
+                'dailyReports' => $result['dailyReports']
+                ));
+
+    }
+
+    /**
      * @Route("/admin/surveypartner/open/{surveyPartnerId}/", name="admin_surveypartner_open")
      * @Template
      */
