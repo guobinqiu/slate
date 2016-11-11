@@ -15,47 +15,69 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000 clearfix">
-    <div class="main-con-left left">
-        <div class="vote vote-sub">
-            <div class="relate">
-                {% if vote_image_path %}
-                <img class="pull-right" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
-                {% else %}
-                <img class="pull-right" src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
-                {% endif %}
-                <div class="relateText">
-                    <h1>{{vote.title}}</h1>
-                    <div class="description">
-                        <div class="fst"><span class="cor9">时间：</span>{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
-                        <div><span class="cor9">详情：</span>{% autoescape false %}{{ vote.description }}{% endautoescape %}</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-xs-12">
+            <div class="vote vote-sub voteDet panel panel-default">
+                <div class="panel-body">
+                    <div class="relate row">
+                        <div class="hidden-xs col-sm-3 top5">
+                            {% if vote_image_path %}
+                            <img class="pull-right img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
+                            {% else %}
+                            <img class="pull-right img-responsive" src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
+                            {% endif %}
+                        </div>
+                        <div class="relateText col-xs-12 col-sm-9">
+                            <h3 class="lead">{{vote.title}}</h3>
+                            <div class="description well">
+                                <div class="fst"><span class="cor9">时间：</span>{{vote.startTime|date("m/d")}} ~ {{vote.endTime|date("m/d")}}</div>
+                                <div><span class="cor9">详情：</span>{% autoescape false %}{{ vote.description }}{% endautoescape %}</div>
+                            </div>
+                        </div>
                     </div>
+                    <form action="{{ path('jili_frontend_vote_vote') }}" method="post" name="form1" id="show_form" >
+                        <input type="hidden" value="{{ csrf_token }}" name="csrf_token" />
+                        <input type="hidden" value="{{ vote.id }}" name="id" />
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-xs-12 col-sm-12 col-md-9">
+                                <div class="options">
+                                    <ul class="list-group">
+                                    {% for key, voteChoice in voteChoices %}
+                                        <li class="list-group-item">
+                                            {% if user_answer_count==0 %}
+                                                <input type="radio" name="answer_number" id="answer_number_{{key}}" value="{{key}}" />
+                                            {% endif %}
+                                            <label for="answer_number_{{key}}">{{key}}.{{voteChoice}}</label>
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                    <div class="btn">
+                                        {% if app.session.get('uid') %}
+                                            {% if user_answer_count==0 %}
+                                            <input type="submit" value="投  票" class="submit" />
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="loginTips"><a href="{{ path('_user_login') }}">请登录后</a>参加投票。</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul class="pager">
+                                <li class="previous"><a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a></li>
+                                <li class="next"><a href="{{ path('jili_frontend_vote_result',{'id':vote.id}) }}" class="result">仅查看结果>></a></li>
+                            </ul>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <form action="{{ path('jili_frontend_vote_vote') }}" method="post" name="form1" id="show_form" >
-            <input type="hidden" value="{{ csrf_token }}" name="csrf_token" />
-            <input type="hidden" value="{{ vote.id }}" name="id" />
-            <div class="options">
-                <ul>
-                {% for key, voteChoice in voteChoices %}
-                    <li>{% if user_answer_count==0 %}<input type="radio" name="answer_number" id="answer_number_{{key}}" value="{{key}}" />{% endif %}<label for="answer_number_{{key}}">{{key}}.{{voteChoice}}</label></li>
-                {% endfor %}
-                </ul>
-                <div class="btn"><a href="{{ path('jili_frontend_vote_result',{'id':vote.id}) }}" class="result">仅查看结果>></a>
-                {% if app.session.get('uid') %}
-                    {% if user_answer_count==0 %}
-                    <input type="submit" value="投  票" class="submit" />
-                    {% endif %}
-                {% else %}
-                    <div class="loginTips"><a href="{{ path('_user_login') }}">请登录后</a>参加投票。</div>
-                {% endif %}
-                </div>
-                <a class="backLink" href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a>
-            </div>
-            </form>
         </div>
+        <div class="col-sm-3 hidden-xs">{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}</div>
     </div>
-    {% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}
+    
 </div>
 {% endblock %}
 

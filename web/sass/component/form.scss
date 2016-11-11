@@ -4,12 +4,12 @@
 .form{
 	li{
 		margin-top: 10px;
-		label{
-			width: 100px;
-			text-align: right;
-			font-size: 14px;
-			@include dib();
-		}
+		// label{
+		// 	width: 100px;
+		// 	text-align: right;
+		// 	font-size: 14px;
+		// 	@include dib();
+		// }
 	}
 	input[type='text'], input[type='password'], input[type='email'], textarea {
 		padding: 0 5px;
@@ -76,10 +76,7 @@
 	}
 	.btn{
 		span{
-			width: 74px;
 			text-align: center;
-			height: 36px;
-			line-height: 36px;
 			@include btn();
 			@include dib();
 			vertical-align: middle;

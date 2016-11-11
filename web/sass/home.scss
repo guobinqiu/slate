@@ -10,6 +10,9 @@ $slider-height: 305px;
 .header{
 	box-shadow: none;
 }
+.mainWrap{
+	margin-top: 0;
+}
 .main-slider{
 	height: $slider-height;
 	background: url(../img/home/slideBgx.jpg) repeat-x;
@@ -440,3 +443,8 @@ $slider-height: 305px;
 // 	}
 // }
 @import "layout/footer";
+@media only screen and (max-width: 768px)  {
+    .mainWrap{
+        margin-top: 77px;
+    }
+}

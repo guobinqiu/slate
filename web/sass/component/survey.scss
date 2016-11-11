@@ -472,8 +472,14 @@ $count-bg: #f5f5f5;
 	}
 	.panel-body{
 		padding-bottom: 28px;
-		hr:last-child{
-			display: none;
+		ul{
+			hr{
+				margin-top: 20px;
+				margin-bottom: 10px;
+				&:last-child{
+					display: none;
+				}
+			}
 		}
 	}
 }

@@ -10,16 +10,16 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">		
+<div class="container top20">		
 	<div class="main-about-con clearfix">
 		<div class="row">
 			{% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
-			<div class="col-xs-10 col-sm-10">
+			<div class="col-xs-9 col-sm-10">
 				<div class="aboutR tabCon">
 					<h2>网站地图</h2>
 					<div class="sitemap con">
 						<div class="box">
-							<h3>账户相关</h3>
+							<pre class="fontCommon">账户相关</pre>
 							<ul class="clearfix">
 								<li class="font16"><strong>注册登录</strong></li><li><a href="{{ path('_user_reg') }}" title="注册">注册</a></li><li><a href="{{ path('_user_login') }}" title="登录">登录</a></li><li><a href="{{ path('_user_resetPwd') }}" title="忘记密码">忘记密码</a></li>
 							</ul>
@@ -31,7 +31,7 @@
 							</ul>
 						</div>
 						<div class="box">
-							<h3>问卷与奖励</h3>
+							<pre class="fontCommon">问卷与奖励</pre>
 							<ul class="clearfix">
 								<li class="font16"><strong>问卷列表</strong></li><li><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
 							</ul>
@@ -46,7 +46,7 @@
 							</ul>
 						</div>
 						<div class="box">
-							<h3>了解我们</h3>
+							<pre class="fontCommon">了解我们</pre>
 							<ul class="clearfix">
 								<li class="font16"><strong>关于我们</strong></li><li><a href="{{ path('help_company') }}" title="公司介绍">公司介绍</a></li><li><a href="{{ path('help_ww') }}" title="网站介绍">网站介绍</a></li><li><a href="{{ path('help_regulations') }}" title="会员协议">会员协议</a></li><li><a target="_blank" href="http://weibo.com/91wenwen" title="官方微博">官方微博</a></li>
 							</ul>

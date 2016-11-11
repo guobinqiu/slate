@@ -17,10 +17,9 @@
 					{% if item.timelimit is defined %}
 						<div>
 						    <input type="hidden" name="timelimit_ut" value="{{item.timelimit}}" /><div id="countdown" class="countdown"></div>
-						</div>
-						<div class="tips expand-btn">
-						    <i class="fa fa-info-circle" aria-hidden="true"></i>
-						    <div class="tips-con expand-con"><p>倒计时内回答此份快速回答，将额外获得1积分。</p><b class="arrow"></b></div>
+							<div class="tips">
+							    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="倒计时内回答此份快速回答，将额外获得1积分。"></i>
+							</div>
 						</div>
 					{% endif %}
 					<div class="voteBW">

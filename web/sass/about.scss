@@ -20,6 +20,12 @@
 			// 	line-height: 23px;
 			// 	padding: 0 15px;
 			// }
+			pre{
+				padding: 10px;
+			    margin: 10px 0;
+			    font-weight: bold;
+			    font-size: 15px;
+			}
 			.lh30{
 				line-height: 30px;
 			}
@@ -113,6 +119,12 @@
 				    }
 				    @include ell;
 				}
+				pre{
+					padding: 10px;
+					margin: 10px 0;
+					font-weight: bold;
+					font-size: 15px;
+				}
 			}
 
 		}
@@ -142,6 +154,12 @@
 					margin-left: 5px;
   				}
   			}
+  			pre{
+  				padding: 10px;
+  				margin: 10px 0;
+  				font-weight: bold;
+  				font-size: 15px;
+  			}
 		}
 		.linkStep{
 			margin-top: 46px;
@@ -149,13 +167,16 @@
 				margin-bottom: 8px;
 			}
 			div{
-				padding: 0 10px;
 				dt,dd{
-					line-height: 30px;
+					line-height: 24px;
+				    word-break: break-all;
 					a{
 					color: $list-tit-color;
 					}
 				}
+			}
+			.row{
+				padding: 0 27px;
 			}
 		}
 	}
