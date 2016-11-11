@@ -470,11 +470,6 @@ class SurveyPartnerService
                 return false;
             }
 
-            if(! strpos($referer, $key)){
-                // 如果不含有 $key 视为非法
-                return false;
-            }
-
         }
         return true;
     }
