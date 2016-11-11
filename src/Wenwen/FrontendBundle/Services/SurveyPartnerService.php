@@ -28,15 +28,9 @@ class SurveyPartnerService
 
     private $prizeTicketService;
 
-    private $allowIps = array(
-        //'127.0.0.1', // Vagrant dev environment
-        '192.168.33.61', // Vagrant dev environment
-        '192.168.33.1',  // Vagrant dev client
-        '54.254.98.254', // staff.researchpanelasia.com. 299
-        '54.254.98.246', // staff.researchpanelasia.com. 299
-        );
-
     const TEST_USER_EMAIL = 'rpa-sys-china@d8aspring.com';
+
+    const VALID_REFERER_DOMAIN = 'r.researchpanelasia.com';
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
@@ -456,9 +450,28 @@ class SurveyPartnerService
         return $rtn;
     }
 
-    public function isValidEndlinkIp($clientIp){
-        if(in_array($clientIp, $this->allowIps)){
+
+    /**
+     * tripleS的referer例子：
+     * http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg
+     */
+    public function isValidEndlinkReferer($referer, $key){
+        if(empty($referer)){
+            // no referer found, allow because some antivirus softs will clear referer
             return true;
+        } else {
+            // has referer
+            // only allow for triples at this moment
+            if(! strpos($referer, self::VALID_REFERER_DOMAIN)){
+                // 如果不含有 VALID_REFERER_DOMAIN 视为非法
+                return false;
+            }
+
+            if(! strpos($referer, $key)){
+                // 如果不含有 $key 视为非法
+                return false;
+            }
+
         }
         return false;
     }
@@ -470,7 +483,7 @@ class SurveyPartnerService
      *              status: failure 非正常处理结束
      *              )
      */
-    public function processEndlink($userId, $answerStatus, $surveyId, $partnerName, $key){
+    public function processEndlink($userId, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
         $this->logger->debug(__METHOD__ . ' START userId=' . $userId . ' surveyId=' . $surveyId . 'partnerName=' . $partnerName . ' answerStatus=' . $answerStatus . ' $key=' . $key);
 
         $rtn = array();
@@ -528,7 +541,34 @@ class SurveyPartnerService
                     'surveyPartner' => $surveyPartner,
                     ));
             if(2 == count($surveyPartnerParticipationHistorys)){
-                // 有两条参与记录 允许处理
+                // 有两条参与记录
+                // 查找forward状态的历史记录
+                $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                array('user' => $user,
+                    'surveyPartner' => $surveyPartner,
+                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    ));
+
+                if(empty($forwardParticipationHistory)){
+                    // 如果没有forward状态的历史记录，直接结束
+                    $errMsg = 'Participation status is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                    $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                    $rtn['status'] = 'failure';
+                    $rtn['errMsg'] = $errMsg;
+                    return $rtn;
+                }
+
+                if($forwardParticipationHistory->getClientIp() != $clientIp){
+                    // 如果参与时的clientIp 不等于endlink的clientIp，也不做处理
+                    $errMsg = 'Participation clientIp does not match. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                    $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                    $rtn['status'] = 'failure';
+                    $rtn['errMsg'] = $errMsg;
+                    return $rtn;
+                }
+
+                // 检查都通过了，开始正常处理
+
                 // 先增加一条结束状态的历史记录
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
@@ -538,6 +578,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
 
+                
                 // 发积分
                 $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $key);
                 $this->em->flush();
@@ -549,7 +590,7 @@ class SurveyPartnerService
             } else {
                 // 有2条以外的参与记录，视为非正常结果，不做任何处理
                 // 非正确的参与状态，不加积分
-                $errMsg = 'Participation status is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName . ' count of history=' . count($surveyPartnerParticipationHistorys);
+                $errMsg = 'Participation count is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName . ' count of history=' . count($surveyPartnerParticipationHistorys);
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 $rtn['status'] = 'failure';
                 $rtn['errMsg'] = $errMsg;
