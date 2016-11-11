@@ -28,7 +28,10 @@ class SurveyPartnerService
 
     private $prizeTicketService;
 
-    const TEST_USER_EMAIL = 'rpa-sys-china@d8aspring.com';
+    private $testUserEmails = array(
+        'rpa-sys-china@d8aspring.com', //id =2718082
+        'ds-Product-china@d8aspring.com' //id =2717895
+        );
 
     const VALID_REFERER_DOMAIN = 'r.researchpanelasia.com';
 
@@ -56,13 +59,13 @@ class SurveyPartnerService
 
         try{
             
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 如果是测试用户，则显示所有处于init状态的项目
                 $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                     array(
                         'status' => SurveyPartner::STATUS_INIT,
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test a user. email=' . $user->getEmail());
                 return $surveyPartners;
             }
 
@@ -151,13 +154,13 @@ class SurveyPartnerService
         $rtn['status'] = 'failure';
         try{
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 如果是测试用用户，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('id' => $surveyPartnerId,
                         'status' => SurveyPartner::STATUS_INIT
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test user. email=' . $user->getEmail());
             } else {
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
@@ -252,7 +255,7 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
-        if(self::TEST_USER_EMAIL == $user->getEmail()){
+        if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
             $rtn['result'] = 'success';
             return $rtn;
@@ -344,13 +347,13 @@ class SurveyPartnerService
 
         try{
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 测试用户的话，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('id' => $surveyPartnerId,
                         'status' => SurveyPartner::STATUS_INIT
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test user. email=' . $user->getEmail());
             } else {
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
@@ -507,7 +510,7 @@ class SurveyPartnerService
 
             // 用户存在的情况
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 测试用户的话，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('surveyId' => $surveyId,

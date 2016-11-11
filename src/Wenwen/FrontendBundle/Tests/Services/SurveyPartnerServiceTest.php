@@ -353,7 +353,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userProfile->setSex(1); // 男性 
 
         $user = new User();
-        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setEmail('ds-Product-china@d8aspring.com');
         $user->setRegisterCompleteDate(new \DateTime());
         $user->setPoints(100);
         $user->setRewardMultiple(1);
@@ -1193,7 +1193,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userProfile->setSex(1); // 男性 
 
         $user = new User();
-        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setEmail('rpa-sys-china@d8aspring.com');
         $user->setRegisterCompleteDate(new \DateTime());
         $user->setPoints(100);
         $user->setRewardMultiple(1);
@@ -1270,7 +1270,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userProfile->setSex(1); // 男性 
 
         $user = new User();
-        $user->setEmail(SurveyPartnerService::TEST_USER_EMAIL);
+        $user->setEmail('rpa-sys-china@d8aspring.com');
         $user->setRegisterCompleteDate($now);
         $user->setPoints(100);
         $user->setRewardMultiple(1);
