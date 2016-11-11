@@ -32,6 +32,10 @@
                         <img src="{{ asset('img/questionnaire/sadface.png') }}">
                         <p>您已经参与过该调查问卷。</p>
                         <p>去看看别的问卷。</p>
+                    {% elseif answerStatus == 'error' %}
+                        <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                        <p>您已经在别处参与过该调查问卷。</p>
+                        <p>去看看别的问卷。</p>
                     {% elseif answerStatus == 'notallowed' %}
                         <img src="{{ asset('img/questionnaire/sadface.png') }}">
                         <p>很抱歉，您不符合该调查问卷的要求。</p>
