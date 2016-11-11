@@ -153,6 +153,7 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
+                $surveyPartner->setUpdatedAt(new \DateTime());
                 $adminSurveyPartnerService->createUpdateSurveyPartner($surveyPartner);
                 $this->get('logger')->debug(__METHOD__ . ' Saved surveyPartnerId=' . $surveyPartnerId);
                 return $this->redirect($this->generateUrl('admin_surveypartner_show', array('surveyPartnerId' => $surveyPartnerId)));
