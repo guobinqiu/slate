@@ -593,6 +593,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
                 $surveyPartnerParticipationHistory->setStatus($rtn['answerStatus']);
                 $surveyPartnerParticipationHistory->setUKey($key);
+                $surveyPartnerParticipationHistory->setClientIp($clientIp);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
 
