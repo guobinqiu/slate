@@ -567,6 +567,24 @@ class SurveyPartnerService
                     return $rtn;
                 }
 
+                // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/3，如果低于这个时间，视为非法的结果，不处理
+                if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+                    $now = new \DateTime();
+
+                    $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
+                    $minutes = $diff->days * 24 * 60;
+                    $minutes += $diff->h * 60;
+                    $minutes += $diff->i;
+
+                    if($minutes <= $surveyPartner->getLoi()/3){
+                        $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                        $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                        $rtn['status'] = 'failure';
+                        $rtn['errMsg'] = $errMsg;
+                        return $rtn;
+                    }
+                }
+                
                 // 检查都通过了，开始正常处理
 
                 // 先增加一条结束状态的历史记录
@@ -597,8 +615,8 @@ class SurveyPartnerService
             }
         } catch (\Exception $e){
             // 任何系统级别的错误都直接返回error状态
-            $this->logger->error($e->getMessage());
-            $this->logger->error($e->getTraceAsString());
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ' ' . $e->getTraceAsString());
             $rtn['status'] = 'error';
             $rtn['errMsg'] = $e->getMessage();
         }
