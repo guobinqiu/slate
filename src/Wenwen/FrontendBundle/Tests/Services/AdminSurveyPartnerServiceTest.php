@@ -521,9 +521,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
 
 
         $rtn = $this->adminSurveyPartnerService->getParticipationDailyReport();
-        echo $rtn['from']->format('Y-m-d H:i:s') .PHP_EOL;
-        echo $rtn['to']->format('Y-m-d H:i:s') .PHP_EOL;
-
+/*
         foreach($rtn['dailyReports'] as $key => $value){
             echo $key . PHP_EOL;
             echo $value['initCount'] .PHP_EOL;
@@ -532,8 +530,9 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
             echo $value['screenoutCount'] .PHP_EOL;
             echo $value['quotafullCount'] .PHP_EOL;
             echo $value['errorCount'] .PHP_EOL;
-
         }
+*/
+        $this->assertEquals(31, count($rtn['dailyReports']));
 
     }
 
