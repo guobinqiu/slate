@@ -98,6 +98,11 @@ a:hover{
 						height: 115px;
 						cursor: pointer;
 						margin: 0 auto;
+						background: none;
+						border: none;
+						&:focus{
+							outline: 0;
+						}
 						.outer{
 							position: relative;
 							width: 100%;
