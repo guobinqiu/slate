@@ -473,7 +473,7 @@ class SurveyPartnerService
             }
 
         }
-        return false;
+        return true;
     }
 
     /**
