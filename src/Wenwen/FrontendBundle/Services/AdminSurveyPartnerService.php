@@ -146,4 +146,55 @@ class AdminSurveyPartnerService
         
     }
 
+    public function getParticipationDailyReport(\DateTime $from = null, \DateTime $to = null){
+        // 默认检索一周时间的日报数据
+        $from = (new \DateTime())->sub(new \DateInterval('P30D'))->setTime(0,0,0); 
+        $to = (new \DateTime())->setTime(0,0,0);
+
+        $current = clone $to;
+
+        $dailyReports = array();
+
+        while($current >= $from){
+            $this->logger->debug(__METHOD__ . ' current=' . $current->format('Y-m-d'));
+            $start = clone $current;
+            $end = clone $start;
+            $end->add(new \DateInterval('P01D'));
+
+            $initCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_INIT, $start, $end);
+            $forwardCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD, $start, $end);
+            $completeCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE, $start, $end);
+            $screenoutCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_SCREENOUT, $start, $end);
+            $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL, $start, $end);
+            $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_ERROR, $start, $end);
+
+            $dailyReport = array();
+            $dailyReport['initCount'] = $initCount;
+            $dailyReport['forwardCount'] = $forwardCount;
+            $dailyReport['completeCount'] = $completeCount;
+            $dailyReport['screenoutCount'] = $screenoutCount;
+            $dailyReport['quotafullCount'] = $quotafullCount;
+            $dailyReport['errorCount'] = $errorCount;
+            $dailyReport['totalCount'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
+            $dailyReport['alert'] = ($dailyReport['totalCount'] > $dailyReport['forwardCount']);
+
+            $dailyReports[$start->format('Y-m-d')] = $dailyReport;
+
+            $current->sub(new \DateInterval('P01D'));
+        }
+        
+        $result = array();
+        $result['from'] = $from->format('Y-m-d');
+        $result['to'] = $to->format('Y-m-d');
+        $result['dailyReports'] = $dailyReports;
+
+        return $result;
+    }
+
 }

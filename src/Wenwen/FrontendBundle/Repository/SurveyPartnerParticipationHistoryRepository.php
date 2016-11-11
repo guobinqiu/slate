@@ -52,4 +52,20 @@ class SurveyPartnerParticipationHistoryRepository extends EntityRepository
         return $count;
     }
 
+    public function getCountByStatus($status, \DateTime $from,  \DateTime $to){
+
+        $query = $this->createQueryBuilder('spph');
+        $query = $query->select('count(spph)');
+        $query = $query->where('spph.status= :status');
+        $query = $query->andWhere('spph.createdAt >= :from');
+        $query = $query->andWhere('spph.createdAt < :to');
+        $query = $query->setParameter('status',$status);
+        $query = $query->setParameter('from',$from);
+        $query = $query->setParameter('to',$to);
+        $query = $query->getQuery();
+
+        $count = $query->getSingleScalarResult();
+        return $count;
+    }
+
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <h3>过去30天的参与情况</h3>
+      <table class='participationDailyReport table'>
+        <thead>
+          <tr>
+            <th>日期</th>
+            <th>init</th>
+            <th>forward</th>
+            <th>alert</th>
+            <th>total of c/s/q/e</th>
+            <th>complete</th>
+            <th>screenout</th>
+            <th>quotafull</th>
+            <th>error</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for key, value in dailyReports %}
+          <tr>
+            <th>{{key}}</th>
+            <th>{{value.initCount}}</th>
+            <th>{{value.forwardCount}}</th>
+            {% if value.alert %}
+            <th style="color:#FF0000">*</th>
+            {% else %}
+            <th></th>
+            {% endif %}
+            <th>{{value.totalCount}}</th>
+            <th>{{value.completeCount}}</th>
+            <th>{{value.screenoutCount}}</th>
+            <th>{{value.quotafullCount}}</th>
+            <th>{{value.errorCount}}</th>
+            </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+
+      <br>
+    
+    </div>
+  </div>
+
+{% endblock %}
+
+<style type="text/css">
+/*table.surveypartnerList { 
+  border-collapse: collapse; 
+  }
+table.surveypartnerList td, 
+table.surveypartnerList th { 
+  border: 1px solid yellowgreen;
+  padding: 5px; 
+  }*/
+</style>
