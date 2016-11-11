@@ -45,7 +45,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         parent::tearDown();
         $this->em->close();
     }
-/*
+
 
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
@@ -1789,7 +1789,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $rtn = $this->surveyPartnerService->redirectToSurvey($user, $surveyPartner->getId(), $locationInfo);
         $this->assertEquals('participated', $rtn['status'], 'Should be participated.');
     }
-*/
+
     public function testProcessEndlink_forTestUser()
     {
         $purger = new ORMPurger();
