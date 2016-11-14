@@ -177,13 +177,16 @@ class AdminSurveyPartnerService
             $dailyReport = array();
             $dailyReport['initCount'] = $initCount;
             $dailyReport['forwardCount'] = $forwardCount;
+            $dailyReport['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
+            $dailyReport['CSQE'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
+            $dailyReport['cvrForwardToCSQE'] = $this->calculatePercentage($dailyReport['CSQE'], $forwardCount);
+            $dailyReport['alert'] = ($dailyReport['CSQE'] > $dailyReport['forwardCount']);
             $dailyReport['completeCount'] = $completeCount;
+            $dailyReport['realIR'] = $this->calculatePercentage($completeCount, $dailyReport['CSQE']);
             $dailyReport['screenoutCount'] = $screenoutCount;
             $dailyReport['quotafullCount'] = $quotafullCount;
             $dailyReport['errorCount'] = $errorCount;
-            $dailyReport['totalCount'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
-            $dailyReport['alert'] = ($dailyReport['totalCount'] > $dailyReport['forwardCount']);
-
+            
             $dailyReports[$start->format('Y-m-d')] = $dailyReport;
 
             $current->sub(new \DateInterval('P01D'));
@@ -195,6 +198,16 @@ class AdminSurveyPartnerService
         $result['dailyReports'] = $dailyReports;
 
         return $result;
+    }
+
+    private function calculatePercentage($oldFigure, $newFigure) {
+        if ($newFigure != 0) {
+            $percentChange = round(($oldFigure / $newFigure) * 100, 1) . '%';
+        }
+        else {
+            $percentChange = 'N/A';
+        }
+        return $percentChange;
     }
 
 }

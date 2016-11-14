@@ -533,6 +533,10 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         }
 */
         $this->assertEquals(31, count($rtn['dailyReports']));
+        $now = (new \DateTime())->format('Y-m-d');
+        $this->assertEquals(2 ,$rtn['dailyReports'][$now]['initCount']);
+        $this->assertEquals(1 ,$rtn['dailyReports'][$now]['forwardCount']);
+        $this->assertEquals('50%' ,$rtn['dailyReports'][$now]['cvrInitToForward']);
 
     }
 
