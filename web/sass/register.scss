@@ -282,6 +282,7 @@
 			}
 		}
 		label{
+			font-weight: normal;
 			&.error{
 				height: 30px;
 				color: #a94442!important;
@@ -454,3 +455,9 @@
 	}
 }
 @import "layout/footer-simple";
+
+@media only screen and (max-width: 667px) { 
+	.login-btn-others {
+	    margin-top: 30px;
+	}
+}

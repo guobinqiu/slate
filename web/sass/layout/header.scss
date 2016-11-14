@@ -276,12 +276,12 @@ $header-nav-height: 80px;
 // }
 #top-header{
     @include box-shadow(0 2px 4px 0 rgba(0,0,0,0.12));
+    margin-bottom: 20px;
 }
 .navbar-header{
 	a{
 		.logo{
-			padding-top: 15px;
-			padding-bottom: 15px;
+			margin: 15px;
 		}
 	}
 }
@@ -310,10 +310,31 @@ $header-nav-height: 80px;
 		}
 	}
 }
-.navbar-default .navbar-nav>li>a{
-	color: #333;
+.navbar-default{
+    .navbar-nav{
+        &>li{
+            &.toLog{
+                &:before{
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    pointer-events: none;
+                    border-left: 1px solid #ddd; 
+                }
+               &>a{
+                font-size: 12px; 
+                &.sign{
+                    color: $orange-color;
+                }
+               }
+            }
+            &>a{
+              display: inline-block;
+              color: #333; 
+            }
+        }
+    }
 }
-
 .pointExp{
 	display: inline-block;
 	position: absolute;
@@ -376,17 +397,27 @@ $header-nav-height: 80px;
     padding: 7px 9px;
 }
 .dropdown{
-	background-color: #e7e7e7;
-	padding-bottom: 25px;
+    .dropdown-toggle{
+        i{
+            display: inline-block;
+        }
+    }
+}
+.dropdown-menu{
+    &>li{
+        &>a{
+            padding: 6px 20px;
+        }
+    }
 }
 @media only screen and (max-width: 768px)  {
-    nav{
-        position: fixed;
-        right: 0;
-        left: 0;
-        top: 0;
-        z-index: 1030;
-    }
+    // nav{
+    //     position: fixed;
+    //     right: 0;
+    //     left: 0;
+    //     top: 0;
+    //     z-index: 1030;
+    // }
     // .navbar-header {
     //     float: none;
     // }

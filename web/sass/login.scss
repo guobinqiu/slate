@@ -21,7 +21,7 @@
 }
 .login{
 	color: #757982;
-	margin-top: 140px;
+	margin-top: 38%;
 	form{
 	    width: 285px;
 	    margin: 0 auto;
@@ -291,5 +291,10 @@
 		top: 0;
 		opacity: 0;
 		visibility: hidden;
+	}
+}
+@media only screen and (max-width: 768px)  {
+	.logIxWrap{
+		margin-top: 30px;
 	}
 }

@@ -5,7 +5,10 @@
 body{
 	background: #f5f5f7;
 }
-.main{
+#top-header{
+	margin-bottom: 0;
+}
+.mainWrap{
 	background: url(../img/questionnaire/questionnaireTopbgx.png) repeat-x center top;
 	.qnWrap{
 		margin-top: 30px;
@@ -13,9 +16,8 @@ body{
 			border-top: 3px solid #fd7500;
 			background: #fff;
 			text-align: left;
-			padding-bottom: 50px;
+			padding: 50px 80px;
 			.qnTxt{
-				width: 796px;
 				margin: 0 auto; 
 				color: #4d4d4d;
 				h2{
@@ -25,7 +27,6 @@ body{
 				.subtit{
 					line-height: 28px;
 					font-size: 16px;
-					margin: 40px 0 20px;
 					.point{
 						color: $main-color;
 					}
@@ -38,9 +39,6 @@ body{
 					}
 				}
 				.prompt{
-					width: 716px;
-					padding: 15px 40px;
-					background: #f2f2f5;
 					color: #666;
 					line-height: 22px;
 				}
@@ -149,18 +147,13 @@ body{
     }
 }
 /* permisson page Start */
-.permissionMain{
-	margin-top: 42px;
-}
 .prmTit{
-	height: 90px;
 	border-bottom: 1px dashed #d7d8d9;
 	margin-bottom: 20px;
 	padding-bottom: 10px;
 	h1{
-		font-size: 36px;
-		height: 60px;
-		line-height: 60px;
+		line-height: 44px;
+		margin-top: 15px;
 		span{
 			color: $main-color;
 		}
@@ -168,11 +161,6 @@ body{
 	p{
 		font-size: 20px;
 	}
-}
-.prmIco{
-	width: 77px;
-	height: 73px;
-	background: url(../img/questionnaire/prmIco.png) no-repeat left center;
 }
 .prmState{
 	font-size: 13px;
@@ -185,7 +173,6 @@ body{
 	}
 }
 .prmPrompt{
-	background: #ebeced;
 	padding: 20px 28px 20px 47px;
 	margin: 20px 0;
 	line-height: 22px;
@@ -252,11 +239,30 @@ body{
     }
 }
 
-@media only screen and (max-width: 1024px){
+@media only screen and (max-width: 768px){
 	.header{
 		height: initial!important;
 		.header-nav{
 			height: 57px;
 		}
+	}
+	.mainWrap{
+		.qnWrap{
+			.qnCon{
+				padding: 34px 39px;
+				.qnTxt{
+					.notice{
+						margin: 18px 0 37px;
+					}
+				}
+			}
+		}
+	}  
+	.prmTit h1{
+		font-size: 25px;
+		line-height: 35px;
+	}
+	.prmIco{
+		margin-top: 17px;
 	}
 }

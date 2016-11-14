@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+#top-header{
+	margin-bottom: 0;
+}
 .main-about-con{
 	.aboutL{
 		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));

@@ -46,39 +46,16 @@ $color: #0078b6;
 	}
 }
 .main-personal-profile{
-	padding: 20px 30px 50px;
-	h3{
-		padding: 10px;
-		font-size: 14px;
+	padding: 20px 47px 50px;
+	h5{
 		font-weight: bold;
-		color: #555;
-		height: 45px;
-		line-height: 45px;
-		b{
-			margin-left: 10px;
-			font-size: 12px;
-			color: #a1a1a1;
-			font-weight: normal;
-		}
-		a{
-			float: right;
-			font-size: 12px;
-			color: $color;
-		}
-	}
-	label{
-		color: #333;
-		@include dib();
 	}
 	.con{
 		padding: 17px 10px 45px;
 		font-size: 13px;
 	}
 	.profile-base{
-		border-bottom: $block-inner-border;
 		.face{
-			margin-right: 10px;
-			padding: 0 50px;
 			position: relative;
 			z-index: 1;
 			.set{
@@ -124,6 +101,7 @@ $color: #0078b6;
 				line-height: 30px;
 				text-align: left;
 				color: #a1a1a1;
+				font-weight: normal;
 			}
 			input[type='text'], input[type='password']{
 				padding: 5px;
@@ -163,6 +141,7 @@ $color: #0078b6;
 				padding: 4px;
 			}
 			& form{
+			    margin-right: 20px;
 				& input#profile_attachment{
 					@include border-radius(5px);
 					padding: 5px 10px;
@@ -232,11 +211,11 @@ $color: #0078b6;
 			color: #a1a1a1;
 			label{
 				margin-right: 30px;
-				width: 115px;
-				line-height: 36px;
+				line-height: 20px;
 				text-align: right;
 				color: #a1a1a1;
 				vertical-align: top;
+				font-weight: normal;
 				&.required{
 					vertical-align: top;
 				}
@@ -250,7 +229,6 @@ $color: #0078b6;
 			}
 			input[type='text']{
 				padding: 0 5px;
-				width: 395px; 
 				height: 34px;
 				line-height: 34px;
 				border: $border;
@@ -279,8 +257,6 @@ $color: #0078b6;
 				}
 			}
 			select{
-				margin-right: 5px;
-				padding-left: 3px;
 				height: 34px;
 				line-height: 34px;
 				text-align: center;
@@ -299,7 +275,7 @@ $color: #0078b6;
 				color: #000;
 			}
 			textarea{
-				width: 405px; 
+				width: 100%; 
 				height: 75px;
 				line-height: 20px;
 				border: $border;
@@ -309,28 +285,27 @@ $color: #0078b6;
 				}
 			}
 			ul{
-				margin-left: 150px;
 				li{
 					color: $error-color;
 				}
 			}
 			#front_user_userProfile_hobby{
-				width: 490px;
 				display: inline-block;
 				*display: inline;
+				line-height: 30px;
 				label{
 					width: 50px!important;
 					text-align: left!important;
+					margin-left: 4px;
 					margin-right: 0px!important;
 					color: #000;
-					vertical-align: -1px;
+					vertical-align: -3px;
 				}
 			}
 			.regProvince,.regCity{
 				display: inline-block;
 			}
 			.pronCon{
-				width: 59%;
 				display: inline-block;
 				vertical-align: top;
 				select{
@@ -342,7 +317,7 @@ $color: #0078b6;
 			}
 		}
 		.btn{
-			padding-left: 155px;
+			padding-left: 0;
 			span{
 				width: 75px;
 				height: 35px;
@@ -355,3 +330,28 @@ $color: #0078b6;
 	}
 }
 @import "layout/footer";
+@media only screen and (max-width: 768px)  {
+	.main-personal-right{
+		h2{
+			padding-left: 24px;
+		}
+	}
+	.main-personal-profile{
+		padding: 20px 26px 30px;
+		.profile-detail{
+			li{
+				.col-xs-12{
+					text-align: left;
+				}
+				.pronCon{
+					select{
+						width: 100%;
+					}
+				}
+			}
+		}
+		.con{
+			padding: 0;
+		}
+	} 
+}

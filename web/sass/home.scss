@@ -158,7 +158,9 @@ $slider-height: 305px;
         }
     }
 }
-
+#top-header{
+	margin-bottom: 0;
+}
 // // .main-con-left{
 // // 	h1{
 // // 		color: $main-title-color2;
@@ -317,96 +319,96 @@ $slider-height: 305px;
 // // 	}
 // // }
 
-// #mask{ 
-// 	position: fixed; 
-// 	width: 100%; 
-// 	height: 100%; 
-// 	left: 0; 
-// 	top: 0; 
-// 	background: #000; 
-// 	filter:alpha(opacity=70); 
-// 	-moz-opacity:0.7; 
-// 	-khtml-opacity:0.7; 
-// 	opacity: 0.7;
-// 	z-index: 9999;
-// }
-// #newguideWrap {
-// 	width: 1000px;
-// 	height: 100%;
-// 	position: relative;
-// 	margin: 0 auto;
-// 	z-index: 10000;
-// 	.newguide1{
-// 		width: 326px;
-// 		height: 253px;
-// 		position: absolute;
-// 		background: url(../img/home/guide01.png) no-repeat 0 0;
-// 		left: 299px;
-// 		top: -160px;
-// 	}
-// 	.newguide2{
-// 		width: 326px;
-// 		height: 253px;
-// 		position: absolute;
-// 		background: url(../img/home/guide02.png) no-repeat 0 0;
-// 		left: 406px;
-// 	    top: -160px;
-// 	}
-// 	.newguide3{
-// 		width: 326px;
-// 		height: 253px;
-// 		position: absolute;
-// 		background: url(../img/home/guide03.png) no-repeat 0 0;
-// 		right: 56px;
-// 	    top: -160px;
-// 	}
-// 	.guideTxt{
-// 		width: 268px;
-// 		font-size: 14px;
-// 	    line-height: 23px;
-// 	    margin: 113px 20px 0 29px;
-// 	    em{
-// 	    	color: #ff5c25;
-// 	    }
-// 	    .point{
-// 	    	font-size: 22px;
-// 	    	color: #37ab96;
-// 	    	margin-top: 26px;
-// 	    	quotes: "“" "”" "‘" "’";
-// 	    	margin-left: -20px;
-// 	    	&:before{
-// 	    		content: open-quote;
-// 	    		font-size: 35px;
-// 	    		vertical-align: -11px;
-// 	    	}
-// 	    	&:after{
-// 	    		content: close-quote;
-// 	    		font-size: 35px;
-// 	    		vertical-align: -11px;
-// 	    	}
-// 	    }
-// 	}
-// 	.ngbtn{
-// 		position: absolute;
-// 		width: 68px;
-// 	    height: 28px;
-// 	    line-height: 28px;
-// 	    text-align: center;
-// 	    cursor: pointer;
-// 	    @include btn();
-// 	    right: 30px;
-//         bottom: 35px;
-// 	}
-// 	.ngclose{
-// 		position: absolute;
-// 		width: 67px;
-// 	    height: 34px;
-// 	    cursor: pointer;
-// 	}
-// }
-// #mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
-// 	display: none;
-// }
+#mask{ 
+	position: fixed; 
+	width: 100%; 
+	height: 100%; 
+	left: 0; 
+	top: 0; 
+	background: #000; 
+	filter:alpha(opacity=70); 
+	-moz-opacity:0.7; 
+	-khtml-opacity:0.7; 
+	opacity: 0.7;
+	z-index: 9999;
+}
+#newguideWrap {
+	width: 1000px;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+	z-index: 10000;
+	.newguide1{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide01.png) no-repeat 0 0;
+		left: 417px;
+		top: -160px;
+	}
+	.newguide2{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide02.png) no-repeat 0 0;
+		left: 511px;
+	    top: -160px;
+	}
+	.newguide3{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide03.png) no-repeat 0 0;
+		right: -25px;
+	    top: -160px;
+	}
+	.guideTxt{
+		width: 268px;
+		font-size: 14px;
+	    line-height: 23px;
+	    margin: 113px 20px 0 29px;
+	    em{
+	    	color: #ff5c25;
+	    }
+	    .point{
+	    	font-size: 22px;
+	    	color: #37ab96;
+	    	margin-top: 26px;
+	    	quotes: "“" "”" "‘" "’";
+	    	margin-left: -20px;
+	    	&:before{
+	    		content: open-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    	&:after{
+	    		content: close-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    }
+	}
+	.ngbtn{
+		position: absolute;
+		width: 68px;
+	    height: 28px;
+	    line-height: 28px;
+	    text-align: center;
+	    cursor: pointer;
+	    @include btn();
+	    right: 30px;
+        bottom: 35px;
+	}
+	.ngclose{
+		position: absolute;
+		width: 67px;
+	    height: 34px;
+	    cursor: pointer;
+	}
+}
+#mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
+	display: none;
+}
 // .mainExpTop{
 // 	width: 100%;
 //     background: #fff;
@@ -444,7 +446,7 @@ $slider-height: 305px;
 // }
 @import "layout/footer";
 @media only screen and (max-width: 768px)  {
-    .mainWrap{
-        margin-top: 77px;
-    }
+    // .mainWrap{
+    //     margin-top: 77px;
+    // }
 }

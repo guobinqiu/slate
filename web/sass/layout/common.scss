@@ -43,9 +43,9 @@ a {
    padding: 0 !important;
    margin: 0 !important;
 }
-// a:hover {
-//     color: $hover-color;
-// }
+a:focus, a:hover {
+    text-decoration: none;
+}
 img{
     vertical-align: top;
 }
@@ -104,25 +104,11 @@ h1,h2,h3,h4,h5{
 i, cite, em, var, address, dfn {
     font-style: normal;
 }
-// .main{
-//     overflow: auto\9;
-//     margin-top: 1px;
-//     &.unlogin{
-//     	margin-top: 0px;
-//     }
-// }
 .main-con-left>div, .main-con-right>div{
 	margin-top: 20px;
 	background: $block-bg-color;
 }
-// .main-con-left>div{
-// 	padding: 10px 25px 40px;
-// }
-// .main-con-left{
-// 	width: 75%;
-// }
 .main-con-right{
-	// width: 23%;
 	h2{
 		padding: 16px 15px 15px 20px;
 		line-height: 30px;
@@ -142,9 +128,6 @@ i, cite, em, var, address, dfn {
 	display: table;
 	clear: both;
 }
-// .mainWrap{
-//     margin-top: 20px;
-// }
 
 // breadcrumb
 .breadWrap{
@@ -238,7 +221,11 @@ i, cite, em, var, address, dfn {
     }
 }
 @media only screen and (max-width: 768px)  {
-    // .mainWrap{
-    //     margin-top: 85px;
-    // }
+    .navbar-header{
+        a{
+            .logo{
+                height: 32px;
+            }
+        }
+    }
 }

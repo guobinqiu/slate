@@ -10,83 +10,89 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000">
-	<div class="form main-resetPwd clearfix">
-		<div class="bindCon">
-			<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
-				<div class="bkError errorBack">{{ form_errors(loginForm) }}</div>
-				<ul class="bindForm">
-					<li class="liner">
-						<div class="bindInput">
-							<div class="regSex">{{ form_widget(loginForm.email, {'attr': {'placeholder': '请输入邮箱'}}) }}</div>
-							<div class="bkError">{{ form_errors(loginForm.email) }}</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+            <div class="main-con">
+				<div class="form main-resetPwd clearfix">
+					<div class="bindCon">
+						<form action="{{ path(bind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
+							<div class="bkError errorBack">{{ form_errors(loginForm) }}</div>
+							<ul class="bindForm">
+								<li class="liner">
+									<div class="bindInput">
+										<div class="regSex">{{ form_widget(loginForm.email, {'attr': {'placeholder': '请输入邮箱'}}) }}</div>
+										<div class="bkError">{{ form_errors(loginForm.email) }}</div>
+									</div>
+								</li>
+								<li>
+									<div class="bindInput">
+										<div class="regSex">{{ form_widget(loginForm.password, {'attr': {'placeholder': '请输入密码'}}) }}</div>
+										<div class="bkError">{{ form_errors(loginForm.password) }}</div>
+									</div>
+								</li>
+							</ul>
+							{{ form_row(loginForm._token) }}
+							<input class="bindBtn" type="submit" value="我是老用户" />
+						</form>
+
+						<form id="bindPro" action="{{ path(unbind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
+							<ul class="unbindForm">
+								<li class="liner">
+									<div class="bindInput">
+										<div class="regSexL">{{ form_label(userForm.sex) }}</div>
+										<div class="regSexS">{{ form_widget(userForm.sex) }}</div>
+										<div class="error">{{ form_errors(userForm.sex) }}</div>
+									</div>
+								</li>
+								<li class="liner">
+									<div class="bindInput">
+										<div class="birthLab">{{ form_label(userForm.birthday) }}</div>
+										<div class="birthSel regSex">{{ form_widget(userForm.birthday) }}</div>
+										<div class="error">{{ form_errors(userForm.birthday) }}</div>
+									</div>
+								</li>
+								<li class="liner">
+									<div class="bindInput">
+										<div class="addrLab"><label class="required" aria-required="true">居住地：</label></div>
+										<div class="regSex">
+											<select id="province" name="{{ userForm.province.vars.full_name }}">
+												<option value="">省</option>
+												{% for province in provinces %}
+													<option value="{{ province.id}}"{% if currentProvinceId is defined and province.id == currentProvinceId %} selected="selected"{% endif %}>{{ province.provinceName }}</option>
+												{% endfor %}
+											</select>
+
+											<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
+												<option data-province="" value="">市</option>
+												{% for city in cities %}
+													<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}"{% if currentCityId is defined and city.cityId == currentCityId %} selected="selected"{% endif %}>{{ city.cityName }}</option>
+												{% endfor %}
+											</select>
+										</div>
+
+										<div class="error">{{ form_errors(userForm.city) }}</div>
+
+										<span id="tmp" style="display: none; position:absolute;"></span>
+									</div>
+								</li>
+							</ul>
+							{{ form_row(userForm._token) }}
+							<input class="skipBtn" type="submit" value="我是新用户" />
+						</form>
+
+						<div class="bindPrompt">
+							<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>请填写您的真实信息，因为这会影响到您将来会收到什么样的问卷。</span>
 						</div>
-					</li>
-					<li>
-						<div class="bindInput">
-							<div class="regSex">{{ form_widget(loginForm.password, {'attr': {'placeholder': '请输入密码'}}) }}</div>
-							<div class="bkError">{{ form_errors(loginForm.password) }}</div>
+					</div>
+
+					<div class="bindAvtWrap">
+						<div class="bindAvtInner">
+							<p>亲爱的{{ nickname }}，欢迎来到91问问！</p>
+							<p class="avtWrap"><img src="{{ asset(photo|default('img/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
 						</div>
-					</li>
-				</ul>
-				{{ form_row(loginForm._token) }}
-				<input class="bindBtn" type="submit" value="我是老用户" />
-			</form>
-
-			<form id="bindPro" action="{{ path(unbind_route, {'openId': openId}) }}" method="POST" novalidate="novalidate">
-				<ul class="unbindForm">
-					<li class="liner">
-						<div class="bindInput">
-							<div class="regSexL">{{ form_label(userForm.sex) }}</div>
-							<div class="regSexS">{{ form_widget(userForm.sex) }}</div>
-							<div class="error">{{ form_errors(userForm.sex) }}</div>
-						</div>
-					</li>
-					<li class="liner">
-						<div class="bindInput">
-							<div class="birthLab">{{ form_label(userForm.birthday) }}</div>
-							<div class="birthSel regSex">{{ form_widget(userForm.birthday) }}</div>
-							<div class="error">{{ form_errors(userForm.birthday) }}</div>
-						</div>
-					</li>
-					<li class="liner">
-						<div class="bindInput">
-							<div class="addrLab"><label class="required" aria-required="true">居住地：</label></div>
-							<div class="regSex">
-								<select id="province" name="{{ userForm.province.vars.full_name }}">
-									<option value="">省</option>
-									{% for province in provinces %}
-										<option value="{{ province.id}}"{% if currentProvinceId is defined and province.id == currentProvinceId %} selected="selected"{% endif %}>{{ province.provinceName }}</option>
-									{% endfor %}
-								</select>
-
-								<select id="city" name="{{ userForm.city.vars.full_name }}" disabled="disabled">
-									<option data-province="" value="">市</option>
-									{% for city in cities %}
-										<option data-province="{{ city.provinceId }}" value="{{ city.cityId }}"{% if currentCityId is defined and city.cityId == currentCityId %} selected="selected"{% endif %}>{{ city.cityName }}</option>
-									{% endfor %}
-								</select>
-							</div>
-
-							<div class="error">{{ form_errors(userForm.city) }}</div>
-
-							<span id="tmp" style="display: none; position:absolute;"></span>
-						</div>
-					</li>
-				</ul>
-				{{ form_row(userForm._token) }}
-				<input class="skipBtn" type="submit" value="我是新用户" />
-			</form>
-
-			<div class="bindPrompt">
-				<span class="prompt"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>请填写您的真实信息，因为这会影响到您将来会收到什么样的问卷。</span>
-			</div>
-		</div>
-
-		<div class="bindAvtWrap">
-			<div class="bindAvtInner">
-				<p>亲爱的{{ nickname }}，欢迎来到91问问！</p>
-				<p class="avtWrap"><img src="{{ asset(photo|default('img/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

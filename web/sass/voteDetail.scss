@@ -36,11 +36,21 @@
  	}
  	.options{
  		margin-bottom: 50px;
+ 		ul.list-group:after {
+ 		  clear: both;
+ 		  display: block;
+ 		  content: "";
+ 		}
  		.list-group-item{
  			border: none;
  			font-size: 14px;
+ 			display: flex;
  			label{
  				cursor: pointer;
+ 			}
+ 			input{
+ 				width: 16px;
+ 				margin-right: 5px;
  			}
  		}
  		.btn{
@@ -86,17 +96,6 @@
  		.weiboshare{
  			margin-top: 40px;
  			display: block;
- 		}
- 		ul.list-group:after {
- 		  clear: both;
- 		  display: block;
- 		  content: "";
- 		}
- 		.list-group-item {
- 		    display: flex;
- 		    input{
- 		    	margin-right: 5px;
- 		    }
  		}
  	}
 }
