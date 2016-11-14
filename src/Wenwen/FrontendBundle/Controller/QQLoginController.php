@@ -231,6 +231,7 @@ class QQLoginController extends BaseController
                     $userTrack->setLastSignInIp(null);
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth('qq');
+                    $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
 
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);
