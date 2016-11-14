@@ -130,7 +130,11 @@ class AdminSurveyPartnerService
         $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_ERROR);
 
         $summary['initCount'] = $initCount;
+        $summary['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
         $summary['forwardCount'] = $forwardCount;
+        $summary['CSQE'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
+        $summary['cvrForwardToCSQE'] = $this->calculatePercentage($summary['CSQE'], $forwardCount);
+        $summary['realIR'] = $this->calculatePercentage($completeCount, $summary['CSQE']);
         $summary['completeCount'] = $completeCount;
         $summary['screenoutCount'] = $screenoutCount;
         $summary['quotafullCount'] = $quotafullCount;
