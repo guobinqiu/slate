@@ -54,4 +54,33 @@ class BaseController extends Controller
         $locationInfo = $ipLocationService->getLocationInfo($clientIp);
         return $locationInfo;
     }
+
+
+    /**
+     * 往session里面添加注册渠道的关键字
+     *
+     */
+    protected function setRegisterRouteInSession(Request $request){
+        // parameter里如果有recruite，将其记入session
+        $recruitRoute = $request->get('recruit');
+        $this->get('logger')->debug(__METHOD__ . ' recruitRoute=' . $recruitRoute);
+        if( ! empty($recruitRoute)){
+            $this->get('logger')->debug(__METHOD__ . ' found and recorded parameter(into session) recruit=' . $recruitRoute);
+            $this->get('session')->set('recruit_route', $recruitRoute);
+        }
+    }
+
+    /**
+     * 从session里面获取注册渠道的关键字
+     *
+     */
+    protected function getRegisterRouteFromSession(){
+        $recruitRoute = $this->get('session')->get('recruit_route');
+        if( empty($recruitRoute)){
+            $recruitRoute = 'organic';
+        }
+        $this->get('logger')->debug(__METHOD__ . ' registerRoute=' . $recruitRoute);
+        return $recruitRoute;
+    }
+
 }
