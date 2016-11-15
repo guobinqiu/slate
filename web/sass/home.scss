@@ -318,7 +318,28 @@ $slider-height: 305px;
 // // 		}
 // // 	}
 // // }
-
+.notice{
+	.panel-heading{
+		padding-top: 17px;
+	}
+	.panel-body{
+		padding-top: 0;
+	}
+	ul{
+		padding: 0 25px 0px 10px;
+	}
+	li{
+		line-height: 28px;
+		@include ell();
+		em{
+			width: 5px;
+			height: 5px;
+			margin-right: 10px;
+			background: #a3a3a3;
+			@include dib();
+		}
+	}
+}
 #mask{ 
 	position: fixed; 
 	width: 100%; 

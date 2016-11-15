@@ -2,7 +2,7 @@
 
 @import "../layout/global";
 .exchange-dynamics{
-	padding: 10px 20px 15px; 
+	padding: 18px 20px 15px; 
 	line-height: 24px;
 	.mask{
 		height: 335px;
@@ -23,6 +23,8 @@
 	li{
 		padding: 15px 10px 0 5px;
 		border-bottom: $block-inner-border;
+		height: 40px;
+		@include ell();
 		b{
 			color: $main-color;
 		}

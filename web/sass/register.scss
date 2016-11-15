@@ -86,6 +86,9 @@
 		vertical-align: middle;
 	}
 }
+.login{
+	margin-top: 24%;
+}
 .login-others{
 	position: absolute;
 	z-index: 1000;
@@ -157,7 +160,6 @@
 	}
 }
 .main-register-active{
-	margin: 50px 80px 100px;
 	color: #a3a3a3;
 	.title{
 		font-size: 20px;
@@ -172,19 +174,11 @@
 		line-height: 28px;
 	}
 	.con{
-		padding-top: 20px;
-		.wrap{
-			margin-left: 80px;
-			padding-left: 75px;
 			i{
 				font-size: 62px;
 				margin-right: 10px;
 				color: #60BE84;
 			}
-			.text{
-				display: inline-block;
-			}
-		}
 		a{
 			margin-top: 10px;
 			width: 118px;
@@ -201,10 +195,8 @@
 		}
 	}
 	.tips{
-		margin-top: 90px;
-		padding: 30px 0 30px 157px;
-		background: #f5f5f6;
-		border-radius: 8px;
+		margin-top: 60px;
+		padding: 14px 30px;
 		dl{
 			margin-bottom: 30px;
 		}
@@ -459,5 +451,8 @@
 @media only screen and (max-width: 667px) { 
 	.login-btn-others {
 	    margin-top: 30px;
+	}
+	.login{
+		margin-top: 38%;
 	}
 }
