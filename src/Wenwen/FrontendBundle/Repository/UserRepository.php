@@ -428,4 +428,23 @@ EOT;
         $query = $query->getQuery();
         return $query->getResult();
     }
+
+    public function getRecruitRouteCount(\DateTime $from, \DateTime $to){
+        $sql = "SELECT DATE_FORMAT(u.register_complete_date, '%Y-%m-%d') as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(*) as count"
+        . " FROM user u LEFT JOIN user_track ut ON( u.id = ut.user_id) "
+        . " WHERE u.register_complete_date >= :from  AND u.register_complete_date < :to "
+        . " GROUP BY DATE_FORMAT(u.register_complete_date, '%Y-%m-%d'), ut.register_route "
+        . " ORDER BY DATE_FORMAT(u.register_complete_date, '%Y-%m-%d') DESC";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $params = array(
+            "from"  => $from->format('Y-m-d'),
+            "to"  => $to->format('Y-m-d')
+        );
+        $stmt->execute($params);
+
+        $results = $stmt->fetchAll();  
+
+        return $results;
+    }
 }

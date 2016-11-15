@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Recruit Report</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <h3>过去30天的注册情况</h3>
+      <table class='participationDailyReport table'>
+        <thead>
+          <tr>
+            <th>日期</th>
+            {% for title, value in return.titles %}
+            <th>{{title}}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for date, report in return.reports %}
+          <tr>
+            <th>{{date}}</th>
+            {% for route, count in report %}
+            <th>{{count}}</th>
+            {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+
+      <br>
+    
+    </div>
+  </div>
+
+{% endblock %}
+
