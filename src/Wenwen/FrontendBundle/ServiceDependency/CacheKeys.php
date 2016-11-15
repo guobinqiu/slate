@@ -18,6 +18,6 @@ class CacheKeys {
     const ADMIN_RECRUIT_REPORT_MONTHLY_TIMEOUT = 86400; // 24 hours
 
     const ADMIN_RECRUIT_REPORT_DAILY = 'admin_recruit_report_daily';
-    const ADMIN_RECRUIT_REPORT_DAILY_TIMEOUT = 7200; // 2 hours
+    const ADMIN_RECRUIT_REPORT_DAILY_TIMEOUT = 86400; // 24 hours
 
 }
