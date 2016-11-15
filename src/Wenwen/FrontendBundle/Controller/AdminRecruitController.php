@@ -12,14 +12,28 @@ use Jili\BackendBundle\Controller\IpAuthenticatedController;
 class AdminRecruitController extends BaseController implements IpAuthenticatedController
 {
     /**
-     * @Route("/admin/recruit/report/", name="admin_recruit_report")
+     * @Route("/admin/recruit/report/daily/", name="admin_recruit_report_daily")
      * @Template
      */
-    public function showReportAction(Request $request){
+    public function showDailyReportAction(Request $request){
 
         $adminRecruitService = $this->get('app.admin_recruit_service');
-        $return = $adminRecruitService->getReport();
-        return $this->render('WenwenFrontendBundle:admin:recruitReport.html.twig', 
+        $return = $adminRecruitService->getDailyReport();
+        return $this->render('WenwenFrontendBundle:admin:recruitReportDaily.html.twig', 
+            array(
+                'return' => $return
+                ));
+    }
+
+    /**
+     * @Route("/admin/recruit/report/monthly/", name="admin_recruit_report_monthly")
+     * @Template
+     */
+    public function showMonthlyReportAction(Request $request){
+
+        $adminRecruitService = $this->get('app.admin_recruit_service');
+        $return = $adminRecruitService->getMonthlyReport();
+        return $this->render('WenwenFrontendBundle:admin:recruitReportMonthly.html.twig', 
             array(
                 'return' => $return
                 ));
