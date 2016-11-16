@@ -1942,13 +1942,19 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->flush();
 
         $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
-        $this->assertEquals('failure', $rtn['status'], 'complete的太快了');
+        $this->assertEquals('success', $rtn['status'], 'complete的太快了');
 
         $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($currentPoint, $afterUser->getPoints(), 'complete的太快了');
+        $this->assertEquals($currentPoint + $screenoutPoint, $afterUser->getPoints(), 'complete的太快了');
+
+        $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                array('user' => $user,
+                    'surveyPartner' => $surveyPartner,
+                    'status' => SurveyPartnerParticipationHistory::STATUS_SCREENOUT,
+                    ));
+
+        $this->assertEquals('This is a too fast complete. userId = ' . $user->getId() . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName , $surveyPartnerParticipationHistory->getComment(), 'complete的太快了，所以增加一条screenout记录');
                     
-
-
     }
 
     public function testProcessEndlink_projectClosed()
