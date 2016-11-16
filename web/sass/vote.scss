@@ -81,6 +81,9 @@
 	}
 }
 .vote-new{
+	.votecd{
+		white-space: nowrap;
+	}
 	.countdown{
 		color: #b08400;
 		font-size: 16px;
@@ -97,10 +100,8 @@
 		}
 	}
 	.tips{
-		position: absolute;
-		z-index: 1000;
-		top: 4px;
-		right: 17px;
+		float: left;
+		margin: 5px 5px 0 0;
 		i{
 			font-size: 14px;
 			color: #b08400;
@@ -121,33 +122,6 @@
 		    text-align: left;
 		}
 	}
-	// .tips-con{
-	// 	position: absolute;
-	// 	z-index: 1999;
-	// 	top: -40px;
-	// 	right: -3px;
-	// 	padding-bottom: 10px;
-	// 	width: 270px;
-	// 	display: none;
-	// 	p{
-	// 		padding-left: 8px;
-	// 		line-height: 32px;
-	// 		background: #fff;
-	// 		border: 1px solid #dedddc;
-	// 		border-radius: 3px;
-	// 		@include box-shadow(0px 2px 2px #a3a3a3);
-	// 	}
-	// 	b{
-	// 		position: absolute;
-	// 		z-index: 1999;
-	// 		bottom: 1px;
-	// 		right: 0;
-	// 		width: 9px;
-	// 		height: 10px;
-	// 		background: url(../img/common/icons_arrow.png) right bottom no-repeat;
-	// 		@include dib();
-	// 	}
-	// }
 }
 @media only screen and (max-width: 767px) { 
 	.voteBW{
@@ -185,73 +159,10 @@
 	.vote-info{
 		white-space: nowrap;
 	}
+	.votecd{
+		margin-top: 47px;
+	}
 }
-// @media only screen and (max-width: 970px) { 
-// 	.vote .panel-body li .row{
-// 		padding: 0 15px;
-// 	}
-// }
-// .vote-sub{
-//  	position: relative;
-// 	z-index: 1;
-// 	h1{
-// 		font-size: 34px;
-// 		margin: 10px 0 15px 14px; 
-// 	}
-// 	li{
-// 		border-top: none;
-// 		padding-bottom: 16px;
-// 		&.vote-txt{
-// 			width: 94%;
-// 			.relate{
-// 				margin-left: 0;
-// 				margin-top: 10px;	
-// 			}
-// 		}
-// 		&:after{
-// 			width: 100%;
-// 		}
-// 	}
-// 	.vote-btn{
-// 		top: 64px;
-// 	}
-// 	.vote-txt{
-// 		width: 62%;
-// 		span{
-// 			strong{
-// 				font-weight: normal;
-// 			}
-// 		}
-// 		.title{
-// 			line-height: 20px;
-// 			a{
-// 				line-height: 20px;
-// 				font-size: 16px;
-// 				text-indent: -3px;
-// 			}
-// 		}
-// 		.con{
-// 			padding-left: 7px;
-// 		    line-height: 23px;
-// 		    font-size: 13px;
-// 		}
-// 		.relate{
-// 			margin-top: 4px;
-// 		    margin-left: 7px;	
-// 		}
-// 	}
-// 	.countdown{
-// 		top: 29px;
-// 	}
-// 	.vote-new{
-// 		.tips{
-// 			top: 24px!important;
-// 		}
-// 		.vote-btn{
-// 			top: 64px!important;
-// 		}
-// 	}
-// }
 
 @import "component/page";
 @import "layout/footer";

@@ -109,12 +109,6 @@ i, cite, em, var, address, dfn {
 	background: $block-bg-color;
 }
 .main-con-right{
-	h2{
-		// padding: 16px 15px 15px 20px;
-		// line-height: 30px;
-		// color: #000;
-		// font-size: 18px;
-	}
 	.weibo{
 		height: 550px;
 		overflow: hidden;
@@ -143,31 +137,6 @@ i, cite, em, var, address, dfn {
     padding: initial;
     background: none;
 }
-//responsive
-// @media only screen and (max-width: 667px) { 
-//     .visiblePhone{
-//         display: inherit!important;
-//     }
-//     .hiddenPhone{
-//         display: none!important; 
-//     }
-// }
-// @media only screen and (min-width: 668px) and (max-width: 1024px)  {
-//     .visibleTablet{ 
-//         display: inherit!important;
-//     }
-//     .hiddenTablet{
-//         display: none!important; 
-//     }
-// }
-// @media only screen and (min-width: 1024px)  {
-//     .visibleDesktop{
-//         display: inherit!important;
-//     }
-//     .hiddenDesktop{
-//         display: none!important;
-//     }
-// }
 .top5{ 
     margin-top:5px; 
 }

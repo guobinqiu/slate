@@ -15,11 +15,11 @@
 			<div class="vote-info col-xs-3 col-sm-3 col-md-4 pull-right">
 					<div class="votePoint"><i>1</i>积分</div>
 					{% if item.timelimit is defined %}
-						<div>
-						    <input type="hidden" name="timelimit_ut" value="{{item.timelimit}}" /><div id="countdown" class="countdown"></div>
+						<div class="votecd pull-right">
 							<div class="tips">
 							    <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" title="倒计时内回答此份快速回答，将额外获得1积分。"></i>
 							</div>
+						    <input type="hidden" name="timelimit_ut" value="{{item.timelimit}}" /><div id="countdown" class="countdown"></div>
 						</div>
 					{% endif %}
 					<div class="voteBW">
