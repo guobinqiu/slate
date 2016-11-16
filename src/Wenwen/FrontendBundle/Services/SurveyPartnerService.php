@@ -513,6 +513,11 @@ class SurveyPartnerService
                         'status' => SurveyPartner::STATUS_INIT
                         ));
             } else {
+                // Todo 要分布检查，
+                // 首先，项目是否存在
+                // 然后存在的项目是否已经关闭
+                // 如果项目已经关闭，需要给用户提示信息
+
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('surveyId' => $surveyId,
