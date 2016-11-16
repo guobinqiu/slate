@@ -79,7 +79,7 @@ class BaseController extends Controller
         $recruitRoute = $this->get('session')->get('recruit_route');
         $inviteId = $this->get('session')->get('inviteId');
         if( empty($recruitRoute)){
-            if( empty($inviteId){
+            if( empty($inviteId)){
                 $recruitRoute = 'organic';
             }
             $recruitRoute = 'friend_invitation';
