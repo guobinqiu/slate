@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+#top-header{
+	margin-bottom: 0;
+}
 .main-about-con{
-	padding-top: 20px;
 	.aboutL{
 		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
-		width: 190px;
 		background: $block-bg-color;
 		border: $block-border;
 		padding-bottom: 16px;
@@ -26,10 +27,10 @@
 				cursor: pointer;
 				font-size: 14px;
 				a{
-					padding-left: 74px;
-  					display: block; 
+					padding-left: 20px;
+  					// display: block; 
   					&.active, &:hover{
-					padding-left: 71px;
+					padding-left: 20px;
 					color: $orange-color;
 					font-weight: bold;
 					background: $block-line-color;
@@ -44,9 +45,7 @@
 		}
 	}
 	.aboutR{
-		width: 729px;
-		margin-left: -1px;
-		padding: 10px 30px 20px;
+		padding: 10px 45px 20px;
 		background: $block-bg-color;
 		border: $block-border;
 		font-size: 14px;
@@ -69,82 +68,27 @@
 		}
 	}	
 }
-
-/* old component help.scss */
-.main-help-banner{
-	height: 104px;
-	margin-bottom: 20px;
-	background: #3a4858 url(../img/common/seamless-noise-bg.png) repeat;
-	@include box-shadow(0px 1px 5px #2a3033 inset);
-	.text{
-		background: url(../img/help/bannerBg.png) no-repeat center;
-		position: relative;
-		z-index: 1;
-		height: 104px;
-		line-height: 104px;
-		.title{
-			*font-size: 84px;
-		}
-		img{
-			vertical-align: middle;
-			&.titleE{
-				margin-left: 10px;
+@media only screen and (max-width: 768px)  {
+	.helpIcons li{
+		padding: 0;
+	}
+	.main-about-con{
+		& > .row{
+			& > .col-xs-3{
+				padding: 0;
+				margin: 0;
+			}
+			& > .col-xs-9{
+				padding: 0;
+				margin: 0;
 			}
 		}
 	}
-	.search{
-		position: absolute;
-		z-index: 1000;
-		right: 0;
-		top: 50%;
-		margin-top: -19px;
-		height: 38px;
-		line-height: 38px;
-		padding: 0 20px;
-		background: url(../img/help/searchBg.png) no-repeat;
+	.main-about-con .aboutL .tabNav li a, .main-about-con .aboutL .tabNav li a.active, .main-about-con .aboutL .tabNav li a:hover{
+		padding-left: 10px;
 	}
-	.search-btn{
-		width: 18px;
-		height: 18px;
-		position: absolute;
-		z-index: 1999;
-		right: 20px;
-		top: 50%;
-		margin-top: -9px;
-		background: url(../img/help/searchBtn.png) no-repeat;
-		cursor: pointer;
-	}
-	input[type='text']{
-		position: relative;
-		z-index: 2;
-		padding-right: 20px;
-		width: 140px;
-		height: 38px;
-		line-height: 38px;
-		border: none;
-		background: transparent;
-		color: #b5b5b5;
-		outline: none;
-	}
-	label{
-		position: absolute;
-		z-index: 1000;
-		left: 20px;
-		top: 0;
-		color: #b5b5b5;
-	}
-}
-.main-help-con{
-	margin-top: 20px;
-	.direct{
-		line-height: 12px;
-		height: 30px;
-		a{
-			color: #496f8c;
-			&:hover{
-				color: #498fc4;
-			}
-		}
+	.main-about-con .aboutR{
+		padding: 8px 20px 20px;
 	}
 }
 

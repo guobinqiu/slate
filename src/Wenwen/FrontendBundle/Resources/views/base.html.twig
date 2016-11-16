@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}91问问调查网 - {% endblock %}</title>
-        {# <meta name="viewport" content="width=1000"> #}
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,21 +15,25 @@
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
-        {% block stylesheet %}{% endblock %}
         {% block global_css %}
-            <link href="{{ asset('css/responsive/rpLayout.css') }} " rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="{{ asset('css/layout/bootstrap.min.css') }}" type="text/css">
+            <!--[if lt IE 8]>
+            <link href="{{ asset('css/layout/bootstrap-ie7.css') }}" rel="stylesheet">
+            <![endif]-->
         {% endblock %}
+        {% block stylesheet %}{% endblock %}
     </head>
     <body>
         {% block header %}{% endblock %}
-        <div {% if app.session.has('uid') %} class="main" {% else %}  class="main unlogin" {% endif %}>
+        <div {% if app.session.has('uid') %} class="mainWrap container-full" {% else %}  class="container-full unlogin" {% endif %}>
             {% block body %}{% endblock %}
         </div>
-        <div class="footer">
+        <div class="footer top30">
             {% block footer %}{% endblock %}
         </div>
         {% block global_js %}
             <script type="text/javascript" src="{{ asset('js/lib/jquery-1.12.4.min.js')}}"></script>
+            <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js')}}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script type="text/javascript" src="{{ asset('js/component/common.js')}}"></script>

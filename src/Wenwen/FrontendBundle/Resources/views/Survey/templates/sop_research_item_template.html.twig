@@ -1,4 +1,4 @@
-<div class="survey-item ">
+<div class="survey-item col-xs-7 col-md-8 col-sm-9">
     <div class="title">
         {% if research.is_answered == 1 %}
             {% if research.title|length > 35 %}
@@ -32,11 +32,13 @@
         </li>
     </ul>
 </div>
-<div class="rewardPoint"><i>{{ research.extra_info.point.complete }}</i>积分</div>
-<div class="survey-btn">
-    {% if research.is_answered == 1 %}
-        <span class="disabled">回答完毕</span>
-    {% else %}
-        <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">可回答</a>
-    {% endif %}
+<div class="survey-info col-xs-5 col-md-4 col-sm-3 pull-right">
+    <div class="rewardPoint"><i>{{ research.extra_info.point.complete }}</i>积分</div>
+    <div class="survey-btn">
+        {% if research.is_answered == 1 %}
+            <span class="disabled">回答完毕</span>
+        {% else %}
+            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">可回答</a>
+        {% endif %}
+    </div>
 </div>

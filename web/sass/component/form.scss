@@ -4,12 +4,6 @@
 .form{
 	li{
 		margin-top: 10px;
-		label{
-			width: 100px;
-			text-align: right;
-			font-size: 14px;
-			@include dib();
-		}
 	}
 	input[type='text'], input[type='password'], input[type='email'], textarea {
 		padding: 0 5px;
@@ -26,9 +20,6 @@
 		&.input_error{
 			border: 1px solid $error-color;
 		}
-	}
-	input[type='text']{
-		width: 255px;
 	}
 	span{
 		display: none;
@@ -54,7 +45,6 @@
 			@include dib();
 			vertical-align: top;
 			padding: 0 14px;
-			margin-top: 5px;
 		}
 		strong{
 			color: $error-color;
@@ -76,10 +66,7 @@
 	}
 	.btn{
 		span{
-			width: 74px;
 			text-align: center;
-			height: 36px;
-			line-height: 36px;
 			@include btn();
 			@include dib();
 			vertical-align: middle;
