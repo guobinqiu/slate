@@ -3,6 +3,9 @@
 @import "layout/common";
 @import "layout/header";
 @import "component/form";
+.main-con{
+	padding-top: 20px;
+}
 .main-con-suggest{
 	padding: 20px 60px 50px;
 	border: $block-border;
@@ -23,19 +26,23 @@
 			color: $main-color;
 		}
 	}
+	.abstract{
+		padding: 5px 0 20px 0;
+	}
 	.form{
+		padding: 20px;
 		label{
+			width: 65px;
 			font-weight: bold;
 			margin-right: 10px;
-			line-height: 34px;
 		}
 		input[type="text"]{
-			width: 100%;
+			width: 437px;
 			border-radius: 3px;
 		}
 		textarea{
 			padding: 2px 5px;
-			width: 100%;
+			width: 437px;
 			height: 70px;
 			line-height: 22px;
 			border: 1px solid #e5e5e5;
@@ -48,19 +55,15 @@
 				border: 1px solid $error-color;
 			}
 		}
-		.ext{
-			span{
-				margin-left: 10px;
-				padding: 0 5px;
-				border-radius: 3px;
-				line-height: 24px;
-			}
+		span{
+			margin-left: 5px;
+			padding: 0 5px;
+			border-radius: 3px;
 		}
 		.btn{
-			padding-left: 0;
+			padding: 20px 0 10px 75px;
 			span{
 				width: 110px;
-				line-height: 36px;
 				font-size: 14px;
 				font-weight: bold;
 			}
@@ -73,18 +76,3 @@
 	}
 }
 @import "layout/footer";
-
-@media only screen and (max-width: 768px) {
-	.main-con-suggest{
-		padding: 0;
-		.form{
-			ul{
-				li{
-					& > div{
-						text-align: left;
-					}
-				}
-			}
-		}
-	} 
-}

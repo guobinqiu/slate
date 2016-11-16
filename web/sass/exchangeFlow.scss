@@ -3,10 +3,18 @@
 @import "layout/common";
 @import "layout/header";
 @import "component/form";
+.main-con{
+	padding-top: 20px;
+}
 .main-con-exchange{
-	h2{
-		margin-top: 25px;
+	background: $block-bg-color;
+	border: $block-border;
+	h1{
+		margin-top: 43px;
+		padding-left: 53px;
 		line-height: 20px;
+		font-size: 28px;
+		color: $head-title-color;
 	}
 }
 .form{
@@ -19,12 +27,11 @@
 	}
 }
 .main-con-exchangeInfo{
+	padding: 50px 0 88px;
 	li{
 		line-height: 34px;
 		label{
-			width: 127px;
-		    text-align: right;
-		    padding-right: 15px;
+			width: 197px;
 		}
 		select{
 			height: 34px;
@@ -122,7 +129,7 @@
 		line-height: 55px;
 		.text{
 			margin: 60px auto 0;
-			width: 100%;
+			width: 55%;
 			color: #4d4d4d;
 			font-size: 14px;
 			border: 2px dashed #e8e8e8;
@@ -144,6 +151,7 @@
 		}
 	}
 	.btn{
+		margin-top: 30px;
 		span{
 			margin-right: 5px;
 			width: 126px;
@@ -207,14 +215,13 @@
 	}
 }
 .main-con-finished{
+	padding: 60px 50px;
 	.con{
-		padding: 40px 25px 100px;
-		.checkIcon{
-			font-size: 76px;
-		    color: #0F9D58;
-		}
+		padding-left: 95px;
+		background: url(../img/exchange/finished.png) no-repeat 0 3px;
 		h2{
-			line-height: 40px;
+			font-size: 18px;
+			font-weight: bold;
 		}
 		.prompt{
 			margin-top: 20px;

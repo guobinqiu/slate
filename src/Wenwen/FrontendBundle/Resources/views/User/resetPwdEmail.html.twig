@@ -10,21 +10,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-	<div class="row">
-		<div class="col-xs-12 col-sm-12">
-			<div class="main-con">
-				<div class="form main-resetPwd">
-					<div class="step1">
-						<div class="steps"><span class="active">1 输入邮箱地址</span><span>2 重置密码</span><span class="last">3 完成</span></div>
-						<div class="main-resetPwd-con">
-							<div class="title">请输入您注册时填写的邮箱</div>
-							<div><input type="text" id="email" name="email"></div>
-							<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
-							<input class="btn" type="button" id="sendEmail" value="下一步">
-						</div>
-					</div>
-				</div>
+<div class="main-con w1000">
+	<div class="form main-resetPwd">
+		<div class="step1">
+			<div class="steps"><span class="active">1 输入邮箱地址</span><span>2 重置密码</span><span class="last">3 完成</span></div>
+			<div class="main-resetPwd-con">
+				<div class="title">请输入您注册时填写的邮箱</div>
+				<div><input type="text" id="email" name="email"></div>
+				<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
+				<input class="btn" type="button" id="sendEmail" value="下一步">
 			</div>
 		</div>
 	</div>

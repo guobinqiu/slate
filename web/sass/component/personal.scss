@@ -1,14 +1,20 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+.main-personal{
+	padding: 20px 0 0 5px;
+}
 h1{
 	padding-left: 3px;
 	font-size: 20px;
 	height: 55px;
 	line-height: 55px;
-	white-space: nowrap;
 }
 .main-personal-left{
+	width: 135px;
+	margin-right: 15px;
+	padding-left: 15px;
+	padding-top: 27px;
 	i{
 		width: 18px;
 	    height: 18px;
@@ -22,7 +28,6 @@ h1{
 		height: 35px;
 		line-height: 35px;
 		font-size: 14px;
-		white-space: nowrap;
 		a{
 			color: #66696B;
 		}
@@ -34,6 +39,7 @@ h1{
 	}
 }
 .main-personal-right{
+	width: 830px;
 	@include minHeight(600px);
 	background: $block-bg-color;
 	border: $block-border;

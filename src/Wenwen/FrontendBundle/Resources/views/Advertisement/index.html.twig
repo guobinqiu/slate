@@ -14,26 +14,19 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-	    <div class="row">
-	        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-	            <div class="main-con">
-					<div class="main-con-experience">
-						{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
-						<div class="tabCon offerWow">
-							<iframe src='#' style='width:100%;min-height:600px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
-							<input type="hidden" value="{{  offerwow_com.websiteid }}" id="websiteid">
-							<input type="hidden" value="{{  app.session.get('uid') }}" id="memberid">
-							<div class="maintenance">
-								<img class="img-responsive center-block" src="{{ asset('img/questionnaire/normalface.png') }}" alt=""><br>
-								<div class="con">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
-							</div>
-						</div>
-					</div>
-				</div>
+<div class="main-con w1000">
+	<div class="main-con-experience">
+		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+		<div class="tabCon offerWow">
+			<iframe src='#' style='width:100%;min-height:600px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
+			<input type="hidden" value="{{  offerwow_com.websiteid }}" id="websiteid">
+			<input type="hidden" value="{{  app.session.get('uid') }}" id="memberid">
+			<div class="maintenance">
+				<div class="con">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}
 
 {% block footer %}

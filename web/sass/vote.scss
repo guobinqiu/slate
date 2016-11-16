@@ -2,167 +2,112 @@
 
 @import "layout/common";
 @import "layout/header";
-@import "component/timeline";
+@import "component/survey";
 .vote{
-	.panel-heading{
-		padding: 18px 22px;
-		.more{
-			color: #7F8390;
-			i{
-				margin-left: 5px;
-			}
-		}
+	li{
+		padding: 22px 22px 2px 22px; 
 	}
-	.panel-body{
-		padding-bottom: 28px;
-		ul{
-			hr{
-				margin-top: 10px;
-				margin-bottom: 10px;
-				&:last-child{
-					display: none;
-				}
-			}
-		}
+}
+.vote-sub{
+ 	position: relative;
+	z-index: 1;
+	h1{
+		font-size: 34px;
+		margin: 10px 0 15px 14px; 
 	}
-	.vote-txt{
-		.title{
-			font-size: 16px;
-			line-height: 28px;
-			font-weight: bold;
-			text-indent: -7px;    
-			a{
-				color: #475a70;
+	li{
+		border-top: none;
+		padding-bottom: 16px;
+		&.vote-txt{
+			width: 94%;
+			.relate{
+				margin-left: 0;
+				margin-top: 10px;	
 			}
 		}
-		.con{
-			font-size: 13px;
-			line-height: 21px;
-		}
-		.relate{
-			span,div{
-				color: #9296a1;
-				font-size: 13px;
-				line-height: 21px;
-			}
-		}
-	}
-	.votePoint{
-		white-space: nowrap;
-		i{
-			font-size: 22px;
-		    color: #f55e00;
-		    margin-right: 4px;
-		    vertical-align: -2px;
-		    font-weight: bold;
+		&:after{
+			width: 100%;
 		}
 	}
 	.vote-btn{
-		color: #fff;
-		width: 120px;
-		height: 36px;
-		line-height: 36px;
-		line-height: 20px\9;
-		*line-height: 33px;
-		padding: initial;
-		@include btn();			
+		top: 64px;
 	}
-	.voteDisabled{
-		color: #fff;
-		background: #a7a7a7;
-		border: 1px solid #a7a7a7;
-		border-radius: 3px;
-		width: 120px;
-		height: 36px;
-		line-height: 36px;
-		line-height: 20px\9;
-		*line-height: 33px;
-		padding: initial;
-	}
-}
-.vote-new{
-	.votecd{
-		white-space: nowrap;
+	.vote-txt{
+		width: 62%;
+		span{
+			strong{
+				font-weight: normal;
+			}
+		}
+		.title{
+			line-height: 20px;
+			a{
+				line-height: 20px;
+				font-size: 16px;
+				text-indent: -3px;
+			}
+		}
+		.con{
+			padding-left: 7px;
+		    line-height: 23px;
+		    font-size: 13px;
+		}
+		.relate{
+			margin-top: 4px;
+		    margin-left: 7px;	
+		}
 	}
 	.countdown{
-		color: #b08400;
-		font-size: 16px;
+		top: 29px;
+	}
+	.vote-new{
+		.tips{
+			top: 24px!important;
+		}
+		.vote-btn{
+			top: 64px!important;
+		}
+	}
+}
+.exchange-dynamics{
+	padding: 10px 20px 15px; 
+	line-height: 24px;
+	.mask{
+		height: 335px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	ul{
+		position: absolute;
 		z-index: 1000;
-		height: 25px; 
-		line-height: 25px;
-		margin-right: 20px;
-		span{
-			width: 20px;
-			text-align: center;
-		}
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	h2{
+		padding: 10px 0 0 0;
+	}
+	li{
+		padding: 15px 10px 0 5px;
+		border-bottom: $block-inner-border;
 		b{
-			padding: 0 5px;
+			color: $main-color;
 		}
-	}
-	.tips{
-		float: left;
-		margin: 5px 5px 0 0;
-		i{
-			font-size: 14px;
-			color: #b08400;
+		p{
+			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
 		}
-		span{ 
-		    width: 13px;
-		    height: 13px;
-		    line-height: 13px;
-		    border-radius: 50%;
-		    background: #979797;
-		    color: #fff;
-		    text-align: center;
-		    cursor: pointer;
-		}
-		.tooltip-inner {
-		    max-width: 150px;
-		    width: 150px; 
-		    text-align: left;
+		.date{
+			color: #bfbfbf;
 		}
 	}
 }
-@media only screen and (max-width: 767px) { 
-	.voteBW{
-		margin-left: -72px;
-	}
-	.vote{
-		.vote-btn,.voteDisabled{
-			float: right;
-		}
-	} 
-	.vote-info{
-		margin-top: 13px;
-	}
-}
-@media only screen and (min-width: 768px) { 
-	.vote .panel-body li .row{
-		padding: 0 15px;
-	}
-	.vote-info{
-		float: left;
-	}
-	.vote .votePoint{
-		text-align: left;
-	}
-}
-@media only screen and (min-width: 992px) { 
-	.vote .votePoint{
-		width: 65px;
-	    float: left;
-	    margin-right: 45px;
-	}
-	.vote .panel-body li .row {
-	    padding: 0 44px 0 25px;
-	}
-	.vote-info{
-		white-space: nowrap;
-	}
-	.votecd{
-		margin-top: 47px;
-	}
-}
-
 @import "component/page";
 @import "layout/footer";
