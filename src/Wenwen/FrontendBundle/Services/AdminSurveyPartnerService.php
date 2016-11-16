@@ -91,7 +91,7 @@ class AdminSurveyPartnerService
 
         if(! preg_match('/\/\?uid=__UID__/', $surveyPartner->getUrl())){
             // url里没有__UID__
-            throw new \Exception('问卷入口url里必须有一个参数的值为__UID__');
+            throw new \Exception('问卷入口url的格式不正确!');
         }
 
         try{
