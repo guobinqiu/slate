@@ -24,11 +24,6 @@ marketActivity:
     prefix:   /marketActivity
     type:     annotation
 
-topcron:
-    resource: "@JiliApiBundle/Controller/TopCronController.php"
-    prefix:   /topcron
-    type:     annotation
-
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation
