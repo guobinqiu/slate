@@ -60,7 +60,20 @@
             }
             &>a{
               display: inline-block;
-              color: #333; 
+              color: #333;
+              padding-top: 20px; 
+              &:hover{
+                color: $orange-color;
+              }
+            }
+            &.exchangeIt{
+              position: relative;
+              .popover{
+                position: absolute;
+                top: 37px;
+                left: 5px;
+                white-space: nowrap;
+              }
             }
         }
     }

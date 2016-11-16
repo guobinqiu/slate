@@ -3,7 +3,7 @@
     {% for item in vote_list %}
 	<li {% if item.timelimit is defined %} class="vote-new" {% endif %}>
 		<div class="row">
-			<span class="vote-img hidden-xs pull-left">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img class="img-thumbnail" src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('img/vote/no_image.jpg') }}" height="70" width="70">{% endif %}</span>
+			<span class="vote-img hidden-xs pull-left">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}"></a>{% else %}<img src="{{ asset('img/vote/no_image.jpg') }}" height="70" width="70">{% endif %}</span>
 			<span class="vote-txt col-xs-9 col-sm-6 col-md-6">
 				<div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}<span></span></a></div>
 				{# <p class="visibleDesktop hiddenPhone hiddenTablet">{% autoescape false %}{{ item.description }}{% endautoescape %}</p> #}

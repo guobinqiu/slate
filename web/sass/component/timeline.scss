@@ -3,8 +3,13 @@
 @import "../layout/global";
 .exchange-dynamics{
 	line-height: 24px;
+	.panel-heading{
+		padding-top: 17px;
+		background: none;
+		border: none;
+	}
 	.panel-body{
-		padding-top: 0;
+		padding: 0 20px;
 	}
 	.mask{
 		height: 335px;

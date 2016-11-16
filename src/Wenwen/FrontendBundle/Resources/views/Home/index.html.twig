@@ -38,11 +38,23 @@
 								<![endif]-->
 			        		</a>
 			        	</div>
-			        	<ul class="nav pull-right">
-		    	            <li class="dropdown">
-		    	              <div class="navbar-toggler" type="div" data-toggle="collapse" data-target="#exCollapsingNavbar" aria-controls="exCollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
-		    	              	  <i class="fa fa-bars" aria-hidden="true"></i>
-			    	              <div class="collapse" id="exCollapsingNavbar">
+			        	<div class="nav pull-right">
+		    	            <div class="dropdown">
+		    	              <div class="btn-group pull-right">
+		    	              	  <i class="fa fa-bars dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
+								  <ul class="dropdown-menu" role="menu">
+						               <li><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
+						               <li class="divider"></li>
+						               <li><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
+						               <li class="divider"></li>
+						               <li><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+						               <li class="divider"></li>
+						               <li><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
+						               <li class="divider"></li>
+						               <li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
+						           </ul>
+
+			    	              {# <div class="dropdown-menu">
 				    	                <div class="bg-inverse text-muted p-1">
 				    	                   <ul class="menu dropdown-menu dropdown-menu-right" role="menu">
 				    	                   	<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
@@ -52,10 +64,10 @@
 				    	                   	<li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
 				    	                   </ul>
 				    	                </div>
-			    	               </div>
+			    	               </div> #}
 			    	            </div>
-		    	            </li>
-		    	        </ul>
+		    	            </div>
+		    	        </div>
 		    	    </div>
 		    	</div>
 			</div>

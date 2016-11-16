@@ -13,6 +13,10 @@ $count-bg: #f5f5f5;
 .survey{
 	.panel-heading{
 		padding: 18px 22px;
+		background: none;
+		h3{
+			color: #828D9B;
+		}
 		.more{
 			color: #7F8390;
 			i{
@@ -63,6 +67,9 @@ $count-bg: #f5f5f5;
 	.proCon{
 		.proRow{
 			color: #9296a1;
+			i{
+				color: #475a70;
+			}
 		}
 	}
 	li{

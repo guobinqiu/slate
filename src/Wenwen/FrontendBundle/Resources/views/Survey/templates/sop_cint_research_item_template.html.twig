@@ -1,7 +1,7 @@
 <div class="survey-item col-xs-7 col-md-8 col-sm-9">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
-            {{ cint_research.title }}
+            <span class="text-muted">{{ cint_research.title }}</span>
         {% else %}
             <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_brank">{{ cint_research.title }}<span></span></a>
        {% endif %}    

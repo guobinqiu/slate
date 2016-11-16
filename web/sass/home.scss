@@ -115,6 +115,11 @@ $slider-height: 305px;
 .notice{
 	.panel-heading{
 		padding-top: 17px;
+		background: none;
+		border: none;
+	}
+	.panel-body{
+		padding-top: 5px;
 	}
 	ul{
 		padding: 0 25px 0px 10px;

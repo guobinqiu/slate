@@ -29,7 +29,7 @@
                     {% if app.session.has('uid') %}
                         <li class="nav-item"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active hidden-xs hidden-sm"':'class="hidden-xs hidden-sm"' }}>任务体验</a></li>
                     {% endif %}
-                        <li class="nav-item">
+                        <li class="nav-item exchangeIt">
                             <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="nav-link active"':'class="nav-link"' }}>兑换中心</a>
                             <div class="popover bottom hidden-xs hidden-sm">
                                 <div class="arrow"></div>
