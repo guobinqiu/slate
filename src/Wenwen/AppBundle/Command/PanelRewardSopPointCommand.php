@@ -128,4 +128,8 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
         $em->persist($history_model);
         $em->flush();
     }
+
+    protected function getVendorName() {
+        return 'SOP';
+    }
 }

@@ -66,65 +66,46 @@ class PrizeServiceTest extends WebTestCase
     public function testGetPrizeItem()
     {
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeService->getPrizeItem(PrizeItem::TYPE_BIG, 0);
-            $this->assertEquals(0, $prizeItem->getPoints());
-            $this->assertLessThanOrEqual(100, $prizeItem->getMax());
+            $prizedItem = $this->prizeService->getPrizedItem(PrizeItem::TYPE_BIG, 0);
+            $this->assertEquals(0, $prizedItem->getPoints());
+            $this->assertLessThanOrEqual(100, $prizedItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeService->getPrizeItem(PrizeItem::TYPE_BIG, 1);
-            $this->assertLessThanOrEqual(1, $prizeItem->getPoints());
-            $this->assertLessThanOrEqual(8100, $prizeItem->getMax());
+            $prizedItem = $this->prizeService->getPrizedItem(PrizeItem::TYPE_BIG, 1);
+            $this->assertLessThanOrEqual(1, $prizedItem->getPoints());
+            $this->assertLessThanOrEqual(8100, $prizedItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeService->getPrizeItem(PrizeItem::TYPE_BIG, 10);
-            $this->assertLessThanOrEqual(10, $prizeItem->getPoints());
-            $this->assertLessThanOrEqual(9600, $prizeItem->getMax());
+            $prizedItem = $this->prizeService->getPrizedItem(PrizeItem::TYPE_BIG, 10);
+            $this->assertLessThanOrEqual(10, $prizedItem->getPoints());
+            $this->assertLessThanOrEqual(9600, $prizedItem->getMax());
         }
 
         for ($i=0; $i<100; $i++) {
-            $prizeItem = $this->prizeService->getPrizeItem(PrizeItem::TYPE_BIG, 100);
-            $this->assertLessThanOrEqual(100, $prizeItem->getPoints());
-            $this->assertLessThanOrEqual(9990, $prizeItem->getMax());
+            $prizedItem = $this->prizeService->getPrizedItem(PrizeItem::TYPE_BIG, 100);
+            $this->assertLessThanOrEqual(100, $prizedItem->getPoints());
+            $this->assertLessThanOrEqual(9990, $prizedItem->getMax());
         }
 
         for ($i=0; $i<1000; $i++) {
-            $prizeItem = $this->prizeService->getPrizeItem(PrizeItem::TYPE_BIG, 500);
-            $this->assertLessThanOrEqual(500, $prizeItem->getPoints());
-            $this->assertLessThanOrEqual(9999, $prizeItem->getMax());
+            $prizedItem = $this->prizeService->getPrizedItem(PrizeItem::TYPE_BIG, 500);
+            $this->assertLessThanOrEqual(500, $prizedItem->getPoints());
+            $this->assertLessThanOrEqual(9999, $prizedItem->getMax());
         }
     }
 
-    public function testDrawSmallPrize()
+    public function testDrawPrize()
     {
         $this->prizeService->setPointBalance(99999999);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
         $before = $this->prizeService->getPointBalance();
         $points = 0;
         for ($i=0; $i<100; $i++) {
-            $points += $this->prizeService->drawSmallPrize($user);
+            $points += $this->prizeService->drawPrize($user);
         }
         $after = $this->prizeService->getPointBalance();
         $this->assertEquals($before - $after, $points);
     }
-
-    // 由于时间比较长，测试通过后注释掉了，本地测试时可以把注释放开
-//    public function testDrawBigPrize()
-//    {
-//        $this->prizeService->setPointBalance(99999999);
-//        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user1');
-//        $firstPrizeItem = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')
-//            ->findOneByPoints(PrizeItem::FIRST_PRIZE_POINTS);
-//        echo PHP_EOL . 'before quantity=' . $firstPrizeItem->getQuantity();
-//        $before = $this->prizeService->getPointBalance();
-//        $points = 0;
-//        //万分之一的大奖概率但不等于说10000次内必中1次,20000的话命中率高点
-//        for ($i=0; $i<20000; $i++) {
-//            $points += $this->prizeService->drawBigPrize($user);
-//        }
-//        $after = $this->prizeService->getPointBalance();
-//        $this->assertEquals($before - $after, $points);
-//        echo PHP_EOL . 'after quantity=' . $firstPrizeItem->getQuantity();
-//    }
 }

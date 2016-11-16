@@ -230,7 +230,7 @@
 	<script type="text/javascript">
 		var client = new ClientJS(); // Create A New Client Object
 		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
-		$('#signup_fingerprint').val(fingerprint);
+		$('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);
 	</script>
 {% endblock %}
 

@@ -11,6 +11,7 @@ class HomeController extends BaseController
     public function indexAction(Request $request)
     {
         if (!$request->getSession()->has('uid')) {
+            $this->setRegisterRouteInSession($request);
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');
         }
         return $this->render('WenwenFrontendBundle:Home:home.html.twig');

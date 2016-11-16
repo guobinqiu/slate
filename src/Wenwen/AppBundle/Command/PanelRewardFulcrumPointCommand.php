@@ -108,4 +108,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         $em->flush();
     }
 
+    protected function getVendorName() {
+        return 'Fulcrum';
+    }
 }

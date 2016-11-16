@@ -32,6 +32,8 @@ class SurveyService
 
     private $redis;
 
+    private $surveyParnterService;
+
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
     // 在调用service的时候，通过setDummy(true/false)来控制是否访问外部的服务器
@@ -43,7 +45,8 @@ class SurveyService
                                 HttpClient $httpClient,
                                 EngineInterface $templating,
                                 PrizeTicketService $prizeTicketService,
-                                Client $redis)
+                                Client $redis,
+                                $surveyParnterService)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -52,6 +55,7 @@ class SurveyService
         $this->templating = $templating;
         $this->prizeTicketService = $prizeTicketService;
         $this->redis = $redis;
+        $this->surveyParnterService = $surveyParnterService;
     }
 
     public function setDummy($dummy){
@@ -78,7 +82,7 @@ class SurveyService
      * @return $sop_api_url
      * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list#json-api-integration
      */
-    private function buildSopSurveListUrl($app_mid) {
+    private function buildSopSurveyListUrl($app_mid) {
         $this->logger->debug(__METHOD__ . ' - START - ');
 
         $sop_config = $this->parameterService->getParameter('sop');
@@ -357,7 +361,7 @@ class SurveyService
         $app_mid = $this->getSopRespondentId($user_id);
 
         // 生成sop_api_url
-        $sop_api_url = $this->buildSopSurveListUrl($app_mid);
+        $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
 
         $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 3, 'connect_timeout' => 3));
         $response = $request->send();
@@ -461,6 +465,41 @@ class SurveyService
         return $ssi_res;
     }
 
+    /**
+     * 实际上是private函数，为了测试方便定义为public
+     * @param $user
+     * @param $locationInfo
+     * @return array $partnerResearchs
+     */
+    public function getSurveyResearchArray($user, $locationInfo) {
+        $this->logger->info(__METHOD__ . 'START userId=' . $user->getId());
+        $partnerResearchs = array();
+        try{
+            $surveyPartners = $this->surveyParnterService->getSurveyPartnerListForUser($user, $locationInfo);
+            foreach($surveyPartners as $surveyPartner){
+                $this->logger->debug(__METHOD__ . ' ' . json_encode($surveyPartner));
+                // 该用户符合回答这个问卷的条件
+                $partnerResearch = array();
+                $partnerResearch['surveyPartnerId'] = $surveyPartner->getId();
+                $partnerResearch['surveyId'] = $surveyPartner->getSurveyId();
+                $partnerResearch['title'] = $this->surveyParnterService->generateSurveyTitleWithSurveyId($surveyPartner);
+                $partnerResearch['content'] = $surveyPartner->getContent();
+                $partnerResearch['loi'] = $surveyPartner->getLoi();
+                $partnerResearch['ir'] = $surveyPartner->getIr();
+                $partnerResearch['url'] = $surveyPartner->getUrl();
+                $partnerResearch['complete_point'] = $surveyPartner->getCompletePoint();
+                $partnerResearch['is_answered'] = 0;
+                $partnerResearchs[] = $partnerResearch;
+            }
+        } catch (\Exception $e){
+            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getTraceAsString());
+            $this->logger->info(__METHOD__ . 'ERROR userId=' . $user->getId());
+            return array();
+        }
+        $this->logger->info(__METHOD__ . 'END userId=' . $user->getId());
+        return $partnerResearchs;
+    }
 
     /**
      * @param $user_id 用户id
@@ -468,9 +507,37 @@ class SurveyService
      * @param int $limit 0全部，>0截取到指定长度
      * @return array
      */
-    public function getOrderedHtmlSurveyList($user_id, $limit = 0) {
+    public function getOrderedHtmlSurveyList($user_id, $locationInfo, $limit = 0) {
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
+
+        try{
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+            if(is_null($user)){
+                $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+            } else {
+                $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
+                if (count($partnerResearchs) > 0) {
+                    $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                    foreach ($partnerResearchs as $partnerResearch) {
+                        // 该用户有可回答的商业问卷
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig', 
+                            array('partnerResearch' => $partnerResearch));
+                        if ($partnerResearch['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
+                    }
+                }
+                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
+            }
+
+        } catch (\Exception $e){
+            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getTraceAsString());
+        }
 
         try{
             // 获取ssi的问卷数据

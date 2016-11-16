@@ -39,7 +39,7 @@ class PrizeService
      * @param $pointBalance 积分余额
      * @return PrizeItem
      */
-    public function getPrizeItem($type, $pointBalance)
+    public function getPrizedItem($type, $pointBalance)
     {
         $prizeItems = $this->em->getRepository('WenwenFrontendBundle:PrizeItem')->getPrizeItems($type, $pointBalance);
         $randNum = mt_rand(1, $prizeItems[0]->getMax());
@@ -52,52 +52,6 @@ class PrizeService
     }
 
     /**
-     * 抽大奖.
-     *
-     * @param User $user
-     * @return int
-     */
-    public function drawBigPrize(User $user)
-    {
-        $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_BIG, $this->getPointBalance());
-        $points = $prizeItem->getPoints();
-        if ($points > 0) {
-            if ($points == PrizeItem::FIRST_PRIZE_POINTS) {
-                if ($prizeItem->getQuantity() > 0) {
-                    $this->logger->info('userid=' . $user->getId() . '运气好，中了头奖');
-                    $this->processFirstPrize();
-                } else {
-                    $this->logger->info('userid=' . $user->getId() . '杯具了，中了头奖，但很遗憾由于库存不足作废');
-                    return $this->drawBigPrize($user);//重抽
-                }
-            } else {
-                $this->pointService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '中奖');
-                $this->minusPointBalance($points);
-            }
-        }
-        $this->minusPrizeQuantity($prizeItem);
-        return $points;
-    }
-
-    /**
-     * 抽小奖.
-     *
-     * @param User $user
-     * @return int
-     */
-    public function drawSmallPrize(User $user)
-    {
-        $prizeItem = $this->getPrizeItem(PrizeItem::TYPE_SMALL, $this->getPointBalance());
-        $points = $prizeItem->getPoints();
-        if ($points > 0) {
-            $this->pointService->addPoints($user, $points, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '中奖');
-            $this->minusPointBalance($points);
-        }
-        $this->minusPrizeQuantity($prizeItem);
-        return $points;
-    }
-
-    /**
      * 抽奖.
      *
      * @param User $user
@@ -105,20 +59,23 @@ class PrizeService
      */
     public function drawPrize(User $user)
     {
-        $points = 0;
+        $rewardPoints = 0;
         $prizeTickets = $this->prizeTicketService->getUnusedPrizeTickets($user);
         if ($this->getPointBalance() > 0 && count($prizeTickets) > 0) {
             $prizeTicket = $prizeTickets[0];
-
-            if ($prizeTicket->getType() == PrizeItem::TYPE_BIG) {
-                $points = $this->drawBigPrize($user);
-            } elseif ($prizeTicket->getType() == PrizeItem::TYPE_SMALL) {
-                $points = $this->drawSmallPrize($user);
+            $prizedItem = $this->getPrizedItem($prizeTicket->getType(), $this->getPointBalance());
+            if ($prizedItem != null) {
+                $rewardPoints = $prizedItem->getPoints();
+                $this->minusPrizeItemQuantity($prizedItem);
             }
-
+            if ($rewardPoints > 0) {
+                $this->minusPointBalance($rewardPoints);
+            }
+            $this->pointService->addPoints($user, $rewardPoints, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖', $prizeTicket->getId());
             $this->prizeTicketService->deletePrizeTicket($prizeTicket);
         }
-        return $points;
+
+        return $rewardPoints;
     }
 
     /**
@@ -196,7 +153,7 @@ class PrizeService
      *
      * @param PrizeItem $prizeItem
      */
-    private function minusPrizeQuantity(PrizeItem $prizeItem) {
+    private function minusPrizeItemQuantity(PrizeItem $prizeItem) {
         $quantity = $prizeItem->getQuantity() - 1;
         if ($quantity < 0) {
             $quantity = 0;
@@ -204,7 +161,4 @@ class PrizeService
         $prizeItem->setQuantity($quantity);
         $this->em->flush($prizeItem);
     }
-
-    // Todo: 中头奖后的业务处理逻辑，目前预算有限，只好先空着
-    private function processFirstPrize(){}
 }

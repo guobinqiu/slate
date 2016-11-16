@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>Admin - Partner Lists</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <h3>问卷项目一览</h3>
+      <a class="btn btn-primary" role="button" href="{{ path('admin_surveypartner_create') }}">新建一个问卷项目</a><br>
+      <br>
+      <table class='surveypartnerList table'>
+        <thead>
+          <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'sp.updatedAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'sp.createdAt') }}</th>
+            <th>查看信息</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for surveyPartner in pagination %}
+          <tr>
+            <td>{{ surveyPartner.id }}</td>
+            <td>{{ surveyPartner.partnerName }}</td>
+            <td>{{ surveyPartner.surveyId }}</td>
+            <td>{{ surveyPartner.title }}</td>
+            <td>{{ surveyPartner.status }}</td>
+            <td>{{ surveyPartner.updatedAt |date('Y-m-d H:i:s') }}</td>
+            <td>{{ surveyPartner.createdAt |date('Y-m-d H:i:s') }}</td>
+            <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartner.id}) }}">查看</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+       
+      <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+      </div>
+      <br>
+
+      <div class="infomation well">
+        <h4> 基本操作顺序  </h4>
+        <hr>
+        <p> 1. 根据PM提供的项目信息创建一个新的问卷项目 </p>
+        <p> 2. 用测试用户账号点击并回答这个问卷，直至看到结束页面（有明确文字显示的页面） </p>
+        <p> 3. 看到结束页面后，开启这个项目（之后就不要随便点击开启或者关闭） </p>
+        <p> 4. 定期检查项目的参与情况，如果长时间一个c/s/q/e都没有的话，关闭项目并和PM取得联系，可能对方系统出问题了 </p>
+        <br>
+        <h4> 针对TripleS提供的endlink  </h4>
+        <hr>
+        <p> complete: http://www.91wenwen.net/survey_partner/endlink/complete/triples/__PROJECTID__/__UID__/__KEY__/ </p>
+        <p> screenout: http://www.91wenwen.net/survey_partner/endlink/screenout/triples/__PROJECTID__/__UID__/__KEY__/ </p>
+        <p> quotafull: http://www.91wenwen.net/survey_partner/endlink/quotafull/triples/__PROJECTID__/__UID__/__KEY__/ </p>
+        <p> error: http://www.91wenwen.net/survey_partner/endlink/error/triples/__PROJECTID__/__UID__/__KEY__/ </p>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+<style type="text/css">
+/*table.surveypartnerList { 
+  border-collapse: collapse; 
+  }
+table.surveypartnerList td, 
+table.surveypartnerList th { 
+  border: 1px solid yellowgreen;
+  padding: 5px; 
+  }*/
+</style>

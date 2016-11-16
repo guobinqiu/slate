@@ -199,4 +199,12 @@ class EventController extends BaseController //implements UserAuthenticationCont
 
         return $this->redirect($this->generateUrl('event_checkin'));
     }
+
+    /**
+     * @Route("/bind", name="bind", methods={"GET"})
+     */
+    public function bindAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:bind.html.twig');
+    }
 }

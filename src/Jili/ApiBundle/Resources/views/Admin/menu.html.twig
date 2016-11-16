@@ -137,7 +137,11 @@
         <TABLE id=child9 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
-                <TD><A class=menuChild href="javascript:void(0);" target=main>会员数查询</A></TD>
+                <TD><A class=menuChild href="{{ path('admin_recruit_report_daily') }}" target=main>注册渠道日报</A></TD>
+            </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_recruit_report_monthly') }}" target=main>注册渠道月报</A></TD>
             </TR>
             <TR height=20>
                 <TD align=middle width=30><IMG height=9 src="{{ asset('img/admin/menu_icon.gif')}}" width=9></TD>
@@ -260,6 +264,24 @@
             </TR>
             <TR height=4>
                 <TD colSpan=2></TD>
+            </TR>
+        </TABLE>
+
+        <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=22>
+                <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}">
+                    <A class=menuParent onclick=expand(34) href="javascript:void(0);">外接问卷项目管理</A>
+                </TD>
+            </TR>
+        </TABLE>
+        <TABLE id=child34 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_surveypartner_list') }}" target=main>问卷项目一览</A></TD>
+            </TR>
+            <TR height=20>
+                <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                <TD><A class=menuChild href="{{ path('admin_surveypartner_daily_report') }}" target=main>项目参与情况</A></TD>
             </TR>
         </TABLE>
         </TD>

@@ -102,13 +102,12 @@
             				</div>
             			</div>
             		</div><br><br><br>
-            		
             	</div>
-				
 			</div>
 		</div>
 	</div>
-</div>
+</div>	
+
 {% endblock %}
 
 {% block footer %}
@@ -210,5 +209,11 @@
 	                }
 	            }
 	        );
-	    </script>
+	</script>
+	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
+	<script type="text/javascript">
+		var client = new ClientJS(); // Create A New Client Object
+		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+		$('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);
+	</script>
 {% endblock %}
