@@ -1,13 +1,12 @@
-<div class="col-xs-3 col-sm-2">
-	<div class="aboutL">
-		<ul class="tabNav">
-			{% set router_current = app.request.attributes.get('_route') %}
-			<li class="text-nowrap"><a href="{{ path('help_help') }}" {{ router_current == 'help_help' ? 'class="active"':'' }} title="帮助中心">帮助中心</a></li>
-			<li class="text-nowrap"><a href="{{ path('help_company') }}" {{ router_current == 'help_company' ? 'class="active"':'' }} title="公司介绍">公司介绍</a></li>
-			<li class="text-nowrap"><a href="{{ path('help_ww') }}" {{ router_current == 'help_ww' ? 'class="active"':'' }} title="网站介绍">网站介绍</a></li>
-			<li class="text-nowrap"><a href="{{ path('help_regulations') }}" {{ router_current == 'help_regulations' ? 'class="active"':'' }} title="会员协议">会员协议</a></li>
-			<li class="text-nowrap"><a href="{{ path('help_map') }}" {{ router_current == 'help_map' ? 'class="active"':'' }} title="网站地图">网站地图</a></li>
-			<li class="text-nowrap"><a href="{{ path('help_cooperation') }}" {{ router_current == 'help_cooperation' ? 'class="active"':'' }} title="业务合作">业务合作</a></li>
-		</ul>
-	</div>
+<div class="aboutL left">
+	<h2>帮助中心</h2>
+	<ul class="tabNav">
+		{% set router_current = app.request.attributes.get('_route') %}
+		<li><a href="{{ path('help_help') }}" {{ router_current == 'help_help' ? 'class="active"':'' }} title="帮助中心">帮助中心</a></li>
+		<li><a href="{{ path('help_company') }}" {{ router_current == 'help_company' ? 'class="active"':'' }} title="公司介绍">公司介绍</a></li>
+		<li><a href="{{ path('help_ww') }}" {{ router_current == 'help_ww' ? 'class="active"':'' }} title="网站介绍">网站介绍</a></li>
+		<li><a href="{{ path('help_regulations') }}" {{ router_current == 'help_regulations' ? 'class="active"':'' }} title="会员协议">会员协议</a></li>
+		<li><a href="{{ path('help_map') }}" {{ router_current == 'help_map' ? 'class="active"':'' }} title="网站地图">网站地图</a></li>
+		<li><a href="{{ path('help_cooperation') }}" {{ router_current == 'help_cooperation' ? 'class="active"':'' }} title="业务合作">业务合作</a></li>
+	</ul>
 </div>

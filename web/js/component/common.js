@@ -2,37 +2,37 @@
 依赖jquery.js, routing.js
 -------------------*/
 $(function(){
-    // var href = window.location.href;
-    // var nav = $('.header-nav .nav');
-    // var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验', 'exchange': '兑换中心', 'help': '帮助中心'};
-    // $.each(arr, function(i, e){
-    //     if(href == 'http://www.91wenwen.net/'){ 
-    //         nav.find('a').removeClass('active').eq(0).addClass('active');
-    //         return false;
-    //     }
-    //     if(href.indexOf('user') == -1 && href.indexOf(i) != -1){
-    //         var navs = nav.find('a');
-    //         var len = navs.length;
-    //         for(var j = 0; j < len; j++){
-    //             if(navs.eq(j).html() == e){
-    //                 nav.find('a').removeClass('active').eq(j).addClass('active');
-    //                 return false;        
-    //             }
-    //         }
-    //     } 
-    // });
-    // var expandBtn = $('.expand-btn'),
-    //     expandCon = $('.expand-con');
+    var href = window.location.href;
+    var nav = $('.header-nav .nav');
+    var arr = {'callboard': '首页', 'survey': '问卷列表', 'vote': '快速问答', 'advertiserment': '任务体验', 'shop': '任务体验', 'exchange': '兑换中心', 'help': '帮助中心'};
+    $.each(arr, function(i, e){
+        if(href == 'http://www.91wenwen.net/'){ 
+            nav.find('a').removeClass('active').eq(0).addClass('active');
+            return false;
+        }
+        if(href.indexOf('user') == -1 && href.indexOf(i) != -1){
+            var navs = nav.find('a');
+            var len = navs.length;
+            for(var j = 0; j < len; j++){
+                if(navs.eq(j).html() == e){
+                    nav.find('a').removeClass('active').eq(j).addClass('active');
+                    return false;        
+                }
+            }
+        } 
+    });
+    var expandBtn = $('.expand-btn'),
+        expandCon = $('.expand-con');
 
-    // if(expandCon.length > 0){
-    //     $.each(expandCon, function(i, e){
-    //         expandBtn.eq(i).hover(function(){
-    //             expandCon.eq(i).show(30);
-    //         }, function(){
-    //             expandCon.eq(i).hide(30);
-    //         });
-    //     });
-    // }
+    if(expandCon.length > 0){
+        $.each(expandCon, function(i, e){
+            expandBtn.eq(i).hover(function(){
+                expandCon.eq(i).show(30);
+            }, function(){
+                expandCon.eq(i).hide(30);
+            });
+        });
+    }
 
     //返回顶部
     $('.goTop').click(function() {

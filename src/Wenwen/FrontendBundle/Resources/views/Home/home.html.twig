@@ -19,8 +19,8 @@
 {{ render(controller("WenwenFrontendBundle:Component:homeBar")) }}
 
 {# 新手引导开始 #}
-<div id="mask" class="hidden-xs hidden-sm"></div>
-<div id="newguideWrap" class="hidden-xs hidden-sm">
+<div id="mask" class="hiddenPhone hiddenTablet"></div>
+<div id="newguideWrap" class="hiddenPhone hiddenTablet">
 	<div class="newguide1">
 		<div class="guideTxt">
 			回答属性问卷帮助您收到更多的高积分问卷（每份问卷100积分-1000积分不等）
@@ -43,21 +43,18 @@
 </div>
 {# 新手引导结束 #}
 
-<div class="container clearfix">
-	<div class="row">
-		<div class="main-con-left col-xs-12 col-sm-9">
-			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<div class="vote panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="pull-left">快速问答</h3><a href="{{ path('jili_frontend_vote_index') }}" class="more pull-right">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a>
-				</div>
-				<div class="panel-body">{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}</div>
-			</div>
-		</div>
-		<div class="main-con-right col-xs-6 col-sm-3 hidden-xs">
-			{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
+<div class="main-con w1000 clearfix">
+	<div class="main-con-left col-m-12 col-t-12 left">
+		{# 1. 首页问卷默认显示两条 #}
+		{# 2. 如果这里的问卷没有内容，整个div都隐藏 #}
+		{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
+		{# 这里的快速问答显示目前91问问快速问答页面的那5条 #}
+		<div class="vote">
+			<h1 class="visibleDesktop hiddenPhone hiddenTablet">快速问答<a href="{{ path('jili_frontend_vote_index') }}" class="more">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a></h1>
+			{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}
 		</div>
 	</div>
+	{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 </div>
 
 {% endblock %}
@@ -71,9 +68,4 @@
 <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/pages/home.js')}}"></script>
-<script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
 {% endblock %}

@@ -11,12 +11,10 @@
 		@include dib();
 	}
 	.btn{
-		width: 100%;
 		position: relative;
 		z-index: 1;
 		border-bottom: 2px solid #e6e6e6;
 		a{
-			width: 50%;
 			height: 45px;
 			line-height: 45px;
 			@include dib();
@@ -32,7 +30,7 @@
 			position: absolute;
 			z-index: 1000;
 			bottom: -2px;
-			right: 50%;
+			left: 0;
 			height: 2px;
 			width: 110px;
 			background: $orange-color;
@@ -43,6 +41,7 @@
 	}
 	li{
 		line-height: 50px;
+		border-bottom: $block-inner-border;
 		color: #555;
 		a{
 			margin-left: 40px;
@@ -80,16 +79,10 @@
 				color: $main-color;
 			}
 		}
+		&.active{
+			border: none;
+		}
 	}
 }
 @import "component/page";
 @import "layout/footer";
-
-@media only screen and (max-width: 768px)  {
-	.main-personal-message {
-	    padding: 10px 20px;
-	    .btn{
-	    	padding: 0;
-	    }
-	}
-}

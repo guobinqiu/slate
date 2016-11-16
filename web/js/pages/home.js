@@ -34,7 +34,6 @@ $(function(){
     var e = $("#planbanner").children(".planpicnum").find("li");
     $(".planpicnum li").hover(function (val) {
         num = $(this).index();
-        $(this).addClass('hover').siblings().removeClass('hover');
         //获取图片数量
         var imgCount = e.length;
         //获得下一个元素在其父元素中的下标

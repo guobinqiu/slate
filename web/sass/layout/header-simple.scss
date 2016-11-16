@@ -5,12 +5,11 @@ $header-height: 92px;
 .header{
 	background: #fff;
 	height: $header-height;
-	margin-bottom: 20px;
 	border-bottom: 3px solid #fa8611;
 	@include box-shadow(0px 1px 5px #d8d8d8);
 	.logo{
 		a{
-			padding: 15px 20px 15px;
+			padding: 15px 20px 15px 0;
 			vertical-align: middle;
 			@include dib();
 		}
@@ -38,15 +37,4 @@ $header-height: 92px;
 			font-weight: bold;
 		}
 	}
-}
-
-@media only screen and (max-width: 768px)  {
-    .header{
-    	height: 65px;
-        a{
-            .logo{
-                height: 32px;
-            }
-        }
-    }
 }

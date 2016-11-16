@@ -123,8 +123,9 @@
 }
 /* 微博/QQ快捷登录错误返回页面 Start*/
 .mtText{
+	width: 396px;
 	text-align: center;
-	padding: 40px 44px 72px;
+	margin: 100px auto 180px;
 	em{
 		width: 77px;
 		height: 77px;
@@ -134,8 +135,7 @@
 	}
 	h2{
 		font-size: 26px;
-		line-height: 33px;
-		margin-bottom: 20px;
+		line-height: 53px;
 	}
 	p{
 		line-height: 20px;

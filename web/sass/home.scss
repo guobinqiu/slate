@@ -4,14 +4,9 @@
 @import "layout/header";
 @import "component/slider";
 @import "component/survey";
-@import "vote";
-@import "component/timeline";
 $slider-height: 305px;
 .header{
 	box-shadow: none;
-}
-.mainWrap{
-	margin-top: 0;
 }
 .main-slider{
 	height: $slider-height;
@@ -53,16 +48,39 @@ $slider-height: 305px;
 	}
 }
 .homeBr{
+	.left{
+		margin-top: 10px;
+		margin-left: 12px;
+	}
+	.right{
+		margin-top: 0;
+	}
 	height: 91px; 
 	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
+	// background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/home/homeBrBg.jpg?v000016',sizingMethod='scale');
 	.faceWapper{
-		white-space: nowrap;
+		margin-right: 13px;
+		@include dib();
+		img{
+			border-radius: 50%;
+		}
 	}
 	.infoText{
+		@include dib();
 		color: #f0f4fa;
-		line-height: 52px;
-		margin-left: 5px;
-		font-size: 14px;
+		.l1{
+			font-size: 15px;
+			height: 52px;
+			line-height: 52px;
+			i{
+				width: 12px;
+			    height: 13px;
+				background: url(../img/home/homeIcons.svg) no-repeat -46px -5px;
+				display: inline-block;
+				vertical-align: -1px;
+			}
+		}
 		.point{
 			font-size: 18px;
 			padding: 0 8px;
@@ -71,10 +89,14 @@ $slider-height: 305px;
 			margin-left: 4px;
 			@include border-radius(15px);
 		}
+
 	}
 	.taskHis, .exchangeHis{
 		color: #f0f4fa;
 		margin-top: 30px;
+		padding: 0 20px;
+		height: 16px;
+		line-height: 16px;
 		font-size: 13px;
 		border: 1px solid #bbc4ce;
 		@include border-radius(4px);
@@ -85,52 +107,165 @@ $slider-height: 305px;
 		margin-right: 5px;
 	}
 }
+.main-con-left{
+	h1{
+		color: $main-title-color2;
+		font-size: 26px;
+		font-weight: normal;
+		height: 45px;
+		line-height: 45px;
+		position: relative;
+		border-bottom: 1px solid #E0E5E5;
+		padding-bottom: 10px;
+		.more{
+			position: absolute;
+			right: 0;
+			font-size: 12px;
+			color: #666; 
+			i{
+			    margin-left: 5px;
+			}
+		}
+	}
+	.vote{
+		padding-bottom: 30px;
+		.vote-btn{
+			top: 33px;
+		}
+		li{
+			*height: 65px;
+			*overflow: hidden;
+			&.vote-new{
+				.tips{
+					span{
+						width: 13px;
+						height: 13px;
+						line-height: 13px;
+						border-radius: 50%;
+						background: #979797;
+						color: #fff;
+						text-align: center;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+		.vote-new{
+			.vote-btn{
+				top: 41px;
+			}
+		}
+		.vote-txt{
+			.title{
+				margin-left: -4px;
+				height: 31px;
+				line-height: 31px;
+			}
+		}
+	}
+	.countdown{
+		top: 12px;
+	}
+	.topTip{
+		position: absolute;
+		top: -6px;
+		right: -64px;
+	}
+	.vote-img{
+		a{
+			img{
+				width: 60px;
+				height: 60px;
+			}
+		}
+	}	
 
-#planbanner{
-    position: relative;
-    .planpicnum{
-        position: absolute;
-        bottom: 0;
-        right: 10px;
-        ul{
-        	li{
-        		float: left;
-	            width: 10px;
-	            height: 10px;
-	            background: #fff;
-	            margin: 10px 5px;
-	            @include border-radius(50%);
-	            @include box-shadow(2px 2px 6px -1px rgba(0,0,0,0.6));
-	            &.hover{
-	            	cursor: pointer;
-	                background: #f16e3e;
-	            }
-        	}
+}
+.main-con-left>div{
+	padding: 10px 25px 6px;
+}
+.main-con-right{
+	#planbanner{
+	    position: relative;
+	    height: 176px;
+	    .planpicnum{
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            ul{
+            	li{
+            		float: left;
+    	            width: 10px;
+    	            height: 10px;
+    	            background: #fff;
+    	            margin: 10px 5px;
+    	            @include border-radius(50%);
+    	            @include box-shadow(2px 2px 6px -1px rgba(0,0,0,0.6));
+    	            &.hover{
+    	            	cursor: pointer;
+    	                background: #f16e3e;
+    	            }
+            	}
+            }
         }
-    }
-}
-#top-header{
-	margin-bottom: 0;
-}
-.notice{
-	.panel-heading{
-		padding-top: 17px;
 	}
-	ul{
-		padding: 0 25px 0px 10px;
+	.notice{
+		ul{
+			padding: 0 25px 23px 22px;
+		}
+		li{
+			line-height: 28px;
+			@include ell();
+			em{
+				width: 5px;
+				height: 5px;
+				margin-right: 10px;
+				background: #a3a3a3;
+				@include dib();
+			}
+		}
 	}
-	li{
-		line-height: 28px;
-		@include ell();
-		em{
-			width: 5px;
-			height: 5px;
-			margin-right: 10px;
-			background: #a3a3a3;
-			@include dib();
+	.exchange-dynamics{
+		padding: 18px 20px 15px;
+		line-height: 24px;
+		.mask{
+			height: 208px;
+			overflow: hidden;
+			position: relative;
+			z-index: 1;
+		}
+		ul{
+			position: absolute;
+			z-index: 1000;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+		h2{
+			padding: 0;
+		}
+		li{
+			padding: 15px 10px 0 5px;
+			b{
+				color: $main-color;
+			}
+			p{
+				@include ell();
+				.name{
+					    width: 40px;
+					    display: inline-block;
+					    vertical-align: -7px;
+					    text-overflow: ellipsis;
+					    overflow: hidden;
+				}
+			}
+			.date{
+				color: #bfbfbf;
+			}
 		}
 	}
 }
+
 #mask{ 
 	position: fixed; 
 	width: 100%; 
@@ -155,7 +290,7 @@ $slider-height: 305px;
 		height: 253px;
 		position: absolute;
 		background: url(../img/home/guide01.png) no-repeat 0 0;
-		left: 417px;
+		left: 299px;
 		top: -160px;
 	}
 	.newguide2{
@@ -163,7 +298,7 @@ $slider-height: 305px;
 		height: 253px;
 		position: absolute;
 		background: url(../img/home/guide02.png) no-repeat 0 0;
-		left: 511px;
+		left: 406px;
 	    top: -160px;
 	}
 	.newguide3{
@@ -171,7 +306,7 @@ $slider-height: 305px;
 		height: 253px;
 		position: absolute;
 		background: url(../img/home/guide03.png) no-repeat 0 0;
-		right: -25px;
+		right: 56px;
 	    top: -160px;
 	}
 	.guideTxt{
@@ -221,8 +356,39 @@ $slider-height: 305px;
 #mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
 	display: none;
 }
-
-@import "layout/footer";
-@media only screen and (max-width: 768px)  {
-   
+.mainExpTop{
+	width: 100%;
+    background: #fff;
 }
+.mainExpTop ul{
+	margin: 0 auto;
+}
+.mainExpTop ul li{
+	width: 165px;
+	margin-left: 32px;
+	margin-bottom: 30px;
+	display: inline-block;
+}
+.mainExpTop ul li:last-child{
+	margin-right: 0;
+}
+.mExpTit{
+	display: block;
+    line-height: 21px;
+    margin: 4px 0 5px;
+}
+.mPointNum{
+	font-weight: bold;
+	font-size: 16px;
+	vertical-align: -1px;
+	margin-right: 3px;
+}
+.mpUnit,.mPointNum{
+	color: $orange-color;
+}
+.survey{
+	li{
+		padding: 14px 10px 14px 10px;
+	}
+}
+@import "layout/footer";

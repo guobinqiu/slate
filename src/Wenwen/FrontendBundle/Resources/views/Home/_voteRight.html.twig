@@ -1,19 +1,20 @@
-<div id="planbanner"> 
-	<div class="planpicshow">
-		<a href="{{ path('event_invite') }}" title="邀请好友"><img class="img-responsive" src="{{ asset('img/event/inviteBanner.jpg') }}" alt="weibo"></a>
-		<a href="{{ path('event_prize') }}" title="幸运抽奖券" style="display: none;"><img class="img-responsive" src="{{ asset('img/event/luckyHomeBr.jpg') }}" alt="weibo"></a>
-		<a href="{{ path('event_checkin') }}" title="签到领奖券" style="display: none;"><img class="img-responsive" src="{{ asset('img/event/checkInHomeBr.jpg') }}" alt="weibo"></a>
+<div class="main-con-right right topRight visibleDesktop hiddenPhone hiddenTablet">
+	<div id="planbanner"> 
+		<div class="planpicshow">
+			<a href="{{ path('event_invite') }}" title="邀请好友"><img src="{{ asset('img/event/inviteBanner.jpg') }}" alt="weibo"></a>
+			<a href="{{ path('event_prize') }}" title="幸运抽奖券" style="display: none;"><img src="{{ asset('img/event/luckyHomeBr.jpg') }}" alt="weibo"></a>
+			<a href="{{ path('event_checkin') }}" title="签到领奖券" style="display: none;"><img src="{{ asset('img/event/checkInHomeBr.jpg') }}" alt="weibo"></a>
+		</div>
+		<div class="planpicnum"> 
+			<ul>  
+		 		<li></li><li></li><li></li>
+		 	</ul>  
+		</div>  
 	</div>
-	<div class="planpicnum"> 
-		<ul>  
-	 		<li></li><li></li><li></li>
-	 	</ul>  
-	</div>  
+    {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
+    <div class="exchange-dynamics">
+        <h2>最新动态</h2>
+        {{ render(controller('JiliApiBundle:Top:event') ) }}
+    </div>
+    {{ render(controller('WenwenFrontendBundle:Home:adExperience' ) ) }}
 </div>
-
-{{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
-<div class="exchange-dynamics panel panel-default">
-    <div class="panel-heading"><h4>最新动态</h4></div>
-    <div class="panel-body">{{ render(controller('JiliApiBundle:Top:event') ) }}</div>
-</div>
-{# {{ render(controller('WenwenFrontendBundle:Home:adExperience' ) ) }} #}
