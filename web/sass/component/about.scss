@@ -21,24 +21,23 @@
 		}
 		.tabNav{
 			li{
-				height: 50px;
-				line-height: 50px;
+				
 				margin-bottom: -1px;
 				cursor: pointer;
 				font-size: 14px;
 				a{
+					height: 50px;
+					line-height: 50px;
 					padding-left: 20px;
-  					// display: block; 
   					&.active, &:hover{
-					padding-left: 20px;
-					color: $orange-color;
-					font-weight: bold;
-					background: $block-line-color;
-					border-left: {
-						width: 3px;
-						style: solid;
+  						height: 50px;
+  						line-height: 50px;
+  						display: block;
+						padding-left: 20px;
 						color: $orange-color;
-					}
+						font-weight: bold;
+						background: $block-line-color;
+						border-left: { width: 3px; style: solid; color: $orange-color; }
 					}
 				}
 			} 
@@ -51,14 +50,7 @@
 		font-size: 14px;
 		min-height: 645px;
 		h2{
-			height: 45px;
-			line-height: 45px;
-			font-size: 22px;
-			border-bottom: $block-border;
-			margin-bottom: 30px;
-		}
-		.w732{
-			width: 732px;
+			margin-top: 20px;
 		}
 		.con{
 			p{
