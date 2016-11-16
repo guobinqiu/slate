@@ -5,11 +5,8 @@
 @import "component/form";
 .main-con-exchange{
 	h2{
-		margin-top: 43px;
-		padding-left: 26px;
+		margin-top: 25px;
 		line-height: 20px;
-		font-size: 28px;
-		color: $head-title-color;
 	}
 }
 .form{
@@ -210,13 +207,14 @@
 	}
 }
 .main-con-finished{
-	padding: 60px 50px;
 	.con{
-		padding-left: 95px;
-		background: url(../img/exchange/finished.png) no-repeat 0 3px;
+		padding: 40px 25px 100px;
+		.checkIcon{
+			font-size: 76px;
+		    color: #0F9D58;
+		}
 		h2{
-			font-size: 18px;
-			font-weight: bold;
+			line-height: 40px;
 		}
 		.prompt{
 			margin-top: 20px;

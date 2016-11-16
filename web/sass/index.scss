@@ -128,12 +128,13 @@
 		}
 	}
 	h2{
+		margin-top: 29%;
 		@include animation2(0, 1s, fadeIn1);
 	}
 	@keyframes fadeIn1{
-	    0% { margin-top: 38%; opacity: 0; } 
-	    50% { margin-top: 36%; opacity: 0.6; }
-	    100% { margin-top: 35%; opacity: 1; }
+	    0% { margin-top: 32%; opacity: 0; } 
+	    50% { margin-top: 30%; opacity: 0.6; }
+	    100% { margin-top: 29%; opacity: 1; }
 	}
 }
 #section1{

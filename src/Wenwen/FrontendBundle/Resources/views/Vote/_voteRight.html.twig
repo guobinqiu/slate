@@ -2,6 +2,8 @@
 	<div class="clearfix col-xs-12"><a href="{{ path('jili_frontend_vote_suggest') }}"><img class="img-responsive" src="{{asset('img/vote/prize.jpg')}}" alt="有奖出题"></a></div>
 </div>
 <div class="exchange-dynamics panel panel-default hidden-xs top20">
-    <h4>最新动态</h4>
+    <div class="panel-heading">
+    	<h4>最新动态</h4>
+    </div>
     {{ render(controller('JiliApiBundle:Top:event') ) }}
 </div>

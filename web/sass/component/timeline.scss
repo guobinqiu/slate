@@ -2,8 +2,10 @@
 
 @import "../layout/global";
 .exchange-dynamics{
-	padding: 18px 20px 15px; 
 	line-height: 24px;
+	.panel-body{
+		padding-top: 0;
+	}
 	.mask{
 		height: 335px;
 		overflow: hidden;

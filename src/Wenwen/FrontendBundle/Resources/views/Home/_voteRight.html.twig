@@ -12,8 +12,8 @@
 </div>
 
 {{ render(controller('JiliApiBundle:Top:callboard' ) ) }}
-<div class="exchange-dynamics">
-    <h4>最新动态</h4>
-    {{ render(controller('JiliApiBundle:Top:event') ) }}
+<div class="exchange-dynamics panel panel-default">
+    <div class="panel-heading"><h4>最新动态</h4></div>
+    <div class="panel-body">{{ render(controller('JiliApiBundle:Top:event') ) }}</div>
 </div>
 {# {{ render(controller('WenwenFrontendBundle:Home:adExperience' ) ) }} #}

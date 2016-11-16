@@ -33,7 +33,7 @@
                           <div class="prmBtn">
                             <input type="image" alt="发送" src="{{ asset('img/questionnaire/send.jpg') }} "  />
                           </div>
-                          <div style="display: none;">{{ form_widget(form.token) }}</div>
+                          <div style="display: none;">{# {{ form_widget(form.token) }} #}</div>
                         </form>
                     </div>
                     {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
