@@ -46,6 +46,7 @@ class AdminSurveyPartnerService
         try{
             $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+            $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
             $this->em->flush();
         } catch (\Exception $e) {
@@ -68,6 +69,7 @@ class AdminSurveyPartnerService
         try{
             $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
+            $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
             $this->em->flush();
         } catch (\Exception $e) {
