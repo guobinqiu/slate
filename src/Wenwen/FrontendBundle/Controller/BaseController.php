@@ -82,7 +82,7 @@ class BaseController extends Controller
             if( empty($inviteId){
                 $recruitRoute = 'organic';
             }
-            $recruitRoute = 'friend_invite';
+            $recruitRoute = 'friend_invitation';
         }
         $this->get('logger')->debug(__METHOD__ . ' registerRoute=' . $recruitRoute);
         return $recruitRoute;
