@@ -490,6 +490,7 @@ class SurveyPartnerService
         $rtn['surveyId'] = $surveyId;
         $rtn['partnerName'] = $partnerName;
         $rtn['key'] = $key;
+        $rtn['errMsg'] = '';
 
         try{
             // 先检查这个用户是否存在
@@ -513,6 +514,11 @@ class SurveyPartnerService
                         'status' => SurveyPartner::STATUS_INIT
                         ));
             } else {
+                // Todo 要分布检查，
+                // 首先，项目是否存在
+                // 然后存在的项目是否已经关闭
+                // 如果项目已经关闭，需要给用户提示信息
+
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('surveyId' => $surveyId,
@@ -565,7 +571,7 @@ class SurveyPartnerService
                     return $rtn;
                 }
 
-                // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/3，如果低于这个时间，视为非法的结果，不处理
+                // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，不处理
                 if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
                     $now = new \DateTime();
 
@@ -574,12 +580,12 @@ class SurveyPartnerService
                     $minutes += $diff->h * 60;
                     $minutes += $diff->i;
 
-                    if($minutes <= $surveyPartner->getLoi()/3){
+                    if($minutes <= $surveyPartner->getLoi()/4){
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
-                        $rtn['status'] = 'failure';
+                        // 完成回答过快，状态改为screenout
+                        $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
                         $rtn['errMsg'] = $errMsg;
-                        return $rtn;
                     }
                 }
                 
@@ -592,9 +598,10 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setStatus($rtn['answerStatus']);
                 $surveyPartnerParticipationHistory->setUKey($key);
                 $surveyPartnerParticipationHistory->setClientIp($clientIp);
+                $surveyPartnerParticipationHistory->setComment($rtn['errMsg']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
-                $this->em->persist($surveyPartnerParticipationHistory);
 
+                $this->em->persist($surveyPartnerParticipationHistory);
                 
                 // 发积分
                 $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $key);

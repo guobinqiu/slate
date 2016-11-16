@@ -186,7 +186,7 @@ parameters:
     emar_com.app_AppSecret: %emar_com.cron.AppSecret%
     campaign_multiple: 1
     admin_home_ip: 192.168.1.198
-    admin_vpn_ip: 158.199.142.139
+    admin_vpn_ip: 158.199.142.139 
     admin_un_ip: 180.168.105.42 #上海市 RPA-CHN-OFFICE 电信
     wenwen_dev_ip: 54.251.246.14
     wenwen_prod_ip: 54.254.98.246

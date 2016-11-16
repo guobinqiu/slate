@@ -89,6 +89,7 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $records = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findBy(array (
             'cintProjectId' => $history['survey_id'],
+            'cintProjectQuotaId' => $history['quota_id'],
             'appMemberId' => $history['app_mid']
         ));
         if (count($records) > 0) {
