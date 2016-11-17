@@ -11,8 +11,6 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    adw_admin.data_confirmed.processor.class: Jili\ApiBundle\Services\AdwAdmin\DataConfirmedProcessor
-
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
 
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
@@ -101,12 +99,6 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
-
-    adw_admin.data_confirmed.processor: 
-        class: %adw_admin.data_confirmed.processor.class% 
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
 
     check_in.listener:
         class: %check_in.listener.class%
