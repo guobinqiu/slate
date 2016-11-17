@@ -41,10 +41,10 @@ class ExceptionListener
             $this->logger->error(__METHOD__ . ' Something wrong: ' . $exception);
         } else {
             $this->logger->warn(__METHOD__ . ' NotFoundHttpException: ' . $exception);
+            $response = new Response($this->templating->renderResponse('WenwenFrontendBundle:Error:error404.html.twig', array('errorMessage' => $exception->getMessage())), 404);
+            $event->setResponse($response);
         }
 
-        $response = new Response($this->templating->renderResponse('WenwenFrontendBundle:Error:error404.html.twig', array('errorMessage' => $exception->getMessage())), 404);
-        $event->setResponse($response);
     }
 
 //    public function onKernelRequest(GetResponseEvent $event)
