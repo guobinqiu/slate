@@ -10,14 +10,14 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="main-personal clearfix">
-        <div class="row">
-            {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-            <div class="col-xs-9 col-sm-10">
-            		<div class="main-personal-right rp-main-personal-right">
+    <div class="container">
+        <div class="main-personal clearfix">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+                    <div class="main-personal-right rp-main-personal-right panel">
             			<div class="main-personal-message">
-            				{# <div class="btn tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="active"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="active"{% endif %}>系统</a><div class="border"></div></div>
+            				<div class="btn tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="active"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="active"{% endif %}>系统</a><div class="border"></div></div>
             				<div class="tabCon">
             					{% if sid == 1 %}
             					<div class="con">
@@ -52,10 +52,10 @@
             						</div>
             					</div>
             					{% endif %}
-            				</div> #}
+            				</div>
             				<div id="countMessage"></div>
 
-            				<ul class="nav nav-tabs">
+            				{# <ul class="nav nav-tabs">
             				    <li class="active"><a data-toggle="tab" href="#menu1">私信</a></li>
             				    <li><a data-toggle="tab" href="#menu2">系统</a></li>
         				    </ul>
@@ -98,17 +98,13 @@
 			        					</div>
 		        					{% endif %}
         				        </div>
-        				    </div>
+        				    </div> #}
             			</div>
             		</div>
+                </div>
             </div>
         </div>
     </div>
-</div>    
-<div class="main-personal w1000 clearfix">
-	 
-	
-</div>
 {% endblock %}
 
 {% block footer %}

@@ -98,9 +98,9 @@ body{
 	background: $bg-body-color;
 	color: $font-color;
 }
-h1,h2,h3,h4,h5{
-	font-weight: normal;
-}
+// h1,h2,h3,h4,h5{
+// 	font-weight: normal;
+// }
 i, cite, em, var, address, dfn {
     font-style: normal;
 }
@@ -189,7 +189,10 @@ i, cite, em, var, address, dfn {
         }
     }
 }
-@media only screen and (max-width: 768px)  {
+@media only screen and (max-width: 767px)  {
+    .main-con-left{
+        padding: 0;
+    }
     .navbar-header{
         a{
             .logo{

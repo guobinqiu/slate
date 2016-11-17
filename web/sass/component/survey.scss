@@ -12,13 +12,14 @@ $count-border: 1px solid #dedddc;
 $count-bg: #f5f5f5;
 .survey{
 	.panel-heading{
-		padding: 18px 22px;
+		padding: 18px 28px;
 		background: none;
 		h3{
 			color: #828D9B;
 		}
 		.more{
 			color: #7F8390;
+			margin-top: 5px;
 			i{
 				margin-left: 5px;
 			}
@@ -36,6 +37,9 @@ $count-bg: #f5f5f5;
 			}
 		}
 	}
+	.survey-info{
+		margin-top: 8px;
+	}
 }
 #surveyList{
 	& > li{
@@ -45,6 +49,7 @@ $count-bg: #f5f5f5;
 		.rewardPoint{
 			float: right;
 			white-space: nowrap;
+			margin-top: 3px;
 			i {
 			    font-size: 22px;
 			    color: #f55e00;
@@ -60,8 +65,12 @@ $count-bg: #f5f5f5;
 		font-size: 16px;
 		line-height: 28px;
 		font-weight: bold;
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
 		a{
 			color: #475a70;
+			
 		}
 	}
 	.proCon{
@@ -113,12 +122,62 @@ $count-bg: #f5f5f5;
 	}
 }
 @media only screen and (min-width: 992px) { 
-	#surveyList>li .rewardPoint{
-		float: left;
+	#surveyList{
+		&>li{
+			.rewardPoint{
+				float: left;
+				text-align: right;
+				width: 90px;
+			}
+		}
 	}
 }
-@media only screen and (max-width: 970px) { 
-	#surveyList>li .row{
-		padding: 0 10px;
+@media only screen and (min-width: 768px){
+	#surveyList{
+		&>li{
+			.row{
+				padding: 0 17px;	
+			}
+		}
+	}
+}
+@media only screen and (max-width: 767px) { 
+	#surveyList{
+		&>li{
+			.row{
+				padding: 0 17px;	
+			}
+			.rewardPoint{
+				width: 75px;
+				text-align: right;
+				float: left;
+			}
+		}
+	}
+	.survey-info{
+		white-space: nowrap;
+	}
+	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+		width: 88px!important;
+	}
+	.mainWrap{
+		.container{
+			padding: 0;
+		}
+	}
+	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+}
+@media only screen and (max-width: 360px) { 
+	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+		width: 70px!important;
 	}
 }

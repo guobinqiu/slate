@@ -47,9 +47,6 @@ $color: #0078b6;
 }
 .main-personal-profile{
 	padding: 20px 47px 50px;
-	h5{
-		font-weight: bold;
-	}
 	.con{
 		padding: 17px 10px 45px;
 		font-size: 13px;
@@ -330,7 +327,7 @@ $color: #0078b6;
 	}
 }
 @import "layout/footer";
-@media only screen and (max-width: 768px)  {
+@media only screen and (max-width: 767px)  {
 	.main-personal-right{
 		h2{
 			padding-left: 24px;

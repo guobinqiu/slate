@@ -5,10 +5,11 @@
 @import "component/timeline";
 .vote{
 	.panel-heading{
-		padding: 18px 22px;
+		padding: 18px 28px;
 		background: none;
 		.more{
 			color: #7F8390;
+		    margin-top: 5px;
 			i{
 				margin-left: 5px;
 			}
@@ -49,6 +50,9 @@
 			}
 		}
 	}
+	.vote-info{
+		white-space: nowrap;
+	}
 	.votePoint{
 		white-space: nowrap;
 		i{
@@ -84,18 +88,20 @@
 }
 .vote-new{
 	.votecd{
-		white-space: nowrap;
+		position: relative;
 	}
-	.voteBW{
-		margin-top: 30px;
+	.vote-info{
+		position: relative;
 	}
+	
 	.countdown{
 		color: #b08400;
 		font-size: 16px;
 		z-index: 1000;
 		height: 25px; 
 		line-height: 25px;
-		margin-right: 20px;
+		display: table-caption;
+		margin-top: -6px;
 		span{
 			width: 20px;
 			text-align: center;
@@ -105,21 +111,17 @@
 		}
 	}
 	.tips{
+		width: 100px;
 		float: left;
-		margin: 5px 5px 0 0;
+		position: absolute;
+		right: 0;
+		margin: 15px 5px 0 0;
+		white-space: nowrap;
 		i{
 			font-size: 14px;
 			color: #b08400;
-		}
-		span{ 
-		    width: 13px;
-		    height: 13px;
-		    line-height: 13px;
-		    border-radius: 50%;
-		    background: #979797;
-		    color: #fff;
-		    text-align: center;
-		    cursor: pointer;
+			float: left;
+			margin-right: 5px;
 		}
 		.tooltip-inner {
 		    max-width: 150px;
@@ -129,50 +131,87 @@
 	}
 }
 @media only screen and (max-width: 767px) { 
-	.voteBW{
-		margin-left: -72px;
+	.mainWrap{
+		.container{
+			padding: 0;
+		}
 	}
 	.vote{
-		.vote-btn,.voteDisabled{
-			float: right;
+		.panel-body{
+			li{
+				.row{
+					padding: 0 17px;
+				}
+			}
+		}
+		.votePoint{
+			width: 75px;
+			text-align: right;
+			float: left;
 		}
 	} 
-	.vote-info{
-		margin-top: 13px;
+	
+}
+@media only screen and (max-width: 800px) { 
+	.vote-new .tips{
+		left: 0;
 	}
 }
 @media only screen and (min-width: 768px) { 
 	.vote .panel-body li .row{
-		padding: 0 15px;
+		padding: 0 17px;
 	}
 	.vote-info{
 		float: left;
 	}
-	.vote .votePoint{
-		text-align: left;
+	.vote{
+		.votePoint{
+			text-align: left;
+			margin-right: 6px;
+			width: 75px;
+			text-align: right;
+			float: left;
+		}
+		.voteBW{
+			display: inline-block;
+		}
+	} 
+	.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
 	}
 }
-@media only screen and (min-width: 992px) { 
-	.vote .votePoint{
-		width: 65px;
-	    float: left;
-	    margin-right: 45px;
-	    margin-top: 4px;
+@media only screen and (min-width: 992px) {
+	.vote .panel-body li .row{
+		padding: 0 45px 0 30px;
 	}
-	.vote .panel-body li .row {
-	    padding: 0 44px 0 36px;
-	}
-	.vote-info{
+	.vote{
+		.votePoint{
+			width: 90px;
+		    float: left;
+		    text-align: right;
+		    margin-right: 30px;
+		    margin-top: 4px;
+		}
+		// .votecd{
+		// 	margin-top: 40px;
+		// } 
+	} 
+	.vote-info,.votecd{
 		white-space: nowrap;
 		margin-top: 25px;
 	}
-	.vote-new{
-		.vote-info{
-			margin-top: 8px;
-		}
-		.votePoint{
-			margin-top: 20px;
-		}
+	// .vote-new{
+	// 	.vote-info{
+	// 		margin-top: 8px;
+	// 	}
+	// 	.votePoint{
+	// 		margin-top: 20px;
+	// 	}
+	// }
+	.vote-new .tips{
+		margin-top: -17px;
 	}
 }
 

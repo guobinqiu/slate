@@ -10,47 +10,46 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="main-personal clearfix">
-        <div class="row">
-            {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-            <div class="col-xs-9 col-sm-10">
-                <div class="main-personal-right rp-main-personal-right">
-                    <h2>任务历史</h2>
-                    <div class="main-personal-points">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="title">任务名称</th>
-                                    <th>奖励积分</th>
-                                    <th>获得时间</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% if pagination.getTotalItemCount > 0 %}
-                                {% for task in pagination %}
+    <div class="container">
+        <div class="main-personal clearfix">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+                    <div class="main-personal-right rp-main-personal-right panel">
+                        <div class="main-personal-points">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td>{{ task.taskName }}</td>
-                                        <td>{{ task.point }}</td>
-                                        <td>{{ task.date | date('Y-m-d H:i') }}</td>
+                                        <th class="title">任务名称</th>
+                                        <th>奖励积分</th>
+                                        <th>获得时间</th>
                                     </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td align="center" colspan="4">没有任务记录</td>
-                                </tr>
-                            {% endif %}
-                            </tbody>
-                        </table>
-                        <div>
-                            {{ knp_pagination_render(pagination) }}
+                                </thead>
+                                <tbody>
+                                {% if pagination.getTotalItemCount > 0 %}
+                                    {% for task in pagination %}
+                                        <tr>
+                                            <td>{{ task.taskName }}</td>
+                                            <td>{{ task.point }}</td>
+                                            <td>{{ task.date | date('Y-m-d H:i') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td align="center" colspan="4">没有任务记录</td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                            <div>
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
 {% endblock %}
 
 {% block footer %}

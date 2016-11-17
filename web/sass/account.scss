@@ -28,9 +28,6 @@
 				display: none;
 			}
 		}
-		&:first-child{
-			border-bottom: 1px dashed #dedee0;
-		}
 	}
 	label{
 		&.tit{
@@ -187,7 +184,7 @@
 }
 @import "layout/footer";
 
-@media only screen and (max-width: 768px)  {
+@media only screen and (max-width: 767px)  {
 	.main-personal-right{
 		h2{
 			padding-left: 27px;

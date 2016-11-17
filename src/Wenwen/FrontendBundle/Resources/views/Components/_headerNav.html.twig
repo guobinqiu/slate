@@ -19,33 +19,47 @@
         <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                     {% set router_current = app.request.attributes.get('_route') %}
-                        <li class="nav-item"><a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="nav-link active"':'class="nav-link"' }}>首页</a></li>
-                    {% if app.request.attributes.get('_route') == '_user_login' %}
-                        <li class="nav-item"><a title="问卷列表">问卷列表</a></li>
-                    {% else %}
-                        <li class="nav-item"><a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="nav-link active"':'class="nav-link"' }}>问卷列表</a></li>
-                    {% endif %}
-                        <li class="nav-item"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="nav-link active"':'class="nav-link"' }}>快速问答</a></li>
-                    {% if app.session.has('uid') %}
-                        <li class="nav-item"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active hidden-xs hidden-sm"':'class="hidden-xs hidden-sm"' }}>任务体验</a></li>
-                    {% endif %}
+                        <li class="nav-item"><a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="nav-link active"':'class="nav-link"' }}>首页</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        <li class="nav-item">
+                            {% if app.request.attributes.get('_route') == '_user_login' %}
+                                <a title="问卷列表">问卷列表</a></li>
+                            {% else %}
+                               <a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="nav-link active"':'class="nav-link"' }}>问卷列表</a>
+                            {% endif %}
+                            <i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i>
+                        </li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        <li class="nav-item"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="nav-link active"':'class="nav-link"' }}>快速问答</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        {% if app.session.has('uid') %}
+                            <li class="nav-item"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active hidden-xs hidden-sm"':'class="hidden-xs hidden-sm"' }}>任务体验</a></li>
+                        {% endif %}
                         <li class="nav-item exchangeIt">
-                            <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="nav-link active"':'class="nav-link"' }}>兑换中心</a>
+                            <a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="nav-link active"':'class="nav-link"' }}>兑换中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i>
                             <div class="popover bottom hidden-xs hidden-sm">
                                 <div class="arrow"></div>
                                 <div class="popover-content">100积分=1元</div>
                             </div>
                         </li>
-                        <li class="nav-item"><a href="{{ path('event') }}" title="活动中心" {{ router_current == 'event' ? 'class="nav-link active"':'class="nav-link"' }}>活动中心</a></li>
-                        <li class="nav-item"><a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="nav-link active"':'class="nav-link"' }}>帮助中心</a></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        <li class="nav-item"><a href="{{ path('event') }}" title="活动中心" {{ router_current == 'event' ? 'class="nav-link active"':'class="nav-link"' }}>活动中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        <li class="nav-item"><a href="{{ path('help_help') }}" title="帮助中心" {{ router_current == 'help_help' ? 'class="nav-link active"':'class="nav-link"' }}>帮助中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
                     {# {% if app.session.has('uid') %}  #}
                         {#{% set count_new_msgs =  render(controller('WenwenFrontendBundle:User:isNewMs', { 'id': app.session.get('uid')} ) ) %}#}
                         {# <a class="mailWrap"  href="{{ path('_user_message',{'sid': 1}) }}" > #}
                             {#<em class="mail">{% if  count_new_msgs|length > 0 %}<div class="mark"></div>{% endif %}</em>#}
                         {# </a> #}
-                        {% if app.request.attributes.get('_route') == '_user_login' %}
-                        {% else %}
-                                <li class="dropdown nav-item">
+                        <li class="nav-item hidden-sm hidden-md hidden-lg"><a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="nav-link active"':'class="nav-link"' }}>个人中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        <hr class="hidden-sm hidden-md hidden-lg">
+                        {% if app.session.has('uid') %}
+                            <li class="nav-item hidden-sm hidden-md hidden-lg"><a href="{{ path('_user_logout') }}">退出</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+                        {% endif %}
+                        
+                        {% if app.session.has('uid') %}
+                                <li class="dropdown nav-item hidden-xs">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-o" aria-hidden="true"></i>个人中心 <span class="caret hidden-xs hidden-sm"></span></a>
                                     <ul class="dropdown-menu">
                                       <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>

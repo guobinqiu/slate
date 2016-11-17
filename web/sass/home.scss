@@ -57,6 +57,7 @@ $slider-height: 305px;
 	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
 	.faceWapper{
 		white-space: nowrap;
+		margin-left: 10px;
 	}
 	.infoText{
 		color: #f0f4fa;
@@ -226,8 +227,39 @@ $slider-height: 305px;
 #mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
 	display: none;
 }
-
+.vote-new{
+	.votecd{
+		position: absolute;
+		bottom: 35px;
+		right: 16px;
+	}
+	.tips{
+		margin: 0;
+	}
+	.countdown{
+		padding-left: 20px;
+	}
+}
 @import "layout/footer";
-@media only screen and (max-width: 768px)  {
-   
+@media only screen and (max-width: 767px)  {
+   .vote{
+   		.vote-txt{
+   			margin-top: 4px;
+   		}
+   		.panel-body{
+   			hr{
+   				margin-top: 15px;
+   				margin-bottom: 15px;
+   			}
+   		}
+   		.votePoint{
+		    margin-top: 2px;
+		    margin-right: 24px;
+   		}
+   	}
+}
+@media only screen and (min-width: 992px) {
+	.vote .panel-body li .row{
+		padding: 0 21px 0 30px;
+	}
 }
