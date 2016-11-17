@@ -11,9 +11,6 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    duomai_request.validation.class: Jili\ApiBundle\Services\Duomai\DuomaiRequestValidation
-    duomai_request.processor.class:  Jili\ApiBundle\Services\Duomai\DuomaiRequestProcessor
-
     adw_admin.data_confirmed.processor.class: Jili\ApiBundle\Services\AdwAdmin\DataConfirmedProcessor
 
     rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
@@ -104,22 +101,6 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
-
-    duomai_request.validation:
-        class: %duomai_request.validation.class%
-        arguments: [ %duomai_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setValidator, [ @validator ] ]
-
-    duomai_request.processor:
-        class: %duomai_request.processor.class%
-        arguments: [ %duomai_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setSendMail, ["@send_mail"] ]
 
     adw_admin.data_confirmed.processor: 
         class: %adw_admin.data_confirmed.processor.class% 
