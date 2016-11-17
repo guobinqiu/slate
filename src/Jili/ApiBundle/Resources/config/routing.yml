@@ -19,11 +19,6 @@ admin:
     prefix:   /admin
     type:     annotation
 
-marketActivity:
-    resource: "@JiliApiBundle/Controller/MarketActivityController.php"
-    prefix:   /marketActivity
-    type:     annotation
-
 api-offer99:
     resource: "@JiliApiBundle/Controller/Offer99Controller.php"
     type:     annotation
