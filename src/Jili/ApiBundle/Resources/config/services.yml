@@ -23,11 +23,6 @@ parameters:
 
     send_mail.class:  Jili\ApiBundle\Service\SendMail
 
-# session 
-    session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
-    session.points.class: Jili\ApiBundle\Services\Session\User\Points
-    session.user_configs.class: Jili\ApiBundle\Services\Session\User\Configs
-
 # 兑换结果处理
     exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
 #AlertToSlack
@@ -110,32 +105,6 @@ services:
         calls:
             - [setContainer, ["@service_container"] ]
         arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    session.task_list:
-        class: %session.task_list.class%
-        arguments: [ %cache_config.session.task_list.keys%,%cache_config.session.task_list.duration%  ]
-        calls:
-            - [ setContainer, [ @service_container ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
-            - [ setCheckInListener , [ @check_in.listener ] ]
-
-    session.points:
-        class: %session.points.class%
-        arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
-
-    session.user_configs:
-        class: %session.user_configs.class%
-        arguments: [ %cache_config.session.user_configs.keys%  ]
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
 
     send_mail:
         class: %send_mail.class%
