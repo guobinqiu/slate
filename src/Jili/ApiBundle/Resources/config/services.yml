@@ -1,7 +1,4 @@
 parameters:
-    user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
-    monolog.logger.import_adw_cps.class: Jili\ApiBundle\Services\Logger\ImportAdwCpsLogger
-    monolog.processor.session_request.class: Jili\ApiBundle\Services\Session\SessionRequestProcessor
 
     offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
 
@@ -9,12 +6,8 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
-
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
     cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
-
-    check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
     send_mail.class:  Jili\ApiBundle\Service\SendMail
 
@@ -24,35 +17,6 @@ parameters:
     alerttoslack.class:  Jili\ApiBundle\Services\AlertToSlack
 
 services:
-    user_source.logger:
-        class: %user_source.logger.class%
-        arguments: ["@logger"]
-        tags:
-            - { name: monolog.logger, channel: user_source }
-
-    monolog.logger.import_adw_cps:
-        class: %monolog.logger.import_adw_cps.class%
-        arguments: ["@logger"]
-        tags:
-            - { name: monolog.logger, channel: import_adw_cps }
-
-    monolog.formatter.session_request:
-        class: Monolog\Formatter\LineFormatter
-        arguments:
-            - "%%datetime%%\t%%extra.token%%\t%%channel%%\t%%level_name%%\t%%message%%\n"
-
-    monolog.processor.session_request:
-        class: %monolog.processor.session_request.class%
-        arguments:  ["@session"]
-        tags:
-            - { name: monolog.processor, method: processRecord, channel: user_source }
-
-    # rebate_activity.point_caculator
-    rebate_point.caculator:
-        class: %rebate_activity.caculator.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-        calls:
-            - [setContainer, ["@service_container"] ]
 
     offerwow_api.init_log:
         class: %offerwow_api_return.logger.class%
@@ -83,12 +47,6 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
-
-    check_in.listener:
-        class: %check_in.listener.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-        arguments: ["@doctrine.orm.entity_manager"]
 
     send_mail:
         class: %send_mail.class%
