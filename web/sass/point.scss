@@ -5,6 +5,12 @@
 @import "component/personal";
 .main-personal-points{
 	padding: 30px 40px;
+	table{
+		th,td{
+			white-space: nowrap;
+			padding: 14px!important;
+		}
+	}
 }
 @import "component/table";
 @import "component/page";

@@ -87,6 +87,7 @@ $count-bg: #f5f5f5;
 			color: #ffac13;
 		    font-size: 17px;
 		    margin-right: 4px;
+		    white-space: nowrap;
 		    i{
 		    	margin-right: 3px;
 		    }
@@ -166,8 +167,10 @@ $count-bg: #f5f5f5;
 		width: 88px!important;
 	}
 	.mainWrap{
+		overflow: hidden;
 		.container{
-			padding: 0;
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
 	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
@@ -179,5 +182,8 @@ $count-bg: #f5f5f5;
 @media only screen and (max-width: 360px) { 
 	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
 		width: 70px!important;
+	}
+	#surveyList>li .row{
+		padding: 0 6px;
 	}
 }

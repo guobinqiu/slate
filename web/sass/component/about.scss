@@ -28,13 +28,13 @@
 				a{
 					height: 50px;
 					line-height: 50px;
-					padding-left: 20px;
+					padding-left: 30px;
 					display: block;
   					&.active, &:hover{
   						height: 50px;
   						line-height: 50px;
   						display: block;
-						padding-left: 20px;
+						padding-left: 28px;
 						color: $orange-color;
 						font-weight: bold;
 						background: $block-line-color;

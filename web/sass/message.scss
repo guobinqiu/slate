@@ -16,7 +16,6 @@
 		z-index: 1;
 		border-bottom: 2px solid #e6e6e6;
 		a{
-			width: 50%;
 			height: 45px;
 			float: left;
 			line-height: 45px;
@@ -91,6 +90,9 @@
 	    padding: 10px 20px;
 	    .btn{
 	    	padding: 0;
+	    	a{
+	    		width: 50%;
+	    	}
 	    }
 	}
 }

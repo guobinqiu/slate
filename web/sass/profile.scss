@@ -51,6 +51,11 @@ $color: #0078b6;
 		padding: 17px 10px 45px;
 		font-size: 13px;
 	}
+	.profile-base,.profile-detail{
+		h5{
+			font-weight: bold;
+		}
+	}
 	.profile-base{
 		.face{
 			position: relative;
@@ -207,10 +212,9 @@ $color: #0078b6;
 			margin-top: 10px;
 			color: #a1a1a1;
 			label{
-				margin-right: 30px;
-				line-height: 20px;
+				line-height: 34px;
 				text-align: right;
-				color: #a1a1a1;
+				color: #9C9C9C;
 				vertical-align: top;
 				font-weight: normal;
 				&.required{
@@ -231,6 +235,7 @@ $color: #0078b6;
 				border: $border;
 				border-radius: 2px;
 				outline: none;
+				color: #000;
 				&:focus{
 					border: $input-border-focus;
 				}
@@ -277,6 +282,7 @@ $color: #0078b6;
 				line-height: 20px;
 				border: $border;
 				outline: none;
+				color: #000;
 				&:focus{
 					border: $input-border-focus;
 				}
@@ -317,8 +323,6 @@ $color: #0078b6;
 			padding-left: 0;
 			span{
 				width: 75px;
-				height: 35px;
-				line-height: 35px;
 				text-align: center;
 				@include btn();
 				@include dib();

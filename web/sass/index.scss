@@ -28,11 +28,14 @@
 				line-height: 40px;
 				cursor: pointer;
 				display: inline-block;
+				text-align: center;
+				padding: 0;
 				&:hover{
 					color: #ff781e;
 				}
 			}
 			.dropdown-menu{
+				min-width: 135px;
 				top: 55px;
 				.divider{
 					margin: 0;

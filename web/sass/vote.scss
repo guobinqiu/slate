@@ -100,7 +100,7 @@
 		z-index: 1000;
 		height: 25px; 
 		line-height: 25px;
-		display: table-caption;
+		// display: table-caption;
 		margin-top: -6px;
 		span{
 			width: 20px;
@@ -132,8 +132,10 @@
 }
 @media only screen and (max-width: 767px) { 
 	.mainWrap{
+		overflow: hidden;
 		.container{
-			padding: 0;
+			padding-left: 0;
+			padding-right: 0;
 		}
 	}
 	.vote{
@@ -194,22 +196,11 @@
 		    margin-right: 30px;
 		    margin-top: 4px;
 		}
-		// .votecd{
-		// 	margin-top: 40px;
-		// } 
 	} 
 	.vote-info,.votecd{
 		white-space: nowrap;
 		margin-top: 25px;
 	}
-	// .vote-new{
-	// 	.vote-info{
-	// 		margin-top: 8px;
-	// 	}
-	// 	.votePoint{
-	// 		margin-top: 20px;
-	// 	}
-	// }
 	.vote-new .tips{
 		margin-top: -17px;
 	}

@@ -241,6 +241,11 @@ $slider-height: 305px;
 	}
 }
 @import "layout/footer";
+@media only screen and (max-width: 360px)  {
+	#surveyList>li .row{
+		padding: 0 17px;
+	}
+}
 @media only screen and (max-width: 767px)  {
    .vote{
    		.vote-txt{
@@ -254,7 +259,7 @@ $slider-height: 305px;
    		}
    		.votePoint{
 		    margin-top: 2px;
-		    margin-right: 24px;
+		    margin-right: 3px;
    		}
    	}
 }
