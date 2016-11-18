@@ -142,7 +142,7 @@ monolog:
         main:
             type: fingers_crossed
             action_level: error
-            channels: ["!sop_notification", "!ssi_notification", "!email_delivery", "!user_source", "!import_adw_cps"]
+            channels: ["!sop_notification", "!ssi_notification", "!email_delivery"]
 
         sop_notification:
             level: info
@@ -161,21 +161,6 @@ monolog:
             type: stream
             path: %kernel.logs_dir%/%kernel.environment%.email_delivery.log
             channels: [email_delivery]
-
-        command_import_adw_csv:
-            type: stream
-            path: /data/91jili/logs/commands/%kernel.environment%.import_adw_cps.log
-            level: info
-            channels: [import_adw_cps]
-            formatter: monolog.formatter.command_import_adw_csv
-
-
-        user_source:
-            type: stream
-            path: %kernel.logs_dir%/../logs_data/%kernel.environment%.user_source.log
-            level: info
-            formatter: monolog.formatter.session_request
-            channels: [user_source]
 
 gregwar_captcha:
     width: 150
