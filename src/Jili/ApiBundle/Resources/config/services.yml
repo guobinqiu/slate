@@ -18,9 +18,6 @@ parameters:
 
     check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
 
-
-    point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
-
     send_mail.class:  Jili\ApiBundle\Service\SendMail
 
 # 兑换结果处理
@@ -100,11 +97,6 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
         arguments: ["@doctrine.orm.entity_manager"]
-    point_manage.processor:
-        class: %point_manage.processor.class%
-        calls:
-            - [setContainer, ["@service_container"] ]
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     send_mail:
         class: %send_mail.class%
