@@ -27,18 +27,12 @@ class TopController extends Controller
      */
     public function callboardAction()
     {
-        $cache_fn= $this->container->getParameter('cache_config.api.top_callboard.key');
-        $cache_duration = $this->container->getParameter('cache_config.api.top_callboard.duration');
-        $cache_proxy = $this->get('cache.file_handler');
-        if($cache_proxy->isValid($cache_fn , $cache_duration)) {
-            $callboard= $cache_proxy->get($cache_fn);
-        }  else {
-            $cache_proxy->remove( $cache_fn);
-            //最新公告，取9条
-            $em = $this->getDoctrine()->getManager();
-            $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(4);
-            $cache_proxy->set( $cache_fn, $callboard);
-        }
+        // 公告的数据表也就是数百条级别的，不用做缓存机制了，以后要做也用redis之类的内存缓存
+        // 目前一共就60条不到的记录
+        //最新公告，取9条
+        $em = $this->getDoctrine()->getManager();
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(4);
+
         $arr['callboard'] = $callboard;
 
         return $this->render('WenwenFrontendBundle:Callboard:_listHome.html.twig', $arr);
