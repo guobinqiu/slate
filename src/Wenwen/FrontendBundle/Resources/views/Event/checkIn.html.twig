@@ -32,42 +32,32 @@
                     <div class="row">
                         <div class="proBar col-sm-12">
                             <div class="progress">
-                              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="step well" style="display: none;">
-                                <div class="checkSuc center-block">
-                                    <h2 class="res">签到成功！继续努力！</h2>
-                                    <p>还需连续签到3天即可获得抽奖券。</p>
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+                                    第{{ signedDays }}天
                                 </div>
                             </div>
-                            <div class="step well" style="display: none;">
+                            <div class="step well">
                                 <div class="checkSuc center-block">
-                                    <h2 class="res">签到成功！你最棒了！</h2>
-                                    <p>还需连续签到3天即可获得抽奖券。</p>
+                                    {% if alreadySigned == false %}
+                                        <h2 class="res">今日还未签到！</h2>
+                                        <p>还需连续签到{{ unsignedDays }}天即可获得抽奖券。</p>
+                                    {% else %}
+                                        {% if signedDays == 5 %}
+                                            <h2 class="res">签到成功！恭喜您！</h2>
+                                            <p>获得一张抽奖券！前去抽奖吧！</p>
+                                        {% else %}
+                                            <h2 class="res">签到成功！继续努力！</h2>
+                                            <p>还需连续签到{{ unsignedDays }}天即可获得抽奖券。</p>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="step well" style="display: none;">
-                                <div class="checkFail center-block">
-                                    <h2 class="res">呀！你漏签了！</h2>
-                                    <p>不要紧，重头再来吧！</p>
-                                </div>    
-                            </div>
-                            <div class="step well" style="display: none;">
-                                <div class="checkSuc center-block">
-                                    <h2 class="res">签到成功！最后冲刺！</h2>
-                                    <p>还需连续签到3天即可获得抽奖券。</p>
-                                </div>
-                            </div>
-                            <div class="step well" style="display: none;">
-                                 <div class="checkWin center-block">
-                                     <h2 class="res">签到成功！恭喜您！</h2>
-                                     <p>获得一张抽奖券！前去抽奖吧！</p>
-                                 </div>       
-                            </div>
-                            <button class="action next checkBtn center-block btn btn-default btn-lg">点击签到</button>
-                            <button class="action submit checkBtn center-block btn btn-default btn-lg" style="display: none;">Submit</button>
-                            {# <button type="button" class="checkBtn center-block btn btn-default btn-lg" data-toggle="modal" data-target="#myModal">点击签到</button> #}
-                            {# <p class="text-center">您已连续签到2天！再连续签到3天就可以得到抽奖券啦!</p> #}
+                            {% if alreadySigned == false  %}
+                                <a href="{{ path('event_checkin_update') }}" class="action next checkBtn center-block btn btn-default btn-lg" role="button">点击签到</a>
+                            {% endif %}
+                            {% if alreadySigned == true and signedDays == constant('UserSignInSummary::MAX_CONSECUTIVE_DAYS') %}
+                                <a href="{{ path('event_prize') }}" class="action submit checkBtn center-block btn btn-default btn-lg" role="button">去抽奖</a>
+                            {% endif %}
                         </div>
                     </div>
                     <h2 class="tit"><img class="bug pull-left img-responsive" src="{{ asset('img/checkin/ladybugIco.png') }}">签到规则</h2>
@@ -84,46 +74,4 @@
 
 {% block javascript %}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            var current = 0;
-            widget = $(".step");
-            btnnext = $(".next");
-            btnsubmit = $(".submit");
-         
-            // Init buttons and UI
-            // widget.not(':eq(0)').hide();
-            // widget.hide();
-            hideButtons(current);
-            setProgress(current);
-         
-            // Next button click action
-            btnnext.click(function(){
-                if(current < widget.length){             
-                   widget.show();           
-                   widget.not(':eq('+(current++)+')').hide();
-                   setProgress(current); 
-               }        
-               hideButtons(current);    
-           })   
-        });
-         
-        // Change progress bar action
-        setProgress = function(currstep){
-            var percent = parseFloat(100 / widget.length) * currstep;
-            percent = percent.toFixed();
-            $(".progress-bar").css("width",percent+"%").html("第"+currstep+"天");     
-        }
-         
-        // Hide buttons according to the current step
-        hideButtons = function(current){
-            var limit = parseInt(widget.length); 
-            // $(".action").hide();
-            if(current < limit) btnnext.show();  
-            if(current == limit){ 
-                btnnext.hide(); 
-                btnsubmit.show(); 
-            }
-        }
-    </script>
 {% endblock %}

@@ -121,5 +121,33 @@ class SignInServiceTest extends WebTestCase
         $this->assertEquals(11, $userSignInSummary->getTotalSignInCount());
         $this->assertEquals(1, $userSignInSummary->getConsecutiveDays());
         $this->assertEquals($d11, $userSignInSummary->getStartDate());
+
+        //----------------------------------------------------------------------------
+
+        $d12 = $d1->modify('+1 day');
+        $signInService->signIn($user, $d12);
+
+        $userSignInDetails = $this->em->getRepository('WenwenFrontendBundle:UserSignInDetail')->findAll();
+        $this->assertEquals(12, sizeof($userSignInDetails));
+
+        $userSignInSummary = $this->em->getRepository('WenwenFrontendBundle:UserSignInSummary')->findOneByUser(array('user' => $user));
+        $this->assertEquals(12, $userSignInSummary->getTotalSignInCount());
+        $this->assertEquals(2, $userSignInSummary->getConsecutiveDays());
+        $this->assertEquals($d12, $userSignInSummary->getStartDate());
+
+        //----------------------------------------------------------------------------
+
+        $d1->modify('+1 day');
+        $d1->modify('+1 day');
+        $d14 = $d1;
+        $signInService->signIn($user, $d11);
+
+        $userSignInDetails = $this->em->getRepository('WenwenFrontendBundle:UserSignInDetail')->findAll();
+        $this->assertEquals(13, sizeof($userSignInDetails));
+
+        $userSignInSummary = $this->em->getRepository('WenwenFrontendBundle:UserSignInSummary')->findOneByUser(array('user' => $user));
+        $this->assertEquals(13, $userSignInSummary->getTotalSignInCount());
+        $this->assertEquals(1, $userSignInSummary->getConsecutiveDays());
+        $this->assertEquals($d14, $userSignInSummary->getStartDate());
     }
 }

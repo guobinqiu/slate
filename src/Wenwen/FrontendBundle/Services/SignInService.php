@@ -19,7 +19,7 @@ class SignInService
         $this->prizeTicketService = $prizeTicketService;
     }
 
-    public function alreadySignedIn(User $user, \DateTime $date = null) {
+    public function alreadySigned(User $user, \DateTime $date = null) {
         if ($date == null) {
             $date = new \DateTime();
         }
@@ -54,16 +54,15 @@ class SignInService
     }
 
     /**
-     * 每日签到.
-     *
-     * @param User $user
-     * @param \DateTime|null $date
+     * 签到
      */
     public function signIn(User $user, \DateTime $date = null)
     {
         if ($date == null) {
             $date = new \DateTime();
         }
+
+        $prizeTicket = null;
         $today = $date;
         $this->createUserSignInDetail($user, $today);
 
@@ -99,25 +98,6 @@ class SignInService
             }
             $this->em->flush();
         }
-    }
-
-    public function getSignInData(User $user) {
-        $data = array();
-
-        for ($i=0; $i<UserSignInSummary::MAX_CONSECUTIVE_DAYS; $i++) {
-            $data[$i] = null;
-        }
-
-        $userSignInSummary = $user->getUserSignInSummary();
-        $consecutiveDays = $userSignInSummary->getConsecutiveDays();
-        $startDate = $userSignInSummary->getStartDate();
-
-        $data[0] = $startDate;
-        for ($i=1; $i<$consecutiveDays; $i++) {
-            $data[$i] = $startDate->modify('+1 day');
-        }
-
-        return $data;
     }
 
     //http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections
