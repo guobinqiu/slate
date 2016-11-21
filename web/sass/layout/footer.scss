@@ -55,13 +55,13 @@
     overflow: hidden;
     background: url(../img/common/icons_common.png?v000011) no-repeat 0 -59px;
     position: absolute;
-    bottom: 230px;
+    bottom: 213px;
     right: -86px;
 	&:hover{
+		height: 56px;
 		text-align: center;
 	    font-size: 14px;
 	    background: #b8bbbf;
-	    height: 46px;
 	    line-height: 17px;
 	    padding-top: 10px;
 	    color: #fff;

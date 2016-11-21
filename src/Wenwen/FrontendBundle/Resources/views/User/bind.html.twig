@@ -121,7 +121,6 @@
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
 	<script type="text/javascript">
 	        var duration = 300;
-
 	        $(function() {
 	            {% if not loginForm.vars.valid %}
 	                $('.bindForm').slideDown(duration);
@@ -129,7 +128,6 @@
 	            {% else %}
 	                $('.bindForm').slideUp(duration);
 	            {% endif %}
-
 	            {% if not userForm.vars.valid %}
 	                $('.unbindForm').slideDown(duration);
 	                $('.skipBtn').val('注册');
@@ -137,7 +135,6 @@
 	                $('.unbindForm').slideUp(duration);
 	            {% endif %}
 	        });
-
 	        $('.bindBtn').on('click', function(e) {
 	            if ($('.bindForm').is(':hidden')) {
 	                $('.bindForm').slideDown(duration);
@@ -147,7 +144,6 @@
 	                e.preventDefault();
 	            }
 	        });
-
 	        $('.skipBtn').on('click', function(e) {
 	            if ($('.unbindForm').is(':hidden')) {
 	                $('.unbindForm').slideDown(duration);
@@ -157,7 +153,6 @@
 	                e.preventDefault();
 	            }
 	        });
-
 	        //前端验证form
 	        $("#bindPro").validate(
 	            {

@@ -59,9 +59,6 @@ _logout:
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 
-jili_emar:
-    resource: "@JiliEmarBundle/Resources/config/routing.yml"
-    prefix:   /emar
 
 #---------------------------------- vendors -------------------------------------
 gregwar_captcha_routing:

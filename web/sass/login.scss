@@ -111,7 +111,7 @@
 		input[type="text"], input[type="email"], input[type="password"], .regSex{
 			width: 95%;
 			height: 45px; 
-			line-height: 45px;
+			line-height: 45px; 
 			border: none;
 			font-size: 14px;
 			display: block;
@@ -245,7 +245,7 @@
 .loginUq{
 	li{
 		label{
-			width: 65px;
+			width: 65px; 
 			line-height: 45px;
 			vertical-align: middle;
 			position: absolute;
@@ -264,7 +264,7 @@
 				background: none;
 			}
 		}
-	}
+	} 
 }
 .mask{
 	position: fixed;

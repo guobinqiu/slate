@@ -1,9 +1,4 @@
 parameters:
-    user_source.logger.class: Jili\ApiBundle\Services\Logger\UserSourceLogger
-    monolog.logger.import_adw_cps.class: Jili\ApiBundle\Services\Logger\ImportAdwCpsLogger
-    monolog.processor.session_request.class: Jili\ApiBundle\Services\Session\SessionRequestProcessor
-
-    points_manager.class: Jili\ApiBundle\Services\Points\Manager
 
     offerwow_api_return.logger.class: Jili\ApiBundle\EventListener\OfferwowApiLogger
 
@@ -11,27 +6,12 @@ parameters:
     offer99_request.validation.class: Jili\ApiBundle\EventListener\Offer99RequestValidation
     offer99_request.processor.class:  Jili\ApiBundle\EventListener\Offer99RequestProcessor
 
-    duomai_request.validation.class: Jili\ApiBundle\Services\Duomai\DuomaiRequestValidation
-    duomai_request.processor.class:  Jili\ApiBundle\Services\Duomai\DuomaiRequestProcessor
-
-    adw_admin.data_confirmed.processor.class: Jili\ApiBundle\Services\AdwAdmin\DataConfirmedProcessor
-
-    rebate_activity.caculator.class: Jili\ApiBundle\EventListener\RebateActivity
-
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
     cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
 
-    check_in.listener.class: Jili\ApiBundle\EventListener\CheckInListener
-
-
-    point_manage.processor.class:  Jili\ApiBundle\EventListener\PointManageProcessor
+    point_manage.processor.class: Jili\ApiBundle\EventListener\PointManageProcessor
 
     send_mail.class:  Jili\ApiBundle\Service\SendMail
-
-# session 
-    session.task_list.class: Jili\ApiBundle\Services\Session\User\TaskList
-    session.points.class: Jili\ApiBundle\Services\Session\User\Points
-    session.user_configs.class: Jili\ApiBundle\Services\Session\User\Configs
 
 # 兑换结果处理
     exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
@@ -39,41 +19,11 @@ parameters:
     alerttoslack.class:  Jili\ApiBundle\Services\AlertToSlack
 
 services:
-    user_source.logger:
-        class: %user_source.logger.class%
-        arguments: ["@logger"]
-        tags:
-            - { name: monolog.logger, channel: user_source }
-
-    monolog.logger.import_adw_cps:
-        class: %monolog.logger.import_adw_cps.class%
-        arguments: ["@logger"]
-        tags:
-            - { name: monolog.logger, channel: import_adw_cps }
-
-    monolog.formatter.session_request:
-        class: Monolog\Formatter\LineFormatter
-        arguments:
-            - "%%datetime%%\t%%extra.token%%\t%%channel%%\t%%level_name%%\t%%message%%\n"
-
-    monolog.processor.session_request:
-        class: %monolog.processor.session_request.class%
-        arguments:  ["@session"]
-        tags:
-            - { name: monolog.processor, method: processRecord, channel: user_source }
-
-    # rebate_activity.point_caculator
-    rebate_point.caculator:
-        class: %rebate_activity.caculator.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
+    point_manage.processor:
+        class: %point_manage.processor.class%
         calls:
             - [setContainer, ["@service_container"] ]
-
-    points_manager:
-        class: %points_manager.class%
-        calls:
-            - [setLogger, ["@logger"]]
-            - [setEntityManager, ["@doctrine.orm.entity_manager"] ]
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     offerwow_api.init_log:
         class: %offerwow_api_return.logger.class%
@@ -104,65 +54,6 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
-
-    duomai_request.validation:
-        class: %duomai_request.validation.class%
-        arguments: [ %duomai_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setValidator, [ @validator ] ]
-
-    duomai_request.processor:
-        class: %duomai_request.processor.class%
-        arguments: [ %duomai_com% ]
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setSendMail, ["@send_mail"] ]
-
-    adw_admin.data_confirmed.processor: 
-        class: %adw_admin.data_confirmed.processor.class% 
-        calls:
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setLogger, [ @logger ] ]
-
-    check_in.listener:
-        class: %check_in.listener.class%
-        calls:
-            - [setContainer, ["@service_container"]]
-        arguments: ["@doctrine.orm.entity_manager"]
-    point_manage.processor:
-        class: %point_manage.processor.class%
-        calls:
-            - [setContainer, ["@service_container"] ]
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-
-    session.task_list:
-        class: %session.task_list.class%
-        arguments: [ %cache_config.session.task_list.keys%,%cache_config.session.task_list.duration%  ]
-        calls:
-            - [ setContainer, [ @service_container ] ]
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
-            - [ setCheckInListener , [ @check_in.listener ] ]
-
-    session.points:
-        class: %session.points.class%
-        arguments: [ %cache_config.session.points.keys%,%cache_config.session.points.duration%  ]
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
-
-    session.user_configs:
-        class: %session.user_configs.class%
-        arguments: [ %cache_config.session.user_configs.keys%  ]
-        calls:
-            - [ setLogger, [ @logger ] ]
-            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
-            - [ setSession, [ @session ] ]
 
     send_mail:
         class: %send_mail.class%

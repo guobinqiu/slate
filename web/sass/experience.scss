@@ -14,8 +14,8 @@
 		line-height: 36px;
 		font-size: 0;
 		position: absolute;
-	    left: -140px;
-	    top: 10px;
+	    left: -60px;
+        top: 0;
 		a{
 			width: 95px;
 			padding: 10px 2px;
@@ -59,14 +59,11 @@
 		}
 	}
 	.tabCon{
-		padding: 10px;
+		width: 1000px;
 		position: relative;
 		z-index: 1;
 		iframe{
 			background: url(../img/experience/loading.gif) no-repeat center 160px;
-		}
-		&.offer99{
-			padding: 10px 0 0;
 		}
 		.maintenance{
 			width: 100%;
