@@ -195,33 +195,37 @@ class OfferwowRequestService
         $dbConnection = $this->em->getConnection();
         $dbConnection->beginTransaction();
         try {
-            // 20160707 更新task_history
-            $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10));
-            // 20160707 offerwow 在 task_history中的 task_type = 5
-            //          没有必要把这个写在paramter里面，统一在代码里就可以，暂时先这样写死
-            $taskHistory = $taskRepository->findOneBy(array('orderId' => $offerwowOrder->getId(), 'taskType' => TaskType::CPA));
-            if (!$taskHistory) {
-                $taskHistoryClass = 'Jili\ApiBundle\Entity\TaskHistory0' . ($userId % 10);
-                $taskHistory = new $taskHistoryClass();
-                $taskHistory->setUserid($userId);
-                $taskHistory->setOrderId($offerwowOrder->getId());
-                $taskHistory->setOcdCreatedDate($happenTime);
-                $taskHistory->setCategoryType(CategoryType::OFFERWOW_COST);
-                $taskHistory->setTaskType(TaskType::CPA);
-                $taskHistory->setTaskName($taskName);
-                $taskHistory->setDate($happenTime);
-                $taskHistory->setPoint($points);
-                $taskHistory->setStatus($status);
-                $this->em->persist($taskHistory);
-            } else {
-                $taskHistory->setStatus($status);
-                $taskHistory->setDate($happenTime);
-                $taskHistory->setPoint($points);
-            }
+            
             $this->logger->debug(__METHOD__ . ' XXX. eventid=[' . $eventid . '] offerwow_order.status=[' . $status . '] ' . OrderBase::isCompleteStatus($status));
 
             // 20160707 给用户发放积分
             if (self::IMMEDIATE_1 == $immediate || self::IMMEDIATE_2 == $immediate) {
+                // 20161121 只有发积分的时候才更新task_history
+                // 因为以前在task history里做了状态跟踪，所以这里还得继续查找一下现有的task history里是否已经有记录了，有的话更新
+                // 暂时这样跑上一阵子，为了统一加积分的逻辑
+                $taskRepository = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10));
+                // 20160707 offerwow 在 task_history中的 task_type = 5
+                //          没有必要把这个写在paramter里面，统一在代码里就可以，暂时先这样写死
+                $taskHistory = $taskRepository->findOneBy(array('orderId' => $offerwowOrder->getId(), 'taskType' => TaskType::CPA));
+                if (!$taskHistory) {
+                    $taskHistoryClass = 'Jili\ApiBundle\Entity\TaskHistory0' . ($userId % 10);
+                    $taskHistory = new $taskHistoryClass();
+                    $taskHistory->setUserid($userId);
+                    $taskHistory->setOrderId($offerwowOrder->getId());
+                    $taskHistory->setOcdCreatedDate($happenTime);
+                    $taskHistory->setCategoryType(CategoryType::OFFERWOW_COST);
+                    $taskHistory->setTaskType(TaskType::CPA);
+                    $taskHistory->setTaskName($taskName);
+                    $taskHistory->setDate($happenTime);
+                    $taskHistory->setPoint($points);
+                    $taskHistory->setStatus($status);
+                    $this->em->persist($taskHistory);
+                } else {
+                    $taskHistory->setStatus($status);
+                    $taskHistory->setDate($happenTime);
+                    $taskHistory->setPoint($points);
+                }
+
                 $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
                 $user->setPoints($user->getPoints() + $points);
                 $user->setLastGetPointsAt(new \DateTime());
