@@ -9,6 +9,8 @@ parameters:
     cps_access_history.logger.class: Jili\ApiBundle\EventListener\CpsAccessHistoryFactory
     cps_order.factory.class: Jili\ApiBundle\EventListener\CpsOrderFactory
 
+    point_manage.processor.class: Jili\ApiBundle\EventListener\PointManageProcessor
+
     send_mail.class:  Jili\ApiBundle\Service\SendMail
 
 # 兑换结果处理
@@ -17,6 +19,11 @@ parameters:
     alerttoslack.class:  Jili\ApiBundle\Services\AlertToSlack
 
 services:
+    point_manage.processor:
+        class: %point_manage.processor.class%
+        calls:
+            - [setContainer, ["@service_container"] ]
+        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
 
     offerwow_api.init_log:
         class: %offerwow_api_return.logger.class%
