@@ -7,15 +7,15 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-full">
     <div class="row">
       <h3>过去6个月的注册情况</h3>
-      <table class='participationDailyReport table'>
+      <table class='participationDailyReport table table-striped table-hover table-header-rotated'>
         <thead>
           <tr>
-            <th>日期</th>
+            <th class="rotate"><div><span>日期</span></div></th>
             {% for title, value in return.titles %}
-            <th>{{title}}</th>
+            <th class="rotate"><div><span>{{title}}</span></div></th>
             {% endfor %}
           </tr>
         </thead>
@@ -23,9 +23,9 @@
         <tbody>
           {% for date, report in return.reports %}
           <tr>
-            <th>{{date}}</th>
+            <td>{{date}}</td>
             {% for route, count in report %}
-            <th>{{count}}</th>
+            <td>{{count}}</td>
             {% endfor %}
             </tr>
           {% endfor %}
@@ -40,3 +40,36 @@
 
 {% endblock %}
 
+<style type="text/css">
+  .container-full .row{
+    margin: 0 17px;
+  }
+  .table-header-rotated{
+    border-collapse: collapse;
+  }
+  .table-header-rotated td{
+    text-align: center;
+    padding: 10px 5px;
+    border: 1px solid #ccc;
+  }
+  .table-header-rotated th.rotate{
+    height: 110px;
+    white-space: nowrap;
+  }
+  .table-header-rotated th.rotate div{
+    transform: translate(25px, 51px);
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    width: 30px;
+  }
+  .table-header-rotated th.rotate div span{
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+  }
+  .table-header-rotated th.row-header{
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+  }
+</style>
