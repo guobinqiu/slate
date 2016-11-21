@@ -222,7 +222,7 @@ class AdminRecruitServiceTest extends WebTestCase
 
         $result = $this->adminRecruitService->getMonthlyReport();
 
-        var_dump($result);
+        //var_dump($result);
         $this->assertEquals(3, count($result['titles']), '应该有3个title');
         $this->assertEquals(2, count($result['reports']), '应该有2个report');
     }
