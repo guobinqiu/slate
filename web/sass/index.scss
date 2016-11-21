@@ -169,6 +169,8 @@
 			margin-left: 3px;
 			@include dib();
 			&.chinese{
+				font-size: 15px;
+				font-weight: bold;
 			}
 			&.curnum{
 				text-transform: uppercase;

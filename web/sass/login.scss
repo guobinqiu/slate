@@ -5,6 +5,11 @@
 @import "component/form";
 @import "component/quickLog";
 @import "index"; 
+.pp-section{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
 .login-wrapper{ 
 	position: absolute;
 	z-index: 1000;

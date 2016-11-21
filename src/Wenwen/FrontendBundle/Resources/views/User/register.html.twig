@@ -2,7 +2,6 @@
 {% block title %}{{ parent() }}注册{% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
 	<style type="text/css">
 		html,body{
@@ -20,7 +19,7 @@
 {% endblock %}
 
 {% block body %}
-	<div id="pagepiling">
+	<div class="pp-section">
 		<nav class="navbar navbar-fixed-top">
 	        <div class="container">
 	        	<div class="row">
@@ -117,112 +116,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="section hidden-xs" id="section1">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2>
-								<img class="img-responsive center-block" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
-							</h2>
-							<p class="sec1Intro">隶属于亚洲调查样本库，拥有150多万会员</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="refNum">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-4 num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
-						<div class="col-sm-4 num"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
-						<div class="col-sm-4 num"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		<div class="section hidden-xs" id="section2">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="process col-sm-6">
-							<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
-						</div>
-						<div class="pcImg col-sm-6">
-							<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="section hidden-xs" id="section3">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2>
-								<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
-							</h2>
-						</div>
-					</div>
-					<div class="voices row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<div class="contain-fluid">
-								<div class="row">
-									<div class="col-md-6">
-										<img class="item1 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
-									</div>
-									<div class="col-md-6">
-										<img class="item2 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6 hidden-sm">
-										<img class="item3 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
-									</div>
-									<div class="col-md-6 hidden-sm">
-										<img class="item4 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
-									</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		<div class="section hidden-xs" id="section4">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
-							<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
-							<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-									<div class="btns center-block"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div class="contact">
 		<a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
 	</div>
-	<div class="arrow hidden-xs">
-    	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
-		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
-    </div>
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
