@@ -1,0 +1,62 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}回答问卷{% endblock %}
+
+{% block stylesheet %}
+<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+                <div class="main-con">  
+                    <div class="qnWrap">
+                        <div class="qnCon">
+                            <div class="qnTxt">
+                                <h2></h2>
+                                <div class="subtit">
+                                    <strong>问卷名称：<span id="no">{{ title }}</span><br></strong>
+                                    <strong id="points">积分数：<span class="point" id="point">{{ completePoint }}分</span><br></strong>
+                                    <strong id="loi">时长：<span class="loi" id="loi">约 {{ loi }} 分钟</span><br></strong>
+                                    <strong id="difficulty">难度：
+                                        {% if difficulty == '普通' %}
+                                            <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                        {% elseif difficulty == '困难' %}
+                                            <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        {% elseif difficulty == '简单' %}
+                                            <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                                <div class="qnBtn">
+                                    <a id="survey-link" href="{{ url }}">开始回答问卷</a>
+                                </div>
+                                <br><br>
+                                {% set note = '
+                                <strong>注意事项：</strong><br>
+                                ※ 请认真诚实的回答问卷中的问题，避免被判定为作弊而失去获得积分的机会。<br>
+                                ※ 回答过程中有可能被筛选出本次调查的范围，此时依然可以获得少量积分作为补偿。<br>
+                                ※ 在回答问卷过程中，请不要中断，避免失去获得积分的机会。<br>
+                                ※ 请提前记录下问卷的编号和标题，在回答问卷过程中，遇到意外中断的情况时请联系客服。<br>
+                                ※ 请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+                                ※ 本问卷取得的信息将只用于无法特定到个人用户的数据统计。<br>
+                                ' 
+                                %}
+                                {% if content is defined and content != '' %}
+                                    {% set note = "#{note}※ #{content}" %}
+                                {% endif %}
+                                <div class="prompt" id="note">{{ note|raw }}</div>
+                                
+                            </div>
+                        </div>
+                        {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

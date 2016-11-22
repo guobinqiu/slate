@@ -10,44 +10,57 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-help-con w1000">
-     <div class="direct w1000">
-         <strong>您现在的位置：</strong><a href="{{ path('help_help') }}">帮助中心</a> &gt; <a href="{{ path('help_newGuide') }}">新手上路</a>
-     </div>
-     <div class="newGuide">
-          <div class="newGuideDetail" id="survey">
-			<h3>问卷列表</h3>
-			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
-               <dl>
-                    <dt><strong>第一步</strong>查看问卷邮件通知</dt>
-                    <dd><img src="{{ asset('img/help/guide1-1.jpg') }}" width="800" height="510"/></dd>
-                    <dt><strong>第二步</strong>进入问卷列表</dt>
-                    <dd><img src="{{ asset('img/help/guide1-2.jpg') }}" width="800" height="510"/></dd>
-                    <dt><strong>第三步</strong>回答问卷，赚取积分</dt>
-                    <dd><img src="{{ asset('img/help/guide1-3.jpg') }}" width="800" height="510"/></dd>
-               </dl>
-          </div>
-          <div class="newGuideDetail" id="vote">
-			<h3>快速问答</h3>
-			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
-	        	<dl>
-                    <dt><strong>第一步</strong>进入快速问答列表</dt>
-                    <dd><img src="{{ asset('img/help/guide2-1.jpg') }}" width="800" height="442"/></dd>
-                    <dt><strong>第二步</strong>进行投票</dt>
-                    <dd><img src="{{ asset('img/help/guide2-2.jpg') }}" width="800" height="600"/></dd>
-	        	</dl>
-          </div>
-          <div class="newGuideDetail" id="advertiserment">
-			<h3>任务体验</h3>
-			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
-               <dl>
-                    <dt><strong>第一步</strong>进入任务体验页面</dt>
-                    <dd><img src="{{ asset('img/help/guide4-1.jpg') }}" width="800" height="493"/></dd>
-                    <dt><strong>第二步</strong>进行任务体验</dt>
-                    <dd><img src="{{ asset('img/help/guide4-2.jpg') }}" width="800" height="510"/></dd>
-                    <dt><strong>第三步</strong>点击右上角个人中心->任务历史，查看该任务的最新状态</dt>
-                    <dd><img src="{{ asset('img/help/guide4-3.jpg') }}" width="800" height="350"/></dd>
-               </dl>
+<div class="breadWrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{{ path('help_help') }}">帮助中心</a></li>
+                  <li class="breadcrumb-item active">新手上路</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container top20"> 
+     <div class="main-help-con">
+          <div class="newGuide">
+               <div class="row">
+                    <div class="newGuideDetail" id="survey">
+          			<h3>问卷列表</h3>
+          			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
+                         <dl>
+                              <dt><strong>第一步</strong>查看问卷邮件通知</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide1-1.jpg') }}" width="800" height="510"/></dd>
+                              <dt><strong>第二步</strong>进入问卷列表</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide1-2.jpg') }}" width="800" height="510"/></dd>
+                              <dt><strong>第三步</strong>回答问卷，赚取积分</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide1-3.jpg') }}" width="800" height="510"/></dd>
+                         </dl>
+                    </div>
+                    <div class="newGuideDetail" id="vote">
+          			<h3>快速问答</h3>
+          			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
+          	        	<dl>
+                              <dt><strong>第一步</strong>进入快速问答列表</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide2-1.jpg') }}" width="800" height="442"/></dd>
+                              <dt><strong>第二步</strong>进行投票</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide2-2.jpg') }}" width="800" height="600"/></dd>
+          	        	</dl>
+                    </div>
+                    <div class="newGuideDetail" id="advertiserment">
+          			<h3>任务体验</h3>
+          			<a class="back" href="{{ path('help_newGuide') }}">返回新手上路»</a>
+                         <dl>
+                              <dt><strong>第一步</strong>进入任务体验页面</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide4-1.jpg') }}" width="800" height="493"/></dd>
+                              <dt><strong>第二步</strong>进行任务体验</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide4-2.jpg') }}" width="800" height="510"/></dd>
+                              <dt><strong>第三步</strong>点击右上角个人中心->任务历史，查看该任务的最新状态</dt>
+                              <dd><img class="img-responsive" src="{{ asset('img/help/guide4-3.jpg') }}" width="800" height="350"/></dd>
+                         </dl>
+                    </div>
+               </div>
           </div>
      </div>
 </div>

@@ -24,6 +24,9 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $url = $this->url();
         $auth = $this->sop_configure['auth'];
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
+        $this->logger->info(count($history_list));
+        $this->logger->info(var_export($history_list, true));
+
 
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -40,17 +43,21 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         //start inserting
         foreach ($history_list as $history) {
+            $survey_id = null;
+            if (isset($history['survey_id'])) {
+                $survey_id = $history['survey_id'];
+            }
 
             if ($this->skipReward($history)) {
                 $info = 'Skip reward';
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $info = 'Skip reward, already existed: app_mid: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -61,7 +68,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             ));
             if (!$respondent) {
                 $info = 'Skip reward, No SopRespondent for: ' . $history['app_mid'];
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -73,7 +80,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$user) {
                 // maybe panelist withdrew
                 $info = 'Skip reward, No User. Skip user_id: ' . $respondent->getUserId();
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
                 continue;
             }
@@ -102,13 +109,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->point($history) * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '您的好友' . $user->getNick() . '回答了一份SOP商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份' . $this->getVendorName() . '商业问卷'
                 );
 
                 $dbh->commit();
 
             } catch (\Exception $e) {
-                array_push($errorMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $e->getMessage()));
+                array_push($errorMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $e->getMessage()));
                 $error += 1;
                 $hasErrors = true;
                 $dbh->rollBack();
@@ -122,7 +129,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
                     $info = '给奖池注入积分' . $injectPoints;
                 }
-                array_push($successMessages, sprintf('%s, %s, %s', $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
             }
         } // end for
@@ -133,19 +140,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $content .= '<br/>Error:' . $error;
         if ($error > 0) {
             $content .= '<br/>----- Error details -----';
-            $content .= '<br/>id, app_mid, points, error';
+            $content .= '<br/>id, survey_id, app_mid, points, error';
             foreach($errorMessages as $i => $errorMessage) {
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $errorMessage);
             }
         }
         if ($success > 0) {
             $content .= '<br/>----- Success details -----';
-            $content .= '<br/>id, app_mid, points, info';
+            $content .= '<br/>id, survey_id, app_mid, points, info';
             foreach($successMessages as $i => $successMessage) {
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $successMessage);
             }
         }
-        $subject = 'Report of panel SOP reward points';
+        $subject = 'Report of panel ['. $this->getVendorName() .'] reward points';
         $this->notice($content, $subject);
 
         $this->logger->info("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
@@ -218,7 +225,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 if ($key == 'extra_info') {
                     foreach ($this->extraInfoKeys() as $extra_info_key) {
                         if (!isset($rec['extra_info'][$extra_info_key])) {
-                            throw new Exception("extra_info.$extra_info_key not exist", 1);
+                            throw new \Exception("extra_info.$extra_info_key not exist", 1);
                         }
                     }
                 }
@@ -253,6 +260,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function skipRewardAlreadyExisted($history);
 
     abstract protected function createParticipationHistory($history);
+
+    abstract protected function getVendorName();
 
     protected function notice($content, $subject)
     {

@@ -10,7 +10,6 @@
 	border: $block-border;
 }
 .main-register-active{
-	margin: 50px 80px 100px;
 	color: #a3a3a3;
 	.title{
 		font-size: 20px;
@@ -52,14 +51,9 @@
 		}
 	}
 	.profileWrap{
-		padding: 34px 80px 46px;
-		background: #eef2f2;
 		color: #333;
 		.row1{
 			font-size: 16px;
-			em{
-				font-size: 22px;
-			}
 		}
 		.row2{
 			margin-top: 13px;
@@ -78,7 +72,7 @@
 			margin-top: 20px;
 			text-align: center;
 			a{
-				padding: 21px 80px 24px 50px;
+				padding: 1.8rem 3.3rem;
 				font-size: 20px;
 				background: #1da18e;
 				color: #fff;
@@ -121,11 +115,11 @@
 				    }
 				    &:before{
 				    	top: -13px;
-				        right: -34px;
+				        right: -16px;
 				    }
 				    &:after {
 				        top: -21px;
-				        left: 20px;
+				        left: 2px;
 				    }
 			    }
 			}

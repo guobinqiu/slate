@@ -1,6 +1,3 @@
-imports:
-    - { resource: cache.yml }
-
 parameters:
     offer99_com:
         validations:

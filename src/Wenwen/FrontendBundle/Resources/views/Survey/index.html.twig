@@ -14,24 +14,30 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000 clearfix">
-	<div class="main-con-left survey-sub left">
-		<div class="survey">
-			<h1 class="visibleDesktop hiddenPhone hiddenTablet">问卷列表</h1>
-			{% if html_survey_list|length > 0 %}
-				<ul id="surveyList">
-					{% for html_survey in html_survey_list %}
-						<li>{{ html_survey | raw }}</li>
-					{% endfor %}
-				</ul>
-			{% else %}
-				<div id="noSurvey">
-					<img src="{{asset('img/common/noSurvey.png')}}" alt="您没有新的问卷">
-				</div>
-			{% endif %}
+	<div class="container">
+		<div class="survey panel panel-default">
+			<div class="panel-heading hidden-xs"><h3>问卷列表</h3></div>
+			<div class="panel-body">
+				{% if html_survey_list|length > 0 %}
+					<ul id="surveyList">
+						{% for html_survey in html_survey_list %}
+							<li>
+								<div class="row">
+									{{ html_survey | raw }}
+								</div>
+							</li>
+							<hr>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<div id="noSurvey">
+						<img src="{{asset('img/common/noSurvey.png')}}" alt="您没有新的问卷">
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
-</div>
+
 {% endblock %}
 
 {% block footer %}

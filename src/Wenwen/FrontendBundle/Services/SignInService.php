@@ -4,7 +4,9 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
+use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserSignInDetail;
 use Wenwen\FrontendBundle\Entity\UserSignInSummary;
@@ -13,10 +15,14 @@ class SignInService
 {
     private $em;
     private $prizeTicketService;
+    private $pointService;
 
-    public function __construct(EntityManager $em, PrizeTicketService $prizeTicketService) {
+    public function __construct(EntityManager $em,
+                                PrizeTicketService $prizeTicketService,
+                                PointService $pointService) {
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
+        $this->pointService = $pointService;
     }
 
     public function alreadySigned(User $user, \DateTime $date = null) {
@@ -98,6 +104,7 @@ class SignInService
             }
             $this->em->flush();
         }
+        $this->pointService->addPoints($user, 0, CategoryType::EVENT_SIGNIN, TaskType::RENTENTION, '签到');
     }
 
     //http://docs.doctrine-project.org/en/latest/reference/working-with-associations.html#filtering-collections

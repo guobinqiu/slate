@@ -77,13 +77,6 @@ class TopControllerTest extends WebTestCase
         $logger= $container->get('logger');
         $router = $container->get('router');
         $em = $this->em;
-        $cache_fn= $container->getParameter('cache_config.api.top_callboard.key');
-        // remove the cache file
-        $cache_data_path = $container->getParameter('cache_data_path');
-        $fn = $cache_data_path.DIRECTORY_SEPARATOR.$cache_fn.'.cached';
-
-        exec('rm -f ' .$fn);
-        $this->assertFileNotExists($fn);
 
         // request
         $url = $router->generate('jili_api_top_callboard');
@@ -91,7 +84,6 @@ class TopControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url ) ;
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode() );
-        $this->assertFileExists($fn);
 
         $exp_total = 4 ;//count($callboard);
 
@@ -118,11 +110,5 @@ class TopControllerTest extends WebTestCase
             $this->assertEquals($exp_links[$i]['href'], $li->eq($i)->filter('a')->eq(0)->attr('href'));
         }
 
-        // check the cache contents.
-        $this->assertFileExists($fn);
-
-
-        //$this->assertStringEqualsFile($fn, serialize($callboard) ,' the content in file ' .$fn);
-        exec('rm ' .$fn);
     }
 }

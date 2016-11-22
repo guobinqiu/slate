@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.exchange-dynamics{
+	line-height: 24px;
+	.panel-heading{
+		padding-top: 17px;
+		background: none;
+		border: none;
+	}
+	.panel-body{
+		padding: 0 20px;
+	}
+	.mask{
+		height: 335px;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+	}
+	ul{
+		position: absolute;
+		z-index: 1000;
+		top: 0;
+		left: 0;
+		width: 100%;
+	}
+	h2{
+		padding: 10px 0 0 0;
+	}
+	li{
+		padding: 15px 10px 0 5px;
+		border-bottom: $block-inner-border;
+		height: 40px;
+		@include ell();
+		b{
+			color: $main-color;
+		}
+		p{
+			@include ell();
+			.name{
+				    width: 40px;
+				    display: inline-block;
+				    vertical-align: -7px;
+				    text-overflow: ellipsis;
+				    overflow: hidden;
+			}
+		}
+		.date{
+			color: #bfbfbf;
+		}
+	}
+}

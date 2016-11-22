@@ -15,6 +15,7 @@
             <argument type="service" id="templating" />
             <argument type="service" id="app.prize_ticket_service" />
             <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="app.survey_partner_service" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">
@@ -92,13 +93,37 @@
         <service id="app.sign_in_service" class="Wenwen\FrontendBundle\Services\SignInService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
+            <argument type="service" id="app.point_service" />
         </service>
 
         <service id="app.ip_location_service" class="Wenwen\FrontendBundle\Services\IpLocationService">
+            <argument type="service" id="snc_redis.default" />
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
+        </service>
+
+        <service id="app.admin_survey_partner_service" class="Wenwen\FrontendBundle\Services\AdminSurveyPartnerService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="knp_paginator" />
+        </service>
+
+        <service id="app.admin_recruit_service" class="Wenwen\FrontendBundle\Services\AdminRecruitService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="snc_redis.default" />
+        </service>
+
+        <service id="app.survey_partner_service" class="Wenwen\FrontendBundle\Services\SurveyPartnerService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="app.point_service" />
+            <argument type="service" id="app.prize_ticket_service" />
         </service>
 
     </services>

@@ -42,8 +42,12 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $params['sig'];
         unset($params['sig']);
-        if (!$auth->verifySignature($sig, $params)) {
-            throw new Exception('签名验证失败');
+
+        $result = $auth->verifySignature($sig, $params);
+
+        if (!$result['status']) {
+            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
+            return new Response('authentication failed', 400);
         }
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);

@@ -11,142 +11,171 @@
 {% endblock %}
 
 {% block body %}
-    <div class="main-personal w1000 clearfix">
-        {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-        <div class="main-personal-right right rp-main-personal-right">
-            <h2>个人资料</h2>
-            <div class="main-personal-profile">
-                <div class="profile-base">
-                    <h3>基本信息</h3>
-                    <div class="con clearfix">
-                        <div class="face left col-t-3 col-m-12">
-                            <div class="face-wapper">
-                                <img id="avatar" src="{{ asset(user.iconPath|default('img/common/default_tx.png')) }}" alt="头像" width="90" height="90" />
+    <div class="container">
+        <div class="main-personal clearfix">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1"> 
+                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+                    <div class="main-personal-right rp-main-personal-right panel">
+                        <div class="main-personal-profile">
+                            <div class="profile-base">
+                                <h5>基本信息</h5>
+                                <hr>
+                                <div class="con clearfix row">
+                                    <div class="face col-xs-12 col-sm-3 text-right">
+                                        <div class="face-wapper">
+                                            <img id="avatar" src="{{ asset(user.iconPath|default('img/common/default_tx.png')) }}" alt="头像" width="90" height="90" />
 
-                                <form action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(uploadForm) }} id="uploadForm">
-                                    {{ form_label(uploadForm.icon, '设置头像', {'label_attr': {'class': 'set'}}) }}
-                                    {{ form_widget(uploadForm.icon, {'id': 'profile_attachment'}) }}
-                                    {{ form_widget(uploadForm.x, {'id': 'x'}) }}
-                                    {{ form_widget(uploadForm.y, {'id': 'y'}) }}
-                                    {{ form_widget(uploadForm.w, {'id': 'w'}) }}
-                                    {{ form_widget(uploadForm.h, {'id': 'h'}) }}
-                                    {{ form_row(uploadForm._token) }}
-                                    <p class="errorInfo"></p>
+                                            <form class="hidden-xs" action="{{ path('_profile_upload') }}" method="post" {{ form_enctype(uploadForm) }} id="uploadForm">
+                                                {{ form_label(uploadForm.icon, '设置头像', {'label_attr': {'class': 'set'}}) }}
+                                                {{ form_widget(uploadForm.icon, {'id': 'profile_attachment'}) }}
+                                                {{ form_widget(uploadForm.x, {'id': 'x'}) }}
+                                                {{ form_widget(uploadForm.y, {'id': 'y'}) }}
+                                                {{ form_widget(uploadForm.w, {'id': 'w'}) }}
+                                                {{ form_widget(uploadForm.h, {'id': 'h'}) }}
+                                                {{ form_row(uploadForm._token) }}
+                                                <p class="errorInfo"></p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <ul class="form text col-xs-12 col-sm-9">
+                                        <li class="nk">{{ user.nick[:12] }}</li>
+                                        <li class="hide rp-phone">
+                                            <label for="">昵称：</label>
+                                            <span>{{ user.nick[:12] }}</span></li>
+                                        <li>
+                                            <label for="">登录账号：</label>
+                                            <span>{{ user.email }}</span>
+                                        </li>
+                                        <li>
+                                            <label for="">当前积分：</label>
+                                            <span><strong id="points" name="points">{{ user.points }}</strong></span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="picCut">
+                                    <div class="imageInfo left"></div>
+                                    <div class="resDiv left">
+                                        <div class="resImg"><p class="resizeimage"></p></div>
+                                        <div class="resizeSubmit">
+                                            <input type='button' value='上传图片' name='resize' class='resBtn'/><br/>
+                                            <input type='button' value='取消上传' name='cancel' class='cancelBtn'/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="profile-detail">
+                                <h5>详细信息<small>&nbsp;&nbsp;您的个人信息将完全保密，请放心填写</small></h5>
+                                {% for flash_message in app.session.flashBag.get('success') %}
+                                    <div class="successMess">{{ flash_message }}</div>
+                                {% endfor %}
+
+                                <form action="{{ path('_profile_edit') }}" method="post" id="profileForm" name="profileForm" >
+                                    <ul class="con">
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.nick) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.nick) }}
+                                                <div class="text-left">{{ form_errors(userForm.nick) }}</div>
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.tel) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.tel) }}
+                                                <div class="text-left">{{ form_errors(userForm.tel) }}</div>
+                                            </div>    
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.sex) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                <span>{{ form_widget(userForm.userProfile.sex) }}</span>
+                                                <div class="text-left">{{ form_errors(userForm.userProfile.sex) }}</div>
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.birthday) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.birthday, {'attr': {'class':'laydate-icon' }}) }}
+                                                <div class="text-left">{{ form_errors(userForm.userProfile.birthday) }}</div>
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
+                                            <div class="col-xs-12 col-sm-3 text-right"><label>居住地：</label></div>
+                                            <div class="col-xs-12 col-sm-9">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.income) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.income) }}
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.profession) }}</div>
+                                            <div class="pronCon col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.profession) }}
+                                                {{ form_widget(userForm.userProfile.industry_code) }}
+                                                {{ form_widget(userForm.userProfile.work_section_code) }}
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.education) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.education) }}
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.hobby) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.hobby) }}
+                                            </div>    
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.personalDes) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.personalDes) }}
+                                            {{ form_errors(userForm.userProfile.personalDes) }}
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.favMusic) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.favMusic) }}
+                                                <div class="text-left">{{ form_errors(userForm.userProfile.favMusic) }}</div>
+                                            </div>
+                                        </li>
+
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.monthlyWish) }}</div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_widget(userForm.userProfile.monthlyWish) }}
+                                                <div class="text-left">{{ form_errors(userForm.userProfile.monthlyWish) }}</div>
+                                            </div>
+                                        </li>
+                                        <li class="row">
+                                            <div class="col-xs-12 col-sm-3"></div>
+                                            <div class="col-xs-12 col-sm-9">
+                                                {{ form_row(userForm._token) }}
+                                                <div class="btn"><span id="profile_save">保存</span></div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </form>
                             </div>
                         </div>
-                        <ul class="form text left col-t-9 col-m-12">
-                            <li class="nk">{{ user.nick[:12] }}</li>
-                            <li class="hide rp-phone">
-                                <label for="">昵称：</label>
-                                <span>{{ user.nick[:12] }}</span></li>
-                            <li>
-                                <label for="">登录账号：</label>
-                                <span>{{ user.email }}</span>
-                            </li>
-                            <li>
-                                <label for="">当前积分：</label>
-                                <span><strong id="points" name="points">{{ user.points }}</strong></span>
-                            </li>
-                        </ul>
                     </div>
-
-                    <div class="picCut">
-                        <div class="imageInfo left"></div>
-                        <div class="resDiv left">
-                            <div class="resImg"><p class="resizeimage"></p></div>
-                            <div class="resizeSubmit">
-                                <input type='button' value='上传图片' name='resize' class='resBtn'/><br/>
-                                <input type='button' value='取消上传' name='cancel' class='cancelBtn'/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="profile-detail">
-                    <h3>详细信息<b>您的个人信息将完全保密，请放心填写</b></h3>
-                    {% for flash_message in app.session.flashBag.get('success') %}
-                        <div class="successMess">{{ flash_message }}</div>
-                    {% endfor %}
-
-                    <form action="{{ path('_profile_edit') }}" method="post" id="profileForm" name="profileForm" >
-                        <ul class="con">
-                            <li>
-                                {{ form_label(userForm.nick) }}
-                                {{ form_widget(userForm.nick) }}
-                                {{ form_errors(userForm.nick) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.tel) }}
-                                {{ form_widget(userForm.tel) }}
-                                {{ form_errors(userForm.tel) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.sex) }}
-                                <span>{{ form_widget(userForm.userProfile.sex) }}</span>
-                                {{ form_errors(userForm.userProfile.sex) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.birthday) }}
-                                {{ form_widget(userForm.userProfile.birthday, {'attr': {'class':'laydate-icon' }}) }}
-                                {{ form_errors(userForm.userProfile.birthday) }}
-                            </li>
-
-                            <li>
-                                {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-                                <label>居住地：</label>
-                                {% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.income) }}
-                                {{ form_widget(userForm.userProfile.income) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.profession) }}
-                                <div class="pronCon">
-                                    {{ form_widget(userForm.userProfile.profession) }}
-                                    {{ form_widget(userForm.userProfile.industry_code) }}
-                                    {{ form_widget(userForm.userProfile.work_section_code) }}
-                                </div>
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.education) }}
-                                {{ form_widget(userForm.userProfile.education) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.hobby) }}
-                                {{ form_widget(userForm.userProfile.hobby) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.personalDes) }}
-                                {{ form_widget(userForm.userProfile.personalDes) }}
-                                {{ form_errors(userForm.userProfile.personalDes) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.favMusic) }}
-                                {{ form_widget(userForm.userProfile.favMusic) }}
-                                {{ form_errors(userForm.userProfile.favMusic) }}
-                            </li>
-
-                            <li>
-                                {{ form_label(userForm.userProfile.monthlyWish) }}
-                                {{ form_widget(userForm.userProfile.monthlyWish) }}
-                                {{ form_errors(userForm.userProfile.monthlyWish) }}
-                            </li>
-                        </ul>
-
-                        {{ form_row(userForm._token) }}
-
-                        <div class="btn"><span id="profile_save">保存</span></div>
-                    </form>
                 </div>
             </div>
         </div>

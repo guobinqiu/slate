@@ -129,4 +129,8 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
             'point_type'
         );
     }
+
+    protected function getVendorName() {
+        return 'SOP Additional';
+    }
 }

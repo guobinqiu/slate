@@ -1,0 +1,42 @@
+<div class="survey-item ">
+    <div class="title">
+        {% if partnerResearch.is_answered == 1 %}
+            {% if partnerResearch.title|length > 35 %}
+                {{ partnerResearch.title[:35] }}...
+            {% else %}
+                {{ partnerResearch.title }}
+            {% endif %}
+        {% else %}
+            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link">
+                {% if partnerResearch.title|length > 35 %}
+                    {{ partnerResearch.title[:35] }}...
+                {% else %}
+                    {{ partnerResearch.title }}
+                {% endif %}
+                <span></span>
+            </a>
+        {% endif %}
+
+        
+    </div>
+    <ul class="con clearfix">
+        <li class="last">
+            难度：
+            {% if partnerResearch.loi <= 10 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% elseif partnerResearch.loi <= 30 %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
+            {% else %}
+                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+<div class="rewardPoint"><i>{{ partnerResearch.complete_point }}</i>积分</div>
+<div class="survey-btn">
+    {% if partnerResearch.is_answered == 1 %}
+        <span class="disabled">回答完毕</span>
+    {% else %}
+        <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" >可回答</a>
+    {% endif %}
+</div>

@@ -6,457 +6,184 @@ $h-font-size: 18px;
 $h-small-font-size: 14px;
 $survey-border-color: #f6f6f6;
 @import "font-awesome/scss/font-awesome.scss";
-.main-con-left{
-	h1{
-		height: 55px;
-		line-height: 55px;
-		font-size: 24px;
-		color: $main-title-color2;
-		padding: 4px 0 12px 8px;
-	}
-	em{
-		width: 24px;
-		height: 26px;
-		margin-right: 11px;
-		background: url(../img/common/titIco.png) no-repeat 0 -1px;
-		vertical-align: middle; 
-		@include dib();
-	}
-	.title{
-		font-size: 16px;
-		font-weight: bold;
-		height: 29px;
-	    line-height: 29px;
-	    @include ell();
-		a{
-			width: 70%;
-			color: $list-tit-color;
-			&:hover{
-				color: $hover-color;
-			}
-		}
-	}
-	ul{
-		width: 100%;
-	}
-	li{
-		padding: 30px 20px 11px;
-		position: relative;
-		z-index: 1;
-		span{
-			vertical-align: top;
-			@include dib();	
-		}
-	}
-}
-.survey{
-	padding-bottom: 40px;
-	.survey-item{
-		width: 70%;
-		display: inline-block;
-		li{
-			text-align: left;
-			padding: 0;
-			margin-right: 15px;
-			border: none;
-			height: 22px;
-			line-height: 22px;
-			color: $weak-color;
-			span.difficulty{
-				vertical-align: -1px;
-				i{
-					color: #ffac13;
-					font-size: 17px;
-					margin-right: 4px;
-				}
-			}
-		}
-		.proRow{
-			color: $weak-color;
-		    line-height: 20px;
-		    font-size: 12px;
-		    width: 84%;
-		    margin-bottom: 3px;
-		    .proNum{
-		    	color: $weak-color;
-		    	&:after{
-		    		content: '';
-		    		width: 1px;
-		    		height: 11px;
-		    		display: inline-block;
-		    		border-right: 1px solid #E0E5E5;
-		    		margin: 0 10px;
-		    	}
-		    }
-	    	i{
-	    		color: $list-tit-color;
-	    		font-weight: bold;
-	    	}
-
-		}
-	}
-	.proItem{
-		position: relative;
-		.proNew{
-			height: 24px;
-		    line-height: 24px;
-		    padding: 0 4px;
-			margin-left: 5px;
-			position: absolute;
-			left: 66px;
-			top: 2px;
-			z-index: 2;
-			display: inline-block;
-			color: #60666C;
-			white-space: nowrap;
-			background: #fffbed;
-			
-			i{
-				color: #56bc2c;
-				margin-right: 5px;
-				font-size: 15px;
-			    vertical-align: -1px;
-			}
-			span{
-				width: 368px;
-				font-weight: normal;
-				font-size: 12px;
-				@include ell();
-				&:hover{
-					width: 508px;
-				}
-			}
-			
-		}
-	}
-	.survey-btn{
-		cursor: default;
-		position: absolute;
-		right: 12px;
-		top: 23px;
-		a{
-			color: #fff;
-			width: 93px;
-			height: 30px;
-			line-height: 30px;
-			text-align: center;
-			font-size: 13px;
-			@include btn();			
-			@include dib();
-		}
-		.disabled{
-			color: #fff;
-			background: #a7a7a7;
-			border: 1px solid #a7a7a7;
-			border-radius: 3px;
-			width: 93px;
-			height: 30px;
-			line-height: 30px;
-			text-align: center;
-			font-size: 12px;
-			@include dib();
-		}
-	}
-	.proBtn{
-		z-index: 1;
-	}
-	li{
-		padding: 27px 24px 12px 10px;
-		border-bottom: 1px solid #E0E5E5;
-		&:last-child{
-			border: none!important;
-		}
-		.survey-item li{
-			border-bottom: none!important;
-		}
-	}
-	.title{
-		font-size: 16px;
-		height: 28px;
-	    line-height: 28px;
-		color: $list-tit-color; 
-		// margin-bottom: 5px;
-		white-space: nowrap;
-	}
-	.noSurvey{
-		width: 431px;
-		margin: 55px auto;
-		img{
-			display: block;
-		    max-width: 100%;
-		    height: auto;
-		}
-	}
-}
-.rewardPoint{
-	width: 90px;
-    display: inline-block;
-    color: $weak-color;
-    vertical-align: 11px;
-    text-align: right;
-    position: absolute;
-    right: 121px;
-    top: 29px;
-	i{
-		font-size: 22px;
-		color: $orange-color;
-		margin-right: 4px;
-		vertical-align: -2px;
-		font-weight: bold;
-	}
-}
-.vote .vote-btn{
-	color: #fff;
-	width: 93px;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	position: absolute;
-	z-index: 1000;
-	top: 25px;
-	right: 12px;
-	font-size: 13px;
-	cursor: pointer;
-	@include btn();			
-	@include dib();
-}
-.vote .voteDisabled{
-	color: #fff;
-	background: #a7a7a7;
-	border: 1px solid #a7a7a7;
-	border-radius: 3px;
-	width: 93px;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
-	font-size: 12px;
-	@include dib();
-}
-.vote{
-	li{
-		padding: 22px 10px 2px 10px;
-		&:last-child:after{
-			border-bottom: none;
-		}
-		&:after{
-			content: '';
-		    position: absolute;
-		    width: 88%;
-		    height: 100%;
-		    top: 0;
-	        right: 0;
-		    border-bottom: 1px solid #E0E5E5;
-		    z-index: -1;
-		}
-		&.vote-new{
-			.tips{
-				position: absolute;
-				z-index: 1000;
-				top: 8px;
-				right: -3px;
-				i{
-					font-size: 14px;
-					color: #b08400;
-				}
-				span{ 
-				    width: 13px;
-				    height: 13px;
-				    line-height: 13px;
-				    border-radius: 50%;
-				    background: #979797;
-				    color: #fff;
-				    text-align: center;
-				    cursor: pointer;
-				}
-			}
-			.tips-con{
-				position: absolute;
-				z-index: 1999;
-				top: -40px;
-				right: -3px;
-				padding-bottom: 10px;
-				width: 270px;
-				display: none;
-				p{
-					padding-left: 8px;
-					line-height: 32px;
-					background: #fff;
-					border: 1px solid #dedddc;
-					border-radius: 3px;
-					@include box-shadow(0px 2px 2px #a3a3a3);
-				}
-				b{
-					position: absolute;
-					z-index: 1999;
-					bottom: 1px;
-					right: 0;
-					width: 9px;
-					height: 10px;
-					background: url(../img/common/icons_arrow.png) right bottom no-repeat;
-					@include dib();
-				}
-			}
-		}
-	}
-}
-.vote-img{
-	margin-right: 10px;
-}
-.vote-txt{
-	width: 62%;
-	color: $sub-con-color;
-	line-height: 22px;
-	p{
-		padding-left: 7px;
-		margin-top: 5px;
-		font-size: 13px;
-		line-height: 23px;
-		color: $sub-con-color;
-		height: 49px;
-		overflow: hidden;
-	}
-	.relate{
-		margin-left: 3px;
-		span{
-			color: $weak-color;
-			&.vline{
-				width: 1px;
-				height: 13px;
-				border-right: 1px solid #E0E5E5;
-				vertical-align: -2px;
-				margin: 0 11px;
-			}
-		}
-	}
-}
-.votePoint{
-	width: 90px;
-    display: inline-block;
-    color: #A7B2BE;
-    vertical-align: 11px;
-    text-align: right;
-    position: absolute;
-    right: 121px;
-    top: 37px;
-	i{
-		font-size: 22px;
-		color: $orange-color;
-		margin-right: 4px;
-		vertical-align: -2px;
-		font-weight: bold;
-	}
-}
 $count-font-color: #b08400;
 $count-font-size: 20px;
 $count-border: 1px solid #dedddc;
 $count-bg: #f5f5f5;
-.countdown{
-	width: 100px;
-	color: $count-font-color;
-	font-size: 16px;
-	position: absolute;
-	z-index: 1000;
-	top: 61px;
-	right: 0;
-	height: 25px; 
-	line-height: 25px;
-	span{
-		width: 20px;
+.survey{
+	.panel-heading{
+		padding: 18px 28px;
+		background: none;
+		h3{
+			color: #828D9B;
+		}
+		.more{
+			color: #7F8390;
+			margin-top: 5px;
+			i{
+				margin-left: 5px;
+			}
+		}
+	}
+	.panel-body{ 
+		padding-bottom: 28px;
+		ul{
+			hr{
+				margin-top: 15px;
+				margin-bottom: 15px;
+				&:last-child{
+					display: none;
+				}
+			}
+		}
+	}
+	.survey-info{
+		margin-top: 8px;
+	}
+}
+#surveyList{
+	& > li{
+		.row{
+			padding: 0 44px 0 25px;
+		}
+		.rewardPoint{
+			float: right;
+			white-space: nowrap;
+			margin-top: 3px;
+			i {
+			    font-size: 22px;
+			    color: #f55e00;
+			    margin-right: 4px;
+			    vertical-align: -2px;
+			    font-weight: bold;
+			}
+		}
+	}
+}
+.survey-item{
+	.title{
+		font-size: 16px;
+		line-height: 28px;
+		font-weight: bold;
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+		a{
+			color: #475a70;
+			
+		}
+	}
+	.proCon{
+		.proRow{
+			color: #9296a1;
+			i{
+				color: #475a70;
+			}
+		}
+	}
+	li{
+		color: #9296a1;
+		span.difficulty{
+			color: #ffac13;
+		    font-size: 17px;
+		    margin-right: 4px;
+		    white-space: nowrap;
+		    i{
+		    	margin-right: 3px;
+		    }
+		}
+	}
+}
+.survey-btn{
+	cursor: default;
+	text-align: right;
+	a{
+		color: #fff;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
 		text-align: center;
+		font-size: 13px;
+		float: right;
+		@include btn();			
+		@include dib();
 	}
-	b{
-		padding: 0 5px;
-	}
-}
-.proText{
-	width: 187px;
-	height: 100px;
-	margin: 115px 22px 0 22px;
-	overflow-y: scroll;
-	font-size: 14px;
-	line-height: 24px;
-	&::-webkit-scrollbar {
-	    -webkit-appearance: none;
-	    width: 7px;
-	}
-	&::-webkit-scrollbar-thumb {
-	    border-radius: 4px;
-	    background-color: rgba(0,0,0,.3);
-	    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3);
-	}
-	.em{
-		color: $main-color;
+	.disabled{
+		color: #fff;
+		background: #a7a7a7;
+		border: 1px solid #a7a7a7;
+		border-radius: 3px;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		font-size: 13px;
+		float: right;
+		@include dib();
 	}
 }
-.proClose{
-	width: 37px;
-	height: 37px;
-	position: absolute; 
-	right: 0;
-	top: 0; 
-	cursor: pointer;
-}
-.topTip{
-	position: absolute;
-	right: 69px;
-	top: 95px;
-	z-index: 9999;
-	span{
-		position: relative;
-		background: #fff3eb;
-		border: 1px solid #f2d9c9;
-		padding: 5px 7px;
-		line-height: 17px;
-		color: $sub-con-color;
-		@include border-radius(3px);
-		&:after, &:before {
-			top: 50%;
-			right: 100%;
-			border: solid transparent;
-			content: " ";
-			height: 0;
-			width: 0;
-			position: absolute;
-			pointer-events: none;
-		}
-		&:after {
-			border-color: rgba(255, 243, 235, 0);
-			border-right-color: #fff3eb;
-			border-width: 6px;
-			margin-top: -6px;
-		}
-		&:before {
-			border-color: rgba(232, 215, 204, 0);
-			border-right-color: #f2d9c9;
-			border-width: 7px;
-			margin-top: -7px;
+@media only screen and (min-width: 992px) { 
+	#surveyList{
+		&>li{
+			.rewardPoint{
+				float: left;
+				text-align: right;
+				width: 90px;
+			}
 		}
 	}
-	.proSurPop{
-	    width: 240px;
-	    height: 245px;
-	    background: url(../img/questionnaire/profilePop.png) right bottom no-repeat;
-	    position: absolute;
-	    left: -230px;
-	    top: -17px;
-	 }
-	 .proText{
-	    width: 187px;
-	    height: 100px;
-	    margin: 115px 22px 0 22px;
-	    overflow-y: scroll;
-	    font-size: 14px;
-	    line-height: 24px;
-	    .em{
-	    	color: $main-color;
-	    }
-	 }
-	 .proClose{
-	    width: 37px;
-	    height: 37px;
-	    position: absolute; 
-	    right: 0;
-	    top: 0; 
-	    cursor: pointer; 
-	 }
+}
+@media only screen and (min-width: 768px){
+	#surveyList{
+		&>li{
+			.row{
+				padding: 0 17px;	
+			}
+		}
+	}
+}
+@media only screen and (max-width: 767px) { 
+	#surveyList{
+		&>li{
+			.row{
+				padding: 0 17px;	
+			}
+			.rewardPoint{
+				width: 75px;
+				text-align: right;
+				float: left;
+			}
+		}
+	}
+	.survey-info{
+		white-space: nowrap;
+	}
+	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+		width: 88px!important;
+	}
+	.mainWrap{
+		overflow: hidden;
+		.container{
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+}
+@media only screen and (max-width: 360px) { 
+	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+		width: 70px!important;
+	}
+	#surveyList>li .row{
+		padding: 0 6px;
+	}
 }

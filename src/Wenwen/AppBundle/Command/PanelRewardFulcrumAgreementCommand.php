@@ -93,4 +93,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $em->flush();
     }
 
+    protected function getVendorName() {
+        return 'Fulcrum Agreement';
+    }
 }
