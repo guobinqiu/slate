@@ -68,4 +68,7 @@ $(function(){
     }
     //加载图片
     var num = 0; showImg(num);
+
+    //tooltip
+    $('[data-toggle="tooltip"]').tooltip();
 });
