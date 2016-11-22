@@ -87,6 +87,9 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
+    /**
+     * @expectedException   LogicException
+     */
     public function testIsSignatureValid_on_missing_time() {
         $params = array(
             'aaa' => 'aaa',
@@ -94,11 +97,12 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertFalse(
-            Util::isSignatureValid($sig, $params, 'hogehoge')
-        );
+        Util::isSignatureValid($sig, $params, 'hogehoge');
     }
 
+    /**
+     * @expectedException   LogicException
+     */
     public function testIsSignatureValid_on_too_old_time() {
         $now = 100000;
         $time = $now - Util::$SIG_VALID_FOR_SEC - 1;
@@ -109,9 +113,7 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertFalse(
-            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
-        );
+        Util::isSignatureValid($sig, $params, 'hogehoge', $now);
     }
 
     public function testIsSignatureValid_on_lower_limit_time() {
@@ -124,11 +126,13 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertTrue(
-            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
-        );
+
+        Util::isSignatureValid($sig, $params, 'hogehoge', $now);
     }
 
+    /**
+     * @expectedException   LogicException
+     */
     public function testIsSignatureValid_on_invalid_sig() {
         $now = 100000;
         $time = $now;
@@ -139,10 +143,9 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertFalse(
-            Util::isSignatureValid($sig. "x", $params, 'hogehoge', $now)
-        );
+        Util::isSignatureValid($sig. "x", $params, 'hogehoge', $now);
     }
+
 
     public function testIsSignatureValid_on_upper_limit_time() {
         $now = 100000;
@@ -154,11 +157,12 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertTrue(
-            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
-        );
+        Util::isSignatureValid($sig, $params, 'hogehoge', $now);
     }
 
+    /**
+     * @expectedException   LogicException
+     */
     public function testIsSignatureValid_on_too_new_time() {
         $now = 100000;
         $time = $now + Util::$SIG_VALID_FOR_SEC + 1;
@@ -169,9 +173,7 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         );
         $sig = Util::createSignature($params, 'hogehoge');
 
-        $this->assertFalse(
-            Util::isSignatureValid($sig, $params, 'hogehoge', $now)
-        );
+        Util::isSignatureValid($sig, $params, 'hogehoge', $now);
     }
 
     /**

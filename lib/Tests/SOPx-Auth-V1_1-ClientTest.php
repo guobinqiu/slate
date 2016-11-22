@@ -76,12 +76,13 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
         $sig = $req->payload['sig'];
         unset($req->payload['sig']);
 
-        $this->assertTrue(
-            $this->auth->verifySignature(
+        $result = $this->auth->verifySignature(
                 $sig,
                 $req->payload
-            )
-        );
+            );
+
+
+        $this->assertTrue($result['status']);
     }
 
     public function testVerifySignature_on_JSON() {
@@ -91,11 +92,27 @@ class SOPx_Auth_V1_1_ClientTest extends \PHPUnit_Framework_TestCase {
 
         $sig = $req->headers['X-Sop-Sig'];
 
-        $this->assertTrue(
-            $this->auth->verifySignature(
+        $result = $this->auth->verifySignature(
                 $sig,
                 $req->payload
-            )
+            );
+
+        $this->assertTrue($result['status']);
+    }
+
+    public function testVerifySignature_on_exception() {
+        $req = $this->auth->createRequest(
+            'POSTJSON', 'http://hoge/', array('aaa' => 'aaa')
         );
+
+        $sig = $req->headers['X-Sop-Sig'];
+
+        $result = $this->auth->verifySignature(
+                'fakesig',
+                $req->payload
+            );
+
+        $this->assertTrue(!$result['status']);
+        $this->assertEquals('Signature is not match. sig=fakesig real_sig=' . $sig, $result['msg']);
     }
 }
