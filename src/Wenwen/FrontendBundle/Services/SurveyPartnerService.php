@@ -317,7 +317,7 @@ class SurveyPartnerService
             return $rtn;
         }
         // 都没匹配上
-        $rtn['result'] = 'locationCheckFailed';
+        $rtn['result'] = 'locationCheckFailed . city=' . $locationInfo['city'] . ' province=' . $locationInfo['province'];
         $this->logger->debug(__METHOD__ . ' END');
         return $rtn;
     }
