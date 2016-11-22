@@ -79,6 +79,15 @@ $count-bg: #f5f5f5;
 			i{
 				color: #475a70;
 			}
+			.proIn{
+				color: #4caf50;
+				font-size: 16px;
+				.proIn + .tooltip > .tooltip-inner{
+				    max-width: 150px;
+				    width: 150px; 
+				    text-align: left;
+				}
+			}
 		}
 	}
 	li{
