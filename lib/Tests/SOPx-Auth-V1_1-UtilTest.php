@@ -116,12 +116,9 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         Util::isSignatureValid($sig, $params, 'hogehoge', $now);
     }
 
-    /**
-     * @expectedException   LogicException
-     */
     public function testIsSignatureValid_on_lower_limit_time() {
         $now = 100000;
-        $time = $now - Util::$SIG_VALID_FOR_SEC -10;
+        $time = $now - Util::$SIG_VALID_FOR_SEC;
         $params = array(
             'aaa' => 'aaa',
             'bbb' => 'bbb',
@@ -149,12 +146,10 @@ class SOPx_Auth_V1_1_UtilTest extends \PHPUnit_Framework_TestCase {
         Util::isSignatureValid($sig. "x", $params, 'hogehoge', $now);
     }
 
-    /**
-     * @expectedException   LogicException
-     */
+
     public function testIsSignatureValid_on_upper_limit_time() {
         $now = 100000;
-        $time = $now + Util::$SIG_VALID_FOR_SEC + 1;
+        $time = $now + Util::$SIG_VALID_FOR_SEC;
         $params = array(
             'aaa' => 'aaa',
             'bbb' => 'bbb',
