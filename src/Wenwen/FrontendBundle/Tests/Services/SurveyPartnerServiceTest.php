@@ -255,7 +255,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $locationInfo['city'] = '天津市';
 
         $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
-        $this->assertEquals('locationCheckFailed', $rtn['result'] );
+        $this->assertEquals('locationCheckFailed . city=' .$locationInfo['city']. ' province=' . $locationInfo['province'], $rtn['result'] );
     }
 
     public function testIsValidSurveyPartnerForUser_locationOK(){
