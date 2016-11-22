@@ -9,6 +9,9 @@ body{
 a:hover{
 	text-decoration: none;
 }
+#top-header{
+	margin-bottom: 0;
+}
 .bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{
 	cursor: pointer!important;
 	margin: initial!important;
@@ -111,7 +114,7 @@ a:hover{
 	}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
 	.bannerWrap{
 		padding-bottom: 2rem;
 	}
@@ -132,9 +135,8 @@ a:hover{
 				}
 			}
 			.rule{
-				padding: 0;
+				padding: 0; 
 			}
 		}
 	}  
 }
-

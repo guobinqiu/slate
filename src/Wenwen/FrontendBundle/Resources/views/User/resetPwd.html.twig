@@ -10,35 +10,42 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000">
-	<div class="form main-resetPwd">
-		<div class="step2">
-			<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
-			<form action="{{ path('_user_resetPass', {'reset_password_token': reset_password_token }) }}" method="post" novalidate="novalidate">
-				<div class="main-resetPwd-con">
-					<ul>
-						<li>
-							<div>
-								{{ form_label(form.password.first) }}
-								{{ form_widget(form.password.first) }}
-								{{ form_errors(form.password.first) }}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12">
+			<div class="main-con">
+				<div class="form main-resetPwd">
+					<div class="step2">
+						<div class="steps"><span class="pass">1 输入邮箱地址</span><span class="active">2 重置密码</span><span class="last">3 完成</span></div>
+						<form action="{{ path('_user_resetPass', {'reset_password_token': reset_password_token }) }}" method="post" novalidate="novalidate">
+							<div class="main-resetPwd-con">
+								<ul>
+									<li>
+										<div>
+											{{ form_label(form.password.first) }}
+											{{ form_widget(form.password.first) }}
+											{{ form_errors(form.password.first) }}
+										</div>
+									</li>
+									<li>
+										<div>
+											{{ form_label(form.password.second) }}
+											{{ form_widget(form.password.second) }}
+											{{ form_errors(form.password.second) }}
+										</div>
+									</li>
+								</ul>
+								{{ form_row(form._token) }}
+								<input class="btn" type="submit" value="下一步" />
 							</div>
-						</li>
-						<li>
-							<div>
-								{{ form_label(form.password.second) }}
-								{{ form_widget(form.password.second) }}
-								{{ form_errors(form.password.second) }}
-							</div>
-						</li>
-					</ul>
-					{{ form_row(form._token) }}
-					<input class="btn" type="submit" value="下一步" />
+						</form>
+					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </div>
+
 {% endblock %}
 
 {% block footer %}

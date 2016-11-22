@@ -14,19 +14,26 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000">
-	<div class="main-con-experience">
-		{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
-		<div class="tabCon offer99">
-			<iframe src='#' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
-			<input type="hidden" value="{{ offer99_com.pid }}" id="pid">
-			<input type="hidden" value="{{ app.session.get('uid') }}" id="userid">
-			<div class="maintenance">
-				<div class="con" style=" margin-left: -38px;">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
+	<div class="container">
+        <div class="main-con center-block">
+			<div class="main-con-experience">
+				{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="tabCon offer99 center-block">
+							<iframe src='#' style='width:1000px;height:1140px;' scrolling='auto' frameborder='no' border='0' allowTransparency='true'></iframe>
+							<input type="hidden" value="{{ offer99_com.pid }}" id="pid">
+							<input type="hidden" value="{{ app.session.get('uid') }}" id="userid">
+							<div class="maintenance">
+								<img class="img-responsive center-block" src="{{ asset('img/questionnaire/normalface.png') }}" alt=""><br>
+								<div class="con">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}
 
 {% block footer %}

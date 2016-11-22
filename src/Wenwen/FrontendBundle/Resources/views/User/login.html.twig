@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
 	<style type="text/css">
 		html,body{
@@ -25,135 +24,73 @@
 {% endblock %}
 
 {% block body %}
-	<div id="pagepiling">
+	<div class="pp-section">
+		<nav class="navbar navbar-fixed-top">
+	        <div class="container">
+	        	<div class="row">
+        			<div class="col-xs-12">
+			        	<div class="navbar-header pull-left">
+							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
+								<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+								<!--[if lt IE 9]>
+									<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+								<![endif]-->
+			        		</a>
+			        	</div>
+						<a href="{{ path('_user_reg') }}" class="btn pull-right top17" type="button">注册</a>
+					</div>
+	        	</div>
+			</div>
+		</nav>
 		<div class="section" id="section0">
-			<h1>
-				<a href="{{ path('_homepage') }}" title="首页">
-					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-					<!--[if IE]>
-						<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
-					<![endif]-->
-				</a>
-			</h1>
 			<div class="sectionCon">
-			    <div class="login loginUq">
-			        <div class="login-con logWrap">
-						<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
-							<div class="error errorLogBack">{{ form_errors(form) }}</div>
-							<ul>
-								<li class="liner">
-									{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
-									<div class="error">{{ form_errors(form.email) }}</div>
-								</li>
-								<li>
-									{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
-									<div class="error">{{ form_errors(form.password) }}</div>
-								</li>
-							</ul>
-							{{ form_row(form.fingerprint) }}
-							{{ form_row(form._token) }}
-							<input type="submit" class="login-btn" value="登录"/>
-			            </form>
-			            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
-			            <div class="subCon login-btn-others">
-			            	<p class="othersLine">快捷登录</p>
-			                <p class="othersItem">
-								<a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a>
-								<a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a>
-								<a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a>
-							</p>
-			            </div>
-			        </div>
-			    </div>
-			</div>
-		</div>
-		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section1">
-			<div class="sectionCon">
-				<h2>
-					<img class="visibleDesktop visiblePhoneLan hiddenPhonePor hiddenTablet" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
-					<img class="visiblePhonePor hiddenPhoneLan visibleTablet hiddenDesktop" src="{{ asset('img/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
-				</h2>
-				<p class="briefIntro">隶属于亚洲调查样本库，拥有150多万会员</p>
-			</div>
-			<div class="refNum">
-				<div class="num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
-				<div class="num"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
-				<div class="num"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
-			</div>
-		</div>
-		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section2">
-			<div class="sectionCon">
-				<h2><img src="{{ asset('img/landingpage/text02.png') }}" alt="怎样赚积分"></h2>
-				<div class="scoredPoints">
-					<div class="scoredPointsItem">
-						<div class="icon"></div>
-						<div class="liner"></div>
-						<div class="con">
-							<h3>免费注册会员</h3>
-							<p>只需两步就可以完成注册。</p>
-						</div>
-					</div>
-					<div class="scoredPointsItem">
-						<div class="icon icon2"></div>
-						<div class="liner liner2"></div>
-						<div class="con">
-							<h3>回答问卷赚积分</h3>
-							<p>回答问卷，快速问答投票，做任务都可以赚取积分。</p>
-						</div>
-					</div>
-					<div class="scoredPointsItem">
-						<div class="icon icon3"></div>
-						<div class="con">
-							<h3>兑换奖品</h3>
-							<p>1元=100积分，奖品有支付宝现金，亚马逊礼品卡，手机话费，上网流量包等。</p>
+				<div class="logIxWrap">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-8 col-md-offset-2">
+							    <div class="login loginUq">
+							        <div class="login-con logWrap">
+										<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
+											<div class="error errorLogBack">{{ form_errors(form) }}</div>
+											<ul>
+												<li class="liner">
+													{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
+													<div class="error">{{ form_errors(form.email) }}</div>
+												</li>
+												<li>
+													{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
+													<div class="error">{{ form_errors(form.password) }}</div>
+												</li>
+											</ul>
+											{{ form_row(form.fingerprint) }}
+											{{ form_row(form._token) }}
+											<input type="submit" class="login-btn" value="登录"/>
+							            </form>
+							            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
+							            <div class="login-btn-others">
+							            	<p class="othersLine">快捷登录</p>
+							                <p class="othersItem row">
+												<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
+												<span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
+												<span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
+											</p>
+							            </div>
+							        </div>
+							    </div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section3">
-			<div class="sectionCon">
-				<h2>
-					<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
-					<img class="visiblePhonePor hiddenPhoneLan hiddenTablet hiddenDesktop" src="{{ asset('img/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
-				</h2>
-				<div class="item item1">
-					<div class="talkCon">我是91问问的忠实粉，为了减轻家庭的压力，经常利用课余时间在91问问回答问卷赚积分，每个月用积分兑换手机费，很开心的是，我已经有2年没有找家里要零花钱了，我会继续坚持的！</div>
-					<div class="personal"><img src="{{ asset('img/landingpage/tx1.png') }}" alt="头像"><span>小珍<br>大二学生</span></div>
-				</div>
-				<div class="item item2">
-					<div class="talkCon">我刚开始工作才1年，常常感觉自己的世界观与外界有些脱轨，无意中发现91问问这个网站，在这里，我不仅可以赚点零花钱，快速问答这个栏目让我了解了大家对不同事物的观点，增长了我的见识。</div>
-					<div class="personal"><img src="{{ asset('img/landingpage/tx2.png') }}" alt="头像"><span>小夏<br>上班族</span></div>
-				</div>
-				<div class="item item3">
-					<div class="talkCon">我是一位孕妈妈，辞职在家专心等待宝宝的出生，天天闲着太无聊了，于是，我没事就打开91问问做做问卷和投票，通过它，我获取到了很多生活常识和一些社会上最新的热点消息，真的很棒！</div>
-					<div class="personal"><img src="{{ asset('img/landingpage/tx3.png') }}" alt="头像"><span>Vivian<br>孕妈</span></div>
-				</div>
-				<div class="item item4">
-					<div class="talkCon">我退休在家好些年了，平时又不爱出门，唯一的兴趣爱好就是打开91问问，做做问卷和投票，打发打发时间，重点是既可以赚钱还可以学到平时没听到过的知识。</div>
-					<div class="personal"><img src="{{ asset('img/landingpage/tx4.png') }}" alt="头像"><span>老顾<br>退休老人</span></div>
-				</div>
-			</div>
-		</div>
-		<div class="section hiddenPhone visibleDesktop visibleTablet" id="section4">
-			<div class="sectionCon">
-				<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
-				<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
-				<div class="btns"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
 			</div>
 		</div>
 	</div>
-	<a href="{{ path('_user_reg') }}" class="btn">注册</a>
-	<div class="arrow hiddenPhone visibleDesktop visibleTablet">
-    	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
-		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
-    </div>
+	<div class="contact">
+		<a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
+	</div>
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
 	<script type="text/javascript">
 		var client = new ClientJS(); // Create A New Client Object

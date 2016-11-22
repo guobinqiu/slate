@@ -1,11 +1,14 @@
-<div class="main-personal-left left rp-personal-nav">
-	<h1>个人中心</h1>
-	<ul class="rp-clearfix">
-		{% set router_current = app.request.attributes.get('_route') %}
-		<li {{ router_current == '_profile_edit' ? 'class="active"':'class=""' }}><a href="{{ path('_profile_edit') }}"><i class="fa fa-user" aria-hidden="true"></i>个人资料</a></li>
-		<li {{ router_current == '_user_message' ? 'class="active"':'class=""' }}><a href="{{ path('_user_message',{'sid': 1}) }}"><i class="fa fa-envelope-o" aria-hidden="true"></i>我的消息</a></li>
-		<li {{ router_current == '_user_adtaste' ? 'class="active"':'class=""' }}><a href="{{ path('_user_adtaste',{'type':0}) }}"><i class="fa fa-clock-o" aria-hidden="true"></i>任务历史</a></li>
-		<li {{ router_current == '_user_exchange' ? 'class="active"':'class=""' }}><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}"><i class="fa fa-clock-o" aria-hidden="true"></i>兑换历史</a></li>
-		<li {{ router_current == '_profile_index' ? 'class="active"':'class=""' }}><a href="{{ path('_profile_index') }}"><i class="fa fa-cog" aria-hidden="true"></i>账户设置</a></li>
-	</ul>
-</div>
+
+	<div class="main-personal-left rp-personal-nav">
+		<h1 class="pull-left hidden-xs hidden-sm">个人中心</h1>
+		<ul class="rp-clearfix pull-right">
+			<div class="row">
+				{% set router_current = app.request.attributes.get('_route') %}
+				<li {{ router_current == '_profile_edit' ? 'class="active"':'class=""' }}><a href="{{ path('_profile_edit') }}"><i class="fa fa-user" aria-hidden="true"></i>个人资料</a></li>
+				<li {{ router_current == '_user_message' ? 'class="active"':'class=""' }}><a href="{{ path('_user_message',{'sid': 1}) }}"><i class="fa fa-envelope-o" aria-hidden="true"></i>我的消息</a></li>
+				<li {{ router_current == '_user_adtaste' ? 'class="active"':'class=""' }}><a href="{{ path('_user_adtaste',{'type':0}) }}"><i class="fa fa-clock-o" aria-hidden="true"></i>任务历史</a></li>
+				<li {{ router_current == '_user_exchange' ? 'class="active"':'class=""' }}><a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}"><i class="fa fa-clock-o" aria-hidden="true"></i>兑换历史</a></li>
+				<li {{ router_current == '_profile_index' ? 'class="active"':'class=""' }}><a href="{{ path('_profile_index') }}"><i class="fa fa-cog" aria-hidden="true"></i>账户设置</a></li>
+			</div>
+		</ul>
+	</div>
