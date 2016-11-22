@@ -305,13 +305,13 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province']))){
+        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province'])) !== false){
             // 省份匹配上了
             $rtn['result'] = 'success';
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city']))){
+        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city'])) !== false){
             // 市匹配上了
             $rtn['result'] = 'success';
             return $rtn;
