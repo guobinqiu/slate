@@ -3,9 +3,9 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class TaskHistoryRepository extends EntityRepository
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -7,8 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\AppBundle\Entity\SopResearchSurveyAdditionalIncentiveHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 {
@@ -26,12 +27,8 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-sop-additional-point: '.date('Y-m-d H:i:s'));
-
         $app_name = 'site91wenwen';
         $this->setLogger($app_name . '-reward-sop-additional-point');
-
-        $this->sop_configure = $this->getContainer()->getParameter('sop');
-
         return parent::execute($input, $output);
     }
 
@@ -121,6 +118,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         $history_model->setHash($history['hash']);
         $em->persist($history_model);
         $em->flush();
+        return $history_model;
     }
 
     protected function extraInfoKeys()
@@ -130,7 +128,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         );
     }
 
-    protected function getVendorName() {
+    protected function getPanelType() {
         return 'SOP Additional';
     }
 }

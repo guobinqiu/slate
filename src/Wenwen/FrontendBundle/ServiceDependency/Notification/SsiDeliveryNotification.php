@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\AppBundle\Entity\SsiRespondent;
 
-class SsiDeliveryNotification implements DeliveryNotification
+class SsiDeliveryNotification extends DeliveryNotification
 {
     private $em;
 
@@ -30,7 +30,7 @@ class SsiDeliveryNotification implements DeliveryNotification
             $ssiRespondentId = SsiRespondent::parseRespondentId($respondentIds[$i]);
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
             $this->logger->info('Got recipient ' . json_encode($recipient));
-            if ($recipient && $this->isSubscribed($recipient)) {
+            if ($recipient && $this->isSubscribed($recipient['email'])) {
                 $respondent['recipient'] = $recipient;
                 $name1 = $respondent['recipient']['name1'];
                 if ($name1 == null) {
@@ -52,11 +52,6 @@ class SsiDeliveryNotification implements DeliveryNotification
         $this->em->flush();
         $this->em->clear();
         $this->logger->debug('send END');
-    }
-
-    private function isSubscribed($recipient) {
-        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
-        return count($userEdmUnsubscribes) == 0;
     }
 
     // sendcloud

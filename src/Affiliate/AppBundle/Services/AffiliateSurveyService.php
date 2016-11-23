@@ -5,6 +5,7 @@ namespace Affiliate\AppBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * 对不具备用户系统的网站做商业调查的代理
@@ -40,14 +41,14 @@ class AffiliateSurveyService
             $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
             $param = array(
             'affiliateProject' => $affiliateProject,
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_INIT
+            'status' => SurveyStatus::STATUS_INIT
             );
 
             $affiliateUrlHistory = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneBy($param);
             if($affiliateUrlHistory == null || sizeof($affiliateUrlHistory) == 0){
                 
             } else {
-                $affiliateUrlHistory->setStatus(AffiliateUrlHistory::SURVEY_STATUS_FORWARD);
+                $affiliateUrlHistory->setStatus(SurveyStatus::STATUS_FORWARD);
                 $affiliateUrlHistory->setUpdatedAt(date_create());
                 $affiliateProject->minusInitNum();
                 $affiliateProject->setUpdatedAt(date_create());
@@ -74,7 +75,7 @@ class AffiliateSurveyService
     *               'complete_point' => xxx
     *               'ukey' => xxx)
     */
-    public function processEndpage($status = AffiliateUrlHistory::SURVEY_STATUS_ERROR, $uKey = null){
+    public function processEndpage($status = SurveyStatus::STATUS_ERROR, $uKey = null){
         $this->logger->debug(__METHOD__ . " START  uKey=" .  $uKey . " status=" . $status . PHP_EOL);
 
         $rtn = array();
@@ -85,14 +86,14 @@ class AffiliateSurveyService
         // status参数必须存在 complete screenout quotafull error
         // 不是以上4种的时候全部作为error处理
         $validStatus = array(
-                AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
-                AffiliateUrlHistory::SURVEY_STATUS_SCREENOUT,
-                AffiliateUrlHistory::SURVEY_STATUS_QUOTAFULL,
-                AffiliateUrlHistory::SURVEY_STATUS_ERROR
-                );
+            SurveyStatus::STATUS_COMPLETE,
+            SurveyStatus::STATUS_SCREENOUT,
+            SurveyStatus::STATUS_QUOTAFULL,
+            SurveyStatus::STATUS_ERROR
+        );
         // 如果status不合法，则强制变更为error
         if(! in_array($status, $validStatus)){
-            $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+            $rtn['status'] = SurveyStatus::STATUS_ERROR;
             $this->logger->info(__METHOD__ . " END    uKey=" .  $uKey . " invalid status=" . $status . PHP_EOL);
             return $rtn;
         }
@@ -105,7 +106,7 @@ class AffiliateSurveyService
         // uKey 存在时，查找这个ukey的回答状态
         $param = array(
             'uKey' => $uKey,
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_FORWARD
+            'status' => SurveyStatus::STATUS_FORWARD
         );
 
         $connection = $this->em->getConnection();
@@ -114,7 +115,7 @@ class AffiliateSurveyService
             $affiliateUrlHistory = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneBy($param);
             if($affiliateUrlHistory == null || sizeof($affiliateUrlHistory) == 0){
                 // 没有找到状态为forward的url，认为这个endpage的request不合法，将页面显示状态改为error
-                $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+                $rtn['status'] = SurveyStatus::STATUS_ERROR;
             } else{
                 $affiliateUrlHistory->setStatus($rtn['status']);
                 $this->em->flush();
@@ -126,7 +127,7 @@ class AffiliateSurveyService
             $connection->commit();
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . " Error    uKey=" .  $uKey . " errMsg=" . $e->getMessage() . PHP_EOL);
-            $rtn['status'] = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+            $rtn['status'] = SurveyStatus::STATUS_ERROR;
             $rtn['complete_point'] = 0;
             $connection->rollBack();
         }

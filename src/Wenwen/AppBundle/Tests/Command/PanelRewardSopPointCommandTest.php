@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\PanelRewardSopPointCommand;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 
 class PanelRewardSopPointCommandTest extends KernelTestCase
 {

@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * @ORM\Table(name="survey_partner_participation_history",
@@ -13,16 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SurveyPartnerParticipationHistory
 {
-    const STATUS_INIT = 'init';
-
-    const STATUS_FORWARD = 'forward';
-
-    const STATUS_COMPLETE = 'complete';
-    const STATUS_SCREENOUT = 'screenout';
-    const STATUS_QUOTAFULL = 'quotafull';
-    const STATUS_ERROR = 'error';
-    
-
     /**
      * @var integer
      *
@@ -151,12 +142,12 @@ class SurveyPartnerParticipationHistory
     {
         if (!in_array($status, 
                     array(
-                        self::STATUS_INIT, 
-                        self::STATUS_FORWARD, 
-                        self::STATUS_COMPLETE, 
-                        self::STATUS_SCREENOUT, 
-                        self::STATUS_QUOTAFULL, 
-                        self::STATUS_ERROR, 
+                        SurveyStatus::STATUS_INIT,
+                        SurveyStatus::STATUS_FORWARD,
+                        SurveyStatus::STATUS_COMPLETE,
+                        SurveyStatus::STATUS_SCREENOUT,
+                        SurveyStatus::STATUS_QUOTAFULL,
+                        SurveyStatus::STATUS_ERROR,
                         )
                     )
             ) 

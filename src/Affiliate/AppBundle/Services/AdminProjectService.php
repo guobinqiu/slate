@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface;
 use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use JMS\JobQueueBundle\Entity\Job;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 #use Wenwen\FrontendBundle\Entity\ProvinceList;
 
@@ -274,7 +275,7 @@ class AdminProjectService
                 $affiliateUrlHistory->setUKey($urlsAndUkey['ukey']);
                 $affiliateUrlHistory->setAffiliateProject($affiliateProject);
                 $affiliateUrlHistory->setSurveyUrl($urlsAndUkey['url']);
-                $affiliateUrlHistory->setStatus(AffiliateUrlHistory::SURVEY_STATUS_INIT);
+                $affiliateUrlHistory->setStatus(SurveyStatus::STATUS_INIT);
                 $this->em->persist($affiliateUrlHistory);
                 $count ++;
                 if($count % 2000 == 0){

@@ -12,6 +12,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class SurveyServiceTest extends WebTestCase
 {
@@ -121,7 +122,7 @@ class SurveyServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
 
         $this->em->persist($surveyPartnerParticipationHistory);

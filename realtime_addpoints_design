@@ -1,0 +1,35 @@
+sop_research_survey_sop(id, survey_id, survey_other_properties)
+sop_research_survey_status_history(id, app_mid, survey_id, status)
+sop_research_survey_participation_history(existing)
+
+fulcrum_research_survey
+fulcrum_research_survey_status_history
+fulcrum_research_survey_participation_history
+
+cint_research_survey
+cint_research_survey_status_history
+cint_research_survey_participation_history
+
+fulcrum_user_agreement_participation_history
+
+sop:
+survey list -> survey list api
+			-> async job
+			-> sop_research_survey_status_history (status: targeted)
+
+information page -> sop_research_survey_status_history (status: init)
+
+information button click -> sop_research_survey_status_history (status: forward)
+
+endpage -> sop_research_survey_status_history (status: complete|screenout|quotafull)
+        -> sop_research_survey_participation_history
+        -> call addPoint service
+
+script -> check
+
+async job:
+survey list api sop <-- compare --> sop_research_survey_status_history
+survey list api sop -- insert --> sop_research_survey_status_history
+survey list api fulcrum <-- compare --> fulcrum_research_survey_status_history
+survey list api fulcrum -- insert --> fulcrum_research_survey_status_history
+survey list api cint -- insert --> cint_research_survey_status_history

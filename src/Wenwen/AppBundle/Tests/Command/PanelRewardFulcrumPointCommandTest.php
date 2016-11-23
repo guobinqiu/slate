@@ -9,10 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-
-use Wenwen\AppBundle\Command\Wenwen\AppBundle\Command;
 use Wenwen\AppBundle\Command\PanelRewardFulcrumPointCommand;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 
 class PanelRewardFulcrumPointCommandTest extends KernelTestCase
 {

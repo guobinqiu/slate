@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Jili\ApiBundle\Entity\Vote;
 use Jili\ApiBundle\Entity\VoteAnswer;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Form\VoteSuggestType;
 
 /**
@@ -256,7 +256,8 @@ class VoteController extends Controller
                 $point,
                 CategoryType::QUICK_POLL,
                 TaskType::RENTENTION,
-                '快速问答'
+                '快速问答',
+                $answer
             );
         } catch (\Exception $e) {
             $this->get('logger')->error($e->getMessage());

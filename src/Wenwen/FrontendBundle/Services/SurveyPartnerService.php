@@ -7,8 +7,9 @@ use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 
 /**
@@ -206,7 +207,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -402,7 +403,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -410,7 +411,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -424,7 +425,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -578,17 +579,17 @@ class SurveyPartnerService
     }
 
     private function convertAnswerStatusToHistoryStatus($answerStatus){
-        if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+        if($answerStatus == SurveyStatus::STATUS_COMPLETE){
             return $answerStatus;
         }
-        elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+        elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
             return $answerStatus;
         }
-        elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+        elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
             return $answerStatus;
         }
         else{
-            return SurveyPartnerParticipationHistory::STATUS_ERROR;
+            return SurveyStatus::STATUS_ERROR;
         }
     }
 
@@ -599,7 +600,7 @@ class SurveyPartnerService
         $result = array();
         $result['rewardedPoint'] = 0;
         $result['ticketCreated'] = false;
-        if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+        if($answerStatus == SurveyStatus::STATUS_COMPLETE){
 
             // 给用户加积分
             $this->pointService->addPoints(
@@ -607,8 +608,9 @@ class SurveyPartnerService
                 $surveyPartner->getCompletePoint(),
                 CategoryType::SURVEY_PARTNER_COST,
                 TaskType::SURVEY,
-                $this->generateSurveyTitleWithSurveyId($surveyPartner)
-                );
+                $this->generateSurveyTitleWithSurveyId($surveyPartner),
+                $surveyPartner
+            );
 
             // 同时给邀请人加积分(10%)
             $this->pointService->addPointsForInviter(
@@ -616,8 +618,9 @@ class SurveyPartnerService
                 $surveyPartner->getCompletePoint() * 0.1,
                 CategoryType::EVENT_INVITE_SURVEY,
                 TaskType::RENTENTION,
-                '您的好友' . $user->getNick() . '完成了一份商业问卷'
-                );
+                '您的好友' . $user->getNick() . '完成了一份商业问卷',
+                $surveyPartner
+            );
 
             // 发奖券
             $prizeTicket = $this->prizeTicketService->createPrizeTicket(
@@ -625,51 +628,55 @@ class SurveyPartnerService
                 PrizeItem::TYPE_BIG,
                 $key,
                 $surveyPartner->getSurveyId()
-                );
+            );
 
             $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
 
             if($prizeTicket){
                 $result['ticketCreated'] = true;
             }
-        } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+        } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
             // 给用户加积分
             $this->pointService->addPoints(
-                    $user,
-                    $surveyPartner->getScreenoutPoint(),
-                    CategoryType::SURVEY_PARTNER_EXPENSE,
-                    TaskType::RENTENTION,
-                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
-                    );
+                $user,
+                $surveyPartner->getScreenoutPoint(),
+                CategoryType::SURVEY_PARTNER_EXPENSE,
+                TaskType::RENTENTION,
+                $this->generateSurveyTitleWithSurveyId($surveyPartner),
+                $surveyPartner
+            );
+
             // 发奖券
             $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                 $user,
                 PrizeItem::TYPE_SMALL,
                 $key,
                 $surveyPartner->getSurveyId()
-                );
+            );
 
             $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
 
             if($prizeTicket){
                 $result['ticketCreated'] = true;
             }
-        } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+        } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
             // 给用户加积分
             $this->pointService->addPoints(
-                    $user,
-                    $surveyPartner->getQuotafullPoint(),
-                    CategoryType::SURVEY_PARTNER_EXPENSE,
-                    TaskType::RENTENTION,
-                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
-                    );
+                $user,
+                $surveyPartner->getQuotafullPoint(),
+                CategoryType::SURVEY_PARTNER_EXPENSE,
+                TaskType::RENTENTION,
+                $this->generateSurveyTitleWithSurveyId($surveyPartner),
+                $surveyPartner
+            );
+
             // 发奖券
             $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                 $user,
                 PrizeItem::TYPE_SMALL,
                 $key,
                 $surveyPartner->getSurveyId()
-                );
+            );
 
             $result['rewardedPoint'] = $surveyPartner->getQuotafullPoint();
 

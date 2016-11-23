@@ -4,19 +4,24 @@ namespace Wenwen\FrontendBundle\ServiceDependency\Notification;
 
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Services\SopSurveyService;
 
-class SopDeliveryNotification implements DeliveryNotification
+class SopDeliveryNotification extends DeliveryNotification
 {
-    protected $em;
+    protected $sopSurveyService;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, SopSurveyService $sopSurveyService) {
         $this->em = $em;
+        $this->sopSurveyService = $sopSurveyService;
     }
 
     public function send(array $respondents) {
         //$unsubscribed_app_mids = array();
+        $this->sopSurveyService->createResearchSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
+            $this->sopSurveyService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
             $recipient = $this->getRecipient($respondent['app_mid']);
             if ($recipient['email']) {
                 if ($this->isSubscribed($recipient['email'])) {
@@ -31,16 +36,9 @@ class SopDeliveryNotification implements DeliveryNotification
             //}
         }
         //return $unsubscribed_app_mids;
-
-        return array (
-            'meta' => array (
-                'code' => 200,
-                'message' => ''
-            )
-        );
     }
 
-    protected function runJob($respondent, $channel = null) {
+    private function runJob($respondent, $channel = null) {
         $name1 = $respondent['recipient']['name1'];
         if ($name1 == null) {
             $name1 = $respondent['recipient']['email'];
@@ -58,15 +56,6 @@ class SopDeliveryNotification implements DeliveryNotification
         $this->em->persist($job);
         $this->em->flush($job);
         $this->em->clear();
-    }
-
-    private function getRecipient($app_mid) {
-        return $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
-    }
-
-    private function isSubscribed($email) {
-        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
-        return count($userEdmUnsubscribes) == 0;
     }
 
 //    private function getChannel($i) {

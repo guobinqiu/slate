@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliatePartner;
-
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 
 class AffiliateSurveyServiceTest extends WebTestCase
@@ -71,7 +71,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
-        $urlStatus = AffiliateUrlHistory::SURVEY_STATUS_INIT;
+        $urlStatus = SurveyStatus::STATUS_INIT;
 
         $affiliateProject = new AffiliateProject();
         $affiliateProject->setAffiliatePartner($affiliatePartner);
@@ -103,7 +103,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $status = $result->getStatus();
 
         // 检查状态是否被更改为forward
-        $this->assertEquals(AffiliateUrlHistory::SURVEY_STATUS_FORWARD, $status);
+        $this->assertEquals(SurveyStatus::STATUS_FORWARD, $status);
 
         $this->assertEquals(0, $affiliateProject->getInitNum(),"InitNum should be updated to 0(1-1)");
     }
@@ -147,35 +147,35 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
 
-        $status1 = AffiliateUrlHistory::SURVEY_STATUS_FORWARD;
+        $status1 = SurveyStatus::STATUS_FORWARD;
         $affiliateUrlHistory1 = new AffiliateUrlHistory();
         $affiliateUrlHistory1->setUKey($uKey);
         $affiliateUrlHistory1->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory1->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory1->setStatus($status1);
 
-        $status2 = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $status2 = SurveyStatus::STATUS_COMPLETE;
         $affiliateUrlHistory2 = new AffiliateUrlHistory();
         $affiliateUrlHistory2->setUKey($uKey);
         $affiliateUrlHistory2->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory2->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory2->setStatus($status2);
 
-        $status3 = AffiliateUrlHistory::SURVEY_STATUS_SCREENOUT;
+        $status3 = SurveyStatus::STATUS_SCREENOUT;
         $affiliateUrlHistory3 = new AffiliateUrlHistory();
         $affiliateUrlHistory3->setUKey($uKey);
         $affiliateUrlHistory3->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory3->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory3->setStatus($status3);
 
-        $status4 = AffiliateUrlHistory::SURVEY_STATUS_QUOTAFULL;
+        $status4 = SurveyStatus::STATUS_QUOTAFULL;
         $affiliateUrlHistory4 = new AffiliateUrlHistory();
         $affiliateUrlHistory4->setUKey($uKey);
         $affiliateUrlHistory4->setAffiliateProject($affiliateProject);
         $affiliateUrlHistory4->setSurveyUrl($surveyUrl);
         $affiliateUrlHistory4->setStatus($status4);
 
-        $status5 = AffiliateUrlHistory::SURVEY_STATUS_ERROR;
+        $status5 = SurveyStatus::STATUS_ERROR;
         $affiliateUrlHistory5 = new AffiliateUrlHistory();
         $affiliateUrlHistory5->setUKey($uKey);
         $affiliateUrlHistory5->setAffiliateProject($affiliateProject);
@@ -203,7 +203,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $uKey = '09901562asarccm88ui8';
         $projectId = 1;
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
-        $status = AffiliateUrlHistory::SURVEY_STATUS_INIT;
+        $status = SurveyStatus::STATUS_INIT;
 
         $url = $this->affiliateSurveyService->getSurveyUrl($projectId);
 
@@ -237,7 +237,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
-        $urlStatus = AffiliateUrlHistory::SURVEY_STATUS_FORWARD;
+        $urlStatus = SurveyStatus::STATUS_FORWARD;
 
         $affiliateProject = new AffiliateProject();
         $affiliateProject->setAffiliatePartner($affiliatePartner);
@@ -261,13 +261,13 @@ class AffiliateSurveyServiceTest extends WebTestCase
         $urlId = $affiliateUrlHistory->getId();
 
 
-        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $requestStatus = SurveyStatus::STATUS_COMPLETE;
 
         $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+            'status' => SurveyStatus::STATUS_COMPLETE,
             'complete_point' => $point,
             'ukey' => $uKey
             );
@@ -294,7 +294,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'status' => SurveyStatus::STATUS_ERROR,
             'complete_point' => 0,
             'ukey' => $uKey
             );
@@ -307,7 +307,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'status' => SurveyStatus::STATUS_ERROR,
             'complete_point' => 0,
             'ukey' => $uKey
             );
@@ -319,14 +319,14 @@ class AffiliateSurveyServiceTest extends WebTestCase
     */
     public function testProcessEndpage_uKeyNotProvided(){
 
-        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $requestStatus = SurveyStatus::STATUS_COMPLETE;
         $uKey = null;
 
         $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+            'status' => SurveyStatus::STATUS_COMPLETE,
             'complete_point' => 0,
             'ukey' => $uKey
             );
@@ -338,14 +338,14 @@ class AffiliateSurveyServiceTest extends WebTestCase
     */
     public function testProcessEndpage_uKeyNotExist(){
 
-        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $requestStatus = SurveyStatus::STATUS_COMPLETE;
         $uKey = '123';
 
         $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'status' => SurveyStatus::STATUS_ERROR,
             'complete_point' => 0,
             'ukey' => $uKey
             );
@@ -360,14 +360,14 @@ class AffiliateSurveyServiceTest extends WebTestCase
         // 删掉所有表
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
 
-        $requestStatus = AffiliateUrlHistory::SURVEY_STATUS_COMPLETE;
+        $requestStatus = SurveyStatus::STATUS_COMPLETE;
         $uKey = '123';
 
         $rtn = $this->affiliateSurveyService->processEndpage($requestStatus, $uKey);
 
         // 检查url是否被正确的取到
         $expect = array(
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_ERROR,
+            'status' => SurveyStatus::STATUS_ERROR,
             'complete_point' => 0,
             'ukey' => $uKey
             );

@@ -1,6 +1,6 @@
 <div class="survey-item">
     <div class="title">
-        <a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">{{ fulcrum_research.title }}<span></span></a>
+        <a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">{{ fulcrum_research.title }}<span></span></a>
     </div>
     <ul class="con clearfix">
         <li class="last">
@@ -16,4 +16,4 @@
     </ul>
 </div>
 <div class="rewardPoint"><i>{{ fulcrum_research.extra_info.point.complete }}</i>积分</div>
-<div class="survey-btn"><a href="{{ path('wenwen_frontend_fulcrumprojectsurvey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>
+<div class="survey-btn"><a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>

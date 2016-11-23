@@ -30,7 +30,7 @@ class PointService
         $this->prizeTicketService = $prizeTicketService;
     }
 
-    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $orderId = 0, $happenTime = null, $canDrawPrize = false) {
+    public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $order = null, $happenTime = null, $needCreatePrizeTicket = false, $prizeType = PrizeItem::TYPE_SMALL) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user->setPoints($user->getPoints() + $points);
@@ -45,8 +45,11 @@ class PointService
 
             $classTaskHistory = 'Jili\ApiBundle\Entity\TaskHistory0'. ($user->getId() % 10);
             $taskHistory = new $classTaskHistory();
-            $taskHistory->setUserid($user->getId());
-            $taskHistory->setOrderId($orderId);
+            $taskHistory->setUserId($user->getId());
+            if ($order != null) {
+                $taskHistory->setOrderId($order->getId());
+                $taskHistory->setOrderType(get_class($order));
+            }
             $taskHistory->setOcdCreatedDate(new \DateTime());
             $taskHistory->setCategoryType($categoryType);
             $taskHistory->setTaskType($taskType);
@@ -71,17 +74,17 @@ class PointService
             $this->latestNewsService->insertLatestNews($news);
         }
 
-        if ($canDrawPrize) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $taskName);// 获得一次抽奖机会
+        if ($needCreatePrizeTicket) {
+            $this->prizeTicketService->createPrizeTicket($user, $prizeType, $taskName);// 获得一次抽奖机会
         }
     }
 
-    public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName, $canDrawPrize = true) {
+    public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName, $order = null, $happenTime = null, $needCreatePrizeTicket = false, $prizeType = PrizeItem::TYPE_SMALL) {
         if ($user->getInviteId() != null) {
             $inviter = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getInviteId());
             if ($inviter != null) {
                 $this->logger->info(__METHOD__ . '给邀请人加积分，邀请人ID：' . $user->getInviteId() . '，当前用户ID：' . $user->getId());
-                $this->addPoints($inviter, $points, $categoryType, $taskType, $taskName, 0, null, $canDrawPrize);
+                $this->addPoints($inviter, $points, $categoryType, $taskType, $taskName, $order, $happenTime, $needCreatePrizeTicket, $prizeType);
             }
         }
     }

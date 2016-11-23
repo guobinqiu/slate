@@ -7,8 +7,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PushBasicProfileCommand extends ContainerAwareCommand
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -6,9 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\AppBundle\Entity\CintResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardCintPointCommand extends PanelRewardCommand
 {
@@ -22,12 +22,8 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-cint-point: '.date('Y-m-d H:i:s'));
-
         $app_name = 'site91wenwen';
         $this->setLogger($app_name . '-reward-cint-point');
-
-        $this->sop_configure = $this->getContainer()->getParameter('sop');
-
         return parent::execute($input, $output);
     }
 
@@ -99,18 +95,25 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $history_model = new CintResearchSurveyParticipationHistory();
-        $history_model->setCintProjectID($history['survey_id']);
-        $history_model->setCintProjectQuotaID($history['quota_id']);
-        $history_model->setAppMemberID($history['app_mid']);
-        $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($history['extra_info']['point_type']);
-        $em->persist($history_model);
-        $em->flush();
+        return $this->getContainer()->get('app.cint_survey_service')->createParticipationHistory(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['quota_id'],
+            $history['extra_info']['point'],
+            $history['extra_info']['point_type']
+        );
     }
 
-    protected function getVendorName() {
+    protected function createStatusHistory($history)
+    {
+        return $this->getContainer()->get('app.cint_survey_service')->createStatusHistory(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['answer_status']
+        );
+    }
+
+    protected function getPanelType() {
         return 'Cint';
     }
 }

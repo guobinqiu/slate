@@ -8,8 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 /**
  * @Route("/cint_project_survey")
@@ -65,7 +66,8 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
                 self::AGREEMENT_POINT,
                 CategoryType::CINT_EXPENSE,
                 TaskType::RENTENTION,
-                self::COMMENT
+                self::COMMENT,
+                $history_model
             );
 
             $em->getConnection()->commit();
@@ -84,13 +86,23 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
-        $user_id = $request->getSession()->get('uid');
         $cint_research = $request->query->get('cint_research');
-        $cint_research = $this->get('app.survey_service')->addSurveyUrlToken($cint_research, $user_id);
+        $user = $this->getCurrentUser();
+        $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
+        $this->get('app.cint_survey_service')->createStatusHistory($app_mid, $cint_research['survey_id'], SurveyStatus::STATUS_INIT);
+        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $cint_research));
+    }
 
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array(
-            'cint_research' => $cint_research
-        ));
+    /**
+     * @Route("/forward", name="_cint_project_survey_forward")
+     */
+    public function forwardAction(Request $request)
+    {
+        $cint_research = $request->query->get('cint_research');
+        $user = $this->getCurrentUser();
+        $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
+        $this->get('app.cint_survey_service')->createStatusHistory($app_mid, $cint_research['survey_id'], SurveyStatus::STATUS_FORWARD);
+        return $this->redirect($cint_research['url']);
     }
 
     /**
@@ -98,20 +110,33 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $this->get('logger')->info('cint endlink tid=' . $request->query->get('tid'));
-
-        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
-            $survey_id,
-            $request->query->get('tid'),
-            $this->getCurrentUser(),
-            $answer_status,
-            'cint商业问卷'
-        );
-
-        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
+        $tid = $request->query->get('tid');
+        $app_mid = $request->query->get('app_mid');
+        if (!SurveyStatus::isValid($answer_status)) {
+            throw new \InvalidArgumentException("cint invalid answer status: {$answer_status}");
+        }
+        $user = $this->getCurrentUser();
+        $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
+        if ($app_mid != $app_mid2) {
+            throw new \InvalidArgumentException("cint app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
+        }
+        $this->get('app.cint_survey_service')->processSurveyEndlink($survey_id, $tid, $user, $answer_status, $app_mid);
+        $point = $this->get('app.cint_survey_service')->getResearchSurveyPoint($app_mid, $survey_id);
+        return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
-            'ticket_created' => $ticket_created
+            'point' => $point,
+        )));
+    }
+
+    /**
+     * @Route("/endpage", name="_cint_project_survey_endpage")
+     */
+    public function endlinkPageAction(Request $request) {
+        return $this->render('WenwenFrontendBundle:ProjectSurveyCint:endlink.html.twig', array(
+            'answer_status' => $request->query->get('answer_status'),
+            'survey_id' => $request->query->get('survey_id'),
+            'point' => $request->query->get('point'),
         ));
     }
 }

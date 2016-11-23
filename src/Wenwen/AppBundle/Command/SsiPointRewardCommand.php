@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use VendorIntegration\SSI\PC1\WebService\StatClient;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class SsiPointRewardCommand extends ContainerAwareCommand
 {
@@ -97,6 +97,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $dbh->beginTransaction();
 
             try {
+                $history = $this->recordParticipationHistory($ssiRespondent, $row);
+
                 $pointService = $this->getContainer()->get('app.point_service');
 
                 // 给当前用户加积分
@@ -105,7 +107,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     $ssiProjectConfig['point'],
                     CategoryType::SSI_COST,
                     TaskType::SURVEY,
-                    sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d'))
+                    sprintf('%s (%s)', $ssiProjectConfig['title'], $dt->format('Y-m-d')),
+                    $history
                 );
 
                 // 同时给邀请人加积分(10%)
@@ -114,10 +117,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     $ssiProjectConfig['point'] * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '您的好友' . $user->getNick() . '回答了一份SSI商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份SSI商业问卷',
+                    $history
                 );
-
-                $this->recordParticipationHistory($ssiRespondent, $row);
 
                 $dbh->commit();
 
@@ -193,13 +195,12 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dt = new \DateTime(DateUtil::convertTimeZone($row['date_time'], self::REPORT_TIME_ZONE, self::REWARD_TIME_ZONE));
-
         $history = new \Wenwen\AppBundle\Entity\SsiProjectParticipationHistory();
         $history->setSsiRespondentId($ssiRespondent->getId());
         $history->setTransactionId($row['transaction_id']);
         $history->setCompletedAt($dt);
-
         $em->persist($history);
         $em->flush();
+        return $history;
     }
 }

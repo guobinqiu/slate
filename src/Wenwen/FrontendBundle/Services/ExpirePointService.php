@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 /**
  * 积分清零以及邮件通知用户的功能
@@ -413,7 +413,8 @@ class ExpirePointService
                                 $points,
                                 CategoryType::EXPIRE,
                                 TaskType::RECOVER,
-                                self::TASK_NAME);
+                                self::TASK_NAME
+                            );
                         }
                         $totalExpiredPoints += $expiringUser['points'];
                         $expireSucceededUsers[] = $expiringUser;

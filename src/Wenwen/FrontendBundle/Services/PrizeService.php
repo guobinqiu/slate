@@ -5,9 +5,9 @@ namespace Wenwen\FrontendBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
@@ -71,7 +71,14 @@ class PrizeService
             if ($rewardPoints > 0) {
                 $this->minusPointBalance($rewardPoints);
             }
-            $this->pointService->addPoints($user, $rewardPoints, CategoryType::EVENT_PRIZE, TaskType::RENTENTION, '抽奖', $prizeTicket->getId());
+            $this->pointService->addPoints(
+                $user,
+                $rewardPoints,
+                CategoryType::EVENT_PRIZE,
+                TaskType::RENTENTION,
+                '抽奖',
+                $prizeTicket
+            );
             $this->prizeTicketService->deletePrizeTicket($prizeTicket);
         }
 

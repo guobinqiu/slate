@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -6,9 +7,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
@@ -24,10 +24,8 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-fulcrum-point: '.date('Y-m-d H:i:s'));
-        $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->setLogger('reward-fulcrum-point');
         return parent::execute($input, $output);
-
     }
 
     protected function point($history)
@@ -96,19 +94,25 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $history_model = new FulcrumResearchSurveyParticipationHistory();
-
-        $history_model->setFulcrumProjectID($history['survey_id']);
-        $history_model->setFulcrumProjectQuotaID($history['quota_id']);
-        $history_model->setAppMemberID($history['app_mid']);
-        $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($history['extra_info']['point_type']);
-        $em->persist($history_model);
-        $em->flush();
+        return $this->getContainer()->get('app.fulcrum_survey_service')->createParticipationHistory(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['quota_id'],
+            $history['extra_info']['point'],
+            $history['extra_info']['point_type']
+        );
     }
 
-    protected function getVendorName() {
+    protected function createStatusHistory($history)
+    {
+        return $this->getContainer()->get('app.fulcrum_survey_service')->createStatusHistory(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['answer_status']
+        );
+    }
+
+    protected function getPanelType() {
         return 'Fulcrum';
     }
 }

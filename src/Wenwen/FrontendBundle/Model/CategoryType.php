@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Entity;
+namespace Wenwen\FrontendBundle\Model;
 
 /**
  * CategoryType

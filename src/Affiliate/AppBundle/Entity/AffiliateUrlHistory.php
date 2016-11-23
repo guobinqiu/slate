@@ -13,15 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AffiliateUrlHistory
 {
-
-    // status 的可用状态值
-    const SURVEY_STATUS_INIT      = 'init'; // url的初始状态，被导入的时候设置
-    const SURVEY_STATUS_FORWARD   = 'forward'; // 有用户点击后，被分配出去的url，不能再次被分配
-    const SURVEY_STATUS_COMPLETE  = 'complete'; // 用户完成，triples那边回调后更新（暂时没做）
-    const SURVEY_STATUS_SCREENOUT = 'screenout'; // 用户screenout，triples那边回调后更新（暂时没做）
-    const SURVEY_STATUS_QUOTAFULL = 'quotafull'; // 用户quotafull，triples那边回调后更新（暂时没做）
-    const SURVEY_STATUS_ERROR     = 'error'; // 用户可能已经在别处回答过问卷了，客户那边直接拒绝（暂时没做）
-
     /**
      * @var integer
      *

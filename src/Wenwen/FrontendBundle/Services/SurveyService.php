@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
@@ -19,20 +18,15 @@ use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 class SurveyService
 {
     private $logger;
-
     private $em;
-
     private $parameterService;
-
     private $httpClient;
-
     private $templating;
-
-    private $prizeTicketService;
-
     private $redis;
-
     private $surveyParnterService;
+    private $sopSurveyService;
+    private $fulcrumSurveyService;
+    private $cintSurveyService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -44,18 +38,22 @@ class SurveyService
                                 ParameterService $parameterService,
                                 HttpClient $httpClient,
                                 EngineInterface $templating,
-                                PrizeTicketService $prizeTicketService,
                                 Client $redis,
-                                $surveyParnterService)
+                                SurveyPartnerService $surveyParnterService,
+                                SopSurveyService $sopSurveyService,
+                                FulcrumSurveyService $fulcrumSurveyService,
+                                CintSurveyService $cintSurveyService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
         $this->httpClient = $httpClient;
         $this->templating = $templating;
-        $this->prizeTicketService = $prizeTicketService;
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
+        $this->sopSurveyService = $sopSurveyService;
+        $this->fulcrumSurveyService = $fulcrumSurveyService;
+        $this->cintSurveyService = $cintSurveyService;
     }
 
     public function setDummy($dummy){
@@ -67,7 +65,7 @@ class SurveyService
      * @param $user_id 91wenwen的用户ID
      * @return $app_mid SOP的APP_MID
      */
-    private function getSopRespondentId($user_id) {
+    public function getSopRespondentId($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
         $sop_respondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
@@ -127,7 +125,6 @@ class SurveyService
      * @return json $dummy_res 模拟一个SOP survey list返回的数据
      */
     private function getDummySurveyListJson() {
-
         //构造一个仿真数据
         $dummy_res = '{ 
             "meta" : {
@@ -137,7 +134,7 @@ class SurveyService
              "data": {
                  "profiling": [
                      {
-                         "url": "http://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=13",
+                         "url": "http://partners.surveyon.com.dev.researchpanelasia.com/resource/auth/v1_1?sig=2cec964cd9cd901d17725bd08131976a3ced393b160708fcce2d7767802023c5&next=%2Fprofile%2Fp%2Fq004&time=1438677550&app_id=25&sop_locale=&app_mid=18",
                          "name": "q004",
                          "title": "profiling"
                      }
@@ -152,11 +149,11 @@ class SurveyService
                     "is_answered": "0",
                     "is_closed": "0",
                     "title": "关于工作的调查（Not asnwered Not closed）",
-                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
                     "date": "2015-01-01",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -173,7 +170,7 @@ class SurveyService
                     "is_answered": "1",
                     "is_closed": "0",
                     "title": "Example Research Survey (Asnwered Not Closed）",
-                    "url": "",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
@@ -194,7 +191,7 @@ class SurveyService
                     "is_answered": "1",
                     "is_closed": "0",
                     "title": "Example Research Survey (Asnwered Not Closed）",
-                    "url": "",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                     "is_fixed_loi": "0",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
@@ -215,7 +212,7 @@ class SurveyService
                     "is_answered": "0",
                     "is_closed": "0",
                     "title": "testtesttest",
-                    "url": "",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
@@ -236,7 +233,7 @@ class SurveyService
                     "is_answered": "0",
                     "is_closed": "1",
                     "title": "Example Research Survey (Closed）",
-                    "url": "",
+                    "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
@@ -267,7 +264,7 @@ class SurveyService
                      "ir": "80",
                      "loi": "31",
                      "title": "Fulcrum Dummy Survey 4",
-                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                      "date": "2015-01-01",
                      "extra_info": {
                          "point": {"complete": "300"}
@@ -280,7 +277,7 @@ class SurveyService
                      "ir": "80",
                      "loi": "20",
                      "title": "Fulcrum Dummy Survey 4",
-                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                      "date": "2015-01-01",
                      "extra_info": {
                          "point": {"complete": "300"}
@@ -293,7 +290,7 @@ class SurveyService
                      "ir": "80",
                      "loi": "10",
                      "title": "Fulcrum Dummy Survey 3708",
-                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                     "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                      "date": "2015-01-01",
                      "extra_info": {
                          "point": {"complete": "500"}
@@ -310,7 +307,7 @@ class SurveyService
                        "is_answered": "0",
                        "is_closed": "0",
                        "title": "Cint Dummy Survey",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                        "date": "2015-01-01",
                        "extra_info": {
                          "point": {
@@ -329,7 +326,7 @@ class SurveyService
                        "is_answered": "1",
                        "is_closed": "0",
                        "title": "Cint Dummy Survey2",
-                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=test2",
+                       "url": "https://partners.surveyon.com/resource/auth/v1_1?sig=e523d747983fb8adcfd858b432bc7d15490fae8f5ccb16c75f8f72e86c37672b&next=%2Fproject_survey%2F23456&time=1416302209&app_id=22&app_mid=18",
                        "date": "2015-01-01",
                        "extra_info": {
                          "point": {
@@ -542,7 +539,7 @@ class SurveyService
 
             if ($ssi_res['needPrescreening']) {
                 // 需要用户去完成 prescreen
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_user_agreement_item_template.html.twig', $ssi_res);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
                 array_unshift($html_survey_list, $html);
             }
             if (!empty($ssi_res['ssi_surveys'])) {
@@ -576,7 +573,8 @@ class SurveyService
                         $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
                         $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
                         $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
+                        $fulcrum_research = $this->fulcrumSurveyService->addSurveyUrlToken($fulcrum_research, $user_id);
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                         array_unshift($html_survey_list, $html);
                         $answerableSurveyCount++;
                     }
@@ -590,7 +588,8 @@ class SurveyService
                         $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
                         $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
                         $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_research_item_template.html.twig', array('cint_research' => $cint_research));
+                        $cint_research = $this->cintSurveyService->addSurveyUrlToken($cint_research, $user_id);
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                         if ($cint_research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
                             $answerableSurveyCount++;
@@ -615,6 +614,7 @@ class SurveyService
                         $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                         $research['loi'] = $this->getSurveyLOI($research['loi']);
                         $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
+                        $research = $this->sopSurveyService->addSurveyUrlToken($research, $user_id);
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
@@ -630,11 +630,11 @@ class SurveyService
             if (count($user_agreements) > 0 ) {
                 foreach ($user_agreements as $user_agreement) {
                     if ($user_agreement['type'] == 'Fulcrum') {
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_fulcrum_user_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
                         array_unshift($html_survey_list, $html);
                     }
                     if ($user_agreement['type'] == 'Cint') {
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_cint_user_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
                         array_unshift($html_survey_list, $html);
                     }
                 }
@@ -644,7 +644,7 @@ class SurveyService
             if (count($profilings) > 0) {
                 foreach ($profilings as $profiling) {
                     //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $profiling = $this->addProfilingUrlToken($profiling, $user_id);
+                    $profiling = $this->sopSurveyService->addProfilingUrlToken($profiling, $user_id);
                     // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                     array_unshift($html_survey_list, $html);
@@ -652,6 +652,7 @@ class SurveyService
             }
         } catch(\Exception $e) {
             $this->logger->error($e);
+            throw $e;
         }
 
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
@@ -733,58 +734,6 @@ class SurveyService
 
         //return $response->getBody();
         return true;
-    }
-
-    public function addSurveyUrlToken($research, $user_id)
-    {
-        $token = md5(uniqid(rand(), true));
-        $key = 'sop_' . $user_id . '_' . $research['survey_id'];
-        $this->redis->set($key, $token);
-        $this->redis->expire($key, 60 * 60 * 24);
-        $research['url'] = $research['url'] . '&sop_custom_token=' . $token;
-        return $research;
-    }
-
-    public function createSurveyPrizeTicket($survey_id, $tid, User $user, $answer_status, $comment)
-    {
-        $key = 'sop_' . $user->getId() . '_' . $survey_id;
-        $token = $this->redis->get($key);
-        //echo ' token=' . $token;
-        //echo ' tid=' . $tid;
-        if ($token != null && $tid == $token) {
-            if ($answer_status == $this->parameterService->getParameter('research_survey_status_complete')) {
-                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, $survey_id, $answer_status);
-            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_screenout')) {
-                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
-            } elseif ($answer_status == $this->parameterService->getParameter('research_survey_status_quotafull')) {
-                $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $comment, $survey_id, $answer_status);
-            }
-            $this->redis->del($key);
-            return true;
-        }
-        return false;
-    }
-
-    public function addProfilingUrlToken($profiling, $user_id)
-    {
-        $token = md5(uniqid(rand(), true));
-        $key = 'sop_p_' . $user_id;
-        $this->redis->set($key, $token);
-        $this->redis->expire($key, 60 * 60 * 24);
-        $profiling['url'] = $profiling['url'] . '&sop_custom_token=' . $token;
-        return $profiling;
-    }
-
-    public function createProfilingPrizeTicket(User $user, $tid, $comment)
-    {
-        $key = 'sop_p_' . $user->getId();
-        $token = $this->redis->get($key);
-        if ($token != null && $tid == $token) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $comment, null, 'complete');
-            $this->redis->del($key);
-            return true;
-        }
-        return false;
     }
 
     /**

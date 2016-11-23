@@ -18,17 +18,27 @@
                     {% if answer_status == 'complete' %}
                         <img src="{{ asset('img/questionnaire/normalface.png') }}">
                         <h2>亲爱的用户！您好！</h2>
-                        <p>感谢您参加并成功完成本次问卷调查。<br>
-                        积分会在调查结束审核过后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% if point > 0 %}
+                            <p>感谢您参加本次的问卷调查，恭喜您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% else %}
+                            <p>感谢您参加本次的问卷调查，积分会在调查结束审核过后自动累计到您的账户。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% endif %}
                     {% elseif answer_status == 'screenout' %}
                         <img src="{{ asset('img/questionnaire/sadface.png') }}">
                         <h2>亲爱的用户！您好！</h2>
-                        <p>非常感谢您参加本次调查。<br>
-                        由于您不符合本次调查内容，您将获得<b>1个积分</b>，积分会在调查结束后自动累计到您的账户！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% if point > 0 %}
+                            <p>感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。没有功劳也有苦劳，您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% else %}
+                            <p>感谢您参加本次的问卷调查，非常抱歉，您不符合本次调查的要求。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% endif %}
                     {% elseif answer_status == 'quotafull' %}
                         <img src="{{ asset('img/questionnaire/sadface.png') }}">
                         <h2>亲爱的用户！您好！</h2>
-                        <p>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% if point > 0 %}
+                            <p>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。没有功劳也有苦劳，您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% else %}
+                            <p>感谢您参加本次的问卷调查，非常抱歉，您慢了一步，本次问卷调查名额已满。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                        {% endif %}
                     {% elseif answer_status == 'error' %}
                         <img src="{{ asset('img/questionnaire/sadface.png') }}">
                         <h2>亲爱的用户！您好！</h2>
@@ -42,9 +52,7 @@
                     {% endif %}
                 </div>
                 {% if answer_status == 'complete' or answer_status == 'screenout' or answer_status == 'quotafull' or answer_status == 'error' %}
-                    {% if ticket_created %}
-                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-                    {% endif %}
+                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                 {% endif %}
             </div>
         </div>

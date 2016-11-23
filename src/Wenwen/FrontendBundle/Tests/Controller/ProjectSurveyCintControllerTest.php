@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Controller\ProjectSurveyCintController;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 
 
 class ProjectSurveyCintControllerTest extends WebTestCase
