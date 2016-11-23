@@ -120,21 +120,23 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
         $surveyPartner->setCreatedAt(new \Datetime());
         $surveyPartner->setUpdatedAt(new \Datetime());
         $form = $this->createForm(new SurveyPartnerType(), $surveyPartner);
+        
         if ($request->getMethod() == 'POST') {
-            $this->get('logger')->debug('XXX2');
             $form->bind($request);
-            $this->get('logger')->debug('XXX3');
             if ($form->isValid()) {
-                $this->get('logger')->debug('XXX4');
                 $adminSurveyPartnerService = $this->get('app.admin_survey_partner_service');
                 $adminSurveyPartnerService->createUpdateSurveyPartner($surveyPartner);
                 $this->get('logger')->debug(__METHOD__ . ' Created');
                 return $this->redirect($this->generateUrl('admin_surveypartner_show', array('surveyPartnerId' => $surveyPartner->getId())));
             } else {
                 //var_dump($form->getErrors());
-                $this->get('logger')->warn(__METHOD__ . ' ERROR:' . json_encode($form->getErrors()));
+                $this->get('logger')->warn(__METHOD__ . ' ERRORs: ' . json_encode($form->getErrors()));
+                $this->get('logger')->warn(__METHOD__ . ' ERRORs string: ' . $form->getErrorsAsString());
             }
+        } else {
+            
         }
+
         $this->get('logger')->debug(__METHOD__ . ' END');
         return $this->render('WenwenFrontendBundle:admin:surveyPartnerCreate.html.twig', array('surveyPartnerForm' => $form->createView()));
     }
