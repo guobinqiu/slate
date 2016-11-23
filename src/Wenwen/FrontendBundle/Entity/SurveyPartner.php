@@ -184,6 +184,10 @@ class SurveyPartner
     /**
      * @var string
      * @ORM\Column(name="status", type="string", length=10, nullable=false)
+     * @Assert\Choice(
+     *      choices = {"init", "open", "close"},
+     *      message = "这不是一个有效的status"
+     * )
      */
     private $status;
 
@@ -220,6 +224,10 @@ class SurveyPartner
     /**
      * @var string
      * @ORM\Column(name="gender", type="string", length=10, nullable=false)
+     * @Assert\Choice(
+     *      choices = {"both", "male", "female"},
+     *      message = "这不是一个有效的性别"
+     * )
      */
     private $gender;
 
@@ -388,19 +396,6 @@ class SurveyPartner
 
     public function setStatus($status)
     {
-        /*
-        if (!in_array($status, 
-                    array(
-                        self::STATUS_INIT, 
-                        self::STATUS_OPEN, 
-                        self::STATUS_CLOSE, 
-                        )
-                    )
-            ) 
-        {
-            throw new \InvalidArgumentException("Invalid status");
-        }
-        */
         $this->status = $status;
     }
 
