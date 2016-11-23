@@ -23,7 +23,8 @@
 	li{
 		line-height: 34px;
 		label{
-		    text-align: left;
+		    text-align: right;
+		    min-width: 100px;
 		}
 		select{
 			height: 34px;
@@ -118,13 +119,14 @@
 		text-align: center;
 	}
 	.detail{
-		line-height: 55px;
+		line-height: 36px;
 		.text{
 			margin: 60px auto 0;
 			width: 100%;
 			color: #4d4d4d;
 			font-size: 14px;
 			border: 2px dashed #e8e8e8;
+			padding: 24px 0;
 		}
 		strong{
 			margin-right: 30px;
