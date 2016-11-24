@@ -576,7 +576,6 @@ class SurveyService
             if (count($fulcrum_researches) > 0) {
                 foreach ($fulcrum_researches as $fulcrum_research) {
                     if (!$this->hasStopWord($fulcrum_research['url'])) {
-                        $fulcrum_research['url'] = $this->toProxyAddress($fulcrum_research['url']);
                         $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
                         $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
                         $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
@@ -591,7 +590,6 @@ class SurveyService
             if (count($cint_researches) > 0) {
                 foreach ($cint_researches as $cint_research) {
                     if (!$this->hasStopWord($cint_research['url'])) {
-                        $cint_research['url'] = $this->toProxyAddress($cint_research['url']);
                         $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
                         $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
                         $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
@@ -616,7 +614,6 @@ class SurveyService
                         }
                     ///
                     ///
-                    $research['url'] = $this->toProxyAddress($research['url']);
                     if(($research['is_closed'] == 0)){
                         $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                         $research['loi'] = $this->getSurveyLOI($research['loi']);
