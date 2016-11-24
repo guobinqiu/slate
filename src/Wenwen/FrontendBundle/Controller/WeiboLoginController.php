@@ -225,6 +225,7 @@ class WeiboLoginController extends BaseController
                     $userTrack->setLastSignInIp(null);
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth('weibo');
+                    $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
 
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);

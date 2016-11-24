@@ -38,8 +38,9 @@ class Util
 
     public static function isSignatureValid($sig, $params, $app_secret, $time = null)
     {
+
         if (!$sig || !$params || !$app_secret) {
-            return false;
+            throw new \InvalidArgumentException('Paramters is not correct. sig='. $sig);
         }
         if (!$time) {
             $time = time();
@@ -64,17 +65,23 @@ class Util
 
         // `time` is mandatory
         if (!$req_time) {
-            return false;
+            throw new \LogicException('req_time is not provided.');
         }
         // Too old
         if ($req_time < ($time - self::$SIG_VALID_FOR_SEC)) {
-            return false;
+            throw new \LogicException('req_time is too old. req_time=' . $req_time . ' current_time=' . $time);
         }
         // Too new
         if ($req_time > ($time + self::$SIG_VALID_FOR_SEC)) {
-            return false;
+            throw new \LogicException('req_time is too new. req_time=' . $req_time . ' current_time=' . $time);
         }
 
-        return $sig === self::createSignature($params, $app_secret);
+        $real_sig = self::createSignature($params, $app_secret);
+
+        if($sig != $real_sig){
+            throw new \LogicException('Signature is not match. sig=' . $sig . ' real_sig=' . $real_sig);
+        }
+
+        return true;
     }
 }

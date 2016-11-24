@@ -28,9 +28,6 @@
 				display: none;
 			}
 		}
-		&:first-child{
-			border-bottom: 1px dashed #dedee0;
-		}
 	}
 	label{
 		&.tit{
@@ -131,7 +128,7 @@
 			}
 		}
 		.btn{
-			padding:20px 0 0 133px;
+			padding: 20px 0 0 143px;
 			input{
 				margin-right: 10px;
 				width: 74px;
@@ -186,3 +183,32 @@
 	}
 }
 @import "layout/footer";
+
+@media only screen and (max-width: 767px)  {
+	.main-personal-right{
+		h2{
+			padding-left: 27px;
+		}
+	}
+	.main-personal-account {
+	    padding: 12px 30px 50px;
+	    .con{
+	    	padding: 15px 0;
+	    	// li{
+	    	// 	margin-top: 0;
+	    	// }
+	    	.btn{
+	    		padding: 20px 0 0 83px;
+	    	}
+	    	&.withdraw{
+	    		ul.reason{
+	    			li{
+	    				#form_reason{
+	    					width: 100%;
+	    				}
+	    			}
+	    		}
+	    	}
+	    }
+	}
+}

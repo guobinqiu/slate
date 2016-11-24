@@ -25,7 +25,6 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Jili\ApiBundle\JiliApiBundle(),
             new Jili\BackendBundle\JiliBackendBundle(),
-            new Jili\EmarBundle\JiliEmarBundle(),
             new Jili\FrontendBundle\JiliFrontendBundle(),
             new Wenwen\FrontendBundle\WenwenFrontendBundle(),
             new Wenwen\AppBundle\WenwenAppBundle(),

@@ -81,6 +81,8 @@ class RegistrationController extends BaseController
                 $userTrack->setLastSignInIp(null);
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth(null);
+                $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
+                $this->get('logger')->debug(__METHOD__ . ' ' .  $this->getRegisterRouteFromSession());
 
                 $userTrack->setUser($user);
                 $user->setUserTrack($userTrack);

@@ -6,80 +6,14 @@
 .main-about-con{
 	.aboutR{
 		.rpaIntro{
-			@at-root h3,p{
-				margin: 16px 0;	
+			pre{
+				padding: 10px;
+			    margin: 10px 0;
+			    font-weight: bold;
+			    font-size: 15px;
 			}
-			@at-root h3{
-				font-weight: bold;
-				height: 40px;
-				line-height: 40px;
-				background: $block-line-color;
-				padding-left: 10px;
-			}
-			// @at-root p{
-			// 	line-height: 23px;
-			// 	padding: 0 15px;
-			// }
 			.lh30{
 				line-height: 30px;
-			}
-			.history{
-				width: 100%;
-				height: 1644px;
-				position: relative; 
-				background: url(../img/about/history.png) no-repeat 39px 18px;
-				@include dib();
-				p{
-					width: 150px;
-					position: absolute;
-					text-align: left;
-					line-height: 22px;
-					font-size: 13px;
-				}
-				.hst1{
-					left: 79px;
-					top: 95px;
-				}
-				.hst2{
-					right: 0;
-					top: 219px;
-				}
-				.hst3{
-					left: 79px;
-					top: 365px;
-				}
-				.hst4{
-					right: 0;
-					top: 465px;
-				}
-				.hst5{
-					left: 79px;
-					top: 580px;
-				}
-				.hst6{
-					right: 0;
-					top: 730px;
-				}
-				.hst7{
-					left: 79px;
-					bottom: 672px;
-				}
-				.hst8{
-					right: 0;
-					bottom: 507px; 
-				}
-				.hst9{
-					left: 79px;
-					bottom: 345px;
-				}
-				.hst10{
-					right: 0;
-					bottom: 222px;
-				}
-				.hst11{
-					left: 79px;
-					bottom: 77px;
-				}
 			}
 		}
 		.wwIntro{
@@ -113,6 +47,12 @@
 				    }
 				    @include ell;
 				}
+				pre{
+					padding: 10px;
+					margin: 10px 0;
+					font-weight: bold;
+					font-size: 15px;
+				}
 			}
 
 		}
@@ -142,6 +82,12 @@
 					margin-left: 5px;
   				}
   			}
+  			pre{
+  				padding: 10px;
+  				margin: 10px 0;
+  				font-weight: bold;
+  				font-size: 15px;
+  			}
 		}
 		.linkStep{
 			margin-top: 46px;
@@ -149,13 +95,16 @@
 				margin-bottom: 8px;
 			}
 			div{
-				padding: 0 10px;
 				dt,dd{
-					line-height: 30px;
+					line-height: 24px;
+				    word-break: break-all;
 					a{
 					color: $list-tit-color;
 					}
 				}
+			}
+			.row{
+				padding: 0 27px;
 			}
 		}
 	}
@@ -164,7 +113,6 @@
 // old help.scss
 .main-help-con{
 	.helpL{
-		width: 190px;
 		font-size: 14px;
 	}
 	.tabNav{
@@ -174,8 +122,7 @@
 			height: 50px;
 			width: 100%;
 			line-height: 50px;
-			padding-left: 40px;
-			margin-bottom: -1px;
+			text-align: center;
 			border-bottom: $block-border;
 			@include dib();
 			cursor: pointer;
@@ -193,8 +140,6 @@
 		border: $block-border;
 	}
 	.helpR{
-		width: 749px;
-		margin-left: -1px;
 		padding: 10px 30px 20px;
 		background: $block-bg-color;
 		border: $block-border;
@@ -270,23 +215,15 @@
 // help/home css
 .helpIcons{
 	li{
-		width: 40%;
 		height: 276px;
-		background: #f0f5f5;
 		@include border-radius(3px);
 		float: left;
 		margin-bottom: 42px;
-		&:nth-of-type(odd){
-			margin-right: 6%;
-			margin-left: 7%;
-		}
-		&:nth-of-type(even){
-			
-		}
 		a{
 			display: inline-block;
 			width: 100%;
 			height: 100%;
+			background: #f0f5f5;
 			p{
 				width: 120px;
 				text-align: center;

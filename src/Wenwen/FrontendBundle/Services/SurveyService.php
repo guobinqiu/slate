@@ -472,6 +472,7 @@ class SurveyService
      * @return array $partnerResearchs
      */
     public function getSurveyResearchArray($user, $locationInfo) {
+        $this->logger->info(__METHOD__ . 'START userId=' . $user->getId());
         $partnerResearchs = array();
         try{
             $surveyPartners = $this->surveyParnterService->getSurveyPartnerListForUser($user, $locationInfo);
@@ -493,8 +494,10 @@ class SurveyService
         } catch (\Exception $e){
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
+            $this->logger->info(__METHOD__ . 'ERROR userId=' . $user->getId());
             return array();
         }
+        $this->logger->info(__METHOD__ . 'END userId=' . $user->getId());
         return $partnerResearchs;
     }
 

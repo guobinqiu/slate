@@ -14,17 +14,21 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-con w1000 clearfix">
-	<div class="main-con-left left col-m-12 col-t-12">
-		<div class="vote vote-sub">
-			<h1 class="visibleDesktop hiddenPhone hiddenTablet">快速问答</h1>
-            {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
-            <div class="page-wrapper">
-                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
-            </div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-9 col-xs-12">
+			<div class="vote panel panel-default">
+				<div class="panel-heading hidden-xs"><h3>快速问答</h3></div>
+				<div class="panel-body top15">
+		            {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
+		            <div class="page-wrapper">
+		                {% include "WenwenFrontendBundle:Components:_pageNavs.html.twig" %}
+		            </div>
+		        </div>
+			</div>
 		</div>
+		<div class="col-sm-3 hidden-xs">{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}</div>
 	</div>
-	{% include 'WenwenFrontendBundle:Vote:_voteRight.html.twig' %}
 </div>
 {% endblock %}
 
@@ -35,4 +39,9 @@
 {% block javascript %}
 <script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
 <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 {% endblock %}

@@ -28,6 +28,24 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
     }
 
     /**
+     * @Route("/admin/surveypartner/daily_report/", name="admin_surveypartner_daily_report")
+     * @Template
+     */
+    public function showParticipationDailyReportAction(Request $request){
+        // 
+        $adminSurveyPartnerService = $this->get('app.admin_survey_partner_service');
+
+        // 先直接显示过去一周的参与情况情况
+        $result = $adminSurveyPartnerService->getParticipationDailyReport();
+
+        return $this->render('WenwenFrontendBundle:admin:surveyPartnerDailyReport.html.twig', 
+            array(
+                'dailyReports' => $result['dailyReports']
+                ));
+
+    }
+
+    /**
      * @Route("/admin/surveypartner/open/{surveyPartnerId}/", name="admin_surveypartner_open")
      * @Template
      */
@@ -91,25 +109,34 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
     {
         $this->get('logger')->debug(__METHOD__ . ' START');
         $surveyPartner = new SurveyPartner();
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setCompletePoint(300);
+        $surveyPartner->setScreenoutPoint(1);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setMinAge(0);
+        $surveyPartner->setMaxAge(150);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
         $surveyPartner->setStatus('init');
         $surveyPartner->setCreatedAt(new \Datetime());
         $surveyPartner->setUpdatedAt(new \Datetime());
         $form = $this->createForm(new SurveyPartnerType(), $surveyPartner);
+        
         if ($request->getMethod() == 'POST') {
-            $this->get('logger')->debug('XXX2');
             $form->bind($request);
-            $this->get('logger')->debug('XXX3');
             if ($form->isValid()) {
-                $this->get('logger')->debug('XXX4');
                 $adminSurveyPartnerService = $this->get('app.admin_survey_partner_service');
                 $adminSurveyPartnerService->createUpdateSurveyPartner($surveyPartner);
                 $this->get('logger')->debug(__METHOD__ . ' Created');
                 return $this->redirect($this->generateUrl('admin_surveypartner_show', array('surveyPartnerId' => $surveyPartner->getId())));
             } else {
                 //var_dump($form->getErrors());
-                $this->get('logger')->warn(__METHOD__ . ' ERROR:' . json_encode($form->getErrors()));
+                $this->get('logger')->warn(__METHOD__ . ' ERRORs: ' . json_encode($form->getErrors()));
+                $this->get('logger')->warn(__METHOD__ . ' ERRORs string: ' . $form->getErrorsAsString());
             }
+        } else {
+            
         }
+
         $this->get('logger')->debug(__METHOD__ . ' END');
         return $this->render('WenwenFrontendBundle:admin:surveyPartnerCreate.html.twig', array('surveyPartnerForm' => $form->createView()));
     }
@@ -128,6 +155,7 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
+                $surveyPartner->setUpdatedAt(new \DateTime());
                 $adminSurveyPartnerService->createUpdateSurveyPartner($surveyPartner);
                 $this->get('logger')->debug(__METHOD__ . ' Saved surveyPartnerId=' . $surveyPartnerId);
                 return $this->redirect($this->generateUrl('admin_surveypartner_show', array('surveyPartnerId' => $surveyPartnerId)));

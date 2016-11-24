@@ -9,16 +9,14 @@ body{
 a:hover{
 	text-decoration: none;
 }
+#top-header{
+	margin-bottom: 0;
+}
 .bdshare-button-style0-16 a, .bdshare-button-style0-16 .bds_more{
-	// line-height: initial!important;
-	// height: initial!important;
-	// background: none!important;
 	cursor: pointer!important;
 	margin: initial!important;
 	text-indent: initial!important;
 	overflow: hidden!important;
-	// color: initial!important;
-
 }
 .header{
 	position: relative;
@@ -257,7 +255,7 @@ a:hover{
 		}
 	}
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
 	.bannerWrap{
 		.bannerCon{
 			padding-top: 20px;	

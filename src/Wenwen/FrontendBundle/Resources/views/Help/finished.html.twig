@@ -10,14 +10,22 @@
 {% endblock %}
 
 {% block body %}
-<div class="main-help-con w1000">
-	<div class="main-help-feedback">
-		<div class="finished">
-			<p>感谢您的意见，我们的客服小问将根据您的问题，尽快联系您。</p>
-			<a href="{{ path('_homepage') }}">返回首页></a>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 top20 text-center">
+			<div class="main-help-con panel">
+				<div class="main-help-feedback">
+					<div class="finished">
+						<img src="{{ asset('img/questionnaire/normalface.png') }}">
+						<p>感谢您的意见，我们的客服小问将根据您的问题，尽快联系您。</p>
+						<a href="{{ path('_homepage') }}">返回首页></a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+
 {% endblock %}
 
 {% block footer %}

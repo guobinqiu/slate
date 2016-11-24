@@ -8,6 +8,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * 捕获Controller异常
@@ -35,10 +37,13 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        $this->logger->error($exception);
-        if ($this->kernel->getEnvironment() == "prod") {
-            $event->setResponse($this->templating->renderResponse('error.html.twig', array('errorMessage' => $exception->getMessage())));
+        if (!$exception instanceof NotFoundHttpException) {
+            $this->logger->error(__METHOD__ . ' Something wrong: ' . $exception);
+        } else {
+            $this->logger->warn(__METHOD__ . ' NotFoundHttpException: ' . $exception);
+            $event->setResponse($this->templating->renderResponse('WenwenFrontendBundle:Error:error404.html.twig', array('errorMessage' => $exception->getMessage())));
         }
+
     }
 
 //    public function onKernelRequest(GetResponseEvent $event)

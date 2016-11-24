@@ -127,7 +127,11 @@
                 <thead>
                     <tr>
                         <th>initCount</th>
+                        <th>CVR(init -> forward)</th>
                         <th>forwardCount</th>
+                        <th>CVR(forward -> csqe)</th>
+                        <th>total of c/s/q/e</th>
+                        <th>realIR</th>
                         <th>completeCount</th>
                         <th>screenoutCount</th>
                         <th>quotafullCount</th>
@@ -137,7 +141,11 @@
                 <tbody>
                     <tr>
                         <td>{{summary.initCount}}</td>
+                        <td>{{summary.cvrInitToForward}}</td>
                         <td>{{summary.forwardCount}}</td>
+                        <td>{{summary.cvrForwardToCSQE}}</td>
+                        <td>{{summary.CSQE}}</td>
+                        <td>{{summary.realIR}}</td>
                         <td>{{summary.completeCount}}</td>
                         <td>{{summary.screenoutCount}}</td>
                         <td>{{summary.quotafullCount}}</td>

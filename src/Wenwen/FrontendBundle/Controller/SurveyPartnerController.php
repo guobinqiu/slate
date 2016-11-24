@@ -107,16 +107,14 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         $surveyPartnerService = $this->get('app.survey_partner_service');
         // 检查request的IP，非指定IP来的request不予响应，
         // 暂时限制为TripleS的IP
-        $validIp = $surveyPartnerService->isValidEndlinkIp($request->getClientIp());
-        if(! $validIp) {
-            // redirect to error page
-            $params = array();
-            $params['surveyId'] = $surveyId;
-            $params['key'] = $key;
+
+        $this->get('logger')->INFO(__METHOD__ . ' referer=' . $request->headers->get('referer'));
+        $validReferer = $surveyPartnerService->isValidEndlinkReferer($request->headers->get('referer'), $key);
+        if(! $validReferer) {
             return new Response('Request not allowed.');
         }
 
-        $rtn = $surveyPartnerService->processEndlink($uid, $answerStatus, $surveyId, $partnerName, $key);
+        $rtn = $surveyPartnerService->processEndlink($uid, $answerStatus, $surveyId, $partnerName, $key, $request->getClientIp());
         if($rtn['status'] == 'success'){
             $params = array();
             $params['answerStatus'] = $rtn['answerStatus'];

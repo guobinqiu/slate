@@ -98,6 +98,13 @@ class UserTrack
     private $oauth;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="register_route", type="string", length=24, nullable=true)
+     */
+    private $registerRoute;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -312,5 +319,28 @@ class UserTrack
     public function getOauth()
     {
         return $this->oauth;
+    }
+
+    /**
+     * Set registerRoute
+     *
+     * @param string $oauth
+     * @return UserTrack
+     */
+    public function setRegisterRoute($registerRoute)
+    {
+        $this->registerRoute = $registerRoute;
+
+        return $this;
+    }
+
+    /**
+     * Get registerRoute
+     *
+     * @return string
+     */
+    public function getRegisterRoute()
+    {
+        return $this->registerRoute;
     }
 }

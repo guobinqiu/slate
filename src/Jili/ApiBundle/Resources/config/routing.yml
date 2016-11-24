@@ -1,7 +1,3 @@
-shopping:
-    resource: "@JiliApiBundle/Controller/ShoppingController.php"
-    prefix:   /shopping
-    type:     annotation
 
 advertiserment:
     resource: "@JiliApiBundle/Controller/AdvertisermentController.php"
@@ -18,24 +14,9 @@ exchange:
     prefix:   /exchange
     type:     annotation
 
-api:
-    resource: "@JiliApiBundle/Controller/ApiController.php"
-    prefix:   /api
-    type:     annotation
-
 admin:
     resource: "@JiliApiBundle/Controller/AdminController.php"
     prefix:   /admin
-    type:     annotation
-
-marketActivity:
-    resource: "@JiliApiBundle/Controller/MarketActivityController.php"
-    prefix:   /marketActivity
-    type:     annotation
-
-topcron:
-    resource: "@JiliApiBundle/Controller/TopCronController.php"
-    prefix:   /topcron
     type:     annotation
 
 api-offer99:
