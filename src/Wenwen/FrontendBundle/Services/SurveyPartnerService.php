@@ -928,12 +928,12 @@ class SurveyPartnerService
     public function encodeToken($userId, $surveyPartnerId, $secretKey = self::SECRET_KEY){
         // 简单一点先，以后有需要了再加强吧
         $decodeString = $userId . ',' . $surveyPartnerId . ',' . $secretKey;
-        return base64_encode(str_rot13(gzdeflate($decodeString)));
+        return urlencode(str_rot13(gzdeflate($decodeString)));
     }
 
     public function decodeToken($token){
         try{
-            $decodeString = gzinflate(str_rot13(base64_decode($token)));
+            $decodeString = gzinflate(str_rot13(urldecode($token)));
         } catch (\Exception $e){
             return array();
         }

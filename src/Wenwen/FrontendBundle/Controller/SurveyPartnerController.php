@@ -89,7 +89,7 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         } else {
             // 返回状态为failure时，跳转至errorpage页面
             $params = array();
-            $params['answerStatus'] = 'error'; // 系统错误
+            $params['answerStatus'] = $rtn['status']; // 系统错误
             $params['surveyPartnerId'] = $surveyPartnerId;
             $params['title'] = $surveyPartnerId;
             $params['key'] = 'SYSERR';
