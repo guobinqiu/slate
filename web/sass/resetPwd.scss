@@ -3,18 +3,15 @@
 @import "layout/common-simple";
 @import "layout/header-simple";
 @import "component/form";
-.main-con{
-	width: 740px;
-}
 .main-resetPwd{
-	padding: 48px 70px;
+	padding: 48px 146px;
 	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
 	.steps{
 		span{
-			width: 170px;
-			padding-left: 30px;
+			width: 33%;
 			height: 36px;
 			line-height: 36px;
+			text-align: center;
 			color: #969696;
 			background: #efefef url(../img/user/barBg.png) no-repeat right -94px;
 			@include dib();
@@ -84,7 +81,6 @@
 			width: 180px;
 			text-align: center;
 			height: 50px;
-			line-height: 50px;
 			font-size: 16px;
 			color: #fff;
 			@include btn();
@@ -121,3 +117,15 @@
 	}
 } 
 @import "layout/footer-simple";
+
+@media only screen and (max-width: 767px)  {
+	.main-resetPwd{
+		padding: 39px 24px;
+	}
+	.main-resetPwd-con{
+		padding: 22px;
+		input[type='text'], input[type='password']{
+			width: 100%;
+		}
+	}
+}

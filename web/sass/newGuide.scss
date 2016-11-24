@@ -7,16 +7,14 @@
 	padding: 10px 5% 20px;
 	background: #fff;
 	&.newGuideBox{
-		padding: 80px 5%;
+		padding: 50px 5%;
 	}
 }
 .newGuide-item{
-	float: left;
-	width: 33%;
+	padding: 30px 20px;
 	text-align: center;
-	border-right: 1px dashed #ebedf3;
 	dl{
-		margin-top: 50px;
+		margin-top: 22px;
 		width: 100%;
 		dt{
 		    color: $orange-color;
@@ -54,10 +52,7 @@
 		position: absolute;
 		right: 8px; 
 		top: 17px;
-		margin-top: 10px;
 	    padding: 8px 20px;
-	    height: 24px;
-	    line-height: 24px;
 	    color: #666;
 	    background: #fff;
 	    border: 1px solid #ededf0;
@@ -84,3 +79,9 @@
 	}
 }
 @import "layout/footer";
+
+@media only screen and (max-width: 767px)  {
+	.newGuide.newGuideBox{
+		padding: 32px 5%;
+	}
+}

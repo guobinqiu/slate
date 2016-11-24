@@ -1,4 +1,4 @@
-<div class="survey-item">
+<div class="survey-item col-xs-5 col-sm-6 col-md-8">
     <div class="title">
         <a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">{{ fulcrum_research.title }}<span></span></a>
     </div>
@@ -15,5 +15,7 @@
         </li>
     </ul>
 </div>
-<div class="rewardPoint"><i>{{ fulcrum_research.extra_info.point.complete }}</i>积分</div>
-<div class="survey-btn"><a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>
+<div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
+    <div class="rewardPoint"><i>{{ fulcrum_research.extra_info.point.complete }}</i>积分</div>
+    <div class="survey-btn"><a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_brank">可回答</a></div>
+</div>

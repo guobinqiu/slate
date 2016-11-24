@@ -591,11 +591,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertEquals($eventid, $offerwow_order->getEventId());
         $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
-        $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
-        $this->assertEquals($memberid, $taskHistory->getUserId());
-        $this->assertEquals($programname, $taskHistory->getTaskName());
-        $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
+        $this->assertTrue(is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
         $this->assertTrue(($user->getLastGetPointsAt() == $oldTime), 'lastGetPointsAt should not be changed');
     }
 
@@ -787,11 +783,7 @@ class OfferwowRequestServiceTest extends WebTestCase
         $this->assertEquals($eventid, $offerwow_order->getEventId());
         $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $offerwow_order->getStatus());
 
-        $this->assertTrue(!is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
-        $this->assertEquals($memberid, $taskHistory->getUserId());
-        $this->assertEquals($programname, $taskHistory->getTaskName());
-        $this->assertEquals($point, $taskHistory->getPoint());
-        $this->assertEquals(OfferwowRequestService::convertStatus($immediate), $taskHistory->getStatus());
+        $this->assertTrue(is_null($taskHistory),'eventid=[' . $eventid . '] task_history is not existed.');
 
         $this->assertTrue(is_null($pointHistory),'eventid=[' . $eventid . '] point_history exist.');
 

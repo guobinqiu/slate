@@ -82,7 +82,12 @@ class SopApiController extends Controller
         // Verify signature
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
 
-        if (!$auth->verifySignature($sig, $params)) {
+        $result = $auth->verifySignature($sig, $params);
+
+        if (!$result['status']) {
+            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
+            $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
+            $this->container->get('logger')->error(__METHOD__ . ' request_body='.$this->getRequestBody());
             return $this->render400Response('authentication failed');
         }
 
@@ -229,7 +234,10 @@ class SopApiController extends Controller
         $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
         $sig = $request->headers->get('X-Sop-Sig');
 
-        if (!$auth->verifySignature($sig, $request_body)) {
+        $result = $auth->verifySignature($sig, $request_body);
+
+        if (!$result['status']) {
+            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
             $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
             $this->container->get('logger')->error(__METHOD__ . ' request_body='.$request_body);
             return $this->render403Response('authentication failed');

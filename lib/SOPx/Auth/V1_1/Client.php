@@ -57,11 +57,23 @@ class Client
 
     public function verifySignature($sig, $params)
     {
-        return Util::isSignatureValid(
-            $sig,
-            $params,
-            $this->getAppSecret(),
-            $this->getTime()
-        );
+        $result = array();
+        $result['status'] = false;
+        $result['msg'] = '';
+        try{
+            Util::isSignatureValid(
+                $sig,
+                $params,
+                $this->getAppSecret(),
+                $this->getTime()
+            );
+        } catch (\Exception $e){
+            $result['status'] = false;
+            $result['msg'] = $e->getMessage();
+            return $result;
+        }
+
+        $result['status'] = true;
+        return $result;
     }
 }

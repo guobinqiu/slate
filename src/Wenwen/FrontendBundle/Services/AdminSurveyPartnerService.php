@@ -47,6 +47,7 @@ class AdminSurveyPartnerService
         try{
             $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+            $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
             $this->em->flush();
         } catch (\Exception $e) {
@@ -69,6 +70,7 @@ class AdminSurveyPartnerService
         try{
             $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
+            $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
             $this->em->flush();
         } catch (\Exception $e) {
@@ -88,9 +90,9 @@ class AdminSurveyPartnerService
     public function createUpdateSurveyPartner(SurveyPartner $surveyPartner) {
         $this->logger->debug(__METHOD__ . ' START ');
 
-        if(! preg_match('/\?*=__UID__/', $surveyPartner->getUrl())){
+        if(! preg_match('/\/\?uid=__UID__/', $surveyPartner->getUrl())){
             // url里没有__UID__
-            throw new \Exception('问卷入口url里必须有一个参数的值为__UID__');
+            throw new \Exception('问卷入口url的格式不正确!');
         }
 
         try{
@@ -107,7 +109,7 @@ class AdminSurveyPartnerService
     }
 
     /**
-     * 新建问卷项目
+     * 查找一个问卷项目
      * @param $surveryPartnerId
      */
     public function findSurveyPartner($surveryPartnerId) {
@@ -115,9 +117,9 @@ class AdminSurveyPartnerService
 
         $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
 
-        return $surveyPartner;
-
+        $this->logger->debug(__METHOD__ . ' completePoint=' . $surveyPartner->getCompletePoint());
         $this->logger->debug(__METHOD__ . ' END   ');
+        return $surveyPartner;
     }
 
     public function getSurveyPartnerParticipationSummary($surveryPartner){
@@ -131,7 +133,11 @@ class AdminSurveyPartnerService
         $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_ERROR);
 
         $summary['initCount'] = $initCount;
+        $summary['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
         $summary['forwardCount'] = $forwardCount;
+        $summary['CSQE'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
+        $summary['cvrForwardToCSQE'] = $this->calculatePercentage($summary['CSQE'], $forwardCount);
+        $summary['realIR'] = $this->calculatePercentage($completeCount, $summary['CSQE']);
         $summary['completeCount'] = $completeCount;
         $summary['screenoutCount'] = $screenoutCount;
         $summary['quotafullCount'] = $quotafullCount;
@@ -145,6 +151,70 @@ class AdminSurveyPartnerService
         return $pagination;
 
         
+    }
+
+    public function getParticipationDailyReport(\DateTime $from = null, \DateTime $to = null){
+        // 默认检索一周时间的日报数据
+        $from = (new \DateTime())->sub(new \DateInterval('P30D'))->setTime(0,0,0); 
+        $to = (new \DateTime())->setTime(0,0,0);
+
+        $current = clone $to;
+
+        $dailyReports = array();
+
+        while($current >= $from){
+            $this->logger->debug(__METHOD__ . ' current=' . $current->format('Y-m-d'));
+            $start = clone $current;
+            $end = clone $start;
+            $end->add(new \DateInterval('P01D'));
+
+            $initCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_INIT, $start, $end);
+            $forwardCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD, $start, $end);
+            $completeCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE, $start, $end);
+            $screenoutCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_SCREENOUT, $start, $end);
+            $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL, $start, $end);
+            $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
+            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_ERROR, $start, $end);
+
+            $dailyReport = array();
+            $dailyReport['initCount'] = $initCount;
+            $dailyReport['forwardCount'] = $forwardCount;
+            $dailyReport['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
+            $dailyReport['CSQE'] = $completeCount+$screenoutCount+$quotafullCount+$errorCount;
+            $dailyReport['cvrForwardToCSQE'] = $this->calculatePercentage($dailyReport['CSQE'], $forwardCount);
+            $dailyReport['alert'] = ($dailyReport['CSQE'] > $dailyReport['forwardCount']);
+            $dailyReport['completeCount'] = $completeCount;
+            $dailyReport['realIR'] = $this->calculatePercentage($completeCount, $dailyReport['CSQE']);
+            $dailyReport['screenoutCount'] = $screenoutCount;
+            $dailyReport['quotafullCount'] = $quotafullCount;
+            $dailyReport['errorCount'] = $errorCount;
+            
+            $dailyReports[$start->format('Y-m-d')] = $dailyReport;
+
+            $current->sub(new \DateInterval('P01D'));
+        }
+        
+        $result = array();
+        $result['from'] = $from->format('Y-m-d');
+        $result['to'] = $to->format('Y-m-d');
+        $result['dailyReports'] = $dailyReports;
+
+        return $result;
+    }
+
+    private function calculatePercentage($oldFigure, $newFigure) {
+        if ($newFigure != 0) {
+            $percentChange = round(($oldFigure / $newFigure) * 100, 1) . '%';
+        }
+        else {
+            $percentChange = 'N/A';
+        }
+        return $percentChange;
     }
 
 }

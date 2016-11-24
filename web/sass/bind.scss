@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+@import "layout/common";
 @import "layout/common-simple";
 @import "layout/header-simple";
 @import "layout/footer-simple";
@@ -15,9 +16,6 @@ html,body{
 	width: 1000px;
 	padding: 20px 0;
 	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
-}
-.main-resetPwd{
-	padding: 48px 70px;
 }
 .form{
 	span{
@@ -45,9 +43,6 @@ html,body{
 	}
 }
 .bindCon{
-	width: 42%;
-	display: inline-block;
-	float: left;
 	.bindForm{
 		display: none;
 		li{
@@ -140,7 +135,7 @@ html,body{
 	.bindBtn,.skipBtn{
 		width: 100%;
 		background: #17b5e5;
-		padding: 21px 80px;
+		padding: 21px 50px;
 		color: #fff;
 		font-size: 18px;
 	    border: none;
@@ -232,8 +227,6 @@ html,body{
 	}
 }
 .bindAvtWrap{
-	width: 50%;
-	float: right;
 	background: #f3f5f5;
 	.bindAvtInner{
 		text-align: center;

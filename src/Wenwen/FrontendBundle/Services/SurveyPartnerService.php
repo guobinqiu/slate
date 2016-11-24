@@ -29,15 +29,12 @@ class SurveyPartnerService
 
     private $prizeTicketService;
 
-    private $allowIps = array(
-        //'127.0.0.1', // Vagrant dev environment
-        '192.168.33.61', // Vagrant dev environment
-        '192.168.33.1',  // Vagrant dev client
-        '54.254.98.254', // staff.researchpanelasia.com. 299
-        '54.254.98.246', // staff.researchpanelasia.com. 299
+    private $testUserEmails = array(
+        'rpa-sys-china@d8aspring.com', //id =2718082
+        'ds-Product-china@d8aspring.com' //id =2717895
         );
 
-    const TEST_USER_EMAIL = 'rpa-sys-china@d8aspring.com';
+    const VALID_REFERER_DOMAIN = 'r.researchpanelasia.com';
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
@@ -58,18 +55,18 @@ class SurveyPartnerService
      * @return array $surveyPartners
      */
     public function getSurveyPartnerListForUser($user, $locationInfo) {
-        $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId());
+        $this->logger->info(__METHOD__ . ' START userId=' . $user->getId());
         $availableSurveyPartners = array();
 
         try{
             
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 如果是测试用户，则显示所有处于init状态的项目
                 $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                     array(
                         'status' => SurveyPartner::STATUS_INIT,
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test a user. email=' . $user->getEmail());
                 return $surveyPartners;
             }
 
@@ -80,19 +77,13 @@ class SurveyPartnerService
                 return array();
             }
 
-            // 获取该用户的参与记录
-            // 没有参与记录，可以参与
-            // 参与状态为open，可以参与
-            // 参与状态为init/forward（且允许中途退出的项目）的，可以参与
-            // 其他状态，不可再次参与，不显示
-            // $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->getSurveyPartnersForUser($user);
-
             // 找到所有open的问卷项目
             $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                 array(
                     'status' => SurveyPartner::STATUS_OPEN,
                     ));
             // 循环检查每个项目，不符合参与条件或者已经参与过的话就继续处理下一个项目
+            $this->logger->info(__METHOD__ . ' START of processing surveyPartners userId=' . $user->getId());
             foreach($surveyPartners as $surveyPartner){
                 $this->logger->debug(__METHOD__ . ' check started. id=' . $surveyPartner->getId());
                 // 核对用户信息是否满足该项目的参与条件
@@ -103,7 +94,7 @@ class SurveyPartnerService
                     $this->logger->debug(__METHOD__ . ' survey valid for this user.');
                 } else {
                     // 不满足参与条件，直接处理下一个问卷项目
-                    $this->logger->debug(__METHOD__ . ' survey not valid for this user.');
+                    $this->logger->warn(__METHOD__ . ' survey is not valid for user_id='. $user->getId().' reason:' . $validResult['result']);
                     continue;
                 }
 
@@ -131,13 +122,13 @@ class SurveyPartnerService
                 $this->logger->debug(__METHOD__ . ' check passed. id=' . $surveyPartner->getId());
                 array_push($availableSurveyPartners, $surveyPartner);
             }
-            $this->logger->debug(__METHOD__ . ' availableSurveyPartners count: ' . count($availableSurveyPartners));
+            $this->logger->info(__METHOD__ . ' END of processing surveyPartners userId=' . $user->getId() . ' availableSurveyPartners count: ' . count($availableSurveyPartners));
         } catch (\Exception $e) {
             $this->logger->error(__METHOD__ . ' ErrorMsg:   ' . $e->getMessage());
             $this->logger->error(__METHOD__ . ' ErrorStack:   ' . $e->getTraceAsString());
         }
 
-        $this->logger->debug(__METHOD__ . ' END   ');
+        $this->logger->info(__METHOD__ . ' END userId=' . $user->getId());
         return $availableSurveyPartners;
     }
 
@@ -164,13 +155,13 @@ class SurveyPartnerService
         $rtn['status'] = 'failure';
         try{
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 如果是测试用用户，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('id' => $surveyPartnerId,
                         'status' => SurveyPartner::STATUS_INIT
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test user. email=' . $user->getEmail());
             } else {
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
@@ -265,7 +256,7 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
-        if(self::TEST_USER_EMAIL == $user->getEmail()){
+        if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
             $rtn['result'] = 'success';
             return $rtn;
@@ -315,19 +306,19 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province']))){
+        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province'])) !== false){
             // 省份匹配上了
             $rtn['result'] = 'success';
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city']))){
+        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city'])) !== false){
             // 市匹配上了
             $rtn['result'] = 'success';
             return $rtn;
         }
         // 都没匹配上
-        $rtn['result'] = 'locationCheckFailed';
+        $rtn['result'] = 'locationCheckFailed . city=' . $locationInfo['city'] . ' province=' . $locationInfo['province'];
         $this->logger->debug(__METHOD__ . ' END');
         return $rtn;
     }
@@ -357,13 +348,13 @@ class SurveyPartnerService
 
         try{
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 测试用户的话，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('id' => $surveyPartnerId,
                         'status' => SurveyPartner::STATUS_INIT
                         ));
-                $this->logger->info(__METHOD__ . ' This is test user email(' . self::TEST_USER_EMAIL . ') ');
+                $this->logger->info(__METHOD__ . ' This is test user. email=' . $user->getEmail());
             } else {
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
@@ -375,7 +366,7 @@ class SurveyPartnerService
             if(is_null($surveyPartner)){
                 // open状态的项目不存在，结束处理，返回状态为不可参与
                 $errMsg = 'Survey is not exist(open). surveyPartnerId=' . $surveyPartnerId;
-                $this->logger->debug(__METHOD__ . ' errMsg: ' . $errMsg);
+                $this->logger->warn(__METHOD__ . ' errMsg: ' . $errMsg);
                 $rtn['status'] = 'failure';
                 $rtn['errMsg'] = $errMsg;
                 return $rtn;
@@ -387,7 +378,7 @@ class SurveyPartnerService
             $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
             if($validResult['result'] != 'success'){
                 // 用户不符合这个项目的参与要求，结束处理，返回状态为不可参与
-                $this->logger->debug(__METHOD__ . ' this user is not allowed for this survey: ' . $validResult['result']);
+                $this->logger->warn(__METHOD__ . ' user_id='. $user->getId().' is not allowed for this survey. reason: ' . $validResult['result']);
                 $rtn['status'] = 'notallowed';
                 $rtn['errMsg'] = $validResult['result'];
                 return $rtn;
@@ -463,11 +454,25 @@ class SurveyPartnerService
         return $rtn;
     }
 
-    public function isValidEndlinkIp($clientIp){
-        if(in_array($clientIp, $this->allowIps)){
+
+    /**
+     * tripleS的referer例子：
+     * http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg
+     */
+    public function isValidEndlinkReferer($referer, $key){
+        if(empty($referer)){
+            // no referer found, allow because some antivirus softs will clear referer
             return true;
+        } else {
+            // has referer
+            // only allow for triples at this moment
+            if(! strpos($referer, self::VALID_REFERER_DOMAIN)){
+                // 如果不含有 VALID_REFERER_DOMAIN 视为非法
+                return false;
+            }
+
         }
-        return false;
+        return true;
     }
 
     /**
@@ -477,7 +482,7 @@ class SurveyPartnerService
      *              status: failure 非正常处理结束
      *              )
      */
-    public function processEndlink($userId, $answerStatus, $surveyId, $partnerName, $key){
+    public function processEndlink($userId, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
         $this->logger->debug(__METHOD__ . ' START userId=' . $userId . ' surveyId=' . $surveyId . 'partnerName=' . $partnerName . ' answerStatus=' . $answerStatus . ' $key=' . $key);
 
         $rtn = array();
@@ -486,6 +491,7 @@ class SurveyPartnerService
         $rtn['surveyId'] = $surveyId;
         $rtn['partnerName'] = $partnerName;
         $rtn['key'] = $key;
+        $rtn['errMsg'] = '';
 
         try{
             // 先检查这个用户是否存在
@@ -501,7 +507,7 @@ class SurveyPartnerService
 
             // 用户存在的情况
             $surveyPartner = null;
-            if(self::TEST_USER_EMAIL == $user->getEmail()){
+            if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 测试用户的话，检查这个项目是否存在并且处于init状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('surveyId' => $surveyId,
@@ -509,6 +515,11 @@ class SurveyPartnerService
                         'status' => SurveyPartner::STATUS_INIT
                         ));
             } else {
+                // Todo 要分布检查，
+                // 首先，项目是否存在
+                // 然后存在的项目是否已经关闭
+                // 如果项目已经关闭，需要给用户提示信息
+
                 // 检查这个项目是否存在并且处于open状态
                 $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneBy(
                     array('surveyId' => $surveyId,
@@ -535,16 +546,64 @@ class SurveyPartnerService
                     'surveyPartner' => $surveyPartner,
                     ));
             if(2 == count($surveyPartnerParticipationHistorys)){
-                // 有两条参与记录 允许处理
+                // 有两条参与记录
+                // 查找forward状态的历史记录
+                $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                array('user' => $user,
+                    'surveyPartner' => $surveyPartner,
+                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    ));
+
+                if(empty($forwardParticipationHistory)){
+                    // 如果没有forward状态的历史记录，直接结束
+                    $errMsg = 'Participation status is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                    $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                    $rtn['status'] = 'failure';
+                    $rtn['errMsg'] = $errMsg;
+                    return $rtn;
+                }
+
+                if($forwardParticipationHistory->getClientIp() != $clientIp){
+                    // 如果参与时的clientIp 不等于endlink的clientIp，也不做处理
+                    $errMsg = 'Participation clientIp does not match. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                    $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                    $rtn['status'] = 'failure';
+                    $rtn['errMsg'] = $errMsg;
+                    return $rtn;
+                }
+
+                // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，不处理
+                if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+                    $now = new \DateTime();
+
+                    $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
+                    $minutes = $diff->days * 24 * 60;
+                    $minutes += $diff->h * 60;
+                    $minutes += $diff->i;
+
+                    if($minutes <= $surveyPartner->getLoi()/4){
+                        $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
+                        $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                        // 完成回答过快，状态改为screenout
+                        $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                        $rtn['errMsg'] = $errMsg;
+                    }
+                }
+                
+                // 检查都通过了，开始正常处理
+
                 // 先增加一条结束状态的历史记录
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
                 $surveyPartnerParticipationHistory->setStatus($rtn['answerStatus']);
                 $surveyPartnerParticipationHistory->setUKey($key);
+                $surveyPartnerParticipationHistory->setClientIp($clientIp);
+                $surveyPartnerParticipationHistory->setComment($rtn['errMsg']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
-                $this->em->persist($surveyPartnerParticipationHistory);
 
+                $this->em->persist($surveyPartnerParticipationHistory);
+                
                 // 发积分
                 $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $key);
                 $this->em->flush();
@@ -556,15 +615,15 @@ class SurveyPartnerService
             } else {
                 // 有2条以外的参与记录，视为非正常结果，不做任何处理
                 // 非正确的参与状态，不加积分
-                $errMsg = 'Participation status is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName . ' count of history=' . count($surveyPartnerParticipationHistorys);
+                $errMsg = 'Participation count is not correct. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName . ' count of history=' . count($surveyPartnerParticipationHistorys);
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 $rtn['status'] = 'failure';
                 $rtn['errMsg'] = $errMsg;
             }
         } catch (\Exception $e){
             // 任何系统级别的错误都直接返回error状态
-            $this->logger->error($e->getMessage());
-            $this->logger->error($e->getTraceAsString());
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ' ' . $e->getTraceAsString());
             $rtn['status'] = 'error';
             $rtn['errMsg'] = $e->getMessage();
         }

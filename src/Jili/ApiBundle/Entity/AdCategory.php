@@ -156,9 +156,4 @@ class AdCategory
     {
         return $this->displayName;
     }
-
-    public function getIsEmarCps()
-    {
-        return $this->getAsp() === 'emar' && strtolower($this->getCategoryName() )=== 'cps';
-    }
 }
