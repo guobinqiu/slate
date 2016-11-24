@@ -10,6 +10,7 @@ use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
 use Wenwen\FrontendBundle\Entity\CategoryType;
 use Wenwen\FrontendBundle\Entity\TaskType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Base64Url\Base64Url;
 
 /**
  * 第三方非API对接方式的问卷项目信息管理 
@@ -35,7 +36,7 @@ class SurveyPartnerService
 
     const VALID_REFERER_DOMAIN = 'r.researchpanelasia.com';
 
-    const SECRET_KEY = 'prehistorical powers'; // 编码时的混杂key
+    const SECRET_KEY = "bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3";  // 编码时的混杂HEX key 不要随便改哦
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
@@ -518,6 +519,8 @@ class SurveyPartnerService
         $userId = $params[0];
         $surveyPartnerId = $params[1];
 
+        $this->logger->debug(__METHOD__ . ' userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId);
+
         // 检查该项目是否存在
         $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveyPartnerId);
         if(empty($surveyPartner)){
@@ -925,34 +928,45 @@ class SurveyPartnerService
         return $surveyPartner->getId() . ' ' . $surveyPartner->getTitle();
     }
 
-    public function encodeToken($userId, $surveyPartnerId, $secretKey = self::SECRET_KEY){
+    public function encodeToken($userId, $surveyPartnerId, $secretkey = self::SECRET_KEY){
         // 简单一点先，以后有需要了再加强吧
-        $decodeString = $userId . ',' . $surveyPartnerId . ',' . $secretKey;
-        return urlencode(str_rot13(gzdeflate($decodeString)));
+        $key = pack('H*', $secretkey);
+        $plaintext = $userId . ',' . $surveyPartnerId;
+
+        $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+
+        $encrypted = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key,
+                                 $plaintext, MCRYPT_MODE_CBC, $iv);
+        $ciphertext_base64url = Base64Url::encode($iv . $encrypted);
+        return $ciphertext_base64url;
     }
 
-    public function decodeToken($token){
+    public function decodeToken($ciphertext_base64url, $secretkey = self::SECRET_KEY){
         try{
-            $decodeString = gzinflate(str_rot13(urldecode($token)));
+            $key = pack('H*', $secretkey);
+            // $decrypted = mcrypt_decrypt(MCRYPT_DES, $secretKey, Base64Url::decode($ciphertext_base64), MCRYPT_MODE_ECB, '');
+            $ciphertext_dec = Base64Url::decode($ciphertext_base64url);
+            $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+            $iv_dec = substr($ciphertext_dec, 0, $iv_size);
+            $ciphertext_dec = substr($ciphertext_dec, $iv_size);
+            $plaintext_dec = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key,
+                                    $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
         } catch (\Exception $e){
+            //throw $e;
             return array();
         }
-        return explode(',', $decodeString);
+        return explode(',', rtrim($plaintext_dec, "\0")); // 去掉最后一个\0 不然乱码
     }
 
     public function isValidParams($params){
         // 解码出来的params不等于3个的情况视为非法的token
-        if(count($params) != 3){
+        if(count($params) != 2){
             $errMsg = 'Not a valid token. Params counts incorrect.';
             $this->logger->warn(__METHOD__ . ' ' . $errMsg);
             return false;
         }
-        // 第三个param不等于secretKey的时候视为非法token
-        if(self::SECRET_KEY != $params[2]){
-            $errMsg = 'Not a valid token. SecretKey not matched.';
-            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
-            return false;
-        }
+
 
         if(empty($params[0]) || empty($params[1])){
             $errMsg = 'Not a valid token. userId or surveyPartnerId not exist.';

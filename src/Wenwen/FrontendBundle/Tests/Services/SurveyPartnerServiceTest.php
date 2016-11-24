@@ -46,7 +46,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->close();
     }
 
-/*
+
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
         $surveyPartner = new SurveyPartner();
@@ -2519,7 +2519,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
         $this->assertTrue($result);
     }
-*/
+
     public function testProcessForSurveyEndlink_invalidUid_not3params(){
         $uid = '';
         $answerStatus = 'complete';
@@ -2536,7 +2536,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userId = '123423';
         $surveyPartnerId = '1013';
 
-        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'fake key');
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'bcb04b7e103a0cdb2a00a3');
         $answerStatus = 'complete';
         $clientIp = 'xxx.xxx.xxx.xxx';
 
@@ -2552,13 +2552,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerId = '1013';
 
         $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+
         $answerStatus = 'complete';
         $clientIp = 'xxx.xxx.xxx.xxx';
 
         $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
 
         $this->assertEquals('failure', $rtn['status']);
-        $this->assertEquals('Not exist surveyPartnerId. surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+        $this->assertEquals('Not exist surveyPartnerId. surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg'] , 'Error message is not correct.');
 
     }
 
@@ -2757,14 +2758,6 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->flush();
 
         $clientIp = 'xxx.xxx.xxx.xxx';
-/*
-        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
-        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
-        $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
-        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
-        $this->em->persist($surveyPartnerParticipationHistory1);
-*/
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
@@ -3186,5 +3179,23 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals($uid, $surveyPartnerParticipationHistory->getUKey());
 
     }
+
+    public function testEncodeToken(){
+
+        $userId = 24567890;
+
+        $surveyPartnerId = 51234;
+
+        $encodedString = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+
+        //echo 'length=' . strlen($encodedString) . PHP_EOL;
+        //echo $encodedString . PHP_EOL;
+
+        $decodedArray = $this->surveyPartnerService->decodeToken($encodedString);
+
+        //var_dump( $decodedArray );
+
+    }
+
 
 }
