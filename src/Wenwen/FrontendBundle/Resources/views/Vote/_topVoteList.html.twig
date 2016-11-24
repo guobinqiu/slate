@@ -29,7 +29,7 @@
 			            {% if app.session.has('uid') and item.answerable %}
 			            <a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}" class="vote-btn btn" type="button">去投票</a>
 			            {% else %}
-			            <a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="vote-btn voteDisabledv btn" type="button">去看看</a>
+			            <a href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}" class="vote-btn voteDisabled btn" type="button">去看看</a>
 			            {% endif %}
 			        {% endif %}
 			        </div>

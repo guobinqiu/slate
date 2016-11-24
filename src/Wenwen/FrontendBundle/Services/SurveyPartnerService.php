@@ -93,7 +93,7 @@ class SurveyPartnerService
                     $this->logger->debug(__METHOD__ . ' survey valid for this user.');
                 } else {
                     // 不满足参与条件，直接处理下一个问卷项目
-                    $this->logger->debug(__METHOD__ . ' survey not valid for this user.');
+                    $this->logger->warn(__METHOD__ . ' survey is not valid for user_id='. $user->getId().' reason:' . $validResult['result']);
                     continue;
                 }
 
@@ -305,19 +305,19 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province']))){
+        if(strpos($surveyPartner->getProvince(), str_replace('省', '', $locationInfo['province'])) !== false){
             // 省份匹配上了
             $rtn['result'] = 'success';
             return $rtn;
         }
 
-        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city']))){
+        if(strpos($surveyPartner->getCity(), str_replace('市', '', $locationInfo['city'])) !== false){
             // 市匹配上了
             $rtn['result'] = 'success';
             return $rtn;
         }
         // 都没匹配上
-        $rtn['result'] = 'locationCheckFailed';
+        $rtn['result'] = 'locationCheckFailed . city=' . $locationInfo['city'] . ' province=' . $locationInfo['province'];
         $this->logger->debug(__METHOD__ . ' END');
         return $rtn;
     }
@@ -365,7 +365,7 @@ class SurveyPartnerService
             if(is_null($surveyPartner)){
                 // open状态的项目不存在，结束处理，返回状态为不可参与
                 $errMsg = 'Survey is not exist(open). surveyPartnerId=' . $surveyPartnerId;
-                $this->logger->debug(__METHOD__ . ' errMsg: ' . $errMsg);
+                $this->logger->warn(__METHOD__ . ' errMsg: ' . $errMsg);
                 $rtn['status'] = 'failure';
                 $rtn['errMsg'] = $errMsg;
                 return $rtn;
@@ -377,7 +377,7 @@ class SurveyPartnerService
             $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
             if($validResult['result'] != 'success'){
                 // 用户不符合这个项目的参与要求，结束处理，返回状态为不可参与
-                $this->logger->debug(__METHOD__ . ' this user is not allowed for this survey: ' . $validResult['result']);
+                $this->logger->warn(__METHOD__ . ' user_id='. $user->getId().' is not allowed for this survey. reason: ' . $validResult['result']);
                 $rtn['status'] = 'notallowed';
                 $rtn['errMsg'] = $validResult['result'];
                 return $rtn;

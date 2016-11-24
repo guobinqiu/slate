@@ -255,7 +255,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $locationInfo['city'] = '天津市';
 
         $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
-        $this->assertEquals('locationCheckFailed', $rtn['result'] );
+        $this->assertEquals('locationCheckFailed . city=' .$locationInfo['city']. ' province=' . $locationInfo['province'], $rtn['result'] );
     }
 
     public function testIsValidSurveyPartnerForUser_locationOK(){
@@ -843,58 +843,6 @@ class SurveyPartnerServiceTest extends WebTestCase
         $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser($user, $locationInfo);
 
         $this->assertEquals(0, count($rtn), '参与记录状态为forward');
-    }
-
-    public function testInvalidStatusForSurveyPartner()
-    {
-        $purger = new ORMPurger();
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
-
-        $now = new \DateTime(); // current time
-
-        $userProfile = new UserProfile();
-        $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
-
-        $user = new User();
-        $user->setEmail('test@test.com');
-        $user->setRegisterCompleteDate(new \DateTime());
-        $user->setPoints(100);
-        $user->setRewardMultiple(1);
-        $user->setUserProfile($userProfile);
-
-        $this->em->persist($user);
-        $this->em->flush();
-
-        $surveyId = '1001';
-        $result = false;
-        try{
-            // 项目处于open状态
-            $surveyPartner = new SurveyPartner();
-            $surveyPartner->setPartnerName('triples');
-            $surveyPartner->setSurveyId($surveyId);
-            $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
-            $surveyPartner->setTitle('测试用问卷标题1');
-            $surveyPartner->setReentry(false);
-            $surveyPartner->setLoi(10);
-            $surveyPartner->setIr(50);
-            $surveyPartner->setCompletePoint(298);
-            $surveyPartner->setScreenoutPoint(10);
-            $surveyPartner->setQuotafullPoint(2);
-            $surveyPartner->setStatus('HAHA');
-            $surveyPartner->setMinAge(10);
-            $surveyPartner->setMaxAge(100);
-            $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
-            $surveyPartner->setCreatedAt($now);
-        
-            $this->em->persist($surveyPartner);
-            $this->em->flush();
-        } catch (\Exception $e){
-            $result = true;
-        }
-
-        $this->assertTrue($result);
     }
 
     public function testProcessInformation()

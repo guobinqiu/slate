@@ -2,6 +2,8 @@
 
 @import "layout/common";
 @import "layout/header";
+@import "component/timeline";
+
 .main-con-left{
 	.vote-sub{
 		padding-bottom: 50px;
@@ -104,43 +106,7 @@
  		}
  	}
 }
-.exchange-dynamics{
-	padding: 10px 20px 15px; 
-	line-height: 24px;
-	.mask{
-		height: 335px;
-		overflow: hidden;
-		position: relative;
-		z-index: 1;
-	}
-	ul{
-		position: absolute;
-		z-index: 1000;
-		top: 0;
-		left: 0;
-		width: 100%;
-	}
-	h2{
-		padding: 0;
-	}
-	li{
-		padding: 15px 10px 0 5px;
-		border-bottom: $block-inner-border;
-		p{
-			@include ell();
-			.name{
-				    width: 40px;
-				    display: inline-block;
-				    vertical-align: -7px;
-				    text-overflow: ellipsis;
-				    overflow: hidden;
-			}
-		}
-		.date{
-			color: #bfbfbf;
-		}
-	}
-}
+
 @import "layout/footer";
 
 @media only screen and (max-width: 991px){
