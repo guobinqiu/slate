@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'VendorIntegration\\SSI\\' => array($vendorDir . '/voyagechinagroup/ssi_api/src'),
     'Stagehand\\TestRunner\\' => array($vendorDir . '/piece/stagehand-testrunner/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
@@ -19,4 +20,5 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
     'Doctrine\\Bundle\\FixturesBundle\\' => array($vendorDir . '/doctrine/doctrine-fixtures-bundle'),
+    'Base64Url\\' => array($vendorDir . '/spomky-labs/base64url/src'),
 );
