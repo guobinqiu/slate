@@ -126,9 +126,9 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         } else {
             // redirect to error page
             $params = array();
-            $params['surveyId'] = $surveyId;
-            $params['key'] = $key;
-            return new Response('Can not process request.');
+            $params['answerStatus'] = $rtn['status'];
+            $params['key'] = $rtn['key'];
+            return $this->redirect($this->generateUrl('survey_partner_endpage', $params));
         }
     }
 

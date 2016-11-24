@@ -35,6 +35,8 @@ class SurveyPartnerService
 
     const VALID_REFERER_DOMAIN = 'r.researchpanelasia.com';
 
+    const SECRET_KEY = 'prehistorical powers'; // 编码时的混杂key
+
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
@@ -370,9 +372,17 @@ class SurveyPartnerService
                 $rtn['errMsg'] = $errMsg;
                 return $rtn;
             }
-            // 替换标准问卷url中的__UID__部分为userId
-            $rtn['surveyUrl'] = $this->generateSurveyUrlForUser($surveyPartner->getUrl(), $user->getId());
-
+            
+            $token = '';
+            if(SurveyPartner::PARTNER_FORSURVEY == $surveyPartner->getPartnerName()){
+                // forSurvey的时候，用 userId, surveyPartnerId, secretKey编码而成token去替换url中的__UID__
+                $token = $this->encodeToken($user->getId(), $surveyPartnerId);
+                $rtn['surveyUrl'] = $this->generateSurveyUrlForUser($surveyPartner->getUrl(), $token);
+            } else {
+                // 替换标准问卷url中的__UID__部分为userId
+                $rtn['surveyUrl'] = $this->generateSurveyUrlForUser($surveyPartner->getUrl(), $user->getId());
+            }
+            
             // 检查这个用户是否符合这个项目的要求
             $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
             if($validResult['result'] != 'success'){
@@ -403,6 +413,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
                 $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
+                $surveyPartnerParticipationHistory->setUKey($token);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
 
@@ -417,6 +428,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
                 $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
+                $surveyPartnerParticipationHistory->setUKey($token);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
 
@@ -474,6 +486,174 @@ class SurveyPartnerService
         return true;
     }
 
+    public function processEndlink($uid, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
+        if(SurveyPartner::PARTNER_FORSURVEY == $partnerName){
+            return $this->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+        } else {
+            // uid 就是 userId
+            return $this->processTriplesEndlink($uid, $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        }
+    }
+
+    public function processForSurveyEndlink($uid, $answerStatus, $clientIp){
+        $this->logger->debug(__METHOD__ . ' START uid=' . $uid . ' answerStatus=' . $answerStatus);
+        $rtn = array();
+        $rtn['status'] = 'failure';
+        $rtn['answerStatus'] = $this->convertAnswerStatusToHistoryStatus($answerStatus);
+        $rtn['key'] = $uid;
+        $rtn['errMsg'] = '';
+
+        // 先解码uid，获得userId, surveyPartnerId
+        $params = $this->decodeToken($uid);
+
+        // 检查uid是否合法
+        if(!$this->isValidParams($params)){
+            $errMsg = 'Not a valid uid. uid=' . $uid;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        $userId = $params[0];
+        $surveyPartnerId = $params[1];
+
+        // 检查该项目是否存在
+        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveyPartnerId);
+        if(empty($surveyPartner)){
+            $errMsg = 'Not exist surveyPartnerId. surveyPartnerId=' . $surveyPartnerId;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        // 检查用户是否存在
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+        if(empty($user)){
+            $errMsg = 'Not exist userId. userId=' . $userId;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        if(in_array($user->getEmail(), $this->testUserEmails)){
+            // 如果是测试用用户的话，检查项目是否处于init状态
+            if(SurveyPartner::STATUS_INIT != $surveyPartner->getStatus()){
+                $errMsg = 'Test user, surveyPartner not in init status. surveyPartnerId=' . $surveyPartnerId;
+                $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+                $rtn['status'] = 'failure';
+                $rtn['errMsg'] = $errMsg;
+                return $rtn;
+            }
+
+        } else {
+            // 如果是普通用用户的话，检查项目是否处于open状态
+            if(SurveyPartner::STATUS_OPEN != $surveyPartner->getStatus()){
+                $errMsg = 'Normal user, surveyPartner not in open status. surveyPartnerId=' . $surveyPartnerId;
+                $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+                $rtn['status'] = 'failure';
+                $rtn['errMsg'] = $errMsg;
+                return $rtn;
+            }
+
+        }
+
+        // 检查有没有对应未处理的forward记录
+        // 1. 检索出这个user 在这个surveyPartner里的所有参与记录
+        $surveyPartnerParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findBy(
+                array('user' => $user,
+                    'surveyPartner' => $surveyPartner,
+                    ));
+
+        if(2 != count($surveyPartnerParticipationHistorys)){
+            // 只有两条参与记录的时候认为是正常的
+            $errMsg = 'Participation history is not correct. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        // 2. 检索看看有没有forward状态的参与记录
+        $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                array('user' => $user,
+                    'surveyPartner' => $surveyPartner,
+                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    ));
+        if(empty($forwardParticipationHistory)){
+            $errMsg = 'Participation history in forward is not exist. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        // 3. forward记录存在的情况比对 ukey的值和uid是否一致
+        if($uid != $forwardParticipationHistory->getUKey()){
+            $errMsg = 'Participation history UKey not match uid. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        // 4. forward记录存在的情况比对 forward的时候的clienIp和clientIp是否一致
+        if($forwardParticipationHistory->getClientIp() != $clientIp){
+            // 如果参与时的clientIp 不等于endlink的clientIp，也不做处理
+            $errMsg = 'Participation clientIp does not match. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
+            $this->logger->warn(__METHOD__ . ' '. $errMsg);
+            $rtn['status'] = 'failure';
+            $rtn['errMsg'] = $errMsg;
+            return $rtn;
+        }
+
+        // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，处理为screenout
+        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+            $now = new \DateTime();
+
+            $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
+            $minutes = $diff->days * 24 * 60;
+            $minutes += $diff->h * 60;
+            $minutes += $diff->i;
+
+            if($minutes <= $surveyPartner->getLoi()/4){
+                $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
+                $this->logger->warn(__METHOD__ . ' '. $errMsg);
+                // 完成回答过快，状态改为screenout
+                $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                $rtn['errMsg'] = $errMsg;
+            }
+        }
+
+
+        // 检查都通过了，开始正常处理
+
+        // 增加一条结束状态的历史记录
+        $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory->setUser($user);
+        $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory->setStatus($rtn['answerStatus']);
+        $surveyPartnerParticipationHistory->setUKey($uid);
+        $surveyPartnerParticipationHistory->setClientIp($clientIp);
+        $surveyPartnerParticipationHistory->setComment($rtn['errMsg']);
+        $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
+
+        $this->em->persist($surveyPartnerParticipationHistory);
+        
+        // 发积分
+        $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $uid);
+        $this->em->flush();
+
+        $rtn['title'] = $this->generateSurveyTitleWithSurveyId($surveyPartner);
+        $rtn['rewardedPoint'] = $result['rewardedPoint'];
+        $rtn['ticketCreated'] = $result['ticketCreated'];
+        $rtn['status'] = 'success';
+        $this->logger->debug(__METHOD__ . ' endlink process success.');
+        return $rtn;
+    }
+
     /**
      * 处理来自TripleS对endlink的request
      * @return array(
@@ -481,7 +661,7 @@ class SurveyPartnerService
      *              status: failure 非正常处理结束
      *              )
      */
-    public function processEndlink($userId, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
+    public function processTriplesEndlink($userId, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
         $this->logger->debug(__METHOD__ . ' START userId=' . $userId . ' surveyId=' . $surveyId . 'partnerName=' . $partnerName . ' answerStatus=' . $answerStatus . ' $key=' . $key);
 
         $rtn = array();
@@ -743,6 +923,43 @@ class SurveyPartnerService
 
     public function generateSurveyTitleWithSurveyId($surveyPartner){
         return $surveyPartner->getId() . ' ' . $surveyPartner->getTitle();
+    }
+
+    public function encodeToken($userId, $surveyPartnerId, $secretKey = self::SECRET_KEY){
+        // 简单一点先，以后有需要了再加强吧
+        $decodeString = $userId . ',' . $surveyPartnerId . ',' . $secretKey;
+        return base64_encode(str_rot13(gzdeflate($decodeString)));
+    }
+
+    public function decodeToken($token){
+        try{
+            $decodeString = gzinflate(str_rot13(base64_decode($token)));
+        } catch (\Exception $e){
+            return array();
+        }
+        return explode(',', $decodeString);
+    }
+
+    public function isValidParams($params){
+        // 解码出来的params不等于3个的情况视为非法的token
+        if(count($params) != 3){
+            $errMsg = 'Not a valid token. Params counts incorrect.';
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            return false;
+        }
+        // 第三个param不等于secretKey的时候视为非法token
+        if(self::SECRET_KEY != $params[2]){
+            $errMsg = 'Not a valid token. SecretKey not matched.';
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            return false;
+        }
+
+        if(empty($params[0]) || empty($params[1])){
+            $errMsg = 'Not a valid token. userId or surveyPartnerId not exist.';
+            $this->logger->warn(__METHOD__ . ' ' . $errMsg);
+            return false;
+        }
+        return true;
     }
 
 }

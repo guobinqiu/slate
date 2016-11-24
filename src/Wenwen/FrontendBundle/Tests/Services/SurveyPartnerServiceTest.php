@@ -46,7 +46,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->close();
     }
 
-
+/*
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
         $surveyPartner = new SurveyPartner();
@@ -1738,7 +1738,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('participated', $rtn['status'], 'Should be participated.');
     }
 
-    public function testProcessEndlink_forTestUser()
+    public function testProcessTriplesEndlink_forTestUser()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -1807,7 +1807,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('success', $rtn['status'], '正常处理处于init状态的问卷项目');
 
         $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBy(
@@ -1820,7 +1820,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
     }
 
-    public function testProcessEndlink_tooFastComplete()
+    public function testProcessTriplesEndlink_tooFastComplete()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -1889,7 +1889,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('success', $rtn['status'], 'complete的太快了');
 
         $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
@@ -1905,7 +1905,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                     
     }
 
-    public function testProcessEndlink_projectClosed()
+    public function testProcessTriplesEndlink_projectClosed()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -1960,11 +1960,11 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartner);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure because this project is not open. 项目处于close状态 ->不处理endlink');
     }
 
-    public function testProcessEndlink_noParticipationHistory()
+    public function testProcessTriplesEndlink_noParticipationHistory()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -2020,12 +2020,12 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartner);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure. 项目处于open状态，没有该用户的参与记录 ->不处理endlink');
 
     }
 
-    public function testProcessEndlink_reentry_userNotExist()
+    public function testProcessTriplesEndlink_reentry_userNotExist()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -2069,11 +2069,11 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartner);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink('1234', $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink('1234', $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure because this project is not open.');
     }
 
-    public function testProcessEndlink_reentry_success()
+    public function testProcessTriplesEndlink_reentry_success()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -2150,7 +2150,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartnerParticipationHistory2);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('success', $rtn['status'], 'Should be success. 项目处于open状态，该用户有参与记录，且参与状态为init和forward ->处理endlink');
         $this->assertEquals(true, $rtn['ticketCreated'], 'Ticket should be created.');
         $count = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->countByUserAndSurveyPartner($user, $surveyPartner);
@@ -2171,7 +2171,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals($user, $prizeTicket->getUser(), 'Prize ticket should be created.');
     }
 
-    public function testProcessEndlink_statusOfParticipationHistoryIsNotCorrect()
+    public function testProcessTriplesEndlink_statusOfParticipationHistoryIsNotCorrect()
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
@@ -2232,7 +2232,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->persist($surveyPartnerParticipationHistory);
         $this->em->flush();
 
-        $rtn = $this->surveyPartnerService->processEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
+        $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('failure', $rtn['status'], 'Should be success. 项目处于open状态，该用户有参与记录，且参与状态为init ->不处理endlink');
     }
 
@@ -2518,6 +2518,673 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
         $this->assertTrue($result);
+    }
+*/
+    public function testProcessForSurveyEndlink_invalidUid_not3params(){
+        $uid = '';
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Not a valid uid. uid=' . $uid, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_invalidUid_noMatchedSecretKey(){
+        $userId = '123423';
+        $surveyPartnerId = '1013';
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'fake key');
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Not a valid uid. uid=' . $uid, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_surveyPartnerIdNotExist(){
+        $userId = '123423';
+        $surveyPartnerId = '1013';
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Not exist surveyPartnerId. surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_userIdNotExist(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+        $this->em->flush();
+
+        $userId = '123456';
+        $surveyPartnerId = $surveyPartner->getId();;
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Not exist userId. userId=' . $userId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_testUser_surveyPartnerNotInInitStatus(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('rpa-sys-china@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Test user, surveyPartner not in init status. surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_surveyPartnerNotInOpenStatus(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Normal user, surveyPartner not in open status. surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryNotCorrect(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $clientIp = 'xxx.xxx.xxx.xxx';
+/*
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+*/
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $surveyPartnerParticipationHistory2->setClientIp($clientIp);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Participation history is not correct. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryForwardNotExist(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $surveyPartnerParticipationHistory2->setClientIp($clientIp);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Participation history in forward is not exist. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryUKeyNotMatched(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $surveyPartnerParticipationHistory2->setUKey($uid . 'ddd');
+        $surveyPartnerParticipationHistory2->setClientIp($clientIp);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Participation history UKey not match uid. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryClientIpNotMatched(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
+        $surveyPartnerParticipationHistory2->setUKey($uid);
+        $surveyPartnerParticipationHistory2->setClientIp('xxx');
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals('Participation clientIp does not match. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_tooFastComplete(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $screenoutPoint = 10;
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint($screenoutPoint);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $currentPoint = 100;
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints($currentPoint);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = 'complete';
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT01M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT01M')));
+        $surveyPartnerParticipationHistory2->setUKey($uid);
+        $surveyPartnerParticipationHistory2->setClientIp($clientIp);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('success', $rtn['status']);
+        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_SCREENOUT, $rtn['answerStatus']);
+        $this->assertEquals('This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
+        $this->assertEquals($currentPoint + $screenoutPoint, $user->getPoints());
+
+        $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                    array('user' => $user,
+                        'surveyPartner' => $surveyPartner,
+                        'status' => SurveyPartnerParticipationHistory::STATUS_SCREENOUT,
+                        ));
+
+        $this->assertEquals('This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $surveyPartnerParticipationHistory->getComment());
+
+    }
+
+    public function testProcessForSurveyEndlink_normalUser_success(){
+        
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $completePoint = 298;
+        $screenoutPoint = 10;
+
+        // 项目处于open状态
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setSurveyId('noneed');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint($completePoint);
+        $surveyPartner->setScreenoutPoint($screenoutPoint);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setCreatedAt($now);
+
+        $this->em->persist($surveyPartner);
+
+        $now = new \DateTime(); // current time
+
+        $currentPoint = 100;
+
+        $user = new User();
+        $user->setEmail('normal@d8aspring.com');
+        $user->setRegisterCompleteDate($now);
+        $user->setPoints($currentPoint);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $surveyPartnerId = $surveyPartner->getId();
+
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
+        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $clientIp = 'xxx.xxx.xxx.xxx';
+
+        $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory1->setUser($user);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT05M')));
+        $this->em->persist($surveyPartnerParticipationHistory1);
+
+
+        $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
+        $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
+        $surveyPartnerParticipationHistory2->setUser($user);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT05M')));
+        $surveyPartnerParticipationHistory2->setUKey($uid);
+        $surveyPartnerParticipationHistory2->setClientIp($clientIp);
+        $this->em->persist($surveyPartnerParticipationHistory2);
+        $this->em->flush();
+
+        
+
+        $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
+
+        $this->assertEquals('success', $rtn['status']);
+        $this->assertEquals($answerStatus, $rtn['answerStatus']);
+        $this->assertEquals('', $rtn['errMsg']);
+        $this->assertEquals($surveyPartner->getId() . ' ' . $surveyPartner->getTitle(), $rtn['title']);
+        $this->assertEquals($completePoint, $rtn['rewardedPoint']);
+        $this->assertEquals(true, $rtn['ticketCreated']);
+        $this->assertEquals($currentPoint + $completePoint, $user->getPoints());
+
+        $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
+                    array('user' => $user,
+                        'surveyPartner' => $surveyPartner,
+                        'status' => $answerStatus,
+                        ));
+
+        $this->assertEquals('', $surveyPartnerParticipationHistory->getComment());
+        $this->assertEquals($clientIp, $surveyPartnerParticipationHistory->getClientIP());
+        $this->assertEquals($uid, $surveyPartnerParticipationHistory->getUKey());
+
     }
 
 }

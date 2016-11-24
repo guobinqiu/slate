@@ -27,14 +27,16 @@
              <div class="form-group">
                <div class="col-sm-2 text-right">{{ form_label(surveyPartnerForm.surveyId) }}</div>
                <div class="col-sm-10">
-                {{ form_widget(surveyPartnerForm.surveyId, {'attr': {'placeholder': '输入surveyId'}}) }} <small class="text-muted">对方系统的问卷编号</small>
+                {{ form_widget(surveyPartnerForm.surveyId, {'attr': {'placeholder': '输入surveyId'}}) }} <small class="text-muted">TripleS: 对方系统的问卷编号 forSurvey: 固定填写noneed</small>
                 <div class="text-danger">{{ form_errors(surveyPartnerForm.surveyId) }}</div>
                </div>
              </div>
              <div class="form-group">
                <div class="col-sm-2 text-right">{{ form_label(surveyPartnerForm.url) }}</div>
                <div class="col-sm-10">
-                {{ form_widget(surveyPartnerForm.url, {'attr': {'placeholder': '输入问卷入口url'}}) }} http://r.researchpanelasia.com/redirect/forward/__PROJECT_ID__/__PARTNERID__/?uid=__UID__
+                {{ form_widget(surveyPartnerForm.url, {'attr': {'placeholder': '输入问卷入口url'}}) }} 
+                <p><small class="text-muted">TripleS:   http://r.researchpanelasia.com/redirect/forward/__PROJECT_ID__/__PARTNERID__/?uid=__UID__</small></p>
+                <p><small class="text-muted">forSurvey: https://d8aspring.post-survey.com/panelonly/?key=*****&uid=__UID__</small></p>
                 <div class="text-danger">{{ form_errors(surveyPartnerForm.url) }}</div>
               </div>
              </div>
