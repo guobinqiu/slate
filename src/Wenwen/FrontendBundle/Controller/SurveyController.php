@@ -2,9 +2,11 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Wenwen\FrontendBundle\Entity\SurveyListJob;
 
 /**
  * @Route("/survey")
@@ -33,6 +35,8 @@ class SurveyController extends BaseController implements UserAuthenticationContr
         }
         $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
 
+        $this->checkoutSurveyList($user_id);
+
         return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
     }
 
@@ -58,6 +62,30 @@ class SurveyController extends BaseController implements UserAuthenticationContr
         }
         $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
 
+        $this->checkoutSurveyList($user_id);
+
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
+    }
+
+    private function checkoutSurveyList($userId)
+    {
+        $timeslot = SurveyListJob::getTimeslot(time());
+        $min = new \DateTime($timeslot['min']);
+        $max = new \DateTime($timeslot['max']);
+        $em = $this->getDoctrine()->getManager();
+        $surveyListJob = $em->getRepository('WenwenFrontendBundle:SurveyListJob')->getSurveyListJob($userId, $min, $max);
+        if ($surveyListJob == null) {
+            $surveyListJob = new SurveyListJob($userId);
+            $em->persist($surveyListJob);
+            $em->flush();
+
+            $args = array(
+                '--user_id=' . $userId,
+            );
+            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
+            $job->setMaxRetries(3);
+            $em->persist($job);
+            $em->flush();
+        }
     }
 }

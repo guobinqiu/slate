@@ -159,34 +159,68 @@ class SopSurveyService
         $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
             $researchSurvey = new SopResearchSurvey();
-            $researchSurvey->setSurveyId($survey['survey_id']);
-            $researchSurvey->setQuotaId($survey['quota_id']);
-            $researchSurvey->setLoi($survey['loi']);
-            $researchSurvey->setIr($survey['ir']);
-            $researchSurvey->setCpi($survey['cpi']);
-            $researchSurvey->setTitle($survey['title']);
-            $researchSurvey->setCompletePoint($survey['extra_info']['point']['complete']);
-            $researchSurvey->setScreenoutPoint($survey['extra_info']['point']['screenout']);
-            $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
-            if (!empty($survey['extra_info']['date']['start_at'])) {
-                $researchSurvey->setStartDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['start_at']));
-            }
-            if (!empty($survey['extra_info']['date']['end_at'])) {
-                $researchSurvey->setEndDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['end_at']));
-            }
-            $researchSurvey->setComment($survey['extra_info']['content']);
-            if (isset($survey['blocked_devices']['PC'])) {
-                $researchSurvey->setPcBlocked($survey['blocked_devices']['PC']);
-            }
-            if (isset($survey['blocked_devices']['MOBILE'])) {
-                $researchSurvey->setMobileBlocked($survey['blocked_devices']['MOBILE']);
-            }
-            if (isset($survey['blocked_devices']['TABLET'])) {
-                $researchSurvey->setTabletBlocked($survey['blocked_devices']['TABLET']);
-            }
+            $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush();
         }
         return $researchSurvey;
+    }
+
+    public function createOrUpdateResearchSurvey($survey)
+    {
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
+        if ($researchSurvey == null) {
+            $researchSurvey = new SopResearchSurvey();
+            $this->copyProperties($researchSurvey, $survey);
+            $this->em->persist($researchSurvey);
+            $this->em->flush();
+        } else {
+            $this->copyProperties($researchSurvey, $survey);
+            $this->em->flush();
+        }
+        return $researchSurvey;
+    }
+
+    private function copyProperties(SopResearchSurvey $researchSurvey, $survey)
+    {
+        $researchSurvey->setSurveyId($survey['survey_id']);
+        $researchSurvey->setQuotaId($survey['quota_id']);
+        $researchSurvey->setLoi($survey['loi']);
+        $researchSurvey->setIr($survey['ir']);
+        $researchSurvey->setCpi($survey['cpi']);
+        $researchSurvey->setTitle($survey['title']);
+        $researchSurvey->setCompletePoint($survey['extra_info']['point']['complete']);
+        $researchSurvey->setScreenoutPoint($survey['extra_info']['point']['screenout']);
+        $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
+        if (!empty($survey['extra_info']['date']['start_at'])) {
+            $researchSurvey->setStartDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['start_at']));
+        }
+        if (!empty($survey['extra_info']['date']['end_at'])) {
+            $researchSurvey->setEndDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['end_at']));
+        }
+        if (!empty($survey['extra_info']['content'])) {
+            $researchSurvey->setComment($survey['extra_info']['content']);
+        }
+        if (isset($survey['blocked_devices']['PC'])) {
+            $researchSurvey->setPcBlocked($survey['blocked_devices']['PC']);
+        }
+        if (isset($survey['blocked_devices']['MOBILE'])) {
+            $researchSurvey->setMobileBlocked($survey['blocked_devices']['MOBILE']);
+        }
+        if (isset($survey['blocked_devices']['TABLET'])) {
+            $researchSurvey->setTabletBlocked($survey['blocked_devices']['TABLET']);
+        }
+        if (isset($survey['is_answered'])) {
+            $researchSurvey->setIsAnswered($survey['is_answered']);
+        }
+        if (isset($survey['is_closed'])) {
+            $researchSurvey->setIsClosed($survey['is_closed']);
+        }
+        if (isset($survey['is_fixed_loi'])) {
+            $researchSurvey->setIsFixedLoi($survey['is_fixed_loi']);
+        }
+        if (isset($survey['is_notifiable'])) {
+            $researchSurvey->setIsNotifiable($survey['is_notifiable']);
+        }
     }
 }

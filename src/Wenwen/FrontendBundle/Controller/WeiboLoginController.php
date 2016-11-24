@@ -309,6 +309,7 @@ class WeiboLoginController extends BaseController
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
         $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();

@@ -96,11 +96,11 @@ class SurveyService
         $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
 
         $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/json?'.http_build_query(array(
-                'app_id' => $sop_params['app_id'],
-                'app_mid' => $sop_params['app_mid'],
-                'sig' => $sop_params['sig'],
-                'time' => $sop_params['time'],
-            ));
+            'app_id' => $sop_params['app_id'],
+            'app_mid' => $sop_params['app_mid'],
+            'sig' => $sop_params['sig'],
+            'time' => $sop_params['time'],
+        ));
 
         $this->logger->debug(__METHOD__ . ' - END - ');
         return $sop_api_url;
@@ -124,7 +124,7 @@ class SurveyService
     /**
      * @return json $dummy_res 模拟一个SOP survey list返回的数据
      */
-    private function getDummySurveyListJson() {
+    public function getDummySurveyListJson() {
         //构造一个仿真数据
         $dummy_res = '{ 
             "meta" : {
@@ -347,7 +347,7 @@ class SurveyService
      * @param $user_id
      * @return string json格式字符串
      */
-    private function getSopSurveyListJson($user_id) {
+    public function getSopSurveyListJson($user_id) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
             $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
@@ -566,93 +566,79 @@ class SurveyService
             //$this->logger->info($result);
 
             $answerableSurveyCount = 0;
-            $fulcrum_researches = $sop['data']['fulcrum_research'];
-            if (count($fulcrum_researches) > 0) {
-                foreach ($fulcrum_researches as $fulcrum_research) {
-                    if (!$this->hasStopWord($fulcrum_research['url'])) {
-                        $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
-                        $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
-                        $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
-                        $fulcrum_research = $this->fulcrumSurveyService->addSurveyUrlToken($fulcrum_research, $user_id);
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
+
+            foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
+                if (!$this->hasStopWord($fulcrum_research['url'])) {
+                    $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
+                    $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
+                    $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
+                    $fulcrum_research = $this->fulcrumSurveyService->addSurveyUrlToken($fulcrum_research, $user_id);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
+                    array_unshift($html_survey_list, $html);
+                    $answerableSurveyCount++;
+                }
+            }
+
+            foreach ($sop['data']['cint_research'] as $cint_research) {
+                if (!$this->hasStopWord($cint_research['url'])) {
+                    $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
+                    $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
+                    $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
+                    $cint_research = $this->cintSurveyService->addSurveyUrlToken($cint_research, $user_id);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
+                    if ($cint_research['is_answered'] == 0) {
                         array_unshift($html_survey_list, $html);
                         $answerableSurveyCount++;
+                    } else {
+                        array_push($html_survey_list, $html);
                     }
                 }
             }
 
-            $cint_researches = $sop['data']['cint_research'];
-            if (count($cint_researches) > 0) {
-                foreach ($cint_researches as $cint_research) {
-                    if (!$this->hasStopWord($cint_research['url'])) {
-                        $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
-                        $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
-                        $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
-                        $cint_research = $this->cintSurveyService->addSurveyUrlToken($cint_research, $user_id);
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
-                        if ($cint_research['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                            $answerableSurveyCount++;
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
+            foreach ($sop['data']['research'] as $research) {
+                ///临时增加代码。将7436问卷显示分数改为5000分
+                ///项目关闭时删除
+                if(($research['survey_id'] == 7436)){
+                        $research['extra_info']['point']['complete']= 5000;
                     }
-                }
-            }
-
-            $researches = $sop['data']['research'];
-            if (count($researches) > 0) {
-                foreach ($researches as $research) {
-                    ///临时增加代码。将7436问卷显示分数改为5000分
-                    ///项目关闭时删除
-                    if(($research['survey_id'] == 7436)){
-                            $research['extra_info']['point']['complete']= 5000;
-                        }
-                    ///
-                    ///
-                    if(($research['is_closed'] == 0)){
-                        $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
-                        $research['loi'] = $this->getSurveyLOI($research['loi']);
-                        $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
-                        $research = $this->sopSurveyService->addSurveyUrlToken($research, $user_id);
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
-                        if ($research['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                            $answerableSurveyCount++;
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
-                    }
-                }
-            }
-
-            $user_agreements = $sop['data']['user_agreement'];
-            if (count($user_agreements) > 0 ) {
-                foreach ($user_agreements as $user_agreement) {
-                    if ($user_agreement['type'] == 'Fulcrum') {
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
+                ///
+                ///
+                if(($research['is_closed'] == 0)){
+                    $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
+                    $research['loi'] = $this->getSurveyLOI($research['loi']);
+                    $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
+                    $research = $this->sopSurveyService->addSurveyUrlToken($research, $user_id);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
+                    if ($research['is_answered'] == 0) {
                         array_unshift($html_survey_list, $html);
-                    }
-                    if ($user_agreement['type'] == 'Cint') {
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
-                        array_unshift($html_survey_list, $html);
+                        $answerableSurveyCount++;
+                    } else {
+                        array_push($html_survey_list, $html);
                     }
                 }
             }
 
-            $profilings = $sop['data']['profiling'];
-            if (count($profilings) > 0) {
-                foreach ($profilings as $profiling) {
-                    //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $profiling = $this->sopSurveyService->addProfilingUrlToken($profiling, $user_id);
-                    // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
+            foreach ($sop['data']['user_agreement'] as $user_agreement) {
+                if ($user_agreement['type'] == 'Fulcrum') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
+                    array_unshift($html_survey_list, $html);
+                }
+                if ($user_agreement['type'] == 'Cint') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
                     array_unshift($html_survey_list, $html);
                 }
             }
+
+            foreach ($sop['data']['profiling'] as $profiling) {
+                //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                $profiling = $this->sopSurveyService->addProfilingUrlToken($profiling, $user_id);
+                // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
+                array_unshift($html_survey_list, $html);
+            }
+
         } catch(\Exception $e) {
             $this->logger->error($e);
-            throw $e;
         }
 
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;

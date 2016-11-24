@@ -10,6 +10,7 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
  *
  * @ORM\Table(name="sop_research_survey")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class SopResearchSurvey
 {
@@ -126,6 +127,48 @@ class SopResearchSurvey
      * @ORM\Column(name="comment", type="string", nullable=true)
      */
     private $comment;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_answered", type="boolean", nullable=true)
+     */
+    private $isAnswered;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_closed", type="boolean", nullable=true)
+     */
+    private $isClosed;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_fixed_loi", type="boolean", nullable=true)
+     */
+    private $isFixedLoi;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_notifiable", type="boolean", nullable=true)
+     */
+    private $isNotifiable;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
 
     /**
      * Get id
@@ -525,5 +568,160 @@ class SopResearchSurvey
             return $this->getQuotafullPoint();
         }
         return 0;
+    }
+
+    /**
+     * Set isAnswered
+     *
+     * @param boolean $isAnswered
+     * @return SopResearchSurvey
+     */
+    public function setIsAnswered($isAnswered)
+    {
+        $this->isAnswered = $isAnswered;
+
+        return $this;
+    }
+
+    /**
+     * Get isAnswered
+     *
+     * @return boolean 
+     */
+    public function getIsAnswered()
+    {
+        return $this->isAnswered;
+    }
+
+    /**
+     * Set isClosed
+     *
+     * @param boolean $isClosed
+     * @return SopResearchSurvey
+     */
+    public function setIsClosed($isClosed)
+    {
+        $this->isClosed = $isClosed;
+
+        return $this;
+    }
+
+    /**
+     * Get isClosed
+     *
+     * @return boolean 
+     */
+    public function getIsClosed()
+    {
+        return $this->isClosed;
+    }
+
+    /**
+     * Set isFixedLoi
+     *
+     * @param boolean $isFixedLoi
+     * @return SopResearchSurvey
+     */
+    public function setIsFixedLoi($isFixedLoi)
+    {
+        $this->isFixedLoi = $isFixedLoi;
+
+        return $this;
+    }
+
+    /**
+     * Get isFixedLoi
+     *
+     * @return boolean 
+     */
+    public function getIsFixedLoi()
+    {
+        return $this->isFixedLoi;
+    }
+
+    /**
+     * Set isNotifiable
+     *
+     * @param boolean $isNotifiable
+     * @return SopResearchSurvey
+     */
+    public function setIsNotifiable($isNotifiable)
+    {
+        $this->isNotifiable = $isNotifiable;
+
+        return $this;
+    }
+
+    /**
+     * Get isNotifiable
+     *
+     * @return boolean 
+     */
+    public function getIsNotifiable()
+    {
+        return $this->isNotifiable;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return SopResearchSurvey
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return SopResearchSurvey
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }
