@@ -9,10 +9,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
-use Wenwen\FrontendBundle\Entity\PrizeTicket;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Services\SurveyPartnerService;
-
 
 class SurveyPartnerServiceTest extends WebTestCase
 {
@@ -1898,7 +1895,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_SCREENOUT,
+                    'status' => SurveyStatus::STATUS_SCREENOUT,
                     ));
 
         $this->assertEquals('This is a too fast complete. userId = ' . $user->getId() . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName , $surveyPartnerParticipationHistory->getComment(), 'complete的太快了，所以增加一条screenout记录');
