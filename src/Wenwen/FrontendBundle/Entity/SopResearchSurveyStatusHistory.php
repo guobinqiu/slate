@@ -44,9 +44,16 @@ class SopResearchSurveyStatusHistory
      *
      * @var string
      *
-     * @ORM\Column(name="status", type="string", nullable=true)
+     * @ORM\Column(name="status", type="string")
      */
     private $status;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_answered", type="boolean")
+     */
+    private $isAnswered;
 
     /**
      * Get id
@@ -125,5 +132,28 @@ class SopResearchSurveyStatusHistory
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set isAnswered
+     *
+     * @param boolean $isAnswered
+     * @return SopResearchSurveyStatusHistory
+     */
+    public function setIsAnswered($isAnswered)
+    {
+        $this->isAnswered = $isAnswered;
+
+        return $this;
+    }
+
+    /**
+     * Get isAnswered
+     *
+     * @return boolean
+     */
+    public function getIsAnswered()
+    {
+        return $this->isAnswered;
     }
 }

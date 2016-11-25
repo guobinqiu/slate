@@ -88,8 +88,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $dbh->beginTransaction();
 
             try {
-                $this->createStatusHistory($history);
-
                 // insert participation history
                 $participationHistory = $this->createParticipationHistory($history);
 
@@ -292,6 +290,4 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $logger->pushHandler($stream, Logger::INFO);
         $this->logger = $logger;
     }
-
-    protected function createStatusHistory($history){}
 }

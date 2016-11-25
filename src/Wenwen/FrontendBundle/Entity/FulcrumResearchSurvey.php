@@ -131,13 +131,6 @@ class FulcrumResearchSurvey
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_answered", type="boolean", nullable=true)
-     */
-    private $isAnswered;
-
-    /**
-     * @var boolean
-     *
      * @ORM\Column(name="is_closed", type="boolean", nullable=true)
      */
     private $isClosed;
@@ -568,29 +561,6 @@ class FulcrumResearchSurvey
             return $this->getQuotafullPoint();
         }
         return 0;
-    }
-
-    /**
-     * Set isAnswered
-     *
-     * @param boolean $isAnswered
-     * @return FulcrumResearchSurvey
-     */
-    public function setIsAnswered($isAnswered)
-    {
-        $this->isAnswered = $isAnswered;
-
-        return $this;
-    }
-
-    /**
-     * Get isAnswered
-     *
-     * @return boolean 
-     */
-    public function getIsAnswered()
-    {
-        return $this->isAnswered;
     }
 
     /**

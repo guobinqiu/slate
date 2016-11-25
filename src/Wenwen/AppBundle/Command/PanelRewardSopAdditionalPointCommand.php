@@ -63,7 +63,8 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        return $this->sop_configure['api_v1_1_surveys_research_additional_incentive'];
+        $sop_configure = $this->getContainer()->getParameter('sop');
+        return $sop_configure['api_v1_1_surveys_research_additional_incentive'];
     }
 
     protected function requiredFields()

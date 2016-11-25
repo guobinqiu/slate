@@ -11,6 +11,7 @@ use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 
 class CintSurveyService
@@ -50,7 +51,7 @@ class CintSurveyService
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
-            $this->createStatusHistory($appMid, $surveyId, $answerStatus);
+            $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED);
             $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -84,7 +85,7 @@ class CintSurveyService
         }
     }
 
-    public function createStatusHistory($appMid, $surveyId, $answerStatus)
+    public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED)
     {
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
             'appMid' => $appMid,
@@ -96,6 +97,7 @@ class CintSurveyService
             $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
+            $statusHistory->setIsAnswered($isAnswered);
             $this->em->persist($statusHistory);
             $this->em->flush();
         }
@@ -152,10 +154,13 @@ class CintSurveyService
             $researchSurvey = new CintResearchSurvey();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
-            $this->em->flush();
+            $this->em->flush($researchSurvey);
         } else {
+            $snapshot = clone $researchSurvey;
             $this->copyProperties($researchSurvey, $survey);
-            $this->em->flush();
+            if ($researchSurvey != $snapshot) {
+                $this->em->flush($researchSurvey);
+            }
         }
         return $researchSurvey;
     }
@@ -188,9 +193,6 @@ class CintSurveyService
         }
         if (isset($survey['blocked_devices']['TABLET'])) {
             $researchSurvey->setTabletBlocked($survey['blocked_devices']['TABLET']);
-        }
-        if (isset($survey['is_answered'])) {
-            $researchSurvey->setIsAnswered($survey['is_answered']);
         }
         if (isset($survey['is_closed'])) {
             $researchSurvey->setIsClosed($survey['is_closed']);

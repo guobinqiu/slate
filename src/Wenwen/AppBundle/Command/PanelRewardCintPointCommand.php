@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardCintPointCommand extends PanelRewardCommand
@@ -51,7 +52,8 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        return $this->sop_configure['api_v1_1_cint_surveys_research_participation_history'];
+        $sop_configure = $this->getContainer()->getParameter('sop');
+        return $sop_configure['api_v1_1_cint_surveys_research_participation_history'];
     }
 
     protected function requiredFields()
@@ -96,21 +98,26 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $statusHistories = $em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+            'appMid' => $history['app_mid'],
+            'surveyId' => $history['survey_id'],
+        ));
+        if (count($statusHistories) < 3) {//status transfer must be passing through targeted -> init -> forward
+            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
+        }
+        $this->getContainer()->get('app.cint_survey_service')->createStatusHistory(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['answer_status'],
+            SurveyStatus::ANSWERED
+        );
         return $this->getContainer()->get('app.cint_survey_service')->createParticipationHistory(
             $history['app_mid'],
             $history['survey_id'],
             $history['quota_id'],
             $history['extra_info']['point'],
             $history['extra_info']['point_type']
-        );
-    }
-
-    protected function createStatusHistory($history)
-    {
-        return $this->getContainer()->get('app.cint_survey_service')->createStatusHistory(
-            $history['app_mid'],
-            $history['survey_id'],
-            $history['answer_status']
         );
     }
 
