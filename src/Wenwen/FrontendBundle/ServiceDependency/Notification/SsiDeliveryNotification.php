@@ -8,8 +8,6 @@ use Wenwen\AppBundle\Entity\SsiRespondent;
 
 class SsiDeliveryNotification extends DeliveryNotification
 {
-    private $em;
-
     protected $logger;
 
     public function setLogger($logger){

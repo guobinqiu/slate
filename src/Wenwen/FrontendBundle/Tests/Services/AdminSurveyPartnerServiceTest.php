@@ -483,21 +483,21 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory11 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory11->setSurveyPartner($surveyPartner1);
         $surveyPartnerParticipationHistory11->setUser($user);
-        $surveyPartnerParticipationHistory11->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory11->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory11->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory11);
 
         $surveyPartnerParticipationHistory12 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory12->setSurveyPartner($surveyPartner1);
         $surveyPartnerParticipationHistory12->setUser($user);
-        $surveyPartnerParticipationHistory12->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory12->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory12->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory12);
 
         $surveyPartnerParticipationHistory21 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory21->setSurveyPartner($surveyPartner2);
         $surveyPartnerParticipationHistory21->setUser($user2);
-        $surveyPartnerParticipationHistory21->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory21->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory21->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory21);
 
@@ -507,14 +507,14 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory22 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory22->setSurveyPartner($surveyPartner2);
         $surveyPartnerParticipationHistory22->setUser($user2);
-        $surveyPartnerParticipationHistory22->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory22->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory22->setCreatedAt($createTime22);
         $this->em->persist($surveyPartnerParticipationHistory22);
 
         $surveyPartnerParticipationHistory23 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory23->setSurveyPartner($surveyPartner2);
         $surveyPartnerParticipationHistory23->setUser($user2);
-        $surveyPartnerParticipationHistory23->setStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE);
+        $surveyPartnerParticipationHistory23->setStatus(SurveyStatus::STATUS_COMPLETE);
         $surveyPartnerParticipationHistory23->setCreatedAt($createTime22);
         $this->em->persist($surveyPartnerParticipationHistory23);
 

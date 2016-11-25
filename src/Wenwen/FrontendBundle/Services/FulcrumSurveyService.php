@@ -183,10 +183,10 @@ class FulcrumSurveyService
             $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
         }
         if (!empty($survey['extra_info']['date']['start_at'])) {
-            $researchSurvey->setStartDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['start_at']));
+            $researchSurvey->setStartDate(new \DateTime($survey['extra_info']['date']['start_at']));
         }
         if (!empty($survey['extra_info']['date']['end_at'])) {
-            $researchSurvey->setEndDate(\DateTime::createFromFormat('Y-m-d H:i:s', $survey['extra_info']['date']['end_at']));
+            $researchSurvey->setEndDate(new \DateTime($survey['extra_info']['date']['end_at']));
         }
         if (!empty($survey['extra_info']['content'])) {
             $researchSurvey->setComment($survey['extra_info']['content']);
