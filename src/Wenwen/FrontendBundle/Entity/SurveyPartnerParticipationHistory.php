@@ -47,7 +47,7 @@ class SurveyPartnerParticipationHistory
     /**
      * @var string
      * 这里是用来记录参与行为的唯一识别号，目前跟TripleS对接时，记录Endlink的__KEY__
-     * @ORM\Column(name="u_key", type="string", length=50, nullable=true)
+     * @ORM\Column(name="u_key", type="string", length=100, nullable=true)
      */
     private $uKey;
 
