@@ -90,7 +90,7 @@ class DeliveryNotificationTest extends WebTestCase
 
         $respondents = $request_data['data']['respondents'];
 
-        $notification = new SopDeliveryNotification($this->em);
+        $notification = new SopDeliveryNotification($this->em, static::$kernel->getContainer()->get('app.fulcrum_survey_service'));
         print_r($notification->send($respondents));
     }
 

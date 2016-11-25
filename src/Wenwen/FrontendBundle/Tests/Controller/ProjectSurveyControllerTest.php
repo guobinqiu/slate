@@ -100,7 +100,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_project_survey_endlink', array (
             'survey_id' => 4,
-            'answer_status' => 'test'
+            'answer_status' => 'test',
         ));
         $crawler = $client->request('GET', $url);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
@@ -114,13 +114,17 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->save();
 
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+
+        $app_mid = $container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
 
         $url = $container->get('router')->generate('_project_survey_endlink', array (
             'survey_id' => 4,
-            'answer_status' => 'complete'
+            'answer_status' => 'complete',
+            'app_mid' => $app_mid,
         ));
+
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }
