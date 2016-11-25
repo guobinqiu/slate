@@ -646,7 +646,7 @@ class SurveyService
             $profilings = $sop['data']['profiling'];
             if (count($profilings) > 0) {
                 foreach ($profilings as $profiling) {
-                    //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                    $profiling['url'] = $this->toProxyAddress($profiling['url']);
                     $profiling = $this->addProfilingUrlToken($profiling, $user_id);
                     // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
