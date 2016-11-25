@@ -471,20 +471,65 @@ class SurveyPartnerService
      * tripleS的referer例子：
      * http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg
      */
-    public function isValidEndlinkReferer($referer, $key){
-        if(empty($referer)){
-            // no referer found, allow because some antivirus softs will clear referer
-            return true;
-        } else {
-            // has referer
-            // only allow for triples at this moment
-            if(! strpos($referer, self::VALID_REFERER_DOMAIN)){
-                // 如果不含有 VALID_REFERER_DOMAIN 视为非法
-                return false;
-            }
+    public function isValidEndlink($answerStatus, $partnerName, $referer, $uid, $key){
+        $rtn = array();
+        $rtn['status'] = false;
+        $rtn['key'] = 'SYSERROR';
+        $rtn['errMsg'] = '';
 
+        // 检查answerStatus是否合法
+        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $answerStatus){
+
+        } else if(SurveyPartnerParticipationHistory::STATUS_SCREENOUT == $answerStatus){
+
+        } else if(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL == $answerStatus){
+
+        } else if(SurveyPartnerParticipationHistory::STATUS_ERROR == $answerStatus){
+
+        } else {
+            $rtn['status'] = false;
+            $rtn['key'] = 'INVALIDACCESS';
+            $rtn['errMsg'] = 'Not a valid answerStatus. answerStatus=' . $answerStatus;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['errMsg']);
+            return $rtn;
         }
-        return true;
+
+        // 检查partnerName以及其他参数是否合法是否合法
+        if(SurveyPartner::PARTNER_FORSURVEY == $partnerName){
+            // forSurvey 先不检查referer了
+            $rtn['status'] = true;
+            $rtn['key'] = $uid;
+            return $rtn;
+        } else if(SurveyPartner::PARTNER_TRIPLES == $partnerName){
+            // TripleS 要检查referer
+            $rtn['key'] = $key;
+            if(empty($referer)){
+                // no referer found, allow because some antivirus softs will clear referer
+                $rtn['status'] = true;
+                return $rtn;
+            } else {
+                // has referer
+                // only allow for triples at this moment
+                if(! strpos($referer, self::VALID_REFERER_DOMAIN)){
+                    // 如果不含有 VALID_REFERER_DOMAIN 视为非法
+                    $rtn['status'] = false;
+                    $rtn['key'] = 'INVALIDACCESS';
+                    $rtn['errMsg'] = 'Referer not matched. referer=' . $referer;
+                    $this->logger->warn(__METHOD__ . ' ' . $rtn['errMsg']);
+                    return $rtn;
+                }
+
+            }
+            $rtn['status'] = true;
+            return $rtn;
+        } else {
+            $rtn['status'] = false;
+            $rtn['key'] = 'INVALIDACCESS';
+            $rtn['errMsg'] = 'Not a valid partnerName. partnerName=' . $partnerName;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['errMsg']);
+            return $rtn;
+        }
+        return $rtn;
     }
 
     public function processEndlink($uid, $answerStatus, $surveyId, $partnerName, $key, $clientIp){
@@ -500,7 +545,7 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START uid=' . $uid . ' answerStatus=' . $answerStatus);
         $rtn = array();
         $rtn['status'] = 'failure';
-        $rtn['answerStatus'] = $this->convertAnswerStatusToHistoryStatus($answerStatus);
+        $rtn['answerStatus'] = $answerStatus;
         $rtn['key'] = $uid;
         $rtn['errMsg'] = '';
 
@@ -669,7 +714,7 @@ class SurveyPartnerService
 
         $rtn = array();
         $rtn['status'] = 'failure';
-        $rtn['answerStatus'] = $this->convertAnswerStatusToHistoryStatus($answerStatus);
+        $rtn['answerStatus'] = $answerStatus;
         $rtn['surveyId'] = $surveyId;
         $rtn['partnerName'] = $partnerName;
         $rtn['key'] = $key;
@@ -817,21 +862,6 @@ class SurveyPartnerService
     private function generateSurveyUrlForUser($url, $userId){
         $surveyUrl = str_replace('__UID__', $userId, $url);
         return $surveyUrl;
-    }
-
-    private function convertAnswerStatusToHistoryStatus($answerStatus){
-        if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
-            return $answerStatus;
-        }
-        elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
-            return $answerStatus;
-        }
-        elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
-            return $answerStatus;
-        }
-        else{
-            return SurveyPartnerParticipationHistory::STATUS_ERROR;
-        }
     }
 
     /**

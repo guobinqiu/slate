@@ -2509,15 +2509,34 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
 
-    public function testIsValidEndlinkReferer(){
-        $result = $this->surveyPartnerService->isValidEndlinkReferer(null, '099104111d001exljg');
-        $this->assertTrue($result);
+    public function testIsValidEndlink(){
 
-        $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia_error.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
-        $this->assertTrue(! $result);
+        $result = $this->surveyPartnerService->isValidEndlink('screenout', 'triples', null, 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
 
-        $result = $this->surveyPartnerService->isValidEndlinkReferer('http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', '099104111d001exljg');
-        $this->assertTrue($result);
+        $result = $this->surveyPartnerService->isValidEndlink('quotafull', 'triples', null, 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('error', 'triples', null, 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('xxx', 'triples', null, 1, '099104111d001exljg');
+        $this->assertTrue(! $result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('complete', 'triples', null, 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('complete', 'triples', 'http:\/\/r.researchpanelasia_error.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', 1, '099104111d001exljg');
+        $this->assertTrue(! $result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('complete', 'triples', 'http:\/\/r.researchpanelasia.com\/redirect\/reverse\/9ed68ef0e7615306a793792905330e85\/error?uid=099104111d001exljg', 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('complete', 'forsurvey', null, 1, '099104111d001exljg');
+        $this->assertTrue($result['status']);
+
+        $result = $this->surveyPartnerService->isValidEndlink('complete', 'xxx', null, 1, '099104111d001exljg');
+        $this->assertTrue(! $result['status']);
     }
 
     public function testProcessForSurveyEndlink_invalidUid_not3params(){
@@ -2536,7 +2555,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userId = '123423';
         $surveyPartnerId = '1013';
 
-        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'bcb04b7e103a0cdb2a00a3');
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a10a3');
         $answerStatus = 'complete';
         $clientIp = 'xxx.xxx.xxx.xxx';
 
