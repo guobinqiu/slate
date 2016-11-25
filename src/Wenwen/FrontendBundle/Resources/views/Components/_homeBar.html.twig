@@ -3,13 +3,13 @@
         <div class="row">
             <div class="faceWapper col-sm-9 col-xs-12 top20">
                 {% if user.iconPath %}
-                    <img class="img-circle" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
+                    <img class="img-circle img-responsive" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
                 {% else %}
                     <!--[if !IE]><!-->
-                        <img src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
+                        <img class="img-responsive" src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
                     <!--<![endif]-->
                     <!--[if IE]>
-                        <img src="{{ asset('img/home/homeAvr.png') }}" alt="头像" width="52" height="52">
+                        <img class="img-responsive" src="{{ asset('img/home/homeAvr.png') }}" alt="头像" width="52" height="52">
                     <![endif]-->
                 {% endif %}
                 <span class="infoText">

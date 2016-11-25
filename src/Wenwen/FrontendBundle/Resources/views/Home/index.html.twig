@@ -26,15 +26,17 @@
 
 {% block body %}
 	<div id="pagepiling" class="sta" style="display:none">
-		<nav class="navbar navbar-fixed-top">
+		<div class="navbar navbar-fixed-top">
 	        <div class="container">
 	        	<div class="row">
         			<div class="col-xs-12">
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
-								<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-								<!--[if lt IE 9]>
-									<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+								<![if !IE]>
+									<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+								<![endif]>
+								<!--[if IE]> 
+								    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
 								<![endif]-->
 			        		</a>
 			        	</div>
@@ -71,7 +73,7 @@
 		    	    </div>
 		    	</div>
 			</div>
-		</nav>	
+		</div>	
 		<div class="section" id="section0">
 			<div class="sectionCon">
 				<div class="container">
@@ -102,11 +104,12 @@
 		<div class="section hidden-xs" id="section1">
 			
 			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
+				<div class="container-fluid">
+					<div class="introTit row">
 						<div class="col-sm-12">
 							<h2>
-								<img class="img-responsive center-block" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+								<img class="img-responsive center-block hidden-sm" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('img/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
 							</h2>
 							<p class="sec1Intro">隶属于亚洲调查样本库，拥有150多万会员</p>
 						</div>
@@ -116,18 +119,17 @@
 			<div class="refNum">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-4 num"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
-						<div class="col-sm-4 num"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
-						<div class="col-sm-4 num"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
+						<div class="col-sm-4 num text-center"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
+						<div class="col-sm-4 num text-center"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
+						<div class="col-sm-4 num text-center"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
 					</div>
 				</div>
 				
 			</div>
 		</div>
 		<div class="section hidden-xs" id="section2">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
+				<div class="container-fluid">
+					<div class="processWp row">
 						<div class="process col-sm-6 col-sm-offset-1">
 							<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
 						</div>
@@ -136,44 +138,39 @@
 						</div>
 					</div>
 				</div>
-			</div> 
 		</div>
 		<div class="section hidden-xs" id="section3">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2>
-								<img class="visibleDesktop visibleTablet visiblePhoneLan hiddenPhonePor" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
-							</h2>
-						</div>
-					</div>
-					<div class="voices row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<div class="contain-fluid">
-								<div class="row">
-									<div class="col-md-6">
-										<img class="item1 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
-									</div>
-									<div class="col-md-6">
-										<img class="item2 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
+					<div class="container-fluid">
+						<div class="voices row">
+							<div class="col-sm-10 col-sm-offset-1">
+								<div class="row animated fadeInUp">
+									<div class="col-sm-12">
+										<h2>
+											<img class="hidden-sm center-block" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
+											<img class="hidden-md hidden-lg center-block" src="{{ asset('img/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
+										</h2>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-md-6 hidden-sm">
-										<img class="item3 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
+								<div class="row animated fadeInUp">
+									<div class="col-sm-6">
+										<img class="item item1 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
 									</div>
-									<div class="col-md-6 hidden-sm">
-										<img class="item4 img-responsive center-block" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
+									<div class="col-sm-6">
+										<img class="item item2 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
+									</div>
+								</div>
+								<div class="row animated fadeInUp">
+									<div class="col-sm-6 hidden-sm">
+										<img class="item item3 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
+									</div>
+									<div class="col-sm-6 hidden-sm">
+										<img class="item item4 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
 									</div>
 								</div>
 							</div>
 						</div>
 						
 					</div>
-					
-				</div>
-			</div>
 		</div>
 		<div class="section hidden-xs" id="section4">
 			<div class="sectionCon">
