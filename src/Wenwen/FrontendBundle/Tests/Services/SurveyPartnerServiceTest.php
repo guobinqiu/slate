@@ -2555,7 +2555,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $userId = '123423';
         $surveyPartnerId = '1013';
 
-        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'bcb04b7e103a0cdb2a00a3');
+        $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId, 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a10a3');
         $answerStatus = 'complete';
         $clientIp = 'xxx.xxx.xxx.xxx';
 
