@@ -479,13 +479,13 @@ class SurveyPartnerService
         $rtn['errMsg'] = '';
 
         // 检查answerStatus是否合法
-        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $answerStatus){
+        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_SCREENOUT == $answerStatus){
+        } else if(SurveyStatus::STATUS_SCREENOUT == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL == $answerStatus){
+        } else if(SurveyStatus::STATUS_QUOTAFULL == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_ERROR == $answerStatus){
+        } else if(SurveyStatus::STATUS_ERROR == $answerStatus){
 
         } else {
             $rtn['status'] = false;
@@ -629,7 +629,7 @@ class SurveyPartnerService
         $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    'status' => SurveyStatus::STATUS_FORWARD,
                     ));
         if(empty($forwardParticipationHistory)){
             $errMsg = 'Participation history in forward is not exist. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
@@ -659,7 +659,7 @@ class SurveyPartnerService
         }
 
         // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，处理为screenout
-        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
             $now = new \DateTime();
 
             $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
@@ -671,7 +671,7 @@ class SurveyPartnerService
                 $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 // 完成回答过快，状态改为screenout
-                $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                $rtn['answerStatus'] = SurveyStatus::STATUS_SCREENOUT;
                 $rtn['errMsg'] = $errMsg;
             }
         }
