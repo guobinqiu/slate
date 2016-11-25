@@ -6,8 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="survey_partner",
- *            uniqueConstraints={@ORM\UniqueConstraint(name="unique_partner_name_and_survey_id", columns={"partner_name", "survey_id"})})
+ * @ORM\Table(name="survey_partner")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\SurveyPartnerRepository")
  * 
@@ -21,6 +20,9 @@ class SurveyPartner
     const GENDER_BOTH = 'both';
     const GENDER_MALE = 'male';
     const GENDER_FEMALE = 'female';
+
+    const PARTNER_TRIPLES = 'triples';
+    const PARTNER_FORSURVEY = 'forsurvey';
 
     /**
      * @var integer
@@ -36,6 +38,10 @@ class SurveyPartner
      *
      * @ORM\Column(name="partner_name", type="string", length=32, nullable=false)
      * @Assert\NotBlank(message = "Please fill out partnerId")
+     * @Assert\Choice(
+     *      choices = {"triples", "forsurvey"},
+     *      message = "这不是一个有效的partner name"
+     * )
      */
     private $partnerName;
 

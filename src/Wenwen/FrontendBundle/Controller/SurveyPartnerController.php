@@ -89,7 +89,7 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         } else {
             // 返回状态为failure时，跳转至errorpage页面
             $params = array();
-            $params['answerStatus'] = 'error'; // 系统错误
+            $params['answerStatus'] = $rtn['status']; // 系统错误
             $params['surveyPartnerId'] = $surveyPartnerId;
             $params['title'] = $surveyPartnerId;
             $params['key'] = 'SYSERR';
@@ -126,9 +126,9 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         } else {
             // redirect to error page
             $params = array();
-            $params['surveyId'] = $surveyId;
-            $params['key'] = $key;
-            return new Response('Can not process request.');
+            $params['answerStatus'] = $rtn['status'];
+            $params['key'] = $rtn['key'];
+            return $this->redirect($this->generateUrl('survey_partner_endpage', $params));
         }
     }
 
