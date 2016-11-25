@@ -7,6 +7,7 @@ use JMS\JobQueueBundle\Entity\Job;
 class FulcrumDeliveryNotification extends SopDeliveryNotification
 {
     protected function runJob($respondent, $channel) {
+        /* 2016-11-24 不给fulcrum发通知邮件
         $name1 = $respondent['recipient']['name1'];
         if ($name1 == null) {
             $name1 = $respondent['recipient']['email'];
@@ -22,5 +23,6 @@ class FulcrumDeliveryNotification extends SopDeliveryNotification
         $this->em->persist($job);
         $this->em->flush($job);
         $this->em->clear();
+        */
     }
 }
