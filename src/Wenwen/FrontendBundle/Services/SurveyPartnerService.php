@@ -551,7 +551,7 @@ class SurveyPartnerService
                 $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    'status' => SurveyStatus::STATUS_FORWARD,
                     ));
 
                 if(empty($forwardParticipationHistory)){

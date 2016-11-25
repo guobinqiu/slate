@@ -89,13 +89,13 @@ class DeliveryNotificationTest extends WebTestCase {
         $deliveryNotification->send($arr['data']['respondents']);
         $deliveryNotification->send($arr['data']['respondents']);//测试重复执行
 
-        $fulcrumResearchSurveys = $this->em->getRepository('WenwenFrontendBundle:fulcrumResearchSurvey')->findAll();
+        $fulcrumResearchSurveys = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findAll();
 //        print_r($fulcrumResearchSurveys[0]);
         $this->assertEquals(1, count($fulcrumResearchSurveys));
         $this->assertEquals(7637, $fulcrumResearchSurveys[0]->getSurveyId());
         $this->assertEquals('Fulcrum Survey', $fulcrumResearchSurveys[0]->getTitle());
 
-        $fulcrumResearchSurveyStatusHistories = $this->em->getRepository('WenwenFrontendBundle:fulcrumResearchSurveyStatusHistory')->findAll();
+        $fulcrumResearchSurveyStatusHistories = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findAll();
 //        foreach ($fulcrumResearchSurveyStatusHistories as $fulcrumResearchSurveyStatusHistory) {
 //            echo PHP_EOL . 'app_mid=' . $fulcrumResearchSurveyStatusHistory->getAppMid() . ', survey_id=' . $fulcrumResearchSurveyStatusHistory->getSurveyId();
 //        }

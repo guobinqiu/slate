@@ -193,9 +193,15 @@ class SopSurveyService
         $researchSurvey->setIr($survey['ir']);
         $researchSurvey->setCpi($survey['cpi']);
         $researchSurvey->setTitle($survey['title']);
-        $researchSurvey->setCompletePoint($survey['extra_info']['point']['complete']);
-        $researchSurvey->setScreenoutPoint($survey['extra_info']['point']['screenout']);
-        $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
+        if (!empty($survey['extra_info']['point']['complete'])) {
+            $researchSurvey->setCompletePoint($survey['extra_info']['point']['complete']);
+        }
+        if (!empty($survey['extra_info']['point']['screenout'])) {
+            $researchSurvey->setScreenoutPoint($survey['extra_info']['point']['screenout']);
+        }
+        if (!empty($survey['extra_info']['point']['quotafull'])) {
+            $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
+        }
         if (!empty($survey['extra_info']['date']['start_at'])) {
             $researchSurvey->setStartDate(new \DateTime($survey['extra_info']['date']['start_at']));
         }
