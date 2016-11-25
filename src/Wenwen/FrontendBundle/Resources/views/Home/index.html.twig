@@ -32,12 +32,12 @@
         			<div class="col-xs-12">
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
-								<![if !IE]>
-									<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-								<![endif]>
-								<!--[if IE]> 
-								    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
-								<![endif]-->
+								<!--[if !IE]>
+				 					<img src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+				 				<![endif]-->  
+				 				<![if IE]>
+				 				 	<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+				 				<![endif]>
 			        		</a>
 			        	</div>
 			        	<div class="nav pull-right">
@@ -55,18 +55,6 @@
 						               <li class="divider"></li>
 						               <li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
 						           </ul>
-
-			    	              {# <div class="dropdown-menu">
-				    	                <div class="bg-inverse text-muted p-1">
-				    	                   <ul class="menu dropdown-menu dropdown-menu-right" role="menu">
-				    	                   	<li class="liner"><a href="{{ path('_survey_index') }}" title="问卷列表">问卷列表</a></li>
-				    	                   	<li class="liner"><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
-				    	                   	<li class="liner"><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
-				    	                   	<li class="liner"><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
-				    	                   	<li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
-				    	                   </ul>
-				    	                </div>
-			    	               </div> #}
 			    	            </div>
 		    	            </div>
 		    	        </div>
@@ -104,7 +92,7 @@
 		<div class="section hidden-xs" id="section1">
 			
 			<div class="sectionCon">
-				<div class="container-fluid">
+				<div class="container">
 					<div class="introTit row">
 						<div class="col-sm-12">
 							<h2>

@@ -7,6 +7,16 @@
 #pagepiling{
 	display: none;
 }
+@keyframes fadeInUp{
+      0% { 
+          opacity: 0;
+         transform: translateY(20px); 
+      } 
+      100% { 
+          opacity: 1;
+         transform: translateY(0); 
+      }
+}
 .unlogin{
 	background-color: transparent;
 }
@@ -77,8 +87,6 @@
 }
 .sectionCon{
 	z-index: 2;
-	width: 100%;
-	height: 100%;
 	text-align: center;
 	*text-align: initial;
 	&:before{
@@ -129,15 +137,20 @@
 			}
 		}
 	}
-	h2{
-		margin-top: 29%;
-		@include animation2(0, 1s, fadeIn1);
-	}
-	@keyframes fadeIn1{
-	    0% { margin-top: 32%; opacity: 0; } 
-	    50% { margin-top: 30%; opacity: 0.6; }
-	    100% { margin-top: 29%; opacity: 1; }
-	}
+	&.active{
+	 	h2{
+	 	    opacity: 0;
+	 	    @include animation2(0.5s, 1s, fadeInUp);
+	 	}
+	 	.btns{
+	 	    opacity: 0;
+	 	    @include animation2(1s, 1s, fadeInUp);
+	 	}
+	 	.login-btn-others{
+	 	    opacity: 0;
+	 	    @include animation2(1.5s, 1s, fadeInUp);
+	 	}
+  	}
 }
 #section1{
 	color: #16b5b5;
@@ -148,12 +161,36 @@
 		height: 80%;
 		background: url(../img/landingpage/2.jpg) no-repeat top;
 		background-size: cover;
+		position: initial;
+		&>.container{
+			display: table;
+			height: 100%;
+			width: 100%;
+		}
 		.container-fluid{
 			height: 100%;
 		}
 		.introTit{
 			height: 100px;
 		}
+	}
+	.introTit{
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.sec1Intro{
+		margin-top: 50px;
+		font-size: 16px;
+	}
+	&.active{
+	    h2{
+	        opacity: 0;
+	        @include animation2(0.5s, 2s, fadeInUp);
+	    }
+	    .sec1Intro{
+	        opacity: 0;
+	        @include animation2(1s, 2s, fadeInUp);
+	    }
 	}
 	.refNum{
 		height: 20%;
@@ -181,42 +218,26 @@
 			margin-top: 2%;
 		}
 		.tit{
-			margin-top: 20px;
+			margin-top: 10px;
 			font-size: 16px;
 			color: #26292e;
 		}
 	}
-	// .sec1Intro{
-	// 	margin-top: 50px;
-	// 	font-size: 16px;
-	// }
-	// h2{
-	// 	margin-top: 24%;
-	// }
-	// &.active{
-	// 	h2{
-	// 		@include animation2(0, 1s, fadeIn2);
-	// 	}
-	// 	@keyframes fadeIn2{
-	// 	    0% { margin-top: 17%; opacity: 0.3; } 
-	// 	    50% { margin-top: 22%; opacity: 0.6; }
-	// 	    100% { margin-top: 24%; opacity: 1; }
-	// 	}
-	// }
 }
 #section2{
 	background-image: url(../img/landingpage/3.jpg);
 	color: #fff;
 	*display: none;
-	.processWp{
-		height: 80%;
-		position: relative;
-	}
-	.pcImg{
-		position: absolute;
-		bottom: 50px;
-		right: 130px;
-	}
+	.sectionCon{
+		.container{
+			position: relative;
+			.pcImg{
+				position: absolute;
+				right: 100px;
+				bottom: 100px;
+			}
+		}
+	 }
 }
 #section3{
 	color: #828282;
@@ -287,12 +308,10 @@
 		font-size: 16px;
 		color:#fff;
 	}
-	h2{
-		margin-top: 27%;
-	}
 	&.active{
 		h2{
-			@include animation2(0, 1s, fadeIn5);
+			opacity: 0;
+			@include animation2(0.5s, 2s, fadeInUp);
 		}
 		@keyframes fadeIn5{
 		    0% { margin-top: 28%; opacity: 0.5; } 
@@ -300,9 +319,12 @@
 		    100% { margin-top: 27%; opacity: 1; }
 		}
 		.briefIntro{
-			opacity: 1;
-			visibility: visible;
-			margin-top: 45px;
+			opacity: 0;
+			@include animation2(1s, 2s, fadeInUp);
+		}
+		.btns{
+		    opacity: 0;
+		    @include animation2(1.5s, 2s, fadeInUp);
 		}
 	}
 }
