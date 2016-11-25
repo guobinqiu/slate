@@ -48,7 +48,8 @@ class SsiApiController extends Controller
         $handler->setUpProject($ssiRequest);
         $handler->setUpProjectRespondents($ssiRequest);
 
-        
+/*
+2016-11-24 不给ssi 发邮件
         # send mail job
         if (sizeof($handler->getSucceededRespondentIds())) {
 
@@ -88,7 +89,9 @@ class SsiApiController extends Controller
             $em->clear();
 
             $logger->info('End add job');
+
         }
+ */
 
         return $this->createResponse(
             $handler->getSucceededRespondentIds(),

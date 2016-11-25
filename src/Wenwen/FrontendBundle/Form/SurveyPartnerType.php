@@ -15,7 +15,8 @@ class SurveyPartnerType extends AbstractType
             ->add('partnerName', 'choice', array(
                 'label' => 'partnerName',
                 'choices'  => array(
-                    'triples' => 'triples',
+                    'forsurvey' => 'forSurvey',
+                    'triples' => 'TripleS',
                     ),
                 ))
             ->add('surveyId', 'text', array(

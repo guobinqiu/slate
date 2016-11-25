@@ -108,10 +108,6 @@ class SsiApiControllerTest extends WebTestCase
                '203' => ['wwcn-9999'],
                ],
            ], json_decode($client->getResponse()->getContent(), true));
-
-        $jobs = $em->getRepository('JMSJobQueueBundle:Job')->findAll();
-        $this->assertCount(1, $jobs);
-        $this->assertInstanceOf('JMS\JobQueueBundle\Entity\Job', $jobs[0]);
  
     }
 
@@ -191,10 +187,6 @@ class SsiApiControllerTest extends WebTestCase
                '203' => ['wwcn-9999'],
                ],
            ], json_decode($client->getResponse()->getContent(), true));
-
-        $jobs = $em->getRepository('JMSJobQueueBundle:Job')->findAll();
-        $this->assertCount(1, $jobs);
-        $this->assertInstanceOf('JMS\JobQueueBundle\Entity\Job', $jobs[0]);
     }
 
     public function testWithoutBody()

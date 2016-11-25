@@ -21,13 +21,13 @@ class FulcrumDeliveryNotification extends DeliveryNotification
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $this->fulcrumSurveyService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
-            $recipient = $this->getRecipient($respondent['app_mid']);
-            if ($recipient['email']) {
-                if ($this->isSubscribed($recipient['email'])) {
-                    $respondent['recipient'] = $recipient;
-                    $this->runJob($respondent);
-                }
-            }
+//            $recipient = $this->getRecipient($respondent['app_mid']);
+//            if ($recipient['email']) {
+//                if ($this->isSubscribed($recipient['email'])) {
+//                    $respondent['recipient'] = $recipient;
+//                    $this->runJob($respondent);
+//                }
+//            }
         }
     }
 

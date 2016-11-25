@@ -43,14 +43,30 @@ class SopDeliveryNotification extends DeliveryNotification
         if ($name1 == null) {
             $name1 = $respondent['recipient']['email'];
         }
+
+        $toAddress = $respondent['recipient']['email'];
+        $surveyTitle = $respondent['title'];
+        $completePoint = $respondent['extra_info']['point']['complete'];
+        $loi = $respondent['loi'];
+        $surveyId = $respondent['survey_id'];
+
+        // 随机从下面挑选一个名称作为邮件标题
+        $subjects = array(
+            '亲爱的' . $name1 . '，为您呈上一份价值' . $completePoint . '分的新问卷（编号：r' . $surveyId . '）',
+            '91问问邀请您参加名为<r' . $surveyId . ' ' . $surveyTitle . '>的问卷，回答成功奖励为' . round($completePoint/100, 0) . '元',
+            );
+        srand();
+        $subjectIndex = rand(0, count($subjects) - 1);
+        $subject = $subjects[$subjectIndex];
+
         $job = new Job('mail:sop_delivery_notification', array(
             '--name1='.$name1,
-            '--email='.$respondent['recipient']['email'],
-            '--survey_title='.$respondent['title'],
-            '--survey_point='.$respondent['extra_info']['point']['complete'],
-            '--survey_length='.$respondent['loi'],
-            '--subject=亲爱的'.$name1.'，为您呈上一份价值'.$respondent['extra_info']['point']['complete'].'分的新问卷（编号：r'.$respondent['survey_id'].'）',
-            '--survey_id='.$respondent['survey_id'],
+            '--email='.$toAddress,
+            '--survey_title='.$surveyTitle,
+            '--survey_point='.$completePoint,
+            '--survey_length='.$loi,
+            '--subject='.$subject,
+            '--survey_id='.$surveyId,
             //'--channel='.$channel,//sendcloud
         ), true, '91wenwen');
         $this->em->persist($job);
