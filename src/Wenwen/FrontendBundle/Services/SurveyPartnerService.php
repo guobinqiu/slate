@@ -573,7 +573,7 @@ class SurveyPartnerService
                 }
 
                 // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，不处理
-                if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+                if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
                     $now = new \DateTime();
 
                     $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
@@ -585,7 +585,7 @@ class SurveyPartnerService
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
                         // 完成回答过快，状态改为screenout
-                        $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                        $rtn['answerStatus'] = SurveyStatus::STATUS_SCREENOUT;
                         $rtn['errMsg'] = $errMsg;
                     }
                 }
