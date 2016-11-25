@@ -72,6 +72,10 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $app_mid = $this->sop_respondent[1]->getId();
 
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'forward');
+
         // data
         $header = array (
             'response_id',
@@ -130,7 +134,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $response->body = array (
             $header,
             $rec1,
-            $rec2,
+            //$rec2,
             $footer
         );
 
@@ -157,7 +161,6 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         // execute
         $data = $commandTester->execute($commandParam);
-
         // assert
         $history = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
         $this->assertCount(1, $history);
@@ -174,6 +177,14 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
         $app_mid = $this->sop_respondent[1]->getId();
+
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'forward');
+
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'forward');
 
         // data
         $header = array (
