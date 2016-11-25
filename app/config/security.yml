@@ -35,12 +35,12 @@ security:
 
     access_control:
         - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: http }
-        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: http }
-        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/sop, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/cint_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/sop, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/cint_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
