@@ -109,9 +109,12 @@ class SurveyPartnerController extends BaseController implements UserAuthenticati
         // 暂时限制为TripleS的IP
 
         $this->get('logger')->INFO(__METHOD__ . ' referer=' . $request->headers->get('referer'));
-        $validReferer = $surveyPartnerService->isValidEndlinkReferer($request->headers->get('referer'), $key);
-        if(! $validReferer) {
-            return new Response('Request not allowed.');
+        $rtn = $surveyPartnerService->isValidEndlink($answerStatus, $partnerName, $request->headers->get('referer'), $uid, $key);
+        if(! $rtn['status']) {
+            $params = array();
+            $params['answerStatus'] = 'failure';
+            $params['key'] = $rtn['key'];
+            return $this->redirect($this->generateUrl('survey_partner_endpage', $params));
         }
 
         $rtn = $surveyPartnerService->processEndlink($uid, $answerStatus, $surveyId, $partnerName, $key, $request->getClientIp());
