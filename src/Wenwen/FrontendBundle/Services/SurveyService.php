@@ -747,8 +747,8 @@ class SurveyService
     }
 
     /**
-    * 替换ir 至 难易度表现文字
-    */
+     * 替换ir 至 难易度表现文字
+     */
     private function getSurveyDifficulty($ir){
         $difficulty = '普通';
         if($ir < 20 && $ir > 0){
@@ -761,8 +761,8 @@ class SurveyService
     }
     
     /**
-    * loi 为 0 的时候，替换显示内容
-    */
+     * loi 为 0 的时候，替换显示内容
+     */
     private function getSurveyLOI($loi){
         if($loi == 0){
             // 随便显示一个时间，当loi为0的时候

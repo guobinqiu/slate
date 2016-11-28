@@ -7,9 +7,10 @@ use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Services\SopSurveyService;
 
-class SopDeliveryNotification extends DeliveryNotification
+class SopDeliveryNotification implements DeliveryNotification
 {
-    protected $sopSurveyService;
+    private $em;
+    private $sopSurveyService;
 
     public function __construct(EntityManager $em, SopSurveyService $sopSurveyService) {
         $this->em = $em;
@@ -49,6 +50,7 @@ class SopDeliveryNotification extends DeliveryNotification
         $completePoint = $respondent['extra_info']['point']['complete'];
         $loi = $respondent['loi'];
         $surveyId = $respondent['survey_id'];
+        $surveyDifficulty = $this->getSurveyDifficulty($respondent['ir']);
 
         // 随机从下面挑选一个名称作为邮件标题
         $subjects = array(
@@ -67,11 +69,32 @@ class SopDeliveryNotification extends DeliveryNotification
             '--survey_length='.$loi,
             '--subject='.$subject,
             '--survey_id='.$surveyId,
+            '--survey_difficulty='.$surveyDifficulty,
             //'--channel='.$channel,//sendcloud
         ), true, '91wenwen');
         $this->em->persist($job);
         $this->em->flush($job);
         $this->em->clear();
+    }
+
+    private function getRecipient($app_mid) {
+        return $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
+    }
+
+    private function isSubscribed($email) {
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
+        return count($userEdmUnsubscribes) == 0;
+    }
+
+    private function getSurveyDifficulty($ir){
+        $difficulty = '普通';
+        if($ir < 20 && $ir > 0){
+            $difficulty = '困难';
+        }
+        if($ir > 70){
+            $difficulty = '简单';
+        }
+        return $difficulty;
     }
 
 //    private function getChannel($i) {

@@ -6,9 +6,10 @@ use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\AppBundle\Entity\SsiRespondent;
 
-class SsiDeliveryNotification extends DeliveryNotification
+class SsiDeliveryNotification implements DeliveryNotification
 {
-    protected $logger;
+    private $em;
+    private $logger;
 
     public function setLogger($logger){
         $this->logger = $logger;
@@ -50,6 +51,11 @@ class SsiDeliveryNotification extends DeliveryNotification
         $this->em->flush();
         $this->em->clear();
         $this->logger->debug('send END');
+    }
+
+    private function isSubscribed($email) {
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
+        return count($userEdmUnsubscribes) == 0;
     }
 
     // sendcloud
