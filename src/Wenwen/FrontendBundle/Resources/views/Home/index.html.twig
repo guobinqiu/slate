@@ -8,20 +8,6 @@
 {% block stylesheet %}
 	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<style type="text/css">
-		html,body{
-			height: 100%;
-			overflow: hidden;
-			background: #262424;
-		}
-		@media only screen and (max-width: 667px) { 
-			// landing page
-			html, body{
-				overflow: auto!important;
-				background: #3d5267!important;
-			}
-		}
-	</style>
 {% endblock %}
 
 {% block body %}
@@ -140,19 +126,19 @@
 									</div>
 								</div>
 								<div class="row animated fadeInUp">
-									<div class="col-sm-6">
-										<img class="item item1 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
+
+									<div class="col-sm-12 text-center">
+										<img class="item item1 img-responsive" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
+									
+										<img class="item item2 img-responsive" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
 									</div>
-									<div class="col-sm-6">
-										<img class="item item2 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
-									</div>
+									
 								</div>
 								<div class="row animated fadeInUp">
-									<div class="col-sm-6 hidden-sm">
-										<img class="item item3 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
-									</div>
-									<div class="col-sm-6 hidden-sm">
-										<img class="item item4 center-block img-responsive" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
+									<div class="col-sm-12 hidden-sm text-center">
+										<img class="item item3 img-responsive" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
+									
+										<img class="item item4 img-responsive" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
 									</div>
 								</div>
 							</div>

@@ -1,6 +1,17 @@
 @charset "UTF-8";
 
 @import "layout/global";
+html,body{
+	height: 100%;
+	overflow: hidden;
+	background: #262424;
+}
+@media only screen and (max-width: 667px) {
+	html, body{
+		overflow: auto!important;
+		background: #3d5267!important;
+	}
+}
 .main,#pagepiling,.sections,.section{
 	height: 100%;
 }
@@ -137,6 +148,18 @@
 			}
 		}
 	}
+	h2{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.btns{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.login-btn-others{
+	    opacity: 1\9;
+	    filter: alpha(opacity=100)\9;
+	}
 	&.active{
 	 	h2{
 	 	    opacity: 0;
@@ -181,6 +204,14 @@
 	.sec1Intro{
 		margin-top: 50px;
 		font-size: 16px;
+	}
+	h2{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.sec1Intro{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
 	}
 	&.active{
 	    h2{
@@ -253,9 +284,30 @@
 			height: 15%;
 			margin-top: 50px;
 			img.item{
-				width: 100%;
+				max-width: 479px;
+				display: inline;
+			}
+			.item1{
+				margin-right: 10px;
+			}
+			.item2{
+				margin-left: 10px;
+			}
+			.item3{
+				margin-right: 10px;
+			}
+			.item4{
+				margin-left: 10px;
 			}
 		}
+	}
+	h2{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.item{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
 	}
 	&.active{
 		@keyframes fadeInUp{
@@ -307,6 +359,18 @@
 		margin-top: 45px;
 		font-size: 16px;
 		color:#fff;
+	}
+	h2{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.briefIntro{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
+	}
+	.btns{
+		opacity: 1\9;
+		filter: alpha(opacity=100)\9;
 	}
 	&.active{
 		h2{
