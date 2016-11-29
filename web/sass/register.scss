@@ -20,8 +20,14 @@
 		margin-top: -60px;
 	}
 } 
-.logIxWrap{
-	margin-top: 0;
+.register{
+	margin-top: 30%;
+	@include animation2(0, .6s, fadeIn1);
+	 @keyframes fadeIn1{
+	     0% { margin-top: 34%; opacity: 0.5; } 
+	     50% { margin-top: 32%; opacity: 0.9; }
+	     100% { margin-top: 30%; opacity: 1; }
+	}
 }
 .main-register{
 	position: relative;
