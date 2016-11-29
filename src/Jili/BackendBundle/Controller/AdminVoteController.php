@@ -14,7 +14,7 @@ use Jili\BackendBundle\Utility\VoteImageResizer;
 /**
  * @Route("/admin/vote")
  */
-class AdminVoteController extends Controller
+class AdminVoteController extends Controller #implements IpAuthenticatedController
 {
 
     /**

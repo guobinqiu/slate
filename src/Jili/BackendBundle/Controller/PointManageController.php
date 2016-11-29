@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * @Route("/admin/pointmanage")
  */
-class PointManageController extends Controller
+class PointManageController extends Controller #implements IpAuthenticatedController
 {
 
     /**

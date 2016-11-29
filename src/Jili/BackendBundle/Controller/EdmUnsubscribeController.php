@@ -15,7 +15,7 @@ use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 /**
  * @Route("/edm/unsubscribe")
  */
-class EdmUnsubscribeController extends Controller
+class EdmUnsubscribeController extends Controller #implements  IpAuthenticatedController
 {
 
     /**

@@ -12,7 +12,7 @@ use \VendorIntegration\SSI\PC1\Constants;
 /**
  * @Route("/admin/panelist")
  */
-class AdminPanelistController extends Controller
+class AdminPanelistController extends Controller #implements IpAuthenticatedController
 {
 
     /**
