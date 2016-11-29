@@ -12,6 +12,13 @@ class SurveyPartnerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('type', 'choice', array(
+                'label' => '积分类型',
+                'choices'  => array(
+                    'cost' => 'cost',
+                    'expense' => 'expense',
+                    ),
+                ))
             ->add('partnerName', 'choice', array(
                 'label' => 'partnerName',
                 'choices'  => array(
