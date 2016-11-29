@@ -662,11 +662,11 @@ class SurveyPartnerService
             $now = new \DateTime();
 
             $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-            $minutes = $diff->days * 24 * 60;
-            $minutes += $diff->h * 60;
-            $minutes += $diff->i;
+            $seconds = $diff->days * 24 * 60 * 60;
+            $seconds += $diff->h * 60 * 60;
+            $seconds += $diff->i * 60;
 
-            if($minutes <= $surveyPartner->getLoi()/4){
+            if($seconds <= ($surveyPartner->getLoi() * 60 / 4)){
                 $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 // 完成回答过快，状态改为screenout
@@ -804,11 +804,11 @@ class SurveyPartnerService
                     $now = new \DateTime();
 
                     $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-                    $minutes = $diff->days * 24 * 60;
-                    $minutes += $diff->h * 60;
-                    $minutes += $diff->i;
+                    $seconds = $diff->days * 24 * 60 * 60;
+                    $seconds += $diff->h * 60 * 60;
+                    $seconds += $diff->i * 60;
 
-                    if($minutes <= $surveyPartner->getLoi()/4){
+                    if($seconds <= ($surveyPartner->getLoi() * 60 / 4)){
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
                         // 完成回答过快，状态改为screenout
