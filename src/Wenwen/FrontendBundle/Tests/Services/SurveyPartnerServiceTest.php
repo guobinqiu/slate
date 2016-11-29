@@ -50,6 +50,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
         $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setPartnerName('triples');
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
@@ -94,6 +95,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -136,6 +138,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -178,6 +181,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -220,6 +224,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -262,6 +267,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -302,6 +308,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -362,6 +369,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于close状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1001');
@@ -380,6 +388,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1002');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1002');
@@ -398,6 +407,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1003');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1003');
@@ -416,6 +426,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1004');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1004');
@@ -468,6 +479,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于close状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -486,6 +498,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1002');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -539,6 +552,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -593,6 +607,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('1001');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -652,6 +667,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -681,6 +697,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('456');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -736,6 +753,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态 并且是可以中途退出的
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -801,6 +819,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -882,6 +901,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner1 = new SurveyPartner();
         $surveyPartner1->setPartnerName('triples');
+        $surveyPartner1->setType(SurveyPartner::TYPE_COST);
         $surveyPartner1->setSurveyId($surveyId1);
         $surveyPartner1->setUrl($url);
         $surveyPartner1->setTitle($title1);
@@ -933,6 +953,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner2 = new SurveyPartner();
         $surveyPartner2->setPartnerName('triples');
+        $surveyPartner2->setType(SurveyPartner::TYPE_COST);
         $surveyPartner2->setSurveyId($surveyId2);
         $surveyPartner2->setUrl($url);
         $surveyPartner2->setTitle($title2);
@@ -978,6 +999,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner3 = new SurveyPartner();
         $surveyPartner3->setPartnerName('triples');
+        $surveyPartner3->setType(SurveyPartner::TYPE_COST);
         $surveyPartner3->setSurveyId($surveyId3);
         $surveyPartner3->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner3->setTitle('测试用问卷标题3');
@@ -1022,6 +1044,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner4 = new SurveyPartner();
         $surveyPartner4->setPartnerName('triples');
+        $surveyPartner4->setType(SurveyPartner::TYPE_COST);
         $surveyPartner4->setSurveyId($surveyId4);
         $surveyPartner4->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner4->setTitle('测试用问卷标题4');
@@ -1054,6 +1077,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner5 = new SurveyPartner();
         $surveyPartner5->setPartnerName('triples');
+        $surveyPartner5->setType(SurveyPartner::TYPE_COST);
         $surveyPartner5->setSurveyId($surveyId5);
         $surveyPartner5->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner5->setTitle('测试用问卷标题5');
@@ -1086,6 +1110,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner6 = new SurveyPartner();
         $surveyPartner6->setPartnerName('triples');
+        $surveyPartner6->setType(SurveyPartner::TYPE_COST);
         $surveyPartner6->setSurveyId($surveyId6);
         $surveyPartner6->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner6->setTitle('测试用问卷标题6');
@@ -1165,6 +1190,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner1 = new SurveyPartner();
         $surveyPartner1->setPartnerName('triples');
+        $surveyPartner1->setType(SurveyPartner::TYPE_COST);
         $surveyPartner1->setSurveyId($surveyId1);
         $surveyPartner1->setUrl($url);
         $surveyPartner1->setTitle($title1);
@@ -1242,6 +1268,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner1 = new SurveyPartner();
         $surveyPartner1->setPartnerName($partnername);
+        $surveyPartner1->setType(SurveyPartner::TYPE_COST);
         $surveyPartner1->setSurveyId($surveyId1);
         $surveyPartner1->setUrl($url);
         $surveyPartner1->setTitle($title1);
@@ -1308,6 +1335,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner1 = new SurveyPartner();
         $surveyPartner1->setPartnerName($partnername);
+        $surveyPartner1->setType(SurveyPartner::TYPE_COST);
         $surveyPartner1->setSurveyId($surveyId1);
         $surveyPartner1->setUrl($url);
         $surveyPartner1->setTitle($title1);
@@ -1374,6 +1402,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -1442,6 +1471,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -1509,6 +1539,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle('测试用问卷标题3');
@@ -1582,6 +1613,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题4');
@@ -1639,6 +1671,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle('测试用问卷标题5');
@@ -1696,6 +1729,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题6');
@@ -1774,6 +1808,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -1856,6 +1891,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -1942,6 +1978,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -2001,6 +2038,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -2051,6 +2089,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -2118,6 +2157,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle($title);
@@ -2206,6 +2246,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl($url);
         $surveyPartner->setTitle($title);
@@ -2280,6 +2321,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle($title);
@@ -2348,6 +2390,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle($title);
@@ -2416,6 +2459,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle($title);
@@ -2484,6 +2528,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle($title);
@@ -2593,6 +2638,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2638,6 +2684,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2693,6 +2740,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2748,6 +2796,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2812,6 +2861,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2884,6 +2934,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -2957,6 +3008,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -3032,6 +3084,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -3120,6 +3173,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('forsurvey');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId('noneed');
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
