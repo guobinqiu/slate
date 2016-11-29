@@ -296,6 +296,12 @@ class SurveyPartner
      */
     private $type;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="new_user_only", type="boolean", nullable=false)
+     */
+    private $newUserOnly;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -520,6 +526,16 @@ class SurveyPartner
     public function getType()
     {
         return $this->type;
+    }
+
+    public function setNewUserOnly($newUserOnly)
+    {
+        $this->newUserOnly = $newUserOnly;
+    }
+
+    public function getNewUserOnly()
+    {
+        return $this->newUserOnly;
     }
 
     public function __toString() {

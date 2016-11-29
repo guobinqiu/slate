@@ -11,6 +11,8 @@ class SurveyPartnerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // 注意，禁用data参数，所有的初始值需要在entity初始化处设置
+        // 这里如果设置了data参数的话，编辑页面将看不到正确的数值
         $builder
             ->add('type', 'choice', array(
                 'label' => '积分类型',
@@ -45,7 +47,6 @@ class SurveyPartnerType extends AbstractType
                 ))
             ->add('reentry', 'checkbox', array(
                 'label' =>'reentry',
-                'data' => false,
                 'required' => false,
                 ))
             ->add('loi', 'text', array(
@@ -67,6 +68,10 @@ class SurveyPartnerType extends AbstractType
             ->add('quotafullPoint', 'text', array(
                 'label' => 'quotafullPoint',
                 'attr' => array('size' => '5'),
+                ))
+            ->add('newUserOnly', 'checkbox', array(
+                'label' =>'newUserOnly',
+                'required' => false,
                 ))
             ->add('minAge', 'text', array(
                 'label' => 'minAge',
