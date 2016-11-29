@@ -13,6 +13,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class CintSurveyService
 {
@@ -37,18 +38,35 @@ class CintSurveyService
 
     public function addSurveyUrlToken($survey, $userId)
     {
-        $token = md5(uniqid(rand(), true));
-        $key = 'cint_' . $userId . '_' . $survey['survey_id'];
-        $this->redis->set($key, $token);
-        $this->redis->expire($key, 60 * 60 * 24);
+        $token = $this->createToken($survey['survey_id'], $userId);
         $survey['url'] = $survey['url'] . '&sop_custom_token=' . $token;
         return $survey;
     }
 
+    public function createToken($surveyId, $userId)
+    {
+        $key = CacheKeys::getCintTokenKey($surveyId, $userId);
+        $token = md5(uniqid(rand(), true));
+        $this->redis->set($key, $token);
+        $this->redis->expire($key, CacheKeys::TOKEN_TTL);
+        return $token;
+    }
+
+    public function getToken($surveyId, $userId)
+    {
+        $key = CacheKeys::getCintTokenKey($surveyId, $userId);
+        return $this->redis->get($key);
+    }
+
+    public function deleteToken($surveyId, $userId)
+    {
+        $key = CacheKeys::getCintTokenKey($surveyId, $userId);
+        $this->redis->del($key);
+    }
+
     public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid)
     {
-        $key = 'cint_' . $user->getId() . '_' . $surveyId;
-        $token = $this->redis->get($key);
+        $token = $this->getToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
             $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED);
@@ -81,7 +99,7 @@ class CintSurveyService
                     throw $e;
                 }
             }
-            $this->redis->del($key);
+            $this->deleteToken($surveyId, $user->getId());
         }
     }
 

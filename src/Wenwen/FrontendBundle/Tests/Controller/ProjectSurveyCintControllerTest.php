@@ -1,18 +1,25 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Controller\ProjectSurveyCintController;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadCintResearchSurveyData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
-
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class ProjectSurveyCintControllerTest extends WebTestCase
 {
+    private $client;
+
+    private $container;
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -23,27 +30,23 @@ class ProjectSurveyCintControllerTest extends WebTestCase
      */
     public function setUp()
     {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
+        $client = static::createClient(array(), array('HTTPS' => true));
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
 
-        // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+        if (in_array($this->getName(), array('testInformationAction', 'testAgreementCompleteAction')))
+        {
+            $loader = new Loader();
+            $loader->addFixture(new LoadUserData());
+            $loader->addFixture(new LoadCintResearchSurveyData());
+            $purger = new ORMPurger();
+            $executor = new ORMExecutor($em, $purger);
+            $executor->execute($loader->getFixtures());
+        }
 
-        $fixture = new LoadUserData();
-        $fixture->setContainer($container);
-
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
-
+        $this->client = $client;
         $this->container = $container;
         $this->em = $em;
-
-        @session_start();
     }
 
     /**
@@ -53,94 +56,171 @@ class ProjectSurveyCintControllerTest extends WebTestCase
     {
         parent::tearDown();
         $this->em->close();
+        $this->em = null;
+        $this->client = null;
+        $this->container = null;
     }
 
-    /**
-     * @group dev-merge-ui-survey-list-cint
-     *
-     */
     public function testInformationAction()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $url = $container->get('router')->generate('_cint_project_survey_information');
-        $crawler = $client->request('GET', $url);
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $url = $this->container->get('router')->generate('_cint_project_survey_information');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //login 后
-        $session = $container->get('session');
-        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-
+        $survey_id = 10000;
+        $url = 'dummy_url';
         $cint_research = array();
         $cint_research['title'] = 'dummy title';
         $cint_research['difficulty'] = 'normal';
         $cint_research['loi'] = 10;
         $cint_research['extra_info']['point']['complete'] = 400;
-        $cint_research['url'] = 'dummy url';
-        $cint_research['survey_id'] = 1;
-        $url = $container->get('router')->generate('_cint_project_survey_information', array('cint_research' => $cint_research, 'difficulty' => '普通'));
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $cint_research['url'] = $url;
+        $cint_research['survey_id'] = $survey_id;
+
+        $cint_research = $this->container->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $users[0]->getId());
+        $this->assertNotEquals($url, $cint_research['url']);
+
+        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
+        $this->assertEquals($url . '&sop_custom_token=' . $token, $cint_research['url']);
+
+        $url = $this->container->get('router')->generate('_cint_project_survey_information', array('cint_research' => $cint_research, 'difficulty' => '普通'));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+            'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_INIT,
+        ));
+        $this->assertNotNull($statusHistory);
+        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
     }
 
-    /**
-     * @group dev-merge-ui-survey-list-cint
-     */
-    public function testEndlinkAction()
+    public function testForwardAction()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $url = $container->get('router')->generate('_cint_project_survey_endlink', array (
-            'survey_id' => 4,
-            'answer_status' => 'test'
-        ));
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $url = $this->container->get('router')->generate('_cint_project_survey_forward');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //login 后
-        $session = $container->get('session');
-        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $survey_id = 10000;
+        $cint_research = array();
+        $cint_research['survey_id'] = $survey_id;
+        $cint_research['url'] = 'dummy url';
 
-        $app_mid = $container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $url = $this->container->get('router')->generate('_cint_project_survey_forward', array('cint_research' => $cint_research));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        $url = $container->get('router')->generate('_cint_project_survey_endlink', array (
-            'survey_id' => 4,
-            'answer_status' => 'complete',
-            'app_mid' => $app_mid,
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+            'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_FORWARD,
         ));
-
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($statusHistory);
+        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
     }
 
-    /**
-     * @group dev-merge-ui-survey-list-cint
-     */
+    public function testEndlinkAction()
+    {
+        $url = $this->container->get('router')->generate('_cint_project_survey_information');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        //login 后
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session->set('uid', $users[0]->getId());
+        $session->save();
+
+        $survey_id = 10000;
+        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
+            'survey_id' => $survey_id,
+            'answer_status' => SurveyStatus::STATUS_COMPLETE,
+            'app_mid' => $app_mid,
+            'tid' => $token,
+        ));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+            'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_COMPLETE,
+        ));
+        $this->assertNotNull($statusHistory);
+        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
+
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+            'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+        ));
+        $this->assertCount(3, $statusHistories);
+
+        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($survey_id);
+        $this->assertNotNull($prizeTicket);
+        $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
+
+        $participationHistory = $this->em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findOneBy(array(
+            'cintProjectId' => $survey_id,
+            'appMemberId' => $app_mid
+        ));
+        $this->assertNotNull($participationHistory);
+        $this->assertEquals(400, $participationHistory->getPoint());
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
+        $this->assertEquals(400, $taskHistory->getPoint());
+        $this->assertEquals(TaskType::SURVEY, $taskHistory->getTaskType());
+        $this->assertEquals(CategoryType::CINT_COST, $taskHistory->getCategoryType());
+
+        $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
+        $this->assertEquals(400, $point->getPointChangeNum());
+        $this->assertEquals(CategoryType::CINT_COST, $point->getReason());
+
+        $this->em->detach($users[0]);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($users[0]->getId());
+        $this->assertEquals(500, $user->getPoints());
+
+        $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
+            'survey_id' => $survey_id,
+            'answer_status' => SurveyStatus::STATUS_COMPLETE,
+            'app_mid' => $app_mid,
+            'tid' => $token,
+        ));
+        $crawler = $this->client->request('GET', $url);
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+            'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+        ));
+        $this->assertCount(3, $statusHistories);
+    }
+
     public function testAgreementCompleteAction()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $session = $container->get('session');
-        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
         $point_1 = $users[0]->getPoints();
         $user_id = $users[0]->getId();
         $session->set('uid', $user_id);
@@ -154,8 +234,8 @@ class ProjectSurveyCintControllerTest extends WebTestCase
                 'sig' => 'fake'
             );
 
-            $url = $container->get('router')->generate('_cint_project_survey_agreement_complete', $invalid_params);
-            $crawler = $client->request('GET', $url);
+            $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $invalid_params);
+            $crawler = $this->client->request('GET', $url);
             //$this->assertEquals(404, $client->getResponse()->getStatusCode());
         }
 
@@ -165,29 +245,29 @@ class ProjectSurveyCintControllerTest extends WebTestCase
                 'agreement_status' => 'AGREED',
                 'time' => time()
             );
-            $sop_config = $container->getParameter('sop');
+            $sop_config = $this->container->getParameter('sop');
             $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sop_config['auth']['app_secret']);
 
-            $url = $container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
-            $crawler = $client->request('GET', $url);
-            $this->assertEquals(200, $client->getResponse()->getStatusCode());
+            $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
+            $crawler = $this->client->request('GET', $url);
+            $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-            $em->clear();
+            $this->em->clear();
 
             // check DB
-            $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($users[0]->getId());
+            $history = $this->em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($users[0]->getId());
             $this->assertNotEmpty($history);
             $this->assertEquals(10, $history->getAgreementStatus());
 
-            $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+            $task = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
             $this->assertEquals(1, $task->getPoint());
             $this->assertEquals(ProjectSurveyCintController::COMMENT, $task->getTaskName());
 
-            $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+            $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
             $this->assertEquals(1, $point->getPointChangeNum());
             $this->assertEquals(CategoryType::CINT_EXPENSE, $point->getReason());
 
-            $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->assertEquals($point_1 + 1, $user->getPoints());
         }
     }
