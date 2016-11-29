@@ -661,12 +661,9 @@ class SurveyPartnerService
         if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
             $now = new \DateTime();
 
-            $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-            $seconds = $diff->days * 24 * 60 * 60;
-            $seconds += $diff->h * 60 * 60;
-            $seconds += $diff->i * 60;
+            $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
 
-            if($seconds <= ($surveyPartner->getLoi() * 60 / 4)){
+            if($diffSeconds <= ($surveyPartner->getLoi() * 60 / 4)){
                 $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 // 完成回答过快，状态改为screenout
@@ -803,12 +800,11 @@ class SurveyPartnerService
                 if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
                     $now = new \DateTime();
 
-                    $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-                    $seconds = $diff->days * 24 * 60 * 60;
-                    $seconds += $diff->h * 60 * 60;
-                    $seconds += $diff->i * 60;
+                    $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
 
-                    if($seconds <= ($surveyPartner->getLoi() * 60 / 4)){
+                    $this->logger->debug(__METHOD__ . ' diffSeconds='. $diffSeconds);
+
+                    if($diffSeconds <= ($surveyPartner->getLoi() * 60 / 4)){
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
                         // 完成回答过快，状态改为screenout
