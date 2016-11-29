@@ -1915,7 +1915,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $key = 'XKDGR';
         $title = '测试用问卷标题5';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
-        $loi = 10;
+        $loi = 1;
         $ir = 50;
         $completePoint = 298;
         $screenoutPoint = 10;
@@ -1948,14 +1948,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
         $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
-        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT1M')));
+        $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT0M15S')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
         $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
-        $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT1M')));
+        $surveyPartnerParticipationHistory2->setCreatedAt($now);
         $surveyPartnerParticipationHistory2->setClientIP($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
 
@@ -1965,7 +1965,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('success', $rtn['status'], 'complete的太快了');
 
         $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($currentPoint + $screenoutPoint, $afterUser->getPoints(), 'complete的太快了');
+        $this->assertEquals($currentPoint + $screenoutPoint, $afterUser->getPoints(), 'complete的太快了，只给screenout的积分');
 
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
@@ -3323,6 +3323,5 @@ class SurveyPartnerServiceTest extends WebTestCase
         //var_dump( $decodedArray );
 
     }
-
 
 }
