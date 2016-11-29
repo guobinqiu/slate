@@ -16,9 +16,9 @@
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
         {% block global_css %}
-             <link rel="stylesheet" href="{{ asset('vendor/twbs/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css">
+             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
             <!--[if lt IE 9]>
-            <link href="{{ asset('css/layout/bootstrap-ie7.css') }}" rel="stylesheet">
+            <link href="{{ asset('bootstrap/css/bootstrap-ie7.css') }}" rel="stylesheet">
             <![endif]-->
         {% endblock %}
         {% block stylesheet %}{% endblock %}
@@ -33,7 +33,7 @@
         </div>
         {% block global_js %}
             <script type="text/javascript" src="{{ asset('js/lib/jquery-1.12.4.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/plugin/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <script type="text/javascript" src="{{ asset('js/component/common.js') }}"></script>
