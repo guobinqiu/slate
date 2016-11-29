@@ -101,6 +101,7 @@ class SurveyServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
