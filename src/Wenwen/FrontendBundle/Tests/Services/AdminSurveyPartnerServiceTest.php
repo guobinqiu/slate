@@ -63,6 +63,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -100,6 +101,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -138,6 +140,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -176,6 +179,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -212,6 +216,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -271,6 +276,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -367,6 +373,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -459,6 +466,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner1->setScreenoutPoint(10);
         $surveyPartner1->setQuotafullPoint(2);
         $surveyPartner1->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner1->setNewUserOnly(true);
         $surveyPartner1->setMinAge(10);
         $surveyPartner1->setMaxAge(100);
         $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
@@ -480,6 +488,7 @@ class AdminSurveyPartnerServiceTest extends WebTestCase
         $surveyPartner2->setScreenoutPoint(10);
         $surveyPartner2->setQuotafullPoint(2);
         $surveyPartner2->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner2->setNewUserOnly(true);
         $surveyPartner2->setMinAge(10);
         $surveyPartner2->setMaxAge(100);
         $surveyPartner2->setGender(SurveyPartner::GENDER_BOTH);
