@@ -1,35 +1,59 @@
-sop_research_survey_sop(id, survey_id, survey_other_properties)
-sop_research_survey_status_history(id, app_mid, survey_id, status)
-sop_research_survey_participation_history(existing)
+(XXX = sop|fulcrum|cint)
 
-fulcrum_research_survey
-fulcrum_research_survey_status_history
-fulcrum_research_survey_participation_history
+Create tables(3x2):
+XXX_research_survey(id, survey_id, quota_id, loi, ir, cpi, title, complete_point, screenout_point, quotafull_point, is_closed, is_fixed_loi, is_notifiable, ...)
+XXX_research_survey_status_history(id, survey_id, app_mid, status)
 
-cint_research_survey
-cint_research_survey_status_history
-cint_research_survey_participation_history
+status:
+         1          2         3              4
+                                     |--> complete
+     targeted --> init --> forward --|--> screenout
+                                     |--> quotafull
 
-fulcrum_user_agreement_participation_history
+Workflow chart:
+                                                     |--> Insert 'Survey Properties' into sop_research_survey
+                                            |--SOP-->|
+                                            |        |--> Insert 'App MID' into sop_research_survey_status_history (With status: targeted)
+Research Survey Delivery Notification ----->|
+                                            |            |--> Insert 'Survey Properties' into fulcrum_research_survey
+                                            |--Fulcrum-->|
+                                                         |--> Insert 'App MID' into fulcrum_research_survey_status_history (With status: targeted)
 
-sop:
-survey list -> survey list api
-			-> async job
-			-> sop_research_survey_status_history (status: targeted)
+                          |--> Call survey list api  (display)
+1. Survey Listing page -->|--> Synchronize survey list data to XXX_research_survey & XXX_research_survey_status_history (See async job)
+        |                 |--> Generate a secure token
+        |                 |--> Assemble url (url = url + &sop_custom_token=secureToken)
+        |                 |--> Store secureToken in redis (key = XXX + survey_id + user_id, value=secureToken)
+        +
+2. Information page --> XXX_research_survey_status_history (Insert a new record with status: init)
+        |
+        +
+3. Information button on click --> XXX_research_survey_status_history (Insert a new record with status: init: forward)
+        |
+        |         |--> Checking --+--> Get secureToken from redis (by survey_id, app_mid)
+        |         |               |--> If 'tid' (sop_custom_token) == secureToken
+        |         |               |--> If answer status within: complete|screenout|quotafull|error
+        |         |(if pass)
+        +         |
+4. Endlink page --+--> XXX_research_survey_status_history (Insert a new record with status: complete|screenout|quotafull)
+                  |--> XXX_research_survey_participation_history (Insert a participation history)
+                  |--> Call addPoint service (Add points to user)
+                  |--> Remove secureToken from redis (To ensure endlink add point can only be runned once)
 
-information page -> sop_research_survey_status_history (status: init)
-
-information button click -> sop_research_survey_status_history (status: forward)
-
-endpage -> sop_research_survey_status_history (status: complete|screenout|quotafull)
-        -> sop_research_survey_participation_history
-        -> call addPoint service
-
-script -> check
+(To ensure no points missing)
+Scripts runned once a day --+--> Call participation history api
+                            |
+                            |               |--> ...
+                            |--> Checking --+--> IF a participation history already exists
+                            |               |--> ...
+                            |
+                            |(if not exist)
+                            |
+                            |--> XXX_research_survey_status_history (Insert a new record with status: complete|screenout|quotafull)
+                            |--> Insert a participation history
+                            |--> Call addPoint service (Add points to user)
 
 async job:
-survey list api sop <-- compare --> sop_research_survey_status_history
-survey list api sop -- insert --> sop_research_survey_status_history
-survey list api fulcrum <-- compare --> fulcrum_research_survey_status_history
-survey list api fulcrum -- insert --> fulcrum_research_survey_status_history
-survey list api cint -- insert --> cint_research_survey_status_history
+survey list api XXX <-- compare --> XXX_research_survey
+Insert/Update 'Survey Properties' into XXX_research_survey
+Insert 'App MID' into XXX_research_survey_status_history (With status: targeted)
