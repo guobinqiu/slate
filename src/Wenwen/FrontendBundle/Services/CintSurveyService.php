@@ -70,35 +70,36 @@ class CintSurveyService
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
             $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED);
-            $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
-            if ($survey != null) {
-                $conn = $this->em->getConnection();
-                $conn->beginTransaction();
-                try {
-                    $points = $survey->getPoints($answerStatus);
-                    $this->createParticipationHistory($appMid, $surveyId, $survey->getQuotaId(), $points);
-                    $this->pointService->addPoints(
-                        $user,
-                        $points,
-                        CategoryType::CINT_COST,
-                        TaskType::SURVEY,
-                        "c{$surveyId} {$survey->getTitle()}",
-                        $survey
-                    );
-                    $this->pointService->addPointsForInviter(
-                        $user,
-                        $points * 0.1,
-                        CategoryType::EVENT_INVITE_SURVEY,
-                        TaskType::RENTENTION,
-                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-                        $survey
-                    );
-                    $conn->commit();
-                } catch (\Exception $e) {
-                    $conn->rollBack();
-                    throw $e;
-                }
-            }
+            //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
+//            $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+//            if ($survey != null) {
+//                $conn = $this->em->getConnection();
+//                $conn->beginTransaction();
+//                try {
+//                    $points = $survey->getPoints($answerStatus);
+//                    $this->createParticipationHistory($appMid, $surveyId, $survey->getQuotaId(), $points);
+//                    $this->pointService->addPoints(
+//                        $user,
+//                        $points,
+//                        CategoryType::CINT_COST,
+//                        TaskType::SURVEY,
+//                        "c{$surveyId} {$survey->getTitle()}",
+//                        $survey
+//                    );
+//                    $this->pointService->addPointsForInviter(
+//                        $user,
+//                        $points * 0.1,
+//                        CategoryType::EVENT_INVITE_SURVEY,
+//                        TaskType::RENTENTION,
+//                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
+//                        $survey
+//                    );
+//                    $conn->commit();
+//                } catch (\Exception $e) {
+//                    $conn->rollBack();
+//                    throw $e;
+//                }
+//            }
             $this->deleteToken($surveyId, $user->getId());
         }
     }
