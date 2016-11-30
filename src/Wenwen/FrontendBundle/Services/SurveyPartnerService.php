@@ -872,7 +872,7 @@ class SurveyPartnerService
         if(SurveyPartner::TYPE_EXPENSE == $surveyPartner->getType()){
             // expense类型的问卷
             // 给用户加积分
-            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+            if($answerStatus == SurveyStatus::STATUS_COMPLETE){
                 $this->pointService->addPoints(
                     $user,
                     $surveyPartner->getCompletePoint(),
@@ -881,7 +881,7 @@ class SurveyPartnerService
                     $this->generateSurveyTitleWithSurveyId($surveyPartner)
                     );
                 $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+            } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
                 // 给用户加积分
                 $this->pointService->addPoints(
                     $user,
@@ -891,7 +891,7 @@ class SurveyPartnerService
                     $this->generateSurveyTitleWithSurveyId($surveyPartner)
                     );
                 $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+            } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
                 $this->pointService->addPoints(
                     $user,
                     $surveyPartner->getQuotafullPoint(),
@@ -905,7 +905,7 @@ class SurveyPartnerService
             }
         } else {
             // cost 类型的问卷
-            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+            if($answerStatus == SurveyStatus::STATUS_COMPLETE){
 
                 // 给用户加积分
                 $this->pointService->addPoints(
@@ -938,7 +938,7 @@ class SurveyPartnerService
                 if($prizeTicket){
                     $result['ticketCreated'] = true;
                 }
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+            } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -960,7 +960,7 @@ class SurveyPartnerService
                 if($prizeTicket){
                     $result['ticketCreated'] = true;
                 }
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+            } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
