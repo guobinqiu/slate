@@ -3,11 +3,11 @@
 {% block header %}
     <meta charset="UTF-8">
     <title>Admin - Partner Lists</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-full">
     <div class="row">
       <h3>问卷项目一览</h3>
       <a class="btn btn-primary" role="button" href="{{ path('admin_surveypartner_create') }}">新建一个问卷项目</a><br>
@@ -17,6 +17,8 @@
           <tr>
             <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Type', 'sp.type') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'NewUserOnly', 'sp.newUserOnly') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
@@ -30,6 +32,8 @@
           <tr>
             <td>{{ surveyPartner.id }}</td>
             <td>{{ surveyPartner.partnerName }}</td>
+            <td>{{ surveyPartner.type }}</td>
+            <td>{{ surveyPartner.newUserOnly }}</td>
             <td>{{ surveyPartner.surveyId }}</td>
             <td>{{ surveyPartner.title }}</td>
             <td>{{ surveyPartner.status }}</td>
@@ -76,4 +80,8 @@ table.surveypartnerList th {
   border: 1px solid yellowgreen;
   padding: 5px; 
   }*/
+  .container-full .row{
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 </style>

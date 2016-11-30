@@ -662,12 +662,9 @@ class SurveyPartnerService
         if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
             $now = new \DateTime();
 
-            $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-            $minutes = $diff->days * 24 * 60;
-            $minutes += $diff->h * 60;
-            $minutes += $diff->i;
+            $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
 
-            if($minutes <= $surveyPartner->getLoi()/4){
+            if($diffSeconds <= ($surveyPartner->getLoi() * 60 / 4)){
                 $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 // 完成回答过快，状态改为screenout
@@ -804,12 +801,11 @@ class SurveyPartnerService
                 if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
                     $now = new \DateTime();
 
-                    $diff = $now->diff($forwardParticipationHistory->getCreatedAt());
-                    $minutes = $diff->days * 24 * 60;
-                    $minutes += $diff->h * 60;
-                    $minutes += $diff->i;
+                    $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
 
-                    if($minutes <= $surveyPartner->getLoi()/4){
+                    $this->logger->debug(__METHOD__ . ' diffSeconds='. $diffSeconds);
+
+                    if($diffSeconds <= ($surveyPartner->getLoi() * 60 / 4)){
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
                         // 完成回答过快，状态改为screenout
@@ -872,91 +868,123 @@ class SurveyPartnerService
         $result = array();
         $result['rewardedPoint'] = 0;
         $result['ticketCreated'] = false;
-        if($answerStatus == SurveyStatus::STATUS_COMPLETE){
 
+        if(SurveyPartner::TYPE_EXPENSE == $surveyPartner->getType()){
+            // expense类型的问卷
             // 给用户加积分
-            $this->pointService->addPoints(
-                $user,
-                $surveyPartner->getCompletePoint(),
-                CategoryType::SURVEY_PARTNER_COST,
-                TaskType::SURVEY,
-                $this->generateSurveyTitleWithSurveyId($surveyPartner),
-                $surveyPartner
-            );
-
-            // 同时给邀请人加积分(10%)
-            $this->pointService->addPointsForInviter(
-                $user,
-                $surveyPartner->getCompletePoint() * 0.1,
-                CategoryType::EVENT_INVITE_SURVEY,
-                TaskType::RENTENTION,
-                '您的好友' . $user->getNick() . '完成了一份商业问卷',
-                $surveyPartner
-            );
-
-            // 发奖券
-            $prizeTicket = $this->prizeTicketService->createPrizeTicket(
-                $user,
-                PrizeItem::TYPE_BIG,
-                $key,
-                $surveyPartner->getSurveyId()
-            );
-
-            $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
-
-            if($prizeTicket){
-                $result['ticketCreated'] = true;
+            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+                $this->pointService->addPoints(
+                    $user,
+                    $surveyPartner->getCompletePoint(),
+                    CategoryType::SURVEY_PARTNER_EXPENSE,
+                    TaskType::RENTENTION,
+                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                    );
+                $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
+            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+                // 给用户加积分
+                $this->pointService->addPoints(
+                    $user,
+                    $surveyPartner->getScreenoutPoint(),
+                    CategoryType::SURVEY_PARTNER_EXPENSE,
+                    TaskType::RENTENTION,
+                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                    );
+                $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
+            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+                $this->pointService->addPoints(
+                    $user,
+                    $surveyPartner->getQuotafullPoint(),
+                    CategoryType::SURVEY_PARTNER_EXPENSE,
+                    TaskType::RENTENTION,
+                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                    );
+                $result['rewardedPoint'] = $surveyPartner->getQuotafullPoint();
+            } else {
+                // 未知状态不加积分
             }
-        } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
-            // 给用户加积分
-            $this->pointService->addPoints(
-                $user,
-                $surveyPartner->getScreenoutPoint(),
-                CategoryType::SURVEY_PARTNER_EXPENSE,
-                TaskType::RENTENTION,
-                $this->generateSurveyTitleWithSurveyId($surveyPartner),
-                $surveyPartner
-            );
+        } else {
+            // cost 类型的问卷
+            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
 
-            // 发奖券
-            $prizeTicket = $this->prizeTicketService->createPrizeTicket(
-                $user,
-                PrizeItem::TYPE_SMALL,
-                $key,
-                $surveyPartner->getSurveyId()
-            );
+                // 给用户加积分
+                $this->pointService->addPoints(
+                    $user,
+                    $surveyPartner->getCompletePoint(),
+                    CategoryType::SURVEY_PARTNER_COST,
+                    TaskType::SURVEY,
+                    $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                    );
 
-            $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
+                // 同时给邀请人加积分(10%)
+                $this->pointService->addPointsForInviter(
+                    $user,
+                    $surveyPartner->getCompletePoint() * 0.1,
+                    CategoryType::EVENT_INVITE_SURVEY,
+                    TaskType::RENTENTION,
+                    '您的好友' . $user->getNick() . '完成了一份商业问卷'
+                    );
 
-            if($prizeTicket){
-                $result['ticketCreated'] = true;
+                // 发奖券
+                $prizeTicket = $this->prizeTicketService->createPrizeTicket(
+                    $user,
+                    PrizeItem::TYPE_BIG,
+                    $key,
+                    $surveyPartner->getSurveyId()
+                    );
+
+                $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
+
+                if($prizeTicket){
+                    $result['ticketCreated'] = true;
+                }
+            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+                // 给用户加积分
+                $this->pointService->addPoints(
+                        $user,
+                        $surveyPartner->getScreenoutPoint(),
+                        CategoryType::SURVEY_PARTNER_EXPENSE,
+                        TaskType::RENTENTION,
+                        $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                        );
+                // 发奖券
+                $prizeTicket = $this->prizeTicketService->createPrizeTicket(
+                    $user,
+                    PrizeItem::TYPE_SMALL,
+                    $key,
+                    $surveyPartner->getSurveyId()
+                    );
+
+                $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
+
+                if($prizeTicket){
+                    $result['ticketCreated'] = true;
+                }
+            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+                // 给用户加积分
+                $this->pointService->addPoints(
+                        $user,
+                        $surveyPartner->getQuotafullPoint(),
+                        CategoryType::SURVEY_PARTNER_EXPENSE,
+                        TaskType::RENTENTION,
+                        $this->generateSurveyTitleWithSurveyId($surveyPartner)
+                        );
+                // 发奖券
+                $prizeTicket = $this->prizeTicketService->createPrizeTicket(
+                    $user,
+                    PrizeItem::TYPE_SMALL,
+                    $key,
+                    $surveyPartner->getSurveyId()
+                    );
+
+                $result['rewardedPoint'] = $surveyPartner->getQuotafullPoint();
+
+                if($prizeTicket){
+                    $result['ticketCreated'] = true;
+                }
+            } else{
+
             }
-        } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
-            // 给用户加积分
-            $this->pointService->addPoints(
-                $user,
-                $surveyPartner->getQuotafullPoint(),
-                CategoryType::SURVEY_PARTNER_EXPENSE,
-                TaskType::RENTENTION,
-                $this->generateSurveyTitleWithSurveyId($surveyPartner),
-                $surveyPartner
-            );
-
-            // 发奖券
-            $prizeTicket = $this->prizeTicketService->createPrizeTicket(
-                $user,
-                PrizeItem::TYPE_SMALL,
-                $key,
-                $surveyPartner->getSurveyId()
-            );
-
-            $result['rewardedPoint'] = $surveyPartner->getQuotafullPoint();
-
-            if($prizeTicket){
-                $result['ticketCreated'] = true;
-            }
-        } else{
-            
         }
         return $result;
     }

@@ -8,19 +8,6 @@
 
 {% block stylesheet %}
 	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<style type="text/css">
-		html,body{
-			height: 100%;
-			overflow: hidden;
-			background: #262424;
-		}
-		@media only screen and (max-width: 667px) {
-			html, body{
-				overflow: auto!important;
-				background: #3d5267!important;
-			}
-		}
-	</style>
 {% endblock %}
 
 {% block body %}
@@ -31,9 +18,11 @@
         			<div class="col-xs-12">
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
-								<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
-								<!--[if lt IE 9]>
-									<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+								<![if !IE]>
+									<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+								<![endif]>
+								<!--[if IE]> 
+								    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
 								<![endif]-->
 			        		</a>
 			        	</div>

@@ -102,6 +102,7 @@ class SurveyServiceTest extends WebTestCase
         // 项目处于open状态
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
         $surveyPartner->setSurveyId($surveyId);
         $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
         $surveyPartner->setTitle('测试用问卷标题1');
@@ -112,6 +113,7 @@ class SurveyServiceTest extends WebTestCase
         $surveyPartner->setScreenoutPoint(10);
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);

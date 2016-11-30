@@ -24,6 +24,9 @@ class SurveyPartner
     const PARTNER_TRIPLES = 'triples';
     const PARTNER_FORSURVEY = 'forsurvey';
 
+    const TYPE_COST = 'cost';
+    const TYPE_EXPENSE = 'expense';
+
     /**
      * @var integer
      *
@@ -37,7 +40,7 @@ class SurveyPartner
      * @var string
      *
      * @ORM\Column(name="partner_name", type="string", length=32, nullable=false)
-     * @Assert\NotBlank(message = "Please fill out partnerId")
+     * @Assert\NotBlank(message = "请选择partner name")
      * @Assert\Choice(
      *      choices = {"triples", "forsurvey"},
      *      message = "这不是一个有效的partner name"
@@ -280,6 +283,25 @@ class SurveyPartner
      */
     private $surveyPartnerParticipationHistorys;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=10, nullable=false)
+     * @Assert\NotBlank(message = "请选择问卷的积分类型")
+     * @Assert\Choice(
+     *      choices = {"cost", "expense"},
+     *      message = "这不是一个有效的积分类型"
+     * )
+     */
+    private $type;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="new_user_only", type="boolean", nullable=false)
+     */
+    private $newUserOnly;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -494,6 +516,26 @@ class SurveyPartner
     public function getSurveyPartnerParticipationHistorys()
     {
         return $this->surveyPartnerParticipationHistorys;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setNewUserOnly($newUserOnly)
+    {
+        $this->newUserOnly = $newUserOnly;
+    }
+
+    public function getNewUserOnly()
+    {
+        return $this->newUserOnly;
     }
 
     public function __toString() {

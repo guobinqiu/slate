@@ -113,6 +113,7 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
         $surveyPartner->setCompletePoint(300);
         $surveyPartner->setScreenoutPoint(1);
         $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setNewUserOnly(true);
         $surveyPartner->setMinAge(0);
         $surveyPartner->setMaxAge(150);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -129,7 +130,6 @@ class AdminSurveyPartnerController extends BaseController implements IpAuthentic
                 $this->get('logger')->debug(__METHOD__ . ' Created');
                 return $this->redirect($this->generateUrl('admin_surveypartner_show', array('surveyPartnerId' => $surveyPartner->getId())));
             } else {
-                //var_dump($form->getErrors());
                 $this->get('logger')->warn(__METHOD__ . ' ERRORs: ' . json_encode($form->getErrors()));
                 $this->get('logger')->warn(__METHOD__ . ' ERRORs string: ' . $form->getErrorsAsString());
             }

@@ -145,11 +145,15 @@
 }
 .nav{
     .dropdown{
-        .dropdown-toggle, .dropdown-menu li a{
-           font-size: 14px;     
-        }
+      display: none\9;  //IE8
+      .dropdown-toggle, .dropdown-menu li a{
+         font-size: 14px;     
+      }
     }
 } 
+:root .dropdown{
+  display: inline-block\9;  //IE9
+}
 .dropdown{
     .dropdown-toggle{
         i{
