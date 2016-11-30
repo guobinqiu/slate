@@ -28,7 +28,7 @@ Research Survey Delivery Notification ----->|
 2. Information page --> XXX_research_survey_status_history (Insert a new record with status: init)
         |
         +
-3. Information button on click --> XXX_research_survey_status_history (Insert a new record with status: init: forward)
+3. Information button on click --> XXX_research_survey_status_history (Insert a new record with status: forward)
         |
         |         |--> Checking --+--> Get secureToken from redis (by survey_id, app_mid)
         |         |               |--> If 'tid' (sop_custom_token) == secureToken
