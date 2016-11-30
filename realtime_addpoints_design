@@ -39,6 +39,8 @@ Research Survey Delivery Notification ----->|
                   |--> XXX_research_survey_participation_history (Insert a participation history)
                   |--> Call addPoint service (Add points to user)
                   |--> Remove secureToken from redis (To ensure endlink add point can only be runned once)
+   (points = XXX_research_survey.complete_point|XXX_research_survey.screenout_point|XXX_research_survey.quotafull_point)
+
 
 (To ensure no points missing)
 Scripts runned once a day --+--> Call participation history api
