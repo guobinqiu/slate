@@ -600,6 +600,10 @@ html,body{
 
 @media only screen and (max-width: 667px) { 
 	// landing page
+	.logo{
+		height: 35px;
+		margin-top: 4px;
+	}
 	#section0{
 		background: url(../../img/landingpage/1_bg_phone.jpg) no-repeat!important;
 		background-size: cover;
