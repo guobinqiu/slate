@@ -27,8 +27,8 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
 
         $userId = $input->getOption('user_id');
         $appMid = $surveyService->getSopRespondentId($userId);
-        //$result = $surveyService->getSopSurveyListJson($userId);
-        $result = $surveyService->getDummySurveyListJson();
+        $result = $surveyService->getSopSurveyListJson($userId);
+        //$result = $surveyService->getDummySurveyListJson();
         $output->writeln('result=' . $result);
 
         if (empty($result)) {
