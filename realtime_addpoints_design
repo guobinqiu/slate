@@ -54,7 +54,8 @@ Scripts runned once a day --+--> Call participation history api
                             |--> XXX_research_survey_status_history (Insert a new record with status: complete|screenout|quotafull)
                             |--> Insert a participation history
                             |--> Call addPoint service (Add points to user)
-
+         (points = participation history api.extra_info.point)
+         
 async job:
 survey list api XXX <-- compare --> XXX_research_survey
 Insert/Update 'Survey Properties' into XXX_research_survey
