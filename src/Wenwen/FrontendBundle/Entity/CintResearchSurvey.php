@@ -8,7 +8,7 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
 /**
  * CintResearchSurvey
  *
- * @ORM\Table(name="cint_research_survey")
+ * @ORM\Table(name="survey_cint")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */

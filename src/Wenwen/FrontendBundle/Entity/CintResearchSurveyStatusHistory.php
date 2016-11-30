@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CintResearchSurveyStatusHistory
  *
- * @ORM\Table(name="cint_research_survey_status_history", uniqueConstraints={
+ * @ORM\Table(name="survey_cint_participation_history", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="cint_research_survey_status_history_uniq", columns={"app_mid", "survey_id", "status"})
  * })
  * @ORM\Entity
