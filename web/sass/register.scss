@@ -6,29 +6,6 @@
 @import "index";
 @import "login";
 @import "font-awesome/scss/font-awesome";
-@media only screen and (max-width: 667px) { 
-	// landing page
-	.unlogin{
-	    .btn{
-	        top: 10px;
-	    }
-	}
-	.footer{
-		display: none;
-	}
-	.logIxWrap{
-		margin-top: -60px;
-	}
-} 
-.register{
-	margin-top: 30%;
-	@include animation2(0, .6s, fadeIn1);
-	 @keyframes fadeIn1{
-	     0% { margin-top: 34%; opacity: 0.5; } 
-	     50% { margin-top: 32%; opacity: 0.9; }
-	     100% { margin-top: 30%; opacity: 1; }
-	}
-}
 .main-register{
 	position: relative;
 	z-index: 1;
@@ -94,9 +71,6 @@
 	img{
 		vertical-align: middle;
 	}
-}
-.login{
-	margin-top: 24%;
 }
 .login-others{
 	position: absolute;
@@ -247,7 +221,7 @@
 }
 /*-----------rewrite reg style------------*/
 .register{
-	height: 450px;
+	// height: 450px;
 	form{
 		width: 345px;
 		ul{
@@ -451,10 +425,51 @@
 @import "layout/footer-simple";
 
 @media only screen and (max-width: 667px) { 
+	.sectionCon{
+		margin-top: 30px;
+	}
+	.unlogin{
+	    .btn{
+	        top: 10px;
+	    }
+	}
+	.footer{
+		display: none;
+	}
 	.login-btn-others {
-	    margin-top: 30px;
+	    margin-top: 10px;
 	}
 	.login{
-		margin-top: 38%;
+		form{
+			width: 100%;
+		}
+		input[type="text"], input[type="email"], input[type="password"], .regSex{
+			height: 30px!important; 
+			line-height: 30px!important; 
+		}
+		.login-btn{
+			margin-top: 10px;
+		}
 	}
-}
+	.register{
+		form{
+			ul{
+				padding-top: 5px;
+			}
+		}
+		li{
+			.birthSel,.regProvince,.regCity{
+				height: 30px!important; 
+				line-height: 30px!important; 
+			}
+			.addrLab{
+				vertical-align: middle;
+			}
+		}
+	}
+	#vcode{
+		input{
+			vertical-align: -15px;
+		}
+	}  
+} 
