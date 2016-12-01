@@ -73,9 +73,9 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $app_mid = $this->sop_respondent[1]->getId();
 
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_TARGETED);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_INIT);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_FORWARD);
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 30001, 'forward');
 
         // data
         $header = array (
