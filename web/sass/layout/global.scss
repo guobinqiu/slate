@@ -204,6 +204,11 @@ $title-h2-span: 2px solid #d4d4d4;
     -moz-animation-name: $animation;
     -moz-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
 
+    -ms-animation-delay: $delay;
+    -ms-animation-duration: $duration;
+    -ms-animation-name: $animation;
+    -ms-animation-fill-mode: forwards; /* this prevents the animation from restarting! */
+
     -o-animation-delay: $delay;
     -o-animation-duration: $duration;
     -o-animation-name: $animation;
