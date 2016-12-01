@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(name="sop_research_survey_status_history_uniq", columns={"app_mid", "survey_id", "status"})
  * })
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class SopResearchSurveyStatusHistory
 {
@@ -54,6 +55,20 @@ class SopResearchSurveyStatusHistory
      * @ORM\Column(name="is_answered", type="boolean")
      */
     private $isAnswered;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="client_ip", type="string", nullable=true)
+     */
+    private $clientIp;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
 
     /**
      * Get id
@@ -155,5 +170,59 @@ class SopResearchSurveyStatusHistory
     public function getIsAnswered()
     {
         return $this->isAnswered;
+    }
+
+    /**
+     * Set clientIp
+     *
+     * @param string $clientIp
+     * @return SopResearchSurveyStatusHistory
+     */
+    public function setClientIp($clientIp)
+    {
+        $this->clientIp = $clientIp;
+
+        return $this;
+    }
+
+    /**
+     * Get clientIp
+     *
+     * @return string 
+     */
+    public function getClientIp()
+    {
+        return $this->clientIp;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return SopResearchSurveyStatusHistory
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime();
     }
 }

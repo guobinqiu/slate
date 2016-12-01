@@ -76,9 +76,9 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $sop_respondent = $respondents[0];
         $app_mid = $sop_respondent->getId();
 
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, 'targeted');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, 'init');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, 'forward');
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_TARGETED);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_INIT);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 30001, SurveyStatus::STATUS_FORWARD);
 
         // data
         $header = array('response_id', 'yyyymm', 'app_id', 'app_mid', 'survey_id', 'quota_id', 'title',
@@ -129,13 +129,13 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
         $app_mid =  $respondents[0]->getId();
 
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, 'targeted');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, 'init');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, 'forward');
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_TARGETED);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_INIT);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_FORWARD);
 
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, 'targeted');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, 'init');
-        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, 'forward');
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_TARGETED);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_INIT);
+        $this->container->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_FORWARD);
 
         $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user_id =  $users[0]->getId();
@@ -228,6 +228,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SopRespondent;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class PanelRewardFulcrumPointCommandTestFixture implements FixtureInterface
 {

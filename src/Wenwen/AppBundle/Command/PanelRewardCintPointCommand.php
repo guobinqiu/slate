@@ -112,6 +112,7 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
             $history['answer_status'],
             SurveyStatus::ANSWERED
         );
+
         return $this->getContainer()->get('app.cint_survey_service')->createParticipationHistory(
             $history['app_mid'],
             $history['survey_id'],

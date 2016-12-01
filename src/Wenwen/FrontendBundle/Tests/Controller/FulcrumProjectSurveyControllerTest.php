@@ -75,20 +75,13 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $url = 'dummy_url';
         $fulcrum_research = array();
         $fulcrum_research['title'] = 'dummy title';
         $fulcrum_research['difficulty'] = 'normal';
         $fulcrum_research['loi'] = 10;
         $fulcrum_research['extra_info']['point']['complete'] = 400;
-        $fulcrum_research['url'] = $url;
+        $fulcrum_research['url'] = 'dummy_url';
         $fulcrum_research['survey_id'] = $survey_id;
-
-        $fulcrum_research = $this->container->get('app.fulcrum_survey_service')->addSurveyUrlToken($fulcrum_research, $users[0]->getId());
-        $this->assertNotEquals($url, $fulcrum_research['url']);
-
-        $token = $this->container->get('app.fulcrum_survey_service')->getToken($survey_id, $users[0]->getId());
-        $this->assertEquals($url . '&sop_custom_token=' . $token, $fulcrum_research['url']);
 
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_information', array('fulcrum_research' => $fulcrum_research, 'difficulty' => '普通'));
         $crawler = $this->client->request('GET', $url);
@@ -119,9 +112,16 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
+        $url = 'dummy_url';
         $fulcrum_research = array();
         $fulcrum_research['survey_id'] = $survey_id;
-        $fulcrum_research['url'] = 'dummy url';
+        $fulcrum_research['url'] = $url;
+
+        $fulcrum_research = $this->container->get('app.fulcrum_survey_service')->addSurveyUrlToken($fulcrum_research, $users[0]->getId());
+        $this->assertNotEquals($url, $fulcrum_research['url']);
+
+        $token = $this->container->get('app.fulcrum_survey_service')->getToken($survey_id, $users[0]->getId());
+        $this->assertEquals($url . '&sop_custom_token=' . $token, $fulcrum_research['url']);
 
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_forward', array('fulcrum_research' => $fulcrum_research));
         $crawler = $this->client->request('GET', $url);

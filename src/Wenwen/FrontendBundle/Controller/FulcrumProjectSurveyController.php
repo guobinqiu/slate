@@ -21,7 +21,13 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, $fulcrum_research['survey_id'], SurveyStatus::STATUS_INIT);
+        $this->get('app.fulcrum_survey_service')->createStatusHistory(
+            $app_mid,
+            $fulcrum_research['survey_id'],
+            SurveyStatus::STATUS_INIT,
+            SurveyStatus::UNANSWERED,
+            $request->getClientIp()
+        );
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $fulcrum_research));
     }
 
@@ -33,7 +39,14 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.fulcrum_survey_service')->createStatusHistory($app_mid, $fulcrum_research['survey_id'], SurveyStatus::STATUS_FORWARD);
+        $this->get('app.fulcrum_survey_service')->createStatusHistory(
+            $app_mid,
+            $fulcrum_research['survey_id'],
+            SurveyStatus::STATUS_FORWARD,
+            SurveyStatus::UNANSWERED,
+            $request->getClientIp()
+        );
+        $fulcrum_research = $this->get('app.fulcrum_survey_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
         return $this->redirect($fulcrum_research['url']);
     }
 
@@ -49,8 +62,15 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("fulcrum app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        $this->get('app.fulcrum_survey_service')->processSurveyEndlink($survey_id, $tid, $user, SurveyStatus::STATUS_COMPLETE, $app_mid);
-        $point = $this->get('app.fulcrum_survey_service')->getResearchSurveyPoint($app_mid, $survey_id);
+        $this->get('app.fulcrum_survey_service')->processSurveyEndlink(
+            $survey_id,
+            $tid,
+            $user,
+            SurveyStatus::STATUS_COMPLETE,
+            $app_mid,
+            $request->getClientIp()
+        );
+        $point = $this->get('app.fulcrum_survey_service')->getSurveyPoint($app_mid, $survey_id);
         return $this->redirect($this->generateUrl('_fulcrum_project_survey_endpage', array(
             'survey_id' => $survey_id,
             'point' => $point,

@@ -75,20 +75,13 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $url = 'dummy_url';
         $research = array();
         $research['title'] = 'dummy title';
         $research['difficulty'] = 'normal';
         $research['loi'] = 10;
         $research['extra_info']['point']['complete'] = 400;
-        $research['url'] = $url;
+        $research['url'] = 'dummy_url';
         $research['survey_id'] = $survey_id;
-
-        $research = $this->container->get('app.sop_survey_service')->addSurveyUrlToken($research, $users[0]->getId());
-        $this->assertNotEquals($url, $research['url']);
-
-        $token = $this->container->get('app.sop_survey_service')->getToken($survey_id, $users[0]->getId());
-        $this->assertEquals($url . '&sop_custom_token=' . $token, $research['url']);
 
         $url = $this->container->get('router')->generate('_project_survey_information', array('research' => $research, 'difficulty' => '普通'));
         $crawler = $this->client->request('GET', $url);
@@ -119,9 +112,16 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
+        $url = 'dummy_url';
         $research = array();
         $research['survey_id'] = $survey_id;
-        $research['url'] = 'dummy url';
+        $research['url'] = $url;
+
+        $research = $this->container->get('app.sop_survey_service')->addSurveyUrlToken($research, $users[0]->getId());
+        $this->assertNotEquals($url, $research['url']);
+
+        $token = $this->container->get('app.sop_survey_service')->getToken($survey_id, $users[0]->getId());
+        $this->assertEquals($url . '&sop_custom_token=' . $token, $research['url']);
 
         $url = $this->container->get('router')->generate('_project_survey_forward', array('research' => $research));
         $crawler = $this->client->request('GET', $url);

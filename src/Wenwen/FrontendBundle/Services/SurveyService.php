@@ -575,7 +575,6 @@ class SurveyService
                     $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
                     $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
                     $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
-                    $fulcrum_research = $this->fulcrumSurveyService->addSurveyUrlToken($fulcrum_research, $user_id);
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                     array_unshift($html_survey_list, $html);
                     $answerableSurveyCount++;
@@ -587,7 +586,6 @@ class SurveyService
                     $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
                     $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
                     $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
-                    $cint_research = $this->cintSurveyService->addSurveyUrlToken($cint_research, $user_id);
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                     if ($cint_research['is_answered'] == 0) {
                         array_unshift($html_survey_list, $html);
@@ -610,7 +608,6 @@ class SurveyService
                     $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                     $research['loi'] = $this->getSurveyLOI($research['loi']);
                     $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
-                    $research = $this->sopSurveyService->addSurveyUrlToken($research, $user_id);
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                     if ($research['is_answered'] == 0) {
                         array_unshift($html_survey_list, $html);

@@ -93,7 +93,13 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.cint_survey_service')->createStatusHistory($app_mid, $cint_research['survey_id'], SurveyStatus::STATUS_INIT);
+        $this->get('app.cint_survey_service')->createStatusHistory(
+            $app_mid,
+            $cint_research['survey_id'],
+            SurveyStatus::STATUS_INIT,
+            SurveyStatus::UNANSWERED,
+            $request->getClientIp()
+        );
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $cint_research));
     }
 
@@ -105,7 +111,14 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.cint_survey_service')->createStatusHistory($app_mid, $cint_research['survey_id'], SurveyStatus::STATUS_FORWARD);
+        $this->get('app.cint_survey_service')->createStatusHistory(
+            $app_mid,
+            $cint_research['survey_id'],
+            SurveyStatus::STATUS_FORWARD,
+            SurveyStatus::UNANSWERED,
+            $request->getClientIp()
+        );
+        $cint_research = $this->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $user->getId());
         return $this->redirect($cint_research['url']);
     }
 
@@ -124,8 +137,15 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("cint app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        $this->get('app.cint_survey_service')->processSurveyEndlink($survey_id, $tid, $user, $answer_status, $app_mid);
-        $point = $this->get('app.cint_survey_service')->getResearchSurveyPoint($app_mid, $survey_id);
+        $this->get('app.cint_survey_service')->processSurveyEndlink(
+            $survey_id,
+            $tid,
+            $user,
+            $answer_status,
+            $app_mid,
+            $request->getClientIp()
+        );
+        $point = $this->get('app.cint_survey_service')->getSurveyPoint($app_mid, $survey_id);
         return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,

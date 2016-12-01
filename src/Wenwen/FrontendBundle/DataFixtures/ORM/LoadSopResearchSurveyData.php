@@ -16,7 +16,7 @@ class LoadSopResearchSurveyData implements FixtureInterface
         $researchSurvey->setLoi(20);
         $researchSurvey->setIr(0);
         $researchSurvey->setCpi(0);
-        $researchSurvey->setTitle("sop research survey");
+        $researchSurvey->setTitle("sop research survey1");
         $researchSurvey->setCompletePoint(400);
         $researchSurvey->setScreenoutPoint(2);
         $researchSurvey->setQuotafullPoint(1);
@@ -29,6 +29,28 @@ class LoadSopResearchSurveyData implements FixtureInterface
         $researchSurvey->setIsClosed(0);
         $researchSurvey->setIsFixedLoi(1);
         $researchSurvey->setIsNotifiable(1);
+        $manager->persist($researchSurvey);
+        $manager->flush();
+
+        $researchSurvey = new SopResearchSurvey();
+        $researchSurvey->setSurveyId(10001);
+        $researchSurvey->setQuotaId(46738);
+        $researchSurvey->setLoi(20);
+        $researchSurvey->setIr(0);
+        $researchSurvey->setCpi(0);
+        $researchSurvey->setTitle("sop research survey2");
+        $researchSurvey->setCompletePoint(400);
+        $researchSurvey->setScreenoutPoint(2);
+        $researchSurvey->setQuotafullPoint(1);
+        $researchSurvey->setStartDate(new \DateTime());
+        $researchSurvey->setEndDate(new \DateTime());
+        $researchSurvey->setComment(null);
+        $researchSurvey->setPcBlocked(0);
+        $researchSurvey->setMobileBlocked(1);
+        $researchSurvey->setTabletBlocked(1);
+        $researchSurvey->setIsClosed(0);
+        $researchSurvey->setIsFixedLoi(0);
+        $researchSurvey->setIsNotifiable(0);
         $manager->persist($researchSurvey);
         $manager->flush();
     }

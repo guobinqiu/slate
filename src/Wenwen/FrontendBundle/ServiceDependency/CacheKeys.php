@@ -20,10 +20,11 @@ class CacheKeys {
     const ADMIN_RECRUIT_REPORT_DAILY = 'admin_recruit_report_daily';
     const ADMIN_RECRUIT_REPORT_DAILY_TIMEOUT = 28800; // 8 hours
 
+    const SURVEY_TOKEN_TTL = 86400;
+
     private static $panel_sop = 'sop';
     private static $panel_fulcrum = 'fulcrum';
     private static $panel_cint = 'cint';
-    const TOKEN_TTL = 86400;
 
     public static function getSopTokenKey($surveyId, $userId)
     {

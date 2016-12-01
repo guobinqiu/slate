@@ -38,38 +38,38 @@ class SopSurveyService
 
     public function addSurveyUrlToken($survey, $userId)
     {
-        $token = $this->createToken($survey['survey_id'], $userId);
+        $token = $this->createSurveyToken($survey['survey_id'], $userId);
         $survey['url'] = $survey['url'] . '&sop_custom_token=' . $token;
         return $survey;
     }
 
-    public function createToken($surveyId, $userId)
+    public function createSurveyToken($surveyId, $userId)
     {
         $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         $token = md5(uniqid(rand(), true));
         $this->redis->set($key, $token);
-        $this->redis->expire($key, CacheKeys::TOKEN_TTL);
+        $this->redis->expire($key, CacheKeys::SURVEY_TOKEN_TTL);
         return $token;
     }
 
-    public function getToken($surveyId, $userId)
+    public function getSurveyToken($surveyId, $userId)
     {
         $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         return $this->redis->get($key);
     }
 
-    public function deleteToken($surveyId, $userId)
+    public function deleteSurveyToken($surveyId, $userId)
     {
         $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid)
+    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid, $clientIp)
     {
-        $token = $this->getToken($surveyId, $user->getId());
+        $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
-            $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED);
+            $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -99,7 +99,7 @@ class SopSurveyService
                     throw $e;
                 }
             }
-            $this->deleteToken($surveyId, $user->getId());
+            $this->deleteSurveyToken($surveyId, $user->getId());
         }
     }
 
@@ -108,7 +108,7 @@ class SopSurveyService
         $token = md5(uniqid(rand(), true));
         $key = 'sop_profiling_' . $userId;
         $this->redis->set($key, $token);
-        $this->redis->expire($key, 60 * 60 * 24);
+        $this->redis->expire($key, CacheKeys::SURVEY_TOKEN_TTL);
         $profiling['url'] = $profiling['url'] . '&sop_custom_token=' . $token;
         return $profiling;
     }
@@ -123,7 +123,7 @@ class SopSurveyService
         }
     }
 
-    public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED)
+    public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
             'appMid' => $appMid,
@@ -136,6 +136,7 @@ class SopSurveyService
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
             $statusHistory->setIsAnswered($isAnswered);
+            $statusHistory->setClientIp($clientIp);
             $this->em->persist($statusHistory);
             $this->em->flush();
         }
@@ -161,7 +162,7 @@ class SopSurveyService
         return $participationHistory;
     }
 
-    public function getResearchSurveyPoint($appMid, $surveyId)
+    public function getSurveyPoint($appMid, $surveyId)
     {
         $participationHistory = $this->em->getRepository('WenwenAppBundle:SopResearchSurveyParticipationHistory')->findOneBy(array(
             'partnerAppProjectId' => $surveyId,
@@ -247,5 +248,14 @@ class SopSurveyService
         if (isset($survey['is_notifiable'])) {
             $researchSurvey->setIsNotifiable($survey['is_notifiable']);
         }
+    }
+
+    public function isNotifiableSurvey($surveyId)
+    {
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+        if ($researchSurvey != null) {
+            return $researchSurvey->getIsNotifiable() == 1;
+        }
+        return false;
     }
 }

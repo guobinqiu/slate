@@ -76,20 +76,13 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $url = 'dummy_url';
         $cint_research = array();
         $cint_research['title'] = 'dummy title';
         $cint_research['difficulty'] = 'normal';
         $cint_research['loi'] = 10;
         $cint_research['extra_info']['point']['complete'] = 400;
-        $cint_research['url'] = $url;
+        $cint_research['url'] = 'dummy_url';
         $cint_research['survey_id'] = $survey_id;
-
-        $cint_research = $this->container->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $users[0]->getId());
-        $this->assertNotEquals($url, $cint_research['url']);
-
-        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
-        $this->assertEquals($url . '&sop_custom_token=' . $token, $cint_research['url']);
 
         $url = $this->container->get('router')->generate('_cint_project_survey_information', array('cint_research' => $cint_research, 'difficulty' => '普通'));
         $crawler = $this->client->request('GET', $url);
@@ -120,9 +113,16 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
+        $url = 'dummy_url';
         $cint_research = array();
         $cint_research['survey_id'] = $survey_id;
-        $cint_research['url'] = 'dummy url';
+        $cint_research['url'] = $url;
+
+        $cint_research = $this->container->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $users[0]->getId());
+        $this->assertNotEquals($url, $cint_research['url']);
+
+        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
+        $this->assertEquals($url . '&sop_custom_token=' . $token, $cint_research['url']);
 
         $url = $this->container->get('router')->generate('_cint_project_survey_forward', array('cint_research' => $cint_research));
         $crawler = $this->client->request('GET', $url);
