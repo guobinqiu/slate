@@ -52,7 +52,7 @@ Scripts runned once a day --+--> Call participation history api
                             |(if not exist)
                             |
                             |--> XXX_research_survey_status_history (Insert a new record with status: complete|screenout|quotafull)
-                            |--> Insert a participation history
+                            |--> XXX_research_survey_participation_history (Insert a participation history)
                             |--> Call addPoint service (Add points to user)
          (points = participation history api.extra_info.point)
          
