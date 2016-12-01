@@ -136,6 +136,10 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         ));
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
+
+        $createdAt = new \Datetime();
+        $statusHistory->setCreatedAt($createdAt->modify('-5 minute'));
+        $this->em->flush();
     }
 
     public function testEndlinkAction()
@@ -203,12 +207,6 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 //        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($users[0]->getId());
 //        $this->assertEquals(500, $user->getPoints());
 
-        $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
-            'survey_id' => $survey_id,
-            'answer_status' => SurveyStatus::STATUS_COMPLETE,
-            'app_mid' => $app_mid,
-            'tid' => $token,
-        ));
         $crawler = $this->client->request('GET', $url);
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
             'appMid' => $app_mid,

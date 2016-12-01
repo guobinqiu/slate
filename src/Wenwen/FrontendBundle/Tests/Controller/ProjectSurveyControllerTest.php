@@ -131,10 +131,14 @@ class ProjectSurveyControllerTest extends WebTestCase
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
             'appMid' => $app_mid,
             'surveyId' => $survey_id,
-            'status' => SurveyStatus::STATUS_FORWARD,
+            'status' => SurveyStatus::STATUS_FORWARD
         ));
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
+
+        $createdAt = new \Datetime();
+        $statusHistory->setCreatedAt($createdAt->modify('-5 minute'));
+        $this->em->flush();
     }
 
     public function testEndlinkAction()
@@ -202,12 +206,6 @@ class ProjectSurveyControllerTest extends WebTestCase
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($users[0]->getId());
         $this->assertEquals(500, $user->getPoints());
 
-        $url = $this->container->get('router')->generate('_project_survey_endlink', array (
-            'survey_id' => $survey_id,
-            'answer_status' => SurveyStatus::STATUS_COMPLETE,
-            'app_mid' => $app_mid,
-            'tid' => $token,
-        ));
         $crawler = $this->client->request('GET', $url);
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findBy(array(
             'appMid' => $app_mid,

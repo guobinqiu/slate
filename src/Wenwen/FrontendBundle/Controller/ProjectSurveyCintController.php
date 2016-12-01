@@ -137,6 +137,10 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("cint app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
+        if ($this->get('app.cint_survey_service')->isFakedAnswer($survey_id, $app_mid)) {
+            $this->get('logger')->info("a faked cint answer occurs, survey_id: {$survey_id}, app_mid: {$app_mid}");
+            $answer_status = SurveyStatus::STATUS_SCREENOUT;
+        }
         $this->get('app.cint_survey_service')->processSurveyEndlink(
             $survey_id,
             $tid,

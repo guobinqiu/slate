@@ -64,6 +64,29 @@ class CintSurveyService
         $this->redis->del($key);
     }
 
+    public function isFakedAnswer($surveyId, $appMid)
+    {
+        $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+        if ($survey != null) {
+            if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
+                $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+                    'appMid' => $appMid,
+                    'surveyId' => $surveyId,
+                    'status' => SurveyStatus::STATUS_FORWARD,
+                ));
+                if ($statusHistory != null) {
+                    $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
+                    $actualLoiSeconds = time() - $forwardAt;
+                    $loiSeconds = $survey->getLoi() * 60;
+                    if ($actualLoiSeconds < $loiSeconds / 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid, $clientIp)
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
