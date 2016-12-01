@@ -1,5 +1,4 @@
 <?php
-
 namespace Wenwen\AppBundle\Tests\Command;
 
 use Phake;
@@ -179,13 +178,13 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container->set('sop_api.client', $client);
         $app_mid = $this->sop_respondent[1]->getId();
 
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_TARGETED);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_INIT);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, SurveyStatus::STATUS_FORWARD);
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 10001, 'forward');
 
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_TARGETED);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_INIT);
-        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, SurveyStatus::STATUS_FORWARD);
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'targeted');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'init');
+        $this->container->get('app.cint_survey_service')->createStatusHistory($app_mid, 20001, 'forward');
 
         // data
         $header = array (
@@ -316,7 +315,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Entity\SopRespondent;
-use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class PanelRewardCintPointCommandTestFixture implements FixtureInterface
 {
