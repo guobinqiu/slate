@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Tests\Command;
 
 use Phake;

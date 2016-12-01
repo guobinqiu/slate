@@ -120,7 +120,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $research = $this->container->get('app.sop_survey_service')->addSurveyUrlToken($research, $users[0]->getId());
         $this->assertNotEquals($url, $research['url']);
 
-        $token = $this->container->get('app.sop_survey_service')->getToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.sop_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
         $this->assertEquals($url . '&sop_custom_token=' . $token, $research['url']);
 
         $url = $this->container->get('router')->generate('_project_survey_forward', array('research' => $research));
@@ -152,7 +152,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $token = $this->container->get('app.sop_survey_service')->getToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.sop_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
         $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $url = $this->container->get('router')->generate('_project_survey_endlink', array (
             'survey_id' => $survey_id,

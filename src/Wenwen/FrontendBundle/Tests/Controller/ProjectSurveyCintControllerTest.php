@@ -121,7 +121,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $cint_research = $this->container->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $users[0]->getId());
         $this->assertNotEquals($url, $cint_research['url']);
 
-        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.cint_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
         $this->assertEquals($url . '&sop_custom_token=' . $token, $cint_research['url']);
 
         $url = $this->container->get('router')->generate('_cint_project_survey_forward', array('cint_research' => $cint_research));
@@ -153,7 +153,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $token = $this->container->get('app.cint_survey_service')->getToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.cint_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
         $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
             'survey_id' => $survey_id,
