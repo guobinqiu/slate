@@ -19,10 +19,10 @@
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
 								<!--[if !IE]>
-				 					<img src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+				 					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
 				 				<![endif]-->  
 				 				<![if IE]>
-				 				 	<img src="{{ asset('img/common/logo.png') }}" alt="91问问">
+				 				 	<img class="logo" src="{{ asset('img/common/logo.png') }}" alt="91问问">
 				 				<![endif]>
 			        		</a>
 			        	</div>
@@ -52,7 +52,7 @@
 			<div class="sectionCon">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
+						<div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
 							<h2>
 								<img class="img-responsive center-block hidden-xs hidden-sm" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
 								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('img/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
@@ -104,12 +104,17 @@
 		<div class="section hidden-xs" id="section2">
 				<div class="container-fluid">
 					<div class="processWp row">
-						<div class="process col-sm-6 col-sm-offset-1">
-							<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
+						<div class="col-sm-10 col-sm-offset-1">
+							<div class="row">
+								<div class="process col-sm-4 col-sm-offset-2">
+									<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
+								</div>
+								<div class="pcImg col-sm-4">
+									<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
+								</div>
+							</div>
 						</div>
-						<div class="pcImg col-sm-4">
-							<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
-						</div>
+						
 					</div>
 				</div>
 		</div>

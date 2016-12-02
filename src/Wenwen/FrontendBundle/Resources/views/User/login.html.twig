@@ -32,41 +32,39 @@
 			</div>
 		</nav>
 		<div class="section" id="section0">
-			<div class="sectionCon">
-				<div class="logIxWrap">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-8 col-md-offset-2">
-							    <div class="login loginUq">
-							        <div class="login-con logWrap">
-										<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
-											<div class="error errorLogBack">{{ form_errors(form) }}</div>
-											<ul>
-												<li class="liner">
-													{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
-													<div class="error">{{ form_errors(form.email) }}</div>
-												</li>
-												<li>
-													{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
-													<div class="error">{{ form_errors(form.password) }}</div>
-												</li>
-											</ul>
-											{{ form_row(form.fingerprint) }}
-											{{ form_row(form._token) }}
-											<input type="submit" class="login-btn" value="登录"/>
-							            </form>
-							            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
-							            <div class="login-btn-others">
-							            	<p class="othersLine">快捷登录</p>
-							                <p class="othersItem row">
-												<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
-												<span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
-												<span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
-											</p>
-							            </div>
-							        </div>
-							    </div>
-							</div>
+			<div class="sectionCon center-block">
+				<div class="container">
+					<div class="LRWrap row">
+						<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+						    <div class="login loginUq">
+						        <div class="login-con logWrap">
+									<form action="{{ path('_user_login') }}" method="post" name="form1" id="form1" novalidate="novalidate">
+										<div class="error errorLogBack">{{ form_errors(form) }}</div>
+										<ul>
+											<li class="liner">
+												{{ form_widget(form.email, {'attr': {'placeholder': '邮箱'}}) }}
+												<div class="error">{{ form_errors(form.email) }}</div>
+											</li>
+											<li>
+												{{ form_widget(form.password, {'attr': {'placeholder': '密码'}}) }}
+												<div class="error">{{ form_errors(form.password) }}</div>
+											</li>
+										</ul>
+										{{ form_row(form.fingerprint) }}
+										{{ form_row(form._token) }}
+										<input type="submit" class="login-btn" value="登录"/>
+						            </form>
+						            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
+						            <div class="login-btn-others">
+						            	<p class="othersLine">快捷登录</p>
+						                <p class="othersItem row">
+											<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
+											<span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
+											<span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
+										</p>
+						            </div>
+						        </div>
+						    </div>
 						</div>
 					</div>
 				</div>
