@@ -54,7 +54,6 @@ class WeiboLoginController extends BaseController
 
         $em = $this->getDoctrine()->getManager();
         $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
-
         if ($weiboUser == null) {
             $weiboUser = new WeiboUser();
             $weiboUser->setOpenId($openId);
@@ -63,7 +62,6 @@ class WeiboLoginController extends BaseController
             $weiboUser->setGender($userInfo->gender == 'f' ? 2 : 1);
             $em->persist($weiboUser);
             $em->flush();
-
             return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
         } else if ($weiboUser->getUser() == null) {
             return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
@@ -71,7 +69,6 @@ class WeiboLoginController extends BaseController
             $user = $weiboUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-
             $userTrack = $user->getUserTrack();
             if ($userTrack) {
                 //$userTrack->setLastFingerprint(null);
@@ -92,12 +89,10 @@ class WeiboLoginController extends BaseController
                 $userTrack->setLastSignInIp(null);
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('weibo');
-
                 $userTrack->setUser($user);
                 $user->setUserTrack($userTrack);
-                $em->persist($user);
+                $em->persist($userTrack);
             }
-
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -226,11 +221,9 @@ class WeiboLoginController extends BaseController
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth('weibo');
                     $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);
-
-                    $em->persist($user);
+                    $em->persist($userTrack);
                     $em->flush();
 
                     $this->pushBasicProfile($user);// 推送用户基本属性
