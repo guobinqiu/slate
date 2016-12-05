@@ -67,10 +67,6 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("sop app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        if ($this->get('app.sop_survey_service')->isFakedAnswer($survey_id, $app_mid)) {
-            $this->get('logger')->info("a faked sop answer occurs, survey_id: {$survey_id}, app_mid: {$app_mid}");
-            $answer_status = SurveyStatus::STATUS_SCREENOUT;
-        }
         $this->get('app.sop_survey_service')->processSurveyEndlink(
             $survey_id,
             $tid,

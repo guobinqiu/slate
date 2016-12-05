@@ -67,31 +67,6 @@ class SopSurveyService
         $this->redis->del($key);
     }
 
-    public function isFakedAnswer($surveyId, $appMid)
-    {
-        $userId = $this->userService->toUserId($appMid);
-        $survey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
-        if ($survey != null) {
-            if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-                $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
-//                    'appMid' => $appMid,
-                    'surveyId' => $surveyId,
-                    'status' => SurveyStatus::STATUS_FORWARD,
-                    'userId' => $userId,
-                ));
-                if ($statusHistory != null) {
-                    $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
-                    $actualLoiSeconds = time() - $forwardAt;
-                    $loiSeconds = $survey->getLoi() * 60;
-                    if ($actualLoiSeconds < $loiSeconds / 4) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid, $clientIp)
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
@@ -103,6 +78,7 @@ class SopSurveyService
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
                 try {
+                    $answerStatus = $this->changeAnswerStatus($survey, $surveyId, $user->getId(), $answerStatus);
                     $points = $survey->getPoints($answerStatus);
                     $this->createParticipationHistory($appMid, $surveyId, $survey->getQuotaId(), $points);
                     $this->pointService->addPoints(
@@ -288,5 +264,26 @@ class SopSurveyService
             return $researchSurvey->getIsNotifiable() == 1;
         }
         return false;
+    }
+
+    private function changeAnswerStatus(SopResearchSurvey $survey, $surveyId, $userId, $answerStatus)
+    {
+        if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
+            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+//              'appMid' => $appMid,
+                'surveyId' => $surveyId,
+                'status' => SurveyStatus::STATUS_FORWARD,
+                'userId' => $userId,
+            ));
+            if ($statusHistory != null) {
+                $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
+                $actualLoiSeconds = time() - $forwardAt;
+                $loiSeconds = $survey->getLoi() * 60;
+                if ($actualLoiSeconds < $loiSeconds / 4) {
+                    return SurveyStatus::STATUS_SCREENOUT;
+                }
+            }
+        }
+        return $answerStatus;
     }
 }

@@ -57,21 +57,16 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $tid = $request->query->get('tid');
         $app_mid = $request->query->get('app_mid');
-        $answer_status = SurveyStatus::STATUS_COMPLETE;
         $user = $this->getCurrentUser();
         $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("fulcrum app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        if ($this->get('app.fulcrum_survey_service')->isFakedAnswer($survey_id, $app_mid)) {
-            $this->get('logger')->info("a faked fulcrum answer occurs, survey_id: {$survey_id}, app_mid: {$app_mid}");
-            $answer_status = SurveyStatus::STATUS_SCREENOUT;
-        }
         $this->get('app.fulcrum_survey_service')->processSurveyEndlink(
             $survey_id,
             $tid,
             $user,
-            $answer_status,
+            SurveyStatus::STATUS_COMPLETE,
             $app_mid,
             $request->getClientIp()
         );
