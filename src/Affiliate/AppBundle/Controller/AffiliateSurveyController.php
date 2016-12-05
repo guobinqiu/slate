@@ -34,16 +34,17 @@ class AffiliateSurveyController extends Controller
         $affiliateProjectLocationService = $this->get('app.af_location_service');
         
         // 判断用户Location与项目中的Location是否一致       
+/* 2016/12/5 项目里不设城市限制时的判断逻辑不正确 先暂时去掉IP检查
         $checkResult=$affiliateProjectLocationService->confirmLocation($request->getClientIp(),$affiliateProjectId);
         if(empty($checkResult)){
             $param = array(
                 'answer_status' => 'other'
             );
             return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
-        } else {
-            $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
         }
-
+*/
+        $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
+        
         if(is_null($redirectURL)){
             $param = array(
                 'answer_status' => 'other'
