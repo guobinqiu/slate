@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
@@ -34,6 +35,14 @@ class UserService
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->pointService = $pointService;
+    }
+
+    public function toUserId($app_mid) {
+        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
+        if (empty($arr)) {
+            return new NotFoundHttpException('No user_id matches the app_mid');
+        }
+        return $arr['id'];
     }
 
     /**

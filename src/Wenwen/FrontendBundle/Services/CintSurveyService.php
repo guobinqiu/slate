@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\AppBundle\Entity\CintResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Entity\CintResearchSurvey;
 use Wenwen\FrontendBundle\Entity\CintResearchSurveyStatusHistory;
@@ -23,18 +22,21 @@ class CintSurveyService
     private $prizeTicketService;
     private $pointService;
     private $redis;
+    private $userService;
 
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
-                                Client $redis)
+                                Client $redis,
+                                UserService $userService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
         $this->pointService = $pointService;
         $this->redis = $redis;
+        $this->userService = $userService;
     }
 
     public function addSurveyUrlToken($survey, $userId)
@@ -67,7 +69,7 @@ class CintSurveyService
 
     public function isFakedAnswer($surveyId, $appMid)
     {
-        $userId = $this->toUserId($appMid);
+        $userId = $this->userService->toUserId($appMid);
         $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
         if ($survey != null) {
             if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
@@ -132,7 +134,7 @@ class CintSurveyService
 
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
-        $userId = $this->toUserId($appMid);
+        $userId = $this->userService->toUserId($appMid);
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -258,13 +260,5 @@ class CintSurveyService
         if (isset($survey['is_notifiable'])) {
             $researchSurvey->setIsNotifiable($survey['is_notifiable']);
         }
-    }
-
-    private function toUserId($app_mid) {
-        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
-        if (empty($arr)) {
-            return new NotFoundHttpException('No user_id matches the app_mid');
-        }
-        return $arr['id'];
     }
 }

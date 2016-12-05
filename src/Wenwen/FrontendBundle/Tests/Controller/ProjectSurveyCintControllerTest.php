@@ -88,11 +88,12 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
-            'appMid' => $app_mid,
+            //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_INIT,
+            'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
@@ -128,11 +129,12 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
-            'appMid' => $app_mid,
+            //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_FORWARD,
+            'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
@@ -168,18 +170,20 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
-            'appMid' => $app_mid,
+            //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_COMPLETE,
+            'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
 
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
-            'appMid' => $app_mid,
+            //'appMid' => $app_mid,
             'surveyId' => $survey_id,
+            'userId' => $users[0]->getId(),
         ));
         $this->assertCount(3, $statusHistories);
 
@@ -209,8 +213,9 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', $url);
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
-            'appMid' => $app_mid,
+            //'appMid' => $app_mid,
             'surveyId' => $survey_id,
+            'userId' => $users[0]->getId(),
         ));
         $this->assertCount(3, $statusHistories);
     }
