@@ -117,9 +117,11 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
     protected function createParticipationHistory($history)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
         $statusHistories = $em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findBy(array(
-            'appMid' => $history['app_mid'],
+            //'appMid' => $history['app_mid'],
             'surveyId' => $history['survey_id'],
+            'userId' => $userId,
         ));
         if (count($statusHistories) < 3) {//status transfer must be passing through targeted -> init -> forward
             throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
