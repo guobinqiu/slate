@@ -290,7 +290,7 @@ class SopSurveyService
 
     private function toUserId($app_mid) {
         $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
-        if (isEmpty($arr)) {
+        if (empty($arr)) {
             return new NotFoundHttpException('No user_id matches the app_mid');
         }
         return $arr['id'];
