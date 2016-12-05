@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Entity\FulcrumResearchSurvey;
 use Wenwen\FrontendBundle\Entity\FulcrumResearchSurveyStatusHistory;
@@ -66,13 +67,15 @@ class FulcrumSurveyService
 
     public function isFakedAnswer($surveyId, $appMid)
     {
+        $userId = $this->toUserId($appMid);
         $survey = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
         if ($survey != null) {
             if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
                 $statusHistory = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findOneBy(array(
-                    'appMid' => $appMid,
+//                    'appMid' => $appMid,
                     'surveyId' => $surveyId,
                     'status' => SurveyStatus::STATUS_FORWARD,
+                    'userId' => $userId,
                 ));
                 if ($statusHistory != null) {
                     $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
@@ -128,18 +131,21 @@ class FulcrumSurveyService
 
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
+        $userId = $this->toUserId($appMid);
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findOneBy(array(
-            'appMid' => $appMid,
+//            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
+            'userId' => $userId,
         ));
         if ($statusHistory == null) {
             $statusHistory = new FulcrumResearchSurveyStatusHistory();
-            $statusHistory->setAppMid($appMid);
+//            $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
             $statusHistory->setIsAnswered($isAnswered);
             $statusHistory->setClientIp($clientIp);
+            $statusHistory->setUserId($userId);
             $this->em->persist($statusHistory);
             $this->em->flush();
         }
@@ -251,5 +257,13 @@ class FulcrumSurveyService
         if (isset($survey['is_notifiable'])) {
             $researchSurvey->setIsNotifiable($survey['is_notifiable']);
         }
+    }
+
+    private function toUserId($app_mid) {
+        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
+        if (isEmpty($arr)) {
+            return new NotFoundHttpException('No user_id matches the app_mid');
+        }
+        return $arr['id'];
     }
 }

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumResearchSurveyStatusHistory
  *
  * @ORM\Table(name="survey_fulcrum_participation_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="fulcrum_research_survey_status_history_uniq", columns={"app_mid", "survey_id", "status"})
+ *     @ORM\UniqueConstraint(name="fulcrum_research_survey_status_history_uniq", columns={"user_id", "survey_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -24,12 +24,19 @@ class FulcrumResearchSurveyStatusHistory
      */
     private $id;
 
+//    /**
+//     * @var integer
+//     *
+//     * @ORM\Column(name="app_mid", type="integer")
+//     */
+//    private $appMid;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="app_mid", type="integer")
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $appMid;
+    private $userId;
 
     /**
      * @var integer
@@ -96,7 +103,7 @@ class FulcrumResearchSurveyStatusHistory
     /**
      * Get appMid
      *
-     * @return integer 
+     * @return integer
      */
     public function getAppMid()
     {
@@ -224,5 +231,28 @@ class FulcrumResearchSurveyStatusHistory
     public function onPrePersist()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return FulcrumResearchSurveyStatusHistory
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 }
