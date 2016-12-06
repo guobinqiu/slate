@@ -22,9 +22,7 @@
                                     <h2>亲爱的用户！您好！</h2>
                                     <p>积分已经自动累计到您的账户！您可前往个人中心查看积分记录！<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
                                 </div>
-                                {% if ticket_created %}
-                                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-                                {% endif %}
+                                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                             </div>
                         </div>
                         {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
