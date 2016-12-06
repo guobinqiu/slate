@@ -150,14 +150,11 @@ class CintSurveyService
         return $participationHistory;
     }
 
-    public function getSurveyPoint($appMid, $surveyId)
+    public function getSurveyPoint($userId, $surveyId)
     {
-        $participationHistory = $this->em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findOneBy(array(
-            'cintProjectId' => $surveyId,
-            'appMemberId' => $appMid
-        ));
-        if ($participationHistory != null) {
-            return $participationHistory->getPoint();
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveyCint($userId, $surveyId);
+        if ($taskHistory != null) {
+            return $taskHistory->getPoint();
         }
         return 0;
     }

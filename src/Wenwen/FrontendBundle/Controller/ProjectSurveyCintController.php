@@ -145,7 +145,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $app_mid,
             $request->getClientIp()
         );
-        $point = $this->get('app.cint_survey_service')->getSurveyPoint($app_mid, $survey_id);
+        $point = $this->get('app.cint_survey_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,

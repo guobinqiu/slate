@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Entity\TaskHistory00;
 use Predis\Client;
 use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Entity\SopResearchSurvey;
@@ -169,14 +170,11 @@ class SopSurveyService
         return $participationHistory;
     }
 
-    public function getSurveyPoint($appMid, $surveyId)
+    public function getSurveyPoint($userId, $surveyId)
     {
-        $participationHistory = $this->em->getRepository('WenwenAppBundle:SopResearchSurveyParticipationHistory')->findOneBy(array(
-            'partnerAppProjectId' => $surveyId,
-            'appMemberId' => $appMid,
-        ));
-        if ($participationHistory != null) {
-            return $participationHistory->getPoint();
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveySop($userId, $surveyId);
+        if ($taskHistory != null) {
+            return $taskHistory->getPoint();
         }
         return 0;
     }

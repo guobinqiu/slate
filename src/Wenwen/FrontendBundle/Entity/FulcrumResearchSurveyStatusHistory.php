@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FulcrumResearchSurveyStatusHistory
  *
  * @ORM\Table(name="survey_fulcrum_participation_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="fulcrum_research_survey_status_history_uniq", columns={"user_id", "survey_id", "status"})
+ *     @ORM\UniqueConstraint(name="survey_cint_participation_history_uniq", columns={"user_id", "survey_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks

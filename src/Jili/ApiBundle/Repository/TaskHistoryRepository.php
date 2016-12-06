@@ -9,6 +9,39 @@ use Wenwen\FrontendBundle\Model\TaskType;
 
 class TaskHistoryRepository extends EntityRepository
 {
+    public function getTaskHistoryBySurveySop($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:SopResearchSurvey', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getSingleResult();
+    }
+
+    public function getTaskHistoryBySurveyFulcrum($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:FulcrumResearchSurvey', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getSingleResult();
+    }
+
+    public function getTaskHistoryBySurveyCint($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:CintResearchSurvey', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getSingleResult();
+    }
+
     public function getTaskPercent($orderId)
     {
         $query = $this->createQueryBuilder('to');
