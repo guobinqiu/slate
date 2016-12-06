@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\Controller\ProjectSurveyCintController;
-use Wenwen\FrontendBundle\DataFixtures\ORM\LoadCintResearchSurveyData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveyCintData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -38,7 +38,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         {
             $loader = new Loader();
             $loader->addFixture(new LoadUserData());
-            $loader->addFixture(new LoadCintResearchSurveyData());
+            $loader->addFixture(new LoadSurveyCintData());
             $purger = new ORMPurger();
             $executor = new ORMExecutor($em, $purger);
             $executor->execute($loader->getFixtures());
@@ -89,7 +89,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_INIT,
@@ -130,7 +130,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_FORWARD,
@@ -171,7 +171,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_COMPLETE,
@@ -180,7 +180,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
 
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),
@@ -191,7 +191,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertNotNull($prizeTicket);
         $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
 
-//        $participationHistory = $this->em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findOneBy(array(
+//        $participationHistory = $this->em->getRepository('WenwenAppBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'cintProjectId' => $survey_id,
 //            'appMemberId' => $app_mid
 //        ));
@@ -212,7 +212,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 //        $this->assertEquals(500, $user->getPoints());
 
         $crawler = $this->client->request('GET', $url);
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),

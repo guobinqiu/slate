@@ -5,9 +5,9 @@ namespace Wenwen\FrontendBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
 use Wenwen\AppBundle\Entity\CintResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CintResearchSurvey;
-use Wenwen\FrontendBundle\Entity\CintResearchSurveyStatusHistory;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Entity\SurveyCint;
+use Wenwen\FrontendBundle\Entity\SurveyCintParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
@@ -74,7 +74,7 @@ class CintSurveyService
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
             $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
-//            $survey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+//            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
 //            if ($survey != null) {
 //                $conn = $this->em->getConnection();
 //                $conn->beginTransaction();
@@ -111,14 +111,14 @@ class CintSurveyService
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $userId = $this->userService->toUserId($appMid);
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($statusHistory == null) {
-            $statusHistory = new CintResearchSurveyStatusHistory();
+            $statusHistory = new SurveyCintParticipationHistory();
 //            $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
@@ -161,9 +161,9 @@ class CintSurveyService
 
     public function createResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new CintResearchSurvey();
+            $researchSurvey = new SurveyCint();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush();
@@ -173,9 +173,9 @@ class CintSurveyService
 
     public function createOrUpdateResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new CintResearchSurvey();
+            $researchSurvey = new SurveyCint();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush($researchSurvey);
@@ -189,7 +189,7 @@ class CintSurveyService
         return $researchSurvey;
     }
 
-    private function copyProperties(CintResearchSurvey $researchSurvey, $survey)
+    private function copyProperties(SurveyCint $researchSurvey, $survey)
     {
         $researchSurvey->setSurveyId($survey['survey_id']);
         $researchSurvey->setQuotaId($survey['quota_id']);
@@ -235,10 +235,10 @@ class CintSurveyService
         }
     }
 
-    private function changeAnswerStatus(CintResearchSurvey $survey, $surveyId, $userId, $answerStatus)
+    private function changeAnswerStatus(SurveyCint $survey, $surveyId, $userId, $answerStatus)
     {
         if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findOneBy(array(
+            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //              'appMid' => $appMid,
                 'surveyId' => $surveyId,
                 'status' => SurveyStatus::STATUS_FORWARD,

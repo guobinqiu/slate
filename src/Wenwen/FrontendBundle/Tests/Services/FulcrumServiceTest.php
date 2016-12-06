@@ -70,19 +70,19 @@ class FulcrumSurveyServiceTest extends WebTestCase
         $survey = json_decode($json, true);
 
         $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //create
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findOneBy(array('surveyId' => 4));
-        $this->assertEquals(0.00, $researchSurvey->getCpi());
-        $this->assertEquals(80, $researchSurvey->getIr());
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => 4));
+        $this->assertEquals(0.00, $survey->getCpi());
+        $this->assertEquals(80, $survey->getIr());
 
         $survey['cpi'] = 1.23;
         $survey['ir'] = 70;
         $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //update
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findOneBy(array('surveyId' => 4));
-        $this->assertEquals(1.23, $researchSurvey->getCpi());
-        $this->assertEquals(70, $researchSurvey->getIr());
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => 4));
+        $this->assertEquals(1.23, $survey->getCpi());
+        $this->assertEquals(70, $survey->getIr());
 
         $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //do nothing
-        $researchSurveys = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findBy(array('surveyId' => 4));
-        $this->assertCount(1, $researchSurveys);
+        $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findBy(array('surveyId' => 4));
+        $this->assertCount(1, $surveys);
     }
 }

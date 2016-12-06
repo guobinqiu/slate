@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
- * CintResearchSurvey
+ * SurveySop
  *
- * @ORM\Table(name="survey_cint")
+ * @ORM\Table(name="survey_sop")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class CintResearchSurvey
+class SurveySop
 {
     /**
      * @var integer
@@ -177,7 +177,7 @@ class CintResearchSurvey
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setSurveyId($surveyId)
     {
@@ -200,7 +200,7 @@ class CintResearchSurvey
      * Set quotaId
      *
      * @param integer $quotaId
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setQuotaId($quotaId)
     {
@@ -223,7 +223,7 @@ class CintResearchSurvey
      * Set loi
      *
      * @param integer $loi
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setLoi($loi)
     {
@@ -246,7 +246,7 @@ class CintResearchSurvey
      * Set ir
      *
      * @param integer $ir
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setIr($ir)
     {
@@ -269,7 +269,7 @@ class CintResearchSurvey
      * Set cpi
      *
      * @param float $cpi
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setCpi($cpi)
     {
@@ -292,7 +292,7 @@ class CintResearchSurvey
      * Set title
      *
      * @param string $title
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setTitle($title)
     {
@@ -315,7 +315,7 @@ class CintResearchSurvey
      * Set completePoint
      *
      * @param integer $completePoint
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setCompletePoint($completePoint)
     {
@@ -327,7 +327,7 @@ class CintResearchSurvey
     /**
      * Get completePoint
      *
-     * @return integer
+     * @return integer 
      */
     public function getCompletePoint()
     {
@@ -338,7 +338,7 @@ class CintResearchSurvey
      * Set screenoutPoint
      *
      * @param integer $screenoutPoint
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setScreenoutPoint($screenoutPoint)
     {
@@ -350,7 +350,7 @@ class CintResearchSurvey
     /**
      * Get screenoutPoint
      *
-     * @return integer
+     * @return integer 
      */
     public function getScreenoutPoint()
     {
@@ -361,7 +361,7 @@ class CintResearchSurvey
      * Set quotafullPoint
      *
      * @param integer $quotafullPoint
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setQuotafullPoint($quotafullPoint)
     {
@@ -373,7 +373,7 @@ class CintResearchSurvey
     /**
      * Get quotafullPoint
      *
-     * @return integer
+     * @return integer 
      */
     public function getQuotafullPoint()
     {
@@ -384,7 +384,7 @@ class CintResearchSurvey
      * Set pcBlocked
      *
      * @param boolean $pcBlocked
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setPcBlocked($pcBlocked)
     {
@@ -396,7 +396,7 @@ class CintResearchSurvey
     /**
      * Get pcBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function isPcBlocked()
     {
@@ -407,7 +407,7 @@ class CintResearchSurvey
      * Set mobileBlocked
      *
      * @param boolean $mobileBlocked
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setMobileBlocked($mobileBlocked)
     {
@@ -419,7 +419,7 @@ class CintResearchSurvey
     /**
      * Get mobileBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function isMobileBlocked()
     {
@@ -430,7 +430,7 @@ class CintResearchSurvey
      * Set tabletBlocked
      *
      * @param boolean $tabletBlocked
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setTabletBlocked($tabletBlocked)
     {
@@ -442,7 +442,7 @@ class CintResearchSurvey
     /**
      * Get tabletBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function isTabletBlocked()
     {
@@ -452,7 +452,7 @@ class CintResearchSurvey
     /**
      * Get pcBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getPcBlocked()
     {
@@ -462,7 +462,7 @@ class CintResearchSurvey
     /**
      * Get mobileBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getMobileBlocked()
     {
@@ -472,7 +472,7 @@ class CintResearchSurvey
     /**
      * Get tabletBlocked
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getTabletBlocked()
     {
@@ -483,7 +483,7 @@ class CintResearchSurvey
      * Set startDate
      *
      * @param \DateTime $startDate
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setStartDate($startDate)
     {
@@ -495,7 +495,7 @@ class CintResearchSurvey
     /**
      * Get startDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getStartDate()
     {
@@ -506,7 +506,7 @@ class CintResearchSurvey
      * Set endDate
      *
      * @param \DateTime $endDate
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setEndDate($endDate)
     {
@@ -518,7 +518,7 @@ class CintResearchSurvey
     /**
      * Get endDate
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getEndDate()
     {
@@ -529,7 +529,7 @@ class CintResearchSurvey
      * Set comment
      *
      * @param string $comment
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setComment($comment)
     {
@@ -567,7 +567,7 @@ class CintResearchSurvey
      * Set isClosed
      *
      * @param boolean $isClosed
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setIsClosed($isClosed)
     {
@@ -590,7 +590,7 @@ class CintResearchSurvey
      * Set isFixedLoi
      *
      * @param boolean $isFixedLoi
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setIsFixedLoi($isFixedLoi)
     {
@@ -613,7 +613,7 @@ class CintResearchSurvey
      * Set isNotifiable
      *
      * @param boolean $isNotifiable
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setIsNotifiable($isNotifiable)
     {
@@ -636,7 +636,7 @@ class CintResearchSurvey
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setCreatedAt($createdAt)
     {
@@ -659,7 +659,7 @@ class CintResearchSurvey
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return CintResearchSurvey
+     * @return SurveySop
      */
     public function setUpdatedAt($updatedAt)
     {

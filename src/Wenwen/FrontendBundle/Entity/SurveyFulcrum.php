@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
- * SopResearchSurvey
+ * SurveyFulcrum
  *
- * @ORM\Table(name="survey_sop")
+ * @ORM\Table(name="survey_fulcrum")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class SopResearchSurvey
+class SurveyFulcrum
 {
     /**
      * @var integer
@@ -177,7 +177,7 @@ class SopResearchSurvey
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setSurveyId($surveyId)
     {
@@ -200,7 +200,7 @@ class SopResearchSurvey
      * Set quotaId
      *
      * @param integer $quotaId
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setQuotaId($quotaId)
     {
@@ -223,7 +223,7 @@ class SopResearchSurvey
      * Set loi
      *
      * @param integer $loi
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setLoi($loi)
     {
@@ -246,7 +246,7 @@ class SopResearchSurvey
      * Set ir
      *
      * @param integer $ir
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setIr($ir)
     {
@@ -269,7 +269,7 @@ class SopResearchSurvey
      * Set cpi
      *
      * @param float $cpi
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setCpi($cpi)
     {
@@ -292,7 +292,7 @@ class SopResearchSurvey
      * Set title
      *
      * @param string $title
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setTitle($title)
     {
@@ -315,7 +315,7 @@ class SopResearchSurvey
      * Set completePoint
      *
      * @param integer $completePoint
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setCompletePoint($completePoint)
     {
@@ -338,7 +338,7 @@ class SopResearchSurvey
      * Set screenoutPoint
      *
      * @param integer $screenoutPoint
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setScreenoutPoint($screenoutPoint)
     {
@@ -361,7 +361,7 @@ class SopResearchSurvey
      * Set quotafullPoint
      *
      * @param integer $quotafullPoint
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setQuotafullPoint($quotafullPoint)
     {
@@ -384,7 +384,7 @@ class SopResearchSurvey
      * Set pcBlocked
      *
      * @param boolean $pcBlocked
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setPcBlocked($pcBlocked)
     {
@@ -407,7 +407,7 @@ class SopResearchSurvey
      * Set mobileBlocked
      *
      * @param boolean $mobileBlocked
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setMobileBlocked($mobileBlocked)
     {
@@ -430,7 +430,7 @@ class SopResearchSurvey
      * Set tabletBlocked
      *
      * @param boolean $tabletBlocked
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setTabletBlocked($tabletBlocked)
     {
@@ -483,7 +483,7 @@ class SopResearchSurvey
      * Set startDate
      *
      * @param \DateTime $startDate
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setStartDate($startDate)
     {
@@ -506,7 +506,7 @@ class SopResearchSurvey
      * Set endDate
      *
      * @param \DateTime $endDate
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setEndDate($endDate)
     {
@@ -529,7 +529,7 @@ class SopResearchSurvey
      * Set comment
      *
      * @param string $comment
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setComment($comment)
     {
@@ -567,7 +567,7 @@ class SopResearchSurvey
      * Set isClosed
      *
      * @param boolean $isClosed
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setIsClosed($isClosed)
     {
@@ -590,7 +590,7 @@ class SopResearchSurvey
      * Set isFixedLoi
      *
      * @param boolean $isFixedLoi
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setIsFixedLoi($isFixedLoi)
     {
@@ -613,7 +613,7 @@ class SopResearchSurvey
      * Set isNotifiable
      *
      * @param boolean $isNotifiable
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setIsNotifiable($isNotifiable)
     {
@@ -636,7 +636,7 @@ class SopResearchSurvey
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setCreatedAt($createdAt)
     {
@@ -659,7 +659,7 @@ class SopResearchSurvey
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return SopResearchSurvey
+     * @return SurveyFulcrum
      */
     public function setUpdatedAt($updatedAt)
     {

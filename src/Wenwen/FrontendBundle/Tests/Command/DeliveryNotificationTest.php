@@ -55,17 +55,13 @@ class DeliveryNotificationTest extends WebTestCase {
         $deliveryNotification->send($arr['data']['respondents']);
         $deliveryNotification->send($arr['data']['respondents']);//测试重复执行
 
-        $sopResearchSurveys = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findAll();
-//        print_r($sopResearchSurveys[0]);
-        $this->assertEquals(1, count($sopResearchSurveys));
-        $this->assertEquals(8006, $sopResearchSurveys[0]->getSurveyId());
-        $this->assertEquals('关于美容方面的调查', $sopResearchSurveys[0]->getTitle());
+        $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findAll();
+        $this->assertEquals(1, count($surveys));
+        $this->assertEquals(8006, $surveys[0]->getSurveyId());
+        $this->assertEquals('关于美容方面的调查', $surveys[0]->getTitle());
 
-        $sopResearchSurveyStatusHistories = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findAll();
-//        foreach ($sopResearchSurveyStatusHistories as $sopResearchSurveyStatusHistory) {
-//            echo PHP_EOL . 'app_mid=' . $sopResearchSurveyStatusHistory->getAppMid() . ', survey_id=' . $sopResearchSurveyStatusHistory->getSurveyId();
-//        }
-        $this->assertEquals(3, count($sopResearchSurveyStatusHistories));
+        $participations = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findAll();
+        $this->assertEquals(3, count($participations));
     }
 
     public function testFulcrumDeliveryNotification() {
@@ -89,16 +85,12 @@ class DeliveryNotificationTest extends WebTestCase {
         $deliveryNotification->send($arr['data']['respondents']);
         $deliveryNotification->send($arr['data']['respondents']);//测试重复执行
 
-        $fulcrumResearchSurveys = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurvey')->findAll();
-//        print_r($fulcrumResearchSurveys[0]);
-        $this->assertEquals(1, count($fulcrumResearchSurveys));
-        $this->assertEquals(7637, $fulcrumResearchSurveys[0]->getSurveyId());
-        $this->assertEquals('Fulcrum Survey', $fulcrumResearchSurveys[0]->getTitle());
+        $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findAll();
+        $this->assertEquals(1, count($surveys));
+        $this->assertEquals(7637, $surveys[0]->getSurveyId());
+        $this->assertEquals('Fulcrum Survey', $surveys[0]->getTitle());
 
-        $fulcrumResearchSurveyStatusHistories = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findAll();
-//        foreach ($fulcrumResearchSurveyStatusHistories as $fulcrumResearchSurveyStatusHistory) {
-//            echo PHP_EOL . 'app_mid=' . $fulcrumResearchSurveyStatusHistory->getAppMid() . ', survey_id=' . $fulcrumResearchSurveyStatusHistory->getSurveyId();
-//        }
-        $this->assertEquals(3, count($fulcrumResearchSurveyStatusHistories));
+        $participations = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findAll();
+        $this->assertEquals(3, count($participations));
     }
 }

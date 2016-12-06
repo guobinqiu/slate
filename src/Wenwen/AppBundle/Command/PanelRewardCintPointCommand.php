@@ -101,7 +101,7 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
-        $statusHistories = $em->getRepository('WenwenFrontendBundle:CintResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
             //'appMid' => $history['app_mid'],
             'surveyId' => $history['survey_id'],
             'userId' => $userId,

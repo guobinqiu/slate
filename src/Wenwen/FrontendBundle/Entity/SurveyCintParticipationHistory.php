@@ -5,15 +5,15 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FulcrumResearchSurveyStatusHistory
+ * SurveyCintParticipationHistory
  *
- * @ORM\Table(name="survey_fulcrum_participation_history", uniqueConstraints={
+ * @ORM\Table(name="survey_cint_participation_history", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="survey_cint_participation_history_uniq", columns={"user_id", "survey_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class FulcrumResearchSurveyStatusHistory
+class SurveyCintParticipationHistory
 {
     /**
      * @var integer
@@ -91,7 +91,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set appMid
      *
      * @param integer $appMid
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setAppMid($appMid)
     {
@@ -114,7 +114,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setSurveyId($surveyId)
     {
@@ -137,7 +137,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set status
      *
      * @param integer $status
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setStatus($status)
     {
@@ -160,7 +160,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set isAnswered
      *
      * @param boolean $isAnswered
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setIsAnswered($isAnswered)
     {
@@ -183,7 +183,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set clientIp
      *
      * @param string $clientIp
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setClientIp($clientIp)
     {
@@ -206,7 +206,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
@@ -237,7 +237,7 @@ class FulcrumResearchSurveyStatusHistory
      * Set userId
      *
      * @param integer $userId
-     * @return FulcrumResearchSurveyStatusHistory
+     * @return SurveyCintParticipationHistory
      */
     public function setUserId($userId)
     {

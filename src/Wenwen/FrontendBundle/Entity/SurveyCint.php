@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
- * FulcrumResearchSurvey
+ * SurveyCint
  *
- * @ORM\Table(name="survey_fulcrum")
+ * @ORM\Table(name="survey_cint")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class FulcrumResearchSurvey
+class SurveyCint
 {
     /**
      * @var integer
@@ -177,7 +177,7 @@ class FulcrumResearchSurvey
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setSurveyId($surveyId)
     {
@@ -200,7 +200,7 @@ class FulcrumResearchSurvey
      * Set quotaId
      *
      * @param integer $quotaId
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setQuotaId($quotaId)
     {
@@ -223,7 +223,7 @@ class FulcrumResearchSurvey
      * Set loi
      *
      * @param integer $loi
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setLoi($loi)
     {
@@ -246,7 +246,7 @@ class FulcrumResearchSurvey
      * Set ir
      *
      * @param integer $ir
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setIr($ir)
     {
@@ -269,7 +269,7 @@ class FulcrumResearchSurvey
      * Set cpi
      *
      * @param float $cpi
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setCpi($cpi)
     {
@@ -292,7 +292,7 @@ class FulcrumResearchSurvey
      * Set title
      *
      * @param string $title
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setTitle($title)
     {
@@ -315,7 +315,7 @@ class FulcrumResearchSurvey
      * Set completePoint
      *
      * @param integer $completePoint
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setCompletePoint($completePoint)
     {
@@ -327,7 +327,7 @@ class FulcrumResearchSurvey
     /**
      * Get completePoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getCompletePoint()
     {
@@ -338,7 +338,7 @@ class FulcrumResearchSurvey
      * Set screenoutPoint
      *
      * @param integer $screenoutPoint
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setScreenoutPoint($screenoutPoint)
     {
@@ -350,7 +350,7 @@ class FulcrumResearchSurvey
     /**
      * Get screenoutPoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getScreenoutPoint()
     {
@@ -361,7 +361,7 @@ class FulcrumResearchSurvey
      * Set quotafullPoint
      *
      * @param integer $quotafullPoint
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setQuotafullPoint($quotafullPoint)
     {
@@ -373,7 +373,7 @@ class FulcrumResearchSurvey
     /**
      * Get quotafullPoint
      *
-     * @return integer 
+     * @return integer
      */
     public function getQuotafullPoint()
     {
@@ -384,7 +384,7 @@ class FulcrumResearchSurvey
      * Set pcBlocked
      *
      * @param boolean $pcBlocked
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setPcBlocked($pcBlocked)
     {
@@ -396,7 +396,7 @@ class FulcrumResearchSurvey
     /**
      * Get pcBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isPcBlocked()
     {
@@ -407,7 +407,7 @@ class FulcrumResearchSurvey
      * Set mobileBlocked
      *
      * @param boolean $mobileBlocked
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setMobileBlocked($mobileBlocked)
     {
@@ -419,7 +419,7 @@ class FulcrumResearchSurvey
     /**
      * Get mobileBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isMobileBlocked()
     {
@@ -430,7 +430,7 @@ class FulcrumResearchSurvey
      * Set tabletBlocked
      *
      * @param boolean $tabletBlocked
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setTabletBlocked($tabletBlocked)
     {
@@ -442,7 +442,7 @@ class FulcrumResearchSurvey
     /**
      * Get tabletBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isTabletBlocked()
     {
@@ -452,7 +452,7 @@ class FulcrumResearchSurvey
     /**
      * Get pcBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPcBlocked()
     {
@@ -462,7 +462,7 @@ class FulcrumResearchSurvey
     /**
      * Get mobileBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMobileBlocked()
     {
@@ -472,7 +472,7 @@ class FulcrumResearchSurvey
     /**
      * Get tabletBlocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTabletBlocked()
     {
@@ -483,7 +483,7 @@ class FulcrumResearchSurvey
      * Set startDate
      *
      * @param \DateTime $startDate
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setStartDate($startDate)
     {
@@ -495,7 +495,7 @@ class FulcrumResearchSurvey
     /**
      * Get startDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStartDate()
     {
@@ -506,7 +506,7 @@ class FulcrumResearchSurvey
      * Set endDate
      *
      * @param \DateTime $endDate
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setEndDate($endDate)
     {
@@ -518,7 +518,7 @@ class FulcrumResearchSurvey
     /**
      * Get endDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEndDate()
     {
@@ -529,7 +529,7 @@ class FulcrumResearchSurvey
      * Set comment
      *
      * @param string $comment
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setComment($comment)
     {
@@ -567,7 +567,7 @@ class FulcrumResearchSurvey
      * Set isClosed
      *
      * @param boolean $isClosed
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setIsClosed($isClosed)
     {
@@ -590,7 +590,7 @@ class FulcrumResearchSurvey
      * Set isFixedLoi
      *
      * @param boolean $isFixedLoi
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setIsFixedLoi($isFixedLoi)
     {
@@ -613,7 +613,7 @@ class FulcrumResearchSurvey
      * Set isNotifiable
      *
      * @param boolean $isNotifiable
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setIsNotifiable($isNotifiable)
     {
@@ -636,7 +636,7 @@ class FulcrumResearchSurvey
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setCreatedAt($createdAt)
     {
@@ -659,7 +659,7 @@ class FulcrumResearchSurvey
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return FulcrumResearchSurvey
+     * @return SurveyCint
      */
     public function setUpdatedAt($updatedAt)
     {

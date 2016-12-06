@@ -3,13 +3,12 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\TaskHistory00;
 use Predis\Client;
 use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\SopResearchSurvey;
+use Wenwen\FrontendBundle\Entity\SurveySop;
+use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Entity\SopResearchSurveyStatusHistory;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
@@ -74,7 +73,7 @@ class SopSurveyService
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
             $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
-            $survey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
@@ -131,14 +130,14 @@ class SopSurveyService
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $userId = $this->userService->toUserId($appMid);
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($statusHistory == null) {
-            $statusHistory = new SopResearchSurveyStatusHistory();
+            $statusHistory = new SurveySopParticipationHistory();
 //            $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
@@ -181,9 +180,9 @@ class SopSurveyService
 
     public function createResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new SopResearchSurvey();
+            $researchSurvey = new SurveySop();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush();
@@ -193,7 +192,7 @@ class SopSurveyService
 
     public function createOrUpdateResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
             $researchSurvey = new SopResearchSurvey();
             $this->copyProperties($researchSurvey, $survey);
@@ -209,7 +208,7 @@ class SopSurveyService
         return $researchSurvey;
     }
 
-    private function copyProperties(SopResearchSurvey $researchSurvey, $survey)
+    private function copyProperties(SurveySop $researchSurvey, $survey)
     {
         $researchSurvey->setSurveyId($survey['survey_id']);
         $researchSurvey->setQuotaId($survey['quota_id']);
@@ -257,17 +256,17 @@ class SopSurveyService
 
     public function isNotifiableSurvey($surveyId)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurvey')->findOneBy(array('surveyId' => $surveyId));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
         if ($researchSurvey != null) {
             return $researchSurvey->getIsNotifiable() == 1;
         }
         return false;
     }
 
-    private function changeAnswerStatus(SopResearchSurvey $survey, $surveyId, $userId, $answerStatus)
+    private function changeAnswerStatus(SurveySop $survey, $surveyId, $userId, $answerStatus)
     {
         if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //              'appMid' => $appMid,
                 'surveyId' => $surveyId,
                 'status' => SurveyStatus::STATUS_FORWARD,

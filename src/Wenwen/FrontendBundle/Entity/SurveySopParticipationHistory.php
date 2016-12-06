@@ -5,15 +5,15 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CintResearchSurveyStatusHistory
+ * SurveySopParticipationHistory
  *
- * @ORM\Table(name="survey_cint_participation_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="survey_cint_participation_history_uniq", columns={"user_id", "survey_id", "status"})
+ * @ORM\Table(name="survey_sop_participation_history", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="survey_sop_participation_history_uniq", columns={"user_id", "survey_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class CintResearchSurveyStatusHistory
+class SurveySopParticipationHistory
 {
     /**
      * @var integer
@@ -91,7 +91,7 @@ class CintResearchSurveyStatusHistory
      * Set appMid
      *
      * @param integer $appMid
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setAppMid($appMid)
     {
@@ -114,7 +114,7 @@ class CintResearchSurveyStatusHistory
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setSurveyId($surveyId)
     {
@@ -137,7 +137,7 @@ class CintResearchSurveyStatusHistory
      * Set status
      *
      * @param integer $status
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setStatus($status)
     {
@@ -160,7 +160,7 @@ class CintResearchSurveyStatusHistory
      * Set isAnswered
      *
      * @param boolean $isAnswered
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setIsAnswered($isAnswered)
     {
@@ -183,7 +183,7 @@ class CintResearchSurveyStatusHistory
      * Set clientIp
      *
      * @param string $clientIp
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setClientIp($clientIp)
     {
@@ -206,7 +206,7 @@ class CintResearchSurveyStatusHistory
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
@@ -237,7 +237,7 @@ class CintResearchSurveyStatusHistory
      * Set userId
      *
      * @param integer $userId
-     * @return CintResearchSurveyStatusHistory
+     * @return SurveySopParticipationHistory
      */
     public function setUserId($userId)
     {

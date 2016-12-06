@@ -5,15 +5,15 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SopResearchSurveyStatusHistory
+ * SurveyFulcrumParticipationHistory
  *
- * @ORM\Table(name="survey_sop_participation_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="survey_sop_participation_history_uniq", columns={"user_id", "survey_id", "status"})
+ * @ORM\Table(name="survey_fulcrum_participation_history", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="survey_fulcrum_participation_history_uniq", columns={"user_id", "survey_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class SopResearchSurveyStatusHistory
+class SurveyFulcrumParticipationHistory
 {
     /**
      * @var integer
@@ -91,7 +91,7 @@ class SopResearchSurveyStatusHistory
      * Set appMid
      *
      * @param integer $appMid
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setAppMid($appMid)
     {
@@ -114,7 +114,7 @@ class SopResearchSurveyStatusHistory
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setSurveyId($surveyId)
     {
@@ -137,7 +137,7 @@ class SopResearchSurveyStatusHistory
      * Set status
      *
      * @param integer $status
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setStatus($status)
     {
@@ -160,7 +160,7 @@ class SopResearchSurveyStatusHistory
      * Set isAnswered
      *
      * @param boolean $isAnswered
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setIsAnswered($isAnswered)
     {
@@ -183,7 +183,7 @@ class SopResearchSurveyStatusHistory
      * Set clientIp
      *
      * @param string $clientIp
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setClientIp($clientIp)
     {
@@ -206,7 +206,7 @@ class SopResearchSurveyStatusHistory
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setCreatedAt($createdAt)
     {
@@ -237,7 +237,7 @@ class SopResearchSurveyStatusHistory
      * Set userId
      *
      * @param integer $userId
-     * @return SopResearchSurveyStatusHistory
+     * @return SurveyFulcrumParticipationHistory
      */
     public function setUserId($userId)
     {

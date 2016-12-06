@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
-use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSopResearchSurveyData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveySopData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
@@ -37,7 +37,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         {
             $loader = new Loader();
             $loader->addFixture(new LoadUserData());
-            $loader->addFixture(new LoadSopResearchSurveyData());
+            $loader->addFixture(new LoadSurveySopData());
             $purger = new ORMPurger();
             $executor = new ORMExecutor($em, $purger);
             $executor->execute($loader->getFixtures());
@@ -88,7 +88,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_INIT,
@@ -129,7 +129,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_FORWARD,
@@ -170,7 +170,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_COMPLETE,
@@ -179,7 +179,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
 
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),
@@ -211,7 +211,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(500, $user->getPoints());
 
         $crawler = $this->client->request('GET', $url);
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SopResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),

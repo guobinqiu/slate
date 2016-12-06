@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Wenwen\FrontendBundle\DataFixtures\ORM\LoadFulcrumResearchSurveyData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveyFulcrumData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -37,7 +37,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         {
             $loader = new Loader();
             $loader->addFixture(new LoadUserData());
-            $loader->addFixture(new LoadFulcrumResearchSurveyData());
+            $loader->addFixture(new LoadSurveyFulcrumData());
             $purger = new ORMPurger();
             $executor = new ORMExecutor($em, $purger);
             $executor->execute($loader->getFixtures());
@@ -88,7 +88,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_INIT,
@@ -129,7 +129,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_FORWARD,
@@ -170,7 +170,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_COMPLETE,
@@ -179,7 +179,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $this->assertNotNull($statusHistory);
         $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
 
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),
@@ -211,7 +211,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(500, $user->getPoints());
 
         $crawler = $this->client->request('GET', $url);
-        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:FulcrumResearchSurveyStatusHistory')->findBy(array(
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'userId' => $users[0]->getId(),
