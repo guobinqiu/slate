@@ -17,7 +17,7 @@ class TaskHistoryRepository extends EntityRepository
         $qb = $qb->setParameter('userId', $user_id);
         $qb = $qb->setParameter('surveyId', $survey_id);
         $q = $qb->getQuery();
-        return $q->getSingleResult();
+        return $q->getOneOrNullResult();
     }
 
     public function getTaskHistoryBySurveyFulcrum($user_id, $survey_id) {
@@ -28,7 +28,7 @@ class TaskHistoryRepository extends EntityRepository
         $qb = $qb->setParameter('userId', $user_id);
         $qb = $qb->setParameter('surveyId', $survey_id);
         $q = $qb->getQuery();
-        return $q->getSingleResult();
+        return $q->getOneOrNullResult();
     }
 
     public function getTaskHistoryBySurveyCint($user_id, $survey_id) {
@@ -39,7 +39,7 @@ class TaskHistoryRepository extends EntityRepository
         $qb = $qb->setParameter('userId', $user_id);
         $qb = $qb->setParameter('surveyId', $survey_id);
         $q = $qb->getQuery();
-        return $q->getSingleResult();
+        return $q->getOneOrNullResult();
     }
 
     public function getTaskPercent($orderId)
