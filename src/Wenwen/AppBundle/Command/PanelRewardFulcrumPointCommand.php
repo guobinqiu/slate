@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
@@ -111,13 +112,15 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
             $history['answer_status'],
             SurveyStatus::ANSWERED
         );
-        return $this->getContainer()->get('app.survey_fulcrum_service')->createParticipationHistory(
-            $history['app_mid'],
-            $history['survey_id'],
-            $history['quota_id'],
-            $history['extra_info']['point'],
-            $history['extra_info']['point_type']
-        );
+        $history_model = new FulcrumResearchSurveyParticipationHistory();
+        $history_model->setFulcrumProjectID($history['survey_id']);
+        $history_model->setFulcrumProjectQuotaID($history['quota_id']);
+        $history_model->setAppMemberID($history['app_mid']);
+        $history_model->setPoint($history['extra_info']['point']);
+        $history_model->setType($history['extra_info']['point_type']);
+        $em->persist($history_model);
+        $em->flush();
+        return $history_model;
     }
 
     protected function getPanelType() {

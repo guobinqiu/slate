@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrum;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrumParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -128,25 +127,6 @@ class SurveyFulcrumService
             $this->em->flush();
         }
         return $statusHistory;
-    }
-
-    public function createParticipationHistory($appMid, $surveyId, $quotaId, $points, $type = null)
-    {
-        $participationHistory = $this->em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findOneBy(array(
-            'fulcrumProjectId' => $surveyId,
-            'appMemberId' => $appMid
-        ));
-        if ($participationHistory == null) {
-            $participationHistory = new FulcrumResearchSurveyParticipationHistory();
-            $participationHistory->setFulcrumProjectId($surveyId);
-            $participationHistory->setFulcrumProjectQuotaId($quotaId);
-            $participationHistory->setAppMemberID($appMid);
-            $participationHistory->setPoint($points);
-            $participationHistory->setType($type);
-            $this->em->persist($participationHistory);
-            $this->em->flush();
-        }
-        return $participationHistory;
     }
 
     public function getSurveyPoint($userId, $surveyId)

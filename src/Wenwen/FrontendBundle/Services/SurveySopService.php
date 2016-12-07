@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -148,25 +147,6 @@ class SurveySopService
             $this->em->flush();
         }
         return $statusHistory;
-    }
-
-    public function createParticipationHistory($appMid, $surveyId, $quotaId, $points, $type = null)
-    {
-        $participationHistory = $this->em->getRepository('WenwenAppBundle:SopResearchSurveyParticipationHistory')->findOneBy(array(
-            'partnerAppProjectId' => $surveyId,
-            'appMemberId' => $appMid,
-        ));
-        if ($participationHistory == null) {
-            $participationHistory = new SopResearchSurveyParticipationHistory();
-            $participationHistory->setPartnerAppProjectID($surveyId);
-            $participationHistory->setPartnerAppProjectQuotaID($quotaId);
-            $participationHistory->setAppMemberID($appMid);
-            $participationHistory->setPoint($points);
-            $participationHistory->setType($type);
-            $this->em->persist($participationHistory);
-            $this->em->flush();
-        }
-        return $participationHistory;
     }
 
     public function getSurveyPoint($userId, $surveyId)

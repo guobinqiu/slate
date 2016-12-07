@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
@@ -132,13 +133,15 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
             $history['answer_status'],
             SurveyStatus::ANSWERED
         );
-        return $this->getContainer()->get('app.survey_sop_service')->createParticipationHistory(
-            $history['app_mid'],
-            $history['survey_id'],
-            $history['quota_id'],
-            $history['extra_info']['point'],
-            $history['extra_info']['point_type']
-        );
+        $history_model = new SopResearchSurveyParticipationHistory();
+        $history_model->setPartnerAppProjectID($history['survey_id']);
+        $history_model->setPartnerAppProjectQuotaID($history['quota_id']);
+        $history_model->setAppMemberID($history['app_mid']);
+        $history_model->setPoint($history['extra_info']['point']);
+        $history_model->setType($history['extra_info']['point_type']);
+        $em->persist($history_model);
+        $em->flush();
+        return $history_model;
     }
 
     protected function getPanelType() {
