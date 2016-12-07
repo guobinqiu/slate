@@ -70,14 +70,13 @@ class SurveyFulcrumService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
+            $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
             $this->createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
                 try {
-                    $answerStatus = $this->changeAnswerStatus($survey, $surveyId, $user->getId(), $answerStatus);
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
@@ -101,31 +100,31 @@ class SurveyFulcrumService
                     throw $e;
                 }
             }
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
     }
 
     public function createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp = null)
     {
-        $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
-        if ($statusHistory == null) {
-            $statusHistory = new SurveyFulcrumParticipationHistory();
-//            $statusHistory->setAppMid($appMid);
-            $statusHistory->setSurveyId($surveyId);
-            $statusHistory->setStatus($answerStatus);
-            $statusHistory->setClientIp($clientIp);
-            $statusHistory->setUserId($userId);
-            $this->em->persist($statusHistory);
+        if ($participation == null) {
+            $participation = new SurveyFulcrumParticipationHistory();
+//            $participation->setAppMid($appMid);
+            $participation->setSurveyId($surveyId);
+            $participation->setStatus($answerStatus);
+            $participation->setClientIp($clientIp);
+            $participation->setUserId($userId);
+            $this->em->persist($participation);
             $this->em->flush();
         }
-        return $statusHistory;
+        return $participation;
     }
 
     public function getSurveyPoint($userId, $surveyId)
@@ -213,17 +212,18 @@ class SurveyFulcrumService
         }
     }
 
-    private function changeAnswerStatus(SurveyFulcrum $survey, $surveyId, $userId, $answerStatus)
+    public function changeAnswerStatus($surveyId, $userId, $answerStatus)
     {
-        if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
+        if ($survey != null && $survey->getLoi() > 0) {
+            $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
 //              'appMid' => $appMid,
                 'surveyId' => $surveyId,
                 'status' => SurveyStatus::STATUS_FORWARD,
                 'userId' => $userId,
             ));
-            if ($statusHistory != null) {
-                $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
+            if ($participation != null) {
+                $forwardAt = $participation->getCreatedAt()->getTimestamp();
                 $actualLoiSeconds = time() - $forwardAt;
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {

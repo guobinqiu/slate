@@ -88,13 +88,13 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_INIT,
             'userId' => $users[0]->getId(),
         ));
-        $this->assertNotNull($statusHistory);
+        $this->assertNotNull($participation);
     }
 
     public function testForwardAction()
@@ -128,16 +128,16 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $users[0]->getId(),
         ));
-        $this->assertNotNull($statusHistory);
+        $this->assertNotNull($participation);
 
         $createdAt = new \Datetime();
-        $statusHistory->setCreatedAt($createdAt->modify('-5 minute'));
+        $participation->setCreatedAt($createdAt->modify('-5 minute'));
         $this->em->flush();
     }
 
@@ -168,13 +168,13 @@ class ProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
             //'appMid' => $app_mid,
             'surveyId' => $survey_id,
             'status' => SurveyStatus::STATUS_COMPLETE,
             'userId' => $users[0]->getId(),
         ));
-        $this->assertNotNull($statusHistory);
+        $this->assertNotNull($participation);
 
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,

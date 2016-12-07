@@ -85,17 +85,17 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
-        $statusHistories = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
+        $participations = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
             //'appMid' => $history['app_mid'],
             'surveyId' => $history['survey_id'],
             'userId' => $userId,
         ));
-        if (count($statusHistories) < 3) {
+        if (count($participations) < 3) {
             throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
         }
-        if (count($statusHistories) == 4) {
-            foreach ($statusHistories as $statusHistory) {
-                if (in_array($statusHistory->getStatus(), SurveyStatus::$answerStatuses)) {
+        if (count($participations) == 4) {
+            foreach ($participations as $participation) {
+                if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
                     return true;
                 }
             }

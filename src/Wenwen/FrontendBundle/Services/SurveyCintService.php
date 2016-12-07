@@ -70,63 +70,62 @@ class SurveyCintService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
+            $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
             $this->createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
-//            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
-//            if ($survey != null) {
-//                $conn = $this->em->getConnection();
-//                $conn->beginTransaction();
-//                try {
-//                    $answerStatus = $this->changeAnswerStatus($survey, $surveyId, $user->getId(), $answerStatus);
-//                    $points = $survey->getPoints($answerStatus);
-//                    $this->pointService->addPoints(
-//                        $user,
-//                        $points,
-//                        CategoryType::CINT_COST,
-//                        TaskType::SURVEY,
-//                        "c{$surveyId} {$survey->getTitle()}",
-//                        $survey
-//                    );
-//                    $this->pointService->addPointsForInviter(
-//                        $user,
-//                        $points * 0.1,
-//                        CategoryType::EVENT_INVITE_SURVEY,
-//                        TaskType::RENTENTION,
-//                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-//                        $survey
-//                    );
-//                    $conn->commit();
-//                } catch (\Exception $e) {
-//                    $conn->rollBack();
-//                    throw $e;
-//                }
-//            }
+            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
+            if ($survey != null) {
+                $conn = $this->em->getConnection();
+                $conn->beginTransaction();
+                try {
+                    $points = $survey->getPoints($answerStatus);
+                    $this->pointService->addPoints(
+                        $user,
+                        $points,
+                        CategoryType::CINT_COST,
+                        TaskType::SURVEY,
+                        "c{$surveyId} {$survey->getTitle()}",
+                        $survey
+                    );
+                    $this->pointService->addPointsForInviter(
+                        $user,
+                        $points * 0.1,
+                        CategoryType::EVENT_INVITE_SURVEY,
+                        TaskType::RENTENTION,
+                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
+                        $survey
+                    );
+                    $conn->commit();
+                } catch (\Exception $e) {
+                    $conn->rollBack();
+                    throw $e;
+                }
+            }
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
     }
 
     public function createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp = null)
     {
-        $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
-        if ($statusHistory == null) {
-            $statusHistory = new SurveyCintParticipationHistory();
-//            $statusHistory->setAppMid($appMid);
-            $statusHistory->setSurveyId($surveyId);
-            $statusHistory->setStatus($answerStatus);
-            $statusHistory->setClientIp($clientIp);
-            $statusHistory->setUserId($userId);
-            $this->em->persist($statusHistory);
+        if ($participation == null) {
+            $participation = new SurveyCintParticipationHistory();
+//            $participation->setAppMid($appMid);
+            $participation->setSurveyId($surveyId);
+            $participation->setStatus($answerStatus);
+            $participation->setClientIp($clientIp);
+            $participation->setUserId($userId);
+            $this->em->persist($participation);
             $this->em->flush();
         }
-        return $statusHistory;
+        return $participation;
     }
 
     public function getSurveyPoint($userId, $surveyId)
@@ -214,17 +213,18 @@ class SurveyCintService
         }
     }
 
-    private function changeAnswerStatus(SurveyCint $survey, $surveyId, $userId, $answerStatus)
+    public function changeAnswerStatus($surveyId, $userId, $answerStatus)
     {
-        if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
+        if ($survey != null && $survey->getLoi() > 0) {
+            $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //              'appMid' => $appMid,
                 'surveyId' => $surveyId,
                 'status' => SurveyStatus::STATUS_FORWARD,
                 'userId' => $userId
             ));
-            if ($statusHistory != null) {
-                $forwardAt = $statusHistory->getCreatedAt()->getTimestamp();
+            if ($participation != null) {
+                $forwardAt = $participation->getCreatedAt()->getTimestamp();
                 $actualLoiSeconds = time() - $forwardAt;
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
