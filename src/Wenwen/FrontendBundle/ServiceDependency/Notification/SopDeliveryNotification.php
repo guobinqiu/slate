@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\ServiceDependency\Notification;
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Services\SurveySopService;
 
 class SopDeliveryNotification implements DeliveryNotification
 {
