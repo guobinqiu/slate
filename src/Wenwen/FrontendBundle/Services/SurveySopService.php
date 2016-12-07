@@ -156,7 +156,7 @@ class SurveySopService
         return 0;
     }
 
-    public function createResearchSurvey(array $surveyData)
+    public function createSurvey(array $surveyData)
     {
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyData['survey_id']));
         if ($survey == null) {
@@ -168,7 +168,7 @@ class SurveySopService
         return $survey;
     }
 
-    public function createOrUpdateResearchSurvey(array $surveyData)
+    public function createOrUpdateSurvey(array $surveyData)
     {
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyData['survey_id']));
         if ($survey == null) {

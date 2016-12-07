@@ -17,7 +17,7 @@ class FulcrumDeliveryNotification implements DeliveryNotification
     }
 
     public function send(array $respondents) {
-        $this->surveyFulcrumService->createResearchSurvey($respondents[0]);
+        $this->surveyFulcrumService->createSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $this->surveyFulcrumService->createParticipationHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);

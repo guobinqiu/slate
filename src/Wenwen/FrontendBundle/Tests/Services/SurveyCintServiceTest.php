@@ -71,24 +71,24 @@ class SurveyCintServiceTest extends WebTestCase
             }
         }';
 
-        $arr = json_decode($json, true);
+        $surveyData = json_decode($json, true);
 
-        $this->surveyCintService->createOrUpdateResearchSurvey($arr); //create
+        $this->surveyCintService->createOrUpdateSurvey($surveyData); //create
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => 10000));
         $this->assertEquals(0.00, $survey->getCpi());
         $this->assertEquals(80, $survey->getIr());
         $this->assertEquals(0, $survey->getIsClosed());
 
-        $arr['cpi'] = 1.23;
-        $arr['ir'] = 70;
-        $arr['is_closed'] = 1;
-        $this->surveyCintService->createOrUpdateResearchSurvey($arr); //update
+        $surveyData['cpi'] = 1.23;
+        $surveyData['ir'] = 70;
+        $surveyData['is_closed'] = 1;
+        $this->surveyCintService->createOrUpdateSurvey($surveyData); //update
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => 10000));
         $this->assertEquals(1.23, $survey->getCpi());
         $this->assertEquals(70, $survey->getIr());
         $this->assertEquals(1, $survey->getIsClosed());
 
-        $this->surveyCintService->createOrUpdateResearchSurvey($arr); //do nothing
+        $this->surveyCintService->createOrUpdateSurvey($surveyData); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findBy(array('surveyId' => 10000));
         $this->assertCount(1, $surveys);
     }
