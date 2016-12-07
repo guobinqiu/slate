@@ -80,7 +80,6 @@ class SurveyCintService
 //                try {
 //                    $answerStatus = $this->changeAnswerStatus($survey, $surveyId, $user->getId(), $answerStatus);
 //                    $points = $survey->getPoints($answerStatus);
-//                    $this->createParticipationHistory($appMid, $surveyId, $survey->getQuotaId(), $points);
 //                    $this->pointService->addPoints(
 //                        $user,
 //                        $points,

@@ -15,17 +15,24 @@ class SurveyStatus
     const UNANSWERED = 0;
     const ANSWERED = 1;
 
-    private static $statuses = array(
+    public static $allStatuses = array(
         self::STATUS_TARGETED,
         self::STATUS_INIT,
         self::STATUS_FORWARD,
         self::STATUS_COMPLETE,
         self::STATUS_SCREENOUT,
         self::STATUS_QUOTAFULL,
-        self::STATUS_ERROR
+        self::STATUS_ERROR,
+    );
+
+    public static $answerStatuses = array(
+        self::STATUS_COMPLETE,
+        self::STATUS_SCREENOUT,
+        self::STATUS_QUOTAFULL,
+        self::STATUS_ERROR,
     );
 
     public static function isValid($status) {
-        return in_array($status, self::$statuses);
+        return in_array($status, self::$allStatuses);
     }
 }

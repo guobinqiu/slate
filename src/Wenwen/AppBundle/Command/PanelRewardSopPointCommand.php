@@ -105,43 +105,33 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
     protected function skipRewardAlreadyExisted($history)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $records = $em->getRepository('WenwenAppBundle:SopResearchSurveyParticipationHistory')->findBy(array (
-            'partnerAppProjectId' => $history['survey_id'],
-            'appMemberId' => $history['app_mid']
-        ));
-        if (count($records) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    protected function createParticipationHistory($history)
-    {
-        $em = $this->getContainer()->get('doctrine')->getManager();
         $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
         $statusHistories = $em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $history['app_mid'],
             'surveyId' => $history['survey_id'],
             'userId' => $userId,
         ));
-        if (count($statusHistories) < 3) {//status transfer must be passing through targeted -> init -> forward
+        if (count($statusHistories) < 3) {
             throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
         }
-        $this->getContainer()->get('app.survey_sop_service')->createStatusHistory(
+        if (count($statusHistories) == 4) {
+            foreach ($statusHistories as $statusHistory) {
+                if (in_array($statusHistory->getStatus(), SurveyStatus::$answerStatuses)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected function createParticipationHistory($history)
+    {
+        return $this->getContainer()->get('app.survey_sop_service')->createStatusHistory(
             $history['app_mid'],
             $history['survey_id'],
             $history['answer_status'],
             SurveyStatus::ANSWERED
         );
-        $history_model = new SopResearchSurveyParticipationHistory();
-        $history_model->setPartnerAppProjectID($history['survey_id']);
-        $history_model->setPartnerAppProjectQuotaID($history['quota_id']);
-        $history_model->setAppMemberID($history['app_mid']);
-        $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($history['extra_info']['point_type']);
-        $em->persist($history_model);
-        $em->flush();
-        return $history_model;
     }
 
     protected function getPanelType() {
