@@ -67,21 +67,21 @@ class FulcrumSurveyServiceTest extends WebTestCase
             }
         }';
 
-        $survey = json_decode($json, true);
+        $arr = json_decode($json, true);
 
-        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //create
+        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($arr); //create
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => 4));
         $this->assertEquals(0.00, $survey->getCpi());
         $this->assertEquals(80, $survey->getIr());
 
-        $survey['cpi'] = 1.23;
-        $survey['ir'] = 70;
-        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //update
+        $arr['cpi'] = 1.23;
+        $arr['ir'] = 70;
+        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($arr); //update
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => 4));
         $this->assertEquals(1.23, $survey->getCpi());
         $this->assertEquals(70, $survey->getIr());
 
-        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($survey); //do nothing
+        $this->fulcrumSurveyService->createOrUpdateResearchSurvey($arr); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findBy(array('surveyId' => 4));
         $this->assertCount(1, $surveys);
     }

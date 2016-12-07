@@ -194,7 +194,7 @@ class SopSurveyService
     {
         $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new SopResearchSurvey();
+            $researchSurvey = new SurveySop();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush($researchSurvey);
