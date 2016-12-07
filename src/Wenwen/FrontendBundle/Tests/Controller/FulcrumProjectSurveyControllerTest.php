@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 
-class FulcrumProjectSurveyCintControllerTest extends WebTestCase
+class FulcrumProjectSurveyControllerTest extends WebTestCase
 {
     private $client;
 
