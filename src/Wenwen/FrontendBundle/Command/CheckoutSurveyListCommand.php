@@ -43,17 +43,17 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
 
         foreach ($sop['data']['research'] as $survey) {
             $surveySopService->createOrUpdateResearchSurvey($survey);
-            $surveySopService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveySopService->createParticipationHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['fulcrum_research'] as $survey) {
             $surveyFulcrumService->createOrUpdateResearchSurvey($survey);
-            $surveyFulcrumService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyFulcrumService->createParticipationHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['cint_research'] as $survey) {
             $surveyCintService->createOrUpdateResearchSurvey($survey);
-            $surveyCintService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyCintService->createParticipationHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }
 }

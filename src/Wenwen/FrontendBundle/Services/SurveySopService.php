@@ -71,7 +71,7 @@ class SurveySopService
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
-            $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
+            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -125,7 +125,7 @@ class SurveySopService
         }
     }
 
-    public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
+    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);

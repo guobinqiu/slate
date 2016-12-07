@@ -22,7 +22,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_sop_service')->createStatusHistory(
+        $this->get('app.survey_sop_service')->createParticipationHistory(
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_INIT,
@@ -41,7 +41,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_sop_service')->createStatusHistory(
+        $this->get('app.survey_sop_service')->createParticipationHistory(
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_FORWARD,

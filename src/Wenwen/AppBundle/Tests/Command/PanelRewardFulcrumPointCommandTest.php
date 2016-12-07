@@ -74,13 +74,13 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
         $app_mid =  $respondents[0]->getId();
 
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 10001, 'targeted');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 10001, 'init');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 10001, 'forward');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 10001, 'targeted');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 10001, 'init');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 10001, 'forward');
 
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 20001, 'targeted');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 20001, 'init');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 20001, 'forward');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 20001, 'targeted');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 20001, 'init');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationHistory($app_mid, 20001, 'forward');
 
         $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user_id =  $users[0]->getId();

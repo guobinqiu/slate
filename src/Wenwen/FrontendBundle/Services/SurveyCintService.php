@@ -71,7 +71,7 @@ class SurveyCintService
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
-            $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
+            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
 //            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
 //            if ($survey != null) {
@@ -106,7 +106,7 @@ class SurveyCintService
         }
     }
 
-    public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
+    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
