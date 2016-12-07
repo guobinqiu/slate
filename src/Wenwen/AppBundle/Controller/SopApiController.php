@@ -142,7 +142,7 @@ class SopApiController extends Controller
         return $this->doHandleDeliveryNotification(
             new SopDeliveryNotification(
                 $this->getDoctrine()->getManager(),
-                $this->get('app.sop_survey_service')
+                $this->get('app.survey_sop_service')
             )
         );
     }
@@ -156,7 +156,7 @@ class SopApiController extends Controller
         return $this->doHandleDeliveryNotification(
             new FulcrumDeliveryNotification(
                 $this->getDoctrine()->getManager(),
-                $this->get('app.fulcrum_survey_service')
+                $this->get('app.survey_fulcrum_service')
             )
         );
     }

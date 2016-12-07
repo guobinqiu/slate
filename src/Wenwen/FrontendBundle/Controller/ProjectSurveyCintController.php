@@ -93,7 +93,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.cint_survey_service')->createStatusHistory(
+        $this->get('app.survey_cint_service')->createStatusHistory(
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_INIT,
@@ -111,14 +111,14 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.cint_survey_service')->createStatusHistory(
+        $this->get('app.survey_cint_service')->createStatusHistory(
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
-        $cint_research = $this->get('app.cint_survey_service')->addSurveyUrlToken($cint_research, $user->getId());
+        $cint_research = $this->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $user->getId());
         return $this->redirect($cint_research['url']);
     }
 
@@ -137,7 +137,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("cint app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        $this->get('app.cint_survey_service')->processSurveyEndlink(
+        $this->get('app.survey_cint_service')->processSurveyEndlink(
             $survey_id,
             $tid,
             $user,
@@ -145,7 +145,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $app_mid,
             $request->getClientIp()
         );
-        $point = $this->get('app.cint_survey_service')->getSurveyPoint($user->getId(), $survey_id);
+        $point = $this->get('app.survey_cint_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,

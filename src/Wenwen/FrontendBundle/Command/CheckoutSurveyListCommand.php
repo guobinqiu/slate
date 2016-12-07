@@ -21,9 +21,9 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $surveyService = $this->getContainer()->get('app.survey_service');
-        $sopSurveyService = $this->getContainer()->get('app.sop_survey_service');
-        $fulcrumSurveyService = $this->getContainer()->get('app.fulcrum_survey_service');
-        $cintSurveyService = $this->getContainer()->get('app.cint_survey_service');
+        $surveySopService = $this->getContainer()->get('app.survey_sop_service');
+        $surveyFulcrumService = $this->getContainer()->get('app.survey_fulcrum_service');
+        $surveyCintService = $this->getContainer()->get('app.survey_cint_service');
 
         $userId = $input->getOption('user_id');
         $appMid = $surveyService->getSopRespondentId($userId);
@@ -42,18 +42,18 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         }
 
         foreach ($sop['data']['research'] as $survey) {
-            $sopSurveyService->createOrUpdateResearchSurvey($survey);
-            $sopSurveyService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveySopService->createOrUpdateResearchSurvey($survey);
+            $surveySopService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['fulcrum_research'] as $survey) {
-            $fulcrumSurveyService->createOrUpdateResearchSurvey($survey);
-            $fulcrumSurveyService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyFulcrumService->createOrUpdateResearchSurvey($survey);
+            $surveyFulcrumService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['cint_research'] as $survey) {
-            $cintSurveyService->createOrUpdateResearchSurvey($survey);
-            $cintSurveyService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyCintService->createOrUpdateResearchSurvey($survey);
+            $surveyCintService->createStatusHistory($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }
 }

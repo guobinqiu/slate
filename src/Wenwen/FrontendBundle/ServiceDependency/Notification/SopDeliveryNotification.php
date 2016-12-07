@@ -5,24 +5,23 @@ namespace Wenwen\FrontendBundle\ServiceDependency\Notification;
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Services\SopSurveyService;
 
 class SopDeliveryNotification implements DeliveryNotification
 {
     private $em;
-    private $sopSurveyService;
+    private $surveySopService;
 
-    public function __construct(EntityManager $em, SopSurveyService $sopSurveyService) {
+    public function __construct(EntityManager $em, SurveySopService $surveySopService) {
         $this->em = $em;
-        $this->sopSurveyService = $sopSurveyService;
+        $this->surveySopService = $surveySopService;
     }
 
     public function send(array $respondents) {
         //$unsubscribed_app_mids = array();
-        $this->sopSurveyService->createResearchSurvey($respondents[0]);
+        $this->surveySopService->createResearchSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
-            $this->sopSurveyService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $this->surveySopService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
             $recipient = $this->getRecipient($respondent['app_mid']);
             if ($recipient['email']) {
                 if ($this->isSubscribed($recipient['email'])) {

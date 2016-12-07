@@ -4,23 +4,23 @@ namespace Wenwen\FrontendBundle\ServiceDependency\Notification;
 
 use Doctrine\ORM\EntityManager;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Services\FulcrumSurveyService;
+use Wenwen\FrontendBundle\Services\SurveyFulcrumService;
 
 class FulcrumDeliveryNotification implements DeliveryNotification
 {
     private $em;
-    private $fulcrumSurveyService;
+    private $surveyFulcrumService;
 
-    public function __construct(EntityManager $em, FulcrumSurveyService $fulcrumSurveyService) {
+    public function __construct(EntityManager $em, SurveyFulcrumService $surveyFulcrumService) {
         $this->em = $em;
-        $this->fulcrumSurveyService = $fulcrumSurveyService;
+        $this->surveyFulcrumService = $surveyFulcrumService;
     }
 
     public function send(array $respondents) {
-        $this->fulcrumSurveyService->createResearchSurvey($respondents[0]);
+        $this->surveyFulcrumService->createResearchSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
-            $this->fulcrumSurveyService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $this->surveyFulcrumService->createStatusHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }
 }

@@ -22,14 +22,14 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.sop_survey_service')->createStatusHistory(
+        $this->get('app.survey_sop_service')->createStatusHistory(
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_INIT,
             SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
-        $notifiable = $this->get('app.sop_survey_service')->isNotifiableSurvey($research['survey_id']);
+        $notifiable = $this->get('app.survey_sop_service')->isNotifiableSurvey($research['survey_id']);
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $research, 'notifiable' => $notifiable));
     }
 
@@ -41,14 +41,14 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.sop_survey_service')->createStatusHistory(
+        $this->get('app.survey_sop_service')->createStatusHistory(
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
-        $research = $this->get('app.sop_survey_service')->addSurveyUrlToken($research, $user->getId());
+        $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $user->getId());
         return $this->redirect($research['url']);
     }
 
@@ -67,7 +67,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("sop app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        $this->get('app.sop_survey_service')->processSurveyEndlink(
+        $this->get('app.survey_sop_service')->processSurveyEndlink(
             $survey_id,
             $tid,
             $user,
@@ -75,7 +75,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
             $app_mid,
             $request->getClientIp()
         );
-        $point = $this->get('app.sop_survey_service')->getSurveyPoint($user->getId(), $survey_id);
+        $point = $this->get('app.survey_sop_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
@@ -99,7 +99,7 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function profileQuestionnaireEndlinkCompleteAction(Request $request)
     {
-        $this->get('app.sop_survey_service')->processProfilingEndlink(
+        $this->get('app.survey_sop_service')->processProfilingEndlink(
             $this->getCurrentUser(),
             $request->query->get('tid')
         );

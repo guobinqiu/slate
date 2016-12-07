@@ -24,9 +24,7 @@ class SurveyService
     private $templating;
     private $redis;
     private $surveyParnterService;
-    private $sopSurveyService;
-    private $fulcrumSurveyService;
-    private $cintSurveyService;
+    private $surveySopService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -40,9 +38,7 @@ class SurveyService
                                 EngineInterface $templating,
                                 Client $redis,
                                 SurveyPartnerService $surveyParnterService,
-                                SopSurveyService $sopSurveyService,
-                                FulcrumSurveyService $fulcrumSurveyService,
-                                CintSurveyService $cintSurveyService)
+                                SurveySopService $surveySopService)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -51,9 +47,7 @@ class SurveyService
         $this->templating = $templating;
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
-        $this->sopSurveyService = $sopSurveyService;
-        $this->fulcrumSurveyService = $fulcrumSurveyService;
-        $this->cintSurveyService = $cintSurveyService;
+        $this->surveySopService = $surveySopService;
     }
 
     public function setDummy($dummy){
@@ -631,7 +625,7 @@ class SurveyService
 
             foreach ($sop['data']['profiling'] as $profiling) {
                 //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                $profiling = $this->sopSurveyService->addProfilingUrlToken($profiling, $user_id);
+                $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
                 // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                 array_unshift($html_survey_list, $html);

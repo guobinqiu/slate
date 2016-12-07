@@ -8,14 +8,14 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 
-class SopSurveyServiceTest extends WebTestCase
+class SurveySopServiceTest extends WebTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
-    private $sopSurveyService;
+    private $surveySopService;
 
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ class SopSurveyServiceTest extends WebTestCase
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $container = static::$kernel->getContainer();
 
-        $this->sopSurveyService = $container->get('app.sop_survey_service');
+        $this->surveySopService = $container->get('app.survey_sop_service');
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
@@ -48,7 +48,7 @@ class SopSurveyServiceTest extends WebTestCase
         $this->em->close();
     }
 
-    public function testSopSurveyService()
+    public function testSurveySopService()
     {
         $json =
         '{
@@ -75,7 +75,7 @@ class SopSurveyServiceTest extends WebTestCase
 
         $arr = json_decode($json, true);
 
-        $this->sopSurveyService->createOrUpdateResearchSurvey($arr); //create
+        $this->surveySopService->createOrUpdateResearchSurvey($arr); //create
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => 8006));
         $this->assertEquals(0, $survey->getCpi());
         $this->assertEquals(0, $survey->getIr());
@@ -84,13 +84,13 @@ class SopSurveyServiceTest extends WebTestCase
         $arr['cpi'] = 1.23;
         $arr['ir'] = 1;
         $arr['is_closed'] = 1;
-        $this->sopSurveyService->createOrUpdateResearchSurvey($arr); //update
+        $this->surveySopService->createOrUpdateResearchSurvey($arr); //update
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => 8006));
         $this->assertEquals(1.23, $survey->getCpi());
         $this->assertEquals(1, $survey->getIr());
         $this->assertEquals(1, $survey->getIsClosed());
 
-        $this->sopSurveyService->createOrUpdateResearchSurvey($arr); //do nothing
+        $this->surveySopService->createOrUpdateResearchSurvey($arr); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findBy(array('surveyId' => 8006));
         $this->assertCount(1, $surveys);
     }

@@ -51,7 +51,7 @@ class DeliveryNotificationTest extends WebTestCase {
         $arr = json_decode($json, true);
 //        print_r($arr);
 
-        $deliveryNotification = new SopDeliveryNotification($this->em, $this->container->get('app.sop_survey_service'));
+        $deliveryNotification = new SopDeliveryNotification($this->em, $this->container->get('app.survey_sop_service'));
         $deliveryNotification->send($arr['data']['respondents']);
         $deliveryNotification->send($arr['data']['respondents']);//测试重复执行
 
@@ -81,7 +81,7 @@ class DeliveryNotificationTest extends WebTestCase {
         $arr = json_decode($json, true);
 //        print_r($arr);
 
-        $deliveryNotification = new FulcrumDeliveryNotification($this->em, $this->container->get('app.fulcrum_survey_service'));
+        $deliveryNotification = new FulcrumDeliveryNotification($this->em, $this->container->get('app.survey_fulcrum_service'));
         $deliveryNotification->send($arr['data']['respondents']);
         $deliveryNotification->send($arr['data']['respondents']);//测试重复执行
 

@@ -126,13 +126,13 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
         if (count($statusHistories) < 3) {//status transfer must be passing through targeted -> init -> forward
             throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
         }
-        $this->getContainer()->get('app.sop_survey_service')->createStatusHistory(
+        $this->getContainer()->get('app.survey_sop_service')->createStatusHistory(
             $history['app_mid'],
             $history['survey_id'],
             $history['answer_status'],
             SurveyStatus::ANSWERED
         );
-        return $this->getContainer()->get('app.sop_survey_service')->createParticipationHistory(
+        return $this->getContainer()->get('app.survey_sop_service')->createParticipationHistory(
             $history['app_mid'],
             $history['survey_id'],
             $history['quota_id'],

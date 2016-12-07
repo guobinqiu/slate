@@ -15,12 +15,10 @@
             <argument type="service" id="templating" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.survey_partner_service" />
-            <argument type="service" id="app.sop_survey_service" />
-            <argument type="service" id="app.fulcrum_survey_service" />
-            <argument type="service" id="app.cint_survey_service" />
+            <argument type="service" id="app.survey_sop_service" />
         </service>
 
-        <service id="app.sop_survey_service" class="Wenwen\FrontendBundle\Services\SopSurveyService">
+        <service id="app.survey_sop_service" class="Wenwen\FrontendBundle\Services\SurveySopService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
@@ -29,7 +27,7 @@
             <argument type="service" id="app.user_service" />
         </service>
 
-        <service id="app.fulcrum_survey_service" class="Wenwen\FrontendBundle\Services\FulcrumSurveyService">
+        <service id="app.survey_fulcrum_service" class="Wenwen\FrontendBundle\Services\SurveyFulcrumService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
@@ -38,7 +36,7 @@
             <argument type="service" id="app.user_service" />
         </service>
 
-        <service id="app.cint_survey_service" class="Wenwen\FrontendBundle\Services\CintSurveyService">
+        <service id="app.survey_cint_service" class="Wenwen\FrontendBundle\Services\SurveyCintService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />

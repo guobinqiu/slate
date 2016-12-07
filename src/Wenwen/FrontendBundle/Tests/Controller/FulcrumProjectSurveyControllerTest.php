@@ -118,10 +118,10 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $fulcrum_research['survey_id'] = $survey_id;
         $fulcrum_research['url'] = $url;
 
-        $fulcrum_research = $this->container->get('app.fulcrum_survey_service')->addSurveyUrlToken($fulcrum_research, $users[0]->getId());
+        $fulcrum_research = $this->container->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $users[0]->getId());
         $this->assertNotEquals($url, $fulcrum_research['url']);
 
-        $token = $this->container->get('app.fulcrum_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.survey_fulcrum_service')->getSurveyToken($survey_id, $users[0]->getId());
         $this->assertEquals($url . '&sop_custom_token=' . $token, $fulcrum_research['url']);
 
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_forward', array('fulcrum_research' => $fulcrum_research));
@@ -158,7 +158,7 @@ class FulcrumProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $survey_id = 10000;
-        $token = $this->container->get('app.fulcrum_survey_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.survey_fulcrum_service')->getSurveyToken($survey_id, $users[0]->getId());
         $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_endlink', array (
             'survey_id' => $survey_id,

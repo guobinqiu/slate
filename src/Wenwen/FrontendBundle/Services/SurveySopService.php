@@ -4,9 +4,9 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\SurveyFulcrum;
-use Wenwen\FrontendBundle\Entity\SurveyFulcrumParticipationHistory;
+use Wenwen\AppBundle\Entity\SopResearchSurveyParticipationHistory;
+use Wenwen\FrontendBundle\Entity\SurveySop;
+use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
@@ -15,7 +15,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
-class FulcrumSurveyService
+class SurveySopService
 {
     private $logger;
     private $em;
@@ -48,7 +48,7 @@ class FulcrumSurveyService
 
     public function createSurveyToken($surveyId, $userId)
     {
-        $key = CacheKeys::getFulcrumTokenKey($surveyId, $userId);
+        $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         $token = md5(uniqid(rand(), true));
         $this->redis->set($key, $token);
         $this->redis->expire($key, CacheKeys::SURVEY_TOKEN_TTL);
@@ -57,13 +57,13 @@ class FulcrumSurveyService
 
     public function getSurveyToken($surveyId, $userId)
     {
-        $key = CacheKeys::getFulcrumTokenKey($surveyId, $userId);
+        $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         return $this->redis->get($key);
     }
 
     public function deleteSurveyToken($surveyId, $userId)
     {
-        $key = CacheKeys::getFulcrumTokenKey($surveyId, $userId);
+        $key = CacheKeys::getSopTokenKey($surveyId, $userId);
         $this->redis->del($key);
     }
 
@@ -71,9 +71,9 @@ class FulcrumSurveyService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
             $this->createStatusHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
-            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
+            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
@@ -84,9 +84,9 @@ class FulcrumSurveyService
                     $this->pointService->addPoints(
                         $user,
                         $points,
-                        CategoryType::FULCRUM_COST,
+                        CategoryType::SOP_COST,
                         TaskType::SURVEY,
-                        "f{$surveyId} {$survey->getTitle()}",
+                        "r{$surveyId} {$survey->getTitle()}",
                         $survey
                     );
                     $this->pointService->addPointsForInviter(
@@ -107,17 +107,37 @@ class FulcrumSurveyService
         }
     }
 
+    public function addProfilingUrlToken($profiling, $userId)
+    {
+        $token = md5(uniqid(rand(), true));
+        $key = 'sop_profiling_' . $userId;
+        $this->redis->set($key, $token);
+        $this->redis->expire($key, CacheKeys::SURVEY_TOKEN_TTL);
+        $profiling['url'] = $profiling['url'] . '&sop_custom_token=' . $token;
+        return $profiling;
+    }
+
+    public function processProfilingEndlink(User $user, $tid)
+    {
+        $key = 'sop_profiling_' . $user->getId();
+        $token = $this->redis->get($key);
+        if ($token != null && $tid == $token) {
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop属性问卷', null, SurveyStatus::STATUS_COMPLETE);
+            $this->redis->del($key);
+        }
+    }
+
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
         $userId = $this->userService->toUserId($appMid);
-        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
+        $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($statusHistory == null) {
-            $statusHistory = new SurveyFulcrumParticipationHistory();
+            $statusHistory = new SurveySopParticipationHistory();
 //            $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
@@ -132,14 +152,14 @@ class FulcrumSurveyService
 
     public function createParticipationHistory($appMid, $surveyId, $quotaId, $points, $type = null)
     {
-        $participationHistory = $this->em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findOneBy(array(
-            'fulcrumProjectId' => $surveyId,
-            'appMemberId' => $appMid
+        $participationHistory = $this->em->getRepository('WenwenAppBundle:SopResearchSurveyParticipationHistory')->findOneBy(array(
+            'partnerAppProjectId' => $surveyId,
+            'appMemberId' => $appMid,
         ));
         if ($participationHistory == null) {
-            $participationHistory = new FulcrumResearchSurveyParticipationHistory();
-            $participationHistory->setFulcrumProjectId($surveyId);
-            $participationHistory->setFulcrumProjectQuotaId($quotaId);
+            $participationHistory = new SopResearchSurveyParticipationHistory();
+            $participationHistory->setPartnerAppProjectID($surveyId);
+            $participationHistory->setPartnerAppProjectQuotaID($quotaId);
             $participationHistory->setAppMemberID($appMid);
             $participationHistory->setPoint($points);
             $participationHistory->setType($type);
@@ -151,7 +171,7 @@ class FulcrumSurveyService
 
     public function getSurveyPoint($userId, $surveyId)
     {
-        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveyFulcrum($userId, $surveyId);
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveySop($userId, $surveyId);
         if ($taskHistory != null) {
             return $taskHistory->getPoint();
         }
@@ -160,9 +180,9 @@ class FulcrumSurveyService
 
     public function createResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new SurveyFulcrum();
+            $researchSurvey = new SurveySop();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush();
@@ -172,9 +192,9 @@ class FulcrumSurveyService
 
     public function createOrUpdateResearchSurvey($survey)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $survey['survey_id']));
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $survey['survey_id']));
         if ($researchSurvey == null) {
-            $researchSurvey = new SurveyFulcrum();
+            $researchSurvey = new SurveySop();
             $this->copyProperties($researchSurvey, $survey);
             $this->em->persist($researchSurvey);
             $this->em->flush($researchSurvey);
@@ -188,7 +208,7 @@ class FulcrumSurveyService
         return $researchSurvey;
     }
 
-    private function copyProperties(SurveyFulcrum $researchSurvey, $survey)
+    private function copyProperties(SurveySop $researchSurvey, $survey)
     {
         $researchSurvey->setSurveyId($survey['survey_id']);
         $researchSurvey->setQuotaId($survey['quota_id']);
@@ -234,10 +254,19 @@ class FulcrumSurveyService
         }
     }
 
-    private function changeAnswerStatus(SurveyFulcrum $survey, $surveyId, $userId, $answerStatus)
+    public function isNotifiableSurvey($surveyId)
+    {
+        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
+        if ($researchSurvey != null) {
+            return $researchSurvey->getIsNotifiable() == 1;
+        }
+        return false;
+    }
+
+    private function changeAnswerStatus(SurveySop $survey, $surveyId, $userId, $answerStatus)
     {
         if ($survey->getLoi() > 0 && $survey->getIsFixedLoi()) {
-            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
+            $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //              'appMid' => $appMid,
                 'surveyId' => $surveyId,
                 'status' => SurveyStatus::STATUS_FORWARD,

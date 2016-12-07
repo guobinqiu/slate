@@ -21,7 +21,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.fulcrum_survey_service')->createStatusHistory(
+        $this->get('app.survey_fulcrum_service')->createStatusHistory(
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
@@ -39,14 +39,14 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.fulcrum_survey_service')->createStatusHistory(
+        $this->get('app.survey_fulcrum_service')->createStatusHistory(
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
-        $fulcrum_research = $this->get('app.fulcrum_survey_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
+        $fulcrum_research = $this->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
         return $this->redirect($fulcrum_research['url']);
     }
 
@@ -62,7 +62,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         if ($app_mid != $app_mid2) {
             throw new \InvalidArgumentException("fulcrum app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
         }
-        $this->get('app.fulcrum_survey_service')->processSurveyEndlink(
+        $this->get('app.survey_fulcrum_service')->processSurveyEndlink(
             $survey_id,
             $tid,
             $user,
@@ -70,7 +70,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
             $app_mid,
             $request->getClientIp()
         );
-        $point = $this->get('app.fulcrum_survey_service')->getSurveyPoint($user->getId(), $survey_id);
+        $point = $this->get('app.survey_fulcrum_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_fulcrum_project_survey_endpage', array(
             'survey_id' => $survey_id,
             'point' => $point,

@@ -15,7 +15,7 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
-class CintSurveyService
+class SurveyCintService
 {
     private $logger;
     private $em;
