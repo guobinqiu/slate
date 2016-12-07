@@ -95,7 +95,6 @@ class ProjectSurveyControllerTest extends WebTestCase
             'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
-        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
     }
 
     public function testForwardAction()
@@ -136,7 +135,6 @@ class ProjectSurveyControllerTest extends WebTestCase
             'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
-        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::UNANSWERED);
 
         $createdAt = new \Datetime();
         $statusHistory->setCreatedAt($createdAt->modify('-5 minute'));
@@ -177,7 +175,6 @@ class ProjectSurveyControllerTest extends WebTestCase
             'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($statusHistory);
-        $this->assertEquals($statusHistory->getIsAnswered(), SurveyStatus::ANSWERED);
 
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $app_mid,

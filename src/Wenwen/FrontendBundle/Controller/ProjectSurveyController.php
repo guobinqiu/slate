@@ -26,7 +26,6 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_INIT,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         $notifiable = $this->get('app.survey_sop_service')->isNotifiableSurvey($research['survey_id']);
@@ -45,7 +44,6 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
             $app_mid,
             $research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $user->getId());

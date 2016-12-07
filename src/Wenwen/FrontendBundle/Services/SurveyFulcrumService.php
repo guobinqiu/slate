@@ -71,7 +71,7 @@ class SurveyFulcrumService
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
-            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, SurveyStatus::ANSWERED, $clientIp);
+            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -105,7 +105,7 @@ class SurveyFulcrumService
         }
     }
 
-    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
+    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp = null)
     {
         $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
@@ -120,7 +120,6 @@ class SurveyFulcrumService
 //            $statusHistory->setAppMid($appMid);
             $statusHistory->setSurveyId($surveyId);
             $statusHistory->setStatus($answerStatus);
-            $statusHistory->setIsAnswered($isAnswered);
             $statusHistory->setClientIp($clientIp);
             $statusHistory->setUserId($userId);
             $this->em->persist($statusHistory);

@@ -57,13 +57,6 @@ class SurveyCintParticipationHistory
     private $status;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_answered", type="boolean")
-     */
-    private $isAnswered;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="client_ip", type="string", nullable=true)
@@ -154,29 +147,6 @@ class SurveyCintParticipationHistory
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set isAnswered
-     *
-     * @param boolean $isAnswered
-     * @return SurveyCintParticipationHistory
-     */
-    public function setIsAnswered($isAnswered)
-    {
-        $this->isAnswered = $isAnswered;
-
-        return $this;
-    }
-
-    /**
-     * Get isAnswered
-     *
-     * @return boolean
-     */
-    public function getIsAnswered()
-    {
-        return $this->isAnswered;
     }
 
     /**

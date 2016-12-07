@@ -12,9 +12,6 @@ class SurveyStatus
     const STATUS_QUOTAFULL = 'quotafull';
     const STATUS_ERROR = 'error';
 
-    const UNANSWERED = 0;
-    const ANSWERED = 1;
-
     public static $allStatuses = array(
         self::STATUS_TARGETED,
         self::STATUS_INIT,

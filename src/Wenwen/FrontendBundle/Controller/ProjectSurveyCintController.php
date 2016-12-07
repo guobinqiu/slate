@@ -97,7 +97,6 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_INIT,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $cint_research));
@@ -115,7 +114,6 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         $cint_research = $this->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $user->getId());

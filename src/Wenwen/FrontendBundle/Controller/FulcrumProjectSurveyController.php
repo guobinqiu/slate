@@ -25,7 +25,6 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $fulcrum_research));
@@ -43,7 +42,6 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
-            SurveyStatus::UNANSWERED,
             $request->getClientIp()
         );
         $fulcrum_research = $this->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
