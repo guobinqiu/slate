@@ -59,117 +59,6 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         Phake::resetStaticInfo();
     }
 
-    /**
-     * @group dev-merge-ui-cint_point
-     * @group fix-test-static
-     */
-    public function testExecuteInvalidAppMid()
-    {
-        $em = $this->em;
-        $container = $this->container;
-        $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
-        $container->set('sop_api.client', $client);
-
-        $app_mid = $this->sop_respondent[1]->getId();
-
-        $this->container->get('app.survey_cint_service')->createStatusHistory($app_mid, 30001, 'targeted');
-        $this->container->get('app.survey_cint_service')->createStatusHistory($app_mid, 30001, 'init');
-        $this->container->get('app.survey_cint_service')->createStatusHistory($app_mid, 30001, 'forward');
-
-        // data
-        $header = array (
-            'response_id',
-            'yyyymm',
-            'app_id',
-            'app_mid',
-            'survey_id',
-            'quota_id',
-            'title',
-            'loi',
-            'ir',
-            'cpi',
-            'answer_status',
-            'approval_status',
-            'approved_at',
-            'extra_info'
-        );
-        $rec1 = array (
-            '15',
-            '201502',
-            '2',
-            $app_mid,
-            '30001',
-            '30002',
-            'This is a title1',
-            '10',
-            '',
-            '1.500',
-            'SCREENOUT',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"30","point_type":"11"}'
-        );
-        $rec2 = array (
-            '16',
-            '201502',
-            '3',
-            'Invalid-app-mid',
-            '2',
-            '3',
-            'This is a title 2',
-            '11',
-            '',
-            '1.600',
-            'COMPLETE',
-            'APPROVED',
-            '2015-02-14 06:00:06',
-            '{"point":"100","point_type":"61"}'
-        );
-        $footer = array (
-            'EOF',
-            'Total 2 Records'
-        );
-
-        $response = new \stdClass();
-        $response->body = array (
-            $header,
-            $rec1,
-            //$rec2,
-            $footer
-        );
-
-        // stub method
-        Phake::when($client)->get(Phake::anyParameters())->thenReturn($response);
-
-        $application = new Application(static::$kernel);
-
-        $application->add(new PanelRewardCintPointCommand());
-
-        $command = $application->find('panel:reward-cint-point');
-
-        $command->setContainer($container);
-
-        $this->assertInstanceOf('Wenwen\AppBundle\Command\PanelRewardCintPointCommand', $command);
-
-        $commandTester = new CommandTester($command);
-
-        $commandParam = array (
-            'command' => $command->getName(),
-            'date' => '2016-01-26',
-            '--definitive' => true
-        );
-
-        // execute
-        $data = $commandTester->execute($commandParam);
-        // assert
-        $history = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
-        $this->assertCount(1, $history);
-    }
-
-    /**
-     * @group dev-merge-ui-cint_point
-     * @group fix-test-static
-     */
     public function testUpdateTable()
     {
         $em = $this->em;
@@ -267,26 +156,26 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         // execute
         $data = $commandTester->execute($commandParam);
 
-        $history_list = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
-
-        $this->assertNotEmpty($history_list);
-        $this->assertCount(2, $history_list);
-
-        $this->assertEquals('10001', $history_list[0]->getCintProjectID());
-        $this->assertEquals('10002', $history_list[0]->getCintProjectQuotaID());
-        $this->assertEquals($app_mid, $history_list[0]->getAppMemberID());
-        $this->assertEquals('30', $history_list[0]->getPoint());
-        $this->assertEquals(11, $history_list[0]->getType());
-        $this->assertEquals(date('Y-m-d'), $history_list[0]->getCreatedAt()->format('Y-m-d'));
-        $this->assertEquals(date('Y-m-d'), $history_list[0]->getUpdatedAt()->format('Y-m-d'));
-
-        $this->assertEquals('20001', $history_list[1]->getCintProjectID());
-        $this->assertEquals('20002', $history_list[1]->getCintProjectQuotaID());
-        $this->assertEquals($app_mid, $history_list[1]->getAppMemberID());
-        $this->assertEquals('100', $history_list[1]->getPoint());
-        $this->assertEquals(11, $history_list[1]->getType());
-        $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
-        $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
+//        $history_list = $em->getRepository('WenwenAppBundle:CintResearchSurveyParticipationHistory')->findAll();
+//
+//        $this->assertNotEmpty($history_list);
+//        $this->assertCount(2, $history_list);
+//
+//        $this->assertEquals('10001', $history_list[0]->getCintProjectID());
+//        $this->assertEquals('10002', $history_list[0]->getCintProjectQuotaID());
+//        $this->assertEquals($app_mid, $history_list[0]->getAppMemberID());
+//        $this->assertEquals('30', $history_list[0]->getPoint());
+//        $this->assertEquals(11, $history_list[0]->getType());
+//        $this->assertEquals(date('Y-m-d'), $history_list[0]->getCreatedAt()->format('Y-m-d'));
+//        $this->assertEquals(date('Y-m-d'), $history_list[0]->getUpdatedAt()->format('Y-m-d'));
+//
+//        $this->assertEquals('20001', $history_list[1]->getCintProjectID());
+//        $this->assertEquals('20002', $history_list[1]->getCintProjectQuotaID());
+//        $this->assertEquals($app_mid, $history_list[1]->getAppMemberID());
+//        $this->assertEquals('100', $history_list[1]->getPoint());
+//        $this->assertEquals(11, $history_list[1]->getType());
+//        $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
+//        $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
         $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
         $user_id = $sop_respondent->getUserId();
@@ -308,6 +197,11 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
+
+        $stmt = $em->getConnection()->prepare('select * from survey_cint_participation_history ');
+        $stmt->execute();
+        $history_list = $stmt->fetchAll();
+        $this->assertCount(8, $history_list);
     }
 }
 

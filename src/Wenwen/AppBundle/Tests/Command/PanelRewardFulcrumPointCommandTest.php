@@ -56,61 +56,6 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         Phake::resetStaticInfo();
     }
 
-
-    public function testInvalidAppMID()
-    {
-        $em = $this->em;
-        $container = $this->container;
-
-        $application = new Application(static::$kernel);
-        $application->add(new PanelRewardFulcrumPointCommand());
-        $command = $application->find('panel:reward-fulcrum-point');
-        $this->assertInstanceOf('\Wenwen\AppBundle\Command\PanelRewardFulcrumPointCommand', $command, 'wrong class type');
-        $command->setContainer($container);
-        $commandTester = new CommandTester($command);
-
-        $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
-        $container->set('sop_api.client', $client);
-
-        $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
-        $sop_respondent = $respondents[0];
-        $app_mid = $sop_respondent->getId();
-
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 30001, 'targeted');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 30001, 'init');
-        $this->container->get('app.survey_fulcrum_service')->createStatusHistory($app_mid, 30001, 'forward');
-
-        // data
-        $header = array('response_id', 'yyyymm', 'app_id', 'app_mid', 'survey_id', 'quota_id', 'title',
-            'loi', 'ir', 'cpi', 'answer_status', 'approval_status','extra_info',);
-        $rec1   = array('15','201502','2',$app_mid,'30001','30002', 'This is a title1',
-            '10','','1.500','COMPLETE','APPROVED','{"point":"30","point_type":"11"}');
-        $rec2   = array('16','201502','3','Invalid-app-mid','2','3', 'This is a title 2',
-            '11','','1.600','COMPLETE','APPROVED','{"point":"100","point_type":"11"}');
-        $footer = array('EOF','Total 2 Records',);
-        $response        = new \stdClass();
-        $response->body  = array($header,$rec1,$rec2,$footer);
-
-        // stub method
-        Phake::when($client)->get(Phake::anyParameters())->thenReturn($response);
-
-        $commandTester = new CommandTester($command);
-        $commandParam = array (
-            'command' => $command->getName(),
-            'date' => '2016-03-02',
-            '--definitive' => true
-        );
-
-        // execute
-        $data = $commandTester->execute($commandParam);
-
-        // assert
-        $history = $em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findAll();
-        $this->assertCount(1, $history);
-
-    }
-
-
     public function testUpdateTable()
     {
         $em = $this->em;
@@ -169,22 +114,22 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $data = $commandTester->execute($commandParam);
 
         // checking participation history
-        $history_stmt =   $em->getConnection()->prepare('select * from fulcrum_research_survey_participation_history');
-        $history_stmt->execute();
-        $history = $history_stmt->fetchAll();
-        $this->assertNotEmpty($history,'1 fulcrum_research_survey_participation_history history record');
-        $this->assertCount(2, $history,'1 point history record');
-        $this->assertEquals('10001',  $history[0]['fulcrum_project_id'] );
-        $this->assertEquals('10002', $history[0]['fulcrum_project_quota_id'] );
-        $this->assertEquals($app_mid,  $history[0]['app_member_id'] );
-        $this->assertEquals(30,  $history[0]['point'] );
-        $this->assertEquals(11,  $history[0]['type'] );
-
-        $this->assertEquals('20001',  $history[1]['fulcrum_project_id'] );
-        $this->assertEquals('20002', $history[1]['fulcrum_project_quota_id'] );
-        $this->assertEquals($app_mid,  $history[1]['app_member_id'] );
-        $this->assertEquals(100,  $history[1]['point'] );
-        $this->assertEquals(11,  $history[1]['type'] );
+//        $history_stmt =   $em->getConnection()->prepare('select * from fulcrum_research_survey_participation_history');
+//        $history_stmt->execute();
+//        $history = $history_stmt->fetchAll();
+//        $this->assertNotEmpty($history,'1 fulcrum_research_survey_participation_history history record');
+//        $this->assertCount(2, $history,'1 point history record');
+//        $this->assertEquals('10001',  $history[0]['fulcrum_project_id'] );
+//        $this->assertEquals('10002', $history[0]['fulcrum_project_quota_id'] );
+//        $this->assertEquals($app_mid,  $history[0]['app_member_id'] );
+//        $this->assertEquals(30,  $history[0]['point'] );
+//        $this->assertEquals(11,  $history[0]['type'] );
+//
+//        $this->assertEquals('20001',  $history[1]['fulcrum_project_id'] );
+//        $this->assertEquals('20002', $history[1]['fulcrum_project_quota_id'] );
+//        $this->assertEquals($app_mid,  $history[1]['app_member_id'] );
+//        $this->assertEquals(100,  $history[1]['point'] );
+//        $this->assertEquals(11,  $history[1]['type'] );
 
         // task history
         $task_stm =   $em->getConnection()->prepare('select * from task_history0'.( $user_id % 10 ));
@@ -220,6 +165,10 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->assertCount(1, $user_updated,'1 test user');
         $this->assertEquals(141, $user_updated[0]['points'], '100 + 30 + 11');
 
+        $stmt = $em->getConnection()->prepare('select * from survey_fulcrum_participation_history ');
+        $stmt->execute();
+        $history_list = $stmt->fetchAll();
+        $this->assertCount(8, $history_list);
     }
 
 }

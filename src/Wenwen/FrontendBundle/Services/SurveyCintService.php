@@ -108,6 +108,7 @@ class SurveyCintService
 
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
+        $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,

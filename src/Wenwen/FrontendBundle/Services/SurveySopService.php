@@ -127,6 +127,7 @@ class SurveySopService
 
     public function createStatusHistory($appMid, $surveyId, $answerStatus, $isAnswered = SurveyStatus::UNANSWERED, $clientIp = null)
     {
+        $answerStatus = strtolower($answerStatus);
         $userId = $this->userService->toUserId($appMid);
         $statusHistory = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
