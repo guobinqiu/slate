@@ -136,79 +136,79 @@ class SurveyFulcrumService
         return 0;
     }
 
-    public function createResearchSurvey($survey)
+    public function createResearchSurvey(array $surveyData)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $survey['survey_id']));
-        if ($researchSurvey == null) {
-            $researchSurvey = new SurveyFulcrum();
-            $this->copyProperties($researchSurvey, $survey);
-            $this->em->persist($researchSurvey);
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyData['survey_id']));
+        if ($survey == null) {
+            $survey = new SurveyFulcrum();
+            $this->copyProperties($survey, $surveyData);
+            $this->em->persist($survey);
             $this->em->flush();
         }
-        return $researchSurvey;
+        return $survey;
     }
 
-    public function createOrUpdateResearchSurvey($survey)
+    public function createOrUpdateResearchSurvey(array $surveyData)
     {
-        $researchSurvey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $survey['survey_id']));
-        if ($researchSurvey == null) {
-            $researchSurvey = new SurveyFulcrum();
-            $this->copyProperties($researchSurvey, $survey);
-            $this->em->persist($researchSurvey);
-            $this->em->flush($researchSurvey);
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyData['survey_id']));
+        if ($survey == null) {
+            $survey = new SurveyFulcrum();
+            $this->copyProperties($survey, $surveyData);
+            $this->em->persist($survey);
+            $this->em->flush($survey);
         } else {
-            $snapshot = clone $researchSurvey;
-            $this->copyProperties($researchSurvey, $survey);
-            if ($researchSurvey != $snapshot) {
-                $this->em->flush($researchSurvey);
+            $snapshot = clone $survey;
+            $this->copyProperties($survey, $surveyData);
+            if ($survey != $snapshot) {
+                $this->em->flush($survey);
             }
         }
-        return $researchSurvey;
+        return $survey;
     }
 
-    private function copyProperties(SurveyFulcrum $researchSurvey, $survey)
+    private function copyProperties(SurveyFulcrum $survey, array $surveyData)
     {
-        $researchSurvey->setSurveyId($survey['survey_id']);
-        $researchSurvey->setQuotaId($survey['quota_id']);
-        $researchSurvey->setLoi($survey['loi']);
-        $researchSurvey->setIr($survey['ir']);
-        $researchSurvey->setCpi($survey['cpi']);
-        $researchSurvey->setTitle($survey['title']);
-        if (!empty($survey['extra_info']['point']['complete'])) {
-            $researchSurvey->setCompletePoint($survey['extra_info']['point']['complete']);
+        $survey->setSurveyId($surveyData['survey_id']);
+        $survey->setQuotaId($surveyData['quota_id']);
+        $survey->setLoi($surveyData['loi']);
+        $survey->setIr($surveyData['ir']);
+        $survey->setCpi($surveyData['cpi']);
+        $survey->setTitle($surveyData['title']);
+        if (!empty($surveyData['extra_info']['point']['complete'])) {
+            $survey->setCompletePoint($surveyData['extra_info']['point']['complete']);
         }
-        if (!empty($survey['extra_info']['point']['screenout'])) {
-            $researchSurvey->setScreenoutPoint($survey['extra_info']['point']['screenout']);
+        if (!empty($surveyData['extra_info']['point']['screenout'])) {
+            $survey->setScreenoutPoint($surveyData['extra_info']['point']['screenout']);
         }
-        if (!empty($survey['extra_info']['point']['quotafull'])) {
-            $researchSurvey->setQuotafullPoint($survey['extra_info']['point']['quotafull']);
+        if (!empty($surveyData['extra_info']['point']['quotafull'])) {
+            $survey->setQuotafullPoint($surveyData['extra_info']['point']['quotafull']);
         }
-        if (!empty($survey['extra_info']['date']['start_at'])) {
-            $researchSurvey->setStartDate(new \DateTime($survey['extra_info']['date']['start_at']));
+        if (!empty($surveyData['extra_info']['date']['start_at'])) {
+            $survey->setStartDate(new \DateTime($surveyData['extra_info']['date']['start_at']));
         }
-        if (!empty($survey['extra_info']['date']['end_at'])) {
-            $researchSurvey->setEndDate(new \DateTime($survey['extra_info']['date']['end_at']));
+        if (!empty($surveyData['extra_info']['date']['end_at'])) {
+            $survey->setEndDate(new \DateTime($surveyData['extra_info']['date']['end_at']));
         }
-        if (!empty($survey['extra_info']['content'])) {
-            $researchSurvey->setComment($survey['extra_info']['content']);
+        if (!empty($surveyData['extra_info']['content'])) {
+            $survey->setComment($surveyData['extra_info']['content']);
         }
-        if (isset($survey['blocked_devices']['PC'])) {
-            $researchSurvey->setPcBlocked($survey['blocked_devices']['PC']);
+        if (isset($surveyData['blocked_devices']['PC'])) {
+            $survey->setPcBlocked($surveyData['blocked_devices']['PC']);
         }
-        if (isset($survey['blocked_devices']['MOBILE'])) {
-            $researchSurvey->setMobileBlocked($survey['blocked_devices']['MOBILE']);
+        if (isset($surveyData['blocked_devices']['MOBILE'])) {
+            $survey->setMobileBlocked($surveyData['blocked_devices']['MOBILE']);
         }
-        if (isset($survey['blocked_devices']['TABLET'])) {
-            $researchSurvey->setTabletBlocked($survey['blocked_devices']['TABLET']);
+        if (isset($surveyData['blocked_devices']['TABLET'])) {
+            $survey->setTabletBlocked($surveyData['blocked_devices']['TABLET']);
         }
-        if (isset($survey['is_closed'])) {
-            $researchSurvey->setIsClosed($survey['is_closed']);
+        if (isset($surveyData['is_closed'])) {
+            $survey->setIsClosed($surveyData['is_closed']);
         }
-        if (isset($survey['is_fixed_loi'])) {
-            $researchSurvey->setIsFixedLoi($survey['is_fixed_loi']);
+        if (isset($surveyData['is_fixed_loi'])) {
+            $survey->setIsFixedLoi($surveyData['is_fixed_loi']);
         }
-        if (isset($survey['is_notifiable'])) {
-            $researchSurvey->setIsNotifiable($survey['is_notifiable']);
+        if (isset($surveyData['is_notifiable'])) {
+            $survey->setIsNotifiable($surveyData['is_notifiable']);
         }
     }
 
