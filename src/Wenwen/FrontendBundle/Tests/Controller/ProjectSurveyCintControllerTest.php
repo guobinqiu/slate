@@ -191,13 +191,6 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertNotNull($prizeTicket);
         $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
 
-//        $participationHistory = $this->em->getRepository('WenwenAppBundle:SurveyCintParticipationHistory')->findOneBy(array(
-//            'cintProjectId' => $survey_id,
-//            'appMemberId' => $app_mid
-//        ));
-//        $this->assertNotNull($participationHistory);
-//        $this->assertEquals(400, $participationHistory->getPoint());
-//
 //        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
 //        $this->assertEquals(400, $taskHistory->getPoint());
 //        $this->assertEquals(TaskType::SURVEY, $taskHistory->getTaskType());
