@@ -18,3 +18,8 @@ services:
         arguments: ["@logger"]
         tags:
             - { name: monolog.logger, channel: email_delivery }
+    monolog.logger.fake_answer:
+        class: Wenwen\AppBundle\Services\Logger\FakeAnswerLogger
+        arguments: ["@logger"]
+        tags:
+            - { name: monolog.logger, channel: fake_answer }

@@ -17,6 +17,7 @@ use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 class SurveyFulcrumService
 {
     private $logger;
+    private $fakeAnswerLogger;
     private $em;
     private $prizeTicketService;
     private $pointService;
@@ -24,6 +25,7 @@ class SurveyFulcrumService
     private $userService;
 
     public function __construct(LoggerInterface $logger,
+                                LoggerInterface $fakeAnswerLogger,
                                 EntityManager $em,
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
@@ -31,6 +33,7 @@ class SurveyFulcrumService
                                 UserService $userService)
     {
         $this->logger = $logger;
+        $this->fakeAnswerLogger = $fakeAnswerLogger;
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
         $this->pointService = $pointService;
@@ -70,7 +73,9 @@ class SurveyFulcrumService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            }
             $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
@@ -232,6 +237,7 @@ class SurveyFulcrumService
                 $actualLoiSeconds = time() - $forwardAt;
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
+                    $this->fakeAnswerLogger->info('fulcrum: userId=' . $userId . ',surveyId=' . $surveyId);
                     return SurveyStatus::STATUS_SCREENOUT;
                 }
             }

@@ -20,6 +20,7 @@
 
         <service id="app.survey_sop_service" class="Wenwen\FrontendBundle\Services\SurveySopService">
             <argument type="service" id="logger" />
+            <argument type="service" id="monolog.logger.fake_answer" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
             <argument type="service" id="app.point_service" />
@@ -29,6 +30,7 @@
 
         <service id="app.survey_fulcrum_service" class="Wenwen\FrontendBundle\Services\SurveyFulcrumService">
             <argument type="service" id="logger" />
+            <argument type="service" id="monolog.logger.fake_answer" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
             <argument type="service" id="app.point_service" />
@@ -38,6 +40,7 @@
 
         <service id="app.survey_cint_service" class="Wenwen\FrontendBundle\Services\SurveyCintService">
             <argument type="service" id="logger" />
+            <argument type="service" id="monolog.logger.fake_answer" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
             <argument type="service" id="app.point_service" />

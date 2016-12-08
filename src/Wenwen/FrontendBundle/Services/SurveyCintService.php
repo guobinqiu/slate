@@ -17,6 +17,7 @@ use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 class SurveyCintService
 {
     private $logger;
+    private $fakeAnswerLogger;
     private $em;
     private $prizeTicketService;
     private $pointService;
@@ -24,6 +25,7 @@ class SurveyCintService
     private $userService;
 
     public function __construct(LoggerInterface $logger,
+                                LoggerInterface $fakeAnswerLogger,
                                 EntityManager $em,
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
@@ -31,6 +33,7 @@ class SurveyCintService
                                 UserService $userService)
     {
         $this->logger = $logger;
+        $this->fakeAnswerLogger = $fakeAnswerLogger;
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
         $this->pointService = $pointService;
@@ -70,7 +73,9 @@ class SurveyCintService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            }
             $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
@@ -233,6 +238,7 @@ class SurveyCintService
                 $actualLoiSeconds = time() - $forwardAt;
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
+                    $this->fakeAnswerLogger->info('cint: userId=' . $userId . ',surveyId=' . $surveyId);
                     return SurveyStatus::STATUS_SCREENOUT;
                 }
             }

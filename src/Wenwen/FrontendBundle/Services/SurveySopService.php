@@ -17,6 +17,7 @@ use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 class SurveySopService
 {
     private $logger;
+    private $fakeAnswerLogger;
     private $em;
     private $prizeTicketService;
     private $pointService;
@@ -24,6 +25,7 @@ class SurveySopService
     private $userService;
 
     public function __construct(LoggerInterface $logger,
+                                LoggerInterface $fakeAnswerLogger,
                                 EntityManager $em,
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
@@ -31,6 +33,7 @@ class SurveySopService
                                 UserService $userService)
     {
         $this->logger = $logger;
+        $this->fakeAnswerLogger = $fakeAnswerLogger;
         $this->em = $em;
         $this->prizeTicketService = $prizeTicketService;
         $this->pointService = $pointService;
@@ -70,7 +73,9 @@ class SurveySopService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            }
             $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
@@ -261,6 +266,7 @@ class SurveySopService
                 $actualLoiSeconds = time() - $forwardAt;
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
+                    $this->fakeAnswerLogger->info('sop: userId=' . $userId . ',surveyId=' . $surveyId);
                     return SurveyStatus::STATUS_SCREENOUT;
                 }
             }
