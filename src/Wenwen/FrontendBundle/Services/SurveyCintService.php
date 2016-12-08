@@ -71,7 +71,7 @@ class SurveyCintService
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
-            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp);
+            $this->createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
@@ -106,9 +106,8 @@ class SurveyCintService
         }
     }
 
-    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp = null)
+    public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null)
     {
-        $userId = $this->userService->toUserId($appMid);
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -126,6 +125,12 @@ class SurveyCintService
             $this->em->flush();
         }
         return $participation;
+    }
+
+    public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null)
+    {
+        $userId = $this->userService->toUserId($appMid);
+        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp);
     }
 
     public function getSurveyPoint($userId, $surveyId)

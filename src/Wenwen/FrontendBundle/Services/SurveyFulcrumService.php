@@ -71,7 +71,7 @@ class SurveyFulcrumService
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
-            $this->createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp);
+            $this->createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -105,9 +105,8 @@ class SurveyFulcrumService
         }
     }
 
-    public function createParticipationHistory($appMid, $surveyId, $answerStatus, $clientIp = null)
+    public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null)
     {
-        $userId = $this->userService->toUserId($appMid);
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -125,6 +124,12 @@ class SurveyFulcrumService
             $this->em->flush();
         }
         return $participation;
+    }
+
+    public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null)
+    {
+        $userId = $this->userService->toUserId($appMid);
+        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp);
     }
 
     public function getSurveyPoint($userId, $surveyId)

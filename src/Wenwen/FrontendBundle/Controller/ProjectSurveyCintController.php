@@ -93,7 +93,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_cint_service')->createParticipationHistory(
+        $this->get('app.survey_cint_service')->createParticipationByAppMid(
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_INIT,
@@ -110,7 +110,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_cint_service')->createParticipationHistory(
+        $this->get('app.survey_cint_service')->createParticipationByAppMid(
             $app_mid,
             $cint_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,

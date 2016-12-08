@@ -126,7 +126,7 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
 
     protected function createParticipationHistory($history)
     {
-        return $this->getContainer()->get('app.survey_sop_service')->createParticipationHistory(
+        return $this->getContainer()->get('app.survey_sop_service')->createParticipationByAppMid(
             $history['app_mid'],
             $history['survey_id'],
             $history['answer_status']

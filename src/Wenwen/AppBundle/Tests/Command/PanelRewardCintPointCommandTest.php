@@ -67,13 +67,13 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container->set('sop_api.client', $client);
         $app_mid = $this->sop_respondent[1]->getId();
 
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 10001, 'targeted');
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 10001, 'init');
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 10001, 'forward');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'init');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'forward');
 
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 20001, 'targeted');
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 20001, 'init');
-        $this->container->get('app.survey_cint_service')->createParticipationHistory($app_mid, 20001, 'forward');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 20001, 'targeted');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 20001, 'init');
+        $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 20001, 'forward');
 
         // data
         $header = array (

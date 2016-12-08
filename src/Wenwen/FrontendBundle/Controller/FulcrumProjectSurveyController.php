@@ -21,7 +21,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_fulcrum_service')->createParticipationHistory(
+        $this->get('app.survey_fulcrum_service')->createParticipationByAppMid(
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
@@ -38,7 +38,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
         $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_fulcrum_service')->createParticipationHistory(
+        $this->get('app.survey_fulcrum_service')->createParticipationByAppMid(
             $app_mid,
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,

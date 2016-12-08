@@ -22,7 +22,7 @@ class SopDeliveryNotification implements DeliveryNotification
         $this->surveySopService->createSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
-            $this->surveySopService->createParticipationHistory($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $this->surveySopService->createParticipationByAppMid($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
             $recipient = $this->getRecipient($respondent['app_mid']);
             if ($recipient['email']) {
                 if ($this->isSubscribed($recipient['email'])) {
