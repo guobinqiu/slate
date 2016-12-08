@@ -50,3 +50,7 @@ admin_project_close:
     requirements:
         page: '\d+'
 
+endlink_translate_redirect:
+    path: /endlink/translate/redirect/{status}/
+    defaults: { _controller: AffiliateAppBundle:EndlinkTranslate:redirect}
+    methods:  [GET, POST]
