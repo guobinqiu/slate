@@ -66,12 +66,12 @@ class SurveySopService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
-            $this->createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp);
+            $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
@@ -246,7 +246,7 @@ class SurveySopService
         return false;
     }
 
-    public function changeAnswerStatus($surveyId, $userId, $answerStatus)
+    public function changeAnswerStatus($userId, $surveyId, $answerStatus)
     {
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
         if ($survey != null && $survey->getLoi() > 0) {

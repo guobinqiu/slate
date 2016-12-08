@@ -26,9 +26,9 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         $surveyCintService = $this->getContainer()->get('app.survey_cint_service');
 
         $userId = $input->getOption('user_id');
-        $appMid = $surveyService->getSopRespondentId($userId);
+        //$appMid = $surveyService->getSopRespondentId($userId);
         $result = $surveyService->getSopSurveyListJson($userId);
-        //$result = $surveyService->getDummySurveyListJson();
+        //$result = $surveyService->getDummySurveyListJson();//读取测试数据
         $output->writeln('result=' . $result);
 
         if (empty($result)) {
@@ -43,17 +43,20 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
 
         foreach ($sop['data']['research'] as $survey) {
             $surveySopService->createOrUpdateSurvey($survey);
-            $surveySopService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            //$surveySopService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['fulcrum_research'] as $survey) {
             $surveyFulcrumService->createOrUpdateSurvey($survey);
-            $surveyFulcrumService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            //$surveyFulcrumService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyFulcrumService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['cint_research'] as $survey) {
             $surveyCintService->createOrUpdateSurvey($survey);
-            $surveyCintService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            //$surveyCintService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }
 }

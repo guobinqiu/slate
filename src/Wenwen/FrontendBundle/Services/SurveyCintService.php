@@ -66,12 +66,12 @@ class SurveyCintService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $appMid, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            $answerStatus = $this->changeAnswerStatus($surveyId, $user->getId(), $answerStatus);
-            $this->createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp);
+            $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
@@ -218,7 +218,7 @@ class SurveyCintService
         }
     }
 
-    public function changeAnswerStatus($surveyId, $userId, $answerStatus)
+    public function changeAnswerStatus($userId, $surveyId, $answerStatus)
     {
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
         if ($survey != null && $survey->getLoi() > 0) {

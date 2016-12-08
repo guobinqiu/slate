@@ -20,9 +20,8 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
-        $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_fulcrum_service')->createParticipationByAppMid(
-            $app_mid,
+        $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
+            $user->getId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
@@ -37,9 +36,8 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
-        $app_mid = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        $this->get('app.survey_fulcrum_service')->createParticipationByAppMid(
-            $app_mid,
+        $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
+            $user->getId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
@@ -65,7 +63,6 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
             $tid,
             $user,
             SurveyStatus::STATUS_COMPLETE,
-            $app_mid,
             $request->getClientIp()
         );
         $point = $this->get('app.survey_fulcrum_service')->getSurveyPoint($user->getId(), $survey_id);
