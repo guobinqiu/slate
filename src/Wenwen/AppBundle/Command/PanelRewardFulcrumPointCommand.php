@@ -90,9 +90,10 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
             'surveyId' => $history['survey_id'],
             'userId' => $userId,
         ));
-        if (count($participations) < 3) {
-            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
-        }
+        //先注释掉，积累一段时间数据后再放开
+//        if (count($participations) < 3) {
+//            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
+//        }
         if (count($participations) == 4) {
             foreach ($participations as $participation) {
                 if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
