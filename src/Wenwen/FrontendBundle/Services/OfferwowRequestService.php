@@ -7,8 +7,8 @@ use Psr\Log\LoggerInterface;
 use Jili\ApiBundle\Entity\OfferwowOrder;
 use Wenwen\FrontendBundle\Entity\User;
 use Jili\ApiBundle\Component\OrderBase;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 /**
  * 处理offerwow的数据回传

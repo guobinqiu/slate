@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -7,8 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\AppBundle\Entity\FulcrumUserAgreementParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
@@ -27,7 +28,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
-        $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
         $this->point = 1;
@@ -57,7 +57,8 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function url()
     {
-        return $this->sop_configure['api_v1_1_fulcrum_user_agreement_participation_history'];
+        $sop_configure = $this->getContainer()->getParameter('sop');
+        return $sop_configure['api_v1_1_fulcrum_user_agreement_participation_history'];
     }
 
     protected function requiredFields()
@@ -91,9 +92,10 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $history_model->setAgreementStatus(self::USER_AGREEMENT_ACTIVE === $history['agreement_status']);
         $em->persist($history_model);
         $em->flush();
+        return $history_model;
     }
 
-    protected function getVendorName() {
+    protected function getPanelType() {
         return 'Fulcrum Agreement';
     }
 }

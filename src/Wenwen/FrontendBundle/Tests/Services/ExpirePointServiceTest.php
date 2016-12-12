@@ -6,8 +6,8 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Wenwen\FrontendBundle\Services\ExpirePointService;
 use Wenwen\FrontendBundle\Entity\User;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class ExpirePointServiceTest extends WebTestCase
 {

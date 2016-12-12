@@ -6,8 +6,8 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use Jili\ApiBundle\Entity\Offer99Order;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Services\PointService;
 
 class Offer99RequestProcessor
@@ -51,7 +51,7 @@ class Offer99RequestProcessor
 
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             $this->logger->info(__METHOD__ . ' userid=' . $user->getId() . ', points=' . $points . ', tid=' . $tid . ', offer_name=' . $offer_name);
-            $this->pointService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $order->getId());
+            $this->pointService->addPoints($user, $points, CategoryType::OFFER99_COST, TaskType::CPA, $offer_name, $order);
         }
     }
 }

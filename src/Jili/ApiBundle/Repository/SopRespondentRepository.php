@@ -47,6 +47,7 @@ class SopRespondentRepository extends EntityRepository
     {
         $sql = <<<EOT
             SELECT
+                u.id,
                 u.email,
                 u.nick AS name1
             FROM sop_respondent res

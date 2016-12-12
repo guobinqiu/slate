@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class SurveyPartnerRepository extends EntityRepository
 {
@@ -35,11 +36,10 @@ class SurveyPartnerRepository extends EntityRepository
             sp.screenoutPoint, sp.quotafullPoint, sp.loi, sp.ir, spph.status');
         $query = $query->leftJoin('WenwenFrontendBundle:SurveyPartnerParticipationHistory', 'spph', 'WITH', 'sp = spph.surveyPartner and spph.user = :user');
         $query = $query->where('sp.status = :status');
-        $query = $query->andWhere('spph.status is NULL or spph.status = :init or spph.status = :reentry');
+        $query = $query->andWhere('spph.status is NULL or spph.status = :init');
         $query = $query->setParameter('status',SurveyPartner::STATUS_OPEN);
         $query = $query->setParameter('user',$user);
-        $query = $query->setParameter('init',SurveyPartnerParticipationHistory::STATUS_INIT);
-        $query = $query->setParameter('reentry',SurveyPartnerParticipationHistory::STATUS_REENTRY);
+        $query = $query->setParameter('init',SurveyStatus::STATUS_INIT);
 
         $query = $query->getQuery();
 

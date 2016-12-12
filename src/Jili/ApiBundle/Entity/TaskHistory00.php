@@ -42,6 +42,13 @@ class TaskHistory00
     private $orderId;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="order_type", type="string", nullable=true)
+     */
+    private $orderType;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="user_id", type="integer")
@@ -136,6 +143,29 @@ class TaskHistory00
     public function getOrderId()
     {
         return $this->orderId;
+    }
+
+    /**
+     * Set orderType
+     *
+     * @param string $orderType
+     * @return TaskHistory00
+     */
+    public function setOrderType($orderType)
+    {
+        $this->orderType = $orderType;
+
+        return $this;
+    }
+
+    /**
+     * Get orderType
+     *
+     * @return string
+     */
+    public function getOrderType()
+    {
+        return $this->orderType;
     }
 
     /**

@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
@@ -18,15 +18,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $date = $input->getArgument('date');;
+        $date = $input->getArgument('date');
 
         // configs
         $url = $this->url();
-        $auth = $this->sop_configure['auth'];
+        $auth = $this->getContainer()->getParameter('sop')['auth'];
         $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
         $this->logger->info(count($history_list));
         $this->logger->info(var_export($history_list, true));
-
 
         // initialize the database connection
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -90,7 +89,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             try {
                 // insert participation history
-                $this->createParticipationHistory($history);
+                $participationHistory = $this->createParticipationHistory($history);
 
                 $pointService = $this->getContainer()->get('app.point_service');
 
@@ -100,7 +99,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->point($history),
                     $this->type($history),
                     $this->task($history),
-                    $this->comment($history)
+                    $this->comment($history),
+                    $participationHistory
                 );
 
                 // 同时给邀请人加积分(10%)
@@ -109,7 +109,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->point($history) * 0.1,
                     CategoryType::EVENT_INVITE_SURVEY,
                     TaskType::RENTENTION,
-                    '您的好友' . $user->getNick() . '回答了一份' . $this->getVendorName() . '商业问卷'
+                    '您的好友' . $user->getNick() . '回答了一份' . $this->getPanelType() . '商业问卷',
+                    $participationHistory
                 );
 
                 $dbh->commit();
@@ -152,7 +153,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $content .= '<br/>' . sprintf('%s, %s', $i + 1, $successMessage);
             }
         }
-        $subject = 'Report of panel ['. $this->getVendorName() .'] reward points';
+        $subject = 'Report of panel ['. $this->getPanelType() .'] reward points';
         $this->notice($content, $subject);
 
         $this->logger->info("memory_get_usage: " .round(memory_get_usage() / 1024 / 1024, 2) . 'MB');
@@ -261,7 +262,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     abstract protected function createParticipationHistory($history);
 
-    abstract protected function getVendorName();
+    abstract protected function getPanelType();
 
     protected function notice($content, $subject)
     {

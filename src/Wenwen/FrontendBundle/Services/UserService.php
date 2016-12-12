@@ -6,9 +6,11 @@ use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
@@ -33,6 +35,14 @@ class UserService
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->pointService = $pointService;
+    }
+
+    public function toUserId($app_mid) {
+        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
+        if (empty($arr)) {
+            return new NotFoundHttpException('No user_id matches the app_mid');
+        }
+        return $arr['id'];
     }
 
     /**
@@ -65,9 +75,10 @@ class UserService
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
             '完成注册',
-            0,
             null,
-            true
+            new \DateTime(),
+            true,
+            PrizeItem::TYPE_SMALL
         );
 
         // 给邀请人加积分
@@ -76,7 +87,11 @@ class UserService
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            '您的好友' . $user->getNick(). '完成了注册'
+            '您的好友' . $user->getNick(). '完成了注册',
+            null,
+            new \DateTime(),
+            true,
+            PrizeItem::TYPE_SMALL
         );
 
         return $user;

@@ -14,8 +14,8 @@ use Wenwen\AppBundle\Entity\SopProfilePoint;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\DeliveryNotification;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\FulcrumDeliveryNotification;
 use Wenwen\FrontendBundle\ServiceDependency\Notification\SopDeliveryNotification;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 /**
  * @Route("/")
@@ -110,7 +110,8 @@ class SopApiController extends Controller
                 $point_value,
                 CategoryType::SOP_EXPENSE,
                 TaskType::RENTENTION,
-                $name . ' 属性问卷'
+                $name . ' 属性问卷',
+                $sop_profile_point
             );
 
             $em->getConnection()->commit();
@@ -137,8 +138,13 @@ class SopApiController extends Controller
      */
     public function deliveryNotificationFor91wenwenAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        return $this->doHandleDeliveryNotification(new SopDeliveryNotification($em));
+        $this->get('monolog.logger.sop_notification')->info("callback sop delivery notification");
+        return $this->doHandleDeliveryNotification(
+            new SopDeliveryNotification(
+                $this->getDoctrine()->getManager(),
+                $this->get('app.survey_sop_service')
+            )
+        );
     }
 
     /**
@@ -146,8 +152,13 @@ class SopApiController extends Controller
      */
     public function deliveryFulcrumDeliveryNotificationFor91wenwenAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        return $this->doHandleDeliveryNotification(new FulcrumDeliveryNotification($em));
+        $this->get('monolog.logger.sop_notification')->info("callback fulcrum delivery notification");
+        return $this->doHandleDeliveryNotification(
+            new FulcrumDeliveryNotification(
+                $this->getDoctrine()->getManager(),
+                $this->get('app.survey_fulcrum_service')
+            )
+        );
     }
 
     /**
@@ -238,16 +249,15 @@ class SopApiController extends Controller
 
         $this->get('monolog.logger.sop_notification')->info('Start notification');
         //$unsubscribed_app_mids = $notification->send($request_data['data']['respondents']);
-        $res = $notification->send($request_data['data']['respondents']);
+        $notification->send($request_data['data']['respondents']);
         $this->get('monolog.logger.sop_notification')->info('End notification');
 
-//        注释掉下面的代码，这里的代码就可以移到send方法内了
-//        $res = array (
-//            'meta' => array (
-//                'code' => 200,
-//                'message' => ''
-//            )
-//        );
+        $res = array (
+            'meta' => array (
+                'code' => 200,
+                'message' => ''
+            )
+        );
 
 //        禁掉sop端屏蔽用户功能，因为它造成多次事故（用户收不到问卷）
 //        if (sizeof($unsubscribed_app_mids)) {

@@ -21,7 +21,7 @@
                             <div class="subtit">
                                 <strong >问卷标题： {{ fulcrum_research.title }}<br></strong>
                                 <strong id="points">积分数：<span class="point">{{ fulcrum_research.extra_info.point.complete }} 积分</span><br></strong>
-                                <strong id="difficulty">难度： 
+                                <strong id="difficulty">难度：
                                     {% if fulcrum_research.loi <= 10 %}
                                         <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
                                     {% elseif fulcrum_research.loi <= 30 %}
@@ -44,7 +44,7 @@
                                     保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
                             </div>
                             <div class="qnBtn">
-                                <a id="survey-link" href="{{ fulcrum_research.url }}">开始回答问卷</a>
+                                <a id="survey-link" href="{{ path('_fulcrum_project_survey_forward', {'fulcrum_research': fulcrum_research}) }}">开始回答问卷</a>
                             </div>
                             <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
                         </div>

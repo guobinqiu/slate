@@ -3,14 +3,22 @@
 namespace Wenwen\FrontendBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveySopData;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class ProjectSurveyControllerTest extends WebTestCase
 {
+    private $client;
+
+    private $container;
+    
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -21,27 +29,23 @@ class ProjectSurveyControllerTest extends WebTestCase
      */
     public function setUp()
     {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $container = static::$kernel->getContainer();
+        $client = static::createClient(array(), array('HTTPS' => true));
+        $container = $client->getContainer();
+        $em = $container->get('doctrine')->getManager();
 
-        // purge tables
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
+        if (in_array($this->getName(), array('testInformationAction', 'testAgreementCompleteAction')))
+        {
+            $loader = new Loader();
+            $loader->addFixture(new LoadUserData());
+            $loader->addFixture(new LoadSurveySopData());
+            $purger = new ORMPurger();
+            $executor = new ORMExecutor($em, $purger);
+            $executor->execute($loader->getFixtures());
+        }
 
-        $fixture = new LoadUserData();
-        $fixture->setContainer($container);
-
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
-
+        $this->client = $client;
         $this->container = $container;
         $this->em = $em;
-
-        @session_start();
     }
 
     /**
@@ -51,76 +55,157 @@ class ProjectSurveyControllerTest extends WebTestCase
     {
         parent::tearDown();
         $this->em->close();
+        $this->em = null;
+        $this->client = null;
+        $this->container = null;
     }
 
-    /**
-     * @group dev-merge-ui-survey-list
-     *
-     */
     public function testInformationAction()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $url = $container->get('router')->generate('_project_survey_information');
-        $crawler = $client->request('GET', $url);
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $url = $this->container->get('router')->generate('_project_survey_information');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //login 后
-        $session = $container->get('session');
-        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-
+        $survey_id = 10000;
         $research = array();
         $research['title'] = 'dummy title';
         $research['difficulty'] = 'normal';
         $research['loi'] = 10;
         $research['extra_info']['point']['complete'] = 400;
-        $research['url'] = 'dummy url';
-        $research['survey_id'] = 1;
-        $url = $container->get('router')->generate('_project_survey_information', array('research' => $research));
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $research['url'] = 'dummy_url';
+        $research['survey_id'] = $survey_id;
+
+        $url = $this->container->get('router')->generate('_project_survey_information', array('research' => $research, 'difficulty' => '普通'));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+            //'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_INIT,
+            'userId' => $users[0]->getId(),
+        ));
+        $this->assertNotNull($participation);
     }
 
-    /**
-     * @group dev-merge-ui-survey-list
-     */
-    public function testEndlinkAction()
+    public function testForwardAction()
     {
-        $client = static::createClient(array(),array('HTTPS' => true));
-        $container = $client->getContainer();
-        $em = $this->em;
-
-        $url = $container->get('router')->generate('_project_survey_endlink', array (
-            'survey_id' => 4,
-            'answer_status' => 'test'
-        ));
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $url = $this->container->get('router')->generate('_project_survey_forward');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         //login 后
-        $session = $container->get('session');
-        $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $survey_id = 10000;
+        $url = 'dummy_url';
+        $research = array();
+        $research['survey_id'] = $survey_id;
+        $research['url'] = $url;
 
-        $url = $container->get('router')->generate('_project_survey_endlink', array (
-            'survey_id' => 4,
-            'answer_status' => 'complete'
+        $research = $this->container->get('app.survey_sop_service')->addSurveyUrlToken($research, $users[0]->getId());
+        $this->assertNotEquals($url, $research['url']);
+
+        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $this->assertEquals($url . '&sop_custom_token=' . $token, $research['url']);
+
+        $url = $this->container->get('router')->generate('_project_survey_forward', array('research' => $research));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+            //'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_FORWARD,
+            'userId' => $users[0]->getId(),
         ));
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($participation);
+
+        $createdAt = new \Datetime();
+        $participation->setCreatedAt($createdAt->modify('-5 minute'));
+        $this->em->flush();
+    }
+
+    public function testEndlinkAction()
+    {
+        $url = $this->container->get('router')->generate('_project_survey_information');
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $crawler = $this->client->followRedirect();
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+
+        //login 后
+        $session = $this->container->get('session');
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
+        $session->set('uid', $users[0]->getId());
+        $session->save();
+
+        $survey_id = 10000;
+        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $url = $this->container->get('router')->generate('_project_survey_endlink', array (
+            'survey_id' => $survey_id,
+            'answer_status' => SurveyStatus::STATUS_COMPLETE,
+            'app_mid' => $app_mid,
+            'tid' => $token,
+        ));
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+            //'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'status' => SurveyStatus::STATUS_COMPLETE,
+            'userId' => $users[0]->getId(),
+        ));
+        $this->assertNotNull($participation);
+
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
+            //'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'userId' => $users[0]->getId(),
+        ));
+        $this->assertCount(3, $statusHistories);
+
+        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($survey_id);
+        $this->assertNotNull($prizeTicket);
+        $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
+
+        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
+        $this->assertEquals(400, $taskHistory->getPoint());
+        $this->assertEquals(TaskType::SURVEY, $taskHistory->getTaskType());
+        $this->assertEquals(CategoryType::SOP_COST, $taskHistory->getCategoryType());
+
+        $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
+        $this->assertEquals(400, $point->getPointChangeNum());
+        $this->assertEquals(CategoryType::SOP_COST, $point->getReason());
+
+        $this->em->detach($users[0]);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($users[0]->getId());
+        $this->assertEquals(500, $user->getPoints());
+
+        $crawler = $this->client->request('GET', $url);
+        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
+            //'appMid' => $app_mid,
+            'surveyId' => $survey_id,
+            'userId' => $users[0]->getId(),
+        ));
+        $this->assertCount(3, $statusHistories);
     }
 }

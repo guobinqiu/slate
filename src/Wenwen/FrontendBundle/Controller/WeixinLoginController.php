@@ -63,7 +63,6 @@ class WeixinLoginController extends BaseController
 
         $em = $this->getDoctrine()->getManager();
         $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
-
         if ($weixinUser == null) {
             $weixinUser = new WeixinUser();
             $weixinUser->setOpenId($openId);
@@ -73,7 +72,6 @@ class WeixinLoginController extends BaseController
             $weixinUser->setUnionId($userInfo->unionid);
             $em->persist($weixinUser);
             $em->flush();
-
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
         } else if ($weixinUser->getUser() == null) {
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
@@ -84,7 +82,6 @@ class WeixinLoginController extends BaseController
             $user = $weixinUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-
             $userTrack = $user->getUserTrack();
             if ($userTrack) {
                 //$userTrack->setLastFingerprint(null);
@@ -105,12 +102,10 @@ class WeixinLoginController extends BaseController
                 $userTrack->setLastSignInIp(null);
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('weixin');
-
                 $userTrack->setUser($user);
                 $user->setUserTrack($userTrack);
-                $em->persist($user);
+                $em->persist($userTrack);
             }
-
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -239,11 +234,9 @@ class WeixinLoginController extends BaseController
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth('weixin');
                     $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);
-
-                    $em->persist($user);
+                    $em->persist($userTrack);
                     $em->flush();
 
                     $this->pushBasicProfile($user);// 推送用户基本属性
@@ -323,6 +316,7 @@ class WeixinLoginController extends BaseController
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
         $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();

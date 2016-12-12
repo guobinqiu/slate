@@ -60,7 +60,6 @@ class QQLoginController extends BaseController
 
         $em = $this->getDoctrine()->getManager();
         $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
-
         if ($qqUser == null) {
             $qqUser = new QQUser();
             $qqUser->setOpenId($openId);
@@ -69,7 +68,6 @@ class QQLoginController extends BaseController
             $qqUser->setGender($userInfo->gender == '女' ? 2 : 1);
             $em->persist($qqUser);
             $em->flush();
-
             return $this->redirect($this->generateUrl('qq_bind', array('openId' => $openId)));
         } else if ($qqUser->getUser() == null) {
             return $this->redirect($this->generateUrl('qq_bind', array('openId' => $openId)));
@@ -77,7 +75,6 @@ class QQLoginController extends BaseController
             $user = $qqUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-
             $userTrack = $user->getUserTrack();
             if ($userTrack) {
                 //$userTrack->setLastFingerprint(null);
@@ -98,12 +95,10 @@ class QQLoginController extends BaseController
                 $userTrack->setLastSignInIp(null);
                 $userTrack->setCurrentSignInIp($request->getClientIp());
                 $userTrack->setOauth('qq');
-
                 $userTrack->setUser($user);
                 $user->setUserTrack($userTrack);
-                $em->persist($user);
+                $em->persist($userTrack);
             }
-
             $em->flush();
 
             $request->getSession()->set('uid', $user->getId());
@@ -232,11 +227,9 @@ class QQLoginController extends BaseController
                     $userTrack->setCurrentSignInIp($request->getClientIp());
                     $userTrack->setOauth('qq');
                     $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);
-
-                    $em->persist($user);
+                    $em->persist($userTrack);
                     $em->flush();
 
                     $this->pushBasicProfile($user);// 推送用户基本属性
@@ -331,6 +324,7 @@ class QQLoginController extends BaseController
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
         $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();

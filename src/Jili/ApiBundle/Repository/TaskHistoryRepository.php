@@ -3,12 +3,45 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Utility\SequenseEntityClassFactory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class TaskHistoryRepository extends EntityRepository
 {
+    public function getTaskHistoryBySurveySop($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:SurveySop', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getOneOrNullResult();
+    }
+
+    public function getTaskHistoryBySurveyFulcrum($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:SurveyFulcrum', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getOneOrNullResult();
+    }
+
+    public function getTaskHistoryBySurveyCint($user_id, $survey_id) {
+        $qb = $this->createQueryBuilder('t');
+        $qb = $qb->innerJoin('WenwenFrontendBundle:SurveyCint', 's', 'WITH', 't.orderId = s.id');
+        $qb = $qb->where('t.userId = :userId');
+        $qb = $qb->andWhere('s.surveyId = :surveyId');
+        $qb = $qb->setParameter('userId', $user_id);
+        $qb = $qb->setParameter('surveyId', $survey_id);
+        $q = $qb->getQuery();
+        return $q->getOneOrNullResult();
+    }
+
     public function getTaskPercent($orderId)
     {
         $query = $this->createQueryBuilder('to');

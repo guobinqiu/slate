@@ -9,8 +9,7 @@ use Wenwen\AppBundle\Entity\SsiRespondent;
 class SsiDeliveryNotification implements DeliveryNotification
 {
     private $em;
-
-    protected $logger;
+    private $logger;
 
     public function setLogger($logger){
         $this->logger = $logger;
@@ -30,7 +29,7 @@ class SsiDeliveryNotification implements DeliveryNotification
             $ssiRespondentId = SsiRespondent::parseRespondentId($respondentIds[$i]);
             $recipient = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->retrieveRecipientDataToSendMailById($ssiRespondentId);
             $this->logger->info('Got recipient ' . json_encode($recipient));
-            if ($recipient && $this->isSubscribed($recipient)) {
+            if ($recipient && $this->isSubscribed($recipient['email'])) {
                 $respondent['recipient'] = $recipient;
                 $name1 = $respondent['recipient']['name1'];
                 if ($name1 == null) {
@@ -54,8 +53,8 @@ class SsiDeliveryNotification implements DeliveryNotification
         $this->logger->debug('send END');
     }
 
-    private function isSubscribed($recipient) {
-        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($recipient['email']);
+    private function isSubscribed($email) {
+        $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         return count($userEdmUnsubscribes) == 0;
     }
 

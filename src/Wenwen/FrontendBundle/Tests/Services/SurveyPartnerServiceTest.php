@@ -9,9 +9,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
-use Wenwen\FrontendBundle\Entity\PrizeTicket;
-use Wenwen\FrontendBundle\Services\SurveyPartnerService;
-
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class SurveyPartnerServiceTest extends WebTestCase
 {
@@ -45,7 +43,6 @@ class SurveyPartnerServiceTest extends WebTestCase
         parent::tearDown();
         $this->em->close();
     }
-
 
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
@@ -704,7 +701,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
 
         $this->em->persist($surveyPartnerParticipationHistory);
@@ -793,7 +790,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
 
         $this->em->persist($surveyPartnerParticipationHistory);
@@ -860,14 +857,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory);
 
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory);
         $this->em->flush();
@@ -959,7 +956,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                     array('user' => $user,
                         'surveyPartner' => $surveyPartner1,
                         ));
-        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
+        $this->assertEquals(SurveyStatus::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
 
         // 2 项目处于open状态，该用户有参与记录，且参与状态为init ->显示
         $surveyId2 = '1002';
@@ -994,7 +991,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner2);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory2->setCreatedAt($now);
 
         $this->em->persist($surveyPartner2);
@@ -1013,7 +1010,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                     array('user' => $user,
                         'surveyPartner' => $surveyPartner2,
                         ));
-        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
+        $this->assertEquals(SurveyStatus::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
 
         // 3 项目处于open状态，该用户有参与记录，且参与状态为reentry ->显示
         $surveyId3 ='1003';
@@ -1040,7 +1037,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory3 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory3->setSurveyPartner($surveyPartner3);
         $surveyPartnerParticipationHistory3->setUser($user);
-        $surveyPartnerParticipationHistory3->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory3->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory3->setCreatedAt($now);
 
         $this->em->persist($surveyPartner3);
@@ -1059,7 +1056,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                     array('user' => $user,
                         'surveyPartner' => $surveyPartner3,
                         ));
-        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_FORWARD, $surveyPartnerParticipationHistory->getStatus(), 'Should be reentry.');
+        $this->assertEquals(SurveyStatus::STATUS_FORWARD, $surveyPartnerParticipationHistory->getStatus());
 
         // 4 项目处于init状态，没有该用户的参与记录 ->不显示
         $surveyId4 = '1004';
@@ -1154,13 +1151,13 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory6 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory6->setSurveyPartner($surveyPartner6);
         $surveyPartnerParticipationHistory6->setUser($user);
-        $surveyPartnerParticipationHistory6->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory6->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory6->setCreatedAt($now);
 
         $surveyPartnerParticipationHistory7 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory7->setSurveyPartner($surveyPartner6);
         $surveyPartnerParticipationHistory7->setUser($user);
-        $surveyPartnerParticipationHistory7->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory7->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory7->setCreatedAt($now);
 
         $this->em->persist($surveyPartner6);
@@ -1254,7 +1251,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                     array('user' => $user,
                         'surveyPartner' => $surveyPartner1,
                         ));
-        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
+        $this->assertEquals(SurveyStatus::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
     }
 
     public function testRedirectToSurvey_forTestUser()
@@ -1521,7 +1518,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory->setCreatedAt($now);
 
         $this->em->persist($surveyPartner);
@@ -1590,14 +1587,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory1);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now);
         $this->em->persist($surveyPartnerParticipationHistory2);
 
@@ -1782,13 +1779,13 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now);
 
         $this->em->persist($surveyPartner);
@@ -1863,14 +1860,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setClientIP($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
@@ -1947,14 +1944,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT0M15S')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now);
         $surveyPartnerParticipationHistory2->setClientIP($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
@@ -1970,11 +1967,11 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_SCREENOUT,
+                    'status' => SurveyStatus::STATUS_SCREENOUT,
                     ));
 
         $this->assertEquals('This is a too fast complete. userId = ' . $user->getId() . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName , $surveyPartnerParticipationHistory->getComment(), 'complete的太快了，所以增加一条screenout记录');
-                    
+
     }
 
     public function testProcessTriplesEndlink_projectClosed()
@@ -2059,7 +2056,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态，没有该用户的参与记录 ->不处理endlink
         $partnerName = 'triples';
 
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId = '1001';
         $key = 'XHDFDF';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
@@ -2124,7 +2121,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $minAge = 10;
         $maxAge = 100;
         $clientIp = 'asdf';
-        
+
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setPartnerName($partnerName);
         $surveyPartner->setType(SurveyPartner::TYPE_COST);
@@ -2180,7 +2177,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         // 项目处于open状态，该用户有2条参与记录 ->处理endlink
         $partnerName = 'triples';
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId ='1003';
         $key = 'XHDFDF';
         $title = '测试用问卷标题2';
@@ -2217,14 +2214,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
@@ -2270,7 +2267,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         // 项目处于open状态，该用户只有有一条参与记录->不处理endlink
         $partnerName = 'triples';
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId = '1002';
         $key = 'XHDFDF';
         $title = '测试用问卷标题2';
@@ -2307,7 +2304,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory->setUser($user);
-        $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
 
         $this->em->persist($surveyPartner);
@@ -2348,7 +2345,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态，该用户有2条参与记录 ->处理endlink
         $key = 'KEY123';
         $partnerName = 'triples';
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId ='1003';
         $key = 'XHDFDF';
         $title = '测试用问卷标题2';
@@ -2418,7 +2415,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态，该用户有2条参与记录 ->处理endlink
         $key = 'KEY123';
         $partnerName = 'triples';
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+        $answerStatus = SurveyStatus::STATUS_SCREENOUT;
         $surveyId ='1003';
         $key = 'XHDFDF';
         $title = '测试用问卷标题2';
@@ -2488,7 +2485,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         // 项目处于open状态，该用户有2条参与记录 ->处理endlink
         $key = 'KEY123';
         $partnerName = 'triples';
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_QUOTAFULL;
+        $answerStatus = SurveyStatus::STATUS_QUOTAFULL;
         $surveyId ='1003';
         $key = 'XHDFDF';
         $title = '测试用问卷标题2';
@@ -2673,7 +2670,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_userIdNotExist(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -2720,7 +2717,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_testUser_surveyPartnerNotInInitStatus(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -2777,7 +2774,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_surveyPartnerNotInOpenStatus(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -2834,7 +2831,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryNotCorrect(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -2879,7 +2876,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
@@ -2900,7 +2897,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryForwardNotExist(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -2945,7 +2942,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
@@ -2953,7 +2950,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_COMPLETE);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
@@ -2974,7 +2971,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryUKeyNotMatched(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -3024,7 +3021,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
@@ -3032,14 +3029,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setUKey($uid . 'ddd');
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
         $this->em->flush();
 
-        
+
 
         $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
 
@@ -3049,7 +3046,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_ParticipationHistoryClientIpNotMatched(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -3099,7 +3096,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
@@ -3107,14 +3104,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT30M')));
         $surveyPartnerParticipationHistory2->setUKey($uid);
         $surveyPartnerParticipationHistory2->setClientIp('xxx');
         $this->em->persist($surveyPartnerParticipationHistory2);
         $this->em->flush();
 
-        
+
 
         $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
 
@@ -3124,7 +3121,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_tooFastComplete(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -3178,7 +3175,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT01M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
@@ -3186,26 +3183,26 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT01M')));
         $surveyPartnerParticipationHistory2->setUKey($uid);
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
         $this->em->flush();
 
-        
+
 
         $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
 
         $this->assertEquals('success', $rtn['status']);
-        $this->assertEquals(SurveyPartnerParticipationHistory::STATUS_SCREENOUT, $rtn['answerStatus']);
+        $this->assertEquals(SurveyStatus::STATUS_SCREENOUT, $rtn['answerStatus']);
         $this->assertEquals('This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $rtn['errMsg']);
         $this->assertEquals($currentPoint + $screenoutPoint, $user->getPoints());
 
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                     array('user' => $user,
                         'surveyPartner' => $surveyPartner,
-                        'status' => SurveyPartnerParticipationHistory::STATUS_SCREENOUT,
+                        'status' => SurveyStatus::STATUS_SCREENOUT,
                         ));
 
         $this->assertEquals('This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId, $surveyPartnerParticipationHistory->getComment());
@@ -3213,7 +3210,7 @@ class SurveyPartnerServiceTest extends WebTestCase
     }
 
     public function testProcessForSurveyEndlink_normalUser_success(){
-        
+
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
@@ -3262,13 +3259,13 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerId = $surveyPartner->getId();
 
         $uid = $this->surveyPartnerService->encodeToken($userId, $surveyPartnerId);
-        $answerStatus = SurveyPartnerParticipationHistory::STATUS_COMPLETE;
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $clientIp = 'xxx.xxx.xxx.xxx';
 
         $surveyPartnerParticipationHistory1 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory1->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory1->setUser($user);
-        $surveyPartnerParticipationHistory1->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+        $surveyPartnerParticipationHistory1->setStatus(SurveyStatus::STATUS_INIT);
         $surveyPartnerParticipationHistory1->setCreatedAt($now->sub(new \DateInterval('P0DT05M')));
         $this->em->persist($surveyPartnerParticipationHistory1);
 
@@ -3276,14 +3273,14 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartnerParticipationHistory2 = new SurveyPartnerParticipationHistory();
         $surveyPartnerParticipationHistory2->setSurveyPartner($surveyPartner);
         $surveyPartnerParticipationHistory2->setUser($user);
-        $surveyPartnerParticipationHistory2->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+        $surveyPartnerParticipationHistory2->setStatus(SurveyStatus::STATUS_FORWARD);
         $surveyPartnerParticipationHistory2->setCreatedAt($now->sub(new \DateInterval('P0DT05M')));
         $surveyPartnerParticipationHistory2->setUKey($uid);
         $surveyPartnerParticipationHistory2->setClientIp($clientIp);
         $this->em->persist($surveyPartnerParticipationHistory2);
         $this->em->flush();
 
-        
+
 
         $rtn = $this->surveyPartnerService->processForSurveyEndlink($uid, $answerStatus, $clientIp);
 

@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * AdminSurvey
@@ -124,12 +125,12 @@ class AdminSurveyPartnerService
     public function getSurveyPartnerParticipationSummary($surveryPartner){
         $summary = array();
 
-        $initCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_INIT);
-        $forwardCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_FORWARD);
-        $completeCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_COMPLETE);
-        $screenoutCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_SCREENOUT);
-        $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_QUOTAFULL);
-        $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyPartnerParticipationHistory::STATUS_ERROR);
+        $initCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_INIT);
+        $forwardCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_FORWARD);
+        $completeCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_COMPLETE);
+        $screenoutCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_SCREENOUT);
+        $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_QUOTAFULL);
+        $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_ERROR);
 
         $summary['initCount'] = $initCount;
         $summary['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
@@ -168,17 +169,17 @@ class AdminSurveyPartnerService
             $end->add(new \DateInterval('P01D'));
 
             $initCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_INIT, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_INIT, $start, $end);
             $forwardCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_FORWARD, $start, $end);
             $completeCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_COMPLETE, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_COMPLETE, $start, $end);
             $screenoutCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_SCREENOUT, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_SCREENOUT, $start, $end);
             $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_QUOTAFULL, $start, $end);
             $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')
-            ->getCountByStatus(SurveyPartnerParticipationHistory::STATUS_ERROR, $start, $end);
+            ->getCountByStatus(SurveyStatus::STATUS_ERROR, $start, $end);
 
             $dailyReport = array();
             $dailyReport['initCount'] = $initCount;

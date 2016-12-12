@@ -7,8 +7,9 @@ use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Base64Url\Base64Url;
 
@@ -200,7 +201,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -373,7 +374,7 @@ class SurveyPartnerService
                 $rtn['errMsg'] = $errMsg;
                 return $rtn;
             }
-            
+
             $token = '';
             if(SurveyPartner::PARTNER_FORSURVEY == $surveyPartner->getPartnerName()){
                 // forSurvey的时候，用 userId, surveyPartnerId, secretKey编码而成token去替换url中的__UID__
@@ -383,7 +384,7 @@ class SurveyPartnerService
                 // 替换标准问卷url中的__UID__部分为userId
                 $rtn['surveyUrl'] = $this->generateSurveyUrlForUser($surveyPartner->getUrl(), $user->getId());
             }
-            
+
             // 检查这个用户是否符合这个项目的要求
             $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
             if($validResult['result'] != 'success'){
@@ -404,7 +405,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_INIT);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_INIT);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
                 $this->em->persist($surveyPartnerParticipationHistory);
@@ -412,7 +413,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setUKey($token);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
@@ -427,7 +428,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory = new SurveyPartnerParticipationHistory();
                 $surveyPartnerParticipationHistory->setUser($user);
                 $surveyPartnerParticipationHistory->setSurveyPartner($surveyPartner);
-                $surveyPartnerParticipationHistory->setStatus(SurveyPartnerParticipationHistory::STATUS_FORWARD);
+                $surveyPartnerParticipationHistory->setStatus(SurveyStatus::STATUS_FORWARD);
                 $surveyPartnerParticipationHistory->setClientIp($locationInfo['clientIp']);
                 $surveyPartnerParticipationHistory->setUKey($token);
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
@@ -478,13 +479,13 @@ class SurveyPartnerService
         $rtn['errMsg'] = '';
 
         // 检查answerStatus是否合法
-        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $answerStatus){
+        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_SCREENOUT == $answerStatus){
+        } else if(SurveyStatus::STATUS_SCREENOUT == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_QUOTAFULL == $answerStatus){
+        } else if(SurveyStatus::STATUS_QUOTAFULL == $answerStatus){
 
-        } else if(SurveyPartnerParticipationHistory::STATUS_ERROR == $answerStatus){
+        } else if(SurveyStatus::STATUS_ERROR == $answerStatus){
 
         } else {
             $rtn['status'] = false;
@@ -628,7 +629,7 @@ class SurveyPartnerService
         $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    'status' => SurveyStatus::STATUS_FORWARD,
                     ));
         if(empty($forwardParticipationHistory)){
             $errMsg = 'Participation history in forward is not exist. userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
@@ -658,7 +659,7 @@ class SurveyPartnerService
         }
 
         // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，处理为screenout
-        if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
             $now = new \DateTime();
 
             $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
@@ -667,7 +668,7 @@ class SurveyPartnerService
                 $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyPartnerId=' . $surveyPartnerId;
                 $this->logger->warn(__METHOD__ . ' '. $errMsg);
                 // 完成回答过快，状态改为screenout
-                $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                $rtn['answerStatus'] = SurveyStatus::STATUS_SCREENOUT;
                 $rtn['errMsg'] = $errMsg;
             }
         }
@@ -686,7 +687,7 @@ class SurveyPartnerService
         $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
 
         $this->em->persist($surveyPartnerParticipationHistory);
-        
+
         // 发积分
         $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $uid);
         $this->em->flush();
@@ -775,7 +776,7 @@ class SurveyPartnerService
                 $forwardParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
                     'surveyPartner' => $surveyPartner,
-                    'status' => SurveyPartnerParticipationHistory::STATUS_FORWARD,
+                    'status' => SurveyStatus::STATUS_FORWARD,
                     ));
 
                 if(empty($forwardParticipationHistory)){
@@ -797,7 +798,7 @@ class SurveyPartnerService
                 }
 
                 // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，不处理
-                if(SurveyPartnerParticipationHistory::STATUS_COMPLETE == $rtn['answerStatus']){
+                if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
                     $now = new \DateTime();
 
                     $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
@@ -808,7 +809,7 @@ class SurveyPartnerService
                         $errMsg = 'This is a too fast complete. userId = ' . $userId . ' surveyId=' . $surveyId . ' partnerName=' . $partnerName;
                         $this->logger->warn(__METHOD__ . ' '. $errMsg);
                         // 完成回答过快，状态改为screenout
-                        $rtn['answerStatus'] = SurveyPartnerParticipationHistory::STATUS_SCREENOUT;
+                        $rtn['answerStatus'] = SurveyStatus::STATUS_SCREENOUT;
                         $rtn['errMsg'] = $errMsg;
                     }
                 }
@@ -871,7 +872,7 @@ class SurveyPartnerService
         if(SurveyPartner::TYPE_EXPENSE == $surveyPartner->getType()){
             // expense类型的问卷
             // 给用户加积分
-            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+            if($answerStatus == SurveyStatus::STATUS_COMPLETE){
                 $this->pointService->addPoints(
                     $user,
                     $surveyPartner->getCompletePoint(),
@@ -880,7 +881,7 @@ class SurveyPartnerService
                     $this->generateSurveyTitleWithSurveyId($surveyPartner)
                     );
                 $result['rewardedPoint'] = $surveyPartner->getCompletePoint();
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+            } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
                 // 给用户加积分
                 $this->pointService->addPoints(
                     $user,
@@ -890,7 +891,7 @@ class SurveyPartnerService
                     $this->generateSurveyTitleWithSurveyId($surveyPartner)
                     );
                 $result['rewardedPoint'] = $surveyPartner->getScreenoutPoint();
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+            } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
                 $this->pointService->addPoints(
                     $user,
                     $surveyPartner->getQuotafullPoint(),
@@ -904,7 +905,7 @@ class SurveyPartnerService
             }
         } else {
             // cost 类型的问卷
-            if($answerStatus == SurveyPartnerParticipationHistory::STATUS_COMPLETE){
+            if($answerStatus == SurveyStatus::STATUS_COMPLETE){
 
                 // 给用户加积分
                 $this->pointService->addPoints(
@@ -937,7 +938,7 @@ class SurveyPartnerService
                 if($prizeTicket){
                     $result['ticketCreated'] = true;
                 }
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_SCREENOUT){
+            } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -959,7 +960,7 @@ class SurveyPartnerService
                 if($prizeTicket){
                     $result['ticketCreated'] = true;
                 }
-            } elseif($answerStatus == SurveyPartnerParticipationHistory::STATUS_QUOTAFULL){
+            } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -982,7 +983,7 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } else{
-                
+
             }
         }
         return $result;

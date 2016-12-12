@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -7,8 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Wenwen\AppBundle\Entity\FulcrumResearchSurveyParticipationHistory;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 {
@@ -24,10 +26,8 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('start panel:reward-fulcrum-point: '.date('Y-m-d H:i:s'));
-        $this->sop_configure = $this->getContainer()->getParameter('sop');
         $this->setLogger('reward-fulcrum-point');
         return parent::execute($input, $output);
-
     }
 
     protected function point($history)
@@ -56,8 +56,8 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        return $this->sop_configure['api_v1_1_fulcrum_surveys_research_participation_history'];
-
+        $sop_configure = $this->getContainer()->getParameter('sop');
+        return $sop_configure['api_v1_1_fulcrum_surveys_research_participation_history'];
     }
 
     protected function requiredFields()
@@ -84,31 +84,35 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function skipRewardAlreadyExisted($history)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $records = $em->getRepository('WenwenAppBundle:FulcrumResearchSurveyParticipationHistory')->findBy(array (
-            'fulcrumProjectId' => $history['survey_id'],
-            'appMemberId' => $history['app_mid']
+        $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
+        $participations = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
+            //'appMid' => $history['app_mid'],
+            'surveyId' => $history['survey_id'],
+            'userId' => $userId,
         ));
-        if (count($records) > 0) {
-            return true;
+        if (count($participations) < 3) {
+            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
+        }
+        if (count($participations) == 4) {
+            foreach ($participations as $participation) {
+                if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     protected function createParticipationHistory($history)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $history_model = new FulcrumResearchSurveyParticipationHistory();
-
-        $history_model->setFulcrumProjectID($history['survey_id']);
-        $history_model->setFulcrumProjectQuotaID($history['quota_id']);
-        $history_model->setAppMemberID($history['app_mid']);
-        $history_model->setPoint($history['extra_info']['point']);
-        $history_model->setType($history['extra_info']['point_type']);
-        $em->persist($history_model);
-        $em->flush();
+        return $this->getContainer()->get('app.survey_fulcrum_service')->createParticipationByAppMid(
+            $history['app_mid'],
+            $history['survey_id'],
+            $history['answer_status']
+        );
     }
 
-    protected function getVendorName() {
+    protected function getPanelType() {
         return 'Fulcrum';
     }
 }

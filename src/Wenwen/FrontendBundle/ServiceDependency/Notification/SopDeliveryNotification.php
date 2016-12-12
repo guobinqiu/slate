@@ -4,19 +4,25 @@ namespace Wenwen\FrontendBundle\ServiceDependency\Notification;
 
 use Doctrine\ORM\EntityManager;
 use JMS\JobQueueBundle\Entity\Job;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Services\SurveySopService;
 
 class SopDeliveryNotification implements DeliveryNotification
 {
-    protected $em;
+    private $em;
+    private $surveySopService;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, SurveySopService $surveySopService) {
         $this->em = $em;
+        $this->surveySopService = $surveySopService;
     }
 
     public function send(array $respondents) {
         //$unsubscribed_app_mids = array();
+        $this->surveySopService->createSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
+            $this->surveySopService->createParticipationByAppMid($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
             $recipient = $this->getRecipient($respondent['app_mid']);
             if ($recipient['email']) {
                 if ($this->isSubscribed($recipient['email'])) {
@@ -31,16 +37,9 @@ class SopDeliveryNotification implements DeliveryNotification
             //}
         }
         //return $unsubscribed_app_mids;
-
-        return array (
-            'meta' => array (
-                'code' => 200,
-                'message' => ''
-            )
-        );
     }
 
-    protected function runJob($respondent, $channel = null) {
+    private function runJob($respondent, $channel = null) {
         $name1 = $respondent['recipient']['name1'];
         if ($name1 == null) {
             $name1 = $respondent['recipient']['email'];
@@ -51,6 +50,7 @@ class SopDeliveryNotification implements DeliveryNotification
         $completePoint = $respondent['extra_info']['point']['complete'];
         $loi = $respondent['loi'];
         $surveyId = $respondent['survey_id'];
+        $surveyDifficulty = $this->getSurveyDifficulty($respondent['ir']);
 
         // 随机从下面挑选一个名称作为邮件标题
         $subjects = array(
@@ -69,6 +69,7 @@ class SopDeliveryNotification implements DeliveryNotification
             '--survey_length='.$loi,
             '--subject='.$subject,
             '--survey_id='.$surveyId,
+            '--survey_difficulty='.$surveyDifficulty,
             //'--channel='.$channel,//sendcloud
         ), true, '91wenwen');
         $this->em->persist($job);
@@ -83,6 +84,17 @@ class SopDeliveryNotification implements DeliveryNotification
     private function isSubscribed($email) {
         $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         return count($userEdmUnsubscribes) == 0;
+    }
+
+    private function getSurveyDifficulty($ir){
+        $difficulty = '普通';
+        if($ir < 20 && $ir > 0){
+            $difficulty = '困难';
+        }
+        if($ir > 70){
+            $difficulty = '简单';
+        }
+        return $difficulty;
     }
 
 //    private function getChannel($i) {

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * @Route("/project_survey")
@@ -13,17 +15,37 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ProjectSurveyController extends BaseController implements UserAuthenticationController
 {
     /**
-     * @Route("/information", name="_project_survey_information", options={"expose"=true})
+     * @Route("/information", name="_project_survey_information")
      */
     public function informationAction(Request $request)
     {
-        $user_id = $request->getSession()->get('uid');
         $research = $request->query->get('research');
-        $research = $this->get('app.survey_service')->addSurveyUrlToken($research, $user_id);
+        $user = $this->getCurrentUser();
+        $this->get('app.survey_sop_service')->createParticipationByUserId(
+            $user->getId(),
+            $research['survey_id'],
+            SurveyStatus::STATUS_INIT,
+            $request->getClientIp()
+        );
+        $notifiable = $this->get('app.survey_sop_service')->isNotifiableSurvey($research['survey_id']);
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $research, 'notifiable' => $notifiable));
+    }
 
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array(
-            'research' => $research
-        ));
+    /**
+     * @Route("/forward", name="_project_survey_forward")
+     */
+    public function forwardAction(Request $request)
+    {
+        $research = $request->query->get('research');
+        $user = $this->getCurrentUser();
+        $this->get('app.survey_sop_service')->createParticipationByUserId(
+            $user->getId(),
+            $research['survey_id'],
+            SurveyStatus::STATUS_FORWARD,
+            $request->getClientIp()
+        );
+        $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $user->getId());
+        return $this->redirect($research['url']);
     }
 
     /**
@@ -31,20 +53,39 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function endlinkAction(Request $request, $survey_id, $answer_status)
     {
-        $this->get('logger')->info('sop endlink tid=' . $request->query->get('tid'));
-
-        $ticket_created = $this->get('app.survey_service')->createSurveyPrizeTicket(
+        $tid = $request->query->get('tid');
+        $app_mid = $request->query->get('app_mid');
+        if (!SurveyStatus::isValid($answer_status)) {
+            throw new \InvalidArgumentException("sop invalid answer status: {$answer_status}");
+        }
+        $user = $this->getCurrentUser();
+        $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
+        if ($app_mid != $app_mid2) {
+            throw new \InvalidArgumentException("sop app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
+        }
+        $this->get('app.survey_sop_service')->processSurveyEndlink(
             $survey_id,
-            $request->query->get('tid'),
-            $this->getCurrentUser(),
+            $tid,
+            $user,
             $answer_status,
-            'sop商业问卷'
+            $request->getClientIp()
         );
-
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
+        $point = $this->get('app.survey_sop_service')->getSurveyPoint($user->getId(), $survey_id);
+        return $this->redirect($this->generateUrl('_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
-            'ticket_created' => $ticket_created
+            'point' => $point,
+        )));
+    }
+
+    /**
+     * @Route("/endpage", name="_project_survey_endpage")
+     */
+    public function endlinkPageAction(Request $request) {
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:endlink.html.twig', array(
+            'answer_status' => $request->query->get('answer_status'),
+            'survey_id' => $request->query->get('survey_id'),
+            'point' => $request->query->get('point'),
         ));
     }
 
@@ -53,15 +94,11 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function profileQuestionnaireEndlinkCompleteAction(Request $request)
     {
-        $ticket_created = $this->get('app.survey_service')->createProfilingPrizeTicket(
+        $this->get('app.survey_sop_service')->processProfilingEndlink(
             $this->getCurrentUser(),
-            $request->query->get('tid'),
-            'sop属性问卷'
+            $request->query->get('tid')
         );
-
-        return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig', array(
-            'ticket_created' => $ticket_created
-        ));
+        return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig');
     }
 
     /**

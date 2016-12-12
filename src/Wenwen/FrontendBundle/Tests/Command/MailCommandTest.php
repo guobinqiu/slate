@@ -64,8 +64,20 @@ class MailCommandTest extends WebTestCase {
             '--survey_point' => 10,
             '--survey_length' => 10,
             '--subject' => 'sop delivery notification',
-            '--survey_id' => 7548
+            '--survey_id' => 1,
+            '--survey_difficulty' => '困难',
             //'--channel' => 'channel2',//sendcloud
+        ));
+
+        $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--name1' => 'Guobin',
+            '--email' => 'qracle@126.com',
+            '--survey_title' => 'sop2',
+            '--survey_point' => 10,
+            '--survey_length' => 10,
+            '--subject' => 'sop delivery notification',
+            '--survey_id' => 7548,
         ));
     }
 

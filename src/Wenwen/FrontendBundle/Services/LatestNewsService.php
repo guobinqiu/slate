@@ -5,8 +5,8 @@ namespace Wenwen\FrontendBundle\Services;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 

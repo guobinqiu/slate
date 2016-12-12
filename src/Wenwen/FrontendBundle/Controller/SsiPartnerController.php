@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Wenwen\FrontendBundle\Form\SsiPartnerPermissionType;
 use Wenwen\AppBundle\Entity\SsiRespondent;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 /**
  * @Route("/ssi_partner")
@@ -181,10 +181,11 @@ class SsiPartnerController extends BaseController
 
         // 念入り
         if ($ssi_respondent->needPrescreening()) {
+            $em = $this->getDoctrine()->getManager();
+            $db_connection = $em->getConnection();
+            $db_connection->beginTransaction();
+
             try {
-                $em = $this->getDoctrine()->getManager();
-                $db_connection = $em->getConnection();
-                $db_connection->beginTransaction();
 
                 // ステータスを書き換えてポイント付与
                 $ssi_respondent->setStatusFlag(SsiRespondent::STATUS_PRESCREENED);
@@ -194,7 +195,14 @@ class SsiPartnerController extends BaseController
                 // add point
                 $user_id = $request->getSession()->get('uid');
                 $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-                $this->get('app.point_service')->addPoints($user, $configSsi['agreement_point'], CategoryType::SSI_EXPENSE, TaskType::RENTENTION, '完成海外市场调查项目Prescreen');
+                $this->get('app.point_service')->addPoints(
+                    $user,
+                    $configSsi['agreement_point'],
+                    CategoryType::SSI_EXPENSE,
+                    TaskType::RENTENTION,
+                    '完成海外市场调查项目Prescreen',
+                    $ssi_respondent
+                );
 
                 $db_connection->commit();
             } catch (\Exception $e) {

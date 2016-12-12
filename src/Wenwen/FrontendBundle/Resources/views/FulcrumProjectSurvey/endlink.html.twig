@@ -20,12 +20,13 @@
                             <div class="txt">
                                 <img src="{{ asset('img/questionnaire/normalface.png') }}">
                                 <h2>亲爱的用户！</h2>
-                                <p>感谢您参加本次的问卷调查。<br>审核后如问卷回答成功，积分会在调查结束后的次日自动累计。</p>
-                                <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+                                {% if point > 0 %}
+                                    <p>感谢您参加本次的问卷调查，恭喜您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                                {% else %}
+                                    <p>感谢您参加本次的问卷调查，积分会在调查结束后的次日自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                                {% endif %}
                             </div>
-                            {% if ticket_created %}
-                                <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-                            {% endif %}
+                            <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                         </div>
                     </div>
                     {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}

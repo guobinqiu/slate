@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Affiliate\AppBundle\Entity\AffiliateUrlHistory;
 use Affiliate\AppBundle\Entity\AffiliateProject;
 use Affiliate\AppBundle\Entity\AffiliatePartner;
-
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 
 class AffiliateSurveyControllerTest extends WebTestCase
@@ -77,7 +77,7 @@ class AffiliateSurveyControllerTest extends WebTestCase
         
         $uKey = '09901562asarccm88ui8';
         $surveyUrl  = "http://r.researchpanelasia.com.dev1.researchpanelasia.com/redirect/forward/784/1562/09901562asarccm88ui8";
-        $urlStatus = AffiliateUrlHistory::SURVEY_STATUS_FORWARD;
+        $urlStatus = SurveyStatus::STATUS_FORWARD;
 
         $affiliateProject = new AffiliateProject();
         $affiliateProject->setAffiliatePartner($affiliatePartner);
@@ -105,7 +105,7 @@ class AffiliateSurveyControllerTest extends WebTestCase
         $url = static::$kernel->getContainer()->get('router')->generate('affiliate_endpage');
 
         $crawler = $client->request('GET', $url, array (
-            'status' => AffiliateUrlHistory::SURVEY_STATUS_COMPLETE,
+            'status' => SurveyStatus::STATUS_COMPLETE,
             'uniq_key' => $uKey,
             ));
         

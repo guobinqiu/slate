@@ -7,8 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
-use Wenwen\FrontendBundle\Entity\CategoryType;
-use Wenwen\FrontendBundle\Entity\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Model\TaskType;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
@@ -155,9 +156,10 @@ class RegistrationController extends BaseController
             CategoryType::SIGNUP,
             TaskType::RENTENTION,
             '完成注册',
-            0,
             null,
-            true
+            new \DateTime(),
+            true,
+            PrizeItem::TYPE_SMALL
         );
 
         // 同时给邀请人加积分
@@ -166,7 +168,11 @@ class RegistrationController extends BaseController
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            '您的好友' . $user->getNick(). '完成了注册'
+            '您的好友' . $user->getNick(). '完成了注册',
+            null,
+            new \DateTime(),
+            true,
+            PrizeItem::TYPE_SMALL
         );
 
         $this->pushBasicProfile($user);// 推送用户基本属性
@@ -190,6 +196,9 @@ class RegistrationController extends BaseController
     public function profileSurvey(Request $request)
     {
         $userId = $request->getSession()->get('uid');
+        if ($userId == null) {
+            $this->redirect($this->generateUrl('_homepage'));
+        }
         $sop_profiling_info = $this->getSopProfilingSurveyInfo($userId);
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
@@ -215,6 +224,7 @@ class RegistrationController extends BaseController
             '--user_id=' . $user->getId(),
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
         $em = $this->getDoctrine()->getManager();
         $em->persist($job);
         $em->flush();
