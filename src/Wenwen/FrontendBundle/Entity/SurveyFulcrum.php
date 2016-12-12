@@ -553,14 +553,15 @@ class SurveyFulcrum
      * @return int
      */
     public function getPoints($answerStatus) {
+        $points = null;
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
-            return $this->getCompletePoint();
+            $points = $this->getCompletePoint();
         } elseif ($answerStatus == SurveyStatus::STATUS_SCREENOUT) {
-            return $this->getScreenoutPoint();
+            $points = $this->getScreenoutPoint();
         } elseif ($answerStatus == SurveyStatus::STATUS_QUOTAFULL) {
-            return $this->getQuotafullPoint();
+            $points = $this->getQuotafullPoint();
         }
-        return 0;
+        return $points == null ? 0 : $points;
     }
 
     /**
