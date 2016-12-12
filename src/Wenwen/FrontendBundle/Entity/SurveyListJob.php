@@ -40,14 +40,14 @@ class SurveyListJob
     /**
      * @var integer
      *
-     * @ORM\Column(name="userId", type="integer")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $userId;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
