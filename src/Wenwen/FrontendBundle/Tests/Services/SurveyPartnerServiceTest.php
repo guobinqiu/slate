@@ -1962,7 +1962,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('success', $rtn['status'], 'complete的太快了');
 
         $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($currentPoint + $screenoutPoint, $afterUser->getPoints(), 'complete的太快了，只给screenout的积分');
+        $this->assertEquals($screenoutPoint, $afterUser->getPoints(), 'complete的太快了，只给screenout的积分');
 
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
                 array('user' => $user,
