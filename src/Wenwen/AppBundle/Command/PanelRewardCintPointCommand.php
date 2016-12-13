@@ -95,13 +95,13 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 //        if (count($participations) < 3) {
 //            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
 //        }
-        if (count($participations) == 4) {
+//        if (count($participations) == 4) {
             foreach ($participations as $participation) {
                 if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
                     return true;
                 }
             }
-        }
+//        }
         return false;
     }
 

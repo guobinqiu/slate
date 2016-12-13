@@ -134,7 +134,7 @@ class SurveyCintParticipationHistory
      */
     public function setStatus($status)
     {
-        $this->status = $status;
+        $this->status = strtolower($status);
 
         return $this;
     }

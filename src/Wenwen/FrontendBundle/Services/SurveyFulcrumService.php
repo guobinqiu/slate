@@ -122,7 +122,7 @@ class SurveyFulcrumService
             $participation = new SurveyFulcrumParticipationHistory();
 //            $participation->setAppMid($appMid);
             $participation->setSurveyId($surveyId);
-            $participation->setStatus(strtolower($answerStatus));
+            $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
             $participation->setUserId($userId);
             $this->em->persist($participation);
