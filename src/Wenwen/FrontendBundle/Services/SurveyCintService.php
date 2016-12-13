@@ -123,7 +123,7 @@ class SurveyCintService
             $participation = new SurveyCintParticipationHistory();
 //            $participation->setAppMid($appMid);
             $participation->setSurveyId($surveyId);
-            $participation->setStatus($answerStatus);
+            $participation->setStatus(strtolower($answerStatus));
             $participation->setClientIp($clientIp);
             $participation->setUserId($userId);
             $this->em->persist($participation);
