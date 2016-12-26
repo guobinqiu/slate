@@ -93,6 +93,7 @@ sub do_task {
     my $sum_exchanged_alipay_points     = $self->get_exchanged_alipay_points();
     my $sum_exchanged_mobile_fee_points = $self->get_exchanged_mobile_fee_points();
     my $total_exchanged_points = $sum_exchanged_alipay_points + $sum_exchanged_mobile_fee_points;
+    my $total_rest_points = $self->get_total_rest_points();
 
     my $sum_cps_chanet_order_cost_points   = $self->get_cps_chanet_order_cost_points();
     my $sum_cps_emar_order_cost_points     = $self->get_cps_emar_order_cost_points();
@@ -110,6 +111,7 @@ sub do_task {
     $buff = $buff . sprintf "Total Expense Points. \n=> %d\n", $total_expense_points;
     $buff = $buff . sprintf "Total Expired Points. \n=> %d\n", $sum_expired_points;
     $buff = $buff . sprintf "Total Exchanged Points. \n=> %d\n", $total_exchanged_points;
+    $buff = $buff . sprintf "Total Rest Points. \n=> %d\n", $total_rest_points;
     $buff = $buff . sprintf "\n";
     $buff = $buff . sprintf "-------------------------- \n";
     $buff = $buff . sprintf "Cost Details\n";
@@ -341,6 +343,17 @@ sub get_cpa_offerwow_order_cost_points {
         = Wenwen::Model::Service::PointsSummary->sum_cpa_offerwow_order_cost_points($handle,
         $self->from_date, $self->to_date);
     return $cpa_offerwow_cost_points;
+}
+
+##
+#   Total Rest Points
+##
+sub get_total_rest_points {
+    my $self = shift;
+
+    my $total_rest_points
+        = Wenwen::Model::Service::PointsSummary->sum_total_rest_points($handle);
+    return $total_rest_points;
 }
 
 1;
