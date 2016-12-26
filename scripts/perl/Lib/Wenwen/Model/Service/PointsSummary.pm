@@ -452,4 +452,22 @@ sub sum_cpa_offerwow_order_cost_points {
     return $total_sum;
 }
 
+# total rest points of users
+sub sum_total_rest_points {
+    my ($class, $handle) = @_;
+    my $dbh = $handle->dbh;
+
+    my $sql = "
+        SELECT
+            sum(u.points)
+        FROM user u 
+    ";
+
+    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+    $sth->execute() or die $dbh->errstr;
+    my $total_sum = $sth->fetchall_arrayref()->[0][0];
+
+    return $total_sum;
+}
+
 1;
