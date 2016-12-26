@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>???????</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped">
+    <caption>过去30天的参与情况</caption>
+    <thead>
+        <tr>
+            <th>date</th>
+            <th>total</th>
+            <th>init</th>
+            <th>forward</th>
+            <th>complete</th>
+            <th>screenout</th>
+            <th>quotafull</th>
+            <th>error</th>
+            <th>cvr1(%)</th>
+            <th>cvr2(%)</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for data in result %}
+    <tr>
+        <td>{{ data.date }}</td>
+        <td>{{ data.total }}</td>
+        <td>{{ data.init }}</td>
+        <td>{{ data.forward }}</td>
+        <td>{{ data.complete }}</td>
+        <td>{{ data.screenout }}</td>
+        <td>{{ data.quotafull }}</td>
+        <td>{{ data.error }}</td>
+        <td>{{ data.cvr1 }}</td>
+        <td>{{ data.cvr2 }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

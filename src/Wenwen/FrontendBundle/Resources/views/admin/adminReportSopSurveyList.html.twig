@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+{% block header %}
+    <meta charset="UTF-8">
+    <title>???????</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped">
+    <caption>问卷项目一览</caption>
+    <thead>
+        <tr>
+            <th>survey_id</th>
+            <th>quota_id</th>
+            <th>loi</th>
+            <th>ir</th>
+            <th>cpi</th>
+            <th>title</th>
+            <th>complete_point</th>
+            <th>screenout_point</th>
+            <th>quotafull_point</th>
+            <th>start_date</th>
+            <th>end_date</th>
+            <th>is_closed</th>
+            <th>is_fixed_loi</th>
+            <th>is_notifiable</th>
+            <th>created_at</th>
+            <th>updated_at</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for survey in pagination %}
+    <tr>
+        <td>{{ survey.survey_id }}</td>
+        <td>{{ survey.quota_id }}</td>
+        <td>{{ survey.loi }}</td>
+        <td>{{ survey.ir }}</td>
+        <td>{{ survey.cpi }}</td>
+        <td>{{ survey.title }}</td>
+        <td>{{ survey.completePoint }}</td>
+        <td>{{ survey.screenoutPoint }}</td>
+        <td>{{ survey.quotafullPoint }}</td>
+        <td>{{ survey.startDate|date('Y-m-d H:i:s') }}</td>
+        <td>{{ survey.endDate|date('Y-m-d H:i:s') }}</td>
+        <td>{{ survey.isClosed }}</td>
+        <td>{{ survey.isFixedLoi }}</td>
+        <td>{{ survey.isNotifiable }}</td>
+        <td>{{ survey.createdAt|date('Y-m-d H:i:s') }}</td>
+        <td>{{ survey.updatedAt|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}
