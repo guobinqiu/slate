@@ -39,16 +39,16 @@
         <td>{{ survey.ir }}</td>
         <td>{{ survey.cpi }}</td>
         <td>{{ survey.title }}</td>
-        <td>{{ survey.completePoint }}</td>
-        <td>{{ survey.screenoutPoint }}</td>
-        <td>{{ survey.quotafullPoint }}</td>
-        <td>{{ survey.startDate|date('Y-m-d H:i:s') }}</td>
-        <td>{{ survey.endDate|date('Y-m-d H:i:s') }}</td>
-        <td>{{ survey.isClosed }}</td>
-        <td>{{ survey.isFixedLoi }}</td>
-        <td>{{ survey.isNotifiable }}</td>
-        <td>{{ survey.createdAt|date('Y-m-d H:i:s') }}</td>
-        <td>{{ survey.updatedAt|date('Y-m-d H:i:s') }}</td>
+        <td>{{ survey.complete_point }}</td>
+        <td>{{ survey.screenout_point }}</td>
+        <td>{{ survey.quotafull_point }}</td>
+        <td>{{ survey.start_date|date('Y-m-d') }}</td>
+        <td>{{ survey.end_date|date('Y-m-d') }}</td>
+        <td>{{ survey.is_closed }}</td>
+        <td>{{ survey.is_fixed_loi }}</td>
+        <td>{{ survey.is_notifiable }}</td>
+        <td>{{ survey.created_at|date('Y-m-d H:i:s') }}</td>
+        <td>{{ survey.updated_at|date('Y-m-d H:i:s') }}</td>
     </tr>
     {% endfor %}
     </tbody>

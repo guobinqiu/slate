@@ -64,7 +64,7 @@ class AdminSopReportController extends BaseController implements IpAuthenticated
         $em = $this->getDoctrine()->getManager();
         $stmt = $em->getConnection()->executeQuery($sql);
         $result = $stmt->fetchAll();
-        $pagination = $this->get('knp_paginator')->paginate($result, $request->query->getInt('page', 1), 100);
+        $pagination = $this->get('knp_paginator')->paginate($result, $request->query->getInt('page', 1), 10);
         return $this->render('WenwenFrontendBundle:admin:adminReportSopSurveyList.html.twig', array('pagination' => $pagination));
     }
 
