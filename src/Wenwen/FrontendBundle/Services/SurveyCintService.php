@@ -73,11 +73,10 @@ class SurveyCintService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
-                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
-            }
-            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
-            //由于日本那边quota_id还没有加，这里给用户加积分的代码先注释掉
+//            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+//                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+//            }
+//            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
 //            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
 //            if ($survey != null) {
 //                $conn = $this->em->getConnection();
