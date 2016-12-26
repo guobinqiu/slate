@@ -73,38 +73,38 @@ class SurveyFulcrumService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
-                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
-            }
-            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
-            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
-            if ($survey != null) {
-                $conn = $this->em->getConnection();
-                $conn->beginTransaction();
-                try {
-                    $points = $survey->getPoints($answerStatus);
-                    $this->pointService->addPoints(
-                        $user,
-                        $points,
-                        CategoryType::FULCRUM_COST,
-                        TaskType::SURVEY,
-                        "f{$surveyId} {$survey->getTitle()}",
-                        $survey
-                    );
-                    $this->pointService->addPointsForInviter(
-                        $user,
-                        $points * 0.1,
-                        CategoryType::EVENT_INVITE_SURVEY,
-                        TaskType::RENTENTION,
-                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-                        $survey
-                    );
-                    $conn->commit();
-                } catch (\Exception $e) {
-                    $conn->rollBack();
-                    throw $e;
-                }
-            }
+//            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+//                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
+//            }
+//            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
+//            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
+//            if ($survey != null) {
+//                $conn = $this->em->getConnection();
+//                $conn->beginTransaction();
+//                try {
+//                    $points = $survey->getPoints($answerStatus);
+//                    $this->pointService->addPoints(
+//                        $user,
+//                        $points,
+//                        CategoryType::FULCRUM_COST,
+//                        TaskType::SURVEY,
+//                        "f{$surveyId} {$survey->getTitle()}",
+//                        $survey
+//                    );
+//                    $this->pointService->addPointsForInviter(
+//                        $user,
+//                        $points * 0.1,
+//                        CategoryType::EVENT_INVITE_SURVEY,
+//                        TaskType::RENTENTION,
+//                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
+//                        $survey
+//                    );
+//                    $conn->commit();
+//                } catch (\Exception $e) {
+//                    $conn->rollBack();
+//                    throw $e;
+//                }
+//            }
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
