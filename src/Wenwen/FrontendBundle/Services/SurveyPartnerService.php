@@ -73,13 +73,6 @@ class SurveyPartnerService
                 return $surveyPartners;
             }
 
-            $now = new \DateTime();
-            // 注册三天以上的用户不显示这个类型的问卷
-            if($user->getRegisterCompleteDate() <= $now->sub(new \DateInterval('P03D'))){
-                $this->logger->debug(__METHOD__ . ' register over 3 days');
-                return array();
-            }
-
             // 找到所有open的问卷项目
             $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                 array(
@@ -259,6 +252,16 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
+        if($surveyPartner->getNewUserOnly()){
+            // 这个项目只允许新用户参加
+            $now = new \DateTime();
+            // 注册三天以上的用户不显示这个类型的问卷
+            if($user->getRegisterCompleteDate() <= $now->sub(new \DateInterval('P03D'))){
+                $rtn['result'] = 'OnlyForNewUser';
+                return $rtn;
+            }
+        }
+
         if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
             $rtn['result'] = 'success';
