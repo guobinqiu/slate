@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\BackendBundle\Controller\IpAuthenticatedController;
 
-class AdminRecruitController extends BaseController implements IpAuthenticatedController
+class AdminRecruitController extends BaseController #implements IpAuthenticatedController
 {
     /**
      * @Route("/admin/recruit/report/daily/", name="admin_recruit_report_daily")

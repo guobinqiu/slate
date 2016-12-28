@@ -25,7 +25,7 @@ use Jili\ApiBundle\Utility\ValidateUtil;
 use Jili\ApiBundle\Utility\String;
 use Wenwen\FrontendBundle\Model\CategoryType;
 
-class AdminController extends Controller implements IpAuthenticatedController
+class AdminController extends Controller #implements IpAuthenticatedController
 {
     /**
      * @Route("/login", name="_admin_login")

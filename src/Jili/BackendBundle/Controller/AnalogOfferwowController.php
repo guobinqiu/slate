@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * 这个是测试用的代码，不能公开
  */
-class AnalogOfferwowController extends Controller implements  IpAuthenticatedController
+class AnalogOfferwowController extends Controller #implements  IpAuthenticatedController
 {
     /**
      * 
