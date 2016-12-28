@@ -71,6 +71,13 @@ class SurveySopParticipationHistory
     private $createdAt;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="loi", type="integer", nullable=true)
+     */
+    private $loi;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -193,6 +200,29 @@ class SurveySopParticipationHistory
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set loi
+     *
+     * @param integer $loi
+     * @return SurveySopParticipationHistory
+     */
+    public function setLoi($loi)
+    {
+        $this->loi = $loi;
+
+        return $this;
+    }
+
+    /**
+     * Get loi
+     *
+     * @return integer
+     */
+    public function getLoi()
+    {
+        return $this->loi;
     }
 
     /**

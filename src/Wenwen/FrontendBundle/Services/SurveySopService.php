@@ -73,22 +73,19 @@ class SurveySopService
     {
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-            if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
-                $answerStatus = $this->changeAnswerStatus($user->getId(), $surveyId, $answerStatus);
-            }
-            $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp);
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if ($survey != null) {
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
                 try {
+                    $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
                         $points,
                         CategoryType::SOP_COST,
                         TaskType::SURVEY,
-                        "r{$surveyId} {$survey->getTitle()}",
+                        "r{$survey->getSurveyId()} {$survey->getTitle()}",
                         $survey
                     );
                     $this->pointService->addPointsForInviter(
@@ -130,7 +127,7 @@ class SurveySopService
         }
     }
 
-    public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null)
+    public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
@@ -144,6 +141,7 @@ class SurveySopService
             $participation->setSurveyId($surveyId);
             $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
+            $participation->setLoi($loi);
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
@@ -151,10 +149,10 @@ class SurveySopService
         return $participation;
     }
 
-    public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null)
+    public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
         $userId = $this->userService->toUserId($appMid);
-        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp);
+        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
     }
 
     public function getSurveyPoint($userId, $surveyId)
@@ -251,26 +249,26 @@ class SurveySopService
         return false;
     }
 
-    public function changeAnswerStatus($userId, $surveyId, $answerStatus)
+    private function createParticipationHistory($survey, $user, $answerStatus, $clientIp)
     {
-        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
-        if ($survey != null && $survey->getLoi() > 0) {
-            $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-//              'appMid' => $appMid,
-                'surveyId' => $surveyId,
-                'status' => SurveyStatus::STATUS_FORWARD,
-                'userId' => $userId,
-            ));
-            if ($participation != null) {
-                $forwardAt = $participation->getCreatedAt()->getTimestamp();
-                $actualLoiSeconds = time() - $forwardAt;
+        $actualLoiSeconds = null;
+        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
+//            'appMid' => $appMid,
+            'surveyId' => $survey->getSurveyId(),
+            'status' => SurveyStatus::STATUS_FORWARD,
+            'userId' => $user->getId(),
+        ));
+        if ($participation != null) {
+            $forwardAt = $participation->getCreatedAt()->getTimestamp();
+            $actualLoiSeconds = time() - $forwardAt;
+            if ($survey->getLoi() > 0) {
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
-                    $this->fakeAnswerLogger->info('sop: userId=' . $userId . ',surveyId=' . $surveyId);
-                    return SurveyStatus::STATUS_SCREENOUT;
+                    $this->fakeAnswerLogger->info('sop: userId=' . $user->getId() . ',surveyId=' . $survey->getId());
+                    $answerStatus = SurveyStatus::STATUS_SCREENOUT;
                 }
             }
         }
-        return $answerStatus;
+        $this->createParticipationByUserId($user->getId(), $survey->getSurveyId(), $answerStatus, $clientIp, $actualLoiSeconds);
     }
 }

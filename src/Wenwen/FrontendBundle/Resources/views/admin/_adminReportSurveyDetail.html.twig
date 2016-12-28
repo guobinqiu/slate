@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-md-2">survey_id</div>
+    <div class="col-md-2">{{ survey.survey_id }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">title</div>
+    <div class="col-md-2">{{ survey.title }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">quota_id</div>
+    <div class="col-md-2">{{ survey.quota_id }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">loi</div>
+    <div class="col-md-2">{{ survey.loi }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">ir</div>
+    <div class="col-md-2">{{ survey.ir }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">cpi</div>
+    <div class="col-md-2">{{ survey.cpi }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">complete_point</div>
+    <div class="col-md-2">{{ survey.complete_point }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">screenout_point</div>
+    <div class="col-md-2">{{ survey.screenout_point }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">quotafull_point</div>
+    <div class="col-md-2">{{ survey.quotafull_point }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">start_date</div>
+    <div class="col-md-2">{{ survey.start_date|date('Y-m-d') }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">end_date</div>
+    <div class="col-md-2">{{ survey.end_date|date('Y-m-d') }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">is_closed</div>
+    <div class="col-md-2">{{ survey.is_closed }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">is_fixed_loi</div>
+    <div class="col-md-2">{{ survey.is_fixed_loi }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">is_notifiable</div>
+    <div class="col-md-2">{{ survey.is_notifiable }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">created_at</div>
+    <div class="col-md-2">{{ survey.created_at|date('Y-m-d H:i:s') }}</div>
+    <div class="col-md-8"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">updated_at</div>
+    <div class="col-md-2">{{ survey.updated_at|date('Y-m-d H:i:s') }}</div>
+    <div class="col-md-8"></div>
+</div>
