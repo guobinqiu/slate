@@ -42,11 +42,9 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         }
 
         foreach ($sop['data']['research'] as $survey) {
-            if ($survey['is_answered'] == 0) {
-                $surveySopService->createOrUpdateSurvey($survey);
-                //$surveySopService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-                $surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-            }
+            $surveySopService->createOrUpdateSurvey($survey);
+            //$surveySopService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['fulcrum_research'] as $survey) {
@@ -56,11 +54,9 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         }
 
         foreach ($sop['data']['cint_research'] as $survey) {
-            if ($survey['is_answered'] == 0) {
-                $surveyCintService->createOrUpdateSurvey($survey);
-                //$surveyCintService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-                $surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-            }
+            $surveyCintService->createOrUpdateSurvey($survey);
+            //$surveyCintService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+            $surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }
 }

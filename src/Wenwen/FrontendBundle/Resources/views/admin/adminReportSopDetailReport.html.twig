@@ -1,0 +1,68 @@
+{% extends 'WenwenFrontendBundle:admin:adminReportBase.html.twig' %}
+{% block title %}SOP问卷详情{% endblock %}
+{% block content %}
+    <div class='table-responsive'>
+        <table class="table table-striped table-condensed">
+            <caption>SOP问卷详情</caption>
+            <thead>
+            <tr class="active text-nowrap">
+                <th>survey_id</th>
+                <th>targeted</th>
+                <th>init</th>
+                <th>forward</th>
+                <th>complete</th>
+                <th>screenout</th>
+                <th>quotafull</th>
+                <th>error</th>
+                <th>real_ir(%)</th>
+                <th>CVR(init -> forward)(%)</th>
+                <th>CVR(forward -> csqe)(%)</th>
+                <th>CVR(targeted -> csqe)(%)</th>
+                <th>avg_complete_loi(min)</th>
+                <th>avg_screenout_loi(min)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for survey in pagination %}
+                <tr class="text-nowrap" data-toggle="collapse" data-target="#accordion{{ loop.index }}">
+                    <td>{{ survey.survey_id }}</td>
+                    <td>{{ survey.targeted_count }}</td>
+                    <td>{{ survey.init_count }}</td>
+                    <td>{{ survey.forward_count }}</td>
+                    <td>{{ survey.complete_count }}</td>
+                    <td>{{ survey.screenout_count }}</td>
+                    <td>{{ survey.quotafull_count }}</td>
+                    <td>{{ survey.error_count }}</td>
+                    <td>{{ survey.real_ir }}</td>
+                    <td>{{ survey.cvr1 }}</td>
+                    <td>{{ survey.cvr2 }}</td>
+                    <td>{{ survey.cvr3 }}</td>
+                    <td>{{ survey.avg_complete_loi }}</td>
+                    <td>{{ survey.avg_screenout_loi }}</td>
+                </tr>
+                <tr>
+                    <td colspan="99">
+                        <div id="accordion{{ loop.index }}" class="collapse">
+                            {% include 'WenwenFrontendBundle:admin:_adminReportSurveyDetail.html.twig' %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("table").floatThead({
+                responsiveContainer: function($table){
+                    return $table.closest('.table-responsive');
+                }
+            });
+        });
+    </script>
+{% endblock %}
