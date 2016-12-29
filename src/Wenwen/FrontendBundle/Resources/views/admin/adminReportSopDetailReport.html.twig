@@ -14,24 +14,12 @@
                 <th>screenout</th>
                 <th>quotafull</th>
                 <th>error</th>
+                <th>real_ir(%)</th>
                 <th>CVR(init -> forward)(%)</th>
                 <th>CVR(forward -> csqe)(%)</th>
-                <th>avg_complete_loi(sec)</th>
-                <th>avg_screenout_loi(sec)</th>
-                {#<th>quota_id</th>#}
-                {#<th>loi</th>#}
-                {#<th>ir</th>#}
-                {#<th>cpi</th>#}
-                {#<th>complete_point</th>#}
-                {#<th>screenout_point</th>#}
-                {#<th>quotafull_point</th>#}
-                {#<th>start_date</th>#}
-                {#<th>end_date</th>#}
-                {#<th>is_closed</th>#}
-                {#<th>is_fixed_loi</th>#}
-                {#<th>is_notifiable</th>#}
-                {#<th>created_at</th>#}
-                {#<th>updated_at</th>#}
+                <th>CVR(targeted -> csqe)(%)</th>
+                <th>avg_complete_loi(min)</th>
+                <th>avg_screenout_loi(min)</th>
             </tr>
             </thead>
             <tbody>
@@ -45,27 +33,15 @@
                     <td>{{ survey.screenout_count }}</td>
                     <td>{{ survey.quotafull_count }}</td>
                     <td>{{ survey.error_count }}</td>
+                    <td>{{ survey.real_ir }}</td>
                     <td>{{ survey.cvr1 }}</td>
                     <td>{{ survey.cvr2 }}</td>
+                    <td>{{ survey.cvr3 }}</td>
                     <td>{{ survey.avg_complete_loi }}</td>
                     <td>{{ survey.avg_screenout_loi }}</td>
-                    {#<td>{{ survey.quota_id }}</td>#}
-                    {#<td>{{ survey.loi }}</td>#}
-                    {#<td>{{ survey.ir }}</td>#}
-                    {#<td>{{ survey.cpi }}</td>#}
-                    {#<td>{{ survey.complete_point }}</td>#}
-                    {#<td>{{ survey.screenout_point }}</td>#}
-                    {#<td>{{ survey.quotafull_point }}</td>#}
-                    {#<td>{{ survey.start_date|date('Y-m-d') }}</td>#}
-                    {#<td>{{ survey.end_date|date('Y-m-d') }}</td>#}
-                    {#<td>{{ survey.is_closed }}</td>#}
-                    {#<td>{{ survey.is_fixed_loi }}</td>#}
-                    {#<td>{{ survey.is_notifiable }}</td>#}
-                    {#<td>{{ survey.created_at|date('Y-m-d H:i:s') }}</td>#}
-                    {#<td>{{ survey.updated_at|date('Y-m-d H:i:s') }}</td>#}
                 </tr>
                 <tr>
-                    <td colspan="13">
+                    <td colspan="99">
                         <div id="accordion{{ loop.index }}" class="collapse">
                             {% include 'WenwenFrontendBundle:admin:_adminReportSurveyDetail.html.twig' %}
                         </div>

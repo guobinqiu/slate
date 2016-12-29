@@ -18,13 +18,14 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
     public function adminReportCintDailyReport(Request $request)
     {
         $sql = "
-            select t1.*,
-            round(t1.forward_count / t1.init_count * 100, 2) as cvr1,
-            round(t1.csqe_count / t1.forward_count * 100, 2) as cvr2,
-            ifnull(t2.additional, 0) as additional,
-            count(t3.id) as available
+            select *,
+            round(complete_count / csqe_count * 100, 2) as real_ir,
+            round(forward_count / init_count * 100, 2) as cvr1,
+            round(csqe_count / forward_count * 100, 2) as cvr2,
+            round(csqe_count / targeted_count * 100, 2) as cvr3
             from (
               select date(created_at) as created_date,
+              sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
               sum(case status when 'init' then 1 else 0 end) as init_count,
               sum(case status when 'forward' then 1 else 0 end) as forward_count,
               sum(case status when 'complete' then 1 else 0 end) as complete_count,
@@ -33,21 +34,10 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
               sum(case status when 'error' then 1 else 0 end) as error_count,
               sum(case when status in ('complete', 'screenout', 'quotafull', 'error') then 1 else 0 end) as csqe_count
               from survey_cint_participation_history
+              where date_sub(curdate(), interval 30 day) <= date(created_at)
               group by date(created_at)
-            ) as t1
-            left join (
-              select count(*) additional,start_date from survey_cint
-              where is_closed = 0
-              group by start_date
-            ) t2
-            on t2.start_date = t1.created_date
-            left join (
-              select * from survey_cint where is_closed = 0
-            ) t3
-            on t1.created_date >= t3.start_date
-            group by t1.created_date
-            order by t1.created_date desc
-            limit 30
+              order by date(created_at) desc
+            ) as t
         ";
 
         $em = $this->getDoctrine()->getManager();
@@ -67,8 +57,10 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
             from survey_cint a
             left join (
               select *,
+              round(complete_count / csqe_count * 100, 2) as real_ir,
               round(forward_count / init_count * 100, 2) as cvr1,
-              round(csqe_count / forward_count * 100, 2) as cvr2
+              round(csqe_count / forward_count * 100, 2) as cvr2,
+              round(csqe_count / targeted_count * 100, 2) as cvr3
               from (
                 select survey_id,
                 sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
@@ -85,7 +77,7 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
             ) b
             on a.survey_id = b.survey_id
             group by b.survey_id
-            order by a.id desc
+            order by a.is_closed desc, a.id desc
         ";
 
         $em = $this->getDoctrine()->getManager();

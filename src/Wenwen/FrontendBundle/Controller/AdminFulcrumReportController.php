@@ -18,12 +18,14 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
     public function adminReportFulcrumDailyReport(Request $request)
     {
         $sql = "
-            select t1.*,
-            round(t1.forward_count / t1.init_count * 100, 2) as cvr1,
-            round(t1.csqe_count / t1.forward_count * 100, 2) as cvr2,
-            ifnull(t2.additional, 0) as additional
+            select *,
+            round(complete_count / csqe_count * 100, 2) as real_ir,
+            round(forward_count / init_count * 100, 2) as cvr1,
+            round(csqe_count / forward_count * 100, 2) as cvr2,
+            round(csqe_count / targeted_count * 100, 2) as cvr3
             from (
               select date(created_at) as created_date,
+              sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
               sum(case status when 'init' then 1 else 0 end) as init_count,
               sum(case status when 'forward' then 1 else 0 end) as forward_count,
               sum(case status when 'complete' then 1 else 0 end) as complete_count,
@@ -32,15 +34,10 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
               sum(case status when 'error' then 1 else 0 end) as error_count,
               sum(case when status in ('complete', 'screenout', 'quotafull', 'error') then 1 else 0 end) as csqe_count
               from survey_fulcrum_participation_history
+              where date_sub(curdate(), interval 30 day) <= date(created_at)
               group by date(created_at)
-            ) as t1
-            left join (
-              select count(*) additional,start_date from survey_fulcrum
-              group by start_date
-            ) t2
-            on t2.start_date = t1.created_date
-            order by t1.created_date desc
-            limit 30
+              order by date(created_at) desc
+            ) as t
         ";
 
         $em = $this->getDoctrine()->getManager();
@@ -60,8 +57,10 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
             from survey_fulcrum a
             left join (
               select *,
+              round(complete_count / csqe_count * 100, 2) as real_ir,
               round(forward_count / init_count * 100, 2) as cvr1,
-              round(csqe_count / forward_count * 100, 2) as cvr2
+              round(csqe_count / forward_count * 100, 2) as cvr2,
+              round(csqe_count / targeted_count * 100, 2) as cvr3
               from (
                 select survey_id,
                 sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
