@@ -77,7 +77,7 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
             ) b
             on a.survey_id = b.survey_id
             group by b.survey_id
-            order by a.is_closed desc, a.id desc
+            order by a.is_closed asc, a.id desc
         ";
 
         $em = $this->getDoctrine()->getManager();
