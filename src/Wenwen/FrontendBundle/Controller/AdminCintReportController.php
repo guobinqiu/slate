@@ -87,4 +87,50 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
 
         return $this->render('WenwenFrontendBundle:admin:adminReportCintDetailReport.html.twig', array('pagination' => $pagination));
     }
+
+    /**
+     * @Route("/cint/daily_report_2", name="admin_report_cint_daily_report_2")
+     */
+    public function adminReportCintDailyReport2(Request $request)
+    {
+        $today = date('Y-m-d');
+        $addedCount = 0;
+        $closedCount = 0;
+
+        $em = $this->getDoctrine()->getManager();
+        $surveys = $em
+            ->createQuery("select t from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
+            ->setParameter(1, $today)
+            ->getResult();
+
+        foreach ($surveys as $survey) {
+            $addedCount++;
+            if ($survey->getIsClosed() === true) {
+                $closedCount++;
+            }
+        }
+
+        $availableCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= ?1 and t.isClosed = 0")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
+
+        $newLine = array(
+            'created_date' => $today,
+            'added_count' => $addedCount,
+            'closed_count' => $closedCount,
+            'available_count' => $availableCount,
+        );
+
+        $lines = $em
+            ->getConnection()
+            ->executeQuery("select * from survey_cint_daily_report order by created_date desc limit 30")
+            ->fetchAll();
+
+        array_unshift($lines, $newLine);
+
+//        print_r($lines);
+
+        return $this->render('WenwenFrontendBundle:admin:adminReportCintDailyReport2.html.twig', array('result' => $lines));
+    }
 }
