@@ -87,4 +87,34 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
 
         return $this->render('WenwenFrontendBundle:admin:adminReportFulcrumDetailReport.html.twig', array('pagination' => $pagination));
     }
+
+    /**
+     * @Route("/fulcrum/daily_report_2", name="admin_report_fulcrum_daily_report_2")
+     */
+    public function adminReportFulcrumDailyReport2(Request $request)
+    {
+        $today = date('Y-m-d');
+
+        $em = $this->getDoctrine()->getManager();
+        $addedCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyFulcrum t where date(t.createdAt) = ?1")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
+
+        $newLine = array(
+            'created_date' => $today,
+            'added_count' => $addedCount,
+        );
+
+        $lines = $em
+            ->getConnection()
+            ->executeQuery("select * from survey_fulcrum_daily_report order by created_date desc")
+            ->fetchAll();
+
+        array_unshift($lines, $newLine);
+
+//        print_r($lines);
+
+        return $this->render('WenwenFrontendBundle:admin:adminReportFulcrumDailyReport2.html.twig', array('result' => $lines));
+    }
 }

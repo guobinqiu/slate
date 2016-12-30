@@ -93,4 +93,50 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
 
         return $this->render('WenwenFrontendBundle:admin:adminReportSopDetailReport.html.twig', array('pagination' => $pagination));
     }
+
+    /**
+     * @Route("/sop/daily_report_2", name="admin_report_sop_daily_report_2")
+     */
+    public function adminReportSopDailyReport2(Request $request)
+    {
+        $today = date('Y-m-d');
+        $addedCount = 0;
+        $closedCount = 0;
+
+        $em = $this->getDoctrine()->getManager();
+        $surveys = $em
+            ->createQuery("select t from WenwenFrontendBundle:SurveySop t where date(t.createdAt) = ?1")
+            ->setParameter(1, $today)
+            ->getResult();
+
+        foreach ($surveys as $survey) {
+            $addedCount++;
+            if ($survey->getIsClosed() === true) {
+                $closedCount++;
+            }
+        }
+
+        $availableCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= ?1 and t.isClosed = 0")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
+
+        $newLine = array(
+            'created_date' => $today,
+            'added_count' => $addedCount,
+            'closed_count' => $closedCount,
+            'available_count' => $availableCount,
+        );
+
+        $lines = $em
+            ->getConnection()
+            ->executeQuery("select * from survey_sop_daily_report order by created_date desc")
+            ->fetchAll();
+
+        array_unshift($lines, $newLine);
+
+//        print_r($lines);
+
+        return $this->render('WenwenFrontendBundle:admin:adminReportSopDailyReport2.html.twig', array('result' => $lines));
+    }
 }
