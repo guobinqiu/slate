@@ -108,7 +108,7 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
 
         $lines = $em
             ->getConnection()
-            ->executeQuery("select * from survey_fulcrum_daily_report order by created_date desc")
+            ->executeQuery("select * from survey_fulcrum_daily_report order by created_date desc limit 30")
             ->fetchAll();
 
         array_unshift($lines, $newLine);

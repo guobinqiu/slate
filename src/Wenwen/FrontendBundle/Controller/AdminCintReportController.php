@@ -124,7 +124,7 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
 
         $lines = $em
             ->getConnection()
-            ->executeQuery("select * from survey_cint_daily_report order by created_date desc")
+            ->executeQuery("select * from survey_cint_daily_report order by created_date desc limit 30")
             ->fetchAll();
 
         array_unshift($lines, $newLine);

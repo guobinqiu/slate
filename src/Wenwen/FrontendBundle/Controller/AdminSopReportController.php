@@ -130,7 +130,7 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
 
         $lines = $em
             ->getConnection()
-            ->executeQuery("select * from survey_sop_daily_report order by created_date desc")
+            ->executeQuery("select * from survey_sop_daily_report order by created_date desc limit 30")
             ->fetchAll();
 
         array_unshift($lines, $newLine);
