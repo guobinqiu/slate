@@ -125,6 +125,9 @@ class SurveyCintService
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
+        } else {
+            $participation->setUpdatedAt(new \DateTime());
+            $this->em->flush();
         }
         return $participation;
     }
@@ -230,7 +233,7 @@ class SurveyCintService
             'userId' => $user->getId(),
         ));
         if ($participation != null) {
-            $forwardAt = $participation->getCreatedAt()->getTimestamp();
+            $forwardAt = $participation->getUpdatedAt()->getTimestamp();
             $actualLoiSeconds = time() - $forwardAt;
             if ($survey->getLoi() > 0) {
                 $loiSeconds = $survey->getLoi() * 60;
