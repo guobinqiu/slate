@@ -261,6 +261,7 @@ class SurveyFulcrumParticipationHistory
     public function onPrePersist()
     {
         $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
