@@ -138,6 +138,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         $createdAt = new \Datetime();
         $participation->setCreatedAt($createdAt->modify('-5 minute'));
+        $participation->setUpdatedAt($createdAt->modify('-5 minute'));
         $this->em->flush();
     }
 
