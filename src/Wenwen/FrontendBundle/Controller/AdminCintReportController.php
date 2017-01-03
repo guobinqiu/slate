@@ -94,21 +94,17 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
     public function adminReportCintDailyReport2(Request $request)
     {
         $today = date('Y-m-d');
-        $addedCount = 0;
-        $closedCount = 0;
-
         $em = $this->getDoctrine()->getManager();
-        $surveys = $em
-            ->createQuery("select t from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
+
+        $addedCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
             ->setParameter(1, $today)
             ->getResult();
 
-        foreach ($surveys as $survey) {
-            $addedCount++;
-            if ($survey->getIsClosed() === true) {
-                $closedCount++;
-            }
-        }
+        $closedCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.updatedAt) <= ?1 and t.isClosed = 1")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
 
         $availableCount = $em
             ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= ?1 and t.isClosed = 0")

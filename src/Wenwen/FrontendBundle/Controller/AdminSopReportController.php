@@ -100,21 +100,17 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
     public function adminReportSopDailyReport2(Request $request)
     {
         $today = date('Y-m-d');
-        $addedCount = 0;
-        $closedCount = 0;
-
         $em = $this->getDoctrine()->getManager();
-        $surveys = $em
-            ->createQuery("select t from WenwenFrontendBundle:SurveySop t where date(t.createdAt) = ?1")
-            ->setParameter(1, $today)
-            ->getResult();
 
-        foreach ($surveys as $survey) {
-            $addedCount++;
-            if ($survey->getIsClosed() === true) {
-                $closedCount++;
-            }
-        }
+        $addedCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) = ?1")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
+
+        $closedCount = $em
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.updatedAt) = ?1 and t.isClosed = 1")
+            ->setParameter(1, $today)
+            ->getSingleScalarResult();
 
         $availableCount = $em
             ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= ?1 and t.isClosed = 0")

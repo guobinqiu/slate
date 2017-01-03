@@ -94,8 +94,8 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
     public function adminReportFulcrumDailyReport2(Request $request)
     {
         $today = date('Y-m-d');
-
         $em = $this->getDoctrine()->getManager();
+
         $addedCount = $em
             ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyFulcrum t where date(t.createdAt) = ?1")
             ->setParameter(1, $today)
