@@ -99,10 +99,10 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
         $addedCount = $em
             ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
             ->setParameter(1, $today)
-            ->getResult();
+            ->getSingleScalarResult();
 
         $closedCount = $em
-            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.updatedAt) <= ?1 and t.isClosed = 1")
+            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.updatedAt) = ?1 and t.isClosed = 1")
             ->setParameter(1, $today)
             ->getSingleScalarResult();
 
