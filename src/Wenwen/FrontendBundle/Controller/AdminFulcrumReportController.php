@@ -19,7 +19,7 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
     {
         $sql = "
             select *,
-            round(complete_count / csqe_count * 100, 2) as real_ir,
+            round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
             round(forward_count / init_count * 100, 2) as cvr1,
             round(csqe_count / forward_count * 100, 2) as cvr2,
             round(csqe_count / targeted_count * 100, 2) as cvr3
@@ -57,7 +57,7 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
             from survey_fulcrum a
             left join (
               select *,
-              round(complete_count / csqe_count * 100, 2) as real_ir,
+              round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
               round(forward_count / init_count * 100, 2) as cvr1,
               round(csqe_count / forward_count * 100, 2) as cvr2,
               round(csqe_count / targeted_count * 100, 2) as cvr3

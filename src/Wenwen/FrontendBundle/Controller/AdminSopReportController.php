@@ -19,7 +19,7 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
     {
         $sql = "
             select *,
-            round(complete_count / csqe_count * 100, 2) as real_ir,
+            round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
             round(forward_count / init_count * 100, 2) as cvr1,
             round(csqe_count / forward_count * 100, 2) as cvr2,
             round(csqe_count / targeted_count * 100, 2) as cvr3
@@ -57,12 +57,14 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
             from survey_sop a
             left join (
               select *,
-              round(complete_count / csqe_count * 100, 2) as real_ir,
+              round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
               round(forward_count / init_count * 100, 2) as cvr1,
               round(csqe_count / forward_count * 100, 2) as cvr2,
               round(csqe_count / targeted_count * 100, 2) as cvr3,
               round(sum_complete_loi / sum_complete_count / 60) as avg_complete_loi,
-              round(sum_screenout_loi / sum_screenout_count / 60) as avg_screenout_loi
+              round(sum_screenout_loi / sum_screenout_count / 60) as avg_screenout_loi,
+              round(sum_quotafull_loi / sum_quotafull_count / 60) as avg_quotafull_loi,
+              round(sum_error_loi / sum_error_count / 60) as avg_error_loi
               from (
                 select survey_id,
                 sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
@@ -75,8 +77,12 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
                 sum(case when status in ('complete', 'screenout', 'quotafull', 'error') then 1 else 0 end) as csqe_count,
                 sum(case when status='complete' and client_ip is not null then loi else 0 end) as sum_complete_loi,
                 sum(case when status='complete' and client_ip is not null then 1 else 0 end) as sum_complete_count,
-                sum(case when status in ('screenout', 'quotafull', 'error') and client_ip is not null then loi else 0 end) as sum_screenout_loi,
-                sum(case when status in ('screenout', 'quotafull', 'error') and client_ip is not null then 1 else 0 end) as sum_screenout_count
+                sum(case when status='screenout' and client_ip is not null then loi else 0 end) as sum_screenout_loi,
+                sum(case when status='screenout' and client_ip is not null then 1 else 0 end) as sum_screenout_count,
+                sum(case when status='quotafull' and client_ip is not null then loi else 0 end) as sum_quotafull_loi,
+                sum(case when status='quotafull' and client_ip is not null then 1 else 0 end) as sum_quotafull_count,
+                sum(case when status='error' and client_ip is not null then loi else 0 end) as sum_error_loi,
+                sum(case when status='error' and client_ip is not null then 1 else 0 end) as sum_error_count
                 from survey_sop_participation_history
                 group by survey_id
               ) sb
@@ -108,12 +114,12 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
                 ->setParameter(1, $date)
                 ->getSingleScalarResult();
             $closedCount = $em
-                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.closedAt) = ?1 and t.isClosed = 1")
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.closedAt) = ?1")
                 ->setParameter(1, $date)
                 ->getSingleScalarResult();
             $availableCount = $em
-                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= ?1 and t.isClosed = 0")
-                ->setParameter(1, $date)
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= :d and date(t.closedAt) >= :d")
+                ->setParameter('d', $date)
                 ->getSingleScalarResult();
             $lines[$i] = array('created_date' => $date, 'added_count' => $addedCount, 'closed_count' => $closedCount, 'available_count' => $availableCount);
         }
