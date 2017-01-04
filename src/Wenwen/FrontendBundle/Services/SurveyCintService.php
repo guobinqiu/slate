@@ -168,10 +168,12 @@ class SurveyCintService
             $this->em->persist($survey);
             $this->em->flush($survey);
         } else {
-            $snapshot = clone $survey;
-            $this->copyProperties($survey, $surveyData);
-            if ($survey != $snapshot) {
-                $this->em->flush($survey);
+            if ($survey->getClosedAt() == null) {
+                $snapshot = clone $survey;
+                $this->copyProperties($survey, $surveyData);
+                if ($survey != $snapshot) {
+                    $this->em->flush($survey);
+                }
             }
         }
         return $survey;
@@ -214,6 +216,9 @@ class SurveyCintService
         }
         if (isset($surveyData['is_closed'])) {
             $survey->setIsClosed($surveyData['is_closed']);
+            if ($surveyData['is_closed']) {
+                $survey->setClosedAt(new \DateTime());
+            }
         }
         if (isset($surveyData['is_fixed_loi'])) {
             $survey->setIsFixedLoi($surveyData['is_fixed_loi']);

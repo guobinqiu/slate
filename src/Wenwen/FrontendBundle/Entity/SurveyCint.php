@@ -164,6 +164,13 @@ class SurveyCint
     private $updatedAt;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="closed_at", type="datetime", nullable=true)
+     */
+    private $closedAt;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -677,6 +684,29 @@ class SurveyCint
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set closedAt
+     *
+     * @param \DateTime $closedAt
+     * @return SurveySop
+     */
+    public function setClosedAt($closedAt)
+    {
+        $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get closedAt
+     *
+     * @return \DateTime
+     */
+    public function getClosedAt()
+    {
+        return $this->closedAt;
     }
 
     /**
