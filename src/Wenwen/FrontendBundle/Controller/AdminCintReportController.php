@@ -19,7 +19,7 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
     {
         $sql = "
             select *,
-            round(complete_count / csqe_count * 100, 2) as real_ir,
+            round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
             round(forward_count / init_count * 100, 2) as cvr1,
             round(csqe_count / forward_count * 100, 2) as cvr2,
             round(csqe_count / targeted_count * 100, 2) as cvr3
@@ -57,7 +57,7 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
             from survey_cint a
             left join (
               select *,
-              round(complete_count / csqe_count * 100, 2) as real_ir,
+              round(complete_count / (complete_count + screenout_count) * 100, 2) as real_ir,
               round(forward_count / init_count * 100, 2) as cvr1,
               round(csqe_count / forward_count * 100, 2) as cvr2,
               round(csqe_count / targeted_count * 100, 2) as cvr3
@@ -102,12 +102,12 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
                 ->setParameter(1, $date)
                 ->getSingleScalarResult();
             $closedCount = $em
-                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.closedAt) = ?1 and t.isClosed = 1")
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.closedAt) = ?1")
                 ->setParameter(1, $date)
                 ->getSingleScalarResult();
             $availableCount = $em
-                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= ?1 and t.isClosed = 0")
-                ->setParameter(1, $date)
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= :d and date(t.closedAt) >= :d")
+                ->setParameter('d', $date)
                 ->getSingleScalarResult();
             $lines[$i] = array('created_date' => $date, 'added_count' => $addedCount, 'closed_count' => $closedCount, 'available_count' => $availableCount);
         }
