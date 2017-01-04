@@ -138,8 +138,10 @@
                             <th>forwardCount</th>
                             <th>forward -> csqe</th>
                             <th>c/s/q/e</th>
+                            <th>estimateIR</th>
                             <th>realIR</th>
                             <th>complete</th>
+                            <th>estimateLOI</th>
                             <th>avgTime</th>
                             <th>screenout</th>
                             <th>avgTime</th>
@@ -156,9 +158,15 @@
                             <td>{{summary.forwardCount}}</td>
                             <td>{{summary.cvrForwardToCSQE}}</td>
                             <td>{{summary.CSQE}}</td>
+                            <td>{{ surveyPartnerForm.ir.vars.value }}%</td>
                             <td>{{summary.realIR}}</td>
                             <td>{{summary.completeCount}}</td>
+                            <td>{{ surveyPartnerForm.loi.vars.value }} mins</td>
+                            {% if summary.avgCompleteTime > surveyPartnerForm.loi.vars.value * 2 %}
+                            <td><font color="red">{{summary.avgCompleteTime}} mins</font></td>
+                            {% else %}
                             <td>{{summary.avgCompleteTime}} mins</td>
+                            {% endif %}
                             <td>{{summary.screenoutCount}}</td>
                             <td>{{summary.avgScreenoutTime}} mins</td>
                             <td>{{summary.quotafullCount}}</td>
