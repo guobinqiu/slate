@@ -93,40 +93,24 @@ class AdminCintReportController extends BaseController #implements IpAuthenticat
      */
     public function adminReportCintDailyReport2(Request $request)
     {
-        $today = date('Y-m-d');
         $em = $this->getDoctrine()->getManager();
-
-        $addedCount = $em
-            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
-            ->setParameter(1, $today)
-            ->getSingleScalarResult();
-
-        $closedCount = $em
-            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.updatedAt) = ?1 and t.isClosed = 1")
-            ->setParameter(1, $today)
-            ->getSingleScalarResult();
-
-        $availableCount = $em
-            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= ?1 and t.isClosed = 0")
-            ->setParameter(1, $today)
-            ->getSingleScalarResult();
-
-        $newLine = array(
-            'created_date' => $today,
-            'added_count' => $addedCount,
-            'closed_count' => $closedCount,
-            'available_count' => $availableCount,
-        );
-
-        $lines = $em
-            ->getConnection()
-            ->executeQuery("select * from survey_cint_daily_report order by created_date desc limit 30")
-            ->fetchAll();
-
-        array_unshift($lines, $newLine);
-
-//        print_r($lines);
-
+        $lines = [];
+        for ($i = 0; $i < 30; $i++) {
+            $date = date('Y-m-d', strtotime('-' . $i . ' days'));
+            $addedCount = $em
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) = ?1")
+                ->setParameter(1, $date)
+                ->getSingleScalarResult();
+            $closedCount = $em
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.closedAt) = ?1 and t.isClosed = 1")
+                ->setParameter(1, $date)
+                ->getSingleScalarResult();
+            $availableCount = $em
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyCint t where date(t.createdAt) <= ?1 and t.isClosed = 0")
+                ->setParameter(1, $date)
+                ->getSingleScalarResult();
+            $lines[$i] = array('created_date' => $date, 'added_count' => $addedCount, 'closed_count' => $closedCount, 'available_count' => $availableCount);
+        }
         return $this->render('WenwenFrontendBundle:admin:adminReportCintDailyReport2.html.twig', array('result' => $lines));
     }
 }

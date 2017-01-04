@@ -93,28 +93,16 @@ class AdminFulcrumReportController extends BaseController #implements IpAuthenti
      */
     public function adminReportFulcrumDailyReport2(Request $request)
     {
-        $today = date('Y-m-d');
         $em = $this->getDoctrine()->getManager();
-
-        $addedCount = $em
-            ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyFulcrum t where date(t.createdAt) = ?1")
-            ->setParameter(1, $today)
-            ->getSingleScalarResult();
-
-        $newLine = array(
-            'created_date' => $today,
-            'added_count' => $addedCount,
-        );
-
-        $lines = $em
-            ->getConnection()
-            ->executeQuery("select * from survey_fulcrum_daily_report order by created_date desc limit 30")
-            ->fetchAll();
-
-        array_unshift($lines, $newLine);
-
-//        print_r($lines);
-
+        $lines = [];
+        for ($i = 0; $i < 30; $i++) {
+            $date = date('Y-m-d', strtotime('-' . $i . ' days'));
+            $addedCount = $em
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveyFulcrum t where date(t.createdAt) = ?1")
+                ->setParameter(1, $date)
+                ->getSingleScalarResult();
+            $lines[$i] = array('created_date' => $date, 'added_count' => $addedCount);
+        }
         return $this->render('WenwenFrontendBundle:admin:adminReportFulcrumDailyReport2.html.twig', array('result' => $lines));
     }
 }
