@@ -134,15 +134,19 @@
                     <thead>
                         <tr>
                             <th>initCount</th>
-                            <th>CVR(init -> forward)</th>
+                            <th>init -> forward</th>
                             <th>forwardCount</th>
-                            <th>CVR(forward -> csqe)</th>
-                            <th>total of c/s/q/e</th>
+                            <th>forward -> csqe</th>
+                            <th>c/s/q/e</th>
                             <th>realIR</th>
-                            <th>completeCount</th>
-                            <th>screenoutCount</th>
-                            <th>quotafullCount</th>
-                            <th>errorCount</th>
+                            <th>complete</th>
+                            <th>avgTime</th>
+                            <th>screenout</th>
+                            <th>avgTime</th>
+                            <th>quotafull</th>
+                            <th>avgTime</th>
+                            <th>error</th>
+                            <th>avgTime</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,9 +158,13 @@
                             <td>{{summary.CSQE}}</td>
                             <td>{{summary.realIR}}</td>
                             <td>{{summary.completeCount}}</td>
+                            <td>{{summary.avgCompleteTime}} mins</td>
                             <td>{{summary.screenoutCount}}</td>
+                            <td>{{summary.avgScreenoutTime}} mins</td>
                             <td>{{summary.quotafullCount}}</td>
+                            <td>{{summary.avgQuotafullTime}} mins</td>
                             <td>{{summary.errorCount}}</td>
+                            <td>{{summary.avgErrorTime}} mins</td>
                         </tr>
                     </tbody>
                 </table>
