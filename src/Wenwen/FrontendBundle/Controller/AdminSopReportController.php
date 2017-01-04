@@ -118,7 +118,7 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
                 ->setParameter(1, $date)
                 ->getSingleScalarResult();
             $availableCount = $em
-                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= :d and date(t.closedAt) >= :d")
+                ->createQuery("select count(t.id) from WenwenFrontendBundle:SurveySop t where date(t.createdAt) <= :d and (date(t.closedAt) >= :d or t.closedAt is null)")
                 ->setParameter('d', $date)
                 ->getSingleScalarResult();
             $lines[$i] = array('created_date' => $date, 'added_count' => $addedCount, 'closed_count' => $closedCount, 'available_count' => $availableCount);
