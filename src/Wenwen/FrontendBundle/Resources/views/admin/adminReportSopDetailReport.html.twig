@@ -39,8 +39,16 @@
                     <td>{{ survey.cvr1 }}</td>
                     <td>{{ survey.cvr2 }}</td>
                     <td>{{ survey.cvr3 }}</td>
+                    {% if survey.avg_complete_loi > survey.loi*2 %}
+                    <td><font color="red">{{ survey.avg_complete_loi }}</font></td>
+                    {% else %}
                     <td>{{ survey.avg_complete_loi }}</td>
+                    {% endif %}
+                    {% if survey.avg_screenout_loi > survey.loi*0.5 %}
+                    <td><font color="red">{{ survey.avg_screenout_loi }}</font></td>
+                    {% else %}
                     <td>{{ survey.avg_screenout_loi }}</td>
+                    {% endif %}
                     <td>{{ survey.avg_quotafull_loi }}</td>
                     <td>{{ survey.avg_error_loi }}</td>
                 </tr>
