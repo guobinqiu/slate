@@ -8,7 +8,7 @@
             </span>
             {% endif %}
         {% else %}
-            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">
+            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_blank">
                 {% if research.title|length > 35 %}
                     {{ research.title[:35] }}...
                 {% else %}
@@ -39,7 +39,7 @@
         {% if research.is_answered == 1 %}
             <span class="disabled">回答完毕</span>
         {% else %}
-            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_brank">可回答</a>
+            <a href="{{ path('_project_survey_information', {'research': research}) }}" class="open-link" target="_blank">可回答</a>
         {% endif %}
     </div>
 </div>

@@ -492,6 +492,20 @@ class SurveyService
         return $partnerResearchs;
     }
 
+    private function decrypt_blowfish($data, $key) {
+        $data = pack("H*", $data);
+        $res = mcrypt_decrypt(MCRYPT_BLOWFISH, $key, $data , MCRYPT_MODE_ECB);
+        return $res;
+    }
+
+    private function encrypt_blowfish($data, $key) {
+        $blockSize = mcrypt_get_block_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
+        $padding = $blockSize - (strlen($data) % $blockSize);
+        $data .= str_repeat(chr($padding), $padding);
+        $cipherText = mcrypt_encrypt(MCRYPT_BLOWFISH, $key, $data, MCRYPT_MODE_ECB);
+        return bin2hex($cipherText);
+    }
+
     /**
      * @param $user_id 用户id
      * @param $limit 返回的数据个数 0:全部返回
@@ -528,6 +542,43 @@ class SurveyService
         } catch (\Exception $e){
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
+        }
+
+        //GMO
+        #第三方问卷提供商
+        $surveylistUrl = $this->parameterService->getParameter('gmo_surveylistUrl');
+        $panelistId = '2067715';
+        $panelCode = $this->parameterService->getParameter('gmo_panelCode');
+        $randomString = strtotime('now');
+        $encryptedID = $panelistId . ':' . $panelCode . ':' . $randomString;
+        $encryptKey = $this->parameterService->getParameter('gmo_encryptKey');
+        $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
+        $data = array('panelType' => $panelCode, 'crypt' => $crypt);
+        $surveylistUrl .= '?' . http_build_query($data);
+        $request = $this->httpClient->get($surveylistUrl, null, array('timeout' => 3, 'connect_timeout' => 3));
+        $response = $request->send();
+        $json = $response->getBody();
+        $researches = json_decode($json, true);
+        foreach ($researches as $research) {
+            $research['is_answered'] = 0;
+            $research['is_closed'] = 0;
+            $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+            $research['url'] = $research['redirectSt'] . $research['id'] . '=' . $research['encryptId'];
+
+            if ('02' == $research['ans_stat_cd']) {
+                $research['is_answered'] = 1;
+            } else if ('05' == $research['status'] && '05' == $research['enqPerPanelStatus']) {
+
+            } else {
+                $research['is_closed'] = 1;
+            }
+
+            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+            if ($research['is_answered'] == 0) {
+                array_unshift($html_survey_list, $html);
+            } else {
+                array_push($html_survey_list, $html);
+            }
         }
 
         try{
@@ -591,14 +642,7 @@ class SurveyService
             }
 
             foreach ($sop['data']['research'] as $research) {
-                ///临时增加代码。将7436问卷显示分数改为5000分
-                ///项目关闭时删除
-                if(($research['survey_id'] == 7436)){
-                        $research['extra_info']['point']['complete']= 5000;
-                    }
-                ///
-                ///
-                if(($research['is_closed'] == 0)){
+                if (!$this->hasStopWord($research['url'])) {
                     $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
                     $research['loi'] = $this->getSurveyLOI($research['loi']);
                     $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
