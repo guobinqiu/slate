@@ -33,7 +33,11 @@
                     <td>{{ survey.forward_count }}</td>
                     <td>{{ survey.complete_count }}</td>
                     <td>{{ survey.screenout_count }}</td>
+                    {% if survey.is_closed == 0 and survey.quotafull_count > 0 %}
+                    <td><font color="red">{{ survey.quotafull_count }}</font></td>
+                    {% else %}
                     <td>{{ survey.quotafull_count }}</td>
+                    {% endif %}
                     <td>{{ survey.error_count }}</td>
                     <td>{{ survey.real_ir }} %</td>
                     <td>{{ survey.cvr1 }} %</td>
