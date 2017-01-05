@@ -80,6 +80,7 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals(0, $survey->getCpi());
         $this->assertEquals(0, $survey->getIr());
         $this->assertEquals(0, $survey->getIsClosed());
+        $this->assertNull($survey->getClosedAt());
 
         $surveyData['cpi'] = 1.23;
         $surveyData['ir'] = 1;
@@ -89,6 +90,13 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals(1.23, $survey->getCpi());
         $this->assertEquals(1, $survey->getIr());
         $this->assertEquals(1, $survey->getIsClosed());
+        $this->assertNotNull($survey->getClosedAt());
+
+        $surveyData['is_closed'] = 0;
+        $this->surveySopService->createOrUpdateSurvey($surveyData); //update
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => 8006));
+        $this->assertEquals(0, $survey->getIsClosed());
+        $this->assertNull($survey->getClosedAt());
 
         $this->surveySopService->createOrUpdateSurvey($surveyData); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findBy(array('surveyId' => 8006));
