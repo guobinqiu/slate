@@ -23,43 +23,6 @@ class SurveyGmo
     private $id;
 
     /**
-     * Survey Arrival Date
-     *
-     * @var \DateTime
-     *
-     * @ORM\Column(name="arrival_day", type="datetime")
-     */
-    private $arrivalDay;
-
-    /**
-     * Encrypted ID = Panelist ID:Panel Code:Random String
-     * Redirect to questionnaire
-     *
-     * @var string
-     *
-     * @ORM\Column(name="encrypt_id", type="string")
-     */
-    private $encryptId;
-
-    /**
-     * Panel ID (for Questionnaire link )
-     *
-     * @var string
-     *
-     * @ORM\Column(name="panel_id", type="string")
-     */
-    private $panelId;
-
-    /**
-     * Questionnaire link of URL redirection
-     *
-     * @var string
-     *
-     * @ORM\Column(name="redirect_st", type="string")
-     */
-    private $redirectSt;
-
-    /**
      * Survey ID
      *
      * @var integer
@@ -71,18 +34,9 @@ class SurveyGmo
     /**
      * @var integer
      *
-     * @ORM\Column(name="research_type", type="integer", nullable=true)
+     * @ORM\Column(name="research_type", type="integer")
      */
     private $researchType;
-
-    /**
-     * Not-Answered , Answered, Expired
-     *
-     * @var string
-     *
-     * @ORM\Column(name="situation", type="string")
-     */
-    private $situation;
 
     /**
      * Survey Name
@@ -94,34 +48,13 @@ class SurveyGmo
     private $title;
 
     /**
-     * 01:Not-Answered 02:Answered
+     * Quota Group Status (00:Under Construction 05:Middle of Fieldwork 07:Survey Complete 99:Deleted)
      *
      * @var string
      *
-     * @ORM\Column(name="ans_stat_cd", type="string", nullable=true)
-     */
-    private $ansStatCd;
-
-    /**
-     * Quota Group Status
-     * 00:Under Construction 05:Middle of Fieldwork
-     * 07:Survey Complete 99:Deleted
-     *
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", nullable=true)
+     * @ORM\Column(name="status", type="string", length=2)
      */
     private $status;
-
-    /**
-     * Quota Group per Panel Status
-     * 05:Middle of Fieldwork 07:Survey Complete
-     *
-     * @var string
-     *
-     * @ORM\Column(name="enq_per_panel_status", type="string", nullable=true)
-     */
-    private $enqPerPanelStatus;
 
     /**
      * @var integer
@@ -140,18 +73,41 @@ class SurveyGmo
     private $pointMin;
 
     /**
-     * @var string
+     * @var
      *
-     * @ORM\Column(name="point_string", type="string", nullable=true)
+     * @ORM\Column(name="point_type", type="integer")
      */
-    private $pointString;
+    private $pointType;
 
     /**
      * @var
      *
-     * @ORM\Column(name="point_type", type="integer", nullable=true)
+     * @ORM\Column(name="enq_per_panel_status", length=2)
      */
-    private $pointType;
+    private $enqPerPanelStatus;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="arrival_day", type="string")
+     */
+    private $arrivalDay;
+
+    /**
+     * Survey Start Date
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="start_dt", type="bigint")
+     */
+    private $startDt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="closed_at", type="datetime", nullable=true)
+     */
+    private $closedAt;
 
     /**
      * @var \DateTime
@@ -168,18 +124,33 @@ class SurveyGmo
     private $updatedAt;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="closed_at", type="datetime", nullable=true)
+     * @ORM\PrePersist
      */
-    private $closedAt;
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     /**
-     * @var integer
-     *
-     *
+     * @ORM\PreUpdate
      */
-    private $startDt;
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        if ('05' == $this->getStatus() && '05' == $this->getEnqPerPanelStatus()) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Get id
      *
@@ -188,98 +159,6 @@ class SurveyGmo
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set arrivalDay
-     *
-     * @param \DateTime $arrivalDay
-     * @return SurveyGmo
-     */
-    public function setArrivalDay($arrivalDay)
-    {
-        $this->arrivalDay = $arrivalDay;
-
-        return $this;
-    }
-
-    /**
-     * Get arrivalDay
-     *
-     * @return \DateTime 
-     */
-    public function getArrivalDay()
-    {
-        return $this->arrivalDay;
-    }
-
-    /**
-     * Set encryptId
-     *
-     * @param string $encryptId
-     * @return SurveyGmo
-     */
-    public function setEncryptId($encryptId)
-    {
-        $this->encryptId = $encryptId;
-
-        return $this;
-    }
-
-    /**
-     * Get encryptId
-     *
-     * @return string 
-     */
-    public function getEncryptId()
-    {
-        return $this->encryptId;
-    }
-
-    /**
-     * Set panelId
-     *
-     * @param string $panelId
-     * @return SurveyGmo
-     */
-    public function setPanelId($panelId)
-    {
-        $this->panelId = $panelId;
-
-        return $this;
-    }
-
-    /**
-     * Get panelId
-     *
-     * @return string 
-     */
-    public function getPanelId()
-    {
-        return $this->panelId;
-    }
-
-    /**
-     * Set redirectSt
-     *
-     * @param string $redirectSt
-     * @return SurveyGmo
-     */
-    public function setRedirectSt($redirectSt)
-    {
-        $this->redirectSt = $redirectSt;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectSt
-     *
-     * @return string 
-     */
-    public function getRedirectSt()
-    {
-        return $this->redirectSt;
     }
 
     /**
@@ -329,29 +208,6 @@ class SurveyGmo
     }
 
     /**
-     * Set situation
-     *
-     * @param string $situation
-     * @return SurveyGmo
-     */
-    public function setSituation($situation)
-    {
-        $this->situation = $situation;
-
-        return $this;
-    }
-
-    /**
-     * Get situation
-     *
-     * @return string 
-     */
-    public function getSituation()
-    {
-        return $this->situation;
-    }
-
-    /**
      * Set title
      *
      * @param string $title
@@ -375,29 +231,6 @@ class SurveyGmo
     }
 
     /**
-     * Set ansStatCd
-     *
-     * @param string $ansStatCd
-     * @return SurveyGmo
-     */
-    public function setAnsStatCd($ansStatCd)
-    {
-        $this->ansStatCd = $ansStatCd;
-
-        return $this;
-    }
-
-    /**
-     * Get ansStatCd
-     *
-     * @return string 
-     */
-    public function getAnsStatCd()
-    {
-        return $this->ansStatCd;
-    }
-
-    /**
      * Set status
      *
      * @param string $status
@@ -418,29 +251,6 @@ class SurveyGmo
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Set enqPerPanelStatus
-     *
-     * @param string $enqPerPanelStatus
-     * @return SurveyGmo
-     */
-    public function setEnqPerPanelStatus($enqPerPanelStatus)
-    {
-        $this->enqPerPanelStatus = $enqPerPanelStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get enqPerPanelStatus
-     *
-     * @return string 
-     */
-    public function getEnqPerPanelStatus()
-    {
-        return $this->enqPerPanelStatus;
     }
 
     /**
@@ -490,29 +300,6 @@ class SurveyGmo
     }
 
     /**
-     * Set pointString
-     *
-     * @param string $pointString
-     * @return SurveyGmo
-     */
-    public function setPointString($pointString)
-    {
-        $this->pointString = $pointString;
-
-        return $this;
-    }
-
-    /**
-     * Get pointString
-     *
-     * @return string 
-     */
-    public function getPointString()
-    {
-        return $this->pointString;
-    }
-
-    /**
      * Set pointType
      *
      * @param integer $pointType
@@ -533,6 +320,98 @@ class SurveyGmo
     public function getPointType()
     {
         return $this->pointType;
+    }
+
+    /**
+     * Set enqPerPanelStatus
+     *
+     * @param string $enqPerPanelStatus
+     * @return SurveyGmo
+     */
+    public function setEnqPerPanelStatus($enqPerPanelStatus)
+    {
+        $this->enqPerPanelStatus = $enqPerPanelStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get enqPerPanelStatus
+     *
+     * @return string 
+     */
+    public function getEnqPerPanelStatus()
+    {
+        return $this->enqPerPanelStatus;
+    }
+
+    /**
+     * Set arrivalDay
+     *
+     * @param string $arrivalDay
+     * @return SurveyGmo
+     */
+    public function setArrivalDay($arrivalDay)
+    {
+        $this->arrivalDay = $arrivalDay;
+
+        return $this;
+    }
+
+    /**
+     * Get arrivalDay
+     *
+     * @return string 
+     */
+    public function getArrivalDay()
+    {
+        return $this->arrivalDay;
+    }
+
+    /**
+     * Set startDt
+     *
+     * @param integer $startDt
+     * @return SurveyGmo
+     */
+    public function setStartDt($startDt)
+    {
+        $this->startDt = $startDt;
+
+        return $this;
+    }
+
+    /**
+     * Get startDt
+     *
+     * @return integer 
+     */
+    public function getStartDt()
+    {
+        return $this->startDt;
+    }
+
+    /**
+     * Set closedAt
+     *
+     * @param \DateTime $closedAt
+     * @return SurveyGmo
+     */
+    public function setClosedAt($closedAt)
+    {
+        $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get closedAt
+     *
+     * @return \DateTime 
+     */
+    public function getClosedAt()
+    {
+        return $this->closedAt;
     }
 
     /**
@@ -579,45 +458,5 @@ class SurveyGmo
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set closedAt
-     *
-     * @param \DateTime $closedAt
-     * @return SurveyGmo
-     */
-    public function setClosedAt($closedAt)
-    {
-        $this->closedAt = $closedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get closedAt
-     *
-     * @return \DateTime 
-     */
-    public function getClosedAt()
-    {
-        return $this->closedAt;
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->updatedAt = new \DateTime();
     }
 }

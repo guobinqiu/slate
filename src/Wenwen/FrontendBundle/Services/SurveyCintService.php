@@ -217,7 +217,7 @@ class SurveyCintService
             if ($survey->getIsClosed() == 0 && $surveyData['is_closed'] == 1) {
                 $survey->setClosedAt(new \DateTime());
             } else if ($survey->getIsClosed() == 1 && $surveyData['is_closed'] == 0) {
-                $this->logger->warning('survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
+                $this->logger->warning('cint survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
                 $survey->setClosedAt(null);
             }
         }

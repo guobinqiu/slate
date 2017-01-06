@@ -24,8 +24,18 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         $surveySopService = $this->getContainer()->get('app.survey_sop_service');
         $surveyFulcrumService = $this->getContainer()->get('app.survey_fulcrum_service');
         $surveyCintService = $this->getContainer()->get('app.survey_cint_service');
+        $surveyGmoService = $this->getContainer()->get('app.survey_gmo_service');
 
         $userId = $input->getOption('user_id');
+
+        //gmo
+        $researches = $surveyGmoService->getSurveyList();
+        foreach ($researches as $research) {
+            $survey = $surveyGmoService->createOrUpdateSurvey($research);
+            $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+        }
+
+        //sop
         //$appMid = $surveyService->getSopRespondentId($userId);
         $result = $surveyService->getSopSurveyListJson($userId);
         //$result = $surveyService->getDummySurveyListJson();//读取测试数据

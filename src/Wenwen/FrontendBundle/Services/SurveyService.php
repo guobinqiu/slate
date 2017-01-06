@@ -25,6 +25,7 @@ class SurveyService
     private $redis;
     private $surveyParnterService;
     private $surveySopService;
+    private $surveyGmoService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -38,8 +39,9 @@ class SurveyService
                                 EngineInterface $templating,
                                 Client $redis,
                                 SurveyPartnerService $surveyParnterService,
-                                SurveySopService $surveySopService)
-    {
+                                SurveySopService $surveySopService,
+                                SurveyGmoService $surveyGmoService
+    ) {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
@@ -48,6 +50,7 @@ class SurveyService
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
         $this->surveySopService = $surveySopService;
+        $this->surveyGmoService = $surveyGmoService;
     }
 
     public function setDummy($dummy){
@@ -492,20 +495,6 @@ class SurveyService
         return $partnerResearchs;
     }
 
-    private function decrypt_blowfish($data, $key) {
-        $data = pack("H*", $data);
-        $res = mcrypt_decrypt(MCRYPT_BLOWFISH, $key, $data , MCRYPT_MODE_ECB);
-        return $res;
-    }
-
-    private function encrypt_blowfish($data, $key) {
-        $blockSize = mcrypt_get_block_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-        $padding = $blockSize - (strlen($data) % $blockSize);
-        $data .= str_repeat(chr($padding), $padding);
-        $cipherText = mcrypt_encrypt(MCRYPT_BLOWFISH, $key, $data, MCRYPT_MODE_ECB);
-        return bin2hex($cipherText);
-    }
-
     /**
      * @param $user_id 用户id
      * @param $limit 返回的数据个数 0:全部返回
@@ -516,6 +505,7 @@ class SurveyService
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
+        //////////////////Inhouse
         try{
             $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             if(is_null($user)){
@@ -544,35 +534,10 @@ class SurveyService
             $this->logger->error($e->getTraceAsString());
         }
 
-        //GMO
-        #第三方问卷提供商
-        $surveylistUrl = $this->parameterService->getParameter('gmo_surveylistUrl');
-        $panelistId = '2067715';
-        $panelCode = $this->parameterService->getParameter('gmo_panelCode');
-        $randomString = strtotime('now');
-        $encryptedID = $panelistId . ':' . $panelCode . ':' . $randomString;
-        $encryptKey = $this->parameterService->getParameter('gmo_encryptKey');
-        $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
-        $data = array('panelType' => $panelCode, 'crypt' => $crypt);
-        $surveylistUrl .= '?' . http_build_query($data);
-        $request = $this->httpClient->get($surveylistUrl, null, array('timeout' => 3, 'connect_timeout' => 3));
-        $response = $request->send();
-        $json = $response->getBody();
-        $researches = json_decode($json, true);
+        //////////////outhouse
+        //gmo
+        $researches = $this->surveyGmoService->getSurveyList();
         foreach ($researches as $research) {
-            $research['is_answered'] = 0;
-            $research['is_closed'] = 0;
-            $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-            $research['url'] = $research['redirectSt'] . $research['id'] . '=' . $research['encryptId'];
-
-            if ('02' == $research['ans_stat_cd']) {
-                $research['is_answered'] = 1;
-            } else if ('05' == $research['status'] && '05' == $research['enqPerPanelStatus']) {
-
-            } else {
-                $research['is_closed'] = 1;
-            }
-
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
             if ($research['is_answered'] == 0) {
                 array_unshift($html_survey_list, $html);
@@ -581,6 +546,7 @@ class SurveyService
             }
         }
 
+        //ssi
         try{
             // 获取ssi的问卷数据
             $ssi_res = $this->getSsiSurveyList($user_id);
@@ -600,6 +566,7 @@ class SurveyService
             $this->logger->error($e);
         }
 
+        //sop
         // 增加容错处理，sop的response数据格式不对的时候，抓异常
         try{
             // 获取sop的数据
