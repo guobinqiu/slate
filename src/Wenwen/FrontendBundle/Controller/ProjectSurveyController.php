@@ -21,12 +21,15 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     {
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_sop_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_sop_service')->createParticipationByUserId(
             $user->getId(),
             $research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         $notifiable = $this->get('app.survey_sop_service')->isNotifiableSurvey($research['survey_id']);
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $research, 'notifiable' => $notifiable));
     }
@@ -38,12 +41,15 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     {
         $research = $request->query->get('research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_sop_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_sop_service')->createParticipationByUserId(
             $user->getId(),
             $research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $user->getId());
         return $this->redirect($research['url']);
     }

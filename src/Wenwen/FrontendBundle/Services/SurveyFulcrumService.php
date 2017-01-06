@@ -125,9 +125,6 @@ class SurveyFulcrumService
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
-        } else {
-            $participation->setUpdatedAt(new \DateTime());
-            $this->em->flush();
         }
         return $participation;
     }

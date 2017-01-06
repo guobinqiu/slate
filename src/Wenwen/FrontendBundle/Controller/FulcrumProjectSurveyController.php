@@ -20,12 +20,15 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
             $user->getId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         return $this->render('WenwenFrontendBundle:FulcrumProjectSurvey:information.html.twig', array('fulcrum_research' => $fulcrum_research));
     }
 
@@ -36,12 +39,15 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $fulcrum_research = $request->query->get('fulcrum_research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
             $user->getId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         $fulcrum_research = $this->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
         return $this->redirect($fulcrum_research['url']);
     }
