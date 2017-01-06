@@ -238,4 +238,20 @@ class TaskHistoryRepository extends EntityRepository
 //
 //        return $qb->getQuery()->getOneOrNullResult() == null;
 //    }
+
+    public function getByUserId($userId, $paginator, $page = 1, $limit = 50){
+        $query = $this->createQueryBuilder('th');
+        $query = $query->select('th');
+        $query = $query->where('th.userId = :userId');
+        $query = $query->addOrderBy('th.ocdCreatedDate', 'DESC');
+        $query = $query->setParameter('userId',$userId);
+        $query = $query->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $page,
+            $limit
+        );
+        return $pagination;
+    }
 }
