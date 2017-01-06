@@ -268,36 +268,40 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        $birthday = $user->getUserProfile()->getBirthday();
-        $age = \DateTime::createFromFormat('Y-m-d', $birthday)->diff(new \DateTime())->y;
-        $sex = $user->getUserProfile()->getSex();
-        if(1 == $sex){
-            // 1 是男的
-            $gender = SurveyPartner::GENDER_MALE;
-        } else {
-            $gender = SurveyPartner::GENDER_FEMALE;
-        }
-
         // 1 性别要求检查
-        if(SurveyPartner::GENDER_BOTH == $surveyPartner->getGender()){
+        $sex = $user->getUserProfile()->getSex();
+        if($sex){
+            if(1 == $sex){
+                // 1 是男的
+                $gender = SurveyPartner::GENDER_MALE;
+            } else {
+                $gender = SurveyPartner::GENDER_FEMALE;
+            }
+            if(SurveyPartner::GENDER_BOTH == $surveyPartner->getGender()){
 
-        } else {
-            if($gender != $surveyPartner->getGender()){
-                // 项目有男女限制，且该用户的性别不符合要求
-                $rtn['result'] = 'genderCheckFailed';
+            } else {
+                if($gender != $surveyPartner->getGender()){
+                    // 项目有男女限制，且该用户的性别不符合要求
+                    $rtn['result'] = 'genderCheckFailed';
+                    return $rtn;
+                }
+            }
+        }
+        
+        // 2 年龄检查
+        $birthday = $user->getUserProfile()->getBirthday();
+        if($birthday){
+            $age = \DateTime::createFromFormat('Y-m-d', $birthday)->diff(new \DateTime())->y;
+            if($age < $surveyPartner->getMinAge()){
+                $rtn['result'] = 'ageCheckFailed';
+                return $rtn;
+            }
+            if($age > $surveyPartner->getMaxAge()){
+                $rtn['result'] = 'ageCheckFailed';
                 return $rtn;
             }
         }
-
-        // 2 年龄检查
-        if($age < $surveyPartner->getMinAge()){
-            $rtn['result'] = 'ageCheckFailed';
-            return $rtn;
-        }
-        if($age > $surveyPartner->getMaxAge()){
-            $rtn['result'] = 'ageCheckFailed';
-            return $rtn;
-        }
+        
 
         // 3 地区检查 最后做,任意匹配就结束
         if(false == $locationInfo['status']){

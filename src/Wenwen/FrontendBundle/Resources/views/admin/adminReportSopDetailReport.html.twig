@@ -14,14 +14,14 @@
                 <th>screenout</th>
                 <th>quotafull</th>
                 <th>error</th>
-                <th>real_ir(%)</th>
-                <th>CVR(init -> forward)(%)</th>
-                <th>CVR(forward -> csqe)(%)</th>
-                <th>CVR(targeted -> csqe)(%)</th>
-                <th>avg_complete_loi(min)</th>
-                <th>avg_screenout_loi(min)</th>
-                <th>avg_quotafull_loi(min)</th>
-                <th>avg_error_loi(min)</th>
+                <th>real_ir</th>
+                <th>init -> forward</th>
+                <th>forward -> csqe</th>
+                <th>targeted -> csqe</th>
+                <th>avg_c_loi</th>
+                <th>avg_s_loi</th>
+                <th>avg_q_loi</th>
+                <th>avg_e_loi</th>
             </tr>
             </thead>
             <tbody>
@@ -33,16 +33,36 @@
                     <td>{{ survey.forward_count }}</td>
                     <td>{{ survey.complete_count }}</td>
                     <td>{{ survey.screenout_count }}</td>
+                    {% if survey.is_closed == 0 and survey.quotafull_count > 0 %}
+                    <td><font color="red">{{ survey.quotafull_count }}</font></td>
+                    {% else %}
                     <td>{{ survey.quotafull_count }}</td>
+                    {% endif %}
                     <td>{{ survey.error_count }}</td>
-                    <td>{{ survey.real_ir }}</td>
-                    <td>{{ survey.cvr1 }}</td>
-                    <td>{{ survey.cvr2 }}</td>
-                    <td>{{ survey.cvr3 }}</td>
-                    <td>{{ survey.avg_complete_loi }}</td>
-                    <td>{{ survey.avg_screenout_loi }}</td>
-                    <td>{{ survey.avg_quotafull_loi }}</td>
-                    <td>{{ survey.avg_error_loi }}</td>
+                    <td>{{ survey.real_ir }} %</td>
+                    <td>{{ survey.cvr1 }} %</td>
+                    <td>{{ survey.cvr2 }} %</td>
+                    <td>{{ survey.cvr3 }} %</td>
+                    {% if survey.avg_complete_loi > survey.loi*2 %}
+                    <td><font color="red">{{ survey.avg_complete_loi }}</font> min</td>
+                    {% else %}
+                    <td>{{ survey.avg_complete_loi }} min</td>
+                    {% endif %}
+                    {% if survey.avg_screenout_loi > survey.loi*0.5 %}
+                    <td><font color="red">{{ survey.avg_screenout_loi }}</font> min</td>
+                    {% else %}
+                    <td>{{ survey.avg_screenout_loi }} min</td>
+                    {% endif %}
+                    {% if survey.avg_quotafull_loi > survey.loi*0.5 %}
+                    <td><font color="red">{{ survey.avg_quotafull_loi }}</font> min</td>
+                    {% else %}
+                    <td>{{ survey.avg_quotafull_loi }} min</td>
+                    {% endif %}
+                    {% if survey.avg_error_loi > survey.loi*0.5 %}
+                    <td><font color="red">{{ survey.avg_error_loi }}</font> min</td>
+                    {% else %}
+                    <td>{{ survey.avg_error_loi }} min</td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td colspan="99">

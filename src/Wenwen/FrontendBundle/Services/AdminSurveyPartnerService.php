@@ -132,6 +132,15 @@ class AdminSurveyPartnerService
         $quotafullCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_QUOTAFULL);
         $errorCount = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getCountBySurveyPartnerAndStatus($surveryPartner, SurveyStatus::STATUS_ERROR);
 
+        $realLOIs = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getRealLoi($surveryPartner);
+
+        $this->logger->debug(__METHOD__ . ' realLOIs=' . json_encode($realLOIs));
+
+        foreach($realLOIs as $key => $value){
+            $this->logger->debug(__METHOD__ . ' key='. $key . ' value=' . $value);
+
+        }
+
         $summary['initCount'] = $initCount;
         $summary['cvrInitToForward'] = $this->calculatePercentage($forwardCount, $initCount);
         $summary['forwardCount'] = $forwardCount;
@@ -142,6 +151,10 @@ class AdminSurveyPartnerService
         $summary['screenoutCount'] = $screenoutCount;
         $summary['quotafullCount'] = $quotafullCount;
         $summary['errorCount'] = $errorCount;
+        $summary['avgCompleteTime'] = $realLOIs['real_complete_time'];
+        $summary['avgScreenoutTime'] = $realLOIs['real_screenout_time'];
+        $summary['avgQuotafullTime'] = $realLOIs['real_quotafull_time'];
+        $summary['avgErrorTime'] = $realLOIs['real_error_time'];
         return $summary;
     }
 
