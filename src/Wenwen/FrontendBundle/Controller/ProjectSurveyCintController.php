@@ -92,12 +92,15 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
     {
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_cint_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_cint_service')->createParticipationByUserId(
             $user->getId(),
             $cint_research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         return $this->render('WenwenFrontendBundle:ProjectSurveyCint:information.html.twig', array('cint_research' => $cint_research));
     }
 
@@ -108,12 +111,15 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
     {
         $cint_research = $request->query->get('cint_research');
         $user = $this->getCurrentUser();
-        $this->get('app.survey_cint_service')->createParticipationByUserId(
+        $participation = $this->get('app.survey_cint_service')->createParticipationByUserId(
             $user->getId(),
             $cint_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         $cint_research = $this->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $user->getId());
         return $this->redirect($cint_research['url']);
     }
