@@ -45,6 +45,13 @@ class CityList
      */
     private $cityId;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="gmo_city_id", type="integer")
+     */
+    private $gmoCityId;
+
 
     /**
      * Get id
@@ -112,5 +119,15 @@ class CityList
     public function setCityId($cityId)
     {
         $this->cityId = $cityId;
+    }
+
+    public function getGmoCityId()
+    {
+        return $this->gmoCityId;
+    }
+
+    public function setGmoCityId($gmoCityId)
+    {
+        $this->gmoCityId = $gmoCityId;
     }
 }

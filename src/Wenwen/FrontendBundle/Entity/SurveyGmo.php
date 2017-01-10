@@ -32,13 +32,6 @@ class SurveyGmo
     private $researchId;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="research_type", type="integer")
-     */
-    private $researchType;
-
-    /**
      * Survey Name
      *
      * @var string
@@ -75,13 +68,6 @@ class SurveyGmo
     /**
      * @var
      *
-     * @ORM\Column(name="point_type", type="integer")
-     */
-    private $pointType;
-
-    /**
-     * @var
-     *
      * @ORM\Column(name="enq_per_panel_status", length=2)
      */
     private $enqPerPanelStatus;
@@ -94,13 +80,11 @@ class SurveyGmo
     private $arrivalDay;
 
     /**
-     * Survey Start Date
-     *
      * @var integer
      *
-     * @ORM\Column(name="start_dt", type="bigint")
+     * @ORM\Column(name="loi", type="integer", nullable=true)
      */
-    private $startDt;
+    private $loi;
 
     /**
      * @var \DateTime
@@ -182,29 +166,6 @@ class SurveyGmo
     public function getResearchId()
     {
         return $this->researchId;
-    }
-
-    /**
-     * Set researchType
-     *
-     * @param integer $researchType
-     * @return SurveyGmo
-     */
-    public function setResearchType($researchType)
-    {
-        $this->researchType = $researchType;
-
-        return $this;
-    }
-
-    /**
-     * Get researchType
-     *
-     * @return integer 
-     */
-    public function getResearchType()
-    {
-        return $this->researchType;
     }
 
     /**
@@ -300,29 +261,6 @@ class SurveyGmo
     }
 
     /**
-     * Set pointType
-     *
-     * @param integer $pointType
-     * @return SurveyGmo
-     */
-    public function setPointType($pointType)
-    {
-        $this->pointType = $pointType;
-
-        return $this;
-    }
-
-    /**
-     * Get pointType
-     *
-     * @return integer 
-     */
-    public function getPointType()
-    {
-        return $this->pointType;
-    }
-
-    /**
      * Set enqPerPanelStatus
      *
      * @param string $enqPerPanelStatus
@@ -361,7 +299,7 @@ class SurveyGmo
     /**
      * Get arrivalDay
      *
-     * @return string 
+     * @return string
      */
     public function getArrivalDay()
     {
@@ -369,26 +307,26 @@ class SurveyGmo
     }
 
     /**
-     * Set startDt
+     * Set loi
      *
-     * @param integer $startDt
+     * @param integer $loi
      * @return SurveyGmo
      */
-    public function setStartDt($startDt)
+    public function setLoi($loi)
     {
-        $this->startDt = $startDt;
+        $this->loi = $loi;
 
         return $this;
     }
 
     /**
-     * Get startDt
+     * Get loi
      *
-     * @return integer 
+     * @return integer
      */
-    public function getStartDt()
+    public function getLoi()
     {
-        return $this->startDt;
+        return $this->loi;
     }
 
     /**
@@ -430,7 +368,7 @@ class SurveyGmo
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -453,7 +391,7 @@ class SurveyGmo
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

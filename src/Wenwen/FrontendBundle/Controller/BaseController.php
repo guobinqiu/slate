@@ -26,12 +26,19 @@ class BaseController extends Controller
         }
     }
 
+    protected function isUserLoggedIn() {
+        return $this->getRequest()->getSession()->has('uid');
+    }
+
+    protected function getCurrentUserId() {
+        return $this->getRequest()->getSession()->get('uid');
+    }
+
     protected function getCurrentUser()
     {
         $user = null;
-        $session = $this->getRequest()->getSession();
-        if ($session->has('uid')) {
-            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($session->get('uid'));
+        if ($this->isUserLoggedIn()) {
+            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($this->getCurrentUserId());
         }
         return $user;
     }

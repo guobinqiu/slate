@@ -166,6 +166,11 @@ class AdminSurveyPartnerService
         
     }
 
+    public function getSurveyPartnerParticipationDetailByUser($user, $page, $limit = 10){
+        $pagination = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getSurveyPartnersParticipationHistorysByUser($user, $this->knp_paginator, $page, $limit);
+        return $pagination;
+    }
+
     public function getParticipationDailyReport(\DateTime $from = null, \DateTime $to = null){
         // 默认检索一周时间的日报数据
         $from = (new \DateTime())->sub(new \DateInterval('P30D'))->setTime(0,0,0); 

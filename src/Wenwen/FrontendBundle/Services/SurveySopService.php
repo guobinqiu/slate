@@ -69,8 +69,11 @@ class SurveySopService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
@@ -105,6 +108,7 @@ class SurveySopService
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
+        return $points;
     }
 
     public function addProfilingUrlToken($profiling, $userId)
@@ -117,8 +121,10 @@ class SurveySopService
         return $profiling;
     }
 
-    public function processProfilingEndlink(User $user, $tid)
+    public function processProfilingEndlink($appMid, $tid)
     {
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $key = 'sop_profiling_' . $user->getId();
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
@@ -129,6 +135,9 @@ class SurveySopService
 
     public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
+        }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -145,9 +154,6 @@ class SurveySopService
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
-        } else {
-            $participation->setUpdatedAt(new \DateTime());
-            $this->em->flush();
         }
         return $participation;
     }
@@ -156,15 +162,6 @@ class SurveySopService
     {
         $userId = $this->userService->toUserId($appMid);
         return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
-    }
-
-    public function getSurveyPoint($userId, $surveyId)
-    {
-        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveySop($userId, $surveyId);
-        if ($taskHistory != null) {
-            return $taskHistory->getPoint();
-        }
-        return 0;
     }
 
     public function createSurvey(array $surveyData)
@@ -233,13 +230,13 @@ class SurveySopService
             $survey->setTabletBlocked($surveyData['blocked_devices']['TABLET']);
         }
         if (isset($surveyData['is_closed'])) {
-            $survey->setIsClosed($surveyData['is_closed']);
             if ($survey->getIsClosed() == 0 && $surveyData['is_closed'] == 1) {
                 $survey->setClosedAt(new \DateTime());
             } else if ($survey->getIsClosed() == 1 && $surveyData['is_closed'] == 0) {
                 $this->logger->warning('sop survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
                 $survey->setClosedAt(null);
             }
+            $survey->setIsClosed($surveyData['is_closed']);
         }
         if (isset($surveyData['is_fixed_loi'])) {
             $survey->setIsFixedLoi($surveyData['is_fixed_loi']);

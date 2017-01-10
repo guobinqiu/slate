@@ -40,57 +40,120 @@ class SurveyGmoService
         $this->httpClient = $httpClient;
     }
 
-    /**
-     * @param string $userId
-     * @return array
-     */
-    public function getSurveyList($userId = '2067715')
+    public function getSurveyListJson($userId) {
+//        $panelistId = $userId;
+//        $panelCode = $this->parameterService->getParameter('gmo_panelCode');
+//        $randomString = strtotime('now');
+//        $encryptedID = $panelistId . ':' . $panelCode . ':' . $randomString;
+//        $encryptKey = $this->parameterService->getParameter('gmo_encryptKey');
+//        $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
+//        $data = array('panelType' => $panelCode, 'crypt' => $crypt);
+//        $url = $this->parameterService->getParameter('gmo_surveylistUrl') . '?' . http_build_query($data);
+//        $request = $this->httpClient->get($url, null, array('timeout' => 3, 'connect_timeout' => 3));
+//        $response = $request->send();
+//        return $response->getBody();//todo
+        return '
+        [
+          {
+            "ans_mode": "01",
+            "ans_stat_cd": "01",
+            "arrivalDay": "2015/12/02",
+            "custom_nm": null,
+            "encryptId": "5cd31dba666568c3c7dee40bb4b2b4039a8e7067fec89fc6",
+            "enqPerPanelStatus": "05",
+            "enq_id": 629277,
+            "enq_id_truenavi": null,
+            "external_enq_id": null,
+            "id": "dmid",
+            "lg_img": "mtop_i_cate01.gif",
+            "lg_nm": "通常調査",
+            "logo_type": "1",
+            "loi": 2,
+            "main_enq_id": 629278,
+            "matter_type": 9,
+            "optimize_device": "3",
+            "own_flag": "0",
+            "page_comment": "（表紙挿入文例）事後付与",
+            "point": 5,
+            "point_min": 2,
+            "point_sign": "p",
+            "point_string": "最大5p",
+            "point_type": 0,
+            "promotion_type": "0",
+            "que_num": 5,
+            "redirectSt": "https://st.infopanel.jp/lpark/enqRedirect.do?",
+            "research_id": 110202,
+            "research_type": "2",
+            "si_img": "mtop_i_stus01.gif",
+            "situation": "未回答",
+            "start_dt": 1448982000000,
+            "status": "05",
+            "title": "test survey 2"
+          },
+          {
+            "ans_mode": "01",
+            "ans_stat_cd": "01",
+            "arrivalDay": "2015/12/02",
+            "custom_nm": null,
+            "encryptId": "fa47bc2ad1944b7b9d7748b67260736b30c173cd99a068e3",
+            "enqPerPanelStatus": "05",
+            "enq_id": 629275,
+            "enq_id_truenavi": null,
+            "external_enq_id": null,
+            "id": "dmid",
+            "lg_img": "mtop_i_cate01.gif",
+            "lg_nm": "通常調査",
+            "logo_type": "1",
+            "loi": 4,
+            "main_enq_id": 629276,
+            "matter_type": 9,
+            "optimize_device": "3",
+            "own_flag": "0",
+            "page_comment": "",
+            "point": 10,
+            "point_min": 2,
+            "point_sign": "p",
+            "point_string": "最大10p",
+            "point_type": 0,
+            "promotion_type": "0",
+            "que_num": 10,
+            "redirectSt": "https://st.infopanel.jp/lpark/enqRedirect.do?",
+            "research_id": 110200,
+            "research_type": "2",
+            "si_img": "mtop_i_stus01.gif",
+            "situation": "未回答",
+            "start_dt": 1448982000000,
+            "status": "05",
+            "title": "test survey 1"
+          }
+        ]
+        ';
+    }
+
+    public function getSurveyList($userId)
     {
-        $surveylistUrl = $this->parameterService->getParameter('gmo_surveylistUrl');
-        $panelistId = $userId;
-        $panelCode = $this->parameterService->getParameter('gmo_panelCode');
-        $randomString = strtotime('now');
-        $encryptedID = $panelistId . ':' . $panelCode . ':' . $randomString;
-        $encryptKey = $this->parameterService->getParameter('gmo_encryptKey');
-        $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
-        $data = array('panelType' => $panelCode, 'crypt' => $crypt);
-        $surveylistUrl .= '?' . http_build_query($data);
-        $request = $this->httpClient->get($surveylistUrl, null, array('timeout' => 3, 'connect_timeout' => 3));
-        $response = $request->send();
-        $json = $response->getBody();
-        $researches = json_decode($json, true);
+        $researches = json_decode($this->getSurveyListJson(2067715), true);//todo
         foreach ($researches as &$research) {
-            if ('02' == $research['ans_stat_cd']) {
-                $research['is_answered'] = 1;
-            } else {
-                $research['is_answered'] = 0;
-            }
-            if ('05' == $research['status'] && '05' == $research['enqPerPanelStatus']) {
-                $research['is_closed'] = 0;
-            } else {
-                $research['is_closed'] = 1;
-            }
-            $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-            $research['url'] = $research['redirectSt'] . $research['id'] . '=' . $research['encryptId'];
+            $this->addExtraAttributes($research);
         }
         return $researches;
     }
 
-    public function processSurveyEndlink($surveyId, User $user, $answerStatus, $clientIp)
+    public function processSurveyEndlink($surveyId, $userId, $answerStatus, $points, $clientIp)
     {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
         if ($survey != null) {
             $conn = $this->em->getConnection();
             $conn->beginTransaction();
             try {
                 $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
-                $points = $survey->getPoints($answerStatus);
                 $this->pointService->addPoints(
                     $user,
                     $points,
-                    CategoryType::SOP_COST,
+                    CategoryType::GMO_COST,
                     TaskType::SURVEY,
-                    "g{$survey->getId()} {$survey->getTitle()}",
+                    "g{$survey->getResearchId()} {$survey->getTitle()}",
                     $survey
                 );
                 $this->pointService->addPointsForInviter(
@@ -107,7 +170,7 @@ class SurveyGmoService
                 throw $e;
             }
         }
-        $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'gmo商业问卷', $surveyId, $answerStatus);
+        $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'gmo商业问卷', $surveyId, $answerStatus);//Todo
     }
 
     public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
@@ -128,9 +191,6 @@ class SurveyGmoService
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
-        } else {
-            $participation->setUpdatedAt(new \DateTime());
-            $this->em->flush();
         }
         return $participation;
     }
@@ -140,12 +200,12 @@ class SurveyGmoService
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($survey == null) {
             $survey = new SurveyGmo();
-            $this->copyProperties($survey, $surveyData);
+            $survey = $this->copyProperties($survey, $surveyData);
             $this->em->persist($survey);
             $this->em->flush($survey);
         } else {
             $snapshot = clone $survey;
-            $this->copyProperties($survey, $surveyData);
+            $survey = $this->copyProperties($survey, $surveyData);
             if ($survey != $snapshot) {
                 $this->em->flush($survey);
             }
@@ -155,24 +215,22 @@ class SurveyGmoService
 
     private function copyProperties(SurveyGmo $survey, array $surveyData)
     {
+        $this->addExtraAttributes($surveyData);
+        if ($survey->isClosed() == 0 && $surveyData['is_closed'] == 1) {
+            $survey->setClosedAt(new \DateTime());
+        } else if ($survey->isClosed() == 1 && $surveyData['is_closed'] == 0) {
+            $this->logger->warning('gmo survey_id: ' . $survey->getResearchId() . '从关闭又被打开');
+            $survey->setClosedAt(null);
+        }
         $survey->setArrivalDay($surveyData['arrivalDay']);
         $survey->setResearchId($surveyData['research_id']);
-        $survey->setResearchType($surveyData['research_type']);
         $survey->setTitle($surveyData['title']);
         $survey->setStatus($surveyData['status']);
         $survey->setEnqPerPanelStatus($surveyData['enqPerPanelStatus']);
         $survey->setPoint($surveyData['point']);
         $survey->setPointMin($surveyData['point_min']);
-        $survey->setPointType($surveyData['point_type']);
-        $survey->setStartDt($surveyData['start_dt']);
-        if (isset($surveyData['is_closed'])) {
-            if (!$survey->isClosed() && $surveyData['is_closed']) {
-                $survey->setClosedAt(new \DateTime());
-            } else if ($survey->isClosed() && !$surveyData['is_closed']) {
-                $this->logger->warning('gmo survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
-                $survey->setClosedAt(null);
-            }
-        }
+        $survey->setLoi($surveyData['loi']);
+        return $survey;
     }
 
     private function encrypt_blowfish($data, $key) {
@@ -194,7 +252,7 @@ class SurveyGmoService
         $actualLoiSeconds = null;
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
-            'surveyId' => $survey->getId(),
+            'surveyId' => $survey->getResearchId(),
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $user->getId(),
         ));
@@ -209,6 +267,20 @@ class SurveyGmoService
                 }
             }
         }
-        $this->createParticipationByUserId($user->getId(), $survey->getSurveyId(), $answerStatus, $clientIp, $actualLoiSeconds);
+        $this->createParticipationByUserId($user->getId(), $survey->getResearchId(), $answerStatus, $clientIp, $actualLoiSeconds);
+    }
+
+    private function addExtraAttributes(array &$surveyData) {
+        if ('02' == $surveyData['ans_stat_cd']) {
+            $surveyData['is_answered'] = 1;
+        } else {
+            $surveyData['is_answered'] = 0;
+        }
+        if ('05' == $surveyData['status'] && '05' == $surveyData['enqPerPanelStatus']) {
+            $surveyData['is_closed'] = 0;
+        } else {
+            $surveyData['is_closed'] = 1;
+        }
+        $surveyData['url'] = $surveyData['redirectSt'] . $surveyData['id'] . '=' . $surveyData['encryptId'];
     }
 }

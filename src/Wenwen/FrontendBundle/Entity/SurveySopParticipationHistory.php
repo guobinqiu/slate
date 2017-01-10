@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+* @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\SurveySopParticipationHistoryRepository")
  */
 class SurveySopParticipationHistory
 {

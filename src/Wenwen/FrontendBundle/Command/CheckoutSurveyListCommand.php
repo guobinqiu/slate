@@ -29,17 +29,17 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         $userId = $input->getOption('user_id');
 
         //gmo
-        $researches = $surveyGmoService->getSurveyList();
+        $researches = $surveyGmoService->getSurveyList($userId);
         foreach ($researches as $research) {
             $survey = $surveyGmoService->createOrUpdateSurvey($research);
-            $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+            $surveyGmoService->createParticipationByUserId($userId, $survey->getResearchId(), SurveyStatus::STATUS_TARGETED);
         }
 
         //sop
         //$appMid = $surveyService->getSopRespondentId($userId);
-        $result = $surveyService->getSopSurveyListJson($userId);
-        //$result = $surveyService->getDummySurveyListJson();//读取测试数据
-        $output->writeln('result=' . $result);
+        //$result = $surveyService->getSopSurveyListJson($userId);//todo
+        $result = $surveyService->getDummySurveyListJson();//读取测试数据
+        //$output->writeln('result=' . $result);
 
         if (empty($result)) {
             throw new \Exception('empty survey list');

@@ -97,20 +97,23 @@ class SurveyGmoServiceTest extends WebTestCase
         $this->assertEquals('2015/12/02', $survey->getArrivalDay());
         $this->assertEquals('1448982000000', $survey->getStartDt());
         $this->assertEquals('test survey 1', $survey->getTitle());
-        $this->assertEmpty($survey->getClosedAt());
+        $this->assertFalse($survey->isClosed());
+        $this->assertNull($survey->getClosedAt());
 
-        $surveyData['cpi'] = 1.23;
-        $surveyData['ir'] = 1;
-        $surveyData['is_closed'] = 1;
-        $this->surveySopService->createOrUpdateSurvey($surveyData); //update
-        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => 8006));
-        $this->assertEquals(1.23, $survey->getCpi());
-        $this->assertEquals(1, $survey->getIr());
-        $this->assertEquals(1, $survey->getIsClosed());
-        $this->assertNotEmpty($survey->getClosedAt());
-//
-//        $this->surveySopService->createOrUpdateSurvey($surveyData); //do nothing
-//        $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findBy(array('surveyId' => 8006));
-//        $this->assertCount(1, $surveys);
+        $surveyData['status'] = '07';
+        $this->surveyGmoService->createOrUpdateSurvey($surveyData); //update
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => 110200));
+        $this->assertTrue($survey->isClosed());
+        $this->assertNotNull($survey->getClosedAt());
+
+        $surveyData['status'] = '05';
+        $this->surveyGmoService->createOrUpdateSurvey($surveyData); //update
+        $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => 110200));
+        $this->assertFalse($survey->isClosed());
+        $this->assertNull($survey->getClosedAt());
+
+        $this->surveyGmoService->createOrUpdateSurvey($surveyData); //do nothing
+        $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findBy(array('researchId' => 110200));
+        $this->assertCount(1, $surveys);
     }
 }

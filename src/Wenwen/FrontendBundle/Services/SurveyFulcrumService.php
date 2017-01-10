@@ -4,6 +4,7 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrum;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrumParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -69,8 +70,11 @@ class SurveyFulcrumService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
 //            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
@@ -105,10 +109,14 @@ class SurveyFulcrumService
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
+        return $points;
     }
 
     public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("fulcrum invalid answer status: {$answerStatus}");
+        }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -125,9 +133,6 @@ class SurveyFulcrumService
             $participation->setUserId($userId);
             $this->em->persist($participation);
             $this->em->flush();
-        } else {
-            $participation->setUpdatedAt(new \DateTime());
-            $this->em->flush();
         }
         return $participation;
     }
@@ -136,15 +141,6 @@ class SurveyFulcrumService
     {
         $userId = $this->userService->toUserId($appMid);
         return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
-    }
-
-    public function getSurveyPoint($userId, $surveyId)
-    {
-        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveyFulcrum($userId, $surveyId);
-        if ($taskHistory != null) {
-            return $taskHistory->getPoint();
-        }
-        return 0;
     }
 
     public function createSurvey(array $surveyData)

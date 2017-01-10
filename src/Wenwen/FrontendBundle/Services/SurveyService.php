@@ -505,7 +505,6 @@ class SurveyService
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
-        //////////////////Inhouse
         try{
             $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
             if(is_null($user)){
@@ -534,9 +533,8 @@ class SurveyService
             $this->logger->error($e->getTraceAsString());
         }
 
-        //////////////outhouse
         //gmo
-        $researches = $this->surveyGmoService->getSurveyList();
+        $researches = $this->surveyGmoService->getSurveyList($user_id);
         foreach ($researches as $research) {
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
             if ($research['is_answered'] == 0) {

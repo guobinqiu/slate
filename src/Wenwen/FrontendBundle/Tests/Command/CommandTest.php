@@ -6,8 +6,9 @@ use Wenwen\FrontendBundle\Command\CheckoutSurveyListCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+use Wenwen\FrontendBundle\Command\GmoMemberListCSVCommand;
 
-class CheckoutSurveyListCommandTest extends WebTestCase {
+class CommandTest extends WebTestCase {
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -44,7 +45,20 @@ class CheckoutSurveyListCommandTest extends WebTestCase {
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(),
-            '--user_id' => 1
+            '--user_id' => 1,
+        ));
+    }
+
+    public function testGmoMemberListCSVCommand() {
+        $application = new Application(static::$kernel);
+        $application->add(new GmoMemberListCSVCommand());
+        $command = $application->find('gmo:member_list_csv');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--filepath' => '/Users/guobin/workspace/PointMedia/web',
+            '--filename' => 'memberList.csv',
+            '--compress' => true,
         ));
     }
 }

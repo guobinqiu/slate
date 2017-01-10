@@ -72,6 +72,7 @@ class CategoryType
     const CINT_COST = 404;        // (+) 回答Cint的实际商业问卷
     const FULCRUM_COST = 405;     // (+) 回答Fulcrum的实际商业问卷
     const SURVEY_PARTNER_COST = 406;     // (+) 回答survey partner的实际商业问卷
+    const GMO_COST = 407;
 
     /** 2016/09/12之前的值
     // 这里，将来希望分成 自己公司的问卷，各类对接API的类型（Cint SSI Fulcrum）

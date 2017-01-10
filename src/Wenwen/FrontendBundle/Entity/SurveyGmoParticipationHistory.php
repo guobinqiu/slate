@@ -64,18 +64,18 @@ class SurveyGmoParticipationHistory
     private $clientIp;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="loi", type="integer", nullable=true)
      */
     private $loi;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
 
     /**
      * @var \DateTime

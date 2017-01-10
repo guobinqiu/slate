@@ -12,21 +12,26 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
 /**
  * @Route("/project_survey")
  */
-class ProjectSurveyController extends BaseController implements UserAuthenticationController
+class ProjectSurveyController extends BaseController
 {
     /**
      * @Route("/information", name="_project_survey_information")
      */
     public function informationAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $research = $request->query->get('research');
-        $user = $this->getCurrentUser();
-        $this->get('app.survey_sop_service')->createParticipationByUserId(
-            $user->getId(),
+        $participation = $this->get('app.survey_sop_service')->createParticipationByUserId(
+            $this->getCurrentUserId(),
             $research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
         );
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
         $notifiable = $this->get('app.survey_sop_service')->isNotifiableSurvey($research['survey_id']);
         return $this->render('WenwenFrontendBundle:ProjectSurvey:information.html.twig', array('research' => $research, 'notifiable' => $notifiable));
     }
@@ -36,15 +41,20 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function forwardAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $research = $request->query->get('research');
-        $user = $this->getCurrentUser();
-        $this->get('app.survey_sop_service')->createParticipationByUserId(
-            $user->getId(),
+        $participation = $this->get('app.survey_sop_service')->createParticipationByUserId(
+            $this->getCurrentUserId(),
             $research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
         );
-        $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $user->getId());
+        $em = $this->getDoctrine()->getManager();
+        $participation->setUpdatedAt(new \DateTime());
+        $em->flush();
+        $research = $this->get('app.survey_sop_service')->addSurveyUrlToken($research, $this->getCurrentUserId());
         return $this->redirect($research['url']);
     }
 
@@ -55,22 +65,13 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
     {
         $tid = $request->query->get('tid');
         $app_mid = $request->query->get('app_mid');
-        if (!SurveyStatus::isValid($answer_status)) {
-            throw new \InvalidArgumentException("sop invalid answer status: {$answer_status}");
-        }
-        $user = $this->getCurrentUser();
-        $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        if ($app_mid != $app_mid2) {
-            throw new \InvalidArgumentException("sop app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
-        }
-        $this->get('app.survey_sop_service')->processSurveyEndlink(
+        $point = $this->get('app.survey_sop_service')->processSurveyEndlink(
             $survey_id,
             $tid,
-            $user,
+            $app_mid,
             $answer_status,
             $request->getClientIp()
         );
-        $point = $this->get('app.survey_sop_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
@@ -94,10 +95,9 @@ class ProjectSurveyController extends BaseController implements UserAuthenticati
      */
     public function profileQuestionnaireEndlinkCompleteAction(Request $request)
     {
-        $this->get('app.survey_sop_service')->processProfilingEndlink(
-            $this->getCurrentUser(),
-            $request->query->get('tid')
-        );
+        $tid = $request->query->get('tid');
+        $app_mid = $request->query->get('app_mid');
+        $this->get('app.survey_sop_service')->processProfilingEndlink($app_mid, $tid);
         return $this->render('WenwenFrontendBundle:ProjectSurvey:profiling_endlink.html.twig');
     }
 
