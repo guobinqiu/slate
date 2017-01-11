@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\UniqueConstraint(name="gmo_grant_point_history_uniq", columns={"member_id", "survey_id", "grant_times"})
  * })
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class GmoGrantPointHistory
 {
@@ -64,6 +65,21 @@ class GmoGrantPointHistory
      * @ORM\Column(name="status", type="integer")
      */
     private $status;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Get id
