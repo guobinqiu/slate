@@ -25,7 +25,8 @@
           <tr>
             <td>{{date}}</td>
             {% for route, count in report %}
-            <td>{{count}}</td>
+            <td>{{count.activeCount}}/{{count.registerCount}} <br>
+            {% if count.rawRetentionRate > 20 %}<font color="blue">({{count.retentionRate}}%)</font>{% else %}({{count.retentionRate}}%){% endif %}</td>
             {% endfor %}
             </tr>
           {% endfor %}

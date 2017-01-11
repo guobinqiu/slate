@@ -430,11 +430,11 @@ EOT;
     }
 
     public function getRecruitRouteDailyCount(\DateTime $from, \DateTime $to){
-        $sql = "SELECT DATE_FORMAT(u.register_complete_date, '%Y-%m-%d') as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(*) as count"
+        $sql = "SELECT date(u.register_complete_date) as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(u.id) as count"
         . " FROM user u LEFT JOIN user_track ut ON( u.id = ut.user_id) "
         . " WHERE u.register_complete_date >= :from  AND u.register_complete_date < :to "
-        . " GROUP BY DATE_FORMAT(u.register_complete_date, '%Y-%m-%d'), ut.register_route "
-        . " ORDER BY DATE_FORMAT(u.register_complete_date, '%Y-%m-%d') DESC";
+        . " GROUP BY date(u.register_complete_date), ut.register_route "
+        . " ORDER BY date(u.register_complete_date) DESC";
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $params = array(
@@ -448,8 +448,28 @@ EOT;
         return $results;
     }
 
+    public function getActiveRouteDailyCount(\DateTime $from, \DateTime $to, \DateTime $activeAt){
+        $sql = "SELECT date(u.register_complete_date) as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(u.id) as count"
+        . " FROM user u LEFT JOIN user_track ut ON( u.id = ut.user_id) "
+        . " WHERE u.register_complete_date >= :from  AND u.register_complete_date < :to AND u.last_get_points_at >= :activeAt "
+        . " GROUP BY date(u.register_complete_date), ut.register_route "
+        . " ORDER BY date(u.register_complete_date) DESC";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $params = array(
+            "from"  => $from->format('Y-m-d'),
+            "to"  => $to->format('Y-m-d'),
+            "activeAt" => $activeAt->format('Y-m-d')
+        );
+        $stmt->execute($params);
+
+        $results = $stmt->fetchAll();  
+
+        return $results;
+    }
+
     public function getRecruitRouteMonthlyCount(\DateTime $from, \DateTime $to){
-        $sql = "SELECT DATE_FORMAT(u.register_complete_date, '%Y-%m') as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(*) as count"
+        $sql = "SELECT DATE_FORMAT(u.register_complete_date, '%Y-%m') as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(u.id) as count"
         . " FROM user u LEFT JOIN user_track ut ON( u.id = ut.user_id) "
         . " WHERE u.register_complete_date >= :from  AND u.register_complete_date < :to "
         . " GROUP BY DATE_FORMAT(u.register_complete_date, '%Y-%m'), ut.register_route "
@@ -459,6 +479,26 @@ EOT;
         $params = array(
             "from"  => $from->format('Y-m-01 00:00:00'),
             "to"  => $to->format('Y-m-01 00:00:00')
+        );
+        $stmt->execute($params);
+
+        $results = $stmt->fetchAll();  
+
+        return $results;
+    }
+
+    public function getActiveRouteMonthlyCount(\DateTime $from, \DateTime $to, \DateTime $activeAt){
+        $sql = "SELECT DATE_FORMAT(u.register_complete_date, '%Y-%m') as date, IFNULL(ut.register_route, 'N/A') as recruit_route, count(u.id) as count"
+        . " FROM user u LEFT JOIN user_track ut ON( u.id = ut.user_id) "
+        . " WHERE u.register_complete_date >= :from  AND u.register_complete_date < :to AND u.last_get_points_at >= :activeAt "
+        . " GROUP BY DATE_FORMAT(u.register_complete_date, '%Y-%m'), ut.register_route "
+        . " ORDER BY DATE_FORMAT(u.register_complete_date, '%Y-%m') DESC";
+
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $params = array(
+            "from"  => $from->format('Y-m-01 00:00:00'),
+            "to"  => $to->format('Y-m-01 00:00:00'),
+            "activeAt" => $activeAt->format('Y-m-01 00:00:00')
         );
         $stmt->execute($params);
 
