@@ -15,6 +15,8 @@ class CommandTest extends WebTestCase {
      */
     private $em;
 
+    private $container;
+
     /**
      * {@inheritDoc}
      */
@@ -23,6 +25,7 @@ class CommandTest extends WebTestCase {
         static::$kernel->boot();
 
         $container = static::$kernel->getContainer();
+        $this->container = $container;
         $em = $container->get('doctrine')->getManager();
         $this->em = $em;
     }
@@ -54,11 +57,6 @@ class CommandTest extends WebTestCase {
         $application->add(new GmoMemberListCSVCommand());
         $command = $application->find('gmo:member_list_csv');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            'command' => $command->getName(),
-            '--filepath' => '/Users/guobin/workspace/PointMedia/web',
-            '--filename' => 'memberList.csv',
-            '--compress' => true,
-        ));
+        $commandTester->execute(array('command' => $command->getName()));
     }
 }

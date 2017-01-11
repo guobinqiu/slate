@@ -15,6 +15,9 @@ security:
                         # http://php.net/manual/en/function.password-hash.php
                         password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
                         roles: 'ROLE_ADMIN'
+                    gmo:
+                        password: $2y$12$oM9/GNfWGH5ODrEZZ32AvenhPFYe1y5fpTTlRKz9TE5jaX/ajnc8W #hirabbitopenthedoor
+                        roles: 'ROLE_GMO'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -34,6 +37,7 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
+        - { path: ^/survey_gmo/csv$, roles: ROLE_GMO, requires_channel: http }
         - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: http }
         - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: http }
         - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
