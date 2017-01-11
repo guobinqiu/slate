@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>非商业调查问卷设置</h1>
+
+    <a href="{{ path('gmo_new') }}">新增</a>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Researchid</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Completepoint</th>
+                <th>Screenoutpoint</th>
+                <th>Quotafullpoint</th>
+                <th>Createdat</th>
+                <th>Updatedat</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('gmo_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.researchId }}</td>
+                <td>{{ entity.title }}</td>
+                <td>{{ entity.type }}</td>
+                <td>{{ entity.completePoint }}</td>
+                <td>{{ entity.screenoutPoint }}</td>
+                <td>{{ entity.quotafullPoint }}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('gmo_edit', { 'id': entity.id }) }}">编辑</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

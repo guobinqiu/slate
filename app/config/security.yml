@@ -16,7 +16,7 @@ security:
                         password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
                         roles: 'ROLE_ADMIN'
                     gmo:
-                        password: $2y$12$oM9/GNfWGH5ODrEZZ32AvenhPFYe1y5fpTTlRKz9TE5jaX/ajnc8W #hirabbitopenthedoor
+                        password: $2y$12$oM9/GNfWGH5ODrEZZ32AvenhPFYe1y5fpTTlRKz9TE5jaX/ajnc8W
                         roles: 'ROLE_GMO'
 
     firewalls:
