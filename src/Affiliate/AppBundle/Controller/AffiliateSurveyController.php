@@ -32,17 +32,18 @@ class AffiliateSurveyController extends Controller
 
         $affiliateSurveyService = $this->get('app.affiliate_survey_service');
         $affiliateProjectLocationService = $this->get('app.af_location_service');
+        // $affiliateProjectLocationService->setDummy(true, "宁波市", "浙江省");
         
         // 判断用户Location与项目中的Location是否一致       
-/* 2016/12/5 项目里不设城市限制时的判断逻辑不正确 先暂时去掉IP检查
+
         $checkResult=$affiliateProjectLocationService->confirmLocation($request->getClientIp(),$affiliateProjectId);
-        if(empty($checkResult)){
+        if(!$checkResult){
             $param = array(
-                'answer_status' => 'other'
+                'answer_status' => 'screenout'
             );
             return $this->render('AffiliateAppBundle::endpage.html.twig', $param);
         }
-*/
+
         $redirectURL = $affiliateSurveyService->getSurveyURL($affiliateProjectId);
         
         if(is_null($redirectURL)){
