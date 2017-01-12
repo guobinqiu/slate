@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminUserController extends BaseController #implements IpAuthenticatedController
 {
     /**
-     * @Route("/admin/member", name="_admin_member")
+     * @Route("/admin/user", name="admin_user")
      */
     public function memberAction()
     {
@@ -42,7 +42,48 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
 
 
         if($user){
-            $arr['member'] = $user;
+            $arr['user'] = $user;
+            $userProfile = $em->getRepository('WenwenFrontendBundle:UserProfile')->findOneBy(array('user' => $user));
+            $this->get('logger')->debug(__METHOD__ . ' userProfile=' . json_encode($userProfile));
+            if(!empty($userProfile)){
+                $profile = array();
+                if($userProfile->getSex() == 1){
+                    $profile['gender'] = '男性';
+                } elseif($userProfile->getSex() == 2){
+                    $profile['gender'] = '女性';
+                } else {
+                    $profile['gender'] = '未知';
+                }
+                $birthday = $userProfile->getBirthday();
+                if(!empty($birthday)){
+                    $profile['birthday'] = $birthday;
+                } else {
+                    $profile['birthday'] = '未知';
+                }
+                $province = $userProfile->getProvince();
+                if(!empty($province)){
+                    $provinceName = $em->getRepository('WenwenFrontendBundle:ProvinceList')->findOneById($province);
+                    $this->get('logger')->debug(__METHOD__ . ' provinceName=' . $provinceName->getProvinceName());
+                    if(!empty($provinceName)){
+                        $profile['provinceName'] = $provinceName->getProvinceName();
+                    } else {
+                        $profile['provinceName'] = '未知';
+                    }
+                }
+                $city = $userProfile->getCity();
+                if(!empty($city)){
+                    $cityName = $em->getRepository('WenwenFrontendBundle:CityList')->findOneById($city);
+                    $this->get('logger')->debug(__METHOD__ . ' cityName=' . $cityName->getCityName());
+                    if(!empty($cityName)){
+                        $profile['cityName'] = $cityName->getCityName();
+                    } else {
+                        $profile['cityName'] = '未知';
+                    }
+                }
+
+                $arr['userProfile'] = $profile;
+            }
+            
             $currentPage = $request->query->get('page', 1);
 
             $adminUserService = $this->get('app.admin_user_service');
@@ -103,7 +144,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
                 }
                 $em->persist($member);
                 $em->flush();
-                return $this->redirect($this->generateUrl('_admin_member'));
+                return $this->redirect($this->generateUrl('admin_user'));
             }else{
                 $arr['nick'] = $nick;
                 $arr['tel'] = $tel;
