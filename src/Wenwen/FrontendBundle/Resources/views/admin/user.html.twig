@@ -11,7 +11,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("#select").click(function (){
-      window.location.href="{{ path('_admin_member') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
+      window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
   });
   $("#edit").click(function (){
       window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
@@ -30,7 +30,7 @@ $(document).ready(function(){
 </STYLE>
 
 <table align="center" class="search">
-    <form action="{{ path('_admin_member')}}" method="post" id="form1" >
+    <form action="{{ path('admin_user')}}" method="post" id="form1" >
     <tr>
         <td colspan="7" align="center">&nbsp;</td>
     </tr>
@@ -43,48 +43,70 @@ $(document).ready(function(){
     </tr>
     </form>
  </table>
- {% if member is defined %}
+ {% if user is defined %}
    <table border="1px" cellspacing="0px" class="member_table list">
     <tr>
-        <th>user id</th>
-        <td width="350px;">{{ member.id }}
-        <input type="hidden" id="id" name="user_id" value="{{ member.id }}"></td>
+        <th>user_id</th>
+        <td width="350px;">{{ user.id }}
+        <input type="hidden" id="id" name="user_id" value="{{ user.id }}"></td>
     </tr>
     <tr>
-        <th>email</th>
-        <td>{{ member.email }}&nbsp;</td>
+        <th>邮箱地址</th>
+        <td>{{ user.email }}&nbsp;</td>
     </tr>
     <tr>
-        <th>nick</th>
-        <td>{{ member.nick }}&nbsp;</td>
+        <th>昵称</th>
+        <td>{{ user.nick }}&nbsp;</td>
     </tr>
     <tr>
-        <th>tel</th>
-        <td>{{ member.tel }}&nbsp;</td>
+        <th>手机号码</th>
+        <td>{{ user.tel }}&nbsp;</td>
     </tr>
     <tr>
-        <th>register date</th>
-        <td>{{ member.registerDate is empty ? "": member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>开始注册时间</th>
+        <td>{{ user.registerDate is empty ? "": user.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
-        <th>register complete date</th>
-        <td>{{ member.registerCompleteDate is empty ? "": member.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>完成注册时间</th>
+        <td>{{ user.registerCompleteDate is empty ? "": user.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
-        <th>last login date</th>
-        <td>{{ member.lastLoginDate is empty ? "": member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>最新登录时间</th>
+        <td>{{ user.lastLoginDate is empty ? "": user.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
     <tr>
-        <th>points</th>
-        <td>{{ member.points }}&nbsp;</td>
+        <th>最新获取积分时间</th>
+        <td>{{ user.lastGetPointsAt is empty ? "": user.lastGetPointsAt|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
+    <tr>
+        <th>目前持有积分数</th>
+        <td>{{ user.points }}&nbsp;</td>
+    </tr>
+    {% if userProfile is defined %}
+    <tr>
+        <th>性别</th>
+        <td>{{ userProfile.gender }}</td>
+    </tr>
+    <tr>
+        <th>生日</th>
+        <td>{{ userProfile.birthday }}</td>
+    </tr>
+    <tr>
+        <th>省份</th>
+        <td>{{ userProfile.provinceName }}</td>
+    </tr>
+    <tr>
+        <th>城市</th>
+        <td>{{ userProfile.cityName }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <th>delete flag</th>
-        <td>{{ member.deleteFlag }}&nbsp;</td>
+        <td>{{ user.deleteFlag }}&nbsp;</td>
     </tr>
     <tr>
         <th>delete_date</th>
-        <td>{{ member.deleteDate is empty ? "": member.deleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ user.deleteDate is empty ? "": user.deleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
     </tr>
 </table>
 <input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;"/>
