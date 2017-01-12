@@ -118,6 +118,7 @@ class ProjectLocationService
     * @param $responseBody
     * @return array()
     */
+
     private function processResponseJson($responseBody){
         $rtn = array(
             'status' => false,
@@ -137,6 +138,7 @@ class ProjectLocationService
         }
         return $rtn;
     }
+
 
     /**
     * 匹配允许省份城市内的用户
@@ -166,17 +168,20 @@ class ProjectLocationService
         } else {
             // 实际的位置信息如果存在于允许位置信息中的话，匹配成功
             // 两个都没有匹配到的话，认为位置失败
-
-            // 先查询城市是否存在与允许的城市列表中
-            if(strpos($projectLocationdb[0]['city'], str_replace('市', '', $getClientLocation['city'])) !== false){
-                return true;
+            if(!empty($projectLocationdb[0]['city'])){
+                // 先查询城市是否存在与允许的城市列表中
+                if(strpos($projectLocationdb[0]['city'], str_replace('市', '', $getClientLocation['city'])) !== false){
+                    return true;
+                }
             }
-
-            // 再查询省份是否存在于允许的省份列表中
-            if(strpos($projectLocationdb[0]['province'], str_replace('省', '', $getClientLocation['province'])) !== false){
-                return true;
+            
+            if(!empty($projectLocationdb[0]['province'])){
+                // 再查询省份是否存在于允许的省份列表中
+                if(strpos($projectLocationdb[0]['province'], str_replace('省', '', $getClientLocation['province'])) !== false){
+                    return true;
+                }
             }
-
+            
             return false;
         }
     }
