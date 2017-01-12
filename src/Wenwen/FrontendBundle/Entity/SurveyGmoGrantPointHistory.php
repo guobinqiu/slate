@@ -5,15 +5,15 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * GmoGrantPointHistory
+ * SurveyGmoGrantPointHistory
  *
- * @ORM\Table(name="gmo_grant_point_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="gmo_grant_point_history_uniq", columns={"member_id", "survey_id", "grant_times"})
+ * @ORM\Table(name="survey_gmo_grant_point_history", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="survey_gmo_grant_point_history_uniq", columns={"member_id", "survey_id", "grant_times"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class GmoGrantPointHistory
+class SurveyGmoGrantPointHistory
 {
     /**
      * @var integer
@@ -95,7 +95,7 @@ class GmoGrantPointHistory
      * Set memberId
      *
      * @param integer $memberId
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setMemberId($memberId)
     {
@@ -118,7 +118,7 @@ class GmoGrantPointHistory
      * Set point
      *
      * @param integer $point
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setPoint($point)
     {
@@ -141,7 +141,7 @@ class GmoGrantPointHistory
      * Set surveyId
      *
      * @param integer $surveyId
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setSurveyId($surveyId)
     {
@@ -164,7 +164,7 @@ class GmoGrantPointHistory
      * Set surveyName
      *
      * @param string $surveyName
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setSurveyName($surveyName)
     {
@@ -187,7 +187,7 @@ class GmoGrantPointHistory
      * Set grantTimes
      *
      * @param integer $grantTimes
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setGrantTimes($grantTimes)
     {
@@ -210,7 +210,7 @@ class GmoGrantPointHistory
      * Set status
      *
      * @param integer $status
-     * @return GmoGrantPointHistory
+     * @return SurveyGmoGrantPointHistory
      */
     public function setStatus($status)
     {

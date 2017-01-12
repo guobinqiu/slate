@@ -28,7 +28,7 @@ class SurveyGmoNonBusinessController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findAll();
+        $entities = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findBy(array(), array('createdAt' => 'DESC'));
 
         return array(
             'entities' => $entities,
@@ -53,7 +53,7 @@ class SurveyGmoNonBusinessController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('gmo_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('gmo'));
         }
 
         return array(
@@ -81,31 +81,6 @@ class SurveyGmoNonBusinessController extends Controller
     }
 
     /**
-     * Finds and displays a SurveyGmoNonBusiness entity.
-     *
-     * @Route("/{id}", name="gmo_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find SurveyGmoNonBusiness entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Displays a form to edit an existing SurveyGmoNonBusiness entity.
      *
      * @Route("/{id}/edit", name="gmo_edit")
@@ -123,12 +98,10 @@ class SurveyGmoNonBusinessController extends Controller
         }
 
         $editForm = $this->createForm(new SurveyGmoNonBusinessType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -149,7 +122,6 @@ class SurveyGmoNonBusinessController extends Controller
             throw $this->createNotFoundException('Unable to find SurveyGmoNonBusiness entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new SurveyGmoNonBusinessType(), $entity);
         $editForm->bind($request);
 
@@ -157,54 +129,34 @@ class SurveyGmoNonBusinessController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('gmo_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('gmo'));
         }
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
      * Deletes a SurveyGmoNonBusiness entity.
      *
-     * @Route("/{id}", name="gmo_delete")
+     * @Route("/", name="gmo_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $id = $request->request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find SurveyGmoNonBusiness entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find SurveyGmoNonBusiness entity.');
         }
 
-        return $this->redirect($this->generateUrl('gmo'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a SurveyGmoNonBusiness entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('gmo'));
     }
 }

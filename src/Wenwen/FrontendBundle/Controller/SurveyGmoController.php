@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Wenwen\FrontendBundle\Entity\GmoGrantPointHistory;
+use Wenwen\FrontendBundle\Entity\SurveyGmoGrantPointHistory;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
@@ -76,7 +76,6 @@ class SurveyGmoController extends BaseController
     public function grantPointAction(Request $request)
     {
         $ip = $request->getClientIp();
-        $ip = '127.0.0.1';//todo
         if ('127.0.0.1' === $ip || preg_match('/^210\.172\.135\.\d{1,3}$/', $ip)) {
             $memberId = $request->request->get('member_id');
             $point = $request->request->get('point');
@@ -84,27 +83,46 @@ class SurveyGmoController extends BaseController
             $surveyName = $request->request->get('survey_name');
             $grantTimes = $request->request->get('grant_times');
             $status = $request->request->get('status');
+            if (!isset($memberId) ||
+                !isset($point) ||
+                !isset($surveyId) ||
+                !isset($surveyName) ||
+                !isset($grantTimes) ||
+                !isset($status)
+            ) {
+                return new Response(self::INVALID_PARAMETER);
+            }
 
+            $em = $this->getDoctrine()->getManager();
+
+            //Write log to db
             try {
-                $history = new GmoGrantPointHistory();
+                $history = new SurveyGmoGrantPointHistory();
                 $history->setMemberId($memberId);
                 $history->setPoint($point);
                 $history->setSurveyId($surveyId);
                 $history->setSurveyName($surveyName);
                 $history->setGrantTimes($grantTimes);
                 $history->setStatus($status);
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($history);
                 $em->flush();
             } catch (\Exception $e) {
                 return new Response(self::DUPLICATE_ANSWER);
             }
 
+            // Overwrite gmo point
+            $status = self::$statusHash[$status];
+            $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
+            if ($surveyGmoNonBusiness != null) {
+                $point = $surveyGmoNonBusiness->getPoints($status);
+            }
+
+            // Add point to panelist
             try {
                 $this->get('app.survey_gmo_service')->processSurveyEndlink(
                     $surveyId,
                     $memberId,
-                    self::$statusHash[$status],
+                    $status,
                     $point,
                     $request->getClientIp()
                 );

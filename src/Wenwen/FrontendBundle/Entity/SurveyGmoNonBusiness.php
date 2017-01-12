@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * SurveyGmoNonBusiness
@@ -13,6 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SurveyGmoNonBusiness
 {
+    const TYPE_GK = '概况研究';
+    const TYPE_SS = 'Self-Study研究';
+    const TYPE_BUSINESS = '商业调研';
+
     /**
      * @var integer
      *
@@ -25,7 +30,7 @@ class SurveyGmoNonBusiness
     /**
      * @var integer
      *
-     * @ORM\Column(name="researchId", type="integer")
+     * @ORM\Column(name="research_id", type="integer", unique=true)
      */
     private $researchId;
 
@@ -93,6 +98,22 @@ class SurveyGmoNonBusiness
     public function onPreUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @param $answerStatus
+     * @return int
+     */
+    public function getPoints($answerStatus) {
+        $points = null;
+        if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+            $points = $this->getCompletePoint();
+        } elseif ($answerStatus == SurveyStatus::STATUS_SCREENOUT) {
+            $points = $this->getScreenoutPoint();
+        } elseif ($answerStatus == SurveyStatus::STATUS_QUOTAFULL) {
+            $points = $this->getQuotafullPoint();
+        }
+        return $points == null ? 0 : $points;
     }
 
     /**

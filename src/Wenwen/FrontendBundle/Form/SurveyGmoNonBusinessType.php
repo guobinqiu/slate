@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Wenwen\FrontendBundle\Entity\SurveyGmoNonBusiness;
 
 class SurveyGmoNonBusinessType extends AbstractType
 {
@@ -15,8 +16,8 @@ class SurveyGmoNonBusinessType extends AbstractType
             ->add('title')
             ->add('type', 'choice', array(
                 'choices' => array(
-                    'Self-Study' => 'Self-Study',
-                    '概况研究' => '概况研究',
+                    SurveyGmoNonBusiness::TYPE_SS => SurveyGmoNonBusiness::TYPE_SS,
+                    SurveyGmoNonBusiness::TYPE_GK => SurveyGmoNonBusiness::TYPE_GK,
                 )
             ))
             ->add('completePoint')
