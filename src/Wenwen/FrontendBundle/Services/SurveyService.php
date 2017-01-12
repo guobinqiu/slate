@@ -535,7 +535,6 @@ class SurveyService
 
         //gmo
         $researches = $this->surveyGmoService->getSurveyList($user_id);
-        echo count($researches);
         foreach ($researches as $research) {
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
             if ($research['is_answered'] == 0) {
