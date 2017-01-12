@@ -38,8 +38,8 @@ class AdminProjectController extends Controller
         $builder->add('RFQId', 'text', array('label' => 'RFQId:', 'trim' => true));
         $builder->add('CompletePoints', 'text', array('label' => '完成问卷后注册的额外奖励积分数:', 'data' => 0, 'trim' => true)); // default 0
         $builder->add('urlFile', 'file', array('label' => 'Csv File with ukey and url. Please rename this file as RFQId_linenumber_YYYYMMDD_hms.txt before upload.'));
-        $builder->add('Province', 'text', array('label' => 'Province 输入XX省或“直辖市”,不限制输入空格:', 'data' => null, 'empty_data' => null));
-        $builder->add('City', 'text', array('label' => 'City 输入XX市,不限制输入空格:', 'data' => null, 'empty_data' => null));
+        $builder->add('Province', 'text', array('label' => 'Province 输入XX省或“直辖市”,不限制输入空格:', 'data' => null, 'required' => false));
+        $builder->add('City', 'text', array('label' => 'City 输入XX市,不限制输入空格:', 'data' => null, 'required' => false));
 
         $form = $builder->getForm();
 
@@ -77,17 +77,7 @@ class AdminProjectController extends Controller
                     $adminLocationService = $this->get('app.af_location_service');                  
  
                     // 改partnerId
-                    //检查输入的省份，城市                 
-                    $status = $adminLocationService->checkInputLocation($province, $city);
-                    if('success' == $status){
-                        $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints);
-                    } else {
-                        $rtn = array('status' => $status, 'msg' => "输入城市/省份错误，请检查");   
-                    }
-                    
-                  //print 'Max memory usage=' . round(memory_get_peak_usage() / 1024 / 1024, 2) . 'MB' . '<br>';
-                    // print 'status=' . $rtn['status'] . '<br>';
-                    // print 'errmsg' . $rtn['errmsg'] . '<br>';
+                    $rtn = $adminProjectService->initProject($affiliatePartnerId, $RFQId, $originalFileName, $fullPath, $province, $city, $completePoints);
                     if('success' == $rtn['status']){
                         return $this->redirect($this->generateUrl('admin_project_show', array('affiliatePartnerId' => $affiliatePartnerId)));
                     } else {
