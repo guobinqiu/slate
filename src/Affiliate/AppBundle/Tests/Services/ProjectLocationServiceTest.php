@@ -61,6 +61,7 @@ class ProjectLocationServiceTest extends WebTestCase
             $city->setCityName($c);
             $city->setProvinceId($provinceId);
             $city->setCityId($cityId);
+            $city->setGmoCityId(3101);
             $em->persist($city);  
             $em->flush();
             $em->clear();  
