@@ -41,7 +41,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         }
 
 
-        if($user){
+        if(!empty($user)){
             $arr['user'] = $user;
             $userProfile = $em->getRepository('WenwenFrontendBundle:UserProfile')->findOneBy(array('user' => $user));
             $this->get('logger')->debug(__METHOD__ . ' userProfile=' . json_encode($userProfile));
@@ -94,13 +94,13 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
 
             // 找到该用户，去找用户的历史记录，问卷参与记录
             $adminSurveyPartnerService = $this->get('app.admin_survey_partner_service');
-            $surveyPartnerParticipationHistorys = $adminSurveyPartnerService->getSurveyPartnerParticipationDetailByUser($user, $currentPage, 50);
+            $surveyPartnerParticipationHistorys = $adminSurveyPartnerService->getSurveyPartnerParticipationDetailByUser($user);
             if($surveyPartnerParticipationHistorys){
                 $arr['surveyPartnerParticipationHistorys'] = $surveyPartnerParticipationHistorys;
             }
 
             $adminSurveySopService = $this->get('app.admin_survey_sop_service');
-            $surveySopParticipationHistories = $adminSurveySopService->getParticipationHistoriesByUserId($user->getId(), $currentPage, 50);
+            $surveySopParticipationHistories = $adminSurveySopService->getParticipationHistoriesByUserId($user->getId());
             if($surveySopParticipationHistories){
                 $arr['surveySopParticipationHistories'] = $surveySopParticipationHistories;
             }

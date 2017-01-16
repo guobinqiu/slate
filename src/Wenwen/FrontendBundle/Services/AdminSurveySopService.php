@@ -57,9 +57,10 @@ class AdminSurveySopService
         
     }
 
-    public function getParticipationHistoriesByUserId($userId, $page, $limit = 10){
-        $pagination = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->getByUserId($userId, $this->knp_paginator, $page, $limit);
-        return $pagination;
+    public function getParticipationHistoriesByUserId($userId){
+        $results = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->getByUserIdGroupBySurveyId($userId);
+        $this->logger->debug(__METHOD__ . ' results=' . json_encode($results));
+        return $results;
     }
 
     public function getSurveySopParticipationDailyReport(\DateTime $from = null, \DateTime $to = null){

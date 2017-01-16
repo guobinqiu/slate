@@ -158,7 +158,7 @@ class AdminSurveyPartnerService
         return $summary;
     }
 
-    public function getSurveyPartnerParticipationDetail($surveryPartner, $page, $limit = 10){
+    public function getSurveyPartnerParticipationDetail($surveryPartner){
 
         $pagination = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getSurveyPartnersParticipationHistorys($surveryPartner, $this->knp_paginator, $page, $limit);
         return $pagination;
@@ -166,9 +166,9 @@ class AdminSurveyPartnerService
         
     }
 
-    public function getSurveyPartnerParticipationDetailByUser($user, $page, $limit = 10){
-        $pagination = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getSurveyPartnersParticipationHistorysByUser($user, $this->knp_paginator, $page, $limit);
-        return $pagination;
+    public function getSurveyPartnerParticipationDetailByUser($user){
+        $results = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getSurveyPartnersParticipationHistorysByUser($user);
+        return $results;
     }
 
     public function getParticipationDailyReport(\DateTime $from = null, \DateTime $to = null){

@@ -24,21 +24,27 @@ class SurveySopParticipationHistoryRepository extends EntityRepository
 	    return $pagination;
     }
 
-    public function getByUserId($userId, $paginator, $page = 1, $limit = 50){
+    public function getByUserIdGroupBySurveyId($userId){
+        $sql = "
+            SELECT 
+            survey_id, 
+            MAX(CASE WHEN status='targeted' THEN updated_at END) as targeted_at, 
+            MAX(CASE WHEN status='forward' THEN updated_at END) as forward_at, 
+            MAX(CASE WHEN status='complete' THEN updated_at END) as complete_at, 
+            MAX(CASE WHEN status='screenout' THEN updated_at END) as screenout_at, 
+            MAX(CASE WHEN status='quotafull' THEN updated_at END) as quotafull_at, 
+            MAX(CASE WHEN status='error' THEN updated_at END) as error_at,
+            CASE WHEN status='forward' THEN client_ip END as client_ip
+            FROM survey_sop_participation_history 
+            WHERE
+            user_id= " . $userId . "
+            GROUP BY survey_id limit 100
+        ";
 
-        $query = $this->createQueryBuilder('ssph');
-        $query = $query->select('ssph');
-        $query = $query->where('ssph.userId = :userId');
-        $query = $query->addOrderBy('ssph.updatedAt', 'DESC');
-        $query = $query->setParameter('userId',$userId);
-        $query = $query->getQuery();
-
-        $pagination = $paginator->paginate(
-            $query,
-            $page,
-            $limit
-        );
-        return $pagination;
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->executeQuery($sql);
+        $results = $stmt->fetchAll();
+        return $results;
     }
 
     public function getCountByUserAndSurveyId(){

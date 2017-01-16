@@ -24,21 +24,28 @@ class SurveyPartnerParticipationHistoryRepository extends EntityRepository
 	    return $pagination;
     }
 
-    public function getSurveyPartnersParticipationHistorysByUser($user, $paginator, $page = 1, $limit = 50){
+    public function getSurveyPartnersParticipationHistorysByUser($user){
 
-        $query = $this->createQueryBuilder('spph');
-        $query = $query->select('spph');
-        $query = $query->where('spph.user = :user');
-        $query = $query->addOrderBy('spph.createdAt', 'DESC');
-        $query = $query->setParameter('user',$user);
-        $query = $query->getQuery();
+        $sql = "
+            SELECT 
+            survey_partner_id, 
+            MAX(CASE WHEN status='forward' THEN created_at END) as forward_at, 
+            MAX(CASE WHEN status='complete' THEN created_at END) as complete_at, 
+            MAX(CASE WHEN status='screenout' THEN created_at END) as screenout_at, 
+            MAX(CASE WHEN status='quotafull' THEN created_at END) as quotafull_at, 
+            MAX(CASE WHEN status='error' THEN created_at END) as error_at,
+            CASE WHEN status='forward' THEN client_ip END as client_ip,
+            MAX(u_key) as u_key
+            FROM survey_partner_participation_history 
+            WHERE
+            user_id= " . $user->getId() . "
+            GROUP BY survey_partner_id limit 100
+        ";
 
-        $pagination = $paginator->paginate(
-            $query,
-            $page,
-            $limit
-        );
-        return $pagination;
+        $em = $this->getEntityManager();
+        $stmt = $em->getConnection()->executeQuery($sql);
+        $results = $stmt->fetchAll();
+        return $results;
     }
 
     public function countByUserAndSurveyPartner($user, $surveyPartner){
