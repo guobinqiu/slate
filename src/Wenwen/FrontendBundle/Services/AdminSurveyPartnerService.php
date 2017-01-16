@@ -158,7 +158,7 @@ class AdminSurveyPartnerService
         return $summary;
     }
 
-    public function getSurveyPartnerParticipationDetail($surveryPartner){
+    public function getSurveyPartnerParticipationDetail($surveryPartner, $page, $limit = 50){
 
         $pagination = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->getSurveyPartnersParticipationHistorys($surveryPartner, $this->knp_paginator, $page, $limit);
         return $pagination;
