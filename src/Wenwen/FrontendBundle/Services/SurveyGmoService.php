@@ -50,7 +50,7 @@ class SurveyGmoService
         $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
         $data = array('panelType' => $panelCode, 'crypt' => $crypt);
         $url = $this->parameterService->getParameter('gmo_surveylistUrl') . '?' . http_build_query($data);
-        $request = $this->httpClient->get($url, null, array('timeout' => 3, 'connect_timeout' => 3));
+        $request = $this->httpClient->get($url, null, array('timeout' => 10, 'connect_timeout' => 10));
         $response = $request->send();
         return $response->getBody();
 
@@ -202,12 +202,12 @@ class SurveyGmoService
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($survey == null) {
             $survey = new SurveyGmo();
-            $survey = $this->copyProperties($survey, $surveyData);
+            $this->copyProperties($survey, $surveyData);
             $this->em->persist($survey);
             $this->em->flush($survey);
         } else {
             $snapshot = clone $survey;
-            $survey = $this->copyProperties($survey, $surveyData);
+            $this->copyProperties($survey, $surveyData);
             if ($survey != $snapshot) {
                 $this->em->flush($survey);
             }
@@ -232,7 +232,6 @@ class SurveyGmoService
         $survey->setPoint($surveyData['point']);
         $survey->setPointMin($surveyData['point_min']);
         $survey->setLoi($surveyData['loi']);
-        return $survey;
     }
 
     private function encrypt_blowfish($data, $key) {
@@ -254,7 +253,7 @@ class SurveyGmoService
         $actualLoiSeconds = null;
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
-            'surveyId' => $survey->getResearchId(),
+            'surveyId' => $survey->getId(),
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $user->getId(),
         ));
@@ -269,7 +268,7 @@ class SurveyGmoService
                 }
             }
         }
-        $this->createParticipationByUserId($user->getId(), $survey->getResearchId(), $answerStatus, $clientIp, $actualLoiSeconds);
+        $this->createParticipationByUserId($user->getId(), $survey->getId(), $answerStatus, $clientIp, $actualLoiSeconds);
     }
 
     private function addExtraAttributes(array &$surveyData) {
@@ -285,7 +284,6 @@ class SurveyGmoService
         }
         $surveyData['url'] = $surveyData['redirectSt'] . $surveyData['id'] . '=' . $surveyData['encryptId'];
         $surveyData['type'] = SurveyGmoNonBusiness::TYPE_BUSINESS;
-        $surveyData['title'] = 'g' . $surveyData['research_id'] . ' ' . $surveyData['title'];
 
         $surveyGmoNonBusiness = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($surveyGmoNonBusiness != null) {

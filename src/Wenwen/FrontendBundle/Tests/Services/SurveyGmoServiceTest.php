@@ -95,7 +95,6 @@ class SurveyGmoServiceTest extends WebTestCase
         $this->surveyGmoService->createOrUpdateSurvey($surveyData); //create
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => 110200));
         $this->assertEquals('2015/12/02', $survey->getArrivalDay());
-        $this->assertEquals('1448982000000', $survey->getStartDt());
         $this->assertEquals('test survey 1', $survey->getTitle());
         $this->assertFalse($survey->isClosed());
         $this->assertNull($survey->getClosedAt());
@@ -115,5 +114,10 @@ class SurveyGmoServiceTest extends WebTestCase
         $this->surveyGmoService->createOrUpdateSurvey($surveyData); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findBy(array('researchId' => 110200));
         $this->assertCount(1, $surveys);
+    }
+
+    public function testGetSurveyListJson() {
+        $userId = '2707797';
+        echo $this->surveyGmoService->getSurveyListJson($userId);
     }
 }

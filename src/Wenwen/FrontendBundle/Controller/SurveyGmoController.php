@@ -37,13 +37,15 @@ class SurveyGmoController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
         $research = $request->query->get('research');
+        $em = $this->getDoctrine()->getManager();
+        $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $research['research_id']));
         $participation = $this->get('app.survey_gmo_service')->createParticipationByUserId(
             $this->getCurrentUserId(),
-            $research['research_id'],
+            $survey->getId(),
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
         );
-        $em = $this->getDoctrine()->getManager();
+
         $participation->setUpdatedAt(new \DateTime());
         $em->flush();
         return $this->render('WenwenFrontendBundle:SurveyGmo:information.html.twig', array('research' => $research));
@@ -58,13 +60,15 @@ class SurveyGmoController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
         $research = $request->query->get('research');
+        $em = $this->getDoctrine()->getManager();
+        $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $research['research_id']));
         $participation = $this->get('app.survey_gmo_service')->createParticipationByUserId(
             $this->getCurrentUserId(),
-            $research['research_id'],
+            $survey->getId(),
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
         );
-        $em = $this->getDoctrine()->getManager();
+
         $participation->setUpdatedAt(new \DateTime());
         $em->flush();
         return $this->redirect($research['url']);
