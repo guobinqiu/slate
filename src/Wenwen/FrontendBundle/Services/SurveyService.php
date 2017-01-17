@@ -538,10 +538,12 @@ class SurveyService
         foreach ($researches as $research) {
             $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
             $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
-            if ($research['is_answered'] == 0) {
-                array_unshift($html_survey_list, $html);
-            } else {
-                array_push($html_survey_list, $html);
+            if ($research['is_closed'] == 0) {
+                if ($research['is_answered'] == 0) {
+                    array_unshift($html_survey_list, $html);
+                } else {
+                    array_push($html_survey_list, $html);
+                }
             }
         }
 
@@ -593,31 +595,35 @@ class SurveyService
             }
 
             foreach ($sop['data']['cint_research'] as $cint_research) {
-                if (!$this->hasStopWord($cint_research['url'])) {
-                    $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
-                    $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
-                    $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
-                    if ($cint_research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
-                        $answerableSurveyCount++;
-                    } else {
-                        array_push($html_survey_list, $html);
+                if ($cint_research['is_closed'] == 0) {
+                    if (!$this->hasStopWord($cint_research['url'])) {
+                        $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
+                        $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
+                        $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
+                        if ($cint_research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
                     }
                 }
             }
 
             foreach ($sop['data']['research'] as $research) {
-                if (!$this->hasStopWord($research['url'])) {
-                    $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
-                    $research['loi'] = $this->getSurveyLOI($research['loi']);
-                    $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
-                    if ($research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
-                        $answerableSurveyCount++;
-                    } else {
-                        array_push($html_survey_list, $html);
+                if ($research['is_closed'] == 0) {
+                    if (!$this->hasStopWord($research['url'])) {
+                        $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
+                        $research['loi'] = $this->getSurveyLOI($research['loi']);
+                        $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
+                        if ($research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
                     }
                 }
             }

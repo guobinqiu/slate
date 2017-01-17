@@ -53,6 +53,8 @@ class SurveyGmoGrantPointHistory
     private $surveyName;
 
     /**
+     * 初次赠点grantTimes＝1，事后每次补点grantTimes＋1
+     *
      * @var integer
      *
      * @ORM\Column(name="grant_times", type="integer")

@@ -50,6 +50,8 @@ class SurveyGmo
     private $status;
 
     /**
+     * point = screener point + main survey point
+     *
      * @var integer
      *
      * @ORM\Column(name="point", type="integer")
@@ -57,6 +59,8 @@ class SurveyGmo
     private $point;
 
     /**
+     * 被甄别了就是screener point，否则和point相同
+     *
      * Minimum Point
      *
      * @var integer

@@ -87,6 +87,8 @@ class SurveyGmoController extends BaseController
             $surveyName = $request->request->get('survey_name');
             $grantTimes = $request->request->get('grant_times');
             $status = $request->request->get('status');
+
+            //非空验证
             if (!isset($memberId) ||
                 !isset($point) ||
                 !isset($surveyId) ||
@@ -99,7 +101,21 @@ class SurveyGmoController extends BaseController
 
             $em = $this->getDoctrine()->getManager();
 
-            //Write log to db
+            //验证前后积分是否一致
+            if ($grantTimes == 1) {
+                $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
+                if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
+                    if ($point != $survey->getPoint()) {
+                        return new Response(self::INVALID_PARAMETER);
+                    }
+                } else {
+                    if ($point != $survey->getPointMin()) {
+                        return new Response(self::INVALID_PARAMETER);
+                    }
+                }
+            }
+
+            //写日志
             try {
                 $history = new SurveyGmoGrantPointHistory();
                 $history->setMemberId($memberId);
@@ -114,14 +130,14 @@ class SurveyGmoController extends BaseController
                 return new Response(self::DUPLICATE_ANSWER);
             }
 
-            // Overwrite gmo point
+            //用自定义积分覆盖默认积分
             $status = self::$statusHash[$status];
             $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
             if ($surveyGmoNonBusiness != null) {
                 $point = $surveyGmoNonBusiness->getPoints($status);
             }
 
-            // Add point to panelist
+            //给用户加积分
             try {
                 $this->get('app.survey_gmo_service')->processSurveyEndlink(
                     $surveyId,
