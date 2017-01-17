@@ -151,28 +151,11 @@ class SurveyGmoController extends BaseController
         return $response;
     }
 
-//    /**
-//     * @Route("/endlink/{survey_id}/{answer_status}", name="survey_gmo_endlink")
-//     */
-//    public function endlinkAction(Request $request, $survey_id, $answer_status)
-//    {
-//        $point = $request->query->get('point');
-//        return $this->redirect($this->generateUrl('survey_gmo_endpage', array(
-//            'answer_status' => $answer_status,
-//            'survey_id' => $survey_id,
-//            'point' => $point,
-//        )));
-//    }
-
-//    /**
-//     * @Route("/endpage", name="survey_gmo_endpage")
-//     */
-//    public function endlinkPageAction(Request $request)
-//    {
-//        return $this->render('WenwenFrontendBundle:SurveyGmo:endlink.html.twig', array(
-//            'answer_status' => $request->query->get('answer_status'),
-//            'survey_id' => $request->query->get('survey_id'),
-//            'point' => $request->query->get('point'),
-//        ));
-//    }
+    /**
+     * @Route("/endlink", name="survey_gmo_endlink")
+     */
+    public function endlinkAction(Request $request)
+    {
+        return $this->render('WenwenFrontendBundle:SurveyGmo:endlink.html.twig');
+    }
 }

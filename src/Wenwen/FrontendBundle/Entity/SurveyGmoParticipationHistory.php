@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SurveyGmoParticipationHistory
  *
  * @ORM\Table(name="survey_gmo_participation_history", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="survey_gmo_participation_history_uniq", columns={"user_id", "survey_id", "status"})
+ *     @ORM\UniqueConstraint(name="survey_gmo_participation_history_uniq", columns={"user_id", "survey_gmo_id", "status"})
  * })
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -41,9 +41,9 @@ class SurveyGmoParticipationHistory
     /**
      * @var integer
      *
-     * @ORM\Column(name="survey_id", type="integer")
+     * @ORM\Column(name="survey_gmo_id", type="integer")
      */
-    private $surveyId;
+    private $surveyGmoId;
 
     /**
      *                                 |--> complete
@@ -118,26 +118,26 @@ class SurveyGmoParticipationHistory
     }
 
     /**
-     * Set surveyId
+     * Set surveyGmoId
      *
-     * @param integer $surveyId
+     * @param integer $surveyGmoId
      * @return SurveyGmoParticipationHistory
      */
-    public function setSurveyId($surveyId)
+    public function setSurveyGmoId($surveyGmoId)
     {
-        $this->surveyId = $surveyId;
+        $this->surveyGmoId = $surveyGmoId;
 
         return $this;
     }
 
     /**
-     * Get surveyId
+     * Get surveyGmoId
      *
      * @return integer 
      */
-    public function getSurveyId()
+    public function getSurveyGmoId()
     {
-        return $this->surveyId;
+        return $this->surveyGmoId;
     }
 
     /**

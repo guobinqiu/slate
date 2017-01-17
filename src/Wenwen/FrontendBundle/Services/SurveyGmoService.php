@@ -175,18 +175,18 @@ class SurveyGmoService
         $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'gmo商业问卷', $surveyId, $answerStatus);
     }
 
-    public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
+    public function createParticipationByUserId($userId, $surveyGmoId, $answerStatus, $clientIp = null, $loi = null)
     {
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
-            'surveyId' => $surveyId,
+            'surveyGmoId' => $surveyGmoId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($participation == null) {
             $participation = new SurveyGmoParticipationHistory();
 //            $participation->setAppMid($appMid);
-            $participation->setSurveyId($surveyId);
+            $participation->setSurveyGmoId($surveyGmoId);
             $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
             $participation->setLoi($loi);
@@ -221,7 +221,7 @@ class SurveyGmoService
         if ($survey->isClosed() == 0 && $surveyData['is_closed'] == 1) {
             $survey->setClosedAt(new \DateTime());
         } else if ($survey->isClosed() == 1 && $surveyData['is_closed'] == 0) {
-            $this->logger->warning('gmo survey_id: ' . $survey->getResearchId() . '从关闭又被打开');
+            $this->logger->warning('gmo survey_id: ' . $survey->getId() . '从关闭又被打开');
             $survey->setClosedAt(null);
         }
         $survey->setArrivalDay($surveyData['arrivalDay']);
@@ -253,7 +253,7 @@ class SurveyGmoService
         $actualLoiSeconds = null;
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
-            'surveyId' => $survey->getId(),
+            'surveyGmoId' => $survey->getId(),
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $user->getId(),
         ));
@@ -263,7 +263,7 @@ class SurveyGmoService
             if ($survey->getLoi() > 0) {
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
-                    $this->fakeAnswerLogger->info('gmo: userId=' . $user->getId() . ',surveyId=' . $survey->getId());
+                    $this->fakeAnswerLogger->info('gmo: userId=' . $user->getId() . ', surveyGmoId=' . $survey->getId());
                     $answerStatus = SurveyStatus::STATUS_SCREENOUT;
                 }
             }
