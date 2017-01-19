@@ -11,7 +11,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("#select").click(function (){
-      window.location.href="{{ path('_admin_member') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
+      window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
   });
   $("#edit").click(function (){
       window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
@@ -30,7 +30,7 @@ $(document).ready(function(){
 </STYLE>
 
 <table align="center" class="search">
-    <form action="{{ path('_admin_member')}}" method="post" id="form1" >
+    <form action="{{ path('admin_user')}}" method="post" id="form1" >
     <tr>
         <td colspan="7" align="center">&nbsp;</td>
     </tr>
@@ -43,53 +43,73 @@ $(document).ready(function(){
     </tr>
     </form>
  </table>
- {% if member is defined %}
+ {% if user is defined %}
    <table border="1px" cellspacing="0px" class="member_table list">
     <tr>
         <th>user id</th>
-        <td width="350px;">{{ member.id }}
-        <input type="hidden" id="id" name="user_id" value="{{ member.id }}"></td>
+        <td width="350px;">{{ user.id }}
+        <input type="hidden" id="id" name="user_id" value="{{ user.id }}"></td>
     </tr>
     <tr>
         <th>email</th>
-        <td>{{ member.email }}&nbsp;</td>
+        <td>{{ user.email }}</td>
     </tr>
     <tr>
         <th>nick</th>
-        <td>{{ member.nick }}&nbsp;</td>
+        <td>{{ user.nick }}</td>
     </tr>
     <tr>
         <th>tel</th>
-        <td>{{ member.tel }}&nbsp;</td>
+        <td>{{ user.tel }}</td>
     </tr>
     <tr>
-        <th>register date</th>
-        <td>{{ member.registerDate is empty ? "": member.registerDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>开始注册时间</th>
+        <td>{{ user.registerDate is empty ? "": user.registerDate|date("Y-m-d H:i:s") }}</td>
     </tr>
     <tr>
-        <th>register complete date</th>
-        <td>{{ member.registerCompleteDate is empty ? "": member.registerCompleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>完成注册时间</th>
+        <td>{{ user.registerCompleteDate is empty ? "": user.registerCompleteDate|date("Y-m-d H:i:s") }}</td>
     </tr>
     <tr>
-        <th>last login date</th>
-        <td>{{ member.lastLoginDate is empty ? "": member.lastLoginDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <th>最后登录时间</th>
+        <td>{{ user.lastLoginDate is empty ? "": user.lastLoginDate|date("Y-m-d H:i:s") }}</td>
     </tr>
     <tr>
-        <th>points</th>
-        <td>{{ member.points }}&nbsp;</td>
+        <th>最后获得积分时间</th>
+        <td>{{ user.lastLoginDate is empty ? "": user.lastLoginDate|date("Y-m-d H:i:s") }}</td>
+    </tr>
+    <tr>
+        <th>目前持有积分</th>
+        <td>{{ user.points }}</td>
+    </tr>
+    <tr>
+        <th>性别</th>
+        <td>{{ userProfile.gender }}</td>
+    </tr>
+    <tr>
+        <th>生日</th>
+        <td>{{ userProfile.birthday }}</td>
+    </tr>
+    <tr>
+        <th>省份</th>
+        <td>{{ userProfile.provinceName }}</td>
+    </tr>
+    <tr>
+        <th>城市</th>
+        <td>{{ userProfile.cityName }}</td>
     </tr>
     <tr>
         <th>delete flag</th>
-        <td>{{ member.deleteFlag }}&nbsp;</td>
+        <td>{{ user.deleteFlag }}</td>
     </tr>
     <tr>
         <th>delete_date</th>
-        <td>{{ member.deleteDate is empty ? "": member.deleteDate|date("Y-m-d H:i:s") }}&nbsp;</td>
+        <td>{{ user.deleteDate is empty ? "": user.deleteDate|date("Y-m-d H:i:s") }}</td>
     </tr>
 </table>
 <input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;"/>
 {% else %}
-<div><font color="red">user not found</font></div>
+<div><font color="red">指定的用户信息没有找到</font></div>
 {% endif %}
 
 {% if taskHistories is defined %}
@@ -142,21 +162,29 @@ $(document).ready(function(){
             <caption><h4> SOP问卷项目参与记录</h4></caption>
             <thead>
             <tr>
-              <th>{{ knp_pagination_sortable(surveySopParticipationHistories, 'SurveyId', 'ssph.surveyId') }}</th>
-              <th>{{ knp_pagination_sortable(surveySopParticipationHistories, 'Status', 'ssph.status') }}</th>
-              <th>{{ knp_pagination_sortable(surveySopParticipationHistories, 'UpdatedAt', 'ssph.updatedAt') }}</th>
-              <th>{{ knp_pagination_sortable(surveySopParticipationHistories, 'ClientIp', 'ssph.clientIp') }}</th>
-              <th>{{ knp_pagination_sortable(surveySopParticipationHistories, 'Loi', 'ssph.loi') }}</th>
+              <th>SurveyId</th>
+              <th>TargetedAt</th>
+              <th>TorwardAt</th>
+              <th>CompleteAt</th>
+              <th>ScreenoutAt</th>
+              <th>QuotafullAt</th>
+              <th>ErrorAt</th>
+              <th>ClientIp</th>
+              <th>Ukey</th>
             </tr>
             </thead>
             <tbody>
             {% for surveySopParticipationHistory in surveySopParticipationHistories %}
             <tr>
-              <td>{{ surveySopParticipationHistory.surveyId }}</td>
-              <td>{{ surveySopParticipationHistory.status }}</td>
-              <td>{{ surveySopParticipationHistory.updatedAt |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.clientIp }}</td>
-              <td>{{ surveySopParticipationHistory.loi }}</td>
+              <td>{{ surveySopParticipationHistory.survey_id }}</td>
+              <td>{{ surveySopParticipationHistory.targeted_at is empty ? "N/A" : surveySopParticipationHistory.targeted_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.forward_at is empty ? "N/A" : surveySopParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.complete_at is empty ? "N/A" : surveySopParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.screenout_at is empty ? "N/A" : surveySopParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.quotafull_at is empty ? "N/A" : surveySopParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.error_at is empty ? "N/A" : surveySopParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveySopParticipationHistory.client_ip }}</td>
+              <td>N/A</td>
             </tr>
             {% endfor %}
             </tbody>
@@ -164,13 +192,6 @@ $(document).ready(function(){
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="navigation">
-          {{ knp_pagination_render(surveySopParticipationHistories) }}
-        </div>
-    </div>
-</div>
 {% else %}
 <div><font color="red">No surveySopParticipationHistories found.</font></div>
 {% endif %}
@@ -183,35 +204,33 @@ $(document).ready(function(){
             <caption><h4> 外接问卷项目参与记录</h4></caption>
             <thead>
             <tr>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'SurveyPartnerId', 'spph.surveyPartner.id') }}</th>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'Status', 'spph.status') }}</th>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'CreatedAt', 'spph.createdAt') }}</th>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'ClientIp', 'spph.clientIp') }}</th>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'Comment', 'spph.comment') }}</th>
-              <th>{{ knp_pagination_sortable(surveyPartnerParticipationHistorys, 'UKey', 'spph.uKey') }}</th>
+              <th>SurveyPartnerId</th>
+              <th>TargetedAt</th>
+              <th>ForwardAt</th>
+              <th>CompleteAt</th>
+              <th>ScreenoutAt</th>
+              <th>QuotafullAt</th>
+              <th>ErrorAt</th>
+              <th>ClientIp</th>
+              <th>Ukey</th>
             </tr>
             </thead>
             <tbody>
             {% for surveyPartnerParticipationHistory in surveyPartnerParticipationHistorys %}
             <tr>
-              <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartnerParticipationHistory.surveyPartner.id}) }}">{{ surveyPartnerParticipationHistory.surveyPartner.id }}</a></td>
-              <td>{{ surveyPartnerParticipationHistory.status }}</td>
-              <td>{{ surveyPartnerParticipationHistory.createdAt |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.clientIp }}</td>
-              <td>{{ surveyPartnerParticipationHistory.comment }}</td>
-              <td>{{ surveyPartnerParticipationHistory.uKey }}</td>
+              <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartnerParticipationHistory.survey_partner_id}) }}">{{ surveyPartnerParticipationHistory.survey_partner_id }}</a></td>
+              <td>N/A</td>
+              <td>{{ surveyPartnerParticipationHistory.forward_at is empty ? "N/A" : surveyPartnerParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveyPartnerParticipationHistory.complete_at is empty ? "N/A" : surveyPartnerParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveyPartnerParticipationHistory.screenout_at is empty ? "N/A" : surveyPartnerParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveyPartnerParticipationHistory.quotafull_at is empty ? "N/A" : surveyPartnerParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveyPartnerParticipationHistory.error_at is empty ? "N/A" : surveyPartnerParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
+              <td>{{ surveyPartnerParticipationHistory.client_ip }}</td>
+              <td>{{ surveyPartnerParticipationHistory.u_key }}</td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="navigation">
-          {{ knp_pagination_render(surveyPartnerParticipationHistorys) }}
-        </div>
     </div>
 </div>
 {% else %}

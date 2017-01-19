@@ -61,12 +61,7 @@ class SopDeliveryNotificationMailCommand extends AbstractMailCommand {
      */
     protected function getTemplatePath(InputInterface $input)
     {
-        $surveyId = $input->getOption('survey_id');
-        if ($surveyId == 7548) {
-            return 'WenwenFrontendBundle:EmailTemplate:sop_delivery_notification2.html.twig';
-        } else {
-            return 'WenwenFrontendBundle:EmailTemplate:sop_delivery_notification.html.twig';
-        }
+        return 'WenwenFrontendBundle:EmailTemplate:sop_delivery_notification.html.twig';
     }
 
     /**

@@ -46,9 +46,15 @@ class AdminRecruitService
             $to = (new \DateTime())->setTime(0,0,0);
         }
 
+        // 统计的前一天的0点作为判断活跃的开始时间点
+        $activeAt = (new \DateTime())->sub(new \DateInterval('P1D'))->setTime(0,0,0); 
+
         $results = $this->em->getRepository('WenwenFrontendBundle:User')->getRecruitRouteDailyCount($from, $to);
 
-        
+        $actives = $this->em->getRepository('WenwenFrontendBundle:User')->getActiveRouteDailyCount($from, $to, $activeAt);
+
+        $this->logger->debug(__METHOD__ . ' registers: ' . json_encode($results));
+        $this->logger->debug(__METHOD__ . ' actives:   ' . json_encode($actives));
 
         $recruitRouteTitles = array();
         $recruitRouteTitles['total'] = 0;
@@ -66,33 +72,68 @@ class AdminRecruitService
             }
         }
 
-
-        $rawReports = array();
+        $rawActives = array();
 
         foreach($results as $result){
             $date = $result['date'];
             $recruitRoute = $result['recruit_route'];
             $count = $result['count'];
-            if(!array_key_exists($date, $rawReports)){
-                $rawReports[$date] = array();
+            if(!array_key_exists($date, $rawActives)){
+                $rawActives[$date] = array();
             }
-            $rawReports[$date][$recruitRoute] = $count;
+            $rawActives[$date][$recruitRoute] = $count;
         }
 
-        $reports = array();
-        foreach($rawReports as $date => $recruitRoutes){
-            $reports[$date] = array();
-            $reports[$date]['total'] = 0;
+        $registers = array();
+        foreach($rawActives as $date => $recruitRoutes){
+            $registers[$date] = array();
+            $registers[$date]['total'] = 0;
 
             // 补全每个日期的所有route的注册数，并且按照title的顺序排好
             foreach($recruitRouteTitles as $title => $value){
                 if(!array_key_exists($title, $recruitRoutes)){
-                    $reports[$date][$title] = 0;
+                    $registers[$date][$title] = 0;
                 } else {
-                    $reports[$date][$title] = $recruitRoutes[$title];
-                    $reports[$date]['total'] += $recruitRoutes[$title];
+                    $registers[$date][$title] = $recruitRoutes[$title];
+                    $registers[$date]['total'] += $recruitRoutes[$title];
                 }
             }
+        }
+
+        // 增加活跃信息
+        $reports = array();
+        foreach($registers as $date => $registerRoutes){
+            $this->logger->debug(__METHOD__ . ' date=' . $date . ' ' . json_encode($registerRoutes));
+            $reports[$date] = array();
+
+            $tmpActive = array();
+            $tmpActive['total'] = 0;
+            foreach($actives as $active){
+                if($date == $active['date']){
+                    //$this->logger->debug(__METHOD__ . ' found ' . json_encode($active));
+                    $tmpActive[$active['recruit_route']] = $active['count'];
+                    $tmpActive['total'] += $active['count'];
+                }
+            }
+            
+            foreach($registerRoutes as $title => $value){
+                if(array_key_exists($title, $tmpActive)){
+                    $reports[$date][$title]['registerCount'] = $value;
+                    $reports[$date][$title]['activeCount'] = $tmpActive[$title];
+                    $reports[$date][$title]['rawRetentionRate'] = round($tmpActive[$title] / $value * 100, 2);
+                    $reports[$date][$title]['retentionRate'] = sprintf("%02.2f", round($tmpActive[$title] / $value * 100, 2));
+                    $reports[$date][$title]['text'] = $tmpActive[$title] . '/'. $value . '(' . $reports[$date][$title]['retentionRate'] . '%)';
+                    //$reports[$date][$title] = $tmpActive[$title] . '/'. $value . '(' . round($tmpActive[$title] / $value * 100, 2). '%)';
+                } else {
+                    $reports[$date][$title]['registerCount'] = $value;
+                    $reports[$date][$title]['activeCount'] = 0;
+                    $reports[$date][$title]['rawRetentionRate'] = 0;
+                    $reports[$date][$title]['retentionRate'] = '00.00';
+                    $reports[$date][$title]['text'] =  '0/'. $value . '(00.00%)';
+                    //$reports[$date][$title] = '0/'. $value . '(0%)';
+                }
+            }
+
         }
 
         $return = array();
@@ -119,7 +160,11 @@ class AdminRecruitService
             $to = (new \DateTime())->setTime(0,0,0);
         }
 
+        // 统计的前一天的0点作为判断活跃的开始时间点
+        $activeAt = (new \DateTime())->sub(new \DateInterval('P1M'))->setTime(0,0,0); 
+
         $results = $this->em->getRepository('WenwenFrontendBundle:User')->getRecruitRouteMonthlyCount($from, $to);
+        $actives = $this->em->getRepository('WenwenFrontendBundle:User')->getActiveRouteMonthlyCount($from, $to, $activeAt);
 
         $recruitRouteTitles = array();
         $recruitRouteTitles['total'] = 0;
@@ -137,32 +182,67 @@ class AdminRecruitService
         }
 
 
-        $rawReports = array();
+        $rawActives = array();
 
         foreach($results as $result){
             $date = $result['date'];
             $recruitRoute = $result['recruit_route'];
             $count = $result['count'];
-            if(!array_key_exists($date, $rawReports)){
-                $rawReports[$date] = array();
+            if(!array_key_exists($date, $rawActives)){
+                $rawActives[$date] = array();
             }
-            $rawReports[$date][$recruitRoute] = $count;
+            $rawActives[$date][$recruitRoute] = $count;
         }
 
-        $reports = array();
-        foreach($rawReports as $date => $recruitRoutes){
-            $reports[$date] = array();
-            $reports[$date]['total'] = 0;
+        $registers = array();
+        foreach($rawActives as $date => $recruitRoutes){
+            $registers[$date] = array();
+            $registers[$date]['total'] = 0;
 
             // 补全每个日期的所有route的注册数，并且按照title的顺序排好
             foreach($recruitRouteTitles as $title => $value){
                 if(!array_key_exists($title, $recruitRoutes)){
-                    $reports[$date][$title] = 0;
+                    $registers[$date][$title] = 0;
                 } else {
-                    $reports[$date][$title] = $recruitRoutes[$title];
-                    $reports[$date]['total'] += $recruitRoutes[$title];
+                    $registers[$date][$title] = $recruitRoutes[$title];
+                    $registers[$date]['total'] += $recruitRoutes[$title];
                 }
             }
+        }
+
+        // 增加活跃信息
+        $reports = array();
+        foreach($registers as $date => $registerRoutes){
+            $this->logger->debug(__METHOD__ . ' date=' . $date . ' ' . json_encode($registerRoutes));
+            $reports[$date] = array();
+
+            $tmpActive = array();
+            $tmpActive['total'] = 0;
+            foreach($actives as $active){
+                if($date == $active['date']){
+                    $tmpActive[$active['recruit_route']] = $active['count'];
+                    $tmpActive['total'] += $active['count'];
+                }
+            }
+
+            foreach($registerRoutes as $title => $value){
+                if(array_key_exists($title, $tmpActive)){
+                    $reports[$date][$title]['registerCount'] = $value;
+                    $reports[$date][$title]['activeCount'] = $tmpActive[$title];
+                    $reports[$date][$title]['rawRetentionRate'] = round($tmpActive[$title] / $value * 100, 2);
+                    $reports[$date][$title]['retentionRate'] = sprintf("%02.2f", round($tmpActive[$title] / $value * 100, 2));
+                    $reports[$date][$title]['text'] = $tmpActive[$title] . '/'. $value . '(' . $reports[$date][$title]['retentionRate'] . '%)';
+                    //$reports[$date][$title] = $tmpActive[$title] . '/'. $value . '(' . round($tmpActive[$title] / $value * 100, 2). '%)';
+                } else {
+                    $reports[$date][$title]['registerCount'] = $value;
+                    $reports[$date][$title]['activeCount'] = 0;
+                    $reports[$date][$title]['rawRetentionRate'] = 0;
+                    $reports[$date][$title]['retentionRate'] = '00.00';
+                    $reports[$date][$title]['text'] =  '0/'. $value . '(00.00%)';
+                    //$reports[$date][$title] = '0/'. $value . '(0%)';
+                }
+            }
+
         }
 
         $return = array();
