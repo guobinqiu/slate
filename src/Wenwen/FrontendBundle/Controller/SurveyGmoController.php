@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Wenwen\AppBundle\Utility\IpChecker;
+use Wenwen\AppBundle\Utility\IPChecker;
 use Wenwen\FrontendBundle\Entity\SurveyGmoGrantPointHistory;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
