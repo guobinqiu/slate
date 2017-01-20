@@ -22,7 +22,7 @@ class SurveyGmoNonBusinessController extends Controller
      *
      * @Route("/", name="gmo")
      * @Method("GET")
-     * @Template()
+     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/index.html.twig")
      */
     public function indexAction()
     {
@@ -40,7 +40,7 @@ class SurveyGmoNonBusinessController extends Controller
      *
      * @Route("/", name="gmo_create")
      * @Method("POST")
-     * @Template("WenwenFrontendBundle:SurveyGmoNonBusiness:new.html.twig")
+     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -67,7 +67,7 @@ class SurveyGmoNonBusinessController extends Controller
      *
      * @Route("/new", name="gmo_new")
      * @Method("GET")
-     * @Template()
+     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig")
      */
     public function newAction()
     {
@@ -85,7 +85,7 @@ class SurveyGmoNonBusinessController extends Controller
      *
      * @Route("/{id}/edit", name="gmo_edit")
      * @Method("GET")
-     * @Template()
+     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig")
      */
     public function editAction($id)
     {
@@ -110,7 +110,7 @@ class SurveyGmoNonBusinessController extends Controller
      *
      * @Route("/{id}", name="gmo_update")
      * @Method("PUT")
-     * @Template("WenwenFrontendBundle:SurveyGmoNonBusiness:edit.html.twig")
+     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {

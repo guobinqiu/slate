@@ -81,14 +81,14 @@ class SurveySopService
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
                 try {
-                    $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                    $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
                         $points,
                         CategoryType::SOP_COST,
                         TaskType::SURVEY,
-                        "r{$survey->getSurveyId()} {$survey->getTitle()}",
+                        $this->getTaskName($survey, $answerStatus),
                         $survey
                     );
                     $this->pointService->addPointsForInviter(
@@ -276,5 +276,15 @@ class SurveySopService
             }
         }
         $this->createParticipationByUserId($user->getId(), $survey->getSurveyId(), $answerStatus, $clientIp, $actualLoiSeconds);
+        return $answerStatus;
+    }
+
+    private function getTaskName($survey, $answerStatus)
+    {
+        $statusText = '被甄别';
+        if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+            $statusText = '完成';
+        }
+        return "r{$survey->getResearchId()} {$survey->getTitle()} （状态：{$statusText}）";
     }
 }

@@ -538,6 +538,11 @@ class SurveyService
             $researches = $this->surveyGmoService->getSurveyList($user_id);
             foreach ($researches as $research) {
                 $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                if ($research['point_min'] < $research['point']) {
+                    $research['point_range'] = $research['point_min'] . '-' . $research['point'];
+                } else {
+                    $research['point_range'] = $research['point'];
+                }
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
                 if ($research['is_closed'] == 0) {
                     if ($research['is_answered'] == 0) {

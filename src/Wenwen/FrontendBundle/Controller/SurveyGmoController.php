@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Wenwen\AppBundle\Utility\IpChecker;
 use Wenwen\FrontendBundle\Entity\SurveyGmoGrantPointHistory;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
@@ -80,78 +81,81 @@ class SurveyGmoController extends BaseController
     public function grantPointAction(Request $request)
     {
         $ip = $request->getClientIp();
-        if ('127.0.0.1' === $ip || preg_match('/^210\.172\.135\.\d{1,3}$/', $ip)) {
-            $memberId = $request->request->get('member_id');
-            $point = $request->request->get('point');
-            $surveyId = $request->request->get('survey_id');
-            $surveyName = $request->request->get('survey_name');
-            $grantTimes = $request->request->get('grant_times');
-            $status = $request->request->get('status');
+//        if ('127.0.0.1' === $ip || preg_match('/^210\.172\.135\.\d{1,3}$/', $ip)) {
+        $allowIps = $this->get('app.parameter_service')->getParameter('gmo_ip_whitelist');
+        if (!IPChecker::checkIp($ip, $allowIps)) {
+            throw new AccessDeniedHttpException();
+        }
 
-            //非空验证
-            if (!isset($memberId) ||
-                !isset($point) ||
-                !isset($surveyId) ||
-                !isset($surveyName) ||
-                !isset($grantTimes) ||
-                !isset($status)
-            ) {
-                return new Response(self::INVALID_PARAMETER);
-            }
+        $memberId = $request->request->get('member_id');
+        $point = $request->request->get('point');
+        $surveyId = $request->request->get('survey_id');
+        $surveyName = $request->request->get('survey_name');
+        $grantTimes = $request->request->get('grant_times');
+        $status = $request->request->get('status');
 
-            $em = $this->getDoctrine()->getManager();
+        //非空验证
+        if (!isset($memberId) ||
+            !isset($point) ||
+            !isset($surveyId) ||
+            !isset($surveyName) ||
+            !isset($grantTimes) ||
+            !isset($status)
+        ) {
+            return new Response(self::INVALID_PARAMETER);
+        }
 
-            //验证前后积分是否一致
-            if ($grantTimes == 1) {
-                $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
-                if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
-                    if ($point != $survey->getPoint()) {
-                        return new Response(self::INVALID_PARAMETER);
-                    }
-                } else {
-                    if ($point != $survey->getPointMin()) {
-                        return new Response(self::INVALID_PARAMETER);
-                    }
+        $em = $this->getDoctrine()->getManager();
+
+        //验证前后积分是否一致
+        if ($grantTimes == 1) {
+            $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
+            if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
+                if ($point != $survey->getPoint()) {
+                    return new Response(self::INVALID_PARAMETER);
+                }
+            } else {
+                if ($point != $survey->getPointMin()) {
+                    return new Response(self::INVALID_PARAMETER);
                 }
             }
-
-            //写日志
-            try {
-                $history = new SurveyGmoGrantPointHistory();
-                $history->setMemberId($memberId);
-                $history->setPoint($point);
-                $history->setSurveyId($surveyId);
-                $history->setSurveyName($surveyName);
-                $history->setGrantTimes($grantTimes);
-                $history->setStatus($status);
-                $em->persist($history);
-                $em->flush();
-            } catch (\Exception $e) {
-                return new Response(self::DUPLICATE_ANSWER);
-            }
-
-            //用自定义积分覆盖默认积分
-            $status = self::$statusHash[$status];
-            $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
-            if ($surveyGmoNonBusiness != null) {
-                $point = $surveyGmoNonBusiness->getPoints($status);
-            }
-
-            //给用户加积分
-            try {
-                $this->get('app.survey_gmo_service')->processSurveyEndlink(
-                    $surveyId,
-                    $memberId,
-                    $status,
-                    $point,
-                    $request->getClientIp()
-                );
-                return new Response(self::SUCCESS);
-            } catch (\Exception $e) {
-                return new Response(self::INNER_ERROR);
-            }
         }
-        return new AccessDeniedHttpException();
+
+        //写日志
+        try {
+            $history = new SurveyGmoGrantPointHistory();
+            $history->setMemberId($memberId);
+            $history->setPoint($point);
+            $history->setSurveyId($surveyId);
+            $history->setSurveyName($surveyName);
+            $history->setGrantTimes($grantTimes);
+            $history->setStatus($status);
+            $em->persist($history);
+            $em->flush();
+        } catch (\Exception $e) {
+            return new Response(self::DUPLICATE_ANSWER);
+        }
+
+        //用自定义积分覆盖默认积分
+        $status = self::$statusHash[$status];
+        $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
+        if ($surveyGmoNonBusiness != null) {
+            $point = $surveyGmoNonBusiness->getPoints($status);
+        }
+
+        //给用户加积分
+        try {
+            $this->get('app.survey_gmo_service')->processSurveyEndlink(
+                $surveyId,
+                $memberId,
+                $status,
+                $point,
+                $request->getClientIp()
+            );
+            return new Response(self::SUCCESS);
+        } catch (\Exception $e) {
+            return new Response(self::INNER_ERROR);
+        }
     }
 
     /**

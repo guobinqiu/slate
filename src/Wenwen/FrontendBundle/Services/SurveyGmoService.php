@@ -45,9 +45,9 @@ class SurveyGmoService
         $panelistId = $userId;
         $panelCode = $this->parameterService->getParameter('gmo_panelCode');
         $randomString = strtotime('now');
-        $encryptedID = $panelistId . ':' . $panelCode . ':' . $randomString;
+        $encryptId = $panelistId . ':' . $panelCode . ':' . $randomString;
         $encryptKey = $this->parameterService->getParameter('gmo_encryptKey');
-        $crypt = $this->encrypt_blowfish($encryptedID, $encryptKey);
+        $crypt = $this->encrypt_blowfish($encryptId, $encryptKey);
         $data = array('panelType' => $panelCode, 'crypt' => $crypt);
         $url = $this->parameterService->getParameter('gmo_surveylistUrl') . '?' . http_build_query($data);
         $request = $this->httpClient->get($url, null, array('timeout' => 10, 'connect_timeout' => 10));
@@ -136,7 +136,7 @@ class SurveyGmoService
     {
         $researches = json_decode($this->getSurveyListJson($userId), true);
         foreach ($researches as &$research) {
-            $this->addExtraAttributes($research);
+            $research = $this->addOrUpdateAttributes($research);
         }
         return $researches;
     }
@@ -155,7 +155,7 @@ class SurveyGmoService
                     $points,
                     CategoryType::GMO_COST,
                     TaskType::SURVEY,
-                    "g{$survey->getResearchId()} {$survey->getTitle()}",
+                    $this->getTaskName($survey, $answerStatus),
                     $survey
                 );
                 $this->pointService->addPointsForInviter(
@@ -217,7 +217,7 @@ class SurveyGmoService
 
     private function copyProperties(SurveyGmo $survey, array $surveyData)
     {
-        $this->addExtraAttributes($surveyData);
+        $surveyData = $this->addOrUpdateAttributes($surveyData);
         if ($survey->isClosed() == 0 && $surveyData['is_closed'] == 1) {
             $survey->setClosedAt(new \DateTime());
         } else if ($survey->isClosed() == 1 && $surveyData['is_closed'] == 0) {
@@ -264,14 +264,13 @@ class SurveyGmoService
                 $loiSeconds = $survey->getLoi() * 60;
                 if ($actualLoiSeconds < $loiSeconds / 4) {
                     $this->fakeAnswerLogger->info('gmo: userId=' . $user->getId() . ', surveyGmoId=' . $survey->getId());
-                    $answerStatus = SurveyStatus::STATUS_SCREENOUT;
                 }
             }
         }
         $this->createParticipationByUserId($user->getId(), $survey->getId(), $answerStatus, $clientIp, $actualLoiSeconds);
     }
 
-    private function addExtraAttributes(array &$surveyData) {
+    private function addOrUpdateAttributes(array $surveyData) {
         if ('02' == $surveyData['ans_stat_cd']) {
             $surveyData['is_answered'] = 1;
         } else {
@@ -288,7 +287,18 @@ class SurveyGmoService
         $surveyGmoNonBusiness = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($surveyGmoNonBusiness != null) {
             $surveyData['point'] = $surveyGmoNonBusiness->getCompletePoint();
+            $surveyData['point_min'] = min($surveyGmoNonBusiness->getScreenoutPoint(), $surveyGmoNonBusiness->getQuotafullPoint());
             $surveyData['type'] = $surveyGmoNonBusiness->getType();
         }
+        return $surveyData;
+    }
+
+    private function getTaskName($survey, $answerStatus)
+    {
+        $statusText = '被甄别';
+        if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+            $statusText = '完成';
+        }
+        return "g{$survey->getResearchId()} {$survey->getTitle()} （状态：{$statusText}）";
     }
 }

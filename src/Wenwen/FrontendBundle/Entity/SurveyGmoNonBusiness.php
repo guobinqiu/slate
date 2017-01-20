@@ -14,9 +14,9 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
  */
 class SurveyGmoNonBusiness
 {
-    const TYPE_GK = '概况研究';
-    const TYPE_SS = 'Self-Study研究';
-    const TYPE_BUSINESS = '商业调研';
+    const TYPE_GK = '属性调查';
+    const TYPE_SS = '自主调查';
+    const TYPE_BUSINESS = '通常调查';
 
     /**
      * @var integer

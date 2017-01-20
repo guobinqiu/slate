@@ -20,7 +20,10 @@
                             <div class="txt">
                                     <img src="{{ asset('img/questionnaire/normalface.png') }}">
                                     <h2>亲爱的用户！您好！</h2>
-                                    <p>感谢您参加本次的问卷调查，积分已自动存入您的账户。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                                    <p>
+                                        感谢您参加本次的问卷调查，积分已自动存入您的账户。
+                                        请去<a class="backBtn" href="{{ path('_user_adtaste') }}">任务历史</a>查看获得的积分数。
+                                    </p>
                             </div>
                             <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                         </div>

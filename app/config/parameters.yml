@@ -393,4 +393,6 @@ parameters:
     #第三方问卷提供商
     gmo_memberlist_filepath: %kernel.logs_dir%/gmo
     gmo_memberlist_filename: memberList.csv
-
+    gmo_ip_whitelist:
+      - 210.172.135.*
+      - 127.0.0.1
