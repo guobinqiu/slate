@@ -285,6 +285,6 @@ class SurveySopService
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
             $statusText = '完成';
         }
-        return "r{$survey->getResearchId()} {$survey->getTitle()} （状态：{$statusText}）";
+        return "r{$survey->getSurveyId()} {$survey->getTitle()}（状态：{$statusText}）";
     }
 }

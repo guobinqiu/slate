@@ -299,6 +299,6 @@ class SurveyGmoService
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
             $statusText = '完成';
         }
-        return "g{$survey->getResearchId()} {$survey->getTitle()} （状态：{$statusText}）";
+        return "g{$survey->getResearchId()} {$survey->getTitle()}（状态：{$statusText}）";
     }
 }
