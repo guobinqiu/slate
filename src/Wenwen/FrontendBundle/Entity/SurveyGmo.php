@@ -91,6 +91,13 @@ class SurveyGmo
     private $loi;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="lg_nm", type="string", nullable=true)
+     */
+    private $lgNm;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="closed_at", type="datetime", nullable=true)
@@ -331,6 +338,29 @@ class SurveyGmo
     public function getLoi()
     {
         return $this->loi;
+    }
+
+    /**
+     * Set lgNm
+     *
+     * @param string $lgNm
+     * @return SurveyGmo
+     */
+    public function setLgNm($lgNm)
+    {
+        $this->lgNm = $lgNm;
+
+        return $this;
+    }
+
+    /**
+     * Get lgNm
+     *
+     * @return string
+     */
+    public function getLgNm()
+    {
+        return $this->lgNm;
     }
 
     /**

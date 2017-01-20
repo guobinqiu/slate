@@ -232,6 +232,7 @@ class SurveyGmoService
         $survey->setPoint($surveyData['point']);
         $survey->setPointMin($surveyData['point_min']);
         $survey->setLoi($surveyData['loi']);
+        $survey->setLgNm($surveyData['lg_nm']);
     }
 
     private function encrypt_blowfish($data, $key) {
