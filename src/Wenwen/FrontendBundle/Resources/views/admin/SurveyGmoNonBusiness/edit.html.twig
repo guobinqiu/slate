@@ -3,76 +3,9 @@
 {% block body -%}
     <h1>编辑</h1>
 
-    <form class="form-horizontal" action="{{ path('gmo_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-        <div class="form-group">
-            {{ form_label(edit_form.researchId, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.researchId) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.researchId) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(edit_form.title, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.title) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.title) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(edit_form.type, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.type) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.type) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(edit_form.completePoint, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.completePoint) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.completePoint) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(edit_form.screenoutPoint, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.screenoutPoint) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.screenoutPoint) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(edit_form.quotafullPoint, null, {'label_attr': { 'class': 'col-sm-3 control-label'}}) }}
-            <div class="col-sm-9">
-                {{ form_widget(edit_form.quotafullPoint) }}
-            </div>
-            <div class="col-sm-offset-3 col-sm-9">
-                {{ form_errors(edit_form.quotafullPoint) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
-                <button class="btn btn-primary" type="submit">保存</button>
-                <a class="btn btn-default" href="{{ path('gmo') }}">返回</a>
-            </div>
-        </div>
-
+    <form class="form-horizontal" action="{{ path('gmo_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} novalidate="novalidate">
+        {% include 'WenwenFrontendBundle:admin:SurveyGmoNonBusiness/_form.html.twig' with { 'form': edit_form } %}
         <input type="hidden" name="_method" value="PUT" />
-        {{ form_row(edit_form._token) }}
     </form>
 
 {% endblock %}

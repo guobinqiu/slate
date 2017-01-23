@@ -1,24 +1,30 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
+
     <h1>非商业调查问卷设置</h1>
+
+    <div class="alert alert-info">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        “自主调查”和“属性调查”都属于非商业调查。这里对“自主调查”和“属性调查”两类问卷所设置的积分将会覆盖GMO给过来的积分。
+    </div>
 
     <a class="btn btn-primary btn-sm" href="{{ path('gmo_new') }}">新增</a>
 
     <table class="table table-bordered table-condensed">
         <thead>
-            <tr class="active">
-                <th>Id</th>
-                <th>ResearchId</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>CompletePoint</th>
-                <th>ScreenoutPoint</th>
-                <th>QuotafullPoint</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Actions</th>
-            </tr>
+        <tr class="active">
+            <th>Id</th>
+            <th>ResearchId</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>CompletePoint</th>
+            <th>ScreenoutPoint</th>
+            <th>QuotafullPoint</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for entity in entities %}

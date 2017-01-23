@@ -4,6 +4,8 @@ namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\AppBundle\Validator\Constraints as MyAssert;
 
 /**
  * SurveyGmoNonBusiness
@@ -31,6 +33,9 @@ class SurveyGmoNonBusiness
      * @var integer
      *
      * @ORM\Column(name="research_id", type="integer", unique=true)
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(max=8)
      */
     private $researchId;
 
@@ -52,6 +57,9 @@ class SurveyGmoNonBusiness
      * @var integer
      *
      * @ORM\Column(name="complete_point", type="integer")
+     *
+     * @Assert\NotBlank
+     * @MyAssert\GreaterThanOrEqual(0)
      */
     private $completePoint;
 
@@ -59,6 +67,9 @@ class SurveyGmoNonBusiness
      * @var integer
      *
      * @ORM\Column(name="screenout_point", type="integer")
+     *
+     * @Assert\NotBlank
+     * @MyAssert\GreaterThanOrEqual(0)
      */
     private $screenoutPoint;
 
@@ -66,6 +77,9 @@ class SurveyGmoNonBusiness
      * @var integer
      *
      * @ORM\Column(name="quotafull_point", type="integer")
+     *
+     * @Assert\NotBlank
+     * @MyAssert\GreaterThanOrEqual(0)
      */
     private $quotafullPoint;
 
@@ -104,7 +118,8 @@ class SurveyGmoNonBusiness
      * @param $answerStatus
      * @return int
      */
-    public function getPoints($answerStatus) {
+    public function getPoints($answerStatus)
+    {
         $points = null;
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
             $points = $this->getCompletePoint();
@@ -114,6 +129,22 @@ class SurveyGmoNonBusiness
             $points = $this->getQuotafullPoint();
         }
         return $points == null ? 0 : $points;
+    }
+
+    /**
+     * @Assert\True(message = "screenoutPoint shouldn't greater than completePoint")
+     */
+    public function isScreenoutPointLegal()
+    {
+        return $this->screenoutPoint <= $this->completePoint;
+    }
+
+    /**
+     * @Assert\True(message = "quotafullPoint shouldn't greater than completePoint")
+     */
+    public function isQuotafullPointLegal()
+    {
+        return $this->quotafullPoint <= $this->completePoint;
     }
 
     /**
