@@ -10,7 +10,6 @@ use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
@@ -279,7 +278,7 @@ class SurveySopService
         return $answerStatus;
     }
 
-    private function getTaskName($survey, $answerStatus)
+    private function getTaskName(SurveySop $survey, $answerStatus)
     {
         $statusText = '被甄别';
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {

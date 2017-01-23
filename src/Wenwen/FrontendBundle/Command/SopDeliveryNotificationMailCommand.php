@@ -22,7 +22,6 @@ class SopDeliveryNotificationMailCommand extends AbstractMailCommand {
         $this->addOption('survey_length', null, InputOption::VALUE_REQUIRED);
         $this->addOption('subject', null, InputOption::VALUE_REQUIRED);
         $this->addOption('survey_id', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('survey_difficulty', null, InputOption::VALUE_REQUIRED);
         //$this->addOption('channel', null, InputOption::VALUE_REQUIRED, '可选值：channel2|channel3');//sendcloud
     }
 
@@ -52,7 +51,6 @@ class SopDeliveryNotificationMailCommand extends AbstractMailCommand {
             'survey_title' => $input->getOption('survey_title'),
             'survey_point' => $input->getOption('survey_point'),
             'survey_length' => $input->getOption('survey_length'),
-            'survey_difficulty' => $input->getOption('survey_difficulty'),
         );
     }
 

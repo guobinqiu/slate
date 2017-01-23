@@ -15,7 +15,7 @@ use Wenwen\FrontendBundle\Form\SurveyGmoNonBusinessType;
  *
  * @Route("/gmo")
  */
-class SurveyGmoNonBusinessController extends Controller
+class AdminSurveyGmoNonBusinessController extends Controller
 {
     /**
      * Lists all SurveyGmoNonBusiness entities.

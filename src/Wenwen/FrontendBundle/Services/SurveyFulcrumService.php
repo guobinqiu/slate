@@ -4,14 +4,12 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Predis\Client;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrum;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrumParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 

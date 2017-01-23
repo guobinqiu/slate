@@ -4,13 +4,11 @@ namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
 use Wenwen\FrontendBundle\Entity\SurveyGmo;
-use Wenwen\FrontendBundle\Entity\SurveyGmoNonBusiness;
 use Wenwen\FrontendBundle\Entity\SurveyGmoParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 
@@ -277,24 +275,25 @@ class SurveyGmoService
         } else {
             $surveyData['is_answered'] = 0;
         }
+
         if ('05' == $surveyData['status'] && '05' == $surveyData['enqPerPanelStatus']) {
             $surveyData['is_closed'] = 0;
         } else {
             $surveyData['is_closed'] = 1;
         }
+
         $surveyData['url'] = $surveyData['redirectSt'] . $surveyData['id'] . '=' . $surveyData['encryptId'];
-        $surveyData['type'] = SurveyGmoNonBusiness::TYPE_BUSINESS;
 
         $surveyGmoNonBusiness = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($surveyGmoNonBusiness != null) {
             $surveyData['point'] = $surveyGmoNonBusiness->getCompletePoint();
             $surveyData['point_min'] = min($surveyGmoNonBusiness->getScreenoutPoint(), $surveyGmoNonBusiness->getQuotafullPoint());
-            $surveyData['type'] = $surveyGmoNonBusiness->getType();
         }
+
         return $surveyData;
     }
 
-    private function getTaskName($survey, $answerStatus)
+    private function getTaskName(SurveyGmo $survey, $answerStatus)
     {
         $statusText = '被甄别';
         if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {

@@ -8,7 +8,6 @@ use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\SurveyCint;
 use Wenwen\FrontendBundle\Entity\SurveyCintParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;

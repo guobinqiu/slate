@@ -594,8 +594,6 @@ class SurveyService
 
             foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
                 if (!$this->hasStopWord($fulcrum_research['url'])) {
-                    $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
-                    $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
                     $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                     array_unshift($html_survey_list, $html);
@@ -606,8 +604,6 @@ class SurveyService
             foreach ($sop['data']['cint_research'] as $cint_research) {
                 if ($cint_research['is_closed'] == 0) {
                     if (!$this->hasStopWord($cint_research['url'])) {
-                        $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
-                        $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
                         $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
                         if ($cint_research['is_answered'] == 0) {
@@ -623,8 +619,6 @@ class SurveyService
             foreach ($sop['data']['research'] as $research) {
                 if ($research['is_closed'] == 0) {
                     if (!$this->hasStopWord($research['url'])) {
-                        $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
-                        $research['loi'] = $this->getSurveyLOI($research['loi']);
                         $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
                         $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
                         if ($research['is_answered'] == 0) {
@@ -760,30 +754,5 @@ class SurveyService
      */
     private function toProxyAddress($url) {
         return preg_replace('/surveyon.com/', 'surveyon.cn', $url);
-    }
-
-    /**
-     * 替换ir 至 难易度表现文字
-     */
-    private function getSurveyDifficulty($ir){
-        $difficulty = '普通';
-        if($ir < 20 && $ir > 0){
-            $difficulty = '困难';
-        }
-        if($ir > 70){
-            $difficulty = '简单';
-        }
-        return $difficulty;
-    }
-    
-    /**
-     * loi 为 0 的时候，替换显示内容
-     */
-    private function getSurveyLOI($loi){
-        if($loi == 0){
-            // 随便显示一个时间，当loi为0的时候
-            return 20; 
-        }
-        return $loi;
     }
 }
