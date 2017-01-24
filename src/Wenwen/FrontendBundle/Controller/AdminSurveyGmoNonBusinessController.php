@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Form\SurveyGmoNonBusinessType;
 /**
  * SurveyGmoNonBusiness controller.
  *
- * @Route("/gmo")
+ * @Route("/admin/gmo")
  */
 class AdminSurveyGmoNonBusinessController extends Controller
 {
