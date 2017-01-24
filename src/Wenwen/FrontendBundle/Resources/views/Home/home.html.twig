@@ -12,11 +12,12 @@
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{{ render(controller("WenwenFrontendBundle:Component:homeBar")) }}
 {% endblock %}
 
 {% block body %}
 
-{{ render(controller("WenwenFrontendBundle:Component:homeBar")) }}
+
 
 {# 新手引导开始 #}
 <div id="mask" class="hidden-xs hidden-sm"></div>

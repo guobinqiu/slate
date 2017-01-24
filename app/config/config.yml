@@ -24,7 +24,7 @@ framework:
             base_urls:
                 http:        [%base_url%]
                 ssl:         [%base_url%]
-        assets_version: 'v000026'
+        assets_version: 'v000027'
     default_locale:  "%locale%"
     trusted_proxies: ~
     session:
