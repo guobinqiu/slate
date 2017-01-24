@@ -37,8 +37,8 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-        - { path: ^/survey_gmo, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/survey_gmo/csv$, roles: ROLE_GMO, requires_channel: https }
+        - { path: ^/survey_gmo, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: https }
         - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
         - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
