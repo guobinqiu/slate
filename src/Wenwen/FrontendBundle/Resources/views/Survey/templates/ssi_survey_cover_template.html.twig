@@ -1,17 +1,5 @@
 <div class="survey-item col-xs-5 col-sm-6 col-md-8">
     <div class="title"><a href="{{ path('_ssi_project_survey_cover', {'survey_id': ssi_surveys[0].ssiProjectId}) }}" target="_brank">S市场调查项目<span></span></a></div>
-    <ul class="con clearfix">
-        <li class="first">
-            难度：
-            {% if count == 1 %}
-                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
-            {% elseif count == 2 %}
-                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i></span>
-            {% else %}
-                <span class="difficulty"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></span>
-            {% endif %}
-        </li>
-    </ul>
 </div>
 <div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
     <div class="rewardPoint pull-left"><i>{{ ssi_project_config.point * count }}</i>积分</div>

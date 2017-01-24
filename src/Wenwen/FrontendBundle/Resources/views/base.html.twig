@@ -22,7 +22,7 @@
     </head>
     <body>
         {% block header %}{% endblock %}
-        <div {% if app.session.has('uid') %} class="mainWrap container-full" {% else %}  class="container-full unlogin" {% endif %}>
+        <div class="mainWrap container-full">
             {% block body %}{% endblock %}
         </div>
         <div class="footer top30">

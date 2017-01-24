@@ -11,17 +11,19 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
 /**
  * @Route("/fulcrum_project_survey")
  */
-class FulcrumProjectSurveyController extends BaseController implements UserAuthenticationController
+class FulcrumProjectSurveyController extends BaseController
 {
     /**
-     * @Route("/information", name="_fulcrum_project_survey_information", options={"expose"=true})
+     * @Route("/information", name="_fulcrum_project_survey_information")
      */
     public function informationAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $fulcrum_research = $request->query->get('fulcrum_research');
-        $user = $this->getCurrentUser();
         $participation = $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
-            $user->getId(),
+            $this->getCurrentUserId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
@@ -37,10 +39,12 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
      */
     public function forwardAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $fulcrum_research = $request->query->get('fulcrum_research');
-        $user = $this->getCurrentUser();
         $participation = $this->get('app.survey_fulcrum_service')->createParticipationByUserId(
-            $user->getId(),
+            $this->getCurrentUserId(),
             $fulcrum_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
@@ -48,7 +52,7 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
         $em = $this->getDoctrine()->getManager();
         $participation->setUpdatedAt(new \DateTime());
         $em->flush();
-        $fulcrum_research = $this->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $user->getId());
+        $fulcrum_research = $this->get('app.survey_fulcrum_service')->addSurveyUrlToken($fulcrum_research, $this->getCurrentUserId());
         return $this->redirect($fulcrum_research['url']);
     }
 
@@ -59,19 +63,13 @@ class FulcrumProjectSurveyController extends BaseController implements UserAuthe
     {
         $tid = $request->query->get('tid');
         $app_mid = $request->query->get('app_mid');
-        $user = $this->getCurrentUser();
-        $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        if ($app_mid != $app_mid2) {
-            throw new \InvalidArgumentException("fulcrum app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
-        }
-        $this->get('app.survey_fulcrum_service')->processSurveyEndlink(
+        $point = $this->get('app.survey_fulcrum_service')->processSurveyEndlink(
             $survey_id,
             $tid,
-            $user,
+            $app_mid,
             SurveyStatus::STATUS_COMPLETE,
             $request->getClientIp()
         );
-        $point = $this->get('app.survey_fulcrum_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_fulcrum_project_survey_endpage', array(
             'survey_id' => $survey_id,
             'point' => $point,

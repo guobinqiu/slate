@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Wenwen\FrontendBundle\Entity\SurveyListJob;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * @Route("/survey")
@@ -79,6 +80,15 @@ class SurveyController extends BaseController implements UserAuthenticationContr
             $em->persist($surveyListJob);
             $em->flush();
 
+            //gmo
+            $surveyGmoService = $this->get('app.survey_gmo_service');
+            $researches = $surveyGmoService->getSurveyList($userId);
+            foreach ($researches as $research) {
+                $survey = $surveyGmoService->createOrUpdateSurvey($research);
+                $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+            }
+
+            //sop
             $args = array(
                 '--user_id=' . $userId,
             );

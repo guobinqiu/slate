@@ -15,7 +15,7 @@ use Wenwen\FrontendBundle\Model\TaskType;
 /**
  * @Route("/cint_project_survey")
  */
-class ProjectSurveyCintController extends BaseController implements UserAuthenticationController
+class ProjectSurveyCintController extends BaseController
 {
     const AGREEMENT_POINT = 1;
     const COMMENT = '同意参与海外市场调查项目';
@@ -25,7 +25,11 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function agreementCompleteAction(Request $request)
     {
-        $user_id = $request->getSession()->get('uid');
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $user_id = $this->getCurrentUserId();
         $em = $this->getDoctrine()->getManager();
 
         $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user_id);
@@ -90,10 +94,12 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function informationAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $cint_research = $request->query->get('cint_research');
-        $user = $this->getCurrentUser();
         $participation = $this->get('app.survey_cint_service')->createParticipationByUserId(
-            $user->getId(),
+            $this->getCurrentUserId(),
             $cint_research['survey_id'],
             SurveyStatus::STATUS_INIT,
             $request->getClientIp()
@@ -109,10 +115,12 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
      */
     public function forwardAction(Request $request)
     {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
         $cint_research = $request->query->get('cint_research');
-        $user = $this->getCurrentUser();
         $participation = $this->get('app.survey_cint_service')->createParticipationByUserId(
-            $user->getId(),
+            $this->getCurrentUserId(),
             $cint_research['survey_id'],
             SurveyStatus::STATUS_FORWARD,
             $request->getClientIp()
@@ -120,7 +128,7 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
         $em = $this->getDoctrine()->getManager();
         $participation->setUpdatedAt(new \DateTime());
         $em->flush();
-        $cint_research = $this->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $user->getId());
+        $cint_research = $this->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $this->getCurrentUserId());
         return $this->redirect($cint_research['url']);
     }
 
@@ -131,22 +139,13 @@ class ProjectSurveyCintController extends BaseController implements UserAuthenti
     {
         $tid = $request->query->get('tid');
         $app_mid = $request->query->get('app_mid');
-        if (!SurveyStatus::isValid($answer_status)) {
-            throw new \InvalidArgumentException("cint invalid answer status: {$answer_status}");
-        }
-        $user = $this->getCurrentUser();
-        $app_mid2 = $this->get('app.survey_service')->getSopRespondentId($user->getId());
-        if ($app_mid != $app_mid2) {
-            throw new \InvalidArgumentException("cint app_mid: {$app_mid} doesn't match its user_id: {$user->getId()}");
-        }
-        $this->get('app.survey_cint_service')->processSurveyEndlink(
+        $point = $this->get('app.survey_cint_service')->processSurveyEndlink(
             $survey_id,
             $tid,
-            $user,
+            $app_mid,
             $answer_status,
             $request->getClientIp()
         );
-        $point = $this->get('app.survey_cint_service')->getSurveyPoint($user->getId(), $survey_id);
         return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,

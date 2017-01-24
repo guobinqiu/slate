@@ -50,7 +50,6 @@ class SopDeliveryNotification implements DeliveryNotification
         $completePoint = $respondent['extra_info']['point']['complete'];
         $loi = $respondent['loi'];
         $surveyId = $respondent['survey_id'];
-        $surveyDifficulty = $this->getSurveyDifficulty($respondent['ir']);
 
         // 随机从下面挑选一个名称作为邮件标题
         $subjects = array(
@@ -69,7 +68,6 @@ class SopDeliveryNotification implements DeliveryNotification
             '--survey_length='.$loi,
             '--subject='.$subject,
             '--survey_id='.$surveyId,
-            '--survey_difficulty='.$surveyDifficulty,
             //'--channel='.$channel,//sendcloud
         ), true, '91wenwen');
         $this->em->persist($job);
@@ -84,17 +82,6 @@ class SopDeliveryNotification implements DeliveryNotification
     private function isSubscribed($email) {
         $userEdmUnsubscribes = $this->em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->findByEmail($email);
         return count($userEdmUnsubscribes) == 0;
-    }
-
-    private function getSurveyDifficulty($ir){
-        $difficulty = '普通';
-        if($ir < 20 && $ir > 0){
-            $difficulty = '困难';
-        }
-        if($ir > 70){
-            $difficulty = '简单';
-        }
-        return $difficulty;
     }
 
 //    private function getChannel($i) {

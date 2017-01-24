@@ -8,7 +8,6 @@ use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\SurveyCint;
 use Wenwen\FrontendBundle\Entity\SurveyCintParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
@@ -69,8 +68,11 @@ class SurveyCintService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
 //            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findOneBy(array('surveyId' => $surveyId));
@@ -105,10 +107,14 @@ class SurveyCintService
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'cint商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
+        return $points;
     }
 
     public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("cint invalid answer status: {$answerStatus}");
+        }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -133,15 +139,6 @@ class SurveyCintService
     {
         $userId = $this->userService->toUserId($appMid);
         return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
-    }
-
-    public function getSurveyPoint($userId, $surveyId)
-    {
-        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveyCint($userId, $surveyId);
-        if ($taskHistory != null) {
-            return $taskHistory->getPoint();
-        }
-        return 0;
     }
 
     public function createSurvey(array $surveyData)
@@ -213,7 +210,7 @@ class SurveyCintService
             if ($survey->getIsClosed() == 0 && $surveyData['is_closed'] == 1) {
                 $survey->setClosedAt(new \DateTime());
             } else if ($survey->getIsClosed() == 1 && $surveyData['is_closed'] == 0) {
-                $this->logger->warning('survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
+                $this->logger->warning('cint survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
                 $survey->setClosedAt(null);
             }
             $survey->setIsClosed($surveyData['is_closed']);

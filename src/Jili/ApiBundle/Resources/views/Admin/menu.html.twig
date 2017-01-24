@@ -284,6 +284,19 @@
                     <TD><A class=menuChild href="{{ path('admin_report_cint_detail_report') }}" target=main>问卷详情</A></TD>
                 </TR>
             </TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+                <TR height=22>
+                    <TD style="PADDING-LEFT: 30px" background="{{ asset('images/admin/menu_bt.jpg')}}">
+                        <A class=menuParent onclick=expand(38) href="javascript:void(0)">GMO问卷管理</A>
+                    </TD>
+                </TR>
+            </TABLE>
+            <TABLE id=child38 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
+                <TR height=20>
+                    <TD align=middle width=30><IMG height=9 src="{{ asset('images/admin/menu_icon.gif')}}" width=9></TD>
+                    <TD><A class=menuChild href="{{ path('gmo') }}" target=main>非商业调查问卷设置</A></TD>
+                </TR>
+            </TABLE>
         </TD>
     </TR>
 </TABLE>

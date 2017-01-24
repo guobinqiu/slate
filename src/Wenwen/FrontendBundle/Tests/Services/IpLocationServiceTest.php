@@ -104,6 +104,7 @@ class IpLocationServiceTest extends WebTestCase
         $city->setCityName($cityName);
         $city->setProvinceId($provinceId);
         $city->setCityId($cityId);
+        $city->setGmoCityId(3101);
 
         $em->persist($city);
         $em->flush();
@@ -141,6 +142,7 @@ class IpLocationServiceTest extends WebTestCase
         $city->setCityName($cityName);
         $city->setProvinceId($provinceId);
         $city->setCityId($cityId);
+        $city->setGmoCityId(3101);
 
         $em->persist($city);
         $em->flush();

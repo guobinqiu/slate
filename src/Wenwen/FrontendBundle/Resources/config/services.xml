@@ -16,6 +16,7 @@
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.survey_partner_service" />
             <argument type="service" id="app.survey_sop_service" />
+            <argument type="service" id="app.survey_gmo_service" />
         </service>
 
         <service id="app.survey_sop_service" class="Wenwen\FrontendBundle\Services\SurveySopService">
@@ -46,6 +47,16 @@
             <argument type="service" id="app.point_service" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.user_service" />
+        </service>
+
+        <service id="app.survey_gmo_service" class="Wenwen\FrontendBundle\Services\SurveyGmoService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="monolog.logger.fake_answer" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="app.prize_ticket_service" />
+            <argument type="service" id="app.point_service" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="app.http_client" />
         </service>
 
         <service id="app.parameter_service" class="Wenwen\FrontendBundle\Services\ParameterService">

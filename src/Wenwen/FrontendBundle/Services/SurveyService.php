@@ -25,6 +25,7 @@ class SurveyService
     private $redis;
     private $surveyParnterService;
     private $surveySopService;
+    private $surveyGmoService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -38,8 +39,9 @@ class SurveyService
                                 EngineInterface $templating,
                                 Client $redis,
                                 SurveyPartnerService $surveyParnterService,
-                                SurveySopService $surveySopService)
-    {
+                                SurveySopService $surveySopService,
+                                SurveyGmoService $surveyGmoService
+    ) {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
@@ -48,6 +50,7 @@ class SurveyService
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
         $this->surveySopService = $surveySopService;
+        $this->surveyGmoService = $surveyGmoService;
     }
 
     public function setDummy($dummy){
@@ -530,6 +533,30 @@ class SurveyService
             $this->logger->error($e->getTraceAsString());
         }
 
+        //gmo
+        try {
+            $researches = $this->surveyGmoService->getSurveyList($user_id);
+            foreach ($researches as $research) {
+                $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                if ($research['point_min'] < $research['point']) {
+                    $research['point_range'] = $research['point_min'] . '-' . $research['point'];
+                } else {
+                    $research['point_range'] = $research['point'];
+                }
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+                if ($research['is_closed'] == 0) {
+                    if ($research['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
+                    }
+                }
+            }
+        } catch(\Exception $e) {
+            $this->logger->error($e);
+        }
+
+        //ssi
         try{
             // 获取ssi的问卷数据
             $ssi_res = $this->getSsiSurveyList($user_id);
@@ -549,6 +576,7 @@ class SurveyService
             $this->logger->error($e);
         }
 
+        //sop
         // 增加容错处理，sop的response数据格式不对的时候，抓异常
         try{
             // 获取sop的数据
@@ -566,8 +594,6 @@ class SurveyService
 
             foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
                 if (!$this->hasStopWord($fulcrum_research['url'])) {
-                    $fulcrum_research['difficulty'] = $this->getSurveyDifficulty($fulcrum_research['ir']);
-                    $fulcrum_research['loi'] = $this->getSurveyLOI($fulcrum_research['loi']);
                     $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_research_item_template.html.twig', array('fulcrum_research' => $fulcrum_research));
                     array_unshift($html_survey_list, $html);
@@ -576,38 +602,31 @@ class SurveyService
             }
 
             foreach ($sop['data']['cint_research'] as $cint_research) {
-                if (!$this->hasStopWord($cint_research['url'])) {
-                    $cint_research['difficulty'] = $this->getSurveyDifficulty($cint_research['ir']);
-                    $cint_research['loi'] = $this->getSurveyLOI($cint_research['loi']);
-                    $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
-                    if ($cint_research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
-                        $answerableSurveyCount++;
-                    } else {
-                        array_push($html_survey_list, $html);
+                if ($cint_research['is_closed'] == 0) {
+                    if (!$this->hasStopWord($cint_research['url'])) {
+                        $cint_research['title'] = 'c' . $cint_research['survey_id'] . ' ' . '商业调查问卷';
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_research_item_template.html.twig', array('cint_research' => $cint_research));
+                        if ($cint_research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
                     }
                 }
             }
 
             foreach ($sop['data']['research'] as $research) {
-                ///临时增加代码。将7436问卷显示分数改为5000分
-                ///项目关闭时删除
-                if(($research['survey_id'] == 7436)){
-                        $research['extra_info']['point']['complete']= 5000;
-                    }
-                ///
-                ///
-                if(($research['is_closed'] == 0)){
-                    $research['difficulty'] = $this->getSurveyDifficulty($research['ir']);
-                    $research['loi'] = $this->getSurveyLOI($research['loi']);
-                    $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
-                    if ($research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
-                        $answerableSurveyCount++;
-                    } else {
-                        array_push($html_survey_list, $html);
+                if ($research['is_closed'] == 0) {
+                    if (!$this->hasStopWord($research['url'])) {
+                        $research['title'] = 'r' . $research['survey_id'] . ' ' . $research['title'];
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_research_item_template.html.twig', array('research' => $research));
+                        if ($research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                            $answerableSurveyCount++;
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
                     }
                 }
             }
@@ -735,30 +754,5 @@ class SurveyService
      */
     private function toProxyAddress($url) {
         return preg_replace('/surveyon.com/', 'surveyon.cn', $url);
-    }
-
-    /**
-     * 替换ir 至 难易度表现文字
-     */
-    private function getSurveyDifficulty($ir){
-        $difficulty = '普通';
-        if($ir < 20 && $ir > 0){
-            $difficulty = '困难';
-        }
-        if($ir > 70){
-            $difficulty = '简单';
-        }
-        return $difficulty;
-    }
-    
-    /**
-     * loi 为 0 的时候，替换显示内容
-     */
-    private function getSurveyLOI($loi){
-        if($loi == 0){
-            // 随便显示一个时间，当loi为0的时候
-            return 20; 
-        }
-        return $loi;
     }
 }

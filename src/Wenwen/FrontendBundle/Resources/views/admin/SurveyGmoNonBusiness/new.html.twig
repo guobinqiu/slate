@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>新增</h1>
+
+    <form class="form-horizontal" action="{{ path('gmo_create') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+        {% include 'WenwenFrontendBundle:admin:SurveyGmoNonBusiness/_form.html.twig' with { 'form': form } %}
+    </form>
+
+{% endblock %}

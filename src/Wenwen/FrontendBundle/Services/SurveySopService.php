@@ -10,7 +10,6 @@ use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
@@ -69,8 +68,11 @@ class SurveySopService
         $this->redis->del($key);
     }
 
-    public function processSurveyEndlink($surveyId, $tid, User $user, $answerStatus, $clientIp)
+    public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
@@ -78,14 +80,14 @@ class SurveySopService
                 $conn = $this->em->getConnection();
                 $conn->beginTransaction();
                 try {
-                    $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                    $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
                         $points,
                         CategoryType::SOP_COST,
                         TaskType::SURVEY,
-                        "r{$survey->getSurveyId()} {$survey->getTitle()}",
+                        $this->getTaskName($survey, $answerStatus),
                         $survey
                     );
                     $this->pointService->addPointsForInviter(
@@ -105,6 +107,7 @@ class SurveySopService
             $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop商业问卷', $surveyId, $answerStatus);
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
+        return $points;
     }
 
     public function addProfilingUrlToken($profiling, $userId)
@@ -117,8 +120,10 @@ class SurveySopService
         return $profiling;
     }
 
-    public function processProfilingEndlink(User $user, $tid)
+    public function processProfilingEndlink($appMid, $tid)
     {
+        $userId = $this->userService->toUserId($appMid);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $key = 'sop_profiling_' . $user->getId();
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
@@ -129,6 +134,9 @@ class SurveySopService
 
     public function createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
+        }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyId' => $surveyId,
@@ -153,15 +161,6 @@ class SurveySopService
     {
         $userId = $this->userService->toUserId($appMid);
         return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
-    }
-
-    public function getSurveyPoint($userId, $surveyId)
-    {
-        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($userId % 10))->getTaskHistoryBySurveySop($userId, $surveyId);
-        if ($taskHistory != null) {
-            return $taskHistory->getPoint();
-        }
-        return 0;
     }
 
     public function createSurvey(array $surveyData)
@@ -233,7 +232,7 @@ class SurveySopService
             if ($survey->getIsClosed() == 0 && $surveyData['is_closed'] == 1) {
                 $survey->setClosedAt(new \DateTime());
             } else if ($survey->getIsClosed() == 1 && $surveyData['is_closed'] == 0) {
-                $this->logger->warning('survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
+                $this->logger->warning('sop survey_id: ' . $survey->getSurveyId() . '从关闭又被打开');
                 $survey->setClosedAt(null);
             }
             $survey->setIsClosed($surveyData['is_closed']);
@@ -276,5 +275,15 @@ class SurveySopService
             }
         }
         $this->createParticipationByUserId($user->getId(), $survey->getSurveyId(), $answerStatus, $clientIp, $actualLoiSeconds);
+        return $answerStatus;
+    }
+
+    private function getTaskName(SurveySop $survey, $answerStatus)
+    {
+        $statusText = '被甄别';
+        if ($answerStatus == SurveyStatus::STATUS_COMPLETE) {
+            $statusText = '完成';
+        }
+        return "r{$survey->getSurveyId()} {$survey->getTitle()}（状态：{$statusText}）";
     }
 }

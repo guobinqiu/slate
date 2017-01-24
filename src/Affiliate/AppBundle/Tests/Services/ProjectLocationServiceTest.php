@@ -21,7 +21,7 @@ class ProjectLocationServiceTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp() {   
+    public function setUp() {
         static::$kernel = static::createKernel();
         static::$kernel->boot(); 
         $this->projectLocationService = static::$kernel->getContainer()->get('app.af_location_service');
@@ -34,7 +34,7 @@ class ProjectLocationServiceTest extends WebTestCase
     protected function tearDown() {
         parent::tearDown();
     }
- 
+
  
     public function testCheckInputLocation_true_normal() {
         $em = static::$kernel->getContainer()->get('doctrine')->getManager();
@@ -68,7 +68,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'上海','上海市');
         $rtn = $this->projectLocationService->confirmLocation('xxx.xxx.xxx.xxx', $affiliateProject->getId());
-        
+
         $this->assertEquals(true, $rtn, 'should be true');
 
     }
@@ -105,7 +105,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'上海','上海市');
         $rtn = $this->projectLocationService->confirmLocation('xxx.xxx.xxx.xxx', $affiliateProject->getId());
-        
+
         $this->assertEquals(false, $rtn, 'should be true');
 
     }
@@ -140,9 +140,9 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'上海','上海市');
         $rtn = $this->projectLocationService->confirmLocation('xxx.xxx.xxx.xxx', $affiliateProject->getId());
-        
+
         $this->assertEquals(true, $rtn, 'should be true');
- 
+
     }
 
     public function testCheckInputLocation_true_no_iplocation() {
@@ -175,9 +175,9 @@ class ProjectLocationServiceTest extends WebTestCase
 
         //$this->projectLocationService->setDummy(true,'上海','上海市');
         $rtn = $this->projectLocationService->confirmLocation('111.111.111.111', $affiliateProject->getId());
-        
+
         $this->assertEquals(true, $rtn, 'should be true');
- 
+
     }
 
 
@@ -212,7 +212,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'郑州市','河南省');
         $rtn = $this->projectLocationService->confirmLocation('111.111.111.111', $affiliateProject->getId());
-        
+
         $this->assertEquals(true, $rtn, 'should be true');
     }
 
@@ -247,7 +247,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'石家庄市','河北省');
         $rtn = $this->projectLocationService->confirmLocation('111.111.111.111', $affiliateProject->getId());
-        
+
         $this->assertEquals(false, $rtn, 'should be true');
     }
 
@@ -282,7 +282,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'郑州市','河南省');
         $rtn = $this->projectLocationService->confirmLocation('111.111.111.111', $affiliateProject->getId());
-        
+
         $this->assertEquals(true, $rtn, 'should be true');
     }
 
@@ -317,7 +317,7 @@ class ProjectLocationServiceTest extends WebTestCase
 
         $this->projectLocationService->setDummy(true,'石家庄市','河北省');
         $rtn = $this->projectLocationService->confirmLocation('111.111.111.111', $affiliateProject->getId());
-        
+
         $this->assertEquals(false, $rtn, 'should be true');
     }
 }

@@ -1,0 +1,32 @@
+<div class="survey-item col-xs-5 col-sm-6 col-md-8">
+    <div class="title">
+        {% if research.is_answered == 1 %}
+            <span class="text-muted">{% if research.title|length > 35 %}
+                {{ research.title[:35] }}...
+            {% else %}
+            {{ research.title }}
+            </span>
+        {% endif %}
+        {% else %}
+            <a href="{{ path('survey_gmo_information', {'research': research}) }}" class="open-link" target="_blank">
+                {% if research.title|length > 35 %}
+                    {{ research.title[:35] }}...
+                {% else %}
+                    {{ research.title }}
+                {% endif %}
+                <span></span>
+            </a>
+        {% endif %}
+    </div>
+    <div>时长：约{{ research.loi }}分钟</div>
+</div>
+<div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
+    <div class="rewardPoint pull-left"><i>{{ research.point }}</i>积分</div>
+    <div class="survey-btn">
+        {% if research.is_answered == 1 %}
+            <span class="disabled">回答完毕</span>
+        {% else %}
+            <a href="{{ path('survey_gmo_information', {'research': research}) }}" class="open-link" target="_blank">可回答</a>
+        {% endif %}
+    </div>
+</div>
