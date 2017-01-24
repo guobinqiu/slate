@@ -110,13 +110,15 @@ class SurveyGmoController extends BaseController
         //验证前后积分是否一致
         if ($grantTimes == 1) {
             $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
-            if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
-                if ($point != $survey->getPoint()) {
-                    return new Response(self::INVALID_PARAMETER);
-                }
-            } else {
-                if ($point != $survey->getPointMin()) {
-                    return new Response(self::INVALID_PARAMETER);
+            if ($survey != null) {
+                if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
+                    if ($point != $survey->getPoint()) {
+                        return new Response(self::INVALID_PARAMETER);
+                    }
+                } else {
+                    if ($point != $survey->getPointMin()) {
+                        return new Response(self::INVALID_PARAMETER);
+                    }
                 }
             }
         }
