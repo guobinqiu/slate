@@ -52,8 +52,14 @@ $slider-height: 305px;
 		}
 	}
 }
+.vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
 .homeBr{
-	height: 91px; 
+	height: 70px; 
 	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
 	.faceWapper{
 		white-space: nowrap;
@@ -65,30 +71,16 @@ $slider-height: 305px;
 	}
 	.infoText{
 		color: #f0f4fa;
-		line-height: 52px;
-		margin-left: 5px;
+		text-align: center;
 		font-size: 14px;
 		.point{
-			font-size: 18px;
-			padding: 0 8px;
-			vertical-align: -2px;
+			font-size: 14px;
+			padding: 0 0 0 0;
 			background: #1ca8dd;
-			margin-left: 4px;
-			@include border-radius(15px);
+			@include border-radius(4px);
 		}
 	}
-	.taskHis, .exchangeHis{
-		color: #f0f4fa;
-		margin-top: 30px;
-		font-size: 13px;
-		border: 1px solid #bbc4ce;
-		@include border-radius(4px);
-		padding: 7px 13px;
-		@include dib();
-	}
-	.taskHis{
-		margin-right: 5px;
-	}
+
 }
 
 #planbanner{

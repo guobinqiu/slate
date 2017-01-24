@@ -1,24 +1,57 @@
-<div class="homeBr">
+<div class="homeBr vertical-align">
+
     <div class="container">
-        <div class="row">
-            <div class="faceWapper col-sm-9 col-xs-12 top20">
+
+        <div class="row vertical-align">
+
+            <div class="col-md-1 hidden-xs faceWapper">
                 {% if user.iconPath %}
                     <img class="img-circle" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
                 {% else %}
-                    <!--[if !IE]><!-->
-                        <img src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
-                    <!--<![endif]-->
-                    <!--[if IE]>
-                        <img src="{{ asset('img/home/homeAvr.png') }}" alt="头像" width="52" height="52">
-                    <![endif]-->
+                    <img src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
                 {% endif %}
-                <span class="infoText">
-                    Hi，<span class="hidden-xs"><span class="nk">{{ user.nick[:35] }}</span>，</span>您的当前积分为<strong class="point"><i></i>{{ user.points }}</strong>
+                
             </div>
-            <div class="right hidden-xs">
-                <a href="{{ path('_user_adtaste',{'type':0}) }}" class="taskHis">任务历史</a>
-                <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="exchangeHis">兑换历史</a>
+            <div class="col-md-3 hidden-xs">
+                <div class="infoText">
+                {{ user.nick }}的积分：<strong style="color: #FF9D5C; background-color: ">{{ user.points }}</strong>
+                </div>
             </div>
+
+            <div class="col-md-4 col-xs-12">
+                <div class="visible-xs-inline">
+                    <div class="infoText" style="font-size: 16px;">
+                        <strong style="color: #FF9D5C; background-color: ">{{ user.points }}</strong>积分
+                    </div>
+                    <div class="infoText" style="font-size: 10px;">
+                    加油！再获得<strong style="color: #FF9D5C; background-color: ">{{ 2050 - user.points }}</strong>即可兑换
+                    </div>
+                </div>
+                <div class="infoText hidden-xs">
+                {% if (2050 - user.points) > 0 %}
+                加油！再获得<strong style="color: #FF9D5C; background-color: ">{{ 2050 - user.points }}</strong>即可兑换
+                {% else %}
+                恭喜您可以兑换了
+                {% endif %}
+                </div>
+
+                <div class="progress" style="margin-bottom:0px; min-width:240px">
+                    <div class="progress-bar" role="progressbar" style="width: {{ ((user.points/2050*100)|round(1, 'floor')) < 100 ? ((user.points/2050*100)|round(1, 'floor')) : 100 }}%;" aria-valuenow="{{ (user.points / 2050 | round)* 100 }}" aria-valuemin="0" aria-valuemax="100">
+                    {% if ((user.points/2050*100)|round(1, 'floor')) > 15 %}
+                    {{ ((user.points/2050*100)|round(1, 'floor')) < 100 ? ((user.points/2050*100)|round(1, 'floor')) : 100 }}%
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 hidden-xs">
+                <div class="right">
+                    <a href="{{ path('_user_adtaste',{'type':0}) }}" class="btn btn-default">任务历史</a>
+                    <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="btn btn-default">兑换历史</a>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
