@@ -24,7 +24,11 @@
                         <strong style="color: #FF9D5C; background-color: ">{{ user.points }}</strong>积分
                     </div>
                     <div class="infoText" style="font-size: 10px;">
+                    {% if (2050 - user.points) > 0 %}
                     加油！再获得<strong style="color: #FF9D5C; background-color: ">{{ 2050 - user.points }}</strong>即可兑换
+                    {% else %}
+                    恭喜您可以兑换了
+                    {% endif %}
                     </div>
                 </div>
                 <div class="infoText hidden-xs">
