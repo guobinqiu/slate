@@ -2,7 +2,9 @@
     <div class="title">
         <a href="{{ path('_fulcrum_project_survey_information', {'fulcrum_research': fulcrum_research}) }}" class="open-link" target="_blank">{{ fulcrum_research.title }}<span></span></a>
     </div>
-    <div>时长：约{{ fulcrum_research.loi }}分钟</div>
+    <div class="proCon clearfix">
+        <div class="proRow">时长：约{{ fulcrum_research.loi }}分钟</div>
+    </div>
 </div>
 <div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
     <div class="rewardPoint"><i>{{ fulcrum_research.extra_info.point.complete }}</i>积分</div>

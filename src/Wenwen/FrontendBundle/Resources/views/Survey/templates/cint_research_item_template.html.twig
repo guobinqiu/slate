@@ -6,7 +6,9 @@
             <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_blank">{{ cint_research.title }}<span></span></a>
        {% endif %}
     </div>
-    <div>时长：约{{ cint_research.loi }}分钟</div>
+    <div class="proCon clearfix">
+        <div class="proRow">时长：约{{ cint_research.loi }}分钟</div>
+    </div>
 </div>
 <div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
     <div class="rewardPoint pull-left"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
