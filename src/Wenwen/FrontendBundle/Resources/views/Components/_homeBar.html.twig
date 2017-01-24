@@ -8,7 +8,7 @@
                     <img src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
                 {% endif %}
                 <div class="infoText">
-                    {{ user.nick }}的积分：<strong style="color: #FF9D5C; background-color: ">{{ user.points }}</strong>
+                    {{ user.nick }}的积分：<strong style="color: #FF9D5C;">{{ user.points }}</strong>
                 </div>
             </div>
             <div class="col-md-6 col-xs-12">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="infoText hidden-xs">
                 {% if (2050 - user.points) > 0 %}
-                加油！再获得<strong style="color: #FF9D5C; background-color: ">{{ 2050 - user.points }}</strong>即可兑换
+                加油！再获得<strong style="color: #FF9D5C;">{{ 2050 - user.points }}</strong>即可兑换
                 {% else %}
                 恭喜您可以兑换了
                 {% endif %}
