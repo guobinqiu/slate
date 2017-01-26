@@ -104,7 +104,13 @@ class SurveyFulcrumService
 //                    throw $e;
 //                }
 //            }
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'fulcrum商业问卷', $surveyId, $answerStatus);
+            $this->prizeTicketService->createPrizeTicket(
+                $user,
+                $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
+                'fulcrum商业问卷',
+                $surveyId,
+                $answerStatus
+            );
             $this->deleteSurveyToken($surveyId, $user->getId());
         }
         return $points;

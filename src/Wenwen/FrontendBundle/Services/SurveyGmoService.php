@@ -170,7 +170,13 @@ class SurveyGmoService
                 throw $e;
             }
         }
-        $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'gmo商业问卷', $surveyId, $answerStatus);
+        $this->prizeTicketService->createPrizeTicket(
+            $user,
+            $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
+            'gmo商业问卷',
+            $surveyId,
+            $answerStatus
+        );
     }
 
     public function createParticipationByUserId($userId, $surveyGmoId, $answerStatus, $clientIp = null, $loi = null)
