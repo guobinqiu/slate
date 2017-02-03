@@ -70,7 +70,7 @@ class SurveyFulcrumService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
-        if (SurveyStatus::isValid($answerStatus)) {
+        if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("fulcrum invalid answer status: {$answerStatus}");
         }
         $answerStatus = strtolower($answerStatus);

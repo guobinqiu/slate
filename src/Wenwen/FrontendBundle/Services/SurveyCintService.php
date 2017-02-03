@@ -70,7 +70,7 @@ class SurveyCintService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
-        if (SurveyStatus::isValid($answerStatus)) {
+        if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("cint invalid answer status: {$answerStatus}");
         }
         $answerStatus = strtolower($answerStatus);

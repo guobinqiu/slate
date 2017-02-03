@@ -141,7 +141,7 @@ class SurveyGmoService
 
     public function processSurveyEndlink($surveyId, $userId, $answerStatus, $points, $clientIp)
     {
-        if (SurveyStatus::isValid($answerStatus)) {
+        if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("gmo invalid answer status: {$answerStatus}");
         }
         $answerStatus = strtolower($answerStatus);
@@ -297,12 +297,10 @@ class SurveyGmoService
 
         $surveyData['url'] = $surveyData['redirectSt'] . $surveyData['id'] . '=' . $surveyData['encryptId'];
 
-        $surveyData['realtime'] = 1;
         $surveyGmoNonBusiness = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyData['research_id']));
         if ($surveyGmoNonBusiness != null) {
             $surveyData['point'] = $surveyGmoNonBusiness->getCompletePoint();
             $surveyData['point_min'] = min($surveyGmoNonBusiness->getScreenoutPoint(), $surveyGmoNonBusiness->getQuotafullPoint());
-            $surveyData['realtime'] = 0;
         }
 
         return $surveyData;
