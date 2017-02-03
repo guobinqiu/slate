@@ -108,7 +108,8 @@ class SurveyGmoController extends BaseController
         $em = $this->getDoctrine()->getManager();
 
         //验证前后积分是否一致
-        if ($grantTimes == 1) {
+        $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
+        if ($grantTimes == 1 && $surveyGmoNonBusiness == null) {
             $survey = $em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
             if ($survey != null) {
                 if (self::$statusHash[$status] == SurveyStatus::STATUS_COMPLETE) {
@@ -138,9 +139,9 @@ class SurveyGmoController extends BaseController
             return new Response(self::DUPLICATE_ANSWER);
         }
 
-        //用自定义积分覆盖默认积分
         $status = self::$statusHash[$status];
-        $surveyGmoNonBusiness = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findOneBy(array('researchId' => $surveyId));
+
+        //用自定义积分覆盖默认积分
         if ($surveyGmoNonBusiness != null) {
             $point = $surveyGmoNonBusiness->getPoints($status);
         }

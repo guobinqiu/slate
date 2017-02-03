@@ -141,6 +141,10 @@ class SurveyGmoService
 
     public function processSurveyEndlink($surveyId, $userId, $answerStatus, $points, $clientIp)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("gmo invalid answer status: {$answerStatus}");
+        }
+        $answerStatus = strtolower($answerStatus);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyGmo')->findOneBy(array('researchId' => $surveyId));
         if ($survey != null) {
@@ -181,6 +185,9 @@ class SurveyGmoService
 
     public function createParticipationByUserId($userId, $surveyGmoId, $answerStatus, $clientIp = null, $loi = null)
     {
+        if (!SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("gmo invalid answer status: {$answerStatus}");
+        }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyGmoParticipationHistory')->findOneBy(array(
 //            'appMid' => $appMid,
             'surveyGmoId' => $surveyGmoId,
