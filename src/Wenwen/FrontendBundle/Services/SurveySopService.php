@@ -70,6 +70,10 @@ class SurveySopService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        if (SurveyStatus::isValid($answerStatus)) {
+            throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
+        }
+        $answerStatus = strtolower($answerStatus);
         $points = 0;
         $userId = $this->userService->toUserId($appMid);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
