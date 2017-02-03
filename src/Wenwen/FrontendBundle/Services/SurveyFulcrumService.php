@@ -106,7 +106,7 @@ class SurveyFulcrumService
 //            }
             $this->prizeTicketService->createPrizeTicket(
                 $user,
-                $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
+                PrizeItem::TYPE_SMALL,
                 'fulcrum商业问卷',
                 $surveyId,
                 $answerStatus
