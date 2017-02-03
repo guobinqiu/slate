@@ -186,7 +186,7 @@ class FulcrumProjectSurveyControllerTest extends WebTestCase
 
         $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($survey_id);
         $this->assertNotNull($prizeTicket);
-        $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
+        $this->assertEquals(PrizeItem::TYPE_SMALL, $prizeTicket->getType());
 
 //        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
 //        $this->assertEquals(400, $taskHistory->getPoint());
