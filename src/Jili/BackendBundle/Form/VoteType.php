@@ -38,8 +38,8 @@ class VoteType extends AbstractType
             'constraints' => array (
                 new NotBlank(),
                 new Assert\Range(array (
-                    'min' => 0,
-                    'max' => 1,
+                    'min' => 5,
+                    'max' => 5,
                     'minMessage' => 'Invalid pointValue',
                     'maxMessage' => 'Invalid pointValue'
                 ))

@@ -22,7 +22,6 @@ class AdminSurveyGmoNonBusinessController extends Controller
      *
      * @Route("/", name="gmo")
      * @Method("GET")
-     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/index.html.twig")
      */
     public function indexAction()
     {
@@ -30,9 +29,24 @@ class AdminSurveyGmoNonBusinessController extends Controller
 
         $entities = $em->getRepository('WenwenFrontendBundle:SurveyGmoNonBusiness')->findBy(array(), array('createdAt' => 'DESC'));
 
-        return array(
+        return $this->render("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/index.html.twig", array(
             'entities' => $entities,
-        );
+        ));
+    }
+
+    /**
+     * Displays a form to create a new SurveyGmoNonBusiness entity.
+     *
+     * @Route("/new", name="gmo_new")
+     * @Method("GET")
+     */
+    public function newAction()
+    {
+        $form = $this->createForm(new SurveyGmoNonBusinessType());
+
+        return $this->render("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig", array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
@@ -40,11 +54,10 @@ class AdminSurveyGmoNonBusinessController extends Controller
      *
      * @Route("/", name="gmo_create")
      * @Method("POST")
-     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new SurveyGmoNonBusiness();
+        $entity = new SurveyGmoNonBusiness();
         $form = $this->createForm(new SurveyGmoNonBusinessType(), $entity);
         $form->bind($request);
 
@@ -56,28 +69,9 @@ class AdminSurveyGmoNonBusinessController extends Controller
             return $this->redirect($this->generateUrl('gmo'));
         }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to create a new SurveyGmoNonBusiness entity.
-     *
-     * @Route("/new", name="gmo_new")
-     * @Method("GET")
-     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new SurveyGmoNonBusiness();
-        $form   = $this->createForm(new SurveyGmoNonBusinessType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return $this->render("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/new.html.twig", array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
@@ -85,7 +79,6 @@ class AdminSurveyGmoNonBusinessController extends Controller
      *
      * @Route("/{id}/edit", name="gmo_edit")
      * @Method("GET")
-     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig")
      */
     public function editAction($id)
     {
@@ -99,10 +92,10 @@ class AdminSurveyGmoNonBusinessController extends Controller
 
         $editForm = $this->createForm(new SurveyGmoNonBusinessType(), $entity);
 
-        return array(
+        return $this->render("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig", array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
     /**
@@ -110,7 +103,6 @@ class AdminSurveyGmoNonBusinessController extends Controller
      *
      * @Route("/{id}", name="gmo_update")
      * @Method("PUT")
-     * @Template("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -132,10 +124,10 @@ class AdminSurveyGmoNonBusinessController extends Controller
             return $this->redirect($this->generateUrl('gmo'));
         }
 
-        return array(
+        return $this->render("WenwenFrontendBundle:admin:SurveyGmoNonBusiness/edit.html.twig", array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-        );
+        ));
     }
 
     /**

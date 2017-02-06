@@ -16,6 +16,7 @@ use Jili\BackendBundle\Utility\VoteImageResizer;
  */
 class AdminVoteController extends Controller #implements IpAuthenticatedController
 {
+    const POINT_VOTE = 5;
 
     /**
      * get temp image dir
@@ -172,7 +173,7 @@ class AdminVoteController extends Controller #implements IpAuthenticatedControll
             $vote = new Vote();
             $vote->setStartTime(date('Y-m-d'));
             $vote->setEndTime(date('Y-m-d'));
-            $vote->setPointValue(1);
+            $vote->setPointValue(self::POINT_VOTE);
         }
 
         //create vote form
