@@ -536,6 +536,24 @@ class SurveyService
                 }
             }
 
+            //SSI research survey
+            try {
+                $ssi_res = $this->getSsiSurveyList($user_id);
+                if ($ssi_res['needPrescreening']) {
+                    // 需要用户去完成 prescreen
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
+                    array_unshift($html_survey_list, $html);
+                }
+                if (!empty($ssi_res['ssi_surveys'])) {
+                    // 该用户有可回答的商业问卷，显示ssi的coverpage
+                    $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
+                    array_unshift($html_survey_list, $html);
+                }
+            } catch(\Exception $e) {
+                $this->logger->error($e);
+            }
+
             //Survey partner survey
             try {
                 $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
@@ -563,19 +581,24 @@ class SurveyService
                 $this->logger->error($e);
             }
 
-            //SSI research survey
+            //GMO research survey
             try {
-                $ssi_res = $this->getSsiSurveyList($user_id);
-                if ($ssi_res['needPrescreening']) {
-                    // 需要用户去完成 prescreen
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
-                    array_unshift($html_survey_list, $html);
-                }
-                if (!empty($ssi_res['ssi_surveys'])) {
-                    // 该用户有可回答的商业问卷，显示ssi的coverpage
-                    $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
-                    array_unshift($html_survey_list, $html);
+                $researches = $this->surveyGmoService->getSurveyList($user_id);
+                foreach ($researches as $research) {
+                    $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                    if ($research['point_min'] < $research['point']) {
+                        $research['point_range'] = $research['point_min'] . '-' . $research['point'];
+                    } else {
+                        $research['point_range'] = $research['point'];
+                    }
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+                    if ($research['is_closed'] == 0) {
+                        if ($research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
+                    }
                 }
             } catch(\Exception $e) {
                 $this->logger->error($e);
@@ -605,29 +628,6 @@ class SurveyService
                         }
                     }
                 }
-            }
-
-            //GMO research survey
-            try {
-                $researches = $this->surveyGmoService->getSurveyList($user_id);
-                foreach ($researches as $research) {
-                    $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-                    if ($research['point_min'] < $research['point']) {
-                        $research['point_range'] = $research['point_min'] . '-' . $research['point'];
-                    } else {
-                        $research['point_range'] = $research['point'];
-                    }
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
-                    if ($research['is_closed'] == 0) {
-                        if ($research['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
-                    }
-                }
-            } catch(\Exception $e) {
-                $this->logger->error($e);
             }
 
             //SOP research survey

@@ -38,7 +38,14 @@ class SurveyController extends BaseController implements UserAuthenticationContr
 
         $this->checkoutSurveyList($user_id);
 
-        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array('html_survey_list' => $html_survey_list));
+        $user = $this->getCurrentUser();
+        $showTip = time() - $user->getRegisterCompleteDate()->getTimestamp() < 24 * 60 * 60 ? true : false;
+
+        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array(
+            'html_survey_list' => $html_survey_list,
+            'user' => $user,
+            'showTip' => $showTip,
+        ));
     }
 
     /**
@@ -65,7 +72,14 @@ class SurveyController extends BaseController implements UserAuthenticationContr
 
         $this->checkoutSurveyList($user_id);
 
-        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array('html_survey_list' => $html_survey_list));
+        $user = $this->getCurrentUser();
+        $showTip = time() - $user->getRegisterCompleteDate()->getTimestamp() < 24 * 60 * 60 ? true : false;
+
+        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array(
+            'html_survey_list' => $html_survey_list,
+            'user' => $user,
+            'showTip' => $showTip,
+        ));
     }
 
     private function checkoutSurveyList($userId)
