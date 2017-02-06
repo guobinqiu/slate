@@ -393,13 +393,15 @@ class SurveyPartnerService
             }
 
             // 检查这个用户是否符合这个项目的要求
-            $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
-            if($validResult['result'] != 'success'){
-                // 用户不符合这个项目的参与要求，结束处理，返回状态为不可参与
-                $this->logger->warn(__METHOD__ . ' user_id='. $user->getId().' is not allowed for this survey. reason: ' . $validResult['result']);
-                $rtn['status'] = 'notallowed';
-                $rtn['errMsg'] = $validResult['result'];
-                return $rtn;
+            if(!in_array($user->getEmail(), $this->testUserEmails)){
+                $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+                if($validResult['result'] != 'success'){
+                    // 用户不符合这个项目的参与要求，结束处理，返回状态为不可参与
+                    $this->logger->warn(__METHOD__ . ' user_id='. $user->getId().' is not allowed for this survey. reason: ' . $validResult['result']);
+                    $rtn['status'] = 'notallowed';
+                    $rtn['errMsg'] = $validResult['result'];
+                    return $rtn;
+                }
             }
 
             // 检查这个用户的参与记录 from surveyPartnerParticipationHistory
