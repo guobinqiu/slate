@@ -19,7 +19,7 @@ class VoteController extends Controller
 {
     # 中国時間で日付変わる前に新規QSに答えるとボーナスポイント+1
     const RECENT_BONUS_HOUR = 24;
-    const RECENT_BONUS_POINT = 1;
+    const RECENT_BONUS_POINT = 5;
 
     /**
      * @Route("/top")

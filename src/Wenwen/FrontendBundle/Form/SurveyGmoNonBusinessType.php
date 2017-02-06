@@ -35,6 +35,6 @@ class SurveyGmoNonBusinessType extends AbstractType
 
     public function getName()
     {
-        return 'wenwen_frontendbundle_surveygmononbusinesstype';
+        return 'survey_gmo_non_business';
     }
 }

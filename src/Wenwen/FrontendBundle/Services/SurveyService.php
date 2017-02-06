@@ -592,6 +592,25 @@ class SurveyService
 
             $answerableSurveyCount = 0;
 
+            foreach ($sop['data']['user_agreement'] as $user_agreement) {
+                if ($user_agreement['type'] == 'Fulcrum') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
+                    array_unshift($html_survey_list, $html);
+                }
+                if ($user_agreement['type'] == 'Cint') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
+                    array_unshift($html_survey_list, $html);
+                }
+            }
+
+            foreach ($sop['data']['profiling'] as $profiling) {
+                //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
+                // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
+                array_unshift($html_survey_list, $html);
+            }
+
             foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
                 if (!$this->hasStopWord($fulcrum_research['url'])) {
                     $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
@@ -629,25 +648,6 @@ class SurveyService
                         }
                     }
                 }
-            }
-
-            foreach ($sop['data']['user_agreement'] as $user_agreement) {
-                if ($user_agreement['type'] == 'Fulcrum') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
-                    array_unshift($html_survey_list, $html);
-                }
-                if ($user_agreement['type'] == 'Cint') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
-                    array_unshift($html_survey_list, $html);
-                }
-            }
-
-            foreach ($sop['data']['profiling'] as $profiling) {
-                //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
-                // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
-                array_unshift($html_survey_list, $html);
             }
 
         } catch(\Exception $e) {
