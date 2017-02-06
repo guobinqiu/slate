@@ -137,7 +137,7 @@ class SurveySopService
         $key = 'sop_profiling_' . $user->getId();
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
-            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, 'sop属性问卷', null, SurveyStatus::STATUS_COMPLETE);
+            $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, 'sop属性问卷', null, SurveyStatus::STATUS_COMPLETE);
             $this->redis->del($key);
         }
     }

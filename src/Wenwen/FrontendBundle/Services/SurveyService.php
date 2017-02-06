@@ -505,104 +505,16 @@ class SurveyService
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
-        try{
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            if(is_null($user)){
-                $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
-            } else {
-                $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
-                if (count($partnerResearchs) > 0) {
-                    $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                    foreach ($partnerResearchs as $partnerResearch) {
-                        // 该用户有可回答的商业问卷
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig', 
-                            array('partnerResearch' => $partnerResearch));
-                        if ($partnerResearch['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
-                    }
-                }
-                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
-            }
-
-        } catch (\Exception $e){
-            $this->logger->error($e->getMessage());
-            $this->logger->error($e->getTraceAsString());
-        }
-
-        //gmo
         try {
-            $researches = $this->surveyGmoService->getSurveyList($user_id);
-            foreach ($researches as $research) {
-                $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-                if ($research['point_min'] < $research['point']) {
-                    $research['point_range'] = $research['point_min'] . '-' . $research['point'];
-                } else {
-                    $research['point_range'] = $research['point'];
-                }
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
-                if ($research['is_closed'] == 0) {
-                    if ($research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
-                    } else {
-                        array_push($html_survey_list, $html);
-                    }
-                }
-            }
-        } catch(\Exception $e) {
-            $this->logger->error($e);
-        }
-
-        //ssi
-        try{
-            // 获取ssi的问卷数据
-            $ssi_res = $this->getSsiSurveyList($user_id);
-
-            if ($ssi_res['needPrescreening']) {
-                // 需要用户去完成 prescreen
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
-                array_unshift($html_survey_list, $html);
-            }
-            if (!empty($ssi_res['ssi_surveys'])) {
-                // 该用户有可回答的商业问卷，显示ssi的coverpage
-                $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
-                array_unshift($html_survey_list, $html);
-            }
-        } catch (\Exception $e){
-            $this->logger->error($e);
-        }
-
-        //sop
-        // 增加容错处理，sop的response数据格式不对的时候，抓异常
-        try{
-            // 获取sop的数据
             $result = $this->getSopSurveyListJson($user_id);
             $sop = json_decode($result, true);
-
-            // 处理sop的数据
             if ($sop['meta']['code'] != 200) {
                 $this->logger->error('sopJson=' . $result);
                 return $html_survey_list;
             }
-            //$this->logger->info($result);
-
             $answerableSurveyCount = 0;
 
-            foreach ($sop['data']['user_agreement'] as $user_agreement) {
-                if ($user_agreement['type'] == 'Fulcrum') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
-                    array_unshift($html_survey_list, $html);
-                }
-                if ($user_agreement['type'] == 'Cint') {
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
-                    array_unshift($html_survey_list, $html);
-                }
-            }
-
+            //SOP Profiling
             foreach ($sop['data']['profiling'] as $profiling) {
                 //$profiling['url'] = $this->toProxyAddress($profiling['url']);
                 $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
@@ -611,6 +523,65 @@ class SurveyService
                 array_unshift($html_survey_list, $html);
             }
 
+            foreach ($sop['data']['user_agreement'] as $user_agreement) {
+                //Fulcrum Agreement
+                if ($user_agreement['type'] == 'Fulcrum') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/fulcrum_agreement_item_template.html.twig', array('fulcrum_user_agreement' => $user_agreement));
+                    array_unshift($html_survey_list, $html);
+                }
+                //Cint Agreement
+                if ($user_agreement['type'] == 'Cint') {
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/cint_agreement_item_template.html.twig', array('cint_user_agreement' => $user_agreement));
+                    array_unshift($html_survey_list, $html);
+                }
+            }
+
+            //Survey partner survey
+            try {
+                $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+                if(is_null($user)){
+                    $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+                } else {
+                    $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
+                    if (count($partnerResearchs) > 0) {
+                        $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                        foreach ($partnerResearchs as $partnerResearch) {
+                            // 该用户有可回答的商业问卷
+                            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
+                                array('partnerResearch' => $partnerResearch));
+                            if ($partnerResearch['is_answered'] == 0) {
+                                array_unshift($html_survey_list, $html);
+                            } else {
+                                array_push($html_survey_list, $html);
+                            }
+                        }
+                    }
+                    $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                    $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
+                }
+            } catch(\Exception $e) {
+                $this->logger->error($e);
+            }
+
+            //SSI research survey
+            try {
+                $ssi_res = $this->getSsiSurveyList($user_id);
+                if ($ssi_res['needPrescreening']) {
+                    // 需要用户去完成 prescreen
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
+                    array_unshift($html_survey_list, $html);
+                }
+                if (!empty($ssi_res['ssi_surveys'])) {
+                    // 该用户有可回答的商业问卷，显示ssi的coverpage
+                    $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
+                    array_unshift($html_survey_list, $html);
+                }
+            } catch(\Exception $e) {
+                $this->logger->error($e);
+            }
+
+            //Fulcrum research survey
             foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
                 if (!$this->hasStopWord($fulcrum_research['url'])) {
                     $fulcrum_research['title'] = 'f' . $fulcrum_research['survey_id'] . ' ' . '商业调查问卷';
@@ -620,6 +591,7 @@ class SurveyService
                 }
             }
 
+            //Cint research survey
             foreach ($sop['data']['cint_research'] as $cint_research) {
                 if ($cint_research['is_closed'] == 0) {
                     if (!$this->hasStopWord($cint_research['url'])) {
@@ -635,6 +607,30 @@ class SurveyService
                 }
             }
 
+            //GMO research survey
+            try {
+                $researches = $this->surveyGmoService->getSurveyList($user_id);
+                foreach ($researches as $research) {
+                    $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                    if ($research['point_min'] < $research['point']) {
+                        $research['point_range'] = $research['point_min'] . '-' . $research['point'];
+                    } else {
+                        $research['point_range'] = $research['point'];
+                    }
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+                    if ($research['is_closed'] == 0) {
+                        if ($research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
+                    }
+                }
+            } catch(\Exception $e) {
+                $this->logger->error($e);
+            }
+
+            //SOP research survey
             foreach ($sop['data']['research'] as $research) {
                 if ($research['is_closed'] == 0) {
                     if (!$this->hasStopWord($research['url'])) {
