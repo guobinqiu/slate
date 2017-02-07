@@ -49,9 +49,6 @@
 		<div class="main-con-left col-xs-12 col-sm-9">
 			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
 			<div class="vote panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="pull-left">快速问答</h3><a href="{{ path('jili_frontend_vote_index') }}" class="more pull-right">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a>
-				</div>
 				<div class="panel-body">{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}</div>
 			</div>
 		</div>
