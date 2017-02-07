@@ -32,13 +32,15 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         $output->writeln('result=' . $result);
 
         if (empty($result)) {
-            throw new \Exception('empty survey list');
+            //throw new \Exception('empty survey list');
+            return;
         }
 
         $sop = json_decode($result, true);
 
         if ($sop['meta']['code'] != 200) {
-            throw new \Exception($sop['meta']['message']);
+            //throw new \Exception($sop['meta']['message']);
+            return;
         }
 
         foreach ($sop['data']['research'] as $survey) {
