@@ -505,15 +505,22 @@ class SurveyService
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
+        $sop = null;
         try {
             $result = $this->getSopSurveyListJson($user_id);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
                 $this->logger->error('sopJson=' . $result);
-                return $html_survey_list;
+                $sop = null;
             }
-            $answerableSurveyCount = 0;
+        }  catch(\Exception $e) {
+            $this->logger->error($e);
+            $sop = null;
+        }
 
+        $answerableSurveyCount = 0;
+
+        if ($sop != null) {
             //SOP Profiling
             foreach ($sop['data']['profiling'] as $profiling) {
                 //$profiling['url'] = $this->toProxyAddress($profiling['url']);
@@ -535,75 +542,77 @@ class SurveyService
                     array_unshift($html_survey_list, $html);
                 }
             }
+        }
 
-            //SSI research survey
-            try {
-                $ssi_res = $this->getSsiSurveyList($user_id);
-                if ($ssi_res['needPrescreening']) {
-                    // 需要用户去完成 prescreen
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
-                    array_unshift($html_survey_list, $html);
-                }
-                if (!empty($ssi_res['ssi_surveys'])) {
-                    // 该用户有可回答的商业问卷，显示ssi的coverpage
-                    $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
-                    array_unshift($html_survey_list, $html);
-                }
-            } catch(\Exception $e) {
-                $this->logger->error($e);
+        //SSI research survey
+        try {
+            $ssi_res = $this->getSsiSurveyList($user_id);
+            if ($ssi_res['needPrescreening']) {
+                // 需要用户去完成 prescreen
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
+                array_unshift($html_survey_list, $html);
             }
+            if (!empty($ssi_res['ssi_surveys'])) {
+                // 该用户有可回答的商业问卷，显示ssi的coverpage
+                $ssi_res['count'] = sizeof($ssi_res['ssi_surveys']);
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_survey_cover_template.html.twig', $ssi_res);
+                array_unshift($html_survey_list, $html);
+            }
+        } catch(\Exception $e) {
+            $this->logger->error($e);
+        }
 
-            //Survey partner survey
-            try {
-                $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-                if(is_null($user)){
-                    $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
-                } else {
-                    $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
-                    if (count($partnerResearchs) > 0) {
-                        $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                        foreach ($partnerResearchs as $partnerResearch) {
-                            // 该用户有可回答的商业问卷
-                            $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
-                                array('partnerResearch' => $partnerResearch));
-                            if ($partnerResearch['is_answered'] == 0) {
-                                array_unshift($html_survey_list, $html);
-                            } else {
-                                array_push($html_survey_list, $html);
-                            }
-                        }
-                    }
+        //Survey partner survey
+        try {
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+            if(is_null($user)){
+                $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+            } else {
+                $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
+                if (count($partnerResearchs) > 0) {
                     $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                    $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
-                }
-            } catch(\Exception $e) {
-                $this->logger->error($e);
-            }
-
-            //GMO research survey
-            try {
-                $researches = $this->surveyGmoService->getSurveyList($user_id);
-                foreach ($researches as $research) {
-                    $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-                    if ($research['point_min'] < $research['point']) {
-                        $research['point_range'] = $research['point_min'] . '-' . $research['point'];
-                    } else {
-                        $research['point_range'] = $research['point'];
-                    }
-                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
-                    if ($research['is_closed'] == 0) {
-                        if ($research['is_answered'] == 0) {
+                    foreach ($partnerResearchs as $partnerResearch) {
+                        // 该用户有可回答的商业问卷
+                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
+                            array('partnerResearch' => $partnerResearch));
+                        if ($partnerResearch['is_answered'] == 0) {
                             array_unshift($html_survey_list, $html);
                         } else {
                             array_push($html_survey_list, $html);
                         }
                     }
                 }
-            } catch(\Exception $e) {
-                $this->logger->error($e);
+                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
             }
+        } catch(\Exception $e) {
+            $this->logger->error($e);
+        }
 
+        //GMO research survey
+        try {
+            $researches = $this->surveyGmoService->getSurveyList($user_id);
+            foreach ($researches as $research) {
+                $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                if ($research['point_min'] < $research['point']) {
+                    $research['point_range'] = $research['point_min'] . '-' . $research['point'];
+                } else {
+                    $research['point_range'] = $research['point'];
+                }
+                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+                if ($research['is_closed'] == 0) {
+                    if ($research['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
+                    }
+                }
+            }
+        } catch(\Exception $e) {
+            $this->logger->error($e);
+        }
+
+        if ($sop != null) {
             //Fulcrum research survey
             foreach ($sop['data']['fulcrum_research'] as $fulcrum_research) {
                 if (!$this->hasStopWord($fulcrum_research['url'])) {
@@ -645,9 +654,6 @@ class SurveyService
                     }
                 }
             }
-
-        } catch(\Exception $e) {
-            $this->logger->error($e);
         }
 
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
