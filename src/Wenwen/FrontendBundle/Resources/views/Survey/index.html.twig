@@ -16,7 +16,15 @@
 {% block body %}
 	<div class="container">
 		<div class="survey panel panel-default">
-			<div class="panel-heading hidden-xs"><h3>问卷列表</h3></div>
+			<div class="panel-heading hidden-xs">
+				{% if showTip %}
+					<div class="alert alert-info fade in alert-dismissable">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+						<h4>完成下面所有的问卷，一至两天后您会收到大量高积分的问卷！</h4>
+					</div>
+				{% endif %}
+				<h3>问卷列表</h3>
+			</div>
 			<div class="panel-body">
 				{% if html_survey_list|length > 0 %}
 					<ul id="surveyList">

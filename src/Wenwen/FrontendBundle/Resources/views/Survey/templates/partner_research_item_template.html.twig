@@ -27,7 +27,7 @@
         {% if partnerResearch.is_answered == 1 %}
             <span class="disabled">回答完毕</span>
         {% else %}
-            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" >可回答</a>
+            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" target="_blank">可回答</a>
         {% endif %}
     </div>
 </div>

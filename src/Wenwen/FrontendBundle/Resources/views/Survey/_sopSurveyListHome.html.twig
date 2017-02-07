@@ -1,5 +1,14 @@
 <div class="survey panel panel-default" id="surveyHome">
-		<div class="panel-heading clearfix"><h3 class="pull-left">问卷列表</h3><a class="more pull-right" href="{{ path('_survey_index') }}">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a></div>
+		<div class="panel-heading clearfix">
+			{% if showTip %}
+				<div class="alert alert-info fade in alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+					<h4>完成下面所有的问卷，一至两天后您会收到大量高积分的问卷！</h4>
+				</div>
+			{% endif %}
+			<h3 class="pull-left">问卷列表</h3>
+			<a class="more pull-right" href="{{ path('_survey_index') }}">更多<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+		</div>
 		<div class="panel-body">
 			{% if html_survey_list|length > 0 %}
 			<ul id="surveyList">
