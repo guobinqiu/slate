@@ -1,44 +1,52 @@
-#积分失效
-0 2 * * * /bin/sh /home/cron/bash/Dmdelivery.sh
-
-#积分失效一周前提醒
-30 2 * * * /bin/sh /home/cron/bash/DmdeliveryForWeek.sh
-
-#积分失效一个月前提醒
-0 3 * * * /bin/sh /home/cron/bash/DmdeliveryForMonth.sh
-
-#get data积分动态
-0 3 * * * /bin/sh /var/www/html/jili/bin/schedule/point_recent.sh
-
-#月排行榜
-20 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingMonth
-
-#年排行榜
-40 3 * * * /usr/bin/curl http://www.91jili.com/topcron/rankingYear
-
 #91wenwen
-#30 4 * * * /bin/sh /var/www/html/jili/cron/91wenwen.sh
+#clean point  发送很久未登陆提醒邮件，并清理半年内未登陆账户积分
+0 2 * * * /bin/bash /var/www/html/jili/scripts/cron/ExpirePoint.sh
 
-#del sessions
-#0 ​*/6 *​ * * /bin/sh /var/www/html/jili/app/cache/rm-session.sh
+#get data 更新最近得分缓存文件
+0 3 * * * /bin/sh /home/cron/bash/point_recent.sh
 
-#chick in
-30 16 * * * /usr/bin/php /var/www/html/jili/bin/schedule/checkin_immigration_v2.php
+#monitor file perl 监控服务器关键位置文件是否被修改
+0 */2 * * * cd /data/script/perl/ && perl ./file_monitor.pl 2>&1 >> /data/log/cron/file_monitor_run.log
 
-# game egg breaker pool stat report
-#0 5,17 * * * /bin/sh /var/www/html/jili/bin/schedule/game_eggs_breaker_pool_stat.sh
+#reward point 每日发放积分
+10 7 * * * bash /home/cron/bash/reward-point.sh 2>&1 >> /data/log/cron/reward_point.log
 
-#monitor file perl
-0 ​*/2 *​ * * cd /data/script/perl/ && perl ./file_monitor.pl 2>&1 >> /data/file_monitor/file_monitor_run.log
+# Gmo, Generate memberList.csv.zip file
+0 23 * * * cd /var/www/html/jili && php app/console gmo:member_list_csv -e prod
 
-#log backup perl
-0 4 * * 1 cd /data/script/perl/ && perl ./log_bk.pl 2>&1 >> /data/script/perl/logs/log_bk_run.log
+#91wenwendb
+#DB BACKUP 每日数据库硬备份
+10 1 * * * /bin/sh /data/bash_jili/backup_table.sh 2>/tmp/error.log
 
-# clear jili symfony cache,  once
-59 23 20 12 * /bin/sh /var/www/html/jili/app/cache/rm-cache.sh 1>>/data/91jili/logs/cron/cron_logs/rm_cache.log  2>&1
+#Clean backup of 60 day at Friday 清理60天前的备份文件
+0 10 * * 5 find /data/backup/ -name "jili*.tar.gz" -mtime +60 -type f -exec rm -f {} \;
 
-# tzy api check
-#30 8 * * * cd /data/script/perl/ && /usr/bin/perl ./tzy_balance.pl 2>&1 >> /data/script/perl/logs/tzy_run_log.txt
+#Innobackupex backup hour per  每小时的数据库热备份
+40 */1 * * * /bin/bash /data/innobackupex/innobackup.sh
 
-#reward point
-0 9 * * * bash /var/www/html/jili/bin/schedule/reward-point.sh 2>&1 >> /data/91jili/logs/cron/cron_logs/reward_point.log
+#Testgroup
+#发送统计报告邮件
+#每日performance report
+0 1 * * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPerformanceReport.pl 2>&1 >> /data/log/report_log/PerformaceReport`date "+\%Y\%m\%d"`.log
+
+#每月Participation History report
+0 1 1 * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendParticipationHistory.pl 2>&1 >> /data/log/report_log/sendParticipationHistory`date "+\%Y\%m\%d"`.log
+
+#每月Point report
+0 1 1 * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPointsReport.pl 2>&1 >> /data/log/report_log/PointReport`date "+\%Y\%m\%d"`.log
+
+#Monitor jms_job  监控jms_job邮件是否有退积
+0 */1 * * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib monitor_job.pl 2>&1>/dev/null
+
+#invite check
+0 9 * * * bash /home/kevin/invit_check.sh
+
+#Office(192.168.1.212)
+#backup github 将github上的代码备份到办公室服务器
+0 17 * * * /bin/bash /root/lj/backup_github.sh
+
+#backup database from 91wenwendb 将每日数据库备份备份到办公室服务器
+10 4 * * * /bin/bash /root/bash/backup.sh
+
+#backup log from 91wenwen 将每日91wenwen日志文件备份到办公室服务器
+10 6 * * * /bin/bash /root/bash/backup_log.sh
