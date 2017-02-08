@@ -508,9 +508,9 @@ class SurveyService
         $sop = null;
         try {
             $result = $this->getSopSurveyListJson($user_id);
+            $this->logger->info('sop survey list=' . $result);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
-                $this->logger->error('sopJson=' . $result);
                 $sop = null;
             }
         }  catch(\Exception $e) {
