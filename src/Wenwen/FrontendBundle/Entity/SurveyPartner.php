@@ -302,6 +302,20 @@ class SurveyPartner
      */
     private $newUserOnly;
 
+    /**
+     * @var int
+     * @ORM\Column(name="registered_at_from", type="integer", nullable=false)
+     * 单位小时，大于等于这里指定的注册时间的用户允许参与
+     */
+    private $registeredAtFrom;
+
+    /**
+     * @var int
+     * @ORM\Column(name="registered_at_to", type="integer", nullable=false)
+     * 单位小时，小于等于这里指定的注册时间的用户允许参与
+     */
+    private $registeredAtTo;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -536,6 +550,26 @@ class SurveyPartner
     public function getNewUserOnly()
     {
         return $this->newUserOnly;
+    }
+
+    public function setRegisteredAtFrom($registeredAtFrom)
+    {
+        $this->registeredAtFrom = $registeredAtFrom;
+    }
+
+    public function getRegisteredAtFrom()
+    {
+        return $this->registeredAtFrom;
+    }
+
+    public function setRegisteredAtTo($registeredAtTo)
+    {
+        $this->registeredAtTo = $registeredAtTo;
+    }
+
+    public function getRegisteredAtTo()
+    {
+        return $this->registeredAtTo;
     }
 
     public function __toString() {

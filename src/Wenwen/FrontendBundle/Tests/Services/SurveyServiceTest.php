@@ -114,6 +114,8 @@ class SurveyServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
