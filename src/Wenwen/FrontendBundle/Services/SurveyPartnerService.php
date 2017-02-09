@@ -678,8 +678,10 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，处理为screenout
-        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
+        // 如果返回状态是complete，且问卷类型是cost的话，
+        // 检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，
+        // 如果低于这个时间，视为非法的结果，处理为screenout
+        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus'] && SurveyPartner::TYPE_COST == $surveyPartner->getType()){
             $now = new \DateTime();
 
             $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
