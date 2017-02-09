@@ -26,9 +26,9 @@
     <div class="rewardPoint pull-left"><i>{{ research.point }}</i>积分</div>
     <div class="survey-btn">
         {% if research.is_answered == 1 %}
-            <span class="disabled">回答完毕</span>
+            <span class="disabled">已参与</span>
         {% else %}
-            <a href="{{ path('survey_gmo_information', {'research': research}) }}" class="open-link" target="_blank">可回答</a>
+            <a href="{{ path('survey_gmo_information', {'research': research}) }}" class="open-link" target="_blank">可参与</a>
         {% endif %}
     </div>
 </div>
