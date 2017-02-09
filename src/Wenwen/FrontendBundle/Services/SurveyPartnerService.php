@@ -253,6 +253,12 @@ class SurveyPartnerService
 
         $rtn = array();
 
+        if(in_array($user->getEmail(), $this->testUserEmails)){
+            // 如果是测试用户的话，不做细节检查
+            $rtn['result'] = 'success';
+            return $rtn;
+        }
+
         $now = new \DateTime();
         $diff = $now->diff($user->getRegisterCompleteDate());
 
@@ -270,12 +276,6 @@ class SurveyPartnerService
         if($diffHours < $surveyPartner->getRegisteredAtFrom()){
             // 注册时间低于允许参与范围的
             $rtn['result'] = 'Only allow registered over '.$surveyPartner->getRegisteredAtFrom() . ' hours';
-            return $rtn;
-        }
-
-        if(in_array($user->getEmail(), $this->testUserEmails)){
-            // 如果是测试用户的话，不做细节检查
-            $rtn['result'] = 'success';
             return $rtn;
         }
 
