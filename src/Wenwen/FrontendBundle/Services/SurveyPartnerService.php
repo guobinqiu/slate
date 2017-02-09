@@ -252,19 +252,30 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
-        if($surveyPartner->getNewUserOnly()){
-            // 这个项目只允许新用户参加
-            $now = new \DateTime();
-            // 注册三天以上的用户不显示这个类型的问卷
-            if($user->getRegisterCompleteDate() <= $now->sub(new \DateInterval('P03D'))){
-                $rtn['result'] = 'OnlyForNewUser';
-                return $rtn;
-            }
-        }
 
         if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
             $rtn['result'] = 'success';
+            return $rtn;
+        }
+
+        $now = new \DateTime();
+        $diff = $now->diff($user->getRegisterCompleteDate());
+
+        $diffHours = $diff->h;
+        $diffHours = $diffHours + ($diff->days*24);
+
+        $this->logger->debug(__METHOD__ . ' diffHours=' . $diffHours );
+
+        if($diffHours > $surveyPartner->getRegisteredAtTo()){
+            // 注册时间超过允许参与范围的
+            $rtn['result'] = 'Only allow registered under '.$surveyPartner->getRegisteredAtTo() . ' hours';
+            return $rtn;
+        }
+
+        if($diffHours < $surveyPartner->getRegisteredAtFrom()){
+            // 注册时间低于允许参与范围的
+            $rtn['result'] = 'Only allow registered over '.$surveyPartner->getRegisteredAtFrom() . ' hours';
             return $rtn;
         }
 

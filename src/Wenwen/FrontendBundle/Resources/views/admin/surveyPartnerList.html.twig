@@ -18,7 +18,8 @@
             <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'Type', 'sp.type') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'NewUserOnly', 'sp.newUserOnly') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'AllowFrom', 'sp.registeredAtFrom') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'AllowTo', 'sp.registeredAtTo') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
@@ -33,7 +34,8 @@
             <td>{{ surveyPartner.id }}</td>
             <td>{{ surveyPartner.partnerName }}</td>
             <td>{{ surveyPartner.type }}</td>
-            <td>{{ surveyPartner.newUserOnly }}</td>
+            <td>{{ surveyPartner.registeredAtFrom }} hrs</td>
+            <td>{{ surveyPartner.registeredAtTo }} hrs</td>
             <td>{{ surveyPartner.surveyId }}</td>
             <td>{{ surveyPartner.title }}</td>
             <td>{{ surveyPartner.status }}</td>
