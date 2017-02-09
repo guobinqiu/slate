@@ -14,9 +14,9 @@
     <div class="rewardPoint pull-left"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
     <div class="survey-btn">
         {% if cint_research.is_answered == 1 %}
-            <span class="disabled">回答完毕</span>
+            <span class="disabled">已参与</span>
         {% else %}
-            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_blank">可回答</a>
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_blank">可参与</a>
         {% endif %}
     </div>
 </div>

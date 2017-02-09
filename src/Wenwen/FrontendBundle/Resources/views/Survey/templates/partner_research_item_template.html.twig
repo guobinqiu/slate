@@ -25,9 +25,9 @@
     <div class="rewardPoint pull-left"><i>{{ partnerResearch.complete_point }}</i>积分</div>
     <div class="survey-btn">
         {% if partnerResearch.is_answered == 1 %}
-            <span class="disabled">回答完毕</span>
+            <span class="disabled">已参与</span>
         {% else %}
-            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" target="_blank">可回答</a>
+            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" target="_blank">可参与</a>
         {% endif %}
     </div>
 </div>
