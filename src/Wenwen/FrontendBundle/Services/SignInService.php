@@ -90,7 +90,7 @@ class SignInService
 
                 if ($consecutiveDays == UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $taskName = '连续签到'. UserSignInSummary::MAX_CONSECUTIVE_DAYS . '天';
-                    $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_BIG, $taskName);// 获得一次抽奖机会
+                    $this->prizeTicketService->createPrizeTicket($user, PrizeItem::TYPE_SMALL, $taskName);// 获得一次抽奖机会
 
                 } elseif ($consecutiveDays > UserSignInSummary::MAX_CONSECUTIVE_DAYS) {
                     $consecutiveDays = 1;
