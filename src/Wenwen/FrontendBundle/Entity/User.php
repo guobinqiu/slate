@@ -29,7 +29,7 @@ class User
     const DEFAULT_REWARD_MULTIPE = 1;
 
     const POINT_EMPTY = 0;
-    const POINT_SIGNUP = 300;
+    const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
 
     /**
