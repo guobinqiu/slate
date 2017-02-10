@@ -6,7 +6,7 @@ parameters:
     ssi_project_survey:
         title: "高积分海外调查"
         point: 300
-        agreement_point: 1
+        agreement_point: 10
         notification: 
             wait_dir: "%kernel.logs_dir%/ssi_notification/wait/%kernel.environment%/"
             complete_dir: "%kernel.logs_dir%/ssi_notification/complete/%kernel.environment%/"
