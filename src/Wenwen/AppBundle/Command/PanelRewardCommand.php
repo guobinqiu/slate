@@ -199,7 +199,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         // no data
         if (count($body) <= 2) {
-            return null;
+            return [];
         }
 
         // csv => hash in array;
