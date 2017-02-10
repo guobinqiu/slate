@@ -19,36 +19,7 @@ class SurveyController extends BaseController implements UserAuthenticationContr
      */
     public function indexAction(Request $request)
     {
-        $user_id = $request->getSession()->get('uid');
-
-        $this->get('logger')->debug(__METHOD__ . ' ' . $request->getClientIp());
-
-        // 根据Ip获取该用户的地区信息
-        $locationInfo = $this->getLocationInfoByClientIp($request);
-
-        // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
-        $surveyService = $this->get('app.survey_service');
-        $env = $this->container->get('kernel')->getEnvironment();
-        if (in_array($env, array('dev','test'))) {
-            // for dummy mode (won't access sop's server at dev or test mode)
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyService->setDummy(true);
-        }
-        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
-
-        $this->checkoutSurveyList($user_id);
-
-        $user = $this->getCurrentUser();
-        $showTip = false;
-        if ($user->getRegisterCompleteDate() != null && time() < strtotime('+1 day midnight', $user->getRegisterCompleteDate()->getTimestamp())) {
-            $showTip = true;
-        }
-
-        return $this->render('WenwenFrontendBundle:Survey:index.html.twig', array(
-            'html_survey_list' => $html_survey_list,
-            'user' => $user,
-            'showTip' => $showTip,
-        ));
+        return $this->redirect($this->generateUrl('_homepage'));
     }
 
     /**

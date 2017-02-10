@@ -18,8 +18,7 @@
             {% if router_current2 == '_exchange_index' or router_current2 == '_exchange_mobileInfo' or router_current2 == '_exchange_alipayInfo' or router_current2 == '_exchange_identityCardComfirm'%}兑换中心
             {% elseif router_current2 == '_signup_confirm_register'%}激活完成
             {% elseif router_current2 == 'jili_frontend_vote_index' or router_current2 == 'jili_frontend_vote_show' or router_current2 == 'jili_frontend_vote_result' or router_current2 == 'jili_frontend_vote_suggest'%}快速问答
-            {% elseif router_current2 == '_survey_index'%}问卷列表
-            {% elseif router_current2 == '_homepage'%}首页
+            {% elseif router_current2 == '_homepage'%}调查一览
             {% elseif router_current2 == 'help_feedback'%}联系客服
             {% elseif router_current2 == 'event'%}活动中心
             {% elseif router_current2 == 'help_help' or router_current2 == 'help_feedback' or router_current2 == 'help_feedback_finished' %}帮助中心
@@ -43,17 +42,7 @@
         <div class="collapse navbar-collapse" id="navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                     {% set router_current = app.request.attributes.get('_route') %}
-                        <li class="nav-item"><i class="fa fa-home hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('_homepage') }}" title="首页" {{ router_current == '_homepage' ? 'class="nav-link active"':'class="nav-link"' }}>首页</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
-                        <hr class="hidden-sm hidden-md hidden-lg">
-                        <li class="nav-item">
-                            <i class="fa fa-file-text-o hidden-sm hidden-md hidden-lg" aria-hidden="true"></i>
-                            {% if app.request.attributes.get('_route') == '_user_login' %}
-                                <a title="问卷列表">问卷列表</a></li>
-                            {% else %}
-                               <a href="{{ path('_survey_index') }}" title="问卷列表" {{ router_current == '_survey_index' ? 'class="nav-link active"':'class="nav-link"' }}>问卷列表</a>
-                            {% endif %}
-                            <i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i>
-                        </li>
+                        <li class="nav-item"><i class="fa fa-home hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('_homepage') }}" title="问卷调查" {{ router_current == '_homepage' ? 'class="nav-link active"':'class="nav-link"' }}>问卷调查</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
                         <hr class="hidden-sm hidden-md hidden-lg">
                         <li class="nav-item"><i class="fa fa-list hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="nav-link active"':'class="nav-link"' }}>快速问答</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
                         <hr class="hidden-sm hidden-md hidden-lg">
