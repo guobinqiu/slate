@@ -203,4 +203,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $em->flush();
         return $history;
     }
+
+    protected function preHandle(array $history_list) {
+    }
 }

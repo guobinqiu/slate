@@ -98,4 +98,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     protected function getPanelType() {
         return 'Fulcrum Agreement';
     }
+
+    protected function preHandle(array $history_list) {
+    }
 }

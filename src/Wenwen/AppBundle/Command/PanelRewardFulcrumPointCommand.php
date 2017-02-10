@@ -115,4 +115,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function getPanelType() {
         return 'Fulcrum';
     }
+
+    protected function preHandle(array $history_list) {
+    }
 }
