@@ -195,7 +195,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $points_history =$points_stm->fetchAll();
         $this->assertNotEmpty($points_history,'1 point history record');
         $this->assertCount(1, $points_history,'1 point history record');
-        $this->assertEquals(1, $points_history[0]['point_change_num'],'7 points');
+        $this->assertEquals(10, $points_history[0]['point_change_num'],'10 points');
         $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $points_history[0]['reason'],'user0 point_history.reason shoulde be CategoryType::FULCRUM_EXPENSE');
         // user points
         $user_stm =   $em->getConnection()->prepare('select * from user ');

@@ -254,7 +254,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
             $this->assertEquals(10, $history->getAgreementStatus());
 
             $task = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-            $this->assertEquals(1, $task->getPoint());
+            $this->assertEquals(10, $task->getPoint());
             $this->assertEquals(ProjectSurveyCintController::COMMENT, $task->getTaskName());
 
             $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
