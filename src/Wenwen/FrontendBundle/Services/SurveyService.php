@@ -483,6 +483,7 @@ class SurveyService
                 $partnerResearch['url'] = $surveyPartner->getUrl();
                 $partnerResearch['complete_point'] = $surveyPartner->getCompletePoint();
                 $partnerResearch['is_answered'] = 0;
+                $partnerResearch['type'] = $surveyPartner->getType();
                 $partnerResearchs[] = $partnerResearch;
             }
         } catch (\Exception $e){
