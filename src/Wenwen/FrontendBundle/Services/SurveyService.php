@@ -503,6 +503,12 @@ class SurveyService
      * @return array
      */
     public function getOrderedHtmlSurveyList($user_id, $locationInfo, $limit = 0) {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+        if ($user == null) {
+            $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+            return [];
+        }
+
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
@@ -522,13 +528,17 @@ class SurveyService
         $answerableSurveyCount = 0;
 
         if ($sop != null) {
-            //SOP Profiling
-            foreach ($sop['data']['profiling'] as $profiling) {
-                //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
-                // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
-                array_unshift($html_survey_list, $html);
+            if ($user->getRegisterCompleteDate() != null &&
+                time() - $user->getRegisterCompleteDate()->getTimestamp() > 3 * 24 * 60 * 60
+            ) {
+                //SOP Profiling
+                foreach ($sop['data']['profiling'] as $profiling) {
+                    //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                    $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
+                    // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
+                    array_unshift($html_survey_list, $html);
+                }
             }
 
             foreach ($sop['data']['user_agreement'] as $user_agreement) {
@@ -565,27 +575,22 @@ class SurveyService
 
         //Survey partner survey
         try {
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            if(is_null($user)){
-                $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
-            } else {
-                $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
-                if (count($partnerResearchs) > 0) {
-                    $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                    foreach ($partnerResearchs as $partnerResearch) {
-                        // 该用户有可回答的商业问卷
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
-                            array('partnerResearch' => $partnerResearch));
-                        if ($partnerResearch['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
+            $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
+            if (count($partnerResearchs) > 0) {
+                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                foreach ($partnerResearchs as $partnerResearch) {
+                    // 该用户有可回答的商业问卷
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
+                        array('partnerResearch' => $partnerResearch));
+                    if ($partnerResearch['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
                     }
                 }
-                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
             }
+            $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+            $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
         } catch(\Exception $e) {
             $this->logger->error($e);
         }
