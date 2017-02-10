@@ -40,6 +40,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $errorMessages = array();
         $error = 0;
 
+        $this->preHandle($history_list);
+
         //start inserting
         foreach ($history_list as $history) {
             $survey_id = null;
@@ -263,6 +265,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function createParticipationHistory($history);
 
     abstract protected function getPanelType();
+
+    abstract protected function preHandle(array $history_list);
 
     protected function notice($content, $subject)
     {

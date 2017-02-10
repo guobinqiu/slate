@@ -171,6 +171,13 @@ class SurveySop
     private $closedAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", nullable=true)
+     */
+    private $pointType;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -707,6 +714,29 @@ class SurveySop
     public function getClosedAt()
     {
         return $this->closedAt;
+    }
+
+    /**
+     * Set pointType
+     *
+     * @param string $pointType
+     * @return SurveySop
+     */
+    public function setPointType($pointType)
+    {
+        $this->pointType = $pointType;
+
+        return $this;
+    }
+
+    /**
+     * Get pointType
+     *
+     * @return string
+     */
+    public function getPointType()
+    {
+        return $this->pointType;
     }
 
     /**

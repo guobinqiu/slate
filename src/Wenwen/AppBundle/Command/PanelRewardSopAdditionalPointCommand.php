@@ -132,4 +132,16 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
     protected function getPanelType() {
         return 'SOP Additional';
     }
+
+    protected function preHandle(array $history_list) {
+        if (!empty($history_list)) {
+            $history = $history_list[0];
+            $em = $this->getContainer()->get('doctrine')->getManager();
+            $survey = $em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $history['survey_id']));
+            if ($survey != null && $survey->getPointType() == null) {
+                $survey->setPointType($history['extra_info']['point_type']);
+                $survey->flush();
+            }
+        }
+    }
 }

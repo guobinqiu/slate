@@ -117,4 +117,7 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
     protected function getPanelType() {
         return 'Cint';
     }
+
+    protected function preHandle(array $history_list) {
+    }
 }
