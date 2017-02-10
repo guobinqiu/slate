@@ -144,7 +144,7 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
             $survey = $em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $history['survey_id']));
             if ($survey != null && $survey->getPointType() == null) {
                 if (isset($history['extra_info']['point_type'])) {
-                    $survey->setPointType();
+                    $survey->setPointType($history['extra_info']['point_type']);
                     $survey->flush();
                 }
             }
