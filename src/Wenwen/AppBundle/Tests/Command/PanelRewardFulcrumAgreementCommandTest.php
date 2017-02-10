@@ -204,8 +204,8 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 
         $this->assertNotEmpty($user_updated,'1 test user');
         $this->assertCount(2, $user_updated,'1 test user');
-        $this->assertEquals(12, $user_updated[0]['points'], '1+ 11');
-        $this->assertEquals(24, $user_updated[1]['points'], '0 + 23, 拒绝了也会加1分的');
+        $this->assertEquals(21, $user_updated[0]['points'], '11 + 10');
+        $this->assertEquals(33, $user_updated[1]['points'], '23 + 10, 拒绝了也会加1分的');
     }
 }
 
