@@ -173,7 +173,7 @@ class SurveySop
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", nullable=true)
+     * @ORM\Column(name="point_type", type="string", nullable=true)
      */
     private $pointType;
 
