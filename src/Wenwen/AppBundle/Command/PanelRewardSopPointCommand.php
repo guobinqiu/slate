@@ -145,7 +145,7 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
             if ($survey != null && $survey->getPointType() == null) {
                 if (isset($history['extra_info']['point_type'])) {
                     $survey->setPointType($history['extra_info']['point_type']);
-                    $survey->flush();
+                    $em->flush($survey);
                 }
             }
         }
