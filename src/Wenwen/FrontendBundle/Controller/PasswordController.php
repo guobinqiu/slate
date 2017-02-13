@@ -45,9 +45,9 @@ class PasswordController extends BaseController
             return new JsonResponse(array('error' => true, 'message' => '邮件不存在'), 404);
         }
 
-        $resetPasswordToken = md5($user->getId() . $user->getEmail() . $user->getPwd());
-        $user->setResetPasswordToken($resetPasswordToken);
+        $user->setResetPasswordToken(md5(uniqid(rand(), true)));
         $user->setResetPasswordTokenExpiredAt(new \DateTime('+ 24 hour'));
+
         $em->flush();
 
         $this->send_reset_password_email($user);

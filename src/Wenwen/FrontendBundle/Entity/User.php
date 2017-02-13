@@ -32,6 +32,8 @@ class User
     const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
 
+    const REMEMBER_ME_TOKEN_NAME = 'ww_passport';
+
     /**
      * @var integer
      *
@@ -109,7 +111,7 @@ class User
     private $rewardMultiple;
 
     /**
-     * @var datetime $registerDate
+     * @var \Datetime $registerDate
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
@@ -121,14 +123,14 @@ class User
     private $updatedAt;
 
     /**
-     * @var datetime $registerCompleteDate
+     * @var \Datetime $registerCompleteDate
      *
      * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
      */
     private $registerCompleteDate;
 
     /**
-     *@var datetime $lastLoginDate
+     * @var \Datetime $lastLoginDate
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
@@ -156,7 +158,7 @@ class User
     private $deleteFlag;
 
     /**
-     * @var datetime $deleteDate
+     * @var \Datetime $deleteDate
      *
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
@@ -196,7 +198,7 @@ class User
     private $passwordChoice;
 
     /**
-     * @var datetime $lastGetPointsAt
+     * @var \Datetime $lastGetPointsAt
      *
      * @ORM\Column(name="last_get_points_at", type="datetime", nullable=true, options={"comment": "最后一次获得(+)积分的时间"})
      */
@@ -244,13 +246,24 @@ class User
      *
      * @ORM\Column(name="reset_password_token", type="string", nullable=true)
      */
-
     private $resetPasswordToken;
 
     /**
      * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
      */
     private $resetPasswordTokenExpiredAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="remember_me_token", type="string", nullable=true)
+     */
+    private $rememberMeToken;
+
+    /**
+     * @ORM\Column(name="remember_me_token_expired_at", type="datetime", nullable=true)
+     */
+    private $rememberMeTokenExpiredAt;
 
     /**
      * 邀请人的用户id
@@ -877,6 +890,52 @@ class User
         return $this->resetPasswordTokenExpiredAt;
     }
 
+    /**
+     * Set rememberMeToken
+     *
+     * @param string $rememberMeToken
+     * @return User
+     */
+    public function setRememberMeToken($rememberMeToken)
+    {
+        $this->rememberMeToken = $rememberMeToken;
+
+        return $this;
+    }
+
+    /**
+     * Get rememberMeToken
+     *
+     * @return string
+     */
+    public function getRememberMeToken()
+    {
+        return $this->rememberMeToken;
+    }
+
+    /**
+     * Set rememberMeTokenExpiredAt
+     *
+     * @param \DateTime $rememberMeTokenExpiredAt
+     * @return User
+     */
+    public function setRememberMeTokenExpiredAt($rememberMeTokenExpiredAt)
+    {
+        $this->rememberMeTokenExpiredAt = $rememberMeTokenExpiredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get $rememberMeTokenExpiredAt
+     *
+     * @return \DateTime
+     */
+    public function getRememberMeTokenExpiredAt()
+    {
+        return $this->rememberMeTokenExpiredAt;
+    }
+
     public function setInviteId($inviteId)
     {
         $this->inviteId = $inviteId;
@@ -968,5 +1027,13 @@ class User
     public function isResetPasswordTokenExpired()
     {
         return new \DateTime() > $this->resetPasswordTokenExpiredAt;
+    }
+
+    /**
+     * 记住我token是否已过期
+     */
+    public function isRememberMeTokenExpired()
+    {
+        return new \DateTime() > $this->rememberMeTokenExpiredAt;
     }
 }

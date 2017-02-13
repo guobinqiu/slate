@@ -22,6 +22,9 @@ class LoginType extends AbstractType
                     new Assert\Regex(array('pattern' => '/^\w+/')),
                 )
             ))
+            ->add('remember_me', 'checkbox', array(
+                'data' => true,
+            ))
             ->add('fingerprint', 'hidden');
     }
 

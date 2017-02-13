@@ -53,8 +53,7 @@ class RegistrationController extends BaseController
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                $confirmationToken = md5($user->getEmail() . $user->getPwd() . time());
-                $user->setConfirmationToken($confirmationToken);
+                $user->setConfirmationToken(md5(uniqid(rand(), true)));
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
