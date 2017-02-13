@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
 
@@ -36,7 +37,6 @@ class UserController extends BaseController
 
             if ($form->isValid()) {
                 $formData = $form->getData();
-
                 $em = $this->getDoctrine()->getManager();
                 $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $formData['email']));
 
@@ -48,6 +48,15 @@ class UserController extends BaseController
                 if (!$user->emailIsConfirmed()) {
                     $form->addError(new FormError('邮箱尚未激活'));
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
+                }
+
+                $rememberMeCookie = null;
+                if ($formData['remember_me'] == '1') {
+                    $token = md5(uniqid(rand(), true));
+                    $expire = new \DateTime('+ 30 days');
+                    $user->setRememberMeToken($token);
+                    $user->setRememberMeTokenExpiredAt($expire);
+                    $rememberMeCookie = new Cookie(User::REMEMBER_ME_TOKEN_NAME, $token, $expire);
                 }
 
                 $user->setLastLoginIp($request->getClientIp());
@@ -77,16 +86,18 @@ class UserController extends BaseController
 
                     $userTrack->setUser($user);
                     $user->setUserTrack($userTrack);
-                    $em->persist($user);
+                    $em->persist($userTrack);
                 }
 
                 $em->flush();
 
                 $session->set('uid', $user->getId());
 
-                $forever = time() + 3600 * 24 * 365 * 10;
-                $cookie = new Cookie('uid', $user->getId(), $forever);
-                return $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
+                $cookies = array(new Cookie('uid', $user->getId(), time() + 10 * 365 * 24 * 60 * 60));
+                if ($rememberMeCookie != null) {
+                    $cookies[] = $rememberMeCookie;
+                }
+                return $this->redirectWithCookies($this->generateUrl('_homepage'), $cookies);
             }
         }
 
@@ -100,8 +111,9 @@ class UserController extends BaseController
     {
         //登出时只清除session，不清除cookie，注销时清除cookie
         $request->getSession()->clear();
-
-        return $this->redirect($this->generateUrl('_homepage'));
+        $response = $this->redirect($this->generateUrl('_homepage'));
+        $this->clearCookies($request, $response);
+        return $response;
     }
 
     /**
