@@ -187,7 +187,7 @@ class RegistrationController extends BaseController
      */
     public function regSuccessAction()
     {
-        return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
+        return $this->redirect($this->generateUrl('_homepage'));
     }
 
     /**
