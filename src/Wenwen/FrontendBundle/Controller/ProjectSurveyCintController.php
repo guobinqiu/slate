@@ -17,7 +17,7 @@ use Wenwen\FrontendBundle\Model\TaskType;
  */
 class ProjectSurveyCintController extends BaseController
 {
-    const AGREEMENT_POINT = 1;
+    const AGREEMENT_POINT = 10;
     const COMMENT = '同意参与海外市场调查项目';
 
     /**

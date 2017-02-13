@@ -30,7 +30,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
-        $this->point = 1;
+        $this->point = 10;
 
         return parent::execute($input, $output);
     }
