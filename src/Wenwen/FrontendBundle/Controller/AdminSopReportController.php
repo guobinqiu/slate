@@ -72,12 +72,12 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
               from survey_sop_participation_history
               where date_sub(curdate(), interval 365 day) <= date(created_at)
               group by created_month
-              order by created_month desc
             ) as t
             join (
               select date_format(created_at, '%Y-%m') as created_month, count(id) as new_project_cnt 
               from survey_sop group by created_month
             ) as p on (t.created_month = p.created_month)
+            order by t.created_month desc
         ";
 
         $em = $this->getDoctrine()->getManager();
