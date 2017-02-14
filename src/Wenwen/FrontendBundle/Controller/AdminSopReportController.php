@@ -57,7 +57,8 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
             round(forward_count / init_count * 100, 2) as cvr1,
             round(csqe_count / forward_count * 100, 2) as cvr2,
             round(csqe_count / targeted_count * 100, 2) as cvr3,
-            round(forward_count / targeted_count * 100, 2) as cvr4
+            round(forward_count / targeted_count * 100, 2) as cvr4,
+            round(targeted_count / new_project_cnt, 0) as targeted_per_project
             from (
               select date_format(created_at, '%Y-%m') as created_month,
               sum(case status when 'targeted' then 1 else 0 end) as targeted_count,
@@ -73,6 +74,10 @@ class AdminSopReportController extends BaseController #implements IpAuthenticate
               group by created_month
               order by created_month desc
             ) as t
+            join (
+              select date_format(created_at, '%Y-%m') as created_month, count(id) as new_project_cnt 
+              from survey_sop group by created_month
+            ) as p on (t.created_month = p.created_month)
         ";
 
         $em = $this->getDoctrine()->getManager();
