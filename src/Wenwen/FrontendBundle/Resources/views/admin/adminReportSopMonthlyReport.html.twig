@@ -7,6 +7,8 @@
             <thead>
             <tr class="active text-nowrap">
                 <th>年月</th>
+                <th>project N</th>
+                <th>targeted/project N</th>
                 <th>targeted</th>
                 <th>init</th>
                 <th>forward</th>
@@ -25,6 +27,8 @@
             {% for data in result %}
                 <tr class="text-nowrap">
                     <td>{{ data.created_month }}</td>
+                    <td>{{ data.new_project_cnt }}</td>
+                    <td>{{ data.targeted_per_project }}</td>
                     <td>{{ data.targeted_count }}</td>
                     <td>{{ data.init_count }}</td>
                     <td>{{ data.forward_count }}</td>
