@@ -17,15 +17,18 @@
           <tr>
             <th>{{ knp_pagination_sortable(pagination, 'Id', 'sp.id') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'PartnerName', 'sp.partnerName') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Type', 'sp.type') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'AllowFrom', 'sp.registeredAtFrom') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'AllowTo', 'sp.registeredAtTo') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'SurveyId', 'sp.surveyId') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'title', 'sp.title') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'status', 'sp.status') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Type', 'sp.type') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, '*IR', 'sp.ir') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, '*LOI', 'sp.loi') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Reward C/S/Q', 'sp.completePoint') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Title', 'sp.title') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Status', 'sp.status') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'UpdatedAt', 'sp.updatedAt') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'CreatedAt', 'sp.createdAt') }}</th>
-            <th>查看信息</th>
+            <th>{{ knp_pagination_sortable(pagination, 'AllowFrom', 'sp.registeredAtFrom') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'AllowTo', 'sp.registeredAtTo') }}</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -33,14 +36,17 @@
           <tr>
             <td>{{ surveyPartner.id }}</td>
             <td>{{ surveyPartner.partnerName }}</td>
-            <td>{{ surveyPartner.type }}</td>
-            <td>{{ surveyPartner.registeredAtFrom }} hrs</td>
-            <td>{{ surveyPartner.registeredAtTo }} hrs</td>
             <td>{{ surveyPartner.surveyId }}</td>
+            <td>{{ surveyPartner.type }}</td>
+            <td>{{ surveyPartner.ir }}%</td>
+            <td>{{ surveyPartner.loi }} mins</td>
+            <td>{{ surveyPartner.completePoint }}/{{ surveyPartner.screenoutPoint }}/{{ surveyPartner.quotafullPoint }}</td>
             <td>{{ surveyPartner.title }}</td>
             <td>{{ surveyPartner.status }}</td>
-            <td>{{ surveyPartner.updatedAt |date('Y-m-d H:i:s') }}</td>
-            <td>{{ surveyPartner.createdAt |date('Y-m-d H:i:s') }}</td>
+            <td>{{ surveyPartner.updatedAt |date('Y-m-d') }}</td>
+            <td>{{ surveyPartner.createdAt |date('Y-m-d') }}</td>
+            <td>{{ surveyPartner.registeredAtFrom }} hrs</td>
+            <td>{{ surveyPartner.registeredAtTo }} hrs</td>
             <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartner.id}) }}">查看</a></td>
           </tr>
           {% endfor %}
