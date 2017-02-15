@@ -23,7 +23,7 @@ class AdminSurveyGmoReportController extends Controller
      * @Route("/surveylist", name="admin_gmo_report_surveylist")
      * @Method("GET")
      */
-    public function indexAction()
+    public function surveylistAction()
     {
         $em = $this->getDoctrine()->getManager();
 
