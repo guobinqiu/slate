@@ -357,7 +357,7 @@ class SurveyService
         // 生成sop_api_url
         $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
 
-        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 1, 'connect_timeout' => 1));
+        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 2, 'connect_timeout' => 2));
         $response = $request->send();
         if ($response->getStatusCode() != 200) {
             $this->logger->error('url=' . $sop_api_url . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
