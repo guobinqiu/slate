@@ -48,7 +48,7 @@ class SurveyGmoService
         $crypt = $this->encrypt_blowfish($encryptId, $encryptKey);
         $data = array('panelType' => $panelCode, 'crypt' => $crypt);
         $url = $this->parameterService->getParameter('gmo_surveylistUrl') . '?' . http_build_query($data);
-        $request = $this->httpClient->get($url, null, array('timeout' => 10, 'connect_timeout' => 10));
+        $request = $this->httpClient->get($url, null, array('timeout' => 1, 'connect_timeout' => 1));
         $response = $request->send();
         return $response->getBody();
 
