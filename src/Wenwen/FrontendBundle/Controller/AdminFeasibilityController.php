@@ -22,21 +22,21 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
     {
         $sql = "
             (
-            select cl.cityName as areaName, count(up.id) as cnt
+            select cl.cityName as areaName, up.sex as gender, count(up.id) as cnt
             from user_profile up 
             join user u on (up.user_id = u.id) 
             join cityList cl on (up.city = cl.id) 
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 1 and cl.provinceId = 1
-            group by cl.cityName order by cl.id
+            group by cl.cityName, up.sex order by cl.id
             )
             union
             (
-            select pl.provinceName as areaName, count(up.id) as cnt
+            select pl.provinceName as areaName, up.sex as gender, count(up.id) as cnt
             from user_profile up 
             join user u on (up.user_id = u.id) 
             join provinceList pl on (up.province = pl.id) 
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 1 and up.province <> 1
-            group by pl.provinceName order by pl.id
+            group by pl.provinceName, up.sex order by pl.id
             )
         ";
 
@@ -48,21 +48,21 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
 
         $sql = "
             (
-            select cl.cityName as areaName, count(up.id) as cnt
+            select cl.cityName as areaName, up.sex as gender, count(up.id) as cnt
             from user_profile up 
             join user u on (up.user_id = u.id) 
             join cityList cl on (up.city = cl.id) 
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 6 and cl.provinceId = 1
-            group by cl.cityName order by cl.id
+            group by cl.cityName, up.sex order by cl.id
             )
             union
             (
-            select pl.provinceName as areaName, count(up.id) as cnt
+            select pl.provinceName as areaName, up.sex as gender, count(up.id) as cnt
             from user_profile up 
             join user u on (up.user_id = u.id) 
             join provinceList pl on (up.province = pl.id) 
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 6 and up.province <> 1
-            group by pl.provinceName order by pl.id
+            group by pl.provinceName, up.sex order by pl.id
             )
         ";
 
