@@ -56,7 +56,7 @@ class UserController extends BaseController
                     $expire = new \DateTime('+ 30 days');
                     $user->setRememberMeToken($token);
                     $user->setRememberMeTokenExpiredAt($expire);
-                    $rememberMeCookie = new Cookie(User::REMEMBER_ME_TOKEN_NAME, $token, $expire);
+                    $rememberMeCookie = new Cookie(User::REMEMBER_ME_TOKEN, $token, $expire);
                 }
 
                 $user->setLastLoginIp($request->getClientIp());
@@ -112,7 +112,7 @@ class UserController extends BaseController
         //登出时只清除session，不清除cookie，注销时清除cookie
         $request->getSession()->clear();
         $response = $this->redirect($this->generateUrl('_homepage'));
-        $this->clearCookies($request, $response);
+        $response->headers->clearCookie(USER::REMEMBER_ME_TOKEN);
         return $response;
     }
 
