@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+
+    <h1>地区分布</h1>
+
+    <h4>MAU</h4>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr class="active">
+            <th>areaName</th>
+            <th>cnt</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in distributionMau %}
+            <tr>
+                <td>{{ item.areaName }}</td>
+                <td>{{ item.cnt }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>6AU</h4>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr class="active">
+            <th>areaName</th>
+            <th>cnt</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in distribution6au %}
+            <tr>
+                <td>{{ item.areaName }}</td>
+                <td>{{ item.cnt }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
