@@ -7,7 +7,7 @@ $(function(){
     var emailError = $('#email_error');
 
     function isEmail(str){
-        var pattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+        var pattern = /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
         return new RegExp(pattern).test(str);
     }
 
@@ -36,7 +36,8 @@ $(function(){
         }
         $.ajax({
             type: 'GET',
-            url: Routing.generate('_user_reset', { email: email }),
+            url: Routing.generate('_user_reset'),
+            data: $('#emailForm').serialize(),
             dataType: 'JSON'
         }).done(function(data){
             countdown();

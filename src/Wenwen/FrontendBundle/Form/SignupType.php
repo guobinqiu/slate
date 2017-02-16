@@ -39,11 +39,11 @@ class SignupType extends AbstractType
             //对应user对象的userProfile属性
             ->add('userProfile', new UserProfileType())
 
-            ->add('captcha', 'captcha', array(
-                'label' => '验证码',
-                'invalid_message' => '验证码无效',
-                'mapped' => false,
-            ))
+//            ->add('captcha', 'captcha', array(
+//                'label' => '验证码',
+//                'invalid_message' => '验证码无效',
+//                'mapped' => false,
+//            ))
             ->add('subscribe', 'checkbox', array(
                 'label' =>'我愿意接收91问问发出的会员邮件',
                 'data' => true,

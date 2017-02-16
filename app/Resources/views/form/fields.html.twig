@@ -6,7 +6,7 @@
 {% else %}
 {% spaceless %}
     {{ form_widget(form) }}
-    <div>
+    {#<div>#}
         <img id="{{ image_id }}" src="{{ captcha_code }}" alt="" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}" class="verificationImg"/>
         {% if reload %}
         <script type="text/javascript">
@@ -17,7 +17,7 @@
         </script>
         <a class="captcha_reload" href="javascript:reload_{{ image_id }}();">{{ 'Renew'|trans({}, 'gregwar_captcha') }}</a>
         {% endif %}
-    </div>
+    {#</div>#}
 {% endspaceless %}
 {% endif %}
 {% endblock %}
