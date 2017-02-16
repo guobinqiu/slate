@@ -17,8 +17,6 @@
 
 {% block body %}
 
-
-
 {# 新手引导开始 #}
 <div id="mask" class="hidden-xs hidden-sm"></div>
 <div id="newguideWrap" class="hidden-xs hidden-sm">
@@ -47,10 +45,10 @@
 <div class="container clearfix">
 	<div class="row">
 		<div class="main-con-left col-xs-12 col-sm-9">
-			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<div class="vote panel panel-default">
-				<div class="panel-body">{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}</div>
+			<div id="survey_list">
+				{{ render(controller('WenwenFrontendBundle:Survey:top')) }}
 			</div>
+			{{ render(controller('JiliFrontendBundle:Vote:top')) }}
 		</div>
 		<div class="main-con-right col-xs-6 col-sm-3 hidden-xs">
 			{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
@@ -65,8 +63,20 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.cookie.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/home.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/plugin/jquery.cookie.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
+	<script type="text/javascript" src="{{ asset('js/pages/home.js')}}"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			setInterval(requestSurveyList, 14 * 60 * 1000); //soptoken15分钟过期，我14分钟刷新一次
+
+			function requestSurveyList() {
+				$.get("{{ path('_survey_top') }}", function(data){
+					console.log(data);
+					$('#survey_list').html(data);
+				});
+			}
+		});
+	</script>
 {% endblock %}
