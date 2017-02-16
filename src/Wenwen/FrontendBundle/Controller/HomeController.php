@@ -15,7 +15,7 @@ class HomeController extends BaseController
         $cookies = $request->cookies;
         if ($cookies->has(User::REMEMBER_ME_TOKEN_NAME)) {
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN_NAME)));
-            if ($user != null || !$user->isRememberMeTokenExpired()) {
+            if ($user != null && !$user->isRememberMeTokenExpired()) {
                 $request->getSession()->set('uid', $user->getId());
             }
         }
