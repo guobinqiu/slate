@@ -1,20 +1,23 @@
 <div class="survey panel panel-default" id="surveyHome">
-		<div class="panel-body">
-			{% if html_survey_list|length > 0 %}
-			<ul id="surveyList">
-				{% for html_survey in html_survey_list %}
-					<li>
-						<div class="row">
-							{{ html_survey | raw }}
-						</div>
-					</li>
-					<hr>
-				{% endfor %}
-			</ul>
-			{% else %}
-			<div class="noSurvey">
-				<img src="{{ asset('img/questionnaire/noSurvey.jpg') }}">
-			</div>
-			{% endif %}	
-		</div>
+	<div class="panel-heading hidden-xs">
+		<h3>问卷列表</h3>
 	</div>
+	<div class="panel-body">
+		{% if html_survey_list|length > 0 %}
+		<ul id="surveyList">
+			{% for html_survey in html_survey_list %}
+				<li>
+					<div class="row">
+						{{ html_survey | raw }}
+					</div>
+				</li>
+				<hr>
+			{% endfor %}
+		</ul>
+		{% else %}
+		<div class="noSurvey">
+			<img src="{{ asset('img/questionnaire/noSurvey.jpg') }}">
+		</div>
+		{% endif %}
+	</div>
+</div>

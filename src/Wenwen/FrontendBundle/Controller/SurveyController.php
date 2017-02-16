@@ -46,16 +46,8 @@ class SurveyController extends BaseController implements UserAuthenticationContr
 
         $this->checkoutSurveyList($user_id);
 
-        $user = $this->getCurrentUser();
-        $showTip = false;
-        if ($user->getRegisterCompleteDate() != null && time() < strtotime('+1 day midnight', $user->getRegisterCompleteDate()->getTimestamp())) {
-            $showTip = true;
-        }
-
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array(
             'html_survey_list' => $html_survey_list,
-            'user' => $user,
-            'showTip' => $showTip,
         ));
     }
 
