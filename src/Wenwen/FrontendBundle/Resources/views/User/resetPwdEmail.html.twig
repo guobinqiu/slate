@@ -18,10 +18,14 @@
 					<div class="step1">
 						<div class="steps"><span class="active">1 输入邮箱地址</span><span>2 重置密码</span><span class="last">3 完成</span></div>
 						<div class="main-resetPwd-con">
-							<div class="title">请输入您注册时填写的邮箱</div>
-							<div><input type="text" id="email" name="email"></div>
-							<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
-							<input class="btn" type="button" id="sendEmail" value="下一步">
+							<form id="emailForm">
+								<div class="title">请输入您注册时填写的邮箱</div>
+								{#<div><input type="text" id="email" name="email"></div>#}
+								<div>{{ form_widget(form.email, {'id': 'email'}) }}</div>
+								{#<div style="margin: 5px">{{ form_widget(form.captcha, {'attr': {'style': 'width: 160px;'}}) }}</div>#}
+								<div class="prompt"><span id="email_succeed"></span><span id="email_error"></span></div>
+								<input class="btn" type="button" id="sendEmail" value="下一步" />
+							</form>
 						</div>
 					</div>
 				</div>

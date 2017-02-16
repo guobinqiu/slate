@@ -26,7 +26,17 @@ class PasswordController extends BaseController
             return $this->redirect($this->generateUrl('_homepage'));
         }
 
-        return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig');
+        $builder = $this->createFormBuilder();
+        $builder->add('email', 'text');
+        $builder->add('captcha', 'captcha', array(
+            'label' => '验证码',
+            'invalid_message' => '验证码无效',
+        ));
+        $form = $builder->getForm();
+
+        return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
@@ -36,13 +46,25 @@ class PasswordController extends BaseController
      */
     public function resetAction(Request $request)
     {
-        $email = $request->query->get('email');
+        $formData = $request->query->get('form');
+        $email = $formData['email'];
+//        $input_captcha = $formData['captcha'];
+//        $session_captcha = $request->getSession()->get('gcb_captcha')['phrase'];
+//        if ($input_captcha != $session_captcha) {
+//            return new JsonResponse(array(
+//                'error' => true,
+//                'message' => '验证码有误',
+//            ), 404);
+//        }
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
 
         if ($user == null) {
-            return new JsonResponse(array('error' => true, 'message' => '邮件不存在'), 404);
+            return new JsonResponse(array(
+                'error' => true,
+                'message' => '邮件不存在',
+            ), 404);
         }
 
         $user->setResetPasswordToken(md5(uniqid(rand(), true)));
@@ -52,7 +74,10 @@ class PasswordController extends BaseController
 
         $this->send_reset_password_email($user);
 
-        return new JsonResponse(array('error' => false, 'message' => '邮件已发送'), 200);
+        return new JsonResponse(array(
+            'error' => false,
+            'message' => '邮件已发送',
+        ), 200);
     }
 
     /**

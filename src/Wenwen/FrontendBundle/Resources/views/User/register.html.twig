@@ -55,10 +55,10 @@
 											{{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
 											<div class="error errorReg">{{ form_errors(userForm.pwd) }}</div>
 										</li>
-										<li id="vcode" class="liner">
-											{{ form_widget(userForm.captcha, {'attr': {'placeholder': '输入验证码'}}) }}
-											<div class="error errorReg">{{ form_errors(userForm.captcha) }}</div>
-										</li>
+										{#<li id="vcode" class="liner">#}
+											{#{{ form_widget(userForm.captcha, {'attr': {'placeholder': '输入验证码'}}) }}#}
+											{#<div class="error errorReg">{{ form_errors(userForm.captcha) }}</div>#}
+										{#</li>#}
 										<li class="liner">
 											<div class="proPrompt">
 												<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
