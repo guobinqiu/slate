@@ -32,7 +32,7 @@ class User
     const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
 
-    const REMEMBER_ME_TOKEN_NAME = 'ww_passport';
+    const REMEMBER_ME_TOKEN = 'ww_passport';
 
     /**
      * @var integer

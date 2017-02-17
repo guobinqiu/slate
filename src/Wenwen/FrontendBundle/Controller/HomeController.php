@@ -13,8 +13,8 @@ class HomeController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
         $cookies = $request->cookies;
-        if ($cookies->has(User::REMEMBER_ME_TOKEN_NAME)) {
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN_NAME)));
+        if ($cookies->has(User::REMEMBER_ME_TOKEN)) {
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN)));
             if ($user != null && !$user->isRememberMeTokenExpired()) {
                 $request->getSession()->set('uid', $user->getId());
             }
