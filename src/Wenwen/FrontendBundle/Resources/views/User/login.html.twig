@@ -51,7 +51,7 @@
 												<div class="error">{{ form_errors(form.password) }}</div>
 											</li>
 										</ul>
-										<div class="pull-left" style="color: #fff; font-size: 14px;">{{ form_widget(form.remember_me) }}记住密码30天</div>
+										{#<div class="pull-left" style="color: #fff; font-size: 14px;">{{ form_widget(form.remember_me) }}记住密码30天</div>#}
 										{{ form_row(form.fingerprint) }}
 										{{ form_row(form._token) }}
 										<input type="submit" class="login-btn" value="登录"/>
