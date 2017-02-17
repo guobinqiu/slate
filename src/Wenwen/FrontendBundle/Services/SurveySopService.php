@@ -77,6 +77,9 @@ class SurveySopService
         $points = 0;
         $userId = $this->userService->toUserId($appMid);
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
+        if(empty($user)){
+            throw new \InvalidArgumentException("sop invalid appMid: {$appMid}");
+        }
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
@@ -87,7 +90,7 @@ class SurveySopService
                     $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
                     // 记录csq
                     $user->updateCSQ($answerStatus);
-                    
+
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
