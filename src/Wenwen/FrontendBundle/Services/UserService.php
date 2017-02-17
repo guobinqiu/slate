@@ -151,30 +151,4 @@ class UserService
 
         return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
-
-    /**
-     * 记录用户有几个csq
-     */
-    public function updateCSQ(User $user, $answerStatus){
-        $this->em->getConnection()->beginTransaction();
-
-        try {
-
-            if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
-                $user->addCompleteN();
-            } elseif(SurveyStatus::STATUS_SCREENOUT == $answerStatus) {
-                $user->addScreenoutN();
-            } elseif(SurveyStatus::STATUS_QUOTAFULL == $answerStatus) {
-                $user->addQuotafullN();
-            } else {
-                
-            }
-            $this->em->flush();
-            $this->em->getConnection()->commit();
-        } catch (\Exception $e){
-            $this->em->getConnection()->rollBack();
-            $this->em->close();
-            throw $e;
-        }
-    }
 }

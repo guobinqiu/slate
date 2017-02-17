@@ -94,12 +94,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $participationHistory = $this->createParticipationHistory($history);
 
                 if(TaskType::RENTENTION != $this->task($history)){
-                    $userService = $this->getContainer()->get('app.user_service');
                     // 更新用户参与商业调查的csq计数
-                    $userService->updateCSQ(
-                        $user, 
-                        $this->answerStatus($history)
-                        );
+                    $user->updateCSQ($this->answerStatus($history));
                 }
                 
                 $pointService = $this->getContainer()->get('app.point_service');

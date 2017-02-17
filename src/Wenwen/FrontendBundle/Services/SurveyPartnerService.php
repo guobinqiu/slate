@@ -28,8 +28,6 @@ class SurveyPartnerService
 
     private $pointService;
 
-    private $userService;
-
     private $prizeTicketService;
 
     private $testUserEmails = array(
@@ -45,14 +43,12 @@ class SurveyPartnerService
                                 EntityManager $em,
                                 ParameterService $parameterService,
                                 PointService $pointService,
-                                UserService $userService,
                                 PrizeTicketService $prizeTicketService)
     {
         $this->logger = $logger;
         $this->em = $em;
         $this->parameterService = $parameterService;
         $this->pointService = $pointService;
-        $this->userService = $userService;
         $this->prizeTicketService = $prizeTicketService;
     }
 
@@ -932,6 +928,8 @@ class SurveyPartnerService
         } else {
             // cost 类型的问卷
             if($answerStatus == SurveyStatus::STATUS_COMPLETE){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
 
                 // 给用户加积分
                 $this->pointService->addPoints(
@@ -941,8 +939,6 @@ class SurveyPartnerService
                     TaskType::SURVEY,
                     $this->generateSurveyTitleWithSurveyId($surveyPartner)
                     );
-                // 记录csqe
-                $this->userService->updateCSQ($user, $answerStatus);
 
                 // 同时给邀请人加积分(10%)
                 $this->pointService->addPointsForInviter(
@@ -967,6 +963,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -975,8 +974,7 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
-                // 记录csqe
-                $this->userService->updateCSQ($user, $answerStatus);
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
@@ -991,6 +989,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -999,8 +1000,7 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
-                // 记录csqe
-                $this->userService->updateCSQ($user, $answerStatus);
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,

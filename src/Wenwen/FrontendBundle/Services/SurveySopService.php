@@ -85,6 +85,9 @@ class SurveySopService
                 $conn->beginTransaction();
                 try {
                     $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                    // 记录csq
+                    $user->updateCSQ($answerStatus);
+                    
                     $points = $survey->getPoints($answerStatus);
                     $this->pointService->addPoints(
                         $user,
@@ -94,8 +97,7 @@ class SurveySopService
                         $this->getTaskName($survey, $answerStatus),
                         $survey
                     );
-                    // 记录csq
-                    $this->userService->updateCSQ($user, $answerStatus);
+                    
                     $this->pointService->addPointsForInviter(
                         $user,
                         $points * 0.1,

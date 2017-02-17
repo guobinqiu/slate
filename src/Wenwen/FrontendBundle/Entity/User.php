@@ -1235,4 +1235,15 @@ class User
     {
         return $this->quotafullN;
     }
+
+    public function updateCSQ($answerStatus){
+        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
+            $this->addCompleteN();
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $answerStatus) {
+            $this->addScreenoutN();
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $answerStatus) {
+            $this->addQuotafullN();
+        }
+        return $this;
+    }
 }
