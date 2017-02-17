@@ -14,7 +14,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="user",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
- *     indexes={@ORM\Index(name="user_invite_id", columns={"invite_id"})}
+ *     indexes={
+ *         @ORM\Index(name="confirmation_token_idx", columns={"confirmation_token"}),
+ *         @ORM\Index(name="reset_password_token_idx", columns={"reset_password_token"}),
+ *         @ORM\Index(name="remember_me_token_idx", columns={"remember_me_token"}),
+ *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
+ *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="邮箱地址已存在")
