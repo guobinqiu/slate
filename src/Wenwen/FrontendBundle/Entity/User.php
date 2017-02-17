@@ -8,6 +8,7 @@ use Jili\ApiBundle\Utility\PasswordEncoder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * User
