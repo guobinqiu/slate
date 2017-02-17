@@ -11,13 +11,13 @@ class HomeController extends BaseController
 {
     public function indexAction(Request $request)
     {
-//        $cookies = $request->cookies;
-//        if ($cookies->has(User::REMEMBER_ME_TOKEN)) {
-//            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN)));
-//            if ($user != null && !$user->isRememberMeTokenExpired()) {
-//                $request->getSession()->set('uid', $user->getId());
-//            }
-//        }
+        $cookies = $request->cookies;
+        if ($cookies->has(User::REMEMBER_ME_TOKEN)) {
+            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN)));
+            if ($user != null && !$user->isRememberMeTokenExpired()) {
+                $request->getSession()->set('uid', $user->getId());
+            }
+        }
 
         if (!$request->getSession()->has('uid')) {
             $this->setRegisterRouteInSession($request);

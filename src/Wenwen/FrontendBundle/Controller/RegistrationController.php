@@ -130,7 +130,6 @@ class RegistrationController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
             'confirmationToken' => $confirmation_token,
-            'isEmailConfirmed' => User::EMAIL_NOT_CONFIRMED,
         ));
 
         if ($user == null) {
