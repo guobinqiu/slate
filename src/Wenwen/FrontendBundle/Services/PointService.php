@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Model\TaskType;
 
 class PointService
 {
@@ -33,6 +34,11 @@ class PointService
     public function addPoints(User $user, $points, $categoryType, $taskType, $taskName, $order = null, $happenTime = null, $needCreatePrizeTicket = false, $prizeType = PrizeItem::TYPE_SMALL) {
         $this->em->getConnection()->beginTransaction();
         try {
+            if(TaskType::RENTENTION == $taskType){
+                $user->setPointsExpense($user->getPointsExpense() + $points);
+            } else {
+                $user->setPointsCost($user->getPointsCost() + $points);
+            }
             $user->setPoints($user->getPoints() + $points);
             $user->setLastGetPointsAt(new \DateTime());
 
