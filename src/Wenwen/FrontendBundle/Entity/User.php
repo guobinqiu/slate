@@ -288,6 +288,30 @@ class User
      */
     private $pointsExpense;
 
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的complete
+     *
+     * @ORM\Column(name="complete_n", type="integer", options={"default": 0})
+     */
+    private $completeN;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的screenout
+     *
+     * @ORM\Column(name="screenout_n", type="integer", options={"default": 0})
+     */
+    private $screenoutN;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的quotafull
+     *
+     * @ORM\Column(name="quotafull_n", type="integer", options={"default": 0})
+     */
+    private $quotafullN;
+
     public function __construct()
     {
         $this->passwordChoice = self::PWD_WENWEN;
@@ -298,6 +322,9 @@ class User
         $this->userSignInDetails = new ArrayCollection();
         $this->pointsCost = self::POINT_EMPTY;
         $this->pointsExpense = self::POINT_EMPTY;
+        $this->completeN = 0;
+        $this->screenoutN = 0;
+        $this->quotafullN = 0;
     }
 
     /**
@@ -1099,5 +1126,113 @@ class User
     public function getPointsExpense()
     {
         return $this->pointsExpense;
+    }
+
+    /**
+     * Set completeN
+     *
+     * @param integer $completeN
+     * @return User
+     */
+    public function setCompleteN($completeN)
+    {
+        $this->completeN = $completeN;
+
+        return $this;
+    }
+
+    /**
+     * add completeN
+     *
+     * @param integer $completeN
+     * @return User
+     */
+    public function addCompleteN()
+    {
+        $this->completeN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get completeN
+     *
+     * @return integer
+     */
+    public function getCompleteN()
+    {
+        return $this->completeN;
+    }
+
+    /**
+     * Set screenoutN
+     *
+     * @param integer $screenoutN
+     * @return User
+     */
+    public function setScreenoutN($screenoutN)
+    {
+        $this->screenoutN = $screenoutN;
+
+        return $this;
+    }
+
+    /**
+     * add screenoutN
+     *
+     * @param integer $screenoutN
+     * @return User
+     */
+    public function addScreenoutN()
+    {
+        $this->screenoutN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get screenoutN
+     *
+     * @return integer
+     */
+    public function getScreenoutN()
+    {
+        return $this->screenoutN;
+    }
+
+    /**
+     * Set quotafullN
+     *
+     * @param integer $quotafullN
+     * @return User
+     */
+    public function setQuotafullN($quotafullN)
+    {
+        $this->quotafullN = $quotafullN;
+
+        return $this;
+    }
+
+    /**
+     * add quotafullN
+     *
+     * @param integer $quotafullN
+     * @return User
+     */
+    public function addQuotafullN()
+    {
+        $this->quotafullN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get quotafullN
+     *
+     * @return integer
+     */
+    public function getQuotafullN()
+    {
+        return $this->quotafullN;
     }
 }

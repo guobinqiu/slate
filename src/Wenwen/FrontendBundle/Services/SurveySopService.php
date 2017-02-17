@@ -94,6 +94,8 @@ class SurveySopService
                         $this->getTaskName($survey, $answerStatus),
                         $survey
                     );
+                    // 记录csqe
+                    $this->userService->addCSQE($user, $answerStatus);
                     $this->pointService->addPointsForInviter(
                         $user,
                         $points * 0.1,

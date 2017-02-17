@@ -51,7 +51,9 @@ class SurveyServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+        if($this->em){
+            $this->em->close();
+        }
     }
 
     public function testGetOrderedHtmlServeyList()

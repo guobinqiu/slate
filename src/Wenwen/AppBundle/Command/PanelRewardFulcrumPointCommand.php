@@ -46,6 +46,14 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return TaskType::SURVEY;
     }
 
+    protected function answerStatus($history){
+        return $history['answer_status'];
+    }
+
+    protected function approvalStatus($history){
+        return $history['approval_status'];
+    }
+
     protected function comment($history)
     {
         // title is saved in extra_info.title for old history

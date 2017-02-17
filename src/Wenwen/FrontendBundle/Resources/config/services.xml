@@ -55,6 +55,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.prize_ticket_service" />
             <argument type="service" id="app.point_service" />
+            <argument type="service" id="app.user_service" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.http_client" />
         </service>
@@ -164,6 +165,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="app.point_service" />
+            <argument type="service" id="app.user_service" />
             <argument type="service" id="app.prize_ticket_service" />
         </service>
 

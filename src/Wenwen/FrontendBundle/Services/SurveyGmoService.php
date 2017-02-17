@@ -19,6 +19,7 @@ class SurveyGmoService
     private $em;
     private $prizeTicketService;
     private $pointService;
+    private $userService;
     private $parameterService;
     private $httpClient;
 
@@ -27,6 +28,7 @@ class SurveyGmoService
                                 EntityManager $em,
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
+                                UserService $userService,
                                 ParameterService $parameterService,
                                 HttpClient $httpClient
     ) {
@@ -160,6 +162,8 @@ class SurveyGmoService
                     $this->getTaskName($survey, $answerStatus),
                     $survey
                 );
+                // 记录csqe
+                $this->userService->updateCSQ($user, $answerStatus);
                 $this->pointService->addPointsForInviter(
                     $user,
                     $points * 0.1,

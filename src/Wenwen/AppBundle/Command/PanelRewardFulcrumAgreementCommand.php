@@ -50,6 +50,14 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         return TaskType::RENTENTION;
     }
 
+    protected function answerStatus($history){
+        return $history['answer_status'];
+    }
+
+    protected function approvalStatus($history){
+        return $history['approval_status'];
+    }
+
     protected function comment($history)
     {
         return $this->comment;
