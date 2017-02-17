@@ -19,9 +19,17 @@ class HomeController extends BaseController
             }
         }
 
-        if (!$request->getSession()->has('uid')) {
+        $session = $request->getSession();
+
+        if (!$session->has('uid')) {
             $this->setRegisterRouteInSession($request);
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');
+        }
+
+        if ($session->has('referer')) {
+            $url = $session->get('referer');
+            $session->remove('referer');
+            return $this->redirect($url);
         }
 
         return $this->render('WenwenFrontendBundle:Home:home.html.twig');
