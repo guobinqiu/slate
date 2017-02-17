@@ -272,6 +272,22 @@ class User
      */
     private $inviteId;
 
+    /**
+     * @var integer
+     * 参考用的，这个用户大概获得了多少cost类型的积分
+     *
+     * @ORM\Column(name="points_cost", type="integer", options={"default": 0})
+     */
+    private $pointsCost;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户大概获得了多少expense类型的积分
+     * 
+     * @ORM\Column(name="points_expense", type="integer", options={"default": 0})
+     */
+    private $pointsExpense;
+
     public function __construct()
     {
         $this->passwordChoice = self::PWD_WENWEN;
@@ -280,6 +296,8 @@ class User
         $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
         $this->prizeTickets = new ArrayCollection();
         $this->userSignInDetails = new ArrayCollection();
+        $this->pointsCost = self::POINT_EMPTY;
+        $this->pointsExpense = self::POINT_EMPTY;
     }
 
     /**
@@ -1035,5 +1053,51 @@ class User
     public function isRememberMeTokenExpired()
     {
         return new \DateTime() > $this->rememberMeTokenExpiredAt;
+    }
+
+    /**
+     * Set pointsCost
+     *
+     * @param integer $pointsCost
+     * @return User
+     */
+    public function setPointsCost($pointsCost)
+    {
+        $this->pointsCost = $pointsCost;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsCost
+     *
+     * @return integer
+     */
+    public function getPointsCost()
+    {
+        return $this->pointsCost;
+    }
+
+    /**
+     * Set pointsExpense
+     *
+     * @param integer $pointsExpense
+     * @return User
+     */
+    public function setPointsExpense($pointsExpense)
+    {
+        $this->pointsExpense = $pointsExpense;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsExpense
+     *
+     * @return integer
+     */
+    public function getPointsExpense()
+    {
+        return $this->pointsExpense;
     }
 }
