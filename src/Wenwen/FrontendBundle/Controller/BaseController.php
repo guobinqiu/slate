@@ -45,11 +45,10 @@ class BaseController extends Controller
 
     protected function getCurrentUser()
     {
-        $user = null;
         if ($this->isUserLoggedIn()) {
-            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($this->getCurrentUserId());
+            return $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($this->getCurrentUserId());
         }
-        return $user;
+        return null;
     }
 
     /**

@@ -34,13 +34,12 @@ class EventController extends BaseController //implements UserAuthenticationCont
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
+            $request->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($request->getSession()->get('uid'));
-
-        $invitees = $em->getRepository('WenwenFrontendBundle:User')->findBy(array('inviteId' => $user->getId()));
+        $user = $this->getCurrentUser();
+        $invitees = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findBy(array('inviteId' => $user->getId()));
 
         //跳转到lp页，目的是给将来做运营留推广留一个口
         $inviteUrl = $this->generateUrl('event_invite_lp', array('userId' => $this->encode($user->getId())), true);
@@ -77,10 +76,11 @@ class EventController extends BaseController //implements UserAuthenticationCont
     /**
      * @Route("/prize", name="event_prize", methods={"GET"})
      */
-    public function prizeAction()
+    public function prizeAction(Request $request)
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
+            $request->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -92,10 +92,11 @@ class EventController extends BaseController //implements UserAuthenticationCont
     /**
      * @Route("/prize/draw", name="event_prize_draw", methods={"POST"})
      */
-    public function prizeDrawAction()
+    public function prizeDrawAction(Request $request)
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
+            $request->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -147,10 +148,11 @@ class EventController extends BaseController //implements UserAuthenticationCont
     /**
      * @Route("/checkin", name="event_checkin", methods={"GET"})
      */
-    public function checkInAction()
+    public function checkInAction(Request $request)
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
+            $request->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
@@ -184,10 +186,11 @@ class EventController extends BaseController //implements UserAuthenticationCont
     /**
      * @Route("/checkin/update", name="event_checkin_update", methods={"POST"})
      */
-    public function checkInUpdateAction()
+    public function checkInUpdateAction(Request $request)
     {
         $user = $this->getCurrentUser();
         if ($user == null) {
+            $request->getSession()->set('referer', $request->getUri());
             return $this->redirect($this->generateUrl('_user_login'));
         }
 

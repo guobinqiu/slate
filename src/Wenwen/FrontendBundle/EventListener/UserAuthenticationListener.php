@@ -32,11 +32,12 @@ class UserAuthenticationListener
         if ($controller[0] instanceof UserAuthenticationController) {
             $request = $event->getRequest();
 
-            if (!$request->getSession()->has('uid')) {
-                $redirectUrl = $this->router->generate('_user_login');
-
-                $event->setController(function() use ($redirectUrl) {
-                    return new RedirectResponse($redirectUrl);
+            $session = $request->getSession();
+            if (!$session->has('uid')) {
+                $session->set('referer', $request->getUri());
+                $url = $this->router->generate('_user_login');
+                $event->setController(function() use ($url) {
+                    return new RedirectResponse($url);
                 });
             }
         }

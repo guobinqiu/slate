@@ -111,7 +111,7 @@ class UserController extends BaseController
     {
         //登出时只清除session，不清除cookie，注销时清除cookie
         $request->getSession()->clear();
-        $response = $this->redirect($this->generateUrl('_homepage'));
+        $response = $this->redirect($this->generateUrl('_user_login'));
         $response->headers->clearCookie(USER::REMEMBER_ME_TOKEN);
         return $response;
     }
@@ -179,6 +179,7 @@ class UserController extends BaseController
     public function adtasteAction(Request $request)
     {
         if (!$request->getSession()->has('uid')) {
+
             return $this->redirect($this->generateUrl('_user_login'));
         }
         $user_id = $request->getSession()->get('uid');
