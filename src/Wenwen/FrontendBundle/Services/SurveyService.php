@@ -357,7 +357,7 @@ class SurveyService
         // 生成sop_api_url
         $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
 
-        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 1, 'connect_timeout' => 1));
+        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 2, 'connect_timeout' => 2));
         $response = $request->send();
         if ($response->getStatusCode() != 200) {
             $this->logger->error('url=' . $sop_api_url . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
@@ -509,6 +509,17 @@ class SurveyService
             return [];
         }
 
+        $cityName = 'XXXX';
+        $provinceName = 'XXXX';
+        $clientIp = 'XXX.XXX.XXX.XXX';
+
+        try {
+            $cityName = $locationInfo['city'];
+            $provinceName = $locationInfo['province'];
+            $clientIp = $locationInfo['clientIp'];
+        }  catch(\Exception $e) {
+        }
+
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
@@ -521,7 +532,7 @@ class SurveyService
                 $sop = null;
             }
         }  catch(\Exception $e) {
-            $this->logger->error('***sop:' . $e->getMessage());
+            $this->logger->error('sop_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
 
@@ -570,7 +581,7 @@ class SurveyService
                 array_unshift($html_survey_list, $html);
             }
         } catch(\Exception $e) {
-            $this->logger->error('***ssi:' . $e->getMessage());
+            $this->logger->error('ssi_survey_list_failed  user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //Survey partner survey
@@ -592,7 +603,7 @@ class SurveyService
             $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
             $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
         } catch(\Exception $e) {
-            $this->logger->error('***surveypartner:' . $e->getMessage());
+            $this->logger->error('surveypartner_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //GMO research survey
@@ -615,7 +626,7 @@ class SurveyService
                 }
             }
         } catch(\Exception $e) {
-            $this->logger->error('***gmo:' . $e->getMessage());
+            $this->logger->error('gmo_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         if ($sop != null) {
