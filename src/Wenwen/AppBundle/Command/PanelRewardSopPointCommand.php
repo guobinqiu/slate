@@ -56,11 +56,11 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
     }
 
     protected function answerStatus($history){
-        return $history['answer_status'];
+        return strtolower($history['answer_status']);
     }
 
     protected function approvalStatus($history){
-        return $history['approval_status'];
+        return strtolower($history['approval_status']);
     }
 
     protected function comment($history)

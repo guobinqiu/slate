@@ -51,11 +51,13 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     }
 
     protected function answerStatus($history){
-        return $history['answer_status'];
+        // agreement积分，不存在csq
+        return 'other';
     }
 
     protected function approvalStatus($history){
-        return $history['approval_status'];
+        // agreement积分，不存在csq
+        return 'other';
     }
 
     protected function comment($history)
