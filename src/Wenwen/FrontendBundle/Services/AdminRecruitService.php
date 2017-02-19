@@ -40,7 +40,7 @@ class AdminRecruitService
         }
 
         if(empty($from)){
-            $from = (new \DateTime())->sub(new \DateInterval('P30D'))->setTime(0,0,0); 
+            $from = (new \DateTime())->sub(new \DateInterval('P90D'))->setTime(0,0,0); 
         }
         if(empty($to)){
             $to = (new \DateTime())->setTime(0,0,0);
