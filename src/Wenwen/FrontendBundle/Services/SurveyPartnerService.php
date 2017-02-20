@@ -955,7 +955,7 @@ class SurveyPartnerService
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_BIG,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 
@@ -977,7 +977,7 @@ class SurveyPartnerService
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_SMALL,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 
@@ -999,7 +999,7 @@ class SurveyPartnerService
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_SMALL,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 
