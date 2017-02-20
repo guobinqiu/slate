@@ -190,4 +190,4 @@ snc_redis:
             dsn: redis://localhost/1
     session:
         client: session
-        ttl: 86400
+        ttl: 1200
