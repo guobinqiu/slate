@@ -2,8 +2,13 @@ _homepage:
     path: /
     defaults: { _controller: WenwenFrontendBundle:Home:index }
     schemes:  [http]
-    options:
-        expose: true
+    methods:  [GET]
+
+surveylist:
+    path: /surveylist
+    defaults: { _controller: WenwenFrontendBundle:Home:surveyList }
+    schemes:  [http]
+    methods:  [GET]
 
 # offerwow 的数据回传接口
 api_offerwow_getinfo:

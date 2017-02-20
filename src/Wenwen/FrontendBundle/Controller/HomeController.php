@@ -36,6 +36,30 @@ class HomeController extends BaseController
             return $this->redirect($url);
         }
 
+        $htmlSurveyList = $this->getHtmlSurveyList($request, $userId);
+
+        $this->checkoutSurveyList($userId);
+
+        return $this->render('WenwenFrontendBundle:Home:home.html.twig', array(
+            'html_survey_list' => $htmlSurveyList,
+        ));
+    }
+
+    public function surveyListAction(Request $request)
+    {
+        if (!$this->isUserLoggedIn()) {
+            return $this->redirect($this->generateUrl('_user_login'));
+        }
+
+        $htmlSurveyList = $this->getHtmlSurveyList($request, $this->getCurrentUserId());
+
+        return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array(
+            'html_survey_list' => $htmlSurveyList,
+        ));
+    }
+
+    private function getHtmlSurveyList(Request $request, $userId)
+    {
         // 根据Ip获取该用户的地区信息
         $locationInfo = $this->getLocationInfoByClientIp($request);
 
@@ -48,12 +72,7 @@ class HomeController extends BaseController
             $surveyService->setDummy(true);
         }
         $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo);
-
-        $this->checkoutSurveyList($userId);
-
-        return $this->render('WenwenFrontendBundle:Home:home.html.twig', array(
-            'html_survey_list' => $htmlSurveyList,
-        ));
+        return $htmlSurveyList;
     }
 
     private function checkoutSurveyList($userId)
