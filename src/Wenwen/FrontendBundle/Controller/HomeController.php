@@ -28,7 +28,7 @@ class HomeController extends BaseController
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');
         }
 
-        $user_id = $request->getSession()->get('uid');
+        $userId = $request->getSession()->get('uid');
 
         if ($session->has('referer')) {
             $url = $session->get('referer');
@@ -47,12 +47,12 @@ class HomeController extends BaseController
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $html_survey_list = $surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
+        $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo);
 
-        $this->checkoutSurveyList($user_id);
+        $this->checkoutSurveyList($userId);
 
         return $this->render('WenwenFrontendBundle:Home:home.html.twig', array(
-            'html_survey_list' => $html_survey_list,
+            'html_survey_list' => $htmlSurveyList,
         ));
     }
 
