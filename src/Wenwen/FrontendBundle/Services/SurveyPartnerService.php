@@ -77,6 +77,10 @@ class SurveyPartnerService
             $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                 array(
                     'status' => SurveyPartner::STATUS_OPEN,
+                    )
+                ,array('type' => 'DESC',
+                    'ir' => 'ASC',
+                    'loi' => 'DESC'
                     ));
             // 循环检查每个项目，不符合参与条件或者已经参与过的话就继续处理下一个项目
             $this->logger->info(__METHOD__ . ' START of processing surveyPartners userId=' . $user->getId());
