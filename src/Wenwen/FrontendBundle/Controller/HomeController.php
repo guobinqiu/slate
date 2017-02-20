@@ -38,7 +38,7 @@ class HomeController extends BaseController
 
         $htmlSurveyList = $this->getHtmlSurveyList($request, $userId);
 
-        $this->checkoutSurveyList($userId);
+        //$this->checkoutSurveyList($userId);
 
         return $this->render('WenwenFrontendBundle:Home:home.html.twig', array(
             'html_survey_list' => $htmlSurveyList,
@@ -75,34 +75,34 @@ class HomeController extends BaseController
         return $htmlSurveyList;
     }
 
-    private function checkoutSurveyList($userId)
-    {
-        $timeslot = SurveyListJob::getTimeslot(time());
-        $min = new \DateTime($timeslot['min']);
-        $max = new \DateTime($timeslot['max']);
-        $em = $this->getDoctrine()->getManager();
-        $surveyListJob = $em->getRepository('WenwenFrontendBundle:SurveyListJob')->getSurveyListJob($userId, $min, $max);
-        if ($surveyListJob == null) {
-            $surveyListJob = new SurveyListJob($userId);
-            $em->persist($surveyListJob);
-            $em->flush();
-
-            //gmo
-            $surveyGmoService = $this->get('app.survey_gmo_service');
-            $researches = $surveyGmoService->getSurveyList($userId);
-            foreach ($researches as $research) {
-                $survey = $surveyGmoService->createOrUpdateSurvey($research);
-                $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
-            }
-
-            //sop
-            $args = array(
-                '--user_id=' . $userId,
-            );
-            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
-            $job->setMaxRetries(3);
-            $em->persist($job);
-            $em->flush();
-        }
-    }
+//    private function checkoutSurveyList($userId)
+//    {
+//        $timeslot = SurveyListJob::getTimeslot(time());
+//        $min = new \DateTime($timeslot['min']);
+//        $max = new \DateTime($timeslot['max']);
+//        $em = $this->getDoctrine()->getManager();
+//        $surveyListJob = $em->getRepository('WenwenFrontendBundle:SurveyListJob')->getSurveyListJob($userId, $min, $max);
+//        if ($surveyListJob == null) {
+//            $surveyListJob = new SurveyListJob($userId);
+//            $em->persist($surveyListJob);
+//            $em->flush();
+//
+//            //gmo
+//            $surveyGmoService = $this->get('app.survey_gmo_service');
+//            $researches = $surveyGmoService->getSurveyList($userId);
+//            foreach ($researches as $research) {
+//                $survey = $surveyGmoService->createOrUpdateSurvey($research);
+//                $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+//            }
+//
+//            //sop
+//            $args = array(
+//                '--user_id=' . $userId,
+//            );
+//            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
+//            $job->setMaxRetries(3);
+//            $em->persist($job);
+//            $em->flush();
+//        }
+//    }
 }

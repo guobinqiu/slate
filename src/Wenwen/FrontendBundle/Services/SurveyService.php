@@ -10,6 +10,7 @@ use SOPx\Auth\V1_1\Util;
 use Symfony\Component\Templating\EngineInterface;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 
 /**
@@ -610,6 +611,9 @@ class SurveyService
         try {
             $researches = $this->surveyGmoService->getSurveyList($user_id);
             foreach ($researches as $research) {
+                $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
+                $this->surveyGmoService->createParticipationByUserId($user_id, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+
                 $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
                 if ($research['point_min'] < $research['point']) {
                     $research['point_range'] = $research['point_min'] . '-' . $research['point'];
