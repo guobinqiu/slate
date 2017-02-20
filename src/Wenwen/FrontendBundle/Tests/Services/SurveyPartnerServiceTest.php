@@ -2128,7 +2128,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyId = '1005';
         $partnerName = 'triples';
         $answerStatus = 'complete';
-        $key = 'XKDGR';
+        $key = 'surveyPartner商业问卷';
         $title = '测试用问卷标题5';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
         $loi = 10;
@@ -2492,7 +2492,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $partnerName = 'triples';
         $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId ='1003';
-        $key = 'XHDFDF';
+        $key = 'surveyPartner商业问卷';
         $title = '测试用问卷标题2';
         $content = '测试用问卷说明2';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
