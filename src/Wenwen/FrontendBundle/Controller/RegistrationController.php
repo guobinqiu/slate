@@ -166,7 +166,7 @@ class RegistrationController extends BaseController
             User::POINT_INVITE_SIGNUP,
             CategoryType::EVENT_INVITE_SIGNUP,
             TaskType::RENTENTION,
-            '您的好友' . $user->getNick(). '完成了注册',
+            '完成好友邀请',
             null,
             new \DateTime(),
             true,
