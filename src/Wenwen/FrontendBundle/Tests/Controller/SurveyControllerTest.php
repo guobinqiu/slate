@@ -77,7 +77,8 @@ class SurveyControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_survey_top');
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        // redirect to _homepage
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
 //        $this->assertCount(1, $crawler->filter('#sop_api_url'));
 //        $this->assertCount(1, $crawler->filter('#sop_point'));
 //        $this->assertCount(1, $crawler->filter('#sop_app_id'));
