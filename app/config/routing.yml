@@ -4,7 +4,7 @@ _homepage:
     schemes:  [http]
     methods:  [GET]
 
-surveylist:
+_surveylist:
     path: /surveylist
     defaults: { _controller: WenwenFrontendBundle:Home:surveyList }
     schemes:  [http]

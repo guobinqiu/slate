@@ -72,7 +72,7 @@
 			setInterval(requestSurveyList, 14 * 60 * 1000); //soptoken15分钟过期，我14分钟刷新一次
 
 			function requestSurveyList() {
-				$.get("{{ path('surveylist') }}", function(data){
+				$.get("{{ path('_surveylist') }}", function(data){
 					//console.log(data);
 					$('#surveylist').html(data);
 				});
