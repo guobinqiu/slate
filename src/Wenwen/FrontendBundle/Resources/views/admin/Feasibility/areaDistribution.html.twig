@@ -4,44 +4,17 @@
 
     <h1>地区分布</h1>
 
-    <h4>MAU</h4>
-    <table class="table table-bordered table-condensed">
-        <thead>
-        <tr class="active">
-            <th>areaName</th>
-            <th>gender</th>
-            <th>cnt</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in distributionMau %}
-            <tr>
-                <td>{{ item.areaName }}</td>
-                <td>{{ item.gender }}</td>
-                <td>{{ item.cnt }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <h4>6AU</h4>
-    <table class="table table-bordered table-condensed">
-        <thead>
-        <tr class="active">
-            <th>areaName</th>
-            <th>gender</th>
-            <th>cnt</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in distribution6au %}
-            <tr>
-                <td>{{ item.areaName }}</td>
-                <td>{{ item.gender }}</td>
-                <td>{{ item.cnt }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart2" width="400" height="400"></canvas>    
+    
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="{{ asset('js/lib/Chart.bundle.js') }}"></script>
+    <script src="{{ asset('js/lib/utils.js') }}"></script>
+    <!--[if lte IE 8]>
+        <script src="{{ asset('js/lib/excanvas.js') }}"></script>
+    <![endif]-->
+    <script src="{{ asset('js/pages/barGraph.js') }}"></script>
 {% endblock %}

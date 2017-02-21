@@ -20,6 +20,14 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
      */
     public function showAreaDistributionAction()
     {
+        return $this->render('WenwenFrontendBundle:admin:Feasibility/areaDistribution.html.twig');
+    }
+
+    /**
+     * @Route("/area/distribution/data", name="admin_feasibility_area_distribution_data", options={"expose"=true})
+     */
+    public function getAreaDistributionAction()
+    {
         $sql = "
             (
             select cl.cityName as areaName, up.sex as gender, count(up.id) as cnt
@@ -73,9 +81,7 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
         $distribution6au = $result;
 
 
-
-        return $this->render('WenwenFrontendBundle:admin:Feasibility/areaDistribution.html.twig', array('distributionMau' => $distributionMau, 'distribution6au' => $distribution6au));
+        return new Response(json_encode(array('distributionMau' => $distributionMau, 'distribution6au' => $distribution6au)));
     }
-
 
 }
