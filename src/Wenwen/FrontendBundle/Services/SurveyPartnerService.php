@@ -932,6 +932,8 @@ class SurveyPartnerService
         } else {
             // cost 类型的问卷
             if($answerStatus == SurveyStatus::STATUS_COMPLETE){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
 
                 // 给用户加积分
                 $this->pointService->addPoints(
@@ -965,6 +967,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -973,6 +978,7 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
@@ -987,6 +993,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -995,6 +1004,7 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,

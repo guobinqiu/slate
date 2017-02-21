@@ -50,6 +50,16 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         return TaskType::RENTENTION;
     }
 
+    protected function answerStatus($history){
+        // agreement积分，不存在csq
+        return 'other';
+    }
+
+    protected function approvalStatus($history){
+        // agreement积分，不存在csq
+        return 'other';
+    }
+
     protected function comment($history)
     {
         return $this->comment;

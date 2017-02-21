@@ -43,6 +43,14 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
         return TaskType::SURVEY;
     }
 
+    protected function answerStatus($history){
+        return strtolower($history['answer_status']);
+    }
+
+    protected function approvalStatus($history){
+        return strtolower($history['approval_status']);
+    }
+
     protected function comment($history)
     {
         // title is saved in extra_info.title for old history

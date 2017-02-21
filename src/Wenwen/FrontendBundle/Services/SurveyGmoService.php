@@ -152,6 +152,9 @@ class SurveyGmoService
             $conn->beginTransaction();
             try {
                 $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                // 记录csq
+                    $user->updateCSQ($answerStatus);
+
                 $this->pointService->addPoints(
                     $user,
                     $points,

@@ -75,6 +75,10 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 20001, 'init');
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 20001, 'forward');
 
+        $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 30001, 'targeted');
+        $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 30001, 'init');
+        $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 30001, 'forward');
+
         // data
         $header = array (
             'response_id',
@@ -99,7 +103,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             $app_mid,
             '10001',
             '10002',
-            'This is a title1',
+            'This is a title1, type cost',
             '10',
             '',
             '1.500',
@@ -115,7 +119,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             $app_mid,
             '20001',
             '20002',
-            'This is a title2',
+            'This is a title2, type expense',
             '11',
             '',
             '1.600',
@@ -124,15 +128,32 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             '2015-02-14 06:00:06',
             '{"point":"100","point_type":"61"}'
         );
+        $rec3 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid,
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '11',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"11"}'
+        );
         $footer = array (
             'EOF',
-            'Total 2 Records'
+            'Total 3 Records'
         );
         $response = new \stdClass();
         $response->body = array (
             $header,
             $rec1,
             $rec2,
+            $rec3,
             $footer
         );
 
@@ -181,11 +202,11 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $task[0]->getPoint());
-        $this->assertEquals('r10001 This is a title1', $task[0]->getTaskName());
+        $this->assertEquals('r10001 This is a title1, type cost', $task[0]->getTaskName());
         $this->assertEquals(CategoryType::SOP_COST, $task[0]->getCategoryType());
 
         $this->assertEquals(100, $task[1]->getPoint());
-        $this->assertEquals('r20001 This is a title2', $task[1]->getTaskName());
+        $this->assertEquals('r20001 This is a title2, type expense', $task[1]->getTaskName());
         $this->assertEquals(CategoryType::SOP_EXPENSE, $task[1]->getCategoryType());
 
         $point = $em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findByUserId($user_id);
@@ -195,12 +216,13 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $this->assertEquals(CategoryType::SOP_EXPENSE, $point[1]->getReason());
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-        $this->assertEquals(330, $user->getPoints());
+        $this->assertEquals(630, $user->getPoints());
+        echo PHP_EOL . 'c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN();
 
         $stmt = $em->getConnection()->prepare('select * from survey_sop_participation_history ');
         $stmt->execute();
         $history_list = $stmt->fetchAll();
-        $this->assertCount(8, $history_list);
+        $this->assertCount(12, $history_list);
     }
 }
 

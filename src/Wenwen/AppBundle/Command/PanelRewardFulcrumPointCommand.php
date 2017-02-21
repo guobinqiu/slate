@@ -46,6 +46,21 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return TaskType::SURVEY;
     }
 
+    protected function answerStatus($history){
+        $status = strtolower($history['answer_status']);
+        // 20170221 暂时没有办法，fulcrum不管用户是complete还是screenout，都tmd返回一个complete
+        // 暂时只能按照获得积分数来区分一下，因为目前的complete积分最低也就200分（s/q 是20分）
+        // 所以认为低于50分就是screenout
+        if($this->point($history) <= 50){
+            $status = SurveyStatus::STATUS_SCREENOUT;
+        }
+        return $status;
+    }
+
+    protected function approvalStatus($history){
+        return strtolower($history['approval_status']);
+    }
+
     protected function comment($history)
     {
         // title is saved in extra_info.title for old history
@@ -67,13 +82,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if ($history['answer_status'] != 'COMPLETE') {
-            // 20160718
-            // 状态不为 COMPLETE的不处理
-            // 老实说，这样做很不干净
-            // 状态不为 COMPLETE的不发积分，但是记录得要啊
-            return true;
-        }
         if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
             return true;
         }
@@ -108,7 +116,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return $this->getContainer()->get('app.survey_fulcrum_service')->createParticipationByAppMid(
             $history['app_mid'],
             $history['survey_id'],
-            $history['answer_status']
+            $this->answerStatus($history)
         );
     }
 

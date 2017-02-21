@@ -7,6 +7,10 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\SurveySop;
+use Jili\ApiBundle\Entity\SopRespondent;
 
 class SurveySopServiceTest extends WebTestCase
 {
@@ -101,5 +105,63 @@ class SurveySopServiceTest extends WebTestCase
         $this->surveySopService->createOrUpdateSurvey($surveyData); //do nothing
         $surveys = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findBy(array('surveyId' => 8006));
         $this->assertCount(1, $surveys);
+    }
+
+    public function testProcessSurveyEndlink_OK(){
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate((new \DateTime())->add(new \DateInterval('P01D')));
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $userId = $user->getId();
+        $completeNBefore = $user->getCompleteN();
+        $pointBefore = $user->getPoints();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($userId);
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $appMid = $sopRespondent->getId();
+
+        $surveyId = 20131;
+
+        $surveySop = new SurveySop();
+        $surveySop->setSurveyId($surveyId);
+        $surveySop->setQuotaId(32423);
+        $surveySop->setLoi(10);
+        $surveySop->setIr(20);
+        $surveySop->setTitle('test title');
+        $surveySop->setCompletePoint(300);
+        $surveySop->setScreenoutPoint(20);
+        $surveySop->setQuotafullPoint(20);
+        $this->em->persist($surveySop);
+        $this->em->flush();
+
+
+        $answerStatus = SurveyStatus::STATUS_COMPLETE;
+        $clientIp = 'xx.xx.xx.xx';
+
+        $tid = $this->surveySopService->createSurveyToken($surveyId, $userId);
+
+        echo PHP_EOL;
+        echo 'tid=' . $tid . PHP_EOL;
+
+
+        $point = $this->surveySopService->processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp);
+
+        echo 'point=' . $point . PHP_EOL;
+
+        $userAfter = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+
+        $this->assertEquals( $pointBefore + 300, $userAfter->getPoints(), 'Points should +300.');
+        $this->assertEquals( $completeNBefore + 1, $userAfter->getCompleteN(), 'CompleteN should +1');
+
     }
 }

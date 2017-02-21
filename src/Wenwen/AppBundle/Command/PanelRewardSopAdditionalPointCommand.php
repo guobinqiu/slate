@@ -55,6 +55,16 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         }
     }
 
+    protected function answerStatus($history){
+        // 追加积分，不存在csq
+        return 'other';
+    }
+
+    protected function approvalStatus($history){
+        // 追加积分，不存在csq
+        return 'other';
+    }
+
     protected function comment($history)
     {
         $title = $history['title'];
