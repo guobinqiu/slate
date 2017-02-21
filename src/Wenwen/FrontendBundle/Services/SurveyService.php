@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use JMS\JobQueueBundle\Entity\Job;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
@@ -532,6 +533,16 @@ class SurveyService
             if ($sop['meta']['code'] != 200) {
                 $sop = null;
             }
+
+            //异步更新sop本地备案信息
+            $args = array(
+                '--user_id=' . $user_id,
+            );
+            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
+            $job->setMaxRetries(3);
+            $this->em->persist($job);
+            $this->em->flush();
+
         }  catch(\Exception $e) {
             $this->logger->error('sop_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
@@ -611,6 +622,7 @@ class SurveyService
         try {
             $researches = $this->surveyGmoService->getSurveyList($user_id);
             foreach ($researches as $research) {
+                //同步更新gmo本地备案信息
                 $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
                 $this->surveyGmoService->createParticipationByUserId($user_id, $survey->getId(), SurveyStatus::STATUS_TARGETED);
 
