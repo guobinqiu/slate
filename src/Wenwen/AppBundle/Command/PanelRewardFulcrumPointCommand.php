@@ -116,7 +116,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return $this->getContainer()->get('app.survey_fulcrum_service')->createParticipationByAppMid(
             $history['app_mid'],
             $history['survey_id'],
-            $history['answer_status']
+            $this->answerStatus($history)
         );
     }
 
