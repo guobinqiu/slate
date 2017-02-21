@@ -197,6 +197,9 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $this->assertEquals(330, $user->getPoints());
+        $this->assertEquals(1, $user->getCompleteN());
+        $this->assertEquals(1, $user->getScreenoutN());
+        $this->assertEquals(0, $user->getQuotafullN());
 
         $stmt = $em->getConnection()->prepare('select * from survey_cint_participation_history ');
         $stmt->execute();
