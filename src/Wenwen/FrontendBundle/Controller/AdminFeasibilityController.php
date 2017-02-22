@@ -20,29 +20,21 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
      */
     public function showAreaDistributionAction()
     {
-        return $this->render('WenwenFrontendBundle:admin:Feasibility/areaDistribution.html.twig');
-    }
-
-    /**
-     * @Route("/area/distribution/data", name="admin_feasibility_area_distribution_data", options={"expose"=true})
-     */
-    public function getAreaDistributionAction()
-    {
         $sql = "
             (
             select cl.cityName as areaName, up.sex as gender, count(up.id) as cnt
-            from user_profile up 
-            join user u on (up.user_id = u.id) 
-            join cityList cl on (up.city = cl.id) 
+            from user_profile up
+            join user u on (up.user_id = u.id)
+            join cityList cl on (up.city = cl.id)
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 1 and cl.provinceId = 1
             group by cl.cityName, up.sex order by cl.id
             )
-            union
+            union all
             (
             select pl.provinceName as areaName, up.sex as gender, count(up.id) as cnt
-            from user_profile up 
-            join user u on (up.user_id = u.id) 
-            join provinceList pl on (up.province = pl.id) 
+            from user_profile up
+            join user u on (up.user_id = u.id)
+            join provinceList pl on (up.province = pl.id)
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 1 and up.province <> 1
             group by pl.provinceName, up.sex order by pl.id
             )
@@ -50,25 +42,23 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
 
         $em = $this->getDoctrine()->getManager();
         $stmt = $em->getConnection()->executeQuery($sql);
-        $result = $stmt->fetchAll();
-
-        $distributionMau = $result;
+        $distributionMau = $stmt->fetchAll();
 
         $sql = "
             (
             select cl.cityName as areaName, up.sex as gender, count(up.id) as cnt
-            from user_profile up 
-            join user u on (up.user_id = u.id) 
-            join cityList cl on (up.city = cl.id) 
+            from user_profile up
+            join user u on (up.user_id = u.id)
+            join cityList cl on (up.city = cl.id)
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 6 and cl.provinceId = 1
             group by cl.cityName, up.sex order by cl.id
             )
-            union
+            union all
             (
             select pl.provinceName as areaName, up.sex as gender, count(up.id) as cnt
-            from user_profile up 
-            join user u on (up.user_id = u.id) 
-            join provinceList pl on (up.province = pl.id) 
+            from user_profile up
+            join user u on (up.user_id = u.id)
+            join provinceList pl on (up.province = pl.id)
             where TIMESTAMPDIFF(MONTH, u.last_get_points_at, NOW()) <= 6 and up.province <> 1
             group by pl.provinceName, up.sex order by pl.id
             )
@@ -76,12 +66,13 @@ class AdminFeasibilityController extends BaseController #implements IpAuthentica
 
         $em = $this->getDoctrine()->getManager();
         $stmt = $em->getConnection()->executeQuery($sql);
-        $result = $stmt->fetchAll();
+        $distribution6au = $stmt->fetchAll();
 
-        $distribution6au = $result;
+        $data = json_encode(array(
+            'distributionMau' => $distributionMau,
+            'distribution6au' => $distribution6au,
+        ));
 
-
-        return new Response(json_encode(array('distributionMau' => $distributionMau, 'distribution6au' => $distribution6au)));
+        return $this->render('WenwenFrontendBundle:admin:Feasibility/areaDistribution.html.twig', array('data' => $data));
     }
-
 }
