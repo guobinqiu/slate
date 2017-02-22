@@ -211,7 +211,7 @@ sub sum_register_expense_points {
                 sum(p.point_change_num)
             FROM point_history0${counter} p 
             WHERE 
-                p.reason = 32
+                p.reason = 300
                 AND p.create_time >= ?
                 AND p.create_time < ?
         ";
