@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+@import "global";
+$footer-con-font-color: #535353;
+$footer-copyright-font-color: #989898;
+
+.footer{
+	padding: 20px 0;
+	line-height: 24px;
+	color: $footer-con-font-color;
+	.copyright{
+		text-align: center;
+		p{
+			line-height: 30px;
+			color: $footer-copyright-font-color;
+		}
+	}
+}

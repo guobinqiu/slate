@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+
+.main-personal-left{
+	h1{
+		height: 55px;
+		line-height: 55px;
+		white-space: nowrap;
+		color: #778087;
+	}
+	i{
+		width: 18px;
+	    height: 18px;
+		margin-right: 10px;
+		@include dib();
+		vertical-align: middle;
+		font-size: 18px;
+	}
+	li{
+		height: 35px;
+		line-height: 35px;
+		font-size: 14px;
+		white-space: nowrap;
+		float: left;
+		margin-right: 20px;
+		margin-top: 8px;
+		a{
+			color: #85888A;
+		}
+		&.active, &:hover{
+			a{
+				color: $orange-color;
+			}
+		}
+	}
+}
+.main-personal-right{
+	@include minHeight(600px);
+	background: $block-bg-color;
+	border: $block-border;
+	margin-top: 67px;
+	h2{
+		margin-top: 36px;
+		padding-left: 38px;
+		margin-bottom: 10px;
+		font-size: 30px;
+		color: $main-title-color2;
+		&>div{
+			float: right;
+			padding-right: 30px;
+			label{
+				font-size: 12px;
+				color: #333;
+				@include dib();
+			}
+		}
+	}
+	.page-wrapper {
+		padding: 30px 0;
+	  	text-align: right;
+	}
+}
+@media only screen and (max-width: 767px)  {
+	.mainWrap{
+		margin-top: -16px;
+	}
+	.main-personal-left{
+		ul{
+			width: 100%;
+			overflow-x: scroll;
+			.row{
+				width: 210%;
+				margin: 0;
+			}
+		}
+		li{
+			width: 17%;
+			margin-top: 0;
+			margin-right: 0;	
+		}
+	} 
+	.main-personal-right{
+		margin-top: 36px;
+	}
+	.main-personal-profile{
+		.profile-base{
+			.face{
+				text-align: center;
+			}
+			ul{
+				text-align: center;
+			}
+		}
+	}  
+}

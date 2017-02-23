@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+@import "font-awesome/scss/font-awesome";
+html{
+	font-size: 20px;
+}
+body{ 
+	font-family: "Microsoft YaHei", Tohoma, Arial;
+	background: #e9eded;
+	color: #434546;
+}
+a{
+    color: #404040;
+    background: transparent;
+    text-decoration: none;
+}
+.clearfix {
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.freeSurWrap{
+	width: 900px;
+	margin: 0 auto;
+	background: #fff;
+	-moz-box-shadow:3px 5px 5px rgba(225,229,229,1); 
+	-webkit-box-shadow:3px 5px 5px rgba(225,229,229,1); 
+	box-shadow:3px 5px 5px rgba(225,229,229,1);
+	.statusCon{
+		padding: 65px 80px;
+		line-height: 32px;
+		text-align: center;
+		i{
+			font-size: 6rem;
+			color: #D9E1E2;
+			&.successIcon{
+				*width: 129px;
+				*height: 130px;
+				*background: url(../../../img/common/successGray.gif) no-repeat;
+			}
+			&.failIcon{
+				*width: 129px;
+				*height: 130px;
+				*background: url(../../../img/common/failGray.gif) no-repeat;
+			}
+		}
+		div{
+		    margin: 25px 0;
+		    color: #5D6263;
+		    font-size: 1rem;
+		    line-height: 64px;
+		    padding: 0 130px;
+		}
+	}
+	.recommend{
+		height: 80px;
+		background: #ebf1f2;
+		padding: 32px 80px 45px;
+		.txt{
+			text-align: left;
+		    float: left;
+		    p{
+		    	color: #5d6263;
+		    }
+			.l1{
+				font-size: 24px;
+				margin-bottom: 15px;
+				line-height: 25px;
+				margin-top: 8px; 
+			}
+			.l2{
+				font-size: 14px;
+			}
+		}
+		.btn{
+			padding: 21px 30px 21px 36px;
+			background: #0da383;
+			float: right;
+			color: #fff;
+			display: inline-block;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			position: relative;
+			.bWrap{
+				color: #fff;
+				font-size: 0.9rem;
+				span.text{
+					padding-right: 25px;
+				}
+				.bounce {
+					-webkit-animation-name: bounce;
+					-moz-animation-name: bounce;
+					-o-animation-name: bounce;
+					animation-name: bounce;
+				}
+				.animated{
+					-webkit-animation-fill-mode:both;
+					-moz-animation-fill-mode:both;
+					-ms-animation-fill-mode:both;
+					-o-animation-fill-mode:both;
+					animation-iteration-count: infinite;
+					-moz-animation-iteration-count: infinite;
+					-webkit-animation-iteration-count: infinite;
+					animation-fill-mode:both;
+					-webkit-animation-duration:2s;
+					-moz-animation-duration:2s;
+					-ms-animation-duration:2s;
+					-o-animation-duration:2s;
+					animation-duration:2s;
+				}
+				@-webkit-keyframes bounce {
+					0%, 20%, 50%, 80%, 100% {-webkit-transform: translateX(0);}	40% {-webkit-transform: translateX(-14px);}
+					60% {-webkit-transform: translateX(-5px);}
+				}
+				@-moz-keyframes bounce {
+					0%, 20%, 50%, 80%, 100% {-moz-transform: translateX(0);}
+					40% {-moz-transform: translateX(-14px);}
+					60% {-moz-transform: translateX(-5px);}
+				}
+				@-o-keyframes bounce {
+					0%, 20%, 50%, 80%, 100% {-o-transform: translateX(0);}
+					40% {-o-transform: translateX(-14px);}
+					60% {-o-transform: translateX(-5px);}
+				}
+				@keyframes bounce {
+					0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
+					40% {transform: translateX(-14px);}
+					60% {transform: translateX(-5px);}
+				}
+			}
+		}
+	}  
+}
+@media only screen and (max-device-width: 667px) {
+	.freeSurWrap{
+		width: 100%;
+		.statusCon{ 
+			i{
+				font-size: 16rem;
+			}
+			div{
+				font-size: 2rem;
+			}	
+		}
+	}
+	.freeSurWrap{
+		.recommend{
+			.btn{
+				.bWrap{
+					font-size: 2rem;
+				}
+			}
+			.txt{
+				.l1{
+					font-size: 1.6rem;
+					margin-top: 18px;
+				}
+				.l2{
+					font-size: 0.9rem;
+				}
+			}
+		}
+	}   
+}

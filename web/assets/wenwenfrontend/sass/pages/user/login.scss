@@ -1,0 +1,315 @@
+@charset "UTF-8";
+
+@import "layout/global";
+@import "layout/common";
+@import "component/form";
+@import "component/quickLog";
+@import "index"; 
+.pp-section{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: table;
+	.section{
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+.login-wrapper{ 
+	position: absolute;
+	z-index: 1000;
+	right: -61px;
+	top: 100px;
+	background: url(../img/home/loginBg.png) no-repeat center bottom;
+	padding: 0 70px 5px;
+}
+.login{
+	color: #757982;
+	opacity: 0;
+	@include animation2(.5s, 1s, fadeInUp);
+	form{
+	    width: 285px;
+	    margin: 0 auto;
+	    ul{
+	    	background: #fff;
+	    }
+	}
+	.error{
+		ul{
+			text-align: left;
+			li{
+				height: 30px;
+				color: #a94442;
+				background-color: #f2dede;
+				border: 1px solid #ebccd1;
+				line-height: 30px;
+				margin: 9px 2px 10px 13px;
+				padding: 0 5px;
+				display: inline-block;
+				@include border-radius(3px);
+			}
+		}
+	}
+	.errorReg{
+		position: absolute;
+		right: 6px;
+		top: -2px;
+		ul{
+			background: none;
+		}
+	}
+	.errorLogBack{
+		ul{
+			background: none;
+			li{
+				width: 100%;
+				text-align: center;
+				height: 36px;
+				line-height: 36px;
+				margin: 0;
+				padding: 0;
+				border: none;
+				border-radius: 0px;
+			}
+		}
+	}
+	.login-btn{
+		width: 100%;
+		line-height: 40px;
+		margin-top: 15px;
+		background: #17b5e5;
+		border: none;
+		color: #fff;
+		font-size: 20px;
+		font-family: "微软雅黑";
+		@include btn();
+		background: #17b5e5;
+		border: 1px solid #17b5e5;
+		*border: none;
+		-webkit-appearance: none;
+		&:hover{
+			background: #11aad9;
+			border: 1px solid #11aad9;
+			*border: none;
+		}
+	}
+	h2{
+		height: 64px;
+		line-height: 64px;
+		color: #fff;
+		font-size: 24px;
+		background: #313035;
+		padding: 0 38px;
+	}
+	li{
+		position: relative;
+		z-index: 2;
+		margin-bottom: 0;
+		&.liner{
+			border-bottom: 1px solid #e3e3e3;	
+		}
+		input[type="text"], input[type="email"], input[type="password"], .regSex{
+			width: 95%;
+			height: 45px; 
+			line-height: 45px; 
+			border: none;
+			font-size: 14px;
+			display: block;
+			text-align: left;
+			padding-left: 5%;
+			&:focus, &.active{
+				border: none;
+				box-shadow: none;
+				outline: none;
+			}
+		}
+	}
+	::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+	    color: #a0a0a0;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	   color: #a0a0a0;
+	   opacity:  1;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	   color: #a0a0a0;
+	   opacity:  1;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	   color: #a0a0a0;
+	}
+
+	p{
+		&.subCon{
+			text-align: center;
+			color: $weak-color;
+			margin: 20px auto 30px;
+			a{
+				&.spec{
+					color: #fff;
+					font-size: 14px;	
+				}
+			}
+		}
+	}	
+}
+.login-btn-others{
+	margin-top: 50px;
+	*text-align: center;
+	opacity: 0;
+	@include animation2(1s, 1s, fadeInUp);
+	a{
+		padding: 14px;
+		cursor: pointer;
+		@include border-radius(50%);
+		@include dib(); 
+		&:hover{
+			@include transition(all, .5s);
+		}
+		i{
+			color: #fff;
+			width: 26px;
+			height: 26px;
+			font-size: 23px;
+			&.fa-weixin{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/weixinIco.png) no-repeat;
+			}
+			&.fa-qq{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/QQIco.png) no-repeat;
+			}
+			&.fa-weibo{
+				*width: 58px;
+				*height: 58px;
+				*background: transparent url(../img/user/weiboIco.png) no-repeat;
+			}
+		}
+		&.weixin-login{
+			background: #7cebd2;
+			*background: none;
+			&:hover{
+				background: #77e0c8;
+				*background: none;
+			}
+		}
+		&.qq-login{
+			background: #6bafe9;
+			*background: none;
+			&:hover{
+				background: #65a4db;
+				*background: none;
+			}
+		}
+		&.weibo-login{
+			background: #f57f87;
+			*background: none;
+			&:hover{
+				background: #ed7b83;
+				*background: none;
+			}
+		}
+	}
+	.othersLine{
+		width: 285px;
+	    height: 31px;
+	    color: #fff;
+	    margin: 0 auto;
+	    position: relative;
+	    font-size: 14px; 
+		&:before, &:after{
+			content: "";
+			position: absolute;
+			width: 36%;
+			height: 1px;
+			background: rgba(255, 255, 255, 0.4);
+			margin-top: 5px;
+		}
+		&:before{
+			left: 0;
+		}
+		&:after{
+			right: 0;
+		}
+	}
+	.othersItem{
+		width: 285px;
+		margin: 0 auto;
+		text-align: center;
+	}
+}	
+.indexOth{
+	width: 285px;
+	margin-top: 50px;
+}
+.loginUq{
+	li{
+		label{
+			width: 65px; 
+			line-height: 45px;
+			vertical-align: middle;
+			position: absolute;
+			z-index: 2;
+			left: 15px;
+			display: block;
+			color: #a0a0a0;
+			font-size: 14px;
+			text-align: left;
+		}
+		.error{
+			position: absolute;
+			top: -2px;
+			right: 5px;
+			ul{
+				background: none;
+			}
+		}
+	} 
+}
+.mask{
+	position: fixed;
+	z-index: 1999;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: #888;
+	background: rgba(0, 0, 0, .7);
+	display: none;
+}
+.quickLogPop{
+	top: 0;
+	left: 50%;
+	margin-left: -203px;
+	z-index: 2000;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 500ms ease 30ms;
+	&.active{
+		top: 35%;
+		opacity: 1;
+		visibility: visible;
+	}
+	&.unActive{
+		top: 0;
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+@media only screen and (max-width: 767px)  {
+	.logo{
+		height: 35px;
+		margin-top: 4px;
+	}
+	.login{
+		form{
+			width: 100%;
+		}
+
+	}
+
+}

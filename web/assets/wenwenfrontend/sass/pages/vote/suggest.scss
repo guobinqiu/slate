@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+@import "layout/common";
+@import "layout/header";
+@import "component/form";
+.main-con-suggest{
+	padding: 20px 60px 50px;
+	border: $block-border;
+	background: $block-bg-color;
+	h1{
+		line-height: 45px;
+		font-size: 16px;
+		font-weight: bold;
+		color: $main-title-color;
+	}
+	p{
+		line-height: 24px;
+		em{
+			padding: 0 5px;
+			color: #b4b4b4;
+		}
+		strong{
+			color: $main-color;
+		}
+	}
+	.form{
+		label{
+			font-weight: bold;
+			margin-right: 10px;
+			line-height: 34px;
+		}
+		input[type="text"]{
+			width: 100%;
+			border-radius: 3px;
+		}
+		textarea{
+			padding: 2px 5px;
+			width: 100%;
+			height: 70px;
+			line-height: 22px;
+			border: 1px solid #e5e5e5;
+			border-radius: 3px;
+			outline: none;
+			&:focus{
+				border: $input-border-focus;
+			}
+			&.input_error{
+				border: 1px solid $error-color;
+			}
+		}
+		.ext{
+			span{
+				margin-left: 10px;
+				padding: 0 5px;
+				border-radius: 3px;
+				line-height: 24px;
+			}
+		}
+		.btn{
+			padding-left: 0;
+			span{
+				width: 110px;
+				line-height: 36px;
+				font-size: 14px;
+				font-weight: bold;
+			}
+		}
+	}
+	.tips{
+		line-height: 24px;
+		padding: 15px 30px 20px;
+		background: #fafafa;
+	}
+}
+@import "layout/footer";
+
+@media only screen and (max-width: 767px) {
+	.main-con-suggest{
+		padding: 0;
+		.form{
+			ul{
+				li{
+					& > div{
+						text-align: left;
+					}
+				}
+			}
+		}
+	} 
+}
