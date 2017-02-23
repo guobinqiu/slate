@@ -55,7 +55,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ JiliFrontendBundle, WenwenFrontendBundle]
     #java: /usr/bin/java
     filters:
         uglifyjs2:

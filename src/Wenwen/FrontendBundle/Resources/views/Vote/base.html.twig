@@ -1,0 +1,19 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="bundles/wenwenfrontend/css/vote.css"
+        "assets/wenwenfrontend/sass/pages/vote/*"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="bundles/wenwenfrontend/js/vote.js"
+        "assets/wenwenfrontend/js/pages/vote/*"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
