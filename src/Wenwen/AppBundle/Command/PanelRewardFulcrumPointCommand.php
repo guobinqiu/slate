@@ -62,12 +62,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function answerStatus($history){
         $status = strtolower($history['answer_status']);
-        // 20170221 暂时没有办法，fulcrum不管用户是complete还是screenout，都tmd返回一个complete
-        // 暂时只能按照获得积分数来区分一下，因为目前的complete积分最低也就200分（s/q 是20分）
-        // 所以认为低于50分就是screenout
-        if($this->point($history) <= 50){
-            $status = SurveyStatus::STATUS_SCREENOUT;
-        }
         return $status;
     }
 
