@@ -31,7 +31,21 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function point($history)
     {
-         return  $history['extra_info']['point'];
+        // Fulcrum 返回的所有状态的积分都是complete时的积分数
+        // 这里根据状态来判断给多少积分
+        $completePoint = $history['extra_info']['point'];
+        $screenoutPoint = 20;
+        $quotafullPoint = 20;
+        $errorPoint = 0;
+        if(SurveyStatus::STATUS_COMPLETE == $this->answerStatus($history)){
+            return  $completePoint;
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $this->answerStatus($history)){
+            return  $screenoutPoint;
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $this->answerStatus($history)){
+            return  $quotafullPoint;
+        } else {
+            return  $errorPoint;
+        }
     }
 
     protected function type($history)
