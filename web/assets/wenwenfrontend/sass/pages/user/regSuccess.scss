@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/header";
+@import "../../layout/common";
+@import "../../layout/header";
 .main{
     margin-top: 20px;
 }
@@ -265,4 +265,4 @@
 		animation-iteration-count: 1;
 	}
 }
-@import "layout/footer";
+@import "../../layout/footer";

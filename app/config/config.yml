@@ -57,6 +57,7 @@ assetic:
     use_controller: false
     bundles:        [ JiliFrontendBundle, WenwenFrontendBundle]
     #java: /usr/bin/java
+    #node: /usr/local/bin/node
     filters:
         uglifyjs2:
             bin: "%kernel.root_dir%/Resources/node_modules/uglify-js/bin/uglifyjs"

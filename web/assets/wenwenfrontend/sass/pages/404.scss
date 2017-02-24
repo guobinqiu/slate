@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/header";
-@import "layout/footer";
+@import "../../layout/common";
+@import "../layout/header";
+@import "../layout/footer";
 body{
 	background: url(../img/common/seamless-noise-bg.png) repeat;
 	background-color:rgba(255, 255, 255, 0.5);

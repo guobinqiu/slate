@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/header";
-@import "component/about";
+@import "../../layout/common";
+@import "../../layout/header";
+@import "../../component/about";
 .newGuide{
 	padding: 10px 5% 20px;
 	background: #fff;
@@ -78,7 +78,7 @@
 		margin-bottom: 20px;
 	}
 }
-@import "layout/footer";
+@import "../../layout/footer";
 
 @media only screen and (max-width: 767px)  {
 	.newGuide.newGuideBox{

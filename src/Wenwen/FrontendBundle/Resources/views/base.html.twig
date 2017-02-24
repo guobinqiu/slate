@@ -16,6 +16,14 @@
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
         {% block global_css %}
+             <!-- global css -->
+            {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="bundles/wenwenfrontend/css/common.css"
+                "assets/wenwenfrontend/sass/layout/*"
+                "assets/wenwenfrontend/sass/component/*"
+                "assets/wenwenfrontend/sass/responsive/*"
+            %}
+                <link href="{{ asset_url }}" rel="stylesheet" />
+            {% endstylesheets %}
              <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
         {% endblock %}
         {% block stylesheet %}{% endblock %}
@@ -29,16 +37,22 @@
             {% block footer %}{% endblock %}
         </div>
         {% block global_js %}
-            <script type="text/javascript" src="{{ asset('js/lib/jquery-1.12.4.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+            <!-- global js -->
+            {% javascripts filter="?uglifyjs2" output="bundles/wenwenfrontend/js/common.js"
+                "assets/wenwenfrontend/js/lib/jquery-1.12.4.min.js"
+                "assets/wenwenfrontend/js/lib/bootstrap.min.js"
+                "assets/wenwenfrontend/js/component/*"
+                "assets/wenwenfrontend/js/plugin/jquery.cookie.js"
+                "assets/wenwenfrontend/js/plugin/client.min.js"
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-            <script type="text/javascript" src="{{ asset('js/component/common.js') }}"></script>
             <!--[if lte IE 9]>
                 <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>
                 <script type="text/javascript" src="{{ asset('js/lib/respond.min.js')}}"></script>
             <![endif]-->
-            <script type="text/javascript" src="{{ asset('js/component/baiduStatistics.js')}}"></script>
         {% endblock %}
         {% block javascript %}
         {% endblock %}

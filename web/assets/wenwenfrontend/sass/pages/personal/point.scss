@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/header";
-@import "component/personal";
+@import "../../layout/common";
+@import "../../layout/header";
+@import "../../component/personal";
 .main-personal-points{
 	padding: 30px 40px;
 	table{
@@ -12,9 +12,9 @@
 		}
 	}
 }
-@import "component/table";
-@import "component/page";
-@import "layout/footer";
+@import "../../component/table";
+@import "../../component/page";
+@import "../../layout/footer";
 
 @media only screen and (max-width: 767px){
 	.main-personal-points {

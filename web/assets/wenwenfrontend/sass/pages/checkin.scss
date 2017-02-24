@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "component/quickLog";
+@import "../layout/common";
+@import "../component/quickLog";
 @import "login";
 body{
 	background: #f7f7f7;

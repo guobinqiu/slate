@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common-simple";
-@import "layout/header-simple";
-@import "component/form";
+@import "../../layout/common-simple";
+@import "../../layout/header-simple";
+@import "../../component/form";
 @import "index";
 @import "login";
 @import "font-awesome/scss/font-awesome";
@@ -422,7 +422,7 @@
 		}
 	}
 }
-@import "layout/footer-simple";
+@import "../../layout/footer-simple";
 
 @media only screen and (max-width: 667px) { 
 	.sectionCon{

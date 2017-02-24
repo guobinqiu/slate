@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/header";
-@import "component/form";
+@import "../../layout/common";
+@import "../../layout/header";
+@import "../../component/form";
 .main-con-exchange{
 	padding: 1rem 2rem;
 	h2{
@@ -234,6 +234,6 @@
 		}
 	}
 }
-@import "layout/footer";
-@import "component/layer";
+@import "../../layout/footer";
+@import "../../component/layer";
 

@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-@import "layout/common";
-@import "layout/common-simple";
-@import "layout/header-simple";
-@import "layout/footer-simple";
-@import "component/form";
+@import "../layout/common";
+@import "../layout/common-simple";
+@import "../layout/header-simple";
+@import "../layout/footer-simple";
+@import "../component/form";
 @import "font-awesome/scss/font-awesome.scss";
 html,body{
 	background: #e9eded;

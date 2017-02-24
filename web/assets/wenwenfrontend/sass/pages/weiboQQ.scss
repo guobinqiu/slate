@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
-@import "layout/common-simple";
-@import "layout/header-simple";
-@import "component/form";
+@import "../layout/common-simple";
+@import "../layout/header-simple";
+@import "../component/form";
 .main-register{
 	position: relative;
 	z-index: 1;
@@ -143,4 +143,4 @@
 	}
 }
 /* 微博/QQ快捷登录错误返回页面 End*/
-@import "layout/footer-simple";
+@import "../layout/footer-simple";
