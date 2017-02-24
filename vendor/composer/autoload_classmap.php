@@ -930,4 +930,11 @@ return array(
     'Zend_Sniffs_Debug_CodeAnalyzerSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/Debug/CodeAnalyzerSniff.php',
     'Zend_Sniffs_Files_ClosingTagSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/Files/ClosingTagSniff.php',
     'Zend_Sniffs_NamingConventions_ValidVariableNameSniff' => $vendorDir . '/squizlabs/php_codesniffer/CodeSniffer/Standards/Zend/Sniffs/NamingConventions/ValidVariableNameSniff.php',
+    'scss_formatter' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scss_formatter_compressed' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scss_formatter_crunched' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scss_formatter_nested' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scss_parser' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scss_server' => $vendorDir . '/leafo/scssphp/classmap.php',
+    'scssc' => $vendorDir . '/leafo/scssphp/classmap.php',
 );

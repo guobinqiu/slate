@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * Crunched formatter
+ * SCSS crunched formatter
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
@@ -33,7 +33,18 @@ class Crunched extends Formatter
         $this->close = '}';
         $this->tagSeparator = ',';
         $this->assignSeparator = ':';
-        $this->keepSemicolons = false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function stripSemicolon(&$lines)
+    {
+        if (($count = count($lines))
+            && substr($lines[$count - 1], -1) === ';'
+        ) {
+            $lines[$count - 1] = substr($lines[$count - 1], 0, -1);
+        }
     }
 
     /**

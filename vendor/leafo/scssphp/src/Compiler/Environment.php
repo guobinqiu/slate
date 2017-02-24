@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -11,8 +11,10 @@
 
 namespace Leafo\ScssPhp\Compiler;
 
+use Leafo\ScssPhp\Block;
+
 /**
- * Compiler environment
+ * SCSS compiler environment
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */

@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -11,12 +11,11 @@
 
 namespace Leafo\ScssPhp\Node;
 
-use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Node;
 use Leafo\ScssPhp\Type;
 
 /**
- * Dimension + optional units
+ * SCSS dimension + optional units
  *
  * {@internal
  *     This is a work-in-progress.
@@ -38,8 +37,8 @@ class Number extends Node implements \ArrayAccess
      *
      * @var array
      */
-    static protected $unitTable = [
-        'in' => [
+    static protected $unitTable = array(
+        'in' => array(
             'in' => 1,
             'pc' => 6,
             'pt' => 72,
@@ -47,27 +46,27 @@ class Number extends Node implements \ArrayAccess
             'cm' => 2.54,
             'mm' => 25.4,
             'q'  => 101.6,
-        ],
-        'turn' => [
-            'deg'  => 360,
-            'grad' => 400,
-            'rad'  => 6.28318530717958647692528676, // 2 * M_PI
-            'turn' => 1,
-        ],
-        's' => [
-            's'  => 1,
+        ),
+        'turn' => array(
+            'deg' => 180,
+            'grad' => 200,
+            'rad' => M_PI,
+            'turn' => 0.5,
+        ),
+        's' => array(
+            's' => 1,
             'ms' => 1000,
-        ],
-        'Hz' => [
-            'Hz'  => 1,
+        ),
+        'Hz' => array(
+            'Hz' => 1,
             'kHz' => 0.001,
-        ],
-        'dpi' => [
-            'dpi'  => 1,
+        ),
+        'dpi' => array(
+            'dpi' => 1,
             'dpcm' => 2.54,
             'dppx' => 96,
-        ],
-    ];
+        ),
+    );
 
     /**
      * @var integer|float
@@ -75,24 +74,21 @@ class Number extends Node implements \ArrayAccess
     public $dimension;
 
     /**
-     * @var array
+     * @var string
      */
     public $units;
 
     /**
      * Initialize number
      *
-     * @param mixed $dimension
-     * @param mixed $initialUnit
+     * @param mixed  $dimension
+     * @param string $initialUnit
      */
     public function __construct($dimension, $initialUnit)
     {
         $this->type      = Type::T_NUMBER;
         $this->dimension = $dimension;
-        $this->units     = is_array($initialUnit)
-            ? $initialUnit
-            : ($initialUnit ? [$initialUnit => 1]
-                            : []);
+        $this->units     = $initialUnit;
     }
 
     /**
@@ -104,20 +100,13 @@ class Number extends Node implements \ArrayAccess
      */
     public function coerce($units)
     {
-        if ($this->unitless()) {
-            return new Number($this->dimension, $units);
+        $value = $this->dimension;
+
+        if (isset(self::$unitTable[$this->units][$units])) {
+            $value *= self::$unitTable[$this->units][$units];
         }
 
-        $dimension = $this->dimension;
-
-        foreach (static::$unitTable['in'] as $unit => $conv) {
-            $from       = isset($this->units[$unit]) ? $this->units[$unit] : 0;
-            $to         = isset($units[$unit]) ? $units[$unit] : 0;
-            $factor     = pow($conv, $from - $to);
-            $dimension /= $factor;
-        }
-
-        return new Number($dimension, $units);
+        return new Number($value, $units);
     }
 
     /**
@@ -127,12 +116,13 @@ class Number extends Node implements \ArrayAccess
      */
     public function normalize()
     {
-        $dimension = $this->dimension;
-        $units     = [];
+        if (isset(self::$unitTable['in'][$this->units])) {
+            $conv = self::$unitTable['in'][$this->units];
 
-        $this->normalizeUnits($dimension, $units, 'in');
+            return new Number($this->dimension / $conv, 'in');
+        }
 
-        return new Number($dimension, $units);
+        return new Number($this->dimension, $this->units);
     }
 
     /**
@@ -140,12 +130,8 @@ class Number extends Node implements \ArrayAccess
      */
     public function offsetExists($offset)
     {
-        if ($offset === -3) {
-            return $this->sourceColumn !== null;
-        }
-
         if ($offset === -2) {
-            return $this->sourceLine !== null;
+            return $sourceIndex !== null;
         }
 
         if ($offset === -1
@@ -165,14 +151,11 @@ class Number extends Node implements \ArrayAccess
     public function offsetGet($offset)
     {
         switch ($offset) {
-            case -3:
-                return $this->sourceColumn;
-
             case -2:
-                return $this->sourceLine;
+                return $this->sourceIndex;
 
             case -1:
-                return $this->sourceIndex;
+                return $this->sourcePosition;
 
             case 0:
                 return $this->type;
@@ -195,11 +178,9 @@ class Number extends Node implements \ArrayAccess
         } elseif ($offset === 2) {
             $this->units = $value;
         } elseif ($offset == -1) {
-            $this->sourceIndex = $value;
+            $this->sourcePosition = $value;
         } elseif ($offset == -2) {
-            $this->sourceLine = $value;
-        } elseif ($offset == -3) {
-            $this->sourceColumn = $value;
+            $this->sourceIndex = $value;
         }
     }
 
@@ -213,11 +194,9 @@ class Number extends Node implements \ArrayAccess
         } elseif ($offset === 2) {
             $this->units = null;
         } elseif ($offset === -1) {
-            $this->sourceIndex = null;
+            $this->sourcePosition = null;
         } elseif ($offset === -2) {
-            $this->sourceLine = null;
-        } elseif ($offset === -3) {
-            $this->sourceColumn = null;
+            $this->sourceIndex = null;
         }
     }
 
@@ -228,7 +207,7 @@ class Number extends Node implements \ArrayAccess
      */
     public function unitless()
     {
-        return ! array_sum($this->units);
+        return empty($this->units);
     }
 
     /**
@@ -238,61 +217,7 @@ class Number extends Node implements \ArrayAccess
      */
     public function unitStr()
     {
-        $numerators   = [];
-        $denominators = [];
-
-        foreach ($this->units as $unit => $unitSize) {
-            if ($unitSize > 0) {
-                $numerators = array_pad($numerators, count($numerators) + $unitSize, $unit);
-                continue;
-            }
-
-            if ($unitSize < 0) {
-                $denominators = array_pad($denominators, count($denominators) + $unitSize, $unit);
-                continue;
-            }
-        }
-
-        return implode('*', $numerators) . (count($denominators) ? '/' . implode('*', $denominators) : '');
-    }
-
-    /**
-     * Output number
-     *
-     * @param \Leafo\ScssPhp\Compiler $compiler
-     *
-     * @return string
-     */
-    public function output(Compiler $compiler = null)
-    {
-        $dimension = round($this->dimension, static::$precision);
-
-        $units = array_filter($this->units, function ($unitSize) {
-            return $unitSize;
-        });
-
-        if (count($units) > 1 && array_sum($units) === 0) {
-            $dimension = $this->dimension;
-            $units     = [];
-
-            $this->normalizeUnits($dimension, $units, 'in');
-
-            $dimension = round($dimension, static::$precision);
-            $units     = array_filter($units, function ($unitSize) {
-                return $unitSize;
-            });
-        }
-
-        $unitSize = array_sum($units);
-
-        if ($compiler && ($unitSize > 1 || $unitSize < 0 || count($units) > 1)) {
-            $compiler->throwError((string) $dimension . $this->unitStr() . " isn't a valid CSS value.");
-        }
-
-        reset($units);
-        list($unit, ) = each($units);
-
-        return (string) $dimension . $unit;
+        return $this->units;
     }
 
     /**
@@ -300,30 +225,12 @@ class Number extends Node implements \ArrayAccess
      */
     public function __toString()
     {
-        return $this->output();
-    }
+        $value = round($this->dimension, self::$precision);
 
-    /**
-     * Normalize units
-     *
-     * @param integer|float $dimension
-     * @param array         $units
-     * @param string        $baseUnit
-     */
-    private function normalizeUnits(&$dimension, &$units, $baseUnit = 'in')
-    {
-        $dimension = $this->dimension;
-        $units     = [];
-
-        foreach ($this->units as $unit => $exp) {
-            if (isset(static::$unitTable[$baseUnit][$unit])) {
-                $factor = pow(static::$unitTable[$baseUnit][$unit], $exp);
-
-                $unit = $baseUnit;
-                $dimension /= $factor;
-            }
-
-            $units[$unit] = $exp + (isset($units[$unit]) ? $units[$unit] : 0);
+        if (empty($this->units)) {
+            return (string) $value;
         }
+
+        return (string) $value . $this->units;
     }
 }
