@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -14,7 +14,7 @@ namespace Leafo\ScssPhp;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * Base formatter
+ * SCSS base formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
  */
@@ -54,11 +54,6 @@ abstract class Formatter
      * @var string
      */
     public $assignSeparator;
-
-    /**
-     * @var boolea
-     */
-    public $keepSemicolons;
 
     /**
      * Initialize formatter
@@ -101,15 +96,6 @@ abstract class Formatter
      */
     public function stripSemicolon(&$lines)
     {
-        if ($this->keepSemicolons) {
-            return;
-        }
-
-        if (($count = count($lines))
-            && substr($lines[$count - 1], -1) === ';'
-        ) {
-            $lines[$count - 1] = substr($lines[$count - 1], 0, -1);
-        }
     }
 
     /**

@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * Nested formatter
+ * SCSS nested formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
  */
@@ -38,7 +38,6 @@ class Nested extends Formatter
         $this->close = ' }';
         $this->tagSeparator = ', ';
         $this->assignSeparator = ': ';
-        $this->keepSemicolons = true;
     }
 
     /**
@@ -155,7 +154,7 @@ class Nested extends Formatter
     private function adjustAllChildren(OutputBlock $block)
     {
         // flatten empty nested blocks
-        $children = [];
+        $children = array();
 
         foreach ($block->children as $i => $child) {
             if (empty($child->lines) && empty($child->children)) {

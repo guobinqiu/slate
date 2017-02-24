@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2015 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * Expanded formatter
+ * SCSS expanded formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
  */
@@ -33,7 +33,6 @@ class Expanded extends Formatter
         $this->close = '}';
         $this->tagSeparator = ', ';
         $this->assignSeparator = ': ';
-        $this->keepSemicolons = true;
     }
 
     /**
