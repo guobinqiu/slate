@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block header %}
-{% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -48,26 +48,24 @@
 									{#</div>#}
 								{#</div>#}
 							{#</div>#}
-							<div class="profileWrap well well-lg">
-								<div class="row">
-									<div style="text-align: center">
-										<br>
-										<p class="row1">点<a href="{{ path('_homepage') }}" style="color: blue;">这里</a>领取<b style="color: red;">300积分</b>的新手红包。</p>
-										<br>
-										<p class="prBtn">
-											<a href="{{ path('_homepage') }}" class="goto hvr-icon-wobble-horizontal btn btn-lg">
-												<span>获取更多积分</span>
-												<span class="triangle"></span>
-											</a>
-										</p><br><br>
-									</div>
-								</div>
-							</div>
+							{#<div class="profileWrap well well-lg">#}
+								{#<div class="row">#}
+									{#<div style="text-align: center">#}
+										{#<br>#}
+										{#<p class="row1">点<a href="{{ path('_homepage') }}" style="color: blue;">这里</a>领取<b style="color: red;">300积分</b>的新手红包。</p>#}
+										{#<br>#}
+										{#<p class="prBtn">#}
+											{#<a href="{{ path('_homepage') }}" class="goto hvr-icon-wobble-horizontal btn btn-lg">#}
+												{#<span>获取更多积分</span>#}
+												{#<span class="triangle"></span>#}
+											{#</a>#}
+										{#</p><br><br>#}
+									{#</div>#}
+								{#</div>#}
+							{#</div>#}
 						</div>
 					</div>
-					
 				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -75,20 +73,23 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
 {% block javascript %}
-<!-- baidu promotion -->
-<div style="display:none;">
     <script type="text/javascript">
+		//baidu统计
         var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?878d6a1fecf76315390d7c5db8779bef";
-            var s = document.getElementsByTagName("script")[0]; 
+            var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
+
+		setTimeout(refer, 1000);
+		function refer(){
+			location = "{{ path("_homepage") }}"; //#设定跳转的链接地址
+		}
     </script>
-</div>
 {% endblock %}
