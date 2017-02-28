@@ -1,0 +1,266 @@
+@charset "UTF-8";
+
+@import "../layout/common";
+@import "../layout/header";
+@import "../component/slider";
+@import "../component/survey";
+@import "vote";
+@import "../component/timeline";
+$slider-height: 305px;
+.header{
+	box-shadow: none;
+}
+.mainWrap{
+	margin-top: 0;
+}
+.main-slider{
+	height: $slider-height;
+	background: url(../img/home/slideBgx.jpg) repeat-x;
+	.mask{
+		width: 1000px;
+		height: $slider-height;
+	}
+	li{
+		width: 1000px;
+	}
+	span{ 
+		top: 50%; 
+		left: -41px;
+		margin-top: -20px;
+		width: 41px;
+		height: 41px;
+		cursor: pointer;
+		background: url(../img/home/sliderbtnL.png) no-repeat;
+		&.arrowR{
+			left: auto;
+			right: -41px;
+			background: url(../img/home/sliderbtnR.png) no-repeat;
+		}
+		display: none; 
+	}
+	.btn-group{
+		bottom: 10px;
+		left: 50%;
+		margin-left: -20px;
+		b{
+			width: 9px;
+			height: 9px;
+			background: url(../img/home/sliderbtn.png) no-repeat;
+			&:hover, &.active{
+				background: url(../img/home/sliderbtnhover.png) no-repeat;
+			}
+		}
+	}
+}
+.vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.homeBr{
+	height: 70px; 
+	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
+	.faceWapper{
+		white-space: nowrap;
+		margin-left: 10px;
+		img{
+			width: 52px\9;
+			height: 52px\9;
+		}
+	}
+	.infoText{
+		color: #f0f4fa;
+		text-align: center;
+		font-size: 14px;
+		.point{
+			font-size: 14px;
+			padding: 0 0 0 0;
+			background: #1ca8dd;
+			@include border-radius(4px);
+		}
+	}
+
+}
+
+#planbanner{
+    position: relative;
+    .planpicnum{
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        ul{
+        	li{
+        		float: left;
+	            width: 10px;
+	            height: 10px;
+	            background: #fff;
+	            margin: 10px 5px;
+	            @include border-radius(50%);
+	            @include box-shadow(2px 2px 6px -1px rgba(0,0,0,0.6));
+	            &.hover{
+	            	cursor: pointer;
+	                background: #f16e3e;
+	            }
+        	}
+        }
+    }
+}
+#top-header{
+	margin-bottom: 0;
+}
+.notice{
+	.panel-heading{
+		padding-top: 17px;
+		background: none;
+		border: none;
+	}
+	.panel-body{
+		padding-top: 5px;
+	}
+	ul{
+		padding: 0 25px 0px 10px;
+	}
+	li{
+		line-height: 28px;
+		@include ell();
+		em{
+			width: 5px;
+			height: 5px;
+			margin-right: 10px;
+			background: #a3a3a3;
+			@include dib();
+		}
+	}
+}
+#mask{ 
+	position: fixed; 
+	width: 100%; 
+	height: 100%; 
+	left: 0; 
+	top: 0; 
+	background: #000; 
+	filter:alpha(opacity=70); 
+	-moz-opacity:0.7; 
+	-khtml-opacity:0.7; 
+	opacity: 0.7;
+	z-index: 9999;
+}
+#newguideWrap {
+	width: 1000px;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+	z-index: 10000;
+	.newguide1{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide01.png) no-repeat 0 0;
+		left: 417px;
+		top: -160px;
+	}
+	.newguide2{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide02.png) no-repeat 0 0;
+		left: 511px;
+	    top: -160px;
+	}
+	.newguide3{
+		width: 326px;
+		height: 253px;
+		position: absolute;
+		background: url(../img/home/guide03.png) no-repeat 0 0;
+		right: -25px;
+	    top: -160px;
+	}
+	.guideTxt{
+		width: 268px;
+		font-size: 14px;
+	    line-height: 23px;
+	    margin: 113px 20px 0 29px;
+	    em{
+	    	color: #ff5c25;
+	    }
+	    .point{
+	    	font-size: 22px;
+	    	color: #37ab96;
+	    	margin-top: 26px;
+	    	quotes: "“" "”" "‘" "’";
+	    	margin-left: -20px;
+	    	&:before{
+	    		content: open-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    	&:after{
+	    		content: close-quote;
+	    		font-size: 35px;
+	    		vertical-align: -11px;
+	    	}
+	    }
+	}
+	.ngbtn{
+		position: absolute;
+		width: 68px;
+	    height: 28px;
+	    line-height: 28px;
+	    text-align: center;
+	    cursor: pointer;
+	    @include btn();
+	    right: 30px;
+        bottom: 35px;
+	}
+	.ngclose{
+		position: absolute;
+		width: 67px;
+	    height: 34px;
+	    cursor: pointer;
+	}
+}
+#mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
+	display: none;
+}
+.vote-new{
+	.votecd{
+		position: absolute;
+		bottom: 35px;
+		right: 16px;
+	}
+	.tips{
+		margin: 0;
+	}
+	.countdown{
+		padding-left: 20px;
+	}
+}
+@import "../layout/footer";
+@media only screen and (max-width: 360px)  {
+	#surveyList>li .row{
+		padding: 0 17px;
+	}
+}
+@media only screen and (max-width: 767px)  {
+   .vote{
+   		.vote-txt{
+   			margin-top: 4px;
+   		}
+   		.panel-body{
+   			hr{
+   				margin-top: 15px;
+   				margin-bottom: 15px;
+   			}
+   		}
+   		.votePoint{
+		    margin-top: 2px;
+		    margin-right: 3px;
+   		}
+   	}
+}
+@media only screen and (min-width: 992px) {
+	.vote .panel-body li .row{
+		padding: 0 21px 0 30px;
+	}
+}

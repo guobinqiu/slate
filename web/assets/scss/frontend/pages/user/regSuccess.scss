@@ -1,0 +1,268 @@
+@charset "UTF-8";
+
+@import "../../layout/common";
+@import "../../layout/header";
+.main{
+    margin-top: 20px;
+}
+.main-con{
+    background: $block-bg-color;
+	border: $block-border;
+}
+.main-register-active{
+	color: #a3a3a3;
+	.title{
+		font-size: 20px;
+		font-weight: bold;
+		color: #333;
+		line-height: 40px;
+		text-align: center;
+		b{
+			color: #fe5718;
+		}
+	}
+	.con{
+		a{
+			margin-top: 10px;
+			width: 118px;
+			height: 27px;
+			line-height: 27px;
+			text-align: center;
+			@include btn();
+			@include dib();
+		}
+		.text{
+			text-align: center;
+			padding-bottom: 20px;
+			i{
+				font-size: 60px!important;
+				color: #68c04a;
+				margin-bottom: 10px;
+				margin-right: 12px;
+				vertical-align: -15px;
+			}
+		}
+	}
+	.finish{
+		.title{
+		    height: 75px;
+		    text-align: center;
+		    font-weight: normal;
+		}
+	}
+	.profileWrap{
+		color: #333;
+		.row1{
+			font-size: 16px;
+		}
+		.row2{
+			margin-top: 13px;
+			line-height: 26px;
+			list-style-type: circle;
+			list-style-position: inside;
+			font-size: 14px;
+			li{
+				display: list-item;
+				b{
+					color: $main-color;
+				}
+			}
+		}
+		.prBtn{
+			margin-top: 20px;
+			text-align: center;
+			a{
+				padding: 1.8rem 3.3rem;
+				font-size: 20px;
+				background: #1da18e;
+				color: #fff;
+				display: inline-block;
+				text-align: right;
+				@include border-radius(5px);
+				&:hover{
+					background: #119885;
+				}
+				em{
+					font-size: 12px;
+					font-weight: normal;
+				}
+				&>span{
+					display: inline-block;
+				}
+				&.cancel{
+					margin-left: 15px;
+					background: #ced4d4;
+					color: #333;
+					.triangle:before {
+						background: #808080;
+					}
+					.triangle:after {
+						background: #808080;
+					}
+				}
+				.triangle { 
+			        position: relative;
+			        top: 8px;
+			        display: inline-block;
+					margin-left: 4px;
+					&:before, &:after {
+				        content: " ";
+				        display: block;
+				        width: 14px;
+				        height: 4px;
+				        background: #fff;
+				        position: absolute;
+				    }
+				    &:before{
+				    	top: -13px;
+				        right: -16px;
+				    }
+				    &:after {
+				        top: -21px;
+				        left: 2px;
+				    }
+			    }
+			}
+		}
+		.tips{
+			display: none;
+			p{
+				margin-top: 20px;
+				text-align: center;	
+			}
+		}
+	}
+}
+@keyframes hvr-icon-wobble-horizontal {
+	16.65% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,6,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,6,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,6,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,6,0);
+	}
+
+	33.3% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,-5,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,-5,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,-5,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,-5,0);
+	}
+
+	49.95% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,4,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,4,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,4,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,4,0);
+	}
+
+	66.6% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,-2,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,-2,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,-2,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,-2,0);
+	}
+
+	83.25% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,1,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,1,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,1,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,1,0);
+	}
+
+	100% {
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+	}
+}
+@keyframes hvr-icon-wobble-horizontal1 {
+	16.65% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,6,0);
+	}
+
+	33.3% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,-5,0);
+	}
+
+	49.95% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,4,0);
+	}
+
+	66.6% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,-2,0);
+	}
+
+	83.25% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,1,0);
+	}
+
+	100% {
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+	}
+}
+
+.hvr-icon-wobble-horizontal {
+	content: "\f061";
+	display: inline-block;
+	vertical-align: middle;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	.triangle:before { 
+		-webkit-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+		transform: matrix(0.686,-0.8,0.8,0.686,0,0);
+	}
+	.triangle:after { 
+		-webkit-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-moz-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		-ms-transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+		transform: matrix(0.686,0.8,-0.8,0.686,0,0);
+	}
+}
+.hvr-icon-wobble-horizontal:hover, .hvr-icon-wobble-horizontal:focus, .hvr-icon-wobble-horizontal:active {
+	.triangle:before { 
+		-webkit-animation-name: hvr-icon-wobble-horizontal;
+		animation-name: hvr-icon-wobble-horizontal;
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-timing-function: ease-in-out;
+		animation-timing-function: ease-in-out;
+		-webkit-animation-iteration-count: 1;
+		animation-iteration-count: 1;
+	}
+	.triangle:after { 
+		-webkit-animation-name: hvr-icon-wobble-horizontal1;
+		animation-name: hvr-icon-wobble-horizontal1;
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-timing-function: ease-in-out;
+		animation-timing-function: ease-in-out;
+		-webkit-animation-iteration-count: 1;
+		animation-iteration-count: 1;
+	}
+}
+@import "../../layout/footer";

@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+#top-header{
+	margin-bottom: 0;
+}
+.main-about-con{
+	.aboutL{
+		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
+		background: $block-bg-color;
+		border: $block-border;
+		padding-bottom: 16px;
+		h2{
+			height: 75px;
+			line-height: 75px;
+			text-align: center;
+			font: {
+				size: 24px;
+				weight: bold;
+			}
+		}
+		.tabNav{
+			li{
+				
+				margin-bottom: -1px;
+				cursor: pointer;
+				font-size: 14px;
+				a{
+					height: 50px;
+					line-height: 50px;
+					padding-left: 30px;
+					display: block;
+  					&.active, &:hover{
+  						height: 50px;
+  						line-height: 50px;
+  						display: block;
+						padding-left: 28px;
+						color: $orange-color;
+						font-weight: bold;
+						background: $block-line-color;
+						border-left: { width: 3px; style: solid; color: $orange-color; }
+					}
+				}
+			} 
+		}
+	}
+	.aboutR{
+		padding: 10px 45px 20px;
+		background: $block-bg-color;
+		border: $block-border;
+		font-size: 14px;
+		min-height: 645px;
+		h2{
+			margin-top: 20px;
+		}
+		.con{
+			p{
+				line-height: 26px;
+				padding: 0 8px;
+			}
+		}
+	}	
+}
+@media only screen and (max-width: 767px)  {
+	.helpIcons li{
+		padding: 0;
+	}
+	.main-about-con{
+		& > .row{
+			& > .col-xs-3{
+				padding: 0;
+				margin: 0;
+			}
+			& > .col-xs-9{
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
+	.main-about-con .aboutL .tabNav li a, .main-about-con .aboutL .tabNav li a.active, .main-about-con .aboutL .tabNav li a:hover{
+		padding-left: 10px;
+	}
+	.main-about-con .aboutR{
+		padding: 8px 20px 20px;
+	}
+}
+
+

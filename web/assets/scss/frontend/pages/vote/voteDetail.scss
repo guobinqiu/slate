@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+@import "../../layout/common";
+@import "../../layout/header";
+@import "../../component/timeline";
+
+.main-con-left{
+	.vote-sub{
+		padding-bottom: 50px;
+	}
+	.survey-recomend{
+		padding: 15px 40px 40px;
+	}
+}
+.voteDet{
+	.panel-body{
+		padding: 38px 70px 50px;
+	}
+}
+.vote-sub{
+ 	.relateText{
+ 		color: #9da1a8;
+ 		line-height: 20px;
+ 		h3{
+ 			color: #333;
+ 			text-indent: -10px;
+ 			font-weight: bold;
+ 		}
+ 		.description{
+ 			color: #333;
+ 			.fst{
+ 				margin-bottom: 4px;
+ 			}
+			.cor9{
+				color: #999;
+			}
+ 		}
+ 	}
+ 	.options{
+ 		margin-bottom: 50px;
+ 		ul.list-group:after {
+ 		  clear: both;
+ 		  display: block;
+ 		  content: "";
+ 		}
+ 		.list-group-item{
+ 			border: none;
+ 			font-size: 14px;
+ 			display: flex;
+ 			label{
+ 				cursor: pointer;
+ 			}
+ 			input{
+ 				width: 16px;
+ 				margin-right: 5px;
+ 			}
+ 		}
+ 		dl{
+ 			dt{
+ 				font-size: 14px;
+ 			}
+ 		}
+ 		.btn{
+			.submit{
+				width: 140px;
+				text-align: center;
+				height: 40px;
+				line-height: 36px;
+				font-size: 14px;
+				font-weight: bold;
+				@include btn();
+				@include dib();
+				vertical-align: middle;
+				outline: none;
+				-webkit-appearance: none;
+			}
+			.loginTips{
+				line-height: 35px;
+			}
+			a{
+				&.result{
+					float: right;
+					margin-top: 11px;	
+				}
+				color: $main-title-color;
+			}
+ 		}
+ 		b, span.result{
+ 			float: right;
+ 			color: #9da1a8;
+ 		}
+ 		.progress{
+ 			width: 82%;
+ 			background: #f2f2f2;
+ 			@include dib();
+ 			p{
+ 				width: 0%;
+ 				height: 18px;
+ 				background: #59ca4f;
+ 				@include transition(width, 2s);
+ 			}
+ 		}
+ 		.weiboshare{
+ 			margin-top: 40px;
+ 			display: block;
+ 		}
+ 	}
+}
+
+@import "../../layout/footer";
+
+@media only screen and (max-width: 991px){
+	.voteDet .panel-body {
+	    padding: 26px 28px;
+	}
+	.vote-sub .options .progress{
+		margin-bottom: 0;
+	}
+}

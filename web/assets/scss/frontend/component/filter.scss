@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.filter{
+	font-size: 12px;
+	color: #4d4d4d;
+	line-height: 20px;
+	label, span{
+		@include dib();
+		vertical-align: middle;
+	}
+	input[type='text']{
+		margin: 0 5px;
+		padding: 0 5px;
+		width: 115px;
+		height: 30px;
+		line-height: 30px;
+		border: 1px solid #e5e5e5;
+		border-radius: 3px;
+		vertical-align: middle;
+	}
+	span{
+		margin-left: 5px;
+		width: 57px;
+		text-align: center;
+		height: 30px;
+		line-height: 30px;
+		color: #fff;
+		background: $main-color;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+}

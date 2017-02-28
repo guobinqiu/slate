@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+.page-wrapper{
+	padding: 30px;
+	font-size: 0;
+}
+.page{
+	text-align: center;
+	span{
+		border: 1px solid #dbdbdb;
+		color: #adadad;
+		font-size: 12px;
+		@include dib();
+		height: 22px;
+		text-center: center;
+		line-height: 22px;
+		margin-right: 5px;
+		cursor: pointer;
+		&:hover, &.active{
+			border: 1px solid $main-color;
+			color: $main-color;
+			a{
+				color: $main-color;
+			}
+		}
+	}
+	a{
+		color: #adadad;
+		height: 22px;
+		line-height: 22px;
+		padding: 0px 8px;
+		@include dib();
+		&:hover, &.active{
+			color: $main-color;
+		}
+	}
+}
