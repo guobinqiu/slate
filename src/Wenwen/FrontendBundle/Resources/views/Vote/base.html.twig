@@ -2,8 +2,8 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="bundles/wenwenfrontend/css/pages/help.css"
-        "assets/wenwenfrontend/sass/pages/help/*"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/sass/frontend/pages/help.css"
+        "assets/sass/frontend/pages/help/*"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />
     {% endstylesheets %}
@@ -11,8 +11,8 @@
 
 {% block javascript %}
     <!-- pages js -->
-    {% javascripts filter="?uglifyjs2" output="bundles/wenwenfrontend/js/vote.js"
-        "assets/wenwenfrontend/js/pages/vote/*"
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/pages/vote.js"
+        "assets/js/frontend/pages/vote/*"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
