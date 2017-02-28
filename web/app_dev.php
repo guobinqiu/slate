@@ -13,7 +13,7 @@ $office_ip_addresses = [
   '123.1.191.42',      # HK VPN
   '158.199.142.139',   # JP VPN
   '153.121.52.149',    # JP VPN
-  '192.168.33.1',      # vagrant
+  '192.168.33.60',      # vagrant
   '127.0.0.1',         # localhost
   '::1'                # localhost
 ];
