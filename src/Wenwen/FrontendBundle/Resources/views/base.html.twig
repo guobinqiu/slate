@@ -18,9 +18,10 @@
         {% block global_css %}
              <!-- global css -->
             {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/common.css"
-                "assets/sass/frontend/layout/*"
-                "assets/sass/frontend/component/*"
-                "assets/sass/frontend/responsive/*"
+                "assets/scss/frontend/layout/global.scss"
+                "assets/scss/frontend/layout/normal/*"
+                "assets/scss/frontend/component/*"
+                "assets/scss/frontend/responsive/*"
             %}
                 <link href="{{ asset_url }}" rel="stylesheet" />
             {% endstylesheets %}
