@@ -41,7 +41,7 @@ security:
         - { path: ^/survey_gmo, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: https }
         - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
-        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
         - { path: ^/sop, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/cint_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
