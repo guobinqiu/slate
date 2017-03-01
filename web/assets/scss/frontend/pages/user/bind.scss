@@ -1,11 +1,6 @@
 @charset "UTF-8";
 
-@import "../layout/common";
-@import "../layout/common-simple";
-@import "../layout/header-simple";
-@import "../layout/footer-simple";
-@import "../component/form";
-@import "font-awesome/scss/font-awesome.scss";
+@import "../../layout/global";
 html,body{
 	background: #e9eded;
 }
@@ -239,7 +234,7 @@ html,body{
 			line-height: 22px;
 		}
 		.avtWrap{
-			background: url(../img/user/avtShadow.png) no-repeat center 89px;
+			background: url(../../../../img/user/avtShadow.png) no-repeat center 89px;
 			img{
 				background: #fff;
 				border: 1px solid #EBEBEB;

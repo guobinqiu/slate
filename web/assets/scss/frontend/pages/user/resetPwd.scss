@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common-simple";
-@import "../../layout/header-simple";
-@import "../../component/form";
+@import "../../layout/global";
 .main-resetPwd{
 	padding: 48px 146px;
 	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
@@ -13,11 +11,11 @@
 			line-height: 36px;
 			text-align: center;
 			color: #969696;
-			background: #efefef url(../img/user/barBg.png) no-repeat right -94px;
+			background: #efefef url(../../../../img/frontend/user/barBg.png) no-repeat right -94px;
 			@include dib();
 			&.active{
 				color: #fff;
-				background: #63b8ef url(../img/user/barBg.png) no-repeat right 0;
+				background: #63b8ef url(../../../../img/frontend/user/barBg.png) no-repeat right 0;
 			}
 			&.pass{
 				background-position: right -47px;
@@ -116,7 +114,6 @@
 		}
 	}
 } 
-@import "../../layout/footer-simple";
 
 @media only screen and (max-width: 767px)  {
 	.main-resetPwd{

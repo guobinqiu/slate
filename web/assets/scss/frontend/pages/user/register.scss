@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
 @import "../../layout/global";
-@import "../../component/form";
-@import "../index";
 @import "login";
 .main-register{
 	position: relative;
@@ -135,7 +133,7 @@
 			left: 0;
 			width: 9px;
 			height: 10px;
-			background: url(../img/common/icons_arrow.png) top left no-repeat;
+			background: url(../../../../img/frontend/common/icons_arrow.png) top left no-repeat;
 			@include dib();
 		}
 	}
@@ -400,7 +398,7 @@
 	margin-bottom: 5px;
 	text-align: left;
 	.captcha_reload{
-	    background: url(../img/user/change.png) no-repeat 0px 0;
+	    background: url(../../../../img/frontend/user/change.png) no-repeat 0px 0;
 	    padding-left: 20px;
 	    height: 14px;
 	    vertical-align: -16px;
@@ -420,7 +418,6 @@
 		}
 	}
 }
-@import "../../layout/footer-simple";
 
 @media only screen and (max-width: 667px) { 
 	.sectionCon{

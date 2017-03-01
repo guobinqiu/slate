@@ -2,7 +2,13 @@
 {% block title %}{{ parent() }}激活{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/emailActive.css"
+        "assets/scss/frontend/component/form.scss"
+        "assets/scss/frontend/pages/user/register.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -53,6 +59,3 @@
 {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/pages/user/emailActive.js')}}"></script>
-{% endblock %}
