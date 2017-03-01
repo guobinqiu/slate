@@ -1,4 +1,4 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Vote:base.html.twig' %}
 {% block title %}{{ parent() }}投票结果{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，投票结果" />
@@ -66,6 +66,6 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
+{% block extra_js %}
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

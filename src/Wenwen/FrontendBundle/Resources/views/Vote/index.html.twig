@@ -31,7 +31,8 @@
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
-{% block javascript %}
+
+{% block extra_js %}
     <script type="text/javascript">
 	$(document).ready(function(){
 	    $('[data-toggle="tooltip"]').tooltip();
