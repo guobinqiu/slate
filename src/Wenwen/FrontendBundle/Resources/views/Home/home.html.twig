@@ -7,7 +7,12 @@
 {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/home.css"
+        "assets/scss/frontend/pages/home.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -63,11 +68,13 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.cookie.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/pages/home.js')}}"></script>
-	<script type="text/javascript">
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/home.js"
+        "assets/js/frontend/pages/home.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
 		$(document).ready(function(){
 			setInterval(requestSurveyList, 14 * 60 * 1000); //soptoken15分钟过期，我14分钟刷新一次
 

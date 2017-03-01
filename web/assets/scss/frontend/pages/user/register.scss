@@ -1,11 +1,9 @@
 @charset "UTF-8";
 
-@import "../../layout/common-simple";
-@import "../../layout/header-simple";
+@import "../../layout/global";
 @import "../../component/form";
-@import "index";
+@import "../index";
 @import "login";
-@import "font-awesome/scss/font-awesome";
 .main-register{
 	position: relative;
 	z-index: 1;

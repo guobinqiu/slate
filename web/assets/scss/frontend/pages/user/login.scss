@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 @import "../../layout/global";
-@import "../../layout/common";
 @import "../../component/form";
 @import "../../component/quickLog";
-@import "index"; 
+@import "../index"; 
 .pp-section{
 	width: 100%;
 	height: 100%;
@@ -20,7 +19,7 @@
 	z-index: 1000;
 	right: -61px;
 	top: 100px;
-	background: url(../img/home/loginBg.png) no-repeat center bottom;
+	background: url(../../../../../img/frontend/home/loginBg.png) no-repeat center bottom;
 	padding: 0 70px 5px;
 }
 .login{
@@ -174,17 +173,17 @@
 			&.fa-weixin{
 				*width: 58px;
 				*height: 58px;
-				*background: transparent url(../img/user/weixinIco.png) no-repeat;
+				*background: transparent url(../../../../../img/frontend/user/weixinIco.png) no-repeat;
 			}
 			&.fa-qq{
 				*width: 58px;
 				*height: 58px;
-				*background: transparent url(../img/user/QQIco.png) no-repeat;
+				*background: transparent url(../../../../../img/frontend/user/QQIco.png) no-repeat;
 			}
 			&.fa-weibo{
 				*width: 58px;
 				*height: 58px;
-				*background: transparent url(../img/user/weiboIco.png) no-repeat;
+				*background: transparent url(../../../../../img/frontend/user/weiboIco.png) no-repeat;
 			}
 		}
 		&.weixin-login{

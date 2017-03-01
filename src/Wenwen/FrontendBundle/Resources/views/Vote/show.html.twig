@@ -1,13 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Vote:base.html.twig' %}
 {% block title %}{{ parent() }}快速问答详情{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，快速问答详情" />
 <meta name="description" content="快速问答详情页面为用户展示了热门问题及常见回答，供用户进行投票，表达自己的观点。" />
 <meta name="title" content="91问问调查网 - 快速问答详情" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
  
 {% block header %}
@@ -85,7 +81,3 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/vote/voteDetail.js')}}"></script>
-{% endblock %}

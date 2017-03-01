@@ -2,7 +2,11 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/vote.css"
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/vote.css"
+        "assets/scss/frontend/component/crumbs.scss"
+        "assets/scss/frontend/component/timeline.scss"
+        "assets/scss/frontend/component/form.scss"
+        "assets/scss/frontend/component/page.scss"
         "assets/scss/frontend/pages/vote/*"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />
@@ -11,7 +15,7 @@
 
 {% block javascript %}
     <!-- pages js -->
-    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/pages/vote.js"
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/vote.js"
         "assets/js/frontend/pages/vote/*"
     %}
         <script src="{{ asset_url }}"></script>

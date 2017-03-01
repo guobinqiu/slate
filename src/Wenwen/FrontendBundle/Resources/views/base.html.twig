@@ -17,15 +17,14 @@
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
         {% block global_css %}
              <!-- global css -->
+             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
             {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/common.css"
-                "assets/scss/frontend/layout/global.scss"
+                "assets/scss/common/font-awesome/font-awesome.scss"
                 "assets/scss/frontend/layout/normal/*"
-                "assets/scss/frontend/component/*"
                 "assets/scss/frontend/responsive/*"
             %}
                 <link href="{{ asset_url }}" rel="stylesheet" />
             {% endstylesheets %}
-             <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
         {% endblock %}
         {% block stylesheet %}{% endblock %}
     </head>
@@ -39,21 +38,21 @@
         </div>
         {% block global_js %}
             <!-- global js -->
-            {% javascripts filter="?uglifyjs2" output="dist/js/frontend/common.js"
-                "assets/js/common/lib/jquery-1.12.4.min.js"
-                "assets/js/common/lib/bootstrap.min.js"
-                "assets/js/frontend/component/*"
-                "assets/js/common/plugin/jquery.cookie.js"
-                "assets/js/common/plugin/client.min.js"
-            %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
             <!--[if lte IE 9]>
                 <script type="text/javascript" src="{{ asset('assets/js/common/lib/html5shiv.js')}}"></script>
                 <script type="text/javascript" src="{{ asset('assets/js/common/lib/respond.min.js')}}"></script>
             <![endif]-->
+            {% javascripts filter="?uglifyjs2" output="dist/js/frontend/common.js"
+                "assets/js/common/lib/jquery-1.12.4.min.js"
+                "assets/js/common/lib/bootstrap.min.js"
+                "assets/js/common/plugin/jquery.cookie.js"
+                "assets/js/common/plugin/client.min.js"
+                "assets/js/frontend/component/*"
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
         {% block javascript %}
         {% endblock %}

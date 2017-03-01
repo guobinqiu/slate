@@ -1,9 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-@import "../../component/timeline";
-
+@import "../../layout/global";
 .main-con-left{
 	.vote-sub{
 		padding-bottom: 50px;
@@ -106,8 +103,6 @@
  		}
  	}
 }
-
-@import "../../layout/footer";
 
 @media only screen and (max-width: 991px){
 	.voteDet .panel-body {

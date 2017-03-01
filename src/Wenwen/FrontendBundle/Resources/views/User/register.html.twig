@@ -2,8 +2,13 @@
 {% block title %}{{ parent() }}注册{% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/register.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/lpBg.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/register.css"
+        "assets/scss/frontend/pages/user/register.scss"
+        "assets/scss/frontend/component/lpBg.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
@@ -111,12 +116,16 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/pages/user/register.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
-	<script type="text/javascript">
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/register.js"
+        "assets/js/common/plugin/jquery.html5-placeholder-shim.js"
+        "assets/js/frontend/plugin/jquery.validate.min.js"
+        "assets/js/frontend/pages/user/register.js"
+        "assets/js/frontend/pages/user/province_city_cascade.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
 		var client = new ClientJS(); // Create A New Client Object
 		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
 		$('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);

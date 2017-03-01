@@ -6,9 +6,14 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/lpBg.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/index.css"
+        "assets/scss/frontend/component/pagepiling.scss"
+        "assets/scss/frontend/pages/user/login.scss"
+        "assets/scss/frontend/component/lpBg.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
@@ -180,6 +185,11 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/index.js"
+        "assets/js/frontend/plugin/jquery.pagepiling.min.js"
+        "assets/js/frontend/pages/landing.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
