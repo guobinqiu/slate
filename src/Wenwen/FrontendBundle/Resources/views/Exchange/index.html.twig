@@ -1,12 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Exchange:base.html.twig' %}
 {% block title %}{{ parent() }}兑换中心{% endblock %}
 {% block meta %}
 <meta name="keywords" content="兑换中心，支付宝现金兑换，手机费兑换，手机流量包兑换" />
 <meta name="description" content="兑换中心为用户提供了多种兑换方式，用户可以直接兑换成支付宝现金或手机费，简单直接，方便高效。" />
 <meta name="title" content="91问问调查网 - 兑换中心" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/exchange.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -24,7 +21,7 @@
 			        			<div class="thumbnail">
 			        			    <div class="clearfix">
 			        			        <div class="pic col-xs-12 col-sm-12">
-			        			            <img class="img-responsive center-block" src="{{ asset('img/exchange/alipay.png') }}" alt="示意图"/>
+			        			            <img class="img-responsive center-block" src="{{ asset('assets/img/frontend/exchange/alipay.png') }}" alt="示意图"/>
 			        			        </div>
 			        			        <dl class="col-xs-12 col-sm-12 text-center top20">
 			        			            <dt>支付宝现金兑换</dt>
@@ -40,7 +37,7 @@
 			        			<div class="thumbnail">
 				        		    <div class="clearfix">
 				        		        <div class="pic col-xs-12 col-sm-12">
-				        		            <img class="img-responsive center-block" src="{{ asset('img/exchange/mobile.png') }}" alt="示意图"/>
+				        		            <img class="img-responsive center-block" src="{{ asset('assets/img/frontend/exchange/mobile.png') }}" alt="示意图"/>
 				        		        </div>
 				        		        <dl class="col-xs-12 col-sm-12 text-center top20">
 				        		            <dt>手机充值</dt>
@@ -58,7 +55,7 @@
 	        			<div class="thumbnail">
 		        		    <div class="clearfix">
 		        		        <div class="pic col-xs-5 col-sm-5">
-		        		            <img class="img-responsive pull-right" src="{{ asset('img/exchange/amazon.png') }}" alt="示意图"/>
+		        		            <img class="img-responsive pull-right" src="{{ asset('assets/img/frontend/exchange/amazon.png') }}" alt="示意图"/>
 		        		        </div>
 		        		        <dl class="col-xs-7 col-sm-7">
 		        		            <dt>亚马逊礼品卡兑换</dt>
@@ -75,7 +72,7 @@
 		        		<div class="thumbnail">
 		        		    <div class="clearfix">
 		        		        <div class="pic col-xs-5 col-sm-5">
-		        		            <img class="img-responsive pull-right" src="{{ asset('img/exchange/flow.png') }}" alt="示意图"/>
+		        		            <img class="img-responsive pull-right" src="{{ asset('assets/img/frontend/exchange/flow.png') }}" alt="示意图"/>
 		        		        </div>
 		        		        <dl class="col-xs-7 col-sm-7">
 		        		            <dt>上网流量包兑换</dt>
@@ -100,8 +97,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/pages/exchange/exchange.js')}}"></script>
 {% endblock %}

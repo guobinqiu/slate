@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-@import "../../component/form";
+@import "../../layout/global";
 .main-con-exchange{
 	padding: 1rem 2rem;
 	h2{
@@ -96,7 +94,7 @@
 						left: 0;
 						width: 9px;
 						height: 10px;
-						background: url(../img/exchange/icons_arrow.png) top left no-repeat;
+						background: url(../../../../img/frontend/exchange/icons_arrow.png) top left no-repeat;
 						@include dib();
 					}
 				}
@@ -234,6 +232,3 @@
 		}
 	}
 }
-@import "../../layout/footer";
-@import "../../component/layer";
-

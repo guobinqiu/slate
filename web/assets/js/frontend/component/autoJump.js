@@ -25,3 +25,7 @@ AutoJump.prototype = {
         }, 1000);
     }
 };
+var autoJump = new AutoJump({
+    ele: '.tips b',
+    secs: 10
+});
