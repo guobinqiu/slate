@@ -44,7 +44,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         //start inserting
         foreach ($history_list as $history) {
-            $this->logger->debug(__METHOD__ . ' history:' . json_encode($history));
+            $this->logger->debug(__METHOD__ . ' json of history:' . json_encode($history));
+            
             $survey_id = null;
             if (isset($history['survey_id'])) {
                 $survey_id = $history['survey_id'];

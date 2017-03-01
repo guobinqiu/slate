@@ -81,7 +81,6 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 20001, 'targeted');
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 20001, 'init');
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 20001, 'forward');
-        $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 20001, 'complete');
 
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 30001, 'targeted');
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 30001, 'init');
@@ -103,13 +102,13 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
             '10','','1.500','COMPLETE','2015-02-14 06:00:06','{"point":"' . $rec1CompletePoint . '","point_type":"11"}');
         // complete 有已发放积分的历史记录 不应该加积分给用户
         $rec2   = array('800001','201502','12',$app_mid,'20001','20002', 'This is a title2',
-            '11','','1.600','COMPLETE','2015-02-14 06:00:06','{"point":"' . $rec2CompletePoint . '","point_type":"11"}');
+            '11','','1.600','SCREENOUT','2015-02-14 06:00:06','{"point":"' . $rec2CompletePoint . '","point_type":"11"}');
         // 实际为screenout 没已发放积分的历史记录 应该加积分给用户
         $rec3   = array('800001','201502','12',$app_mid,'30001','30002', 'This is a title3',
-            '10','','1.500','COMPLETE','2015-02-14 06:00:06','{"point":"' . $rec3ScreenoutPoint . '","point_type":"11"}');
+            '10','','1.500','QUOTAFULL','2015-02-14 06:00:06','{"point":"' . $rec3ScreenoutPoint . '","point_type":"11"}');
         // 实际为quotafull 没已发放积分的历史记录 不应该加积分给用户
         $rec4   = array('800001','201502','12',$app_mid,'40001','40002', 'This is a title4',
-            '10','','1.500','COMPLETE','2015-02-14 06:00:06','{"point":"' . $rec4QuotafullPoint . '","point_type":"11"}');
+            '10','','1.500','ERROR','2015-02-14 06:00:06','{"point":"' . $rec4QuotafullPoint . '","point_type":"11"}');
         $footer = array('EOF','Total 4 Records',);
         $response        = new \stdClass();
         $response->body  = array($header,$rec1,$rec2,$rec3,$rec4,$footer);
@@ -150,27 +149,30 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $task_stm->execute();
         $task_history =$task_stm->fetchAll();
 
-        $this->assertCount(3, $task_history,'3 task history record');
+        $this->assertCount(4, $task_history,'4 task history record');
         $this->assertEquals(9, $task_history[0]['task_type'],'suvey task9');
         $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[0]['category_type'],'CategoryType::FULCRUM_COST');
         $this->assertEquals('f10001 This is a title1', $task_history[0]['task_name'],'task name');
         $this->assertEquals(9, $task_history[1]['task_type'],'suvey task9');
         $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[1]['category_type'],'CategoryType::FULCRUM_COST');
-        $this->assertEquals('f30001 This is a title3', $task_history[1]['task_name'],'task name');
+        $this->assertEquals('f20001 This is a title2', $task_history[1]['task_name'],'task name');
         $this->assertEquals(9, $task_history[2]['task_type'],'suvey task9');
         $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[2]['category_type'],'CategoryType::FULCRUM_COST');
-        $this->assertEquals('f40001 This is a title4', $task_history[2]['task_name'],'task name');
+        $this->assertEquals('f30001 This is a title3', $task_history[2]['task_name'],'task name');
+        $this->assertEquals(9, $task_history[3]['task_type'],'suvey task9');
+        $this->assertEquals(CategoryType::FULCRUM_COST, $task_history[3]['category_type'],'CategoryType::FULCRUM_COST');
+        $this->assertEquals('f40001 This is a title4', $task_history[3]['task_name'],'task name');
 
         // points history
         $points_stm =   $em->getConnection()->prepare('select * from point_history0'.( $user_id % 10 ));
         $points_stm->execute();
         $points_history =$points_stm->fetchAll();
 
-        $this->assertCount(3, $points_history,'3 point history record');
+        $this->assertCount(4, $points_history,'4 point history record');
         $this->assertEquals($rec1CompletePoint, $points_history[0]['point_change_num'], $rec1CompletePoint . ' points');
         $this->assertEquals(CategoryType::FULCRUM_COST, $points_history[0]['reason'],'CategoryType::FULCRUM_COST');
 
-        $this->assertEquals($rec3ScreenoutPoint, $points_history[1]['point_change_num'], $rec3ScreenoutPoint . ' points');
+        $this->assertEquals(20, $points_history[1]['point_change_num'], $rec3ScreenoutPoint . ' points');
         $this->assertEquals(CategoryType::FULCRUM_COST, $points_history[1]['reason'],'CategoryType::FULCRUM_COST');
 
         // user points
@@ -181,10 +183,10 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
         $this->assertNotEmpty($user,'1 test user');
-        $this->assertEquals($rec1CompletePoint + $rec3ScreenoutPoint + $rec4QuotafullPoint, $user->getPoints(), $rec1CompletePoint . ' + ' . $rec3ScreenoutPoint . ' + '. $rec4QuotafullPoint);
+        $this->assertEquals($rec1CompletePoint + 20 + 20, $user->getPoints(), $rec1CompletePoint . ' + 20 + 20');
         $this->assertEquals(1, $user->getCompleteN(), '应该有1个c');
-        $this->assertEquals(2, $user->getScreenoutN(), '应该有2个s');
-        $this->assertEquals(0, $user->getQuotafullN(), '应该有0个q');
+        $this->assertEquals(1, $user->getScreenoutN(), '应该有1个s');
+        $this->assertEquals(1, $user->getQuotafullN(), '应该有1个q');
 
         $stmt = $em->getConnection()->prepare('select * from survey_fulcrum_participation_history ');
         $stmt->execute();

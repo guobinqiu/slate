@@ -31,7 +31,21 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function point($history)
     {
-         return  $history['extra_info']['point'];
+        // Fulcrum 返回的所有状态的积分都是complete时的积分数
+        // 这里根据状态来判断给多少积分
+        $completePoint = $history['extra_info']['point'];
+        $screenoutPoint = 20;
+        $quotafullPoint = 20;
+        $errorPoint = 0;
+        if(SurveyStatus::STATUS_COMPLETE == $this->answerStatus($history)){
+            return  $completePoint;
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $this->answerStatus($history)){
+            return  $screenoutPoint;
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $this->answerStatus($history)){
+            return  $quotafullPoint;
+        } else {
+            return  $errorPoint;
+        }
     }
 
     protected function type($history)
@@ -48,12 +62,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function answerStatus($history){
         $status = strtolower($history['answer_status']);
-        // 20170221 暂时没有办法，fulcrum不管用户是complete还是screenout，都tmd返回一个complete
-        // 暂时只能按照获得积分数来区分一下，因为目前的complete积分最低也就200分（s/q 是20分）
-        // 所以认为低于50分就是screenout
-        if($this->point($history) <= 50){
-            $status = SurveyStatus::STATUS_SCREENOUT;
-        }
         return $status;
     }
 
