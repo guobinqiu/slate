@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Help:base.html.twig' %}
 {% block title %}{{ parent() }}网站地图{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}

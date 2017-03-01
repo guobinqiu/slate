@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-@import "../../component/about";
+@import "../../layout/global";
 .main-about-con{
 	.aboutR{
 		.rpaIntro{
@@ -77,7 +75,7 @@
   				b{
 					width: 9px;
 					height: 9px;
-					background: url(../img/common/icons_common.png?v000011) no-repeat -21px 0;
+					background: url(../../../../img/frontend/common/icons_common.png?v000011) no-repeat -21px 0;
 					display: inline-block;
 					margin-left: 5px;
   				}
@@ -178,7 +176,7 @@
 					padding-right: 20px;
 					width: 15px;
 					height: 15px;
-					background: url(../img/help/arrow.png) no-repeat 0 -35px;
+					background: url(../../../../img/frontend/help/arrow.png) no-repeat 0 -35px;
 				}
 			}
 			&:hover, &.active, &.on{
@@ -189,7 +187,7 @@
 				span{
 					&.icons{
 						padding-right: 23px;
-						background: url(../img/help/arrow.png) no-repeat 0 -55px;
+						background: url(../../../../img/frontend/help/arrow.png) no-repeat 0 -55px;
 					}
 				}
 			}
@@ -233,13 +231,13 @@
 					margin: 54px auto 30px;
 				}
 				&.hIco1{
-					background: url(../img/help/helpHomeIcons.png) no-repeat -8px -7px;
+					background: url(../../../../img/frontend/help/helpHomeIcons.png) no-repeat -8px -7px;
 				}
 				&.hIco2{
-					background: url(../img/help/helpHomeIcons.png) no-repeat -131px -7px;
+					background: url(../../../../img/frontend/help/helpHomeIcons.png) no-repeat -131px -7px;
 				}
 				&.hIco3{
-					background: url(../img/help/helpHomeIcons.png) no-repeat -254px -7px;
+					background: url(../../../../img/frontend/help/helpHomeIcons.png) no-repeat -254px -7px;
 				}
 				&.hTxt{
 					width: 111px;
@@ -260,4 +258,3 @@
 		}
 	}
 }
-@import "../../layout/footer";

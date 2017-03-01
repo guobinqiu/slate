@@ -1,9 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-@import "../../component/about";
-@import "../../component/form";
+@import "../../layout/global";
 $input-border-normal: 1px solid #dcdcdc;
 .main-help-feedback{
 	padding: 80px 50px 240px;
@@ -96,7 +93,6 @@ $input-border-normal: 1px solid #dcdcdc;
 		}
 	}
 }
-@import "../../layout/footer";
 
 @media only screen and (max-width: 767px)  {
 	.main-help-feedback{

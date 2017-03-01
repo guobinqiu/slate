@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Help:base.html.twig' %}
 {% block title %}{{ parent() }}公司介绍{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -19,7 +15,7 @@
 						<h2 class="hidden-xs">公司介绍</h2><hr class="hidden-xs"><br>
 						<ul class="rpaIntro con">
 							<li>
-								<div class="rpaPic"><img class="img-responsive" src="{{ asset('img/about/aboutRPA.png') }}" alt="dataSpring"></div>
+								<div class="rpaPic"><img class="img-responsive" src="{{ asset('assets/img/frontend/about/aboutRPA.png') }}" alt="dataSpring"></div>
 								<pre class="fontCommon">公司简介</pre>
 								<p>dataSpring, Inc. (日本) 的起源可以追溯到其曾经的母公司VOYAGE GROUP集团，VOYAGE GROUP集团于2003年在日本成立了一家调查面板供应公司。面板供应公司于2005年重组合并成为日本调查面板株式会社(RPJ)。2009年，Research Panel Asia成立，并且在亚洲地区拓展业务。每年完成超过4000个调查项目，提供了超过15000份调查问卷。2015年，RPA与一个线上调研工具供应公司（Mapps）合作，正式改名为dataSpring, Inc. (日本) 。网曦信息科技（上海）有限公司是dataSpring（上海）的股东。</p>
 								<pre class="fontCommon">公司概况</pre>
@@ -33,7 +29,7 @@
 								</p>
 								<pre class="fontCommon">发展历史</pre>
 								<div class="history">
-									<img class="img-responsive center-block top30" src="{{ asset('img/about/history.png') }}" alt="dataSpring">
+									<img class="img-responsive center-block top30" src="{{ asset('assets/img/frontend/about/history.png') }}" alt="dataSpring">
 									<br><br><br>
 								</div>
 							</li>

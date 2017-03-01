@@ -16,6 +16,8 @@
 {% block javascript %}
     <!-- pages js -->
     {% javascripts filter="?uglifyjs2" output="dist/js/frontend/vote.js"
+        "assets/js/frontend/component/countdown.js"
+        "assets/js/frontend/component/textScroll.js"
         "assets/js/frontend/pages/vote/*"
     %}
         <script src="{{ asset_url }}"></script>
