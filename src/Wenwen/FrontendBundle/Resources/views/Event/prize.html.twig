@@ -2,7 +2,12 @@
 {% block title %}{{ parent() }}幸运抽奖券{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{{ asset('css/luckyDraw.css') }} " type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/luckyDraw.css"
+        "assets/scss/frontend/pages/event/luckyDraw.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -27,7 +32,7 @@
     			<div class="conWrap col-sm-12">
     				<div class="prize row">
 	    				<div class="prizeCon col-sm-12 col-xs-12">
-	    					<img class="img-responsive center-block" src="/img/luckyDraw/prize.png?v000022" alt="奖项">
+	    					<img class="img-responsive center-block" src="/assets/img/frontend/luckyDraw/prize.png?v000022" alt="奖项">
 	    					<i class="hidden-xs"></i>
 	    				</div>
     				</div>
@@ -90,7 +95,7 @@
     				</div>
     				<div class="status row">
     					<div class="col-sm-12 col-xs-12">
-    						<img class="img-responsive center-block" src="/img/luckyDraw/survey.png?v000022" alt="参与调查">
+    						<img class="img-responsive center-block" src="/assets/img/frontend/luckyDraw/survey.png?v000022" alt="参与调查">
     						<a href="{{ path('_homepage') }}" title="问卷调查"><button type="button" class="btn btn-default center-block">参与调查</button></a>
     					</div>
     				</div>
@@ -100,7 +105,11 @@
 	</div>
 {% endblock %}
 
-
 {% block javascript %}
-    <script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/luckyDraw.js"
+        "assets/js/frontend/component/textScroll.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-
+@import "../../layout/global";
 body{ 
 	font-family: $font-family!important;
 }
@@ -27,11 +25,11 @@ a:hover{
 	margin-top: 0;
 }
 .bannerWrap{
-	background: url(../img/invitation/bannerBg.png) no-repeat #0f81c8 center 40px;
+	background: url(../../../../img/frontend/invitation/bannerBg.png) no-repeat #0f81c8 center 40px;
 	position: relative;
 	z-index: 0;
 	.flowBg{
-		background: url(../img/invitation/bg-triangle.png) repeat;
+		background: url(../../../../img/frontend/invitation/bg-triangle.png) repeat;
 		position: relative;
 		z-index: 1;
 	} 
@@ -91,7 +89,7 @@ a:hover{
 		    display: inline-block;
 			position: relative;
 			.ibtn{
-				background: url(../img/invitation/btnBg.png) no-repeat;
+				background: url(../../../../img/frontend/invitation/btnBg.png) no-repeat;
 				background-size: cover;
 				text-align: center;
 				font-size: 16px;

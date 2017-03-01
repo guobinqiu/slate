@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-
+@import "../../layout/global";
 body{ 
 	font-family: $font-family!important;
 }
@@ -28,7 +26,7 @@ a:hover{
 	margin-top: 0;
 }
 .bannerWrap{
-	background: url(../img/checkin/bannerbg.jpg) no-repeat #93ae4f center top;
+	background: url(../../../../img/frontend/checkin/bannerbg.jpg) no-repeat #93ae4f center top;
 	background-size: cover;
 	padding-bottom: 3rem;
 	padding-bottom: 50px\9;
@@ -38,7 +36,7 @@ a:hover{
 	} 
 }
 .contWrap{
-	background: url(../img/checkin/grassBg.jpg) repeat;
+	background: url(../../../../img/frontend/checkin/grassBg.jpg) repeat;
 	position: relative;
 	z-index: 1;
 	padding-bottom: 220px;
@@ -64,13 +62,13 @@ a:hover{
 		}
 		.step{
 			.checkSuc{
-				background: url(../img/checkin/successExp.gif) no-repeat left center;
+				background: url(../../../../img/frontend/checkin/successExp.gif) no-repeat left center;
 			}
 			.checkFail{
-				background: url(../img/checkin/failExp.gif) no-repeat left center;
+				background: url(../../../../img/frontend/checkin/failExp.gif) no-repeat left center;
 			}
 			.checkWin{
-				background: url(../img/checkin/winExp.gif) no-repeat left center;
+				background: url(../../../../img/frontend/checkin/winExp.gif) no-repeat left center;
 			}
 			.checkSuc,.checkFail,.checkWin{
 				background-size: contain;

@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-
+@import "../../layout/global";
 body{ 
 	font-family: $font-family!important;
 }
@@ -32,7 +30,7 @@ a:hover{
     position: relative;
     z-index: 0;
     .flowBg{
-        background: url(../img/luckyDraw/bannerBgflow.png) repeat;
+        background: url(../../../../img/frontend/luckyDraw/bannerBgflow.png) repeat;
         position: relative;
         z-index: 1;
         padding-top: 60px;
@@ -40,7 +38,7 @@ a:hover{
     .bannerCon{
         width: 100%;
         min-height: 261px; 
-        background: url(../img/luckyDraw/bannerImg.png) no-repeat center;
+        background: url(../../../../img/frontend/luckyDraw/bannerImg.png) no-repeat center;
         background-size: contain;
         text-align: center;
         .bcIn{
@@ -61,7 +59,7 @@ a:hover{
     }
 }
 .contWrap{
-    background: url(../img/luckyDraw/seamless-noise-bg.png) repeat #1b7a76;
+    background: url(../../../../img/frontend/luckyDraw/seamless-noise-bg.png) repeat #1b7a76;
     padding-bottom: 150px;
     .cont{
         background: #47a39e;
@@ -94,7 +92,7 @@ a:hover{
 	            	width: 100%;
 	            	height: 155px;
 	            	line-height: 105px;
-    				background: url(../img/luckyDraw/flowbgxy.png) repeat #f2f2f2;
+    				background: url(../../../../img/frontend/luckyDraw/flowbgxy.png) repeat #f2f2f2;
 					padding: 20px;
 					.button{
 						width: 300px;
@@ -276,7 +274,7 @@ a:hover{
                 position: absolute;
                 left: 60px;
                 top: -176px;
-                background: url(../img/luckyDraw/coins.png) no-repeat;
+                background: url(../../../../img/frontend/luckyDraw/coins.png) no-repeat;
                 display: inline-block;
             }
         }
