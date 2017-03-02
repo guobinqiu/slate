@@ -2,8 +2,14 @@
 {% block title %}{{ parent() }}个人资料{% endblock %}
 
 {% block stylesheet %}
-    <link href="{{ asset('css/profile.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('js/plugin/Jcrop/css/jquery.Jcrop.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/profile.css"
+        "assets/scss/frontend/component/personal.scss"
+        "assets/scss/frontend/pages/profile/profile.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+    <link href="{{ asset('assets/js/frontend/plugin/Jcrop/css/jquery.Jcrop.min.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -187,14 +193,19 @@
 {% endblock %}
 
 {% block javascript %}
-    <script type="text/javascript" src="{{ asset('js/plugin/Jcrop/jquery.Jcrop.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.ui.widget.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/load-image.all.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/canvas-to-blob.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.iframe-transport.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload-process.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugin/fileUpload/jquery.fileupload-image.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/pages/personal/profile.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/profile.js"
+        "assets/js/frontend/plugin/Jcrop/jquery.Jcrop.js"
+        "assets/js/frontend/plugin/fileUpload/jquery.ui.widget.js"
+        "assets/js/frontend/plugin/fileUpload/load-image.all.min.js"
+        "assets/js/frontend/plugin/fileUpload/canvas-to-blob.min.js"
+        "assets/js/frontend/plugin/fileUpload/jquery.iframe-transport.js"
+        "assets/js/frontend/plugin/fileUpload/jquery.fileupload.js"
+        "assets/js/frontend/plugin/fileUpload/jquery.fileupload-process.js"
+        "assets/js/frontend/plugin/fileUpload/jquery.fileupload-image.js"
+        "assets/js/frontend/pages/personal/profile.js"
+        "assets/js/frontend/pages/user/province_city_cascade.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

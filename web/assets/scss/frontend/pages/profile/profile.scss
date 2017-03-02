@@ -1,10 +1,16 @@
 @charset "UTF-8";
 
-@import "../../layout/common";
-@import "../../layout/header";
-@import "../../component/personal";
+@import "../../layout/global";
 $border: 1px solid #ededf0;
 $color: #0078b6;
+.clearfix {
+	zoom: 1;
+}
+.clearfix:before,.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 .main-personal-right{
 	h2{
 		.progress{
@@ -39,7 +45,7 @@ $color: #0078b6;
 				top: -4px;
 				width: 11px;
 				height: 11px;
-				background: url(../img/personal/progressIcon.png) no-repeat;
+				background: url(../../../../img/frontend/personal/progressIcon.png) no-repeat;
 				@include transition(left, 300ms);
 			}
 		}
@@ -330,7 +336,6 @@ $color: #0078b6;
 		}
 	}
 }
-@import "../../layout/footer";
 @media only screen and (max-width: 767px)  {
 	.main-personal-right{
 		h2{

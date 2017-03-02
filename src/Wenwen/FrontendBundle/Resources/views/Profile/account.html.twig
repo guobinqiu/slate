@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Personal:base.html.twig' %}
 {% block title %}{{ parent() }}基本信息{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/account.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
