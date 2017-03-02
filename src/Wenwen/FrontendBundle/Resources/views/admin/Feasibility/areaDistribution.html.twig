@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
+{% extends 'JiliBackendBundle::base.html.twig' %} 
 
-{% block body -%}
+{% block body %}
 
     <h1>地区分布</h1>
 
@@ -8,15 +8,20 @@
     <canvas id="myChart2" width="400" height="400"></canvas>    
     
 {% endblock %}
-{% block javascripts %}
+
+{% block extra_js %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <script src="{{ asset('js/lib/Chart.bundle.js') }}"></script>
-    <script src="{{ asset('js/lib/utils.js') }}"></script>
+    {% javascripts filter="?uglifyjs2" output="dist/js/backend/barGraph.js"
+        "assets/js/backend/lib/Chart.bundle.js"
+        "assets/js/backend/lib/utils.js"
+        "assets/js/backend/barGraph.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <!--[if lte IE 8]>
         <script src="{{ asset('js/lib/excanvas.js') }}"></script>
     <![endif]-->
-    <script src="{{ asset('js/pages/barGraph.js') }}"></script>
     <script>
         window.onload = function() {
             load({{ data|raw }});

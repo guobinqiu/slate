@@ -1,54 +1,27 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-<META http-equiv=Content-Type content="text/html; charset=utf8">
-<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
-<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
-<SCRIPT src="{{ asset('js/plugin/load.js')}}" type=text/javascript></SCRIPT>
-<script src="{{ asset('js/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
-<script src="{{ asset('js/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-  $("#select").click(function (){
-      window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
-  });
-  $("#edit").click(function (){
-      window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
-  })
-});
-</script>
-</HEAD>
-<BODY>
+{% extends 'JiliBackendBundle::base.html.twig' %} 
 
- <STYLE TYPE="text/css" MEDIA=screen>
-<!--
-  table { margin: 10px;}
-  table th { text-align:left; width:150px;}
-  table td { text-align:left;}
--->
-</STYLE>
-
+{% block body %}
 <table align="center" class="search">
-    <form action="{{ path('admin_user')}}" method="post" id="form1" >
-    <tr>
-        <td colspan="7" align="center">&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan="7" align="center">&nbsp;
-        user id:<input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="15" />&nbsp;
-        email:<input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="40" />&nbsp;
-        nick:<input type="text" id="nick" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" />&nbsp;
-        <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
-    </tr>
+    <form action="{{ path('admin_user')}}" method="post" id="form1">
+        <tr>
+            <td colspan="7" align="center">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="7" align="center">&nbsp; user id:
+                <input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="15" />&nbsp; email:
+                <input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="40" />&nbsp; nick:
+                <input type="text" id="nick" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" />&nbsp;
+                <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
+        </tr>
     </form>
- </table>
- {% if user is defined %}
-   <table border="1px" cellspacing="0px" class="member_table list">
+</table>
+{% if user is defined %}
+<table border="1px" cellspacing="0px" class="member_table list">
     <tr>
         <th>user id</th>
         <td width="350px;">{{ user.id }}
-        <input type="hidden" id="id" name="user_id" value="{{ user.id }}"></td>
+            <input type="hidden" id="id" name="user_id" value="{{ user.id }}">
+        </td>
     </tr>
     <tr>
         <th>email</th>
@@ -107,135 +80,152 @@ $(document).ready(function(){
         <td>{{ user.deleteDate is empty ? "": user.deleteDate|date("Y-m-d H:i:s") }}</td>
     </tr>
 </table>
-<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;"/>
-{% else %}
-<div><font color="red">指定的用户信息没有找到</font></div>
-{% endif %}
+<input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;" /> {% else %}
+<div>
+    <font color="red">指定的用户信息没有找到</font>
+</div>
+{% endif %} 
 
 {% if taskHistories is defined %}
 <div class="row">
     <div class="col-sm-12">
         <table class='surveySopParticipationHistories table'>
-            <caption><h4> 用户积分记录</h4></caption>
+            <caption>
+                <h4> 用户积分记录</h4></caption>
             <thead>
-            <tr>
-              <th>{{ knp_pagination_sortable(taskHistories, 'OrderId', 'th.orderId') }}</th>
-              <th>{{ knp_pagination_sortable(taskHistories, 'TaskType', 'th.taskType') }}</th>
-              <th>{{ knp_pagination_sortable(taskHistories, 'CategoryType', 'th.categoryType') }}</th>
-              <th>{{ knp_pagination_sortable(taskHistories, 'TaskName', 'th.taskName') }}</th>
-              <th>{{ knp_pagination_sortable(taskHistories, 'Point', 'th.point') }}</th>
-              <th>{{ knp_pagination_sortable(taskHistories, 'OcdCreatedDate', 'th.ocdCreatedDate') }}</th>
-            </tr>
+                <tr>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'OrderId', 'th.orderId') }}</th>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'TaskType', 'th.taskType') }}</th>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'CategoryType', 'th.categoryType') }}</th>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'TaskName', 'th.taskName') }}</th>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'Point', 'th.point') }}</th>
+                    <th>{{ knp_pagination_sortable(taskHistories, 'OcdCreatedDate', 'th.ocdCreatedDate') }}</th>
+                </tr>
             </thead>
             <tbody>
-            {% for taskHistory in taskHistories %}
-            <tr>
-              <td>{{ taskHistory.orderId }}</td>
-              <td>{{ taskHistory.taskType }}</td>
-              <td>{{ taskHistory.categoryType }}</td>
-              <td>{{ taskHistory.taskName }}</td>
-              <td>{{ taskHistory.point }}</td>
-              <td>{{ taskHistory.ocdCreatedDate |date('Y-m-d H:i:s') }}</td>
-            </tr>
-            {% endfor %}
+                {% for taskHistory in taskHistories %}
+                <tr>
+                    <td>{{ taskHistory.orderId }}</td>
+                    <td>{{ taskHistory.taskType }}</td>
+                    <td>{{ taskHistory.categoryType }}</td>
+                    <td>{{ taskHistory.taskName }}</td>
+                    <td>{{ taskHistory.point }}</td>
+                    <td>{{ taskHistory.ocdCreatedDate |date('Y-m-d H:i:s') }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
 <div class="row">
     <div class="col-sm-12">
         <div class="navigation">
-          {{ knp_pagination_render(taskHistories) }}
+            {{ knp_pagination_render(taskHistories) }}
         </div>
     </div>
 </div>
 {% else %}
-<div><font color="red">No taskHistories found.</font></div>
-{% endif %}
-
+<div>
+    <font color="red">No taskHistories found.</font>
+</div>
+{% endif %} 
 
 {% if surveySopParticipationHistories is defined %}
 <div class="row">
     <div class="col-sm-12">
         <table class='surveySopParticipationHistories table'>
-            <caption><h4> SOP问卷项目参与记录</h4></caption>
+            <caption>
+                <h4> SOP问卷项目参与记录</h4></caption>
             <thead>
-            <tr>
-              <th>SurveyId</th>
-              <th>TargetedAt</th>
-              <th>TorwardAt</th>
-              <th>CompleteAt</th>
-              <th>ScreenoutAt</th>
-              <th>QuotafullAt</th>
-              <th>ErrorAt</th>
-              <th>ClientIp</th>
-              <th>Ukey</th>
-            </tr>
+                <tr>
+                    <th>SurveyId</th>
+                    <th>TargetedAt</th>
+                    <th>TorwardAt</th>
+                    <th>CompleteAt</th>
+                    <th>ScreenoutAt</th>
+                    <th>QuotafullAt</th>
+                    <th>ErrorAt</th>
+                    <th>ClientIp</th>
+                    <th>Ukey</th>
+                </tr>
             </thead>
             <tbody>
-            {% for surveySopParticipationHistory in surveySopParticipationHistories %}
-            <tr>
-              <td>{{ surveySopParticipationHistory.survey_id }}</td>
-              <td>{{ surveySopParticipationHistory.targeted_at is empty ? "N/A" : surveySopParticipationHistory.targeted_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.forward_at is empty ? "N/A" : surveySopParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.complete_at is empty ? "N/A" : surveySopParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.screenout_at is empty ? "N/A" : surveySopParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.quotafull_at is empty ? "N/A" : surveySopParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.error_at is empty ? "N/A" : surveySopParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveySopParticipationHistory.client_ip }}</td>
-              <td>N/A</td>
-            </tr>
-            {% endfor %}
+                {% for surveySopParticipationHistory in surveySopParticipationHistories %}
+                <tr>
+                    <td>{{ surveySopParticipationHistory.survey_id }}</td>
+                    <td>{{ surveySopParticipationHistory.targeted_at is empty ? "N/A" : surveySopParticipationHistory.targeted_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.forward_at is empty ? "N/A" : surveySopParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.complete_at is empty ? "N/A" : surveySopParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.screenout_at is empty ? "N/A" : surveySopParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.quotafull_at is empty ? "N/A" : surveySopParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.error_at is empty ? "N/A" : surveySopParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveySopParticipationHistory.client_ip }}</td>
+                    <td>N/A</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
 {% else %}
-<div><font color="red">No surveySopParticipationHistories found.</font></div>
-{% endif %}
-
+<div>
+    <font color="red">No surveySopParticipationHistories found.</font>
+</div>
+{% endif %} 
 
 {% if surveyPartnerParticipationHistorys is defined %}
 <div class="row">
     <div class="col-sm-12">
         <table class='surveyPartnerParticipationHistorys table'>
-            <caption><h4> 外接问卷项目参与记录</h4></caption>
+            <caption>
+                <h4> 外接问卷项目参与记录</h4></caption>
             <thead>
-            <tr>
-              <th>SurveyPartnerId</th>
-              <th>TargetedAt</th>
-              <th>ForwardAt</th>
-              <th>CompleteAt</th>
-              <th>ScreenoutAt</th>
-              <th>QuotafullAt</th>
-              <th>ErrorAt</th>
-              <th>ClientIp</th>
-              <th>Ukey</th>
-            </tr>
+                <tr>
+                    <th>SurveyPartnerId</th>
+                    <th>TargetedAt</th>
+                    <th>ForwardAt</th>
+                    <th>CompleteAt</th>
+                    <th>ScreenoutAt</th>
+                    <th>QuotafullAt</th>
+                    <th>ErrorAt</th>
+                    <th>ClientIp</th>
+                    <th>Ukey</th>
+                </tr>
             </thead>
             <tbody>
-            {% for surveyPartnerParticipationHistory in surveyPartnerParticipationHistorys %}
-            <tr>
-              <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartnerParticipationHistory.survey_partner_id}) }}">{{ surveyPartnerParticipationHistory.survey_partner_id }}</a></td>
-              <td>N/A</td>
-              <td>{{ surveyPartnerParticipationHistory.forward_at is empty ? "N/A" : surveyPartnerParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.complete_at is empty ? "N/A" : surveyPartnerParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.screenout_at is empty ? "N/A" : surveyPartnerParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.quotafull_at is empty ? "N/A" : surveyPartnerParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.error_at is empty ? "N/A" : surveyPartnerParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
-              <td>{{ surveyPartnerParticipationHistory.client_ip }}</td>
-              <td>{{ surveyPartnerParticipationHistory.u_key }}</td>
-            </tr>
-            {% endfor %}
+                {% for surveyPartnerParticipationHistory in surveyPartnerParticipationHistorys %}
+                <tr>
+                    <td><a href="{{ path('admin_surveypartner_show', {'surveyPartnerId': surveyPartnerParticipationHistory.survey_partner_id}) }}">{{ surveyPartnerParticipationHistory.survey_partner_id }}</a></td>
+                    <td>N/A</td>
+                    <td>{{ surveyPartnerParticipationHistory.forward_at is empty ? "N/A" : surveyPartnerParticipationHistory.forward_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.complete_at is empty ? "N/A" : surveyPartnerParticipationHistory.complete_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.screenout_at is empty ? "N/A" : surveyPartnerParticipationHistory.screenout_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.quotafull_at is empty ? "N/A" : surveyPartnerParticipationHistory.quotafull_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.error_at is empty ? "N/A" : surveyPartnerParticipationHistory.error_at |date('Y-m-d H:i:s') }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.client_ip }}</td>
+                    <td>{{ surveyPartnerParticipationHistory.u_key }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 {% else %}
-<div><font color="red">No surveyPartnerParticipationHistory found.</font></div>
+<div>
+    <font color="red">No surveyPartnerParticipationHistory found.</font>
+</div>
 {% endif %}
+{% endblock %}
 
-</BODY>
-</HTML>
+{% block extra_js %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#select").click(function (){
+        window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
+    });
+    $("#edit").click(function (){
+        window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
+    })
+  });
+</script>
+{% endblock %}

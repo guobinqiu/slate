@@ -1,11 +1,8 @@
-{% block stylesheets %}
-<link href="{{ asset('css/admin.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
-{% endblock %}
-{% block javascripts %}
-<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
-{% endblock %}
+{% extends 'JiliBackendBundle::base.html.twig' %} 
 
+{% block title %} {{ parent() }} - vote 管理- vote list {% endblock %} 
+
+{% block body%}
 <h2 align="center">即将开始的快速问答</h2>
 <table class="list">
     <tr>
@@ -45,3 +42,4 @@
     <input type="submit" value="create" name="addBtn" id="addBtn" />
 </form>
 </div>
+{% endblock %}

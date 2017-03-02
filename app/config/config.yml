@@ -55,7 +55,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: %kernel.debug%
-    bundles:        [ WenwenFrontendBundle ]
+    bundles:        [ JiliApiBundle, JiliBackendBundle,WenwenFrontendBundle ]
     #java: /usr/bin/java
     #node: /usr/local/bin/node
     filters:
