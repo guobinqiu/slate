@@ -9,6 +9,10 @@
 {% block stylesheet %}
     <!-- pages css -->
     {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/home.css"
+    	"assets/scss/frontend/component/slider.scss"
+    	"assets/scss/frontend/component/survey.scss"
+    	"assets/scss/frontend/component/timeline.scss"
+    	"assets/scss/frontend/pages/vote/vote.scss"
         "assets/scss/frontend/pages/home.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />
@@ -70,6 +74,8 @@
 {% block javascript %}
     <!-- pages js -->
     {% javascripts filter="?uglifyjs2" output="dist/js/frontend/home.js"
+        "assets/js/frontend/component/countdown.js"
+        "assets/js/frontend/component/textScroll.js"
         "assets/js/frontend/pages/home.js"
     %}
         <script src="{{ asset_url }}"></script>

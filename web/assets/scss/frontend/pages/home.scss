@@ -1,11 +1,6 @@
 @charset "UTF-8";
 
-@import "../layout/common";
-@import "../layout/header";
-@import "../component/slider";
-@import "../component/survey";
-@import "vote/vote";
-@import "../component/timeline";
+@import "../layout/global";
 $slider-height: 305px;
 .header{
 	box-shadow: none;
@@ -15,7 +10,7 @@ $slider-height: 305px;
 }
 .main-slider{
 	height: $slider-height;
-	background: url(../img/home/slideBgx.jpg) repeat-x;
+	background: url(../../../img/frontend/home/slideBgx.jpg) repeat-x;
 	.mask{
 		width: 1000px;
 		height: $slider-height;
@@ -30,11 +25,11 @@ $slider-height: 305px;
 		width: 41px;
 		height: 41px;
 		cursor: pointer;
-		background: url(../img/home/sliderbtnL.png) no-repeat;
+		background: url(../../../img/frontend/home/sliderbtnL.png) no-repeat;
 		&.arrowR{
 			left: auto;
 			right: -41px;
-			background: url(../img/home/sliderbtnR.png) no-repeat;
+			background: url(../../../img/frontend/home/sliderbtnR.png) no-repeat;
 		}
 		display: none; 
 	}
@@ -45,9 +40,9 @@ $slider-height: 305px;
 		b{
 			width: 9px;
 			height: 9px;
-			background: url(../img/home/sliderbtn.png) no-repeat;
+			background: url(../../../img/frontend/home/sliderbtn.png) no-repeat;
 			&:hover, &.active{
-				background: url(../img/home/sliderbtnhover.png) no-repeat;
+				background: url(../../../img/frontend/home/sliderbtnhover.png) no-repeat;
 			}
 		}
 	}
@@ -60,7 +55,7 @@ $slider-height: 305px;
 }
 .homeBr{
 	height: 70px; 
-	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
+	background: url(../../../img/frontend/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
 	.faceWapper{
 		white-space: nowrap;
 		margin-left: 10px;
@@ -156,7 +151,7 @@ $slider-height: 305px;
 		width: 326px;
 		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide01.png) no-repeat 0 0;
+		background: url(../../../img/frontend/home/guide01.png) no-repeat 0 0;
 		left: 417px;
 		top: -160px;
 	}
@@ -164,7 +159,7 @@ $slider-height: 305px;
 		width: 326px;
 		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide02.png) no-repeat 0 0;
+		background: url(../../../img/frontend/home/guide02.png) no-repeat 0 0;
 		left: 511px;
 	    top: -160px;
 	}
@@ -172,7 +167,7 @@ $slider-height: 305px;
 		width: 326px;
 		height: 253px;
 		position: absolute;
-		background: url(../img/home/guide03.png) no-repeat 0 0;
+		background: url(../../../img/frontend/home/guide03.png) no-repeat 0 0;
 		right: -25px;
 	    top: -160px;
 	}
@@ -236,7 +231,6 @@ $slider-height: 305px;
 		padding-left: 20px;
 	}
 }
-@import "../layout/footer";
 @media only screen and (max-width: 360px)  {
 	#surveyList>li .row{
 		padding: 0 17px;

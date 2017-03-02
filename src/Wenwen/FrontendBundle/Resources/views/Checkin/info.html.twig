@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Checkin:base.html.twig' %}
 {% block title %}{{ parent() }}跳转中{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/checkin.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% endblock %}
@@ -79,9 +75,4 @@
 {% endblock %}
 
 {% block footer %}
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/loginForm.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/checkin.js')}}"></script>
 {% endblock %}

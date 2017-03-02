@@ -1,0 +1,31 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/error.css"
+        "assets/scss/frontend/pages/404.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    <!-- pages js -->
+    <script type="text/javascript">
+	    (function () {
+	        var timeLeft = 3,
+	            cinterval;
+
+	        var timeDec = function (){
+	            timeLeft--;
+	            document.getElementById('countdown').innerHTML = timeLeft;
+	            if(timeLeft === 0){
+	                clearInterval(cinterval);
+	                location.href="{{ path('_homepage') }}";
+	            }
+	        };
+
+	        cinterval = setInterval(timeDec, 1000);
+	    })();
+	</script>
+{% endblock %}
