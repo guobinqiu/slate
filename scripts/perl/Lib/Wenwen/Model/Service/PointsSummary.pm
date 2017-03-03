@@ -198,6 +198,32 @@ sub sum_survey_expense_points {
     return $total_sum;
 }
 
+sub sum_survey_expense_points_by_category_type {
+    my ($class, $handle, $from, $to, $category_type) = @_;
+    my $dbh = $handle->dbh;
+
+    my $total_sum = 0;
+    my $counter   = 0;
+    while ($counter < 10) {
+        my $sql = "
+            SELECT
+                sum(p.point_change_num)
+            FROM point_history0${counter} p
+            WHERE
+                (p.reason = 93 or p.reason = $category_type)
+                AND p.create_time >= ?
+                AND p.create_time < ?
+        ";
+
+        my $sth = $dbh->prepare($sql) or die $dbh->errstr;
+        $sth->execute($from->strftime('%F %T'), $to->strftime('%F %T')) or die $dbh->errstr;
+        my $sum = $sth->fetchall_arrayref()->[0][0];
+        $total_sum += $sum;
+        $counter++;
+    }
+    return $total_sum;
+}
+
 # expense for register
 sub sum_register_expense_points {
     my ($class, $handle, $from, $to) = @_;
