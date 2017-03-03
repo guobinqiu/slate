@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/backend/common.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/backend/common.css"
         "assets/scss/backend/calendar.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />

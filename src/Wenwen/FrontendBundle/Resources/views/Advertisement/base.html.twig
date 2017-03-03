@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/experience.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/experience.css"
         "assets/scss/frontend/pages/experience/experience.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />

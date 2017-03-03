@@ -4,7 +4,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/backend/endpage.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/backend/endpage.css"
         "assets/scss/backend/endpage.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />

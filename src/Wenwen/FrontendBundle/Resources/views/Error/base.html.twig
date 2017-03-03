@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/error.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/error.css"
         "assets/scss/frontend/pages/404.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />

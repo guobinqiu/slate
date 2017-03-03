@@ -3,7 +3,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/invitation.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/invitation.css"
         "assets/scss/frontend/pages/event/invitation.scss"
     %}
         <link href="{{ asset_url }}" rel="stylesheet" />

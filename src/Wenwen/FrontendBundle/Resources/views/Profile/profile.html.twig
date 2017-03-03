@@ -3,7 +3,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/profile.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/profile.css"
         "assets/scss/frontend/component/personal.scss"
         "assets/scss/frontend/pages/profile/profile.scss"
     %}

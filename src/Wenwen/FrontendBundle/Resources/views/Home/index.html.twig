@@ -7,7 +7,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/index.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/index.css"
         "assets/scss/frontend/component/pagepiling.scss"
         "assets/scss/frontend/pages/user/login.scss"
         "assets/scss/frontend/component/lpBg.scss"

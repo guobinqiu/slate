@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/frontend/exchange.css"
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/exchange.css"
         "assets/scss/frontend/component/layer.scss"
         "assets/scss/frontend/component/form.scss"
         "assets/scss/frontend/pages/exchange/*"
