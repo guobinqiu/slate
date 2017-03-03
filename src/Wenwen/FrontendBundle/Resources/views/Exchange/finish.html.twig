@@ -12,3 +12,12 @@
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
 {% endblock %}
+
+{% block extra_js %}
+<script>
+var autoJump = new AutoJump({
+    ele: '.tips b',
+    secs: 10
+});
+</script>
+{% endblock %}

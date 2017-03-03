@@ -13,7 +13,7 @@ AutoJump.prototype = {
     },
     oper: function(){
         var _self = this, s,
-            url = Routing.generate('_homepage');
+            url = "http://www.91wenwen.net/";
         s = setInterval(function(){
             if(_self.secs <= 0){
                 clearInterval(s);
@@ -25,7 +25,3 @@ AutoJump.prototype = {
         }, 1000);
     }
 };
-var autoJump = new AutoJump({
-    ele: '.tips b',
-    secs: 10
-});

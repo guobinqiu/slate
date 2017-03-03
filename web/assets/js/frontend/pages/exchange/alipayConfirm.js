@@ -3,7 +3,7 @@
 -------------------*/
 $(function(){
     //表单验证
-    var alipaySave = $('#alipay_save');
+    var alipaySave = $('#alipayConfirm_save');
     var idCardInput = '#idCard';
     var validateIdCard;
 
@@ -30,14 +30,15 @@ $(function(){
             if(!validateAlipay()){
                 return false;
             }
+            return true;
         });
-        alipaySave.on('click', function(){
-            if(!validateAlipay()){
-                return false;
-            }
-            $("#form1").submit();
-            //ajax
-        });
+        return true;
     }
-    executeValidate();
+    alipaySave.on('click', function(){
+        if(!executeValidate()){
+            return false;
+        }
+        $("#form1").submit();
+        //ajax
+    });
 });
