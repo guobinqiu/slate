@@ -2,15 +2,6 @@
 
 {% block title %} {{ parent() }} - chanet-cpa {% endblock %} 
 
-{% block stylesheet %}
-    <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/backend/pageNav.css"
-        "assets/scss/backend/pageNav.scss"
-    %}
-        <link href="{{ asset_url }}" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock %}
-
 {% block body%}
 <!--
  /api/getAdwInfo?date=20130809&time=105234&type=1&promotionID=34&promotionName=DHC%20CPS%E6%8E%A8%E5%B9%BF&extinfo=15&userinfo=1051242&comm=1.6000&totalPrice=0.0000&ocd=25146453&goodDetails=&paymentmethod=0&status=0&paid=2&confirm=0

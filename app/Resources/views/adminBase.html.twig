@@ -12,6 +12,7 @@
              <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
              {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/backend/base.css"
                 "assets/scss/backend/admin.scss"
+                "assets/scss/backend/pageNav.scss"
             %}
                 <link href="{{ asset_url }}" rel="stylesheet" />
             {% endstylesheets %}

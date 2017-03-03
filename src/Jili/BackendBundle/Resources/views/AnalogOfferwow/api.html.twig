@@ -1,14 +1,5 @@
 {% extends '::adminBase.html.twig' %} 
 
-{% block stylesheet %}
-    <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, uglifycss" output="dist/css/backend/pageNav.css"
-        "assets/scss/backend/pageNav.scss"
-    %}
-        <link href="{{ asset_url }}" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock %}
-
 {% block body%} 
 {% for flashMessage in app.session.flashbag.get('notice') %}
 <div class="flash-notice">

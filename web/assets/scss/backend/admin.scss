@@ -7,7 +7,7 @@ $admin-width: 90%;
 body {
     line-height: 150%;
     font-size: 12px;
-    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-family: "Verdana", "arial", "Helvetica", "sans-serif";
     color: #000;
     background-color: #fff;
 }
@@ -16,133 +16,108 @@ img {
     vertical-align: top;
 }
 
-A:link {
-    COLOR: #036;
-    TEXT-DECORATION: none;
+a, a.menuChild {
+    color: #036;
+    text-decoration: none;
 }
 
-A:visited {
-    COLOR: #036;
-    TEXT-DECORATION: none;
+a:hover, a.menuChild:hover {
+    color: #f60;
+    text-decoration: underline;
 }
 
-A:hover {
-    COLOR: #f60;
-    TEXT-DECORATION: underline;
+a.menuParent {
+    color: #000;
+    text-decoration: none;
 }
 
-A.menuChild:link {
-    COLOR: #036;
-    TEXT-DECORATION: none;
+a.menuParent:hover {
+    color: #f60;
+    text-decoration: none;
 }
 
-A.menuChild:visited {
-    COLOR: #036;
-    TEXT-DECORATION: none;
+table.position {
+    width: 100%;
 }
 
-A.menuChild:hover {
-    COLOR: #f60;
-    TEXT-DECORATION: underline;
+tr.position {
+    height: 25px;
+    background-color: #f4f7fc;
 }
 
-A.menuParent:link {
-    COLOR: #000;
-    TEXT-DECORATION: none;
+td.position {
+    border-right: #adceff 1px solid;
+    padding-left: 20px;
+    border-bottom: #adceff 1px solid;
 }
 
-A.menuParent:visited {
-    COLOR: #000;
-    TEXT-DECORATION: none;
+table.listtable {
+    width: 98%;
+    background-color: #b1ceee;
 }
 
-A.menuParent:hover {
-    COLOR: #f60;
-    TEXT-DECORATION: none;
+tr.listHeadertr {
+    font-weight: bold;
+    height: 25px;
+    background-color: #ebf4fd;
+    text-align: center;
 }
 
-TABLE.position {
-    WIDTH: 100%;
+tr.listtr {
+    height: 25px;
+    background-color: #fff;
+    text-align: center;
 }
 
-TR.position {
-    HEIGHT: 25px;
-    BACKGROUND-COLOR: #f4f7fc;
+tr.listalternatingtr {
+    height: 25px;
+    background-color: #fffdf0;
+    text-align: center;
 }
 
-TD.position {
-    BORDER-RIGHT: #adceff 1px solid;
-    PADDING-LEFT: 20px;
-    BORDER-BOTTOM: #adceff 1px solid;
+tr.listFootertr {
+    height: 30px;
+    background-color: #ebf4fd;
+    text-align: center;
 }
 
-TABLE.listTable {
-    WIDTH: 98%;
-    BACKGROUND-COLOR: #b1ceee;
+table.edittable {
+    width: 98%;
+    background-color: #b1ceee;
 }
 
-TR.listHeaderTr {
-    FONT-WEIGHT: bold;
-    HEIGHT: 25px;
-    BACKGROUND-COLOR: #ebf4fd;
-    TEXT-ALIGN: center;
+tr.editHeadertr {
+    height: 25px;
+    background-color: #ebf4fd;
 }
 
-TR.listTr {
-    HEIGHT: 25px;
-    BACKGROUND-COLOR: #fff;
-    TEXT-ALIGN: center;
+td.editHeadertd {
+    padding-left: 50px;
+    font-weight: bold;
 }
 
-TR.listAlternatingTr {
-    HEIGHT: 25px;
-    BACKGROUND-COLOR: #fffdf0;
-    TEXT-ALIGN: center;
+tr.edittr {
+    height: 30px;
 }
 
-TR.listFooterTr {
-    HEIGHT: 30px;
-    BACKGROUND-COLOR: #ebf4fd;
-    TEXT-ALIGN: center;
+td.editlefttd {
+    width: 150px;
+    background-color: #fffdf0;
+    text-align: center;
 }
 
-TABLE.editTable {
-    WIDTH: 98%;
-    BACKGROUND-COLOR: #b1ceee;
+td.editrighttd {
+    padding-left: 10px;
+    background-color: #fff;
 }
 
-TR.editHeaderTr {
-    HEIGHT: 25px;
-    BACKGROUND-COLOR: #ebf4fd;
+tr.editFootertr {
+    height: 40px;
+    background-color: #ebf4fd;
 }
 
-TD.editHeaderTd {
-    PADDING-LEFT: 50px;
-    FONT-WEIGHT: bold;
-}
-
-TR.editTr {
-    HEIGHT: 30px;
-}
-
-TD.editLeftTd {
-    WIDTH: 150px;
-    BACKGROUND-COLOR: #fffdf0;
-    TEXT-ALIGN: center;
-}
-
-TD.editRightTd {
-    PADDING-LEFT: 10px;
-    BACKGROUND-COLOR: #fff;
-}
-
-TR.editFooterTr {
-    HEIGHT: 40px;
-    BACKGROUND-COLOR: #ebf4fd;
-}
-
-TD.editFooterTd {
-    PADDING-LEFT: 150px;
+td.editFootertd {
+    padding-left: 150px;
 }
 
 ul,
@@ -158,7 +133,7 @@ th {
 table {
     border-collapse: collapse;
     font-size: 12px;
-    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-family: "Verdana", "arial", "Helvetica", "sans-serif";
     &.menu {
         table {
             margin-bottom: 5px;
@@ -273,6 +248,12 @@ input[type="button"] {
 
 input[type="button"].J_JumpTo {
     margin: 0;
+}
+
+input[type="submit"].btn-lg{
+    margin: 0;
+    width: auto;
+    height: auto;
 }
 
 .tips {
