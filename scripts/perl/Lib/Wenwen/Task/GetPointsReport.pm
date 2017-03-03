@@ -11,6 +11,18 @@ use Wenwen::Model;
 use Wenwen::Model::Service::PointsSummary;
 use Wenwen::Task::ActiveRatio;
 
+use constant SIGNUP = 300;           # (+) 完成注册获得积分
+use constant QUICK_POLL = 301;       # (+) 快速问答
+use constant SOP_EXPENSE = 302;      # (+) 属性问卷，IR CHECK等 (快速问答  ,アンケート回答（自社）61)
+use constant SSI_EXPENSE = 303;      # (+) SSI AGREEMENT PRESCREEN等
+use constant CINT_EXPENSE = 304;     # (+) Cint AGREEMENT
+use constant FULCRUM_EXPENSE = 305;  # (+) Fulcrum AGREEMENT
+use constant SURVEY_PARTNER_EXPENSE = 306;     # (+) 回答survey partner的实际商业问卷
+use constant EVENT_INVITE_SIGNUP = 380; # 邀请注册加积分
+use constant EVENT_INVITE_SURVEY = 381; # 做问卷给邀请人加积分
+use constant EVENT_PRIZE = 382; # 抽奖活动
+use constant EVENT_SIGNIN = 383; # 签到
+
 has base_date => (is => 'ro',);
 has from_date => (is => 'ro',);
 has to_date   => (is => 'ro',);
@@ -84,6 +96,20 @@ sub do_task {
         = $sum_survey_cost_points + $total_cps_cost_points + $total_cpa_cost_points;
 
     my $sum_survey_expense_points   = $self->get_survey_expense_points();
+
+    # survey_expense_points的细分项
+    my $sum_survey_expense_points_signup = $self->get_survey_expense_points_by_category_type(SIGNUP);
+    my $sum_survey_expense_points_quick_poll = $self->get_survey_expense_points_by_category_type(QUICK_POLL);
+    my $sum_survey_expense_points_sop = $self->get_survey_expense_points_by_category_type(SOP_EXPENSE);
+    my $sum_survey_expense_points_ssi = $self->get_survey_expense_points_by_category_type(SSI_EXPENSE);
+    my $sum_survey_expense_points_cint = $self->get_survey_expense_points_by_category_type(CINT_EXPENSE);
+    my $sum_survey_expense_points_fulcrum = $self->get_survey_expense_points_by_category_type(FULCRUM_EXPENSE);
+    my $sum_survey_expense_points_survey_partner = $self->get_survey_expense_points_by_category_type(SURVEY_PARTNER_EXPENSE);
+    my $sum_survey_expense_points_invite_signup = $self->get_survey_expense_points_by_category_type(EVENT_INVITE_SIGNUP);
+    my $sum_survey_expense_points_invite_survey = $self->get_survey_expense_points_by_category_type(EVENT_INVITE_SURVEY);
+    my $sum_survey_expense_points_event_prize = $self->get_survey_expense_points_by_category_type(EVENT_PRIZE);
+    my $sum_survey_expense_points_event_signin = $self->get_survey_expense_points_by_category_type(EVENT_SIGNIN);
+
     my $sum_register_expense_points = $self->get_register_expense_points();
 
     my $total_expense_points = $sum_survey_expense_points + $sum_register_expense_points;
@@ -127,6 +153,17 @@ sub do_task {
     $buff = $buff . sprintf "Expense Details\n";
     $buff = $buff . sprintf "-------------------------- \n";
     $buff = $buff . sprintf "Survey Expense Points. \n=> %d\n", $sum_survey_expense_points;
+    $buff = $buff . sprintf "Survey Expense Points(signup). \n=> %d\n", $sum_survey_expense_points_signup;
+    $buff = $buff . sprintf "Survey Expense Points(quick_poll). \n=> %d\n", $sum_survey_expense_points_quick_poll;
+    $buff = $buff . sprintf "Survey Expense Points(sop). \n=> %d\n", $sum_survey_expense_points_sop;
+    $buff = $buff . sprintf "Survey Expense Points(ssi). \n=> %d\n", $sum_survey_expense_points_ssi;
+    $buff = $buff . sprintf "Survey Expense Points(cint). \n=> %d\n", $sum_survey_expense_points_cint;
+    $buff = $buff . sprintf "Survey Expense Points(fulcrum). \n=> %d\n", $sum_survey_expense_points_fulcrum;
+    $buff = $buff . sprintf "Survey Expense Points(survey_partner). \n=> %d\n", $sum_survey_expense_points_survey_partner;
+    $buff = $buff . sprintf "Survey Expense Points(invite_signup). \n=> %d\n", $sum_survey_expense_points_invite_signup;
+    $buff = $buff . sprintf "Survey Expense Points(invite_survey). \n=> %d\n", $sum_survey_expense_points_invite_survey;
+    $buff = $buff . sprintf "Survey Expense Points(event_prize). \n=> %d\n", $sum_survey_expense_points_event_prize;
+    $buff = $buff . sprintf "Survey Expense Points(event_signin). \n=> %d\n", $sum_survey_expense_points_event_signin;
     $buff = $buff . sprintf "Register Expense Points. \n=> %d\n", $sum_register_expense_points;
     $buff = $buff . sprintf "\n";
     $buff = $buff . sprintf "-------------------------- \n";
@@ -234,6 +271,19 @@ sub get_survey_expense_points {
     my $survey_expense_points
         = Wenwen::Model::Service::PointsSummary->sum_survey_expense_points($handle,
         $self->from_date, $self->to_date);
+    return $survey_expense_points;
+}
+
+##
+#   Survey Expense Points by Category Type
+##
+sub get_survey_expense_points_by_category_type {
+    my $self = shift;
+    my $category_type = shift;
+
+    my $survey_expense_points
+        = Wenwen::Model::Service::PointsSummary->sum_survey_expense_points_by_category_type($handle,
+        $self->from_date, $self->to_date, $category_type);
     return $survey_expense_points;
 }
 
