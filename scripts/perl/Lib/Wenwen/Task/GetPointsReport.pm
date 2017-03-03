@@ -98,7 +98,7 @@ sub do_task {
     my $sum_survey_expense_points   = $self->get_survey_expense_points();
 
     # survey_expense_points的细分项
-    my $sum_survey_expense_points_signup = $self->get_survey_expense_points_by_category_type(SIGNUP);
+    #my $sum_survey_expense_points_signup = $self->get_survey_expense_points_by_category_type(SIGNUP);
     my $sum_survey_expense_points_quick_poll = $self->get_survey_expense_points_by_category_type(QUICK_POLL);
     my $sum_survey_expense_points_sop = $self->get_survey_expense_points_by_category_type(SOP_EXPENSE);
     my $sum_survey_expense_points_ssi = $self->get_survey_expense_points_by_category_type(SSI_EXPENSE);
@@ -153,7 +153,7 @@ sub do_task {
     $buff = $buff . sprintf "Expense Details\n";
     $buff = $buff . sprintf "-------------------------- \n";
     $buff = $buff . sprintf "Survey Expense Points. \n=> %d\n", $sum_survey_expense_points;
-    $buff = $buff . sprintf "Survey Expense Points(signup). \n=> %d\n", $sum_survey_expense_points_signup;
+#    $buff = $buff . sprintf "Survey Expense Points(signup). \n=> %d\n", $sum_survey_expense_points_signup;
     $buff = $buff . sprintf "Survey Expense Points(quick_poll). \n=> %d\n", $sum_survey_expense_points_quick_poll;
     $buff = $buff . sprintf "Survey Expense Points(sop). \n=> %d\n", $sum_survey_expense_points_sop;
     $buff = $buff . sprintf "Survey Expense Points(ssi). \n=> %d\n", $sum_survey_expense_points_ssi;
