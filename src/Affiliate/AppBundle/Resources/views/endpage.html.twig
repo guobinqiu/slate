@@ -4,11 +4,7 @@
 
 {% block stylesheet %}
     <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/backend/endpage.css"
-        "assets/scss/backend/endpage.scss"
-    %}
-        <link href="{{ asset_url }}" rel="stylesheet" />
-    {% endstylesheets %}
+    <link href="{{ asset('bundles/affiliateapp/css/endpage.css') }}" rel="stylesheet" type="text/css">
     <!--[if IE 7]>
        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome/scss/font-awesome-ie7.min.css') }}">
     <![endif]-->
