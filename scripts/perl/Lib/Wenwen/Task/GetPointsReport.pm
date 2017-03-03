@@ -11,17 +11,17 @@ use Wenwen::Model;
 use Wenwen::Model::Service::PointsSummary;
 use Wenwen::Task::ActiveRatio;
 
-use constant SIGNUP = 300;           # (+) 完成注册获得积分
-use constant QUICK_POLL = 301;       # (+) 快速问答
-use constant SOP_EXPENSE = 302;      # (+) 属性问卷，IR CHECK等 (快速问答  ,アンケート回答（自社）61)
-use constant SSI_EXPENSE = 303;      # (+) SSI AGREEMENT PRESCREEN等
-use constant CINT_EXPENSE = 304;     # (+) Cint AGREEMENT
-use constant FULCRUM_EXPENSE = 305;  # (+) Fulcrum AGREEMENT
-use constant SURVEY_PARTNER_EXPENSE = 306;     # (+) 回答survey partner的实际商业问卷
-use constant EVENT_INVITE_SIGNUP = 380; # 邀请注册加积分
-use constant EVENT_INVITE_SURVEY = 381; # 做问卷给邀请人加积分
-use constant EVENT_PRIZE = 382; # 抽奖活动
-use constant EVENT_SIGNIN = 383; # 签到
+use constant SIGNUP => 300;           # (+) 完成注册获得积分
+use constant QUICK_POLL => 301;       # (+) 快速问答
+use constant SOP_EXPENSE => 302;      # (+) 属性问卷，IR CHECK等 (快速问答  ,アンケート回答（自社）61)
+use constant SSI_EXPENSE => 303;      # (+) SSI AGREEMENT PRESCREEN等
+use constant CINT_EXPENSE => 304;     # (+) Cint AGREEMENT
+use constant FULCRUM_EXPENSE => 305;  # (+) Fulcrum AGREEMENT
+use constant SURVEY_PARTNER_EXPENSE => 306;     # (+) 回答survey partner的实际商业问卷
+use constant EVENT_INVITE_SIGNUP => 380; # 邀请注册加积分
+use constant EVENT_INVITE_SURVEY => 381; # 做问卷给邀请人加积分
+use constant EVENT_PRIZE => 382; # 抽奖活动
+use constant EVENT_SIGNIN => 383; # 签到
 
 has base_date => (is => 'ro',);
 has from_date => (is => 'ro',);
