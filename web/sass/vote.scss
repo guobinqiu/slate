@@ -68,9 +68,7 @@
 		width: 120px;
 		height: 36px;
 		line-height: 36px;
-		line-height: 20px\9;
-		*line-height: 33px;
-		padding: initial;
+		padding: 0;
 		@include btn();			
 	}
 	.voteDisabled{
@@ -81,9 +79,7 @@
 		width: 120px;
 		height: 36px;
 		line-height: 36px;
-		line-height: 20px\9;
-		*line-height: 33px;
-		padding: initial;
+		padding: 0;
 	}
 }
 .vote-new{
