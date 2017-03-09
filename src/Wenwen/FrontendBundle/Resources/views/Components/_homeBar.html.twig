@@ -1,29 +1,30 @@
-<div class="homeBr vertical-align">
+<div class="homeBr">
     <div class="container">
         <div class="row vertical-align">
-            <div class="col-md-2 hidden-xs faceWapper vertical-align">
+            <div class="col-md-3 hidden-xs faceWapper vertical-align">
                 {% if user.iconPath %}
                     <img class="img-circle" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
                 {% else %}
                     <img src="{{ asset('assets/img/frontend/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
                 {% endif %}
                 <div class="infoText">
-                    {% if user.nick|length > 5 %}
-                        {{ user.nick[:5] }}...
+                    {% if user.nick|length > 8 %}
+                        {{ user.nick[:8] }}...
                     {% else %}
                         {{ user.nick }}
                     {% endif %}
-                    积分：<strong style="color: #FF9D5C;">{{ user.points }}</strong>
+                    <br>
+                    积分：<strong>{{ user.points }}</strong>
                 </div>
             </div>
             <div class="col-md-6 col-xs-12">
                 <div class="visible-xs-inline">
                     <div class="infoText" style="font-size: 16px;">
-                        <strong style="color: #FF9D5C;">{{ user.points }}</strong>积分
+                        <strong>{{ user.points }}</strong>积分
                     </div>
                     <div class="infoText" style="font-size: 10px;">
                     {% if (2050 - user.points) > 0 %}
-                    加油！再获得<strong style="color: #FF9D5C;">{{ 2050 - user.points }}</strong>即可兑换
+                    加油！再获得<strong>{{ 2050 - user.points }}</strong>积分即可兑换
                     {% else %}
                     恭喜您可以兑换了
                     {% endif %}
@@ -31,7 +32,7 @@
                 </div>
                 <div class="infoText hidden-xs">
                 {% if (2050 - user.points) > 0 %}
-                加油！再获得<strong style="color: #FF9D5C;">{{ 2050 - user.points }}</strong>即可兑换
+                加油！再获得<strong>{{ 2050 - user.points }}</strong>积分即可兑换
                 {% else %}
                 恭喜您可以兑换了
                 {% endif %}
@@ -44,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-offset-4 hidden-xs">
+            <div class="col-md-offset-3 hidden-xs">
                 <div class="right" style="width: 200px">
                     <a href="{{ path('_user_adtaste',{'type':0}) }}" class="btn btn-default">任务历史</a>
                     <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="btn btn-default">兑换历史</a>

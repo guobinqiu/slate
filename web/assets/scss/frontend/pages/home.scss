@@ -55,7 +55,13 @@ $slider-height: 305px;
 }
 .homeBr{
 	height: 70px; 
-	background: url(../../../img/frontend/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
+	background: url(../../../img/frontend/home/homeBrBg.jpg) no-repeat center center #3e5366;
+	strong{
+		color: #FF9D5C;
+	}
+	.row{
+		height: 70px;
+	}
 	.faceWapper{
 		white-space: nowrap;
 		margin-left: 10px;
@@ -63,8 +69,13 @@ $slider-height: 305px;
 			width: 52px\9;
 			height: 52px\9;
 		}
+		.infoText{
+			padding-left: 10px;
+			text-align: left;
+		}
 	}
 	.infoText{
+		padding-left: 10px;
 		color: #f0f4fa;
 		text-align: center;
 		font-size: 14px;
@@ -152,24 +163,24 @@ $slider-height: 305px;
 		height: 253px;
 		position: absolute;
 		background: url(../../../img/frontend/home/guide01.png) no-repeat 0 0;
-		left: 417px;
-		top: -160px;
+		left: 407px;
+		top: -130px;
 	}
 	.newguide2{
 		width: 326px;
 		height: 253px;
 		position: absolute;
 		background: url(../../../img/frontend/home/guide02.png) no-repeat 0 0;
-		left: 511px;
-	    top: -160px;
+		left: 502px;
+	    top: -130px;
 	}
 	.newguide3{
 		width: 326px;
 		height: 253px;
 		position: absolute;
 		background: url(../../../img/frontend/home/guide03.png) no-repeat 0 0;
-		right: -25px;
-	    top: -160px;
+		right: -16px;
+	    top: -130px;
 	}
 	.guideTxt{
 		width: 268px;
