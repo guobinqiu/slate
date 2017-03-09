@@ -61,6 +61,12 @@ $slider-height: 305px;
 .homeBr{
 	height: 70px; 
 	background: url(../img/home/homeBrBg.jpg?v000016) no-repeat center center #3e5366;
+	strong{
+		color: #FF9D5C;
+	}
+	.row{
+		height: 70px;
+	}
 	.faceWapper{
 		white-space: nowrap;
 		margin-left: 10px;
@@ -68,8 +74,13 @@ $slider-height: 305px;
 			width: 52px\9;
 			height: 52px\9;
 		}
+		.infoText{
+			padding-left: 10px;
+			text-align: left;
+		}
 	}
 	.infoText{
+		padding-left: 10px;
 		color: #f0f4fa;
 		text-align: center;
 		font-size: 14px;
