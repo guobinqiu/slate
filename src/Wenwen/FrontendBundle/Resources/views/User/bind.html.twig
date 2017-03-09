@@ -2,7 +2,14 @@
 {% block title %}{{ parent() }}欢迎来到91问问{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/bind.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/bind.css"
+        "assets/scss/frontend/layout/simple/*"
+        "assets/scss/frontend/component/form.scss"
+        "assets/scss/frontend/pages/user/bind.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -94,7 +101,7 @@
             						<div class="bindAvtWrap">
             							<div class="bindAvtInner">
             								<p>亲爱的{{ nickname }}，欢迎来到91问问！</p>
-            								<p class="avtWrap"><img src="{{ asset(photo|default('img/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
+            								<p class="avtWrap"><img src="{{ asset(photo|default('assets/img/frontend/common/default_tx.png')) }}" width="100" height="100" alt="头像" title="头像"></p>
             							</div>
             						</div>
             					</div>
@@ -115,10 +122,15 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/pages/user/province_city_cascade.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.validate.min.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
+	<!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/bind.js"
+        "assets/js/common/plugin/jquery.html5-placeholder-shim.js"
+        "assets/js/common/plugin/client.min.js"
+        "assets/js/frontend/plugin/jquery.validate.min.js"
+        "assets/js/frontend/pages/user/province_city_cascade.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 	<script type="text/javascript">
 	        var duration = 300;
 	        $(function() {
@@ -205,7 +217,6 @@
 	            }
 	        );
 	</script>
-	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
 	<script type="text/javascript">
 		var client = new ClientJS(); // Create A New Client Object
 		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint

@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Exchange:base.html.twig' %}
 {% block title %}{{ parent() }}手机流量兑换{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/exchangeFlow.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -53,9 +49,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/validate_mobile.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/exchange/flowInfo.js')}}"></script>
 {% endblock %}

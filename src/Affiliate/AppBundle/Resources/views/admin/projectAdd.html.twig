@@ -1,17 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% extends '::adminBase.html.twig' %}
 
-{% block header %}
-    <meta charset="UTF-8">
-    <title>Admin - Add a new project</title>
-{% endblock %}
+{% block title %}Admin - Add a new project{% endblock %}</title>
 
-{% block content %}
-Add a new project<br> 
-AffiliatePartnerId={{affiliatePartnerId}}<br>
-    <form action="" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <input type="submit" /><br>
-        {{errmsg}}<br>
-    </form>
-    <a href="{{ path('admin_project_show', {'affiliatePartnerId': affiliatePartnerId}) }}">Back</a><br>
+{% block body %}
+Add a new project
+<br> AffiliatePartnerId={{affiliatePartnerId}}
+<br>
+<form action="" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+    <br> {{errmsg}}
+    <br>
+</form>
+<a href="{{ path('admin_project_show', {'affiliatePartnerId': affiliatePartnerId}) }}">Back</a>
+<br>
+
 {% endblock %}

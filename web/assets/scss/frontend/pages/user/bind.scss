@@ -1,0 +1,294 @@
+@charset "UTF-8";
+
+@import "../../layout/global";
+html,body{
+	background: #e9eded;
+}
+.main {
+    margin-top: 20px!important;
+}
+.main-con{
+	width: 1000px;
+	padding: 20px 0;
+	@include box-shadow(0 0 3px rgba(0,0,0,0.1));
+}
+.form{
+	span{
+		display: inline-block;
+		padding: 0 5px;
+	}
+}
+.footer{
+	padding: 0 0 15px;
+}
+.clearfix {
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.bindWrap{
+	h1{
+		color: #c4c4c4;
+		font-size: 28px;
+		font-weight: normal;
+		margin-bottom: 40px;
+		position: inherit;
+	}
+}
+.bindCon{
+	.bindForm{
+		display: none;
+		li{
+			position: relative;
+		}
+		.bindInput{
+			display: block;
+		}
+	}
+	.bindInput{
+		margin-bottom: 11px;
+	    display: inline-flex;
+		input[type="email"],input[type="password"],input[type="text"],#province,#city{
+			width: 100%;
+			height: 36px;
+			line-height: 36px;
+			font-size: 14px;
+			color: #a0a0a0;
+			-moz-box-sizing: border-box;
+		    -webkit-box-sizing: border-box;
+		    box-sizing: border-box;
+		}
+		#province,#city{
+			width: inherit;
+		    border: 1px solid #e5e5e5;
+		    font-family: "Microsoft YaHei";
+		    color: #000;
+		}
+		#province{
+			margin-right: 7px;
+		}
+	}
+	.unbindForm{
+		li{
+			height: 44px;
+			line-height: 44px;
+			position: relative;
+			&:first-child{
+				height: 30px;
+				line-height: 30px;
+				.regSex{
+					label{
+						&.error{
+							top: -7px;
+						}
+					}
+				}
+			}
+			&:last-child{
+				margin-bottom: 10px;
+			}
+			.birthLab{
+				width: 70px;
+				display: inline-block;
+				color: #a0a0a0;
+				font-size: 14px;
+				font-family: "Microsoft YaHei";
+				label{
+					width: auto;
+					text-align: left;
+				}
+			}
+			.birthSel{
+				height: 45px;
+				line-height: 45px;
+				display: inline-block;
+				select{
+					width: 61px;
+				    height: 22px;
+				    border: none;
+				    color: #333;
+				    font-size: 14px;
+				    font-family: "Microsoft YaHei";
+				    margin-right: 5px;
+				}
+			}
+			.addrLab{
+				width: 70px;
+				display: inline-block;
+				color: #a0a0a0;
+				font-size: 14px;
+				font-family: "Microsoft YaHei";
+				vertical-align: 17px;
+				label{
+					text-align: left;
+				}
+			}
+		}
+	}
+	.bindBtn,.skipBtn{
+		width: 100%;
+		background: #17b5e5;
+		padding: 21px 50px;
+		color: #fff;
+		font-size: 18px;
+	    border: none;
+	    cursor: pointer;
+	    -webkit-appearance: none;
+	    @include border-radius(3px);
+	}
+	.bindBtn{
+		margin-bottom: 17px;
+	}
+	.skipBtn{
+		background: #25cfa1;
+	}
+	.bkError{
+		position: absolute;
+		right: 3px;
+		top: -4px;
+		ul{
+			text-align: left;
+			li{
+				height: 30px;
+				color: #a94442;
+				background-color: #f2dede;
+				border: 1px solid #ebccd1;
+				line-height: 30px;
+				margin: 9px 2px 10px 13px;
+				padding: 0 5px;
+				display: inline-block;
+				@include border-radius(3px);
+			}
+		}
+	}
+	.errorBack{
+		position: initial;
+		ul{
+			li{
+				width: 100%; 
+				text-align: center;
+				padding: 0px;
+				margin-left: 1px;
+				margin-top: 0;
+				margin-bottom: 5px;
+				-moz-box-sizing: border-box;
+			    -webkit-box-sizing: border-box;
+			    box-sizing: border-box;
+			}
+		}
+	}
+	.regSexL{
+		width: 70px;
+		label{
+			font-size: 14px;
+			text-align: left;
+			color: #a0a0a0;
+		}
+	}
+	.regSexS{
+		input[type="radio"]{
+			margin: 0 5px 0 0;
+		}
+		label{
+			width: auto;
+			margin-right: 26px;
+			&[type='radio']{
+				width: 14px;
+				color: #a0a0a0;
+				margin-right: 42px;
+			}
+			&.error{
+				margin-top: -13px;
+			}
+		}
+	}
+	label{
+		&.error{
+			margin-right: 0;
+		    width: inherit;
+		    position: absolute;
+		    right: 5px;
+		    top: 5px;
+		    height: 30px;
+		    line-height: 30px;
+		    color: #a94442!important;
+		    background-color: #f2dede;
+		    border: 1px solid #ebccd1;
+		    padding: 0 5px;
+		    display: inline-block; 
+		    @include border-radius(3px);
+		}
+	}
+}
+.bindAvtWrap{
+	background: #f3f5f5;
+	.bindAvtInner{
+		text-align: center;
+		margin: 0 auto;
+		padding-top: 35px;
+		padding-bottom: 35px;
+		p{
+			margin-bottom: 20px;
+			color: #848484;
+			line-height: 22px;
+		}
+		.avtWrap{
+			background: url(../../../../img/frontend/user/avtShadow.png) no-repeat center 89px;
+			img{
+				background: #fff;
+				border: 1px solid #EBEBEB;
+			}
+		}
+	}
+}
+.bindPrompt{
+	width: 100%;
+	text-align: right;
+	margin-top: 11px;
+	.prompt{
+		padding: 6px 10px;
+		background: #f0f5f5;
+		border: 1px solid #e1e5e5;
+		display: inline-block;
+		line-height: 20px;
+		position: relative;
+		vertical-align: -7px;
+		i{
+			margin-right: 7px;
+			color: #d44f26;
+		}
+		&:after, &:before {
+			top: -9px;
+			right: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+		&:before {
+			border-bottom-color: #e1e5e5;
+			border-width: 9px;
+			margin-top: -9px;
+		}
+		&:after {
+			border-bottom-color: #f0f5f5;
+			border-width: 9px;
+			margin-top: -8px;
+		}
+	}
+	.skip{
+		color: #17b5e5;
+		display: inline-block;
+		font-size: 16px;
+		margin-left: 10px;
+		i{
+			vertical-align: -2px;
+			margin-left: 5px;
+		}
+	}
+}

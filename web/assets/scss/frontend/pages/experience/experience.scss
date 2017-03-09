@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+@import "../../layout/global";
+.main-con{
+	padding-top: 20px;
+	position: relative;
+}
+.main-con-experience{
+	position: relative;
+	.tabBtns{
+		padding: 0 10px;
+		height: 36px;
+		line-height: 36px;
+		font-size: 0;
+		position: absolute;
+	    left: -60px;
+        top: 0;
+		a{
+			width: 95px;
+			padding: 10px 2px;
+			text-align: center;
+			color: #7b7e85;
+			font-size: 14px;
+			background: #fff;
+			display: block;
+			@include box-shadow(0 0 3px rgba(0,0,0,0.1));
+			i{
+				display: block;
+				font-size: 24px;
+				*width: 20px;
+				*height: 20px;
+				*background: url(../../../../img/frontend/experience/homeIcon.png) no-repeat -2px -22px;
+			}
+			&:hover, &.active{
+				color: #131313;
+				background: #fff;
+			}
+			&.active{
+				color: #fff;
+				@include gradient(#1fb9e8,#02afe3);
+				i{
+					color: #fff;
+					*background: url(../../../../img/frontend/experience/homeIcon.png) no-repeat -2px 0; 
+				}
+				&:after{
+					right: -8px;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					border: solid transparent;
+					border-left-color: #17b5e5;
+					border-width: 9px;
+					margin-top: -4px;
+				}
+			}
+		}
+	}
+	.tabCon{
+		width: 1000px;
+		position: relative;
+		z-index: 1;
+		iframe{
+			background: url(../../../../img/frontend/experience/loading.gif) no-repeat center 160px;
+		}
+		.maintenance{
+			width: 100%;
+			text-align: center;
+			padding-top: 50px;
+			padding-bottom: 50px;
+			background-color: #fff;
+			display: none;
+			.con{
+				font-size: 16px;
+				color: #a1a1a1;
+				line-height: 25px;
+			}
+		}
+	}
+}

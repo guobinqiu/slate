@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Callboard:base.html.twig' %}
 {% block title %}{{ parent() }}公告详情{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/callboard.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 

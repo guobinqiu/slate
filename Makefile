@@ -30,6 +30,7 @@ assets-rebuild:
 
 deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
+	./app/console	assetic:dump --env=test
 
 setup: show-setting setup-submodules create-dir fix-perms setup-databases deploy-js-routing cc-all setup-web-root
 

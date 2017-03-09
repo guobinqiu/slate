@@ -1,12 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% extends '::adminBase.html.twig' %}
+
+{% block title %}在线调查{% endblock %}
 
 {% block stylesheet %}
-    <link href="{{ asset('bundles/affiliateapp/css/endpage.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block header %}
-    <meta charset="UTF-8">
-    <title>在线调查</title>
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/backend/endpage.css"
+        "assets/scss/backend/endpage.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
     <!--[if IE 7]>
        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome/scss/font-awesome-ie7.min.css') }}">
     <![endif]-->

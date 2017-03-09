@@ -1,0 +1,10 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/questionnaire.css"
+		"assets/scss/frontend/pages/survey/questionnaire.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}

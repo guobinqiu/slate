@@ -1,0 +1,29 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/backend/common.css"
+        "assets/scss/backend/calendar.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/backend/common.js"
+        "assets/js/backend/plugin/load.js"
+        "assets/js/backend/page.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{ asset('assets/js/backend/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/backend/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
+    <script type="text/javascript">
+    if($("#content").length){
+        KE.show({
+            id : 'content'
+        });
+    }
+    </script>
+{% endblock %}

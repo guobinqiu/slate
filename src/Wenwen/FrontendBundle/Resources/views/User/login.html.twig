@@ -7,8 +7,14 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/lpBg.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/login.css"
+    	"assets/scss/frontend/component/quickLog.scss"
+    	"assets/scss/frontend/component/lpBg.scss"
+        "assets/scss/frontend/pages/user/login.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
@@ -20,10 +26,10 @@
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
 								<![if !IE]>
-									<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+									<img class="logo" src="{{ asset('assets/img/frontend/common/logo.svg') }}" alt="91问问">
 								<![endif]>
 								<!--[if IE]> 
-								    <img src="{{ asset('img/common/logo.png') }}" alt="91问问"></a>
+								    <img src="{{ asset('assets/img/frontend/common/logo.png') }}" alt="91问问"></a>
 								<![endif]-->
 			        		</a>
 			        	</div>
@@ -79,9 +85,14 @@
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript" src="{{ asset('js/plugin/jquery.html5-placeholder-shim.js')}}"></script>
-	<script type="text/javascript" src="{{ asset('js/plugin/client.min.js')}}"></script>
-	<script type="text/javascript">
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/login.js"
+        "assets/js/common/plugin/jquery.html5-placeholder-shim.js"
+        "assets/js/common/plugin/client.min.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
 		var client = new ClientJS(); // Create A New Client Object
 		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
 		$('#login_fingerprint').val(fingerprint);

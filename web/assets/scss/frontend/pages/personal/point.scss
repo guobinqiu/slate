@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+@import "../../layout/global";
+.main-personal-points{
+	padding: 30px 40px;
+	table{
+		th,td{
+			white-space: nowrap;
+			padding: 14px!important;
+		}
+	}
+}
+
+@media only screen and (max-width: 767px){
+	.main-personal-points {
+	    padding: 10px 15px;
+	}
+}

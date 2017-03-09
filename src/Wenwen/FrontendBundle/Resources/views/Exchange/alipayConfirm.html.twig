@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Exchange:base.html.twig' %}
 {% block title %}{{ parent() }}支付宝兑换{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/exchangeFlow.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -32,7 +28,7 @@
 									</li>
 								</ul>
 								<div class="backError idCardError">{% if code is defined %}{{code}}{% endif %}</div>
-								<div class="btn spec"><span id="alipay_save">下一步</span></div>
+								<div class="btn spec"><span id="alipayConfirm_save">下一步</span></div>
 								<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
 								<br><br>
 					    		</form>
@@ -48,9 +44,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/validate_alipay.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/exchange/alipayConfirm.js')}}"></script>
 {% endblock %}

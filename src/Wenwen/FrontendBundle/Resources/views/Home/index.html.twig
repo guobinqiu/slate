@@ -6,9 +6,14 @@
 {% endblock %}
 
 {% block stylesheet %}
-	<link href="{{ asset('css/component/pagepiling.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/login.css') }} " rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/component/lpBg.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/index.css"
+        "assets/scss/frontend/component/pagepiling.scss"
+        "assets/scss/frontend/pages/user/login.scss"
+        "assets/scss/frontend/component/lpBg.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
@@ -20,10 +25,10 @@
 			        	<div class="navbar-header pull-left">
 							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
 								<!--[if !IE]>
-				 					<img class="logo" src="{{ asset('img/common/logo.svg') }}" alt="91问问">
+				 					<img class="logo" src="{{ asset('assets/img/frontend/common/logo.svg') }}" alt="91问问">
 				 				<![endif]-->  
 				 				<![if IE]>
-				 				 	<img class="logo" src="{{ asset('img/common/logo.png') }}" alt="91问问">
+				 				 	<img class="logo" src="{{ asset('assets/img/frontend/common/logo.png') }}" alt="91问问">
 				 				<![endif]>
 			        		</a>
 			        	</div>
@@ -55,8 +60,8 @@
 					<div class="row">
 						<div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
 							<h2>
-								<img class="img-responsive center-block hidden-xs hidden-sm" src="{{ asset('img/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
-								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('img/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
+								<img class="img-responsive center-block hidden-xs hidden-sm" src="{{ asset('assets/img/frontend/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
+								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
 							</h2>
 							<div class="btns center-block">
 								<a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录">登录</a>
@@ -83,8 +88,8 @@
 					<div class="introTit row">
 						<div class="col-sm-12">
 							<h2>
-								<img class="img-responsive center-block hidden-sm" src="{{ asset('img/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
-								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('img/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
+								<img class="img-responsive center-block hidden-sm" src="{{ asset('assets/img/frontend/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
 							</h2>
 							<p class="sec1Intro">隶属于亚洲调查样本库，拥有150多万会员</p>
 						</div>
@@ -108,10 +113,10 @@
 						<div class="col-sm-10 col-sm-offset-1">
 							<div class="row">
 								<div class="process col-sm-4 col-sm-offset-2">
-									<img class="img-responsive center-block" src="{{ asset('img/landingpage/process.png') }}" alt="怎样赚积分">
+									<img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/process.png') }}" alt="怎样赚积分">
 								</div>
 								<div class="pcImg col-sm-4">
-									<img class="img-responsive center-block" src="{{ asset('img/landingpage/pc.png') }}" alt="pc">
+									<img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/pc.png') }}" alt="pc">
 								</div>
 							</div>
 						</div>
@@ -126,25 +131,25 @@
 								<div class="row animated fadeInUp">
 									<div class="col-sm-12">
 										<h2>
-											<img class="hidden-sm center-block" src="{{ asset('img/landingpage/text03.png') }}" alt="看看他们都说了什么">
-											<img class="hidden-md hidden-lg center-block" src="{{ asset('img/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
+											<img class="hidden-sm center-block" src="{{ asset('assets/img/frontend/landingpage/text03.png') }}" alt="看看他们都说了什么">
+											<img class="hidden-md hidden-lg center-block" src="{{ asset('assets/img/frontend/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
 										</h2>
 									</div>
 								</div>
 								<div class="row animated fadeInUp">
 
 									<div class="col-sm-12 text-center">
-										<img class="item item1 img-responsive" src="{{ asset('img/landingpage/sec3Item1.png') }}" alt="会员心声">
+										<img class="item item1 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item1.png') }}" alt="会员心声">
 									
-										<img class="item item2 img-responsive" src="{{ asset('img/landingpage/sec3Item2.png') }}" alt="会员心声">
+										<img class="item item2 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item2.png') }}" alt="会员心声">
 									</div>
 									
 								</div>
 								<div class="row animated fadeInUp">
 									<div class="col-sm-12 hidden-sm text-center">
-										<img class="item item3 img-responsive" src="{{ asset('img/landingpage/sec3Item3.png') }}" alt="会员心声">
+										<img class="item item3 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item3.png') }}" alt="会员心声">
 									
-										<img class="item item4 img-responsive" src="{{ asset('img/landingpage/sec3Item4.png') }}" alt="会员心声">
+										<img class="item item4 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item4.png') }}" alt="会员心声">
 									</div>
 								</div>
 							</div>
@@ -157,7 +162,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-12">
-							<h2><img src="{{ asset('img/landingpage/text04.png') }}" alt="您还在等什么"></h2>
+							<h2><img src="{{ asset('assets/img/frontend/landingpage/text04.png') }}" alt="您还在等什么"></h2>
 							<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
 							<div class="row">
 								<div class="col-sm-8 col-sm-offset-2">
@@ -180,6 +185,11 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.pagepiling.min.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/landing.js')}}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/index.js"
+        "assets/js/frontend/plugin/jquery.pagepiling.min.js"
+        "assets/js/frontend/pages/landing.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

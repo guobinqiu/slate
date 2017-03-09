@@ -2,7 +2,12 @@
 {% block title %}{{ parent() }}邀请好友{% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{{ asset('css/invitation.css') }} " type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/invitation.css"
+        "assets/scss/frontend/pages/event/invitation.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -15,7 +20,7 @@
             <div class="container">
                 <div class="bannerCon center-block row">
                     <div class="col-sm-12">
-                        <img class="img-responsive" src="{{ asset('img/invitation/banner.png') }}">
+                        <img class="img-responsive" src="{{ asset('assets/img/frontend/invitation/banner.png') }}">
                     </div>
                 </div>
 
@@ -25,7 +30,7 @@
                         <div class="con">
                             <p>赚钱引导流程</p>
                             <div class="rulePic">
-                                <img class="img-responsive" src="{{ asset('img/invitation/rulePic.jpg') }}">
+                                <img class="img-responsive" src="{{ asset('assets/img/frontend/invitation/rulePic.jpg') }}">
                             </div>
                         </div>
                     </div>
@@ -54,7 +59,7 @@
                                 <div class="col-xs-6 col-sm-6 col-md-3 ieBtn">
                                     <div class="ibtnItem">
                                         <a href="#" class="ibtn pull-left bds_qzone" data-cmd="qzone" title="分享到QQ空间">
-                                            <img class="qzoneIcon" src="{{ asset('img/invitation/qzoneIcon.png') }}">分享到QQ空间
+                                            <img class="qzoneIcon" src="{{ asset('assets/img/frontend/invitation/qzoneIcon.png') }}">分享到QQ空间
                                         </a>
                                     </div>
                                 </div>
@@ -119,7 +124,7 @@
                                         {% for invitee in invitees %}
                                             <div class="fdItem col-sm-2 col-xs-3">
                                                 <img class="img-responsive"
-                                                     src="{{ asset(invitee.icon_path|default('img/common/default_tx.png')) }}">
+                                                     src="{{ asset(invitee.icon_path|default('assets/img/frontend/common/default_tx.png')) }}">
                                                 <p class="nick text-center">{{ invitee.nick }}</p>
                                             </div>
                                         {% endfor %}
@@ -141,6 +146,7 @@
 {% endblock %}
 
 {% block javascript %}
+    <!-- pages js -->
     <script type="text/javascript">
         window._bd_share_config = {
             common: {
@@ -156,7 +162,6 @@
         };
         with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
     </script>
-
     <script type="text/javascript" src="http://cdn.css.net/libs/zeroclipboard/2.0.0/ZeroClipboard.min.js"></script>
     <script type="text/javascript">
         var client = new ZeroClipboard($("#copy-button"));

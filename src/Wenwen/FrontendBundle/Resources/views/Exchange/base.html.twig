@@ -1,0 +1,22 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/exchange.css"
+        "assets/scss/frontend/component/layer.scss"
+        "assets/scss/frontend/component/form.scss"
+        "assets/scss/frontend/pages/exchange/*"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/exchange.js"
+        "assets/js/frontend/component/autoJump.js"
+        "assets/js/frontend/pages/exchange/*"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:User:base.html.twig' %}
 {% block title %}{{ parent() }}找回密码{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/resetPwd.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {{ include( 'WenwenFrontendBundle:Components:_headerSimple.html.twig', {'theme': '重置密码'} ) }}
@@ -37,8 +33,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/pages/user/resetPwd.js')}}"></script>
 {% endblock %}

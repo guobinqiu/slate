@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Help:base.html.twig' %}
 {% block title %}{{ parent() }}联系客服{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/feedback.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -16,7 +12,7 @@
 			<div class="main-help-con panel">
 				<div class="main-help-feedback">
 					<div class="finished">
-						<img src="{{ asset('img/questionnaire/normalface.png') }}">
+						<img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
 						<p>感谢您的意见，我们的客服小问将根据您的问题，尽快联系您。</p>
 						<a href="{{ path('_homepage') }}">返回首页></a>
 					</div>

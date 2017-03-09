@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+@import "../../layout/global";
+.survey-sub{
+	width: 100%;
+	h1{
+		font-size: 34px;
+		color: $main-title-color2;
+		margin: 18px 0 0 14px;
+	}
+	position: relative;
+	z-index: 1;
+	&>li{
+		border-top: none;
+		border-bottom: $block-inner-border;
+	}
+	li{
+		padding: 17px 30px 17px;
+	}
+	#noSurvey{
+		text-align: center;
+	}
+	.survey-btn{
+		.disabled{
+			width: 112px;
+			height: 34px;
+			line-height: 34px;
+		}
+	}
+	.survey-btn a{
+		width: 112px;
+	    height: 34px;
+	    line-height: 34px;
+	}
+	.rewardPoint{
+		right: 148px;
+	}
+}

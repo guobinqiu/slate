@@ -1,46 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% extends '::adminBase.html.twig' %}
 
-{% block header %}
-    <meta charset="UTF-8">
-    <title>Admin - Recruit Report</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
-{% endblock %}
+{% block title %} {{ parent() }} - Recruit Report {% endblock %}
 
-{% block content %}
-  <div class="container-full">
-    <div class="row">
-      <h3>过去30天的注册情况</h3>
-      <table class='participationDailyReport table table-striped table-hover table-header-rotated'>
-        <thead>
-          <tr>
-            <th class="rotate"><div><span>日期</span></div></th>
-            {% for title, value in return.titles %}
-            <th class="rotate"><div><span>{{title}}</span></div></th>
-            {% endfor %}
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for date, report in return.reports %}
-            <tr>
-              <td>{{date}}</td>
-              {% for route, count in report %}
-              <td>{{count.activeCount}}/{{count.registerCount}} <br>
-              {% if count.rawRetentionRate > 20 %}<font color="blue">({{count.retentionRate}}%)</font>{% else %}({{count.retentionRate}}%){% endif %}</td>
-              {% endfor %}
-            </tr>
-          {% endfor %}
-        </tbody>
-
-      </table>
-
-      <br>
-    
-    </div>
-  </div>
-
-{% endblock %}
-
+{% block stylesheet %}
 <style type="text/css">
   .container-full .row{
     margin: 0 17px;
@@ -74,4 +36,41 @@
     border-bottom: 1px solid #ccc;
   }
 
-</style>
+</style> 
+{% endblock %}
+
+{% block body %}
+  <div class="container-full">
+    <div class="row">
+        <h3>过去30天的注册情况</h3>
+        <table class='participationDailyReport table table-striped table-hover table-header-rotated'>
+            <thead>
+                <tr>
+                    <th class="rotate">
+                        <div><span>日期</span></div>
+                    </th>
+                    {% for title, value in return.titles %}
+                    <th class="rotate">
+                        <div><span>{{title}}</span></div>
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for date, report in return.reports %}
+                <tr>
+                    <td>{{date}}</td>
+                    {% for route, count in report %}
+                    <td>{{count.activeCount}}/{{count.registerCount}}
+                        <br> {% if count.rawRetentionRate > 20 %}
+                        <font color="blue">({{count.retentionRate}}%)</font>{% else %}({{count.retentionRate}}%){% endif %}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

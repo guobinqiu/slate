@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:ProjectSurvey:base.html.twig' %}
 {% block title %}{{ parent() }}回答完成{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
@@ -19,39 +15,39 @@
                         <div class="qnEndTxt">
                             <div class="txt">
                                 {% if answerStatus == 'complete' %}
-                                    <img src="{{ asset('img/questionnaire/normalface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
                                     <p>恭喜完成该调查问卷，您已获得{{rewardedPoint}}积分。</p>
                                 {% elseif answerStatus == 'screenout' %}
-                                    <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
                                     <p>很遗憾，您不符合该调查问卷的要求。</p>
                                     <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
                                     <p>去看看别的问卷。</p>
                                 {% elseif answerStatus == 'quotafull' %}
-                                    <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
                                     <p>很遗憾，您慢了一步，该调查问卷名额已满。</p>
                                     <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
                                     <p>去看看别的问卷。</p>
                                 {% elseif answerStatus == 'participated' %}
-                                    <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
                                     <p>您已经参与过该调查问卷。</p>
                                     <p>去看看别的问卷。</p>
                                 {% elseif answerStatus == 'error' %}
-                                    <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
                                     <p>您已经在别处参与过该调查问卷。</p>
                                     <p>去看看别的问卷。</p>
                                 {% elseif answerStatus == 'notallowed' %}
-                                    <img src="{{ asset('img/questionnaire/sadface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
                                     <p>很抱歉，您不符合该调查问卷的要求。</p>
                                     <p>去看看别的问卷。</p>
                                 {% else %}
-                                    <img src="{{ asset('img/questionnaire/normalface.png') }}">
+                                    <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
                                     <p>非常抱歉，问卷出现了一些小问题，此时无法确认您的回答是否有效。</p>
                                     <p>请联系我们的客服，告知编号（{{key}}）和您的账号信息，</p>
                                     <p>我们的客服会尽最快的速度答复您。</p>
                                 {% endif %}
                             </div>
                                 {% if ticketCreated %}
-                                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                                 {% endif %}
                         </div>
                         <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>

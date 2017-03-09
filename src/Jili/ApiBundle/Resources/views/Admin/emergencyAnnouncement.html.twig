@@ -1,39 +1,56 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-<META http-equiv=Content-Type content="text/html; charset=utf8">
-<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
-<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
-<script type="text/javascript">
-function aa(){
-	$("#content").val("");
-}
-function sendContent(){
-    $.ajax({  
-        url: "{{ path('_admin_saveEmergencyAnnouncement') }}?content="+encodeURIComponent($("#content").val()),
-        type: "POST",
-        success:function(data){
-           if(data==1){
-        	   alert('提交成功');
-               $("#content").val("");
-           }else{
-        	   alert('提交失败');
-           }
-        }
-      });
-}
-</script>
-</HEAD>
-<BODY>
-<form  method="post" action="{{ path('_admin_emergencyAnnouncement')}}">
-<table style="padding:100px;" >
-  <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <tr><td>紧急公告内容&nbsp;&nbsp;</td><td><textarea id="content" name="content" cols="50" rows="10">{{ content }}</textarea></td></tr>
-	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-	<tr><td></td><td><input type="button" value='清除' onclick="aa()";><input type="button" value='提交' onclick="sendContent()" ></td></tr>
- </table>
- </form>
- 
+{% extends 'WenwenFrontendBundle:admin:base.html.twig' %} 
 
-</BODY></HTML>
+{% block body %}
+<form method="post" action="{{ path('_admin_emergencyAnnouncement')}}">
+    <table style="padding:100px;">
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>紧急公告内容&nbsp;&nbsp;</td>
+            <td>
+                <textarea id="content0" name="content0" cols="50" rows="10">{{ content }}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" value='清除' id="clearCon" >
+                <input type="button" value='提交' id="submitCon">
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %} 
+
+{% block extra_js %}
+<script type="text/javascript">
+$(document).ready(function() {
+    function sendContent() {
+        $.ajax({
+            url: "{{ path('_admin_saveEmergencyAnnouncement') }}?content=" + encodeURIComponent($("#content0").val()),
+            type: "POST",
+            success: function(data) {
+                if (data == 1) {
+                    alert('提交成功');
+                    $("#content0").val("");
+                } else {
+                    alert('提交失败');
+                }
+            }
+        });
+    }
+    $("#clearCon").on('click', function(){
+        $("#content0").val("");
+    });
+    $("#submitCon").on('click', function(){
+        sendContent();
+    });
+});
+</script>
+{% endblock %}

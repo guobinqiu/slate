@@ -1,0 +1,10 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/callboard.css"
+        "assets/scss/frontend/pages/callboard.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}

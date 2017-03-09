@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Help:base.html.twig' %}
 {% block title %}{{ parent() }}新手上路{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/newGuide.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -27,7 +23,7 @@
         <div class="newGuide newGuideBox clearfix">
             <div class="row">
                 <div class="newGuide-item col-xs-12 col-sm-4">
-                	<em><img src="{{ asset('img/help/icon01.png') }}" width="105" height="84" alt="问卷调查"/></em>
+                	<em><img src="{{ asset('assets/img/frontend/help/icon01.png') }}" width="105" height="84" alt="问卷调查"/></em>
                     <dl>
                         <dt>问卷调查</dt>
                         <dd>动动手指，回答问卷，就能赚取积分！</dd>
@@ -35,7 +31,7 @@
                     </dl>
                 </div>
                 <div class="newGuide-item col-xs-12 col-sm-4">
-                	<em><img src="{{ asset('img/help/icon02.png') }}" width="105" height="84" alt="快速问答"/></em>
+                	<em><img src="{{ asset('assets/img/frontend/help/icon02.png') }}" width="105" height="84" alt="快速问答"/></em>
                     <dl>
                         <dt>快速问答</dt>
                         <dd>每日一答，由你做主，积分积少成多！</dd>
@@ -43,7 +39,7 @@
                     </dl>
                 </div>
                 <div class="newGuide-item noBorder col-xs-12 col-sm-4">
-                	<em><img src="{{ asset('img/help/icon04.png') }}" width="105" height="84" alt="任务体验"/></em>
+                	<em><img src="{{ asset('assets/img/frontend/help/icon04.png') }}" width="105" height="84" alt="任务体验"/></em>
                     <dl>
                         <dt>任务体验</dt>
                         <dd>各种体验，不同玩法，积分收入囊中！</dd>

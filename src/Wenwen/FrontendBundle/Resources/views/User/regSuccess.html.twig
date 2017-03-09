@@ -2,7 +2,12 @@
 {% block title %}{{ parent() }}注册完成{% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/regSuccess.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/regSuccess.css"
+        "assets/scss/frontend/pages/user/regSuccess.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}

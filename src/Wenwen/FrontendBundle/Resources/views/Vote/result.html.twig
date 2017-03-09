@@ -1,13 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Vote:base.html.twig' %}
 {% block title %}{{ parent() }}投票结果{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，投票结果" />
 <meta name="description" content="快速问答结果页面展示了参与用户的观点，还可分享到微博给更多的朋友看到您的观点。" />
 <meta name="title" content="91问问调查网 - 投票结果" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -25,7 +21,7 @@
                             {% if vote_image_path %}
                             <img class="center img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                             {% else %}
-                            <img class="center img-responsive" src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
+                            <img class="center img-responsive" src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">
                             {% endif %}
                         </div>
                         <div class="relateText col-xs-12 col-sm-9">
@@ -70,8 +66,6 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/vote/voteDetail.js')}}"></script>
+{% block extra_js %}
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

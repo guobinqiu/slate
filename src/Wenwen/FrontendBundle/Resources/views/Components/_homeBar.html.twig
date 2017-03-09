@@ -5,7 +5,7 @@
                 {% if user.iconPath %}
                     <img class="img-circle" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
                 {% else %}
-                    <img src="{{ asset('img/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
+                    <img src="{{ asset('assets/img/frontend/home/homeAvr.svg') }}" alt="头像" width="52" height="52">
                 {% endif %}
                 <div class="infoText">
                     {% if user.nick|length > 8 %}

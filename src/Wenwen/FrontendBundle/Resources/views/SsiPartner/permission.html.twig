@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:ProjectSurvey:base.html.twig' %}
 {% block title %}{{ parent() }}高积分问卷邀请函{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
@@ -20,7 +16,7 @@
                           <div class="col-xs-8 col-sm-8">
                               <h1><span>S市场调查项目</span>邀请函</h1>
                           </div>
-                          <div class="col-xs-4 col-sm-4 prmIco"><img class="img-responsive pull-right" src="{{ asset('img/questionnaire/prmIco.png') }}"></div> 
+                          <div class="col-xs-4 col-sm-4 prmIco"><img class="img-responsive pull-right" src="{{ asset('assets/img/frontend/questionnaire/prmIco.png') }}"></div> 
                         </div>
                         <div class="prmState">想要问卷答不停吗，您可以加入S市场调查项目，获得更多回答问卷的机会。
                         </div>
@@ -31,7 +27,7 @@
                         </ul>
                         <form action="{{ path('_ssi_partner_commit') }}" method="post" id="ssi_permission_form">
                           <div class="prmBtn">
-                            <input type="image" alt="发送" src="{{ asset('img/questionnaire/send.jpg') }} "  />
+                            <input type="image" alt="发送" src="{{ asset('assets/img/frontend/questionnaire/send.jpg') }} "  />
                           </div>
                           <div style="display: none;">{# {{ form_widget(form.token) }} #}</div>
                         </form>

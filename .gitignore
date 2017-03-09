@@ -5,6 +5,7 @@ web/images/tb_products_pic/
 web/images/taobao_products_picture/
 web/images/website_logos/*
 web/uploads/
+web/dist/
 app/cache/*
 app/sessions/*
 app/cache_data/*
