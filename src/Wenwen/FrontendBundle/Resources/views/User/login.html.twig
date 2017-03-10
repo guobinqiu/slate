@@ -57,12 +57,11 @@
 												<div class="error">{{ form_errors(form.password) }}</div>
 											</li>
 										</ul>
-										<div class="pull-left" style="color: #fff; font-size: 14px;">{{ form_widget(form.remember_me) }}记住密码30天</div>
+										<div class="text-left checkbox rememberMe"><label for="login_remember_me" >{{ form_widget(form.remember_me) }}记住密码30天</label><a href="{{ path('_user_resetPwd') }}" class="pull-right">忘记密码？</a></div>
 										{{ form_row(form.fingerprint) }}
 										{{ form_row(form._token) }}
 										<input type="submit" class="login-btn" value="登录"/>
 						            </form>
-						            <p class="subCon"><a href="{{ path('_user_resetPwd') }}" class="spec">忘记密码？</a></p>
 						            <div class="login-btn-others">
 						            	<p class="othersLine">快捷登录</p>
 						                <p class="othersItem row">
