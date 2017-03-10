@@ -32,6 +32,8 @@
 	    }
 	}
 	.error{
+		position: relative;
+		z-index: 1;
 		ul{
 			text-align: left;
 			li{
@@ -48,14 +50,26 @@
 		}
 	}
 	.errorReg{
+		height: 30px;
+		color: #a94442!important;
+		line-height: 30px;
+		display: inline-block; 
 		position: absolute;
-		right: 6px;
-		top: -2px;
+	    top: 6px;
+	    right: 5px;
+	    font-size: 12px;
+	    z-index: 6;
 		ul{
 			background: none;
 		}
 	}
 	.errorLogBack{
+		.close{
+			position: absolute;
+			z-index: 1999;
+			top: 2px;
+			right: 5px;
+		}
 		ul{
 			background: none;
 			li{
@@ -256,9 +270,15 @@
 			text-align: left;
 		}
 		.error{
+			height: 30px;
+			color: #a94442!important;
+			line-height: 30px;
+			display: inline-block;
 			position: absolute;
-			top: -2px;
-			right: 5px;
+		    top: 6px;
+		    right: 5px;
+		    font-size: 12px;
+		    z-index: 6;
 			ul{
 				background: none;
 			}
