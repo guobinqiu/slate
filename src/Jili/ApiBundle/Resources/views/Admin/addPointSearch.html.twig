@@ -2,37 +2,30 @@
 
 {% block body %}
 <div class="tips">
-    <p>&nbsp;</p>
-    <p>注：不选择时间，默认取今天的数据。</p>
-    <p>购物返利场合</p>
-    <p>status 1：订单开始&nbsp;&nbsp; 2：确认中&nbsp;&nbsp; 3：成功(已完成)&nbsp;&nbsp; 4：失败(已拒绝)</p>
+    注：不选择时间，默认取今天的数据。<br>
+    购物返利场合<br>
+    status 1：订单开始&nbsp;&nbsp; 2：确认中&nbsp;&nbsp; 3：成功(已完成)&nbsp;&nbsp; 4：失败(已拒绝)
 </div>
-<table align="center" width="" class="search">
-    <form action="{{ path('_admin_addPointSearch')}}" method="post" id="form1" }}>
-        <tr>
-            <td colspan="7" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="7" align="center">
-                任务类型:
-                <select id="category_id" name="category_id">
-                    <option value="0">请选择</option>
-                    {% for item in categoryList %}
-                    <option value="{{ item.id }}" {% if item.id==category_id %} selected="selected" {% endif %}>{{ item.id }}-{{ item.categoryName }}{{ item.asp }}{{ item.displayName }}</option>
-                    {% endfor %}
-                </select>&nbsp;&nbsp; user id:
-                <input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="10" /> email:
-                <input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="30" /> 开始时间:
-                <input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor:pointer" /> &nbsp;结束时间:
-                <input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor:pointer" />&nbsp;
-                <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
-        </tr>
-    </form>
-    <tr>
-        <td colspan="7">&nbsp;</td>
-    </tr>
-</table>
-<table align="center" width="" class="list">
+<form action="{{ path('_admin_addPointSearch')}}" method="post" id="form1" >
+    <div class="text-center search">
+        <label for="category_id">任务类型:</label>
+        <select id="category_id" name="category_id">
+            <option value="0">请选择</option>
+            {% for item in categoryList %}
+            <option value="{{ item.id }}" {% if item.id==category_id %} selected="selected" {% endif %}>{{ item.id }}-{{ item.categoryName }}{{ item.asp }}{{ item.displayName }}</option>
+            {% endfor %}
+        </select>
+        <label for="user_id">user id:</label>
+        <input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="10" /> 
+        <label for="email">email:</label>
+        <input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="30" /><label for="start">开始时间:</label>
+        <input id="start" name="start_time" value="{% if start %}{{ start }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor:pointer" />
+        <label for="end">结束时间:</label>
+        <input name="end_time" id="end" value="{% if end %}{{ end }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor:pointer" />
+        <input class="btn btn-primary" type="button" id="select" name="select" value="查 询" />
+    </div>
+</form>
+<table class="list">
     <tr>
         <th>user id</th>
         <th>email</th>
@@ -45,14 +38,14 @@
     </tr>
     {% if pagination %} {% for item in pagination %}
     <tr>
-        <td align="center">{{ item.id }}</td>
-        <td align="center">{{ item.email }}</td>
-        <td align="center">{{ item.point }}</td>
-        <td align="center">{{ item.task_name }}</td>
-        <td align="center">{{ item.category_type }}</td>
-        <td align="center">{{ item.task_type }}</td>
-        <td align="center">{{ item.date }}</td>
-        <td align="center">{{ item.status }}</td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.point }}</td>
+        <td>{{ item.task_name }}</td>
+        <td>{{ item.category_type }}</td>
+        <td>{{ item.task_type }}</td>
+        <td>{{ item.date }}</td>
+        <td>{{ item.status }}</td>
     </tr>
     {% endfor %} {% endif %}
 </table>

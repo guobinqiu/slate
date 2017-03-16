@@ -2,48 +2,43 @@
 
 {% block body %}
 <p class="tips">注：默认开始时间为昨天</p>
-<table align="center" width="" class="search">
-    <form action="{{ path('_admin_kpiDailyRR')}}" method="post" id="form1" }}>
-        <tr>
-            <td colspan="7" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="7" align="center">开始时间:
-                <input id="kpiYMD" name="kpiYMD" value="{% if kpiYMD %}{{ kpiYMD }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor: pointer" /> &nbsp;&nbsp;
-                <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
-        </tr>
-    </form>
-</table>
-<h3 align="center">{{ kpiYMD }}&nbsp;</h3>
-<table align="center" width="100%" border="0" class="list">
+<form action="{{ path('_admin_kpiDailyRR')}}" method="post" id="form1" >
+    <div class="text-center search">
+        <label for="kpiYMD">开始时间:</label>
+        <input id="kpiYMD" name="kpiYMD" value="{% if kpiYMD %}{{ kpiYMD }}{% endif %}" size="18" maxlength="60" readonly="readonly" onClick="WdatePicker()" class="Wdate" style="cursor: pointer" /> &nbsp;&nbsp;
+        <input class="btn btn-primary" type="button" id="select" name="select" value="查 询" />
+    </div>
+</form>
+<h3 class="text-center">{{ kpiYMD }}</h3>
+<table class="list">
     <tr>
-        <th align="left">RR_day</th>
+        <th>RR_day</th>
         {% if kpi %} {% for item in kpi.rrday %}
-        <td align="left">{{ item }}</td>
+        <td>{{ item }}</td>
         {% endfor %} {% endif %}
     </tr>
     <tr>
-        <th align="left">register_YMD</th>
+        <th>register_YMD</th>
         {% if kpi %} {% for item in kpi.registerYMD %}
-        <td align="left">{{ item|date("m/d") }}</td>
+        <td>{{ item|date("m/d") }}</td>
         {% endfor %} {% endif %}
     </tr>
     <tr>
-        <th align="left">register_user</th>
+        <th>register_user</th>
         {% if kpi %} {% for item in kpi.registerUser %}
-        <td align="left">{{ item }}</td>
+        <td>{{ item }}</td>
         {% endfor %} {% endif %}
     </tr>
     <tr>
-        <th align="left">active_user</th>
+        <th>active_user</th>
         {% if kpi %} {% for item in kpi.activeUser %}
-        <td align="left">{{ item }}</td>
+        <td>{{ item }}</td>
         {% endfor %} {% endif %}
     </tr>
     <tr>
-        <th align="left">RR</th>
+        <th>RR</th>
         {% if kpi %} {% for item in kpi.rr %}
-        <td align="left">{{ item }}</td>
+        <td>{{ item }}</td>
         {% endfor %} {% endif %}
     </tr>
 </table>

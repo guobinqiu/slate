@@ -1,128 +1,7 @@
 $admin-width: 90%;
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    line-height: 150%;
-    font-size: 12px;
-    font-family: "Verdana", "arial", "Helvetica", "sans-serif";
-    color: #000;
-    background-color: #fff;
-}
-
-img {
-    vertical-align: top;
-}
-
-a, a.menuChild {
-    color: #036;
-    text-decoration: none;
-}
-
-a:hover, a.menuChild:hover {
-    color: #f60;
-    text-decoration: underline;
-}
-
-a.menuParent {
-    color: #000;
-    text-decoration: none;
-}
-
-a.menuParent:hover {
-    color: #f60;
-    text-decoration: none;
-}
-
-table.position {
-    width: 100%;
-}
-
-tr.position {
-    height: 25px;
-    background-color: #f4f7fc;
-}
-
-td.position {
-    border-right: #adceff 1px solid;
-    padding-left: 20px;
-    border-bottom: #adceff 1px solid;
-}
-
-table.listtable {
-    width: 98%;
-    background-color: #b1ceee;
-}
-
-tr.listHeadertr {
-    font-weight: bold;
-    height: 25px;
-    background-color: #ebf4fd;
-    text-align: center;
-}
-
-tr.listtr {
-    height: 25px;
-    background-color: #fff;
-    text-align: center;
-}
-
-tr.listalternatingtr {
-    height: 25px;
-    background-color: #fffdf0;
-    text-align: center;
-}
-
-tr.listFootertr {
-    height: 30px;
-    background-color: #ebf4fd;
-    text-align: center;
-}
-
-table.edittable {
-    width: 98%;
-    background-color: #b1ceee;
-}
-
-tr.editHeadertr {
-    height: 25px;
-    background-color: #ebf4fd;
-}
-
-td.editHeadertd {
-    padding-left: 50px;
-    font-weight: bold;
-}
-
-tr.edittr {
-    height: 30px;
-}
-
-td.editlefttd {
-    width: 150px;
-    background-color: #fffdf0;
-    text-align: center;
-}
-
-td.editrighttd {
-    padding-left: 10px;
-    background-color: #fff;
-}
-
-tr.editFootertr {
-    height: 40px;
-    background-color: #ebf4fd;
-}
-
-td.editFootertd {
-    padding-left: 150px;
-}
-
-ul,
-li {
-    list-style-type: none;
+.autoCenter {
+    width: $admin-width;
+    margin: 0 auto;
 }
 
 th {
@@ -131,37 +10,15 @@ th {
 }
 
 table {
+    @extend .autoCenter;
     border-collapse: collapse;
     font-size: 12px;
     font-family: "Verdana", "arial", "Helvetica", "sans-serif";
-    &.menu {
-        table {
-            margin-bottom: 5px;
-            &.first {
-                margin-top: 5px;
-            }
-        }
-        th,
-        td {
-            height: 22px;
-            line-height: 22px;
-        }
-    }
-    &.header {
-        border-bottom: 4px solid #1c5db6;
-    }
-    &.test {
-        width: 90%;
-        margin: 10px auto 20px;
-    }
-    &.search {
-        margin: 10px auto;
-    }
     &.list {
-        width: 90%;
-        text-align: center;
-        margin: 20px auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
         border: 1px solid #eee;
+        text-align: center;
         word-break: break-all;
         word-wrap: break-word;
         th,
@@ -185,7 +42,7 @@ table {
         }
     }
     &.inputForm {
-        width: 90%;
+        width: $admin-width;
         margin: 20px auto;
         th {
             width: 150px;
@@ -198,23 +55,19 @@ table {
     &.stripe {
         th,
         td {
+            padding: 5px;
             height: 24px;
             line-height: 24px;
             border: 1px solid #eee;
-            padding: 5px;
-        }
-        .left {
-            text-align: left;
-        }
-        .right {
-            text-align: right;
         }
     }
 }
 
-form table {
-    width: 90%;
-    margin: 0 auto;
+form table{
+    @extend .autoCenter;
+}
+form .container{
+    margin-top: 10px;
 }
 
 input,
@@ -240,35 +93,27 @@ input.Wdate {
 input[type="submit"],
 input[type="button"] {
     margin: 10px 10px 20px 0;
-    width: 65px;
-    height: 24px;
-    line-height: 24px;
-    border: 1px solid #999;
 }
 
-input[type="button"].J_JumpTo {
-    margin: 0;
+.search, .tips {
+    @extend .autoCenter;
 }
-
-input[type="submit"].btn-lg{
-    margin: 0;
-    width: auto;
-    height: auto;
-}
-
-.tips {
-    width: 90%;
-    margin: 0 auto;
-}
-
-ul.tips {
-    list-style: none;
-}
-
-h1,
-h2,
-h3 {
+.search{
     margin-top: 10px;
+}
+.tips{
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 20px;
+}
+.tips-error{
+    color: #ff0000;
+}
+.tips-success{
+    color: #16A05D;
+}
+.tips p{
+    padding-top: 10px;
 }
 
 .panelist {
@@ -286,13 +131,4 @@ h3 {
         height: 30px;
         line-height: 30px;
     }
-}
-
-.autoCenter {
-    width: 90%;
-    margin: 0 auto;
-}
-
-.mt10 {
-    margin-top: 10px;
 }
