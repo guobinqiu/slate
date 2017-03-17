@@ -45,7 +45,7 @@ table {
         width: $admin-width;
         margin: 20px auto;
         th {
-            width: 150px;
+            width: 180px;
             text-align: right;
             line-height: 24px;
             padding-right: 10px;
@@ -63,7 +63,7 @@ table {
     }
     &.confirm{
         th{
-            width: 150px;
+            width: 180px;
             height: 30px;
             line-height: 30px;
             border: 1px solid #eee;
@@ -129,7 +129,7 @@ input[type="button"] {
 }
 .btns{
     @extend .autoCenter;
-    padding-left: 150px;
+    padding-left: 180px;
 }
 .panelist {
     h1,
