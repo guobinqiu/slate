@@ -2,7 +2,7 @@
 
 {% block body %}
 <form action="{{ path('_admin_member_edit')}}" method="post" id="form1">
-    <table border="1px" cellspacing="0px" class="member_table list">
+    <table class="inputForm confirm">
         <tr>
             <th>user id</th>
             <td width="350px;">{{ member.id }}&nbsp;
@@ -51,11 +51,11 @@
         </tr>
     </table>
     {% if errorMessage %} {% for item in errorMessage %}
-    <center>
-        <font color='red'>{{ item }}</font>
-    </center>
+    <div class="tips">
+        <em class="tips-error">{{ item }}</em>
+    </div>
     {% endfor %} {% endif %}
-    <input type="submit" id="edit" name="edit" value="更新" style="margin-left: 5%;" />
+    <input type="submit" id="edit" name="edit" value="更新" class="btn btn-primary" style="margin-left: 5%;" />
 
 {% endblock %}
 

@@ -9,6 +9,9 @@ use Jili\FrontendBundle\Entity\ExperienceAdvertisement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @Route("/admin")
+ */
 class ExperienceAdvertisementController extends Controller #implements  IpAuthenticatedController
 {
     /**
