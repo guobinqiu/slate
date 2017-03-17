@@ -8,11 +8,7 @@
     <div style="display: none">
         {{form_widget(form.id)}} {{ form_widget(form.startTime) }} {{ form_widget(form.endTime) }} {{ form_widget(form.pointValue) }} {{ form_widget(form.title) }} {{ form_widget(form.description) }} {{ form_widget(form.voteImage) }}
     </div>
-    <table class="inputForm">
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
+    <table class="inputForm confirm">
         <tr>
             <th>{{form_label(form.startTime)}}</th>
             <td>{{form.startTime.vars.value}}</td>
@@ -47,14 +43,11 @@
             <input type="hidden" name="answer_number_{{key}}" id="answer_number_{{key}}" value="{{voteChoice}}" />
         </tr>
         {% endfor %} {{ form_widget(form._token) }} {{form_errors(form)}}
-        <tr>
-            <td>&nbsp;</td>
-            <td>
-                <input class="btn btn-primary" type="button" value="返回" id="back">
-                <input class="btn btn-primary" type="submit" value="提交" />
-            </td>
-        </tr>
     </table>
+    <div class="btns">
+        <input class="btn btn-primary" type="button" value="返回" id="back">
+        <input class="btn btn-primary" type="submit" value="提交" />
+    </div>
     <div class="tips">
         {% if code is defined %}
         <em class="tips-error">{{ code }}</em>
