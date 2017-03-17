@@ -1,20 +1,17 @@
 {% extends 'WenwenFrontendBundle:admin:base.html.twig' %} 
 
 {% block body %}
-<table align="center" class="search">
-    <form action="{{ path('admin_user')}}" method="post" id="form1">
-        <tr>
-            <td colspan="7" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="7" align="center">&nbsp; user id:
-                <input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="15" />&nbsp; email:
-                <input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="40" />&nbsp; nick:
-                <input type="text" id="nick" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" />&nbsp;
-                <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
-        </tr>
-    </form>
-</table>
+<form action="{{ path('admin_user')}}" method="post" id="form1">
+    <div class="search">
+        <label for="user_id">user id:</label>
+        <input type="text" id="user_id" name="user_id" value="{% if user_id %}{{ user_id }}{% endif %}" size="15" />
+        <label for="email">email:</label>
+        <input type="text" id="email" name="email" value="{% if email %}{{ email }}{% endif %}" size="40" />
+        <label for="nick">nick:</label>
+        <input type="text" id="nick" name="nick" value="{% if nick %}{{ nick }}{% endif %}" size="20" />
+        <input class="btn btn-primary" type="button" id="select" name="select" value="查 询" />
+    </div>
+</form>
 {% if user is defined %}
 <table border="1px" cellspacing="0px" class="member_table list">
     <tr>
@@ -81,8 +78,8 @@
     </tr>
 </table>
 <input type="button" id="edit" name="edit" value="编辑" style="margin-left: 5%;" /> {% else %}
-<div>
-    <font color="red">指定的用户信息没有找到</font>
+<div class="tips">
+    <em class="tips-error">指定的用户信息没有找到</em>
 </div>
 {% endif %} 
 
@@ -125,8 +122,8 @@
     </div>
 </div>
 {% else %}
-<div>
-    <font color="red">No taskHistories found.</font>
+<div class="tips">
+    <em class="tips-error">No taskHistories found.</em>
 </div>
 {% endif %} 
 
@@ -168,8 +165,8 @@
     </div>
 </div>
 {% else %}
-<div>
-    <font color="red">No surveySopParticipationHistories found.</font>
+<div class="tips">
+    <em class="tips-error">No surveySopParticipationHistories found.</em>
 </div>
 {% endif %} 
 
@@ -211,8 +208,8 @@
     </div>
 </div>
 {% else %}
-<div>
-    <font color="red">No surveyPartnerParticipationHistory found.</font>
+<div class="tips">
+    <em class="tips-error">No surveyPartnerParticipationHistory found.</em>
 </div>
 {% endif %}
 {% endblock %}

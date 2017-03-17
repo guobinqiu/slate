@@ -1,9 +1,22 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
+<!DOCTYPE html>
+<html>
 
-<HEAD>
+<head>
     <meta charset="UTF-8" />
-    <LINK href="{{ asset('dist/css/backend/base.css')}}" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
+    <style>
+        body{
+            color: #fff;
+            background-image: url('/assets/img/backend/header_bg.jpg');
+            background-repeat: repeat-x;
+        }
+        .vertical-align {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+    </style>
     <script type="text/javascript">
     function quit() {
         if (confirm('确定要退出吗？')) {
@@ -13,22 +26,19 @@
             return false;
     }
     </script>
-</HEAD>
+</head>
 
-<BODY>
-    <TABLE cellSpacing=0 cellPadding=0 width="100%" background="{{ asset('assets/img/backend/header_bg.jpg')}}" border=0 class="header">
-        <TR height=56>
-            <TD width=260>
-                <IMG height=56 src="{{ asset('assets/img/backend/header_left.jpg')}}" width=260>
-            </TD>
-            <TD style="FONT-WEIGHT: bold; COLOR: #fff; PADDING-TOP: 20px" align=middle>当前用户：admin &nbsp;&nbsp;
-                <A style="COLOR: #fff" onclick="quit()" ; href="javascript:void(0);" target=_top>退出系统</A>
-            </TD>
-            <TD align=right width=268>
-                <IMG height=56 src="{{ asset('assets/img/backend/header_right.jpg')}}" width=268>
-            </TD>
-        </TR>
-    </TABLE>
-</BODY>
+<body>
+<div class="container-fluid">
+    <div class="row vertical-align">
+        <div class="col-md-4"><img width="260" height="56" src="{{ asset('assets/img/backend/header_left.jpg')}}"></div>
+        <div class="col-md-4 text-center vertical-align">
+            当前用户：admin &nbsp;&nbsp;
+            <a style="color: #fff" onclick="quit();" href="javascript:void(0);" target="_top">退出系统</a>
+        </div>
+        <div class="col-md-4 text-right"><img width="268" height="56" src="{{ asset('assets/img/backend/header_right.jpg')}}"></div>
+    </div>
+</div>
+</body>
 
-</HTML>
+</html>

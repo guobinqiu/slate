@@ -16,30 +16,24 @@
     {% set router_current = app.request.attributes.get('_route') %}
     {% for item in vote_list %}
     <tr>
-      <td align="left" >{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
-      <td align="left">{{ item.id}}</td>
+      <td>{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
+      <td>{{ item.id}}</td>
       <td align="left">{{ item.title }}</td>
-      <td align="left"> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
-      <td align="center"><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
+      <td> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
+      <td><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
       <a href="{{ path('_admin_vote_delete',{'id':item.id,'ret_action':router_current,'page':page,'csrf_token':csrf_token})}}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
    </tr>
     {% endfor %}
     {% endif %}
-    <tr>
-      <td colspan="5" align="right">
-      {% if paging %}
-        <div style="display: inline-block; width: 100%;">
-          {% include '::pagination.html.twig' %}
-        </div>
-      {% else %}
-      <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">more</a>
-      {% endif %}
-      </td>
-    </tr>
 </table>
+<div class="autoCenter text-right">
+  {% if paging %}
+    {% include '::pagination.html.twig' %}
+  {% else %}
+    <a href="{{ path('_admin_vote_reserveList', {'paging': true}) }}">更多</a>
+  {% endif %}
+</div>
 <div class="tips">
-<form method="post" name="form"  action="{{ path('_admin_vote_edit') }}">
-    <input type="submit" value="create" name="addBtn" id="addBtn" />
-</form>
+    <a href="{{ path('_admin_vote_edit') }}"><input class="btn btn-primary" type="submit" value="添加" name="addBtn" id="addBtn" /></a>
 </div>
 {% endblock %}

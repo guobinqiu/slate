@@ -3,19 +3,14 @@
 {% block title %} {{ parent() }} - Panel Search {% endblock %} 
 
 {% block body%}
-<table align="center" width="" class="search">
-    <form action="{{ path('_edm_unsubscribe_list')}}" method="post" id="form1">
-        <tr>
-            <td colspan="7" align="center">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="7" align="center">email:
-                <input id="email" type="text" id="email" name="email" value="{% if email is defined %}{{ email }}{% endif %}" size="30" />
-                <input type="button" id="select" name="select" value="查 询" />&nbsp;</td>
-        </tr>
-    </form>
-</table>
-<table align="center" width="" border="0" class="list">
+<form action="{{ path('_edm_unsubscribe_list')}}" method="post" id="form1">
+    <div class="text-center search">
+        <label for="email">email:</label>
+        <input id="email" type="text" id="email" name="email" value="{% if email is defined %}{{ email }}{% endif %}" size="30" />
+        <input class="btn btn-primary" type="button" id="select" name="select" value="查 询" />
+    </div>
+</form>
+<table class="list">
     <tr>
         <th>user_id</th>
         <th>email</th>
@@ -23,9 +18,9 @@
     </tr>
     {% for item in userEdms %}
     <tr>
-        <td align="center">{{item.userId}}</td>
-        <td align="center" style="padding:0 20px;">{{item.email}}</td>
-        <td align="center">{{item.createdTime|date("Y-m-d H:i:s")}}</td>
+        <td>{{item.userId}}</td>
+        <td style="padding:0 20px;">{{item.email}}</td>
+        <td>{{item.createdTime|date("Y-m-d H:i:s")}}</td>
     </tr>
     {% endfor %}
 </table>

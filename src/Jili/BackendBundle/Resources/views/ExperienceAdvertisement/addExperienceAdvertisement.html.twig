@@ -28,14 +28,14 @@
         <tr>
             <td>&nbsp;</td>
             <td>
-                <input type="submit" value="提 交" />
+                <input class="btn btn-primary" type="submit" value="提 交" />
             </td>
         </tr>
         {{form_rest(form)}} {{form_errors(form)}}
     </table>
     {% if code %}
     <div class="tips">
-        <font color='red'>{{ code }}</font>
+        <em class="tips-error">{{ code }}</em>
     </div>
     {%endif%}
 </form>

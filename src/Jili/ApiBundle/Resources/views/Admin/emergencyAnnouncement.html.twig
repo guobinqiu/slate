@@ -2,29 +2,15 @@
 
 {% block body %}
 <form method="post" action="{{ path('_admin_emergencyAnnouncement')}}">
-    <table style="padding:100px;">
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>紧急公告内容&nbsp;&nbsp;</td>
-            <td>
-                <textarea id="content0" name="content0" cols="50" rows="10">{{ content }}</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="button" value='清除' id="clearCon" >
-                <input type="button" value='提交' id="submitCon">
-            </td>
-        </tr>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">紧急公告内容</div>
+        <div class="col-md-10"><textarea id="content0" name="content0" cols="50" rows="10">{{ content }}</textarea></div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2"><input class="btn btn-primary" type="button" value='清除' id="clearCon" ><input class="btn btn-primary" type="button" value='提交' id="submitCon"></div>
+    </div>
+</div>
 </form>
 {% endblock %} 
 

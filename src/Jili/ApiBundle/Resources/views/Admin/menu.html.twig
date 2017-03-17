@@ -1,461 +1,190 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
+<!DOCTYPE html>
+<html>
 
-<HEAD>
-    <META http-equiv=Content-Type content="text/html; charset=UTF-8">
-    <LINK href="{{ asset('dist/css/backend/base.css')}}" type="text/css" rel="stylesheet">
-    <SCRIPT language=javascript>
-    function expand(el) {
-        childObj = document.getElementById("child" + el);
-
-        if (childObj.style.display == 'none') {
-            childObj.style.display = 'block';
-        } else {
-            childObj.style.display = 'none';
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
+    <style>
+        body{
+            background-image: url('/assets/img/backend/menu_bg.jpg');
+            background-repeat: repeat-y;
+            font-size: 12px;
         }
-    }
-    </SCRIPT>
-</HEAD>
+        a{
+            color: #000;
+        }
+        a:hover{
+            color: #f60;
+            text-decoration: none;
+        }
+        a:focus{
+            text-decoration: none;
+        }
+        .nav>li{
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
+        .channel{
+            margin-bottom: 5px;
+            padding-left: 30px;
+            height: 22px;
+            line-height: 22px;
+            background-image: url('/assets/img/backend/menu_bt.jpg');
+            background-repeat: no-repeat;
+        }
+        .list-unstyled{
+            display: none;
+        }
+        .list-unstyled>li{
+            padding-left: 30px;
+            height: 22px;
+            line-height: 22px;
+            background-image: url('/assets/img/backend/menu_icon.gif');
+            background-repeat: no-repeat;
+            background-position: 12px 6px;
+        }
+        .list-unstyled>li a{
+            color: #036;
+        }
+        .list-unstyled>li a:hover{
+            color: #f60;
+            text-decoration: underline;
+        }
+    </style>
+</head>
 
-<BODY>
-    <TABLE height="100%" cellSpacing=0 cellPadding=0 width=170 background="{{ asset('assets/img/backend/menu_bg.jpg')}}" border=0 class="menu">
-        <TR>
-            <TD vAlign=top align=middle>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(4) href="javascript:void(0)">公告管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child4 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_addCallboard') }}" target=main>添加公告</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_infoCallboard') }}" target=main>编辑公告</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(6) href="javascript:void(0)">兑换信息管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child6 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_exchange_list') }}" target=main>兑换信息导出</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_exchangeIn') }}" target=main>兑换信息导入</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(9) href="javascript:void(0)">会员管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child9 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_recruit_report_daily') }}" target=main>注册渠道日报</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_recruit_report_monthly') }}" target=main>注册渠道月报</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_user') }}" target=main>会员查询编辑</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(17) href="javascript:void(0)">紧急公告管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child17 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_emergencyAnnouncement') }}" target=main>紧急公告内容设定</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background={{asset( 'assets/img/backend/menu_bt.jpg')}}>
-                            <A class=menuParent onclick=expand(19) href="javascript:void(0)">积分管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child19 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_addPointManage') }}" target=main>手动增加积分</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_addPointSearch') }}" target=main>任务历史查询</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_pointHistorySearch') }}" target=main>积分历史查询</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background={{asset( 'assets/img/backend/menu_bt.jpg')}}>
-                            <A class=menuParent onclick=expand(20) href="javascript:void(0)">KpiDailyRR</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child20 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_kpiDailyRR') }}" target=main>KpiDailyRR</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background={{asset( 'assets/img/backend/menu_bt.jpg')}}>
-                            <A class=menuParent onclick=expand(22) href="javascript:void(0)">EDM 退订</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child22 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_edm_unsubscribe_list') }}" target=main>EDM退订一览</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_edm_unsubscribe_add_index') }}" target=main>EDM退订添加</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(23) href="javascript:void(0)">任务体验管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child23 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('experience_ad_list') }}" target=main>任务体验编辑</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_bankend_addExperienceAdvertisement') }}" target=main>任务体验添加</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(32) href="javascript:void(0)">vote管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child32 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_vote_index') }}" target=main>vote管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(33) href="javascript:void(0)">Panel Management</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child33 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('_admin_panelist_index') }}" target=main>Panel Search</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_feasibility_area_distribution') }}" target=main>Area Distribution</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(34) href="javascript:void(0)">外接问卷项目管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child34 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_surveypartner_list') }}" target=main>问卷项目一览</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_surveypartner_daily_report') }}" target=main>项目参与情况</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(35) href="javascript:void(0)">SOP统计报表</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child35 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_sop_daily_report') }}" target=main>每日汇总</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_sop_daily_report_2') }}" target=main>每日汇总2</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_sop_detail_report') }}" target=main>问卷详情</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_sop_monthly_report') }}" target=main>每月汇总</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(36) href="javascript:void(0)">Fulcrum统计报表</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child36 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_fulcrum_daily_report') }}" target=main>每日汇总</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_fulcrum_daily_report_2') }}" target=main>每日汇总2</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_fulcrum_detail_report') }}" target=main>问卷详情</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_fulcrum_monthly_report') }}" target=main>每月汇总</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(37) href="javascript:void(0)">Cint统计报表</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child37 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_cint_daily_report') }}" target=main>每日汇总</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_cint_daily_report_2') }}" target=main>每日汇总2</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_cint_detail_report') }}" target=main>问卷详情</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_report_cint_monthly_report') }}" target=main>每月汇总</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(38) href="javascript:void(0)">GMO统计报表</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child38 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_gmo_report_surveylist') }}" target=main>问卷一览</A>
-                        </TD>
-                    </TR>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('admin_gmo_report_monthly_participation') }}" target=main>每月汇总</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=22>
-                        <TD style="PADDING-LEFT: 30px" background="{{ asset('assets/img/backend/menu_bt.jpg')}}">
-                            <A class=menuParent onclick=expand(38) href="javascript:void(0)">GMO问卷管理</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-                <TABLE id=child38 style="DISPLAY: none" cellSpacing=0 cellPadding=0 width=150 border=0>
-                    <TR height=20>
-                        <TD align=middle width=30>
-                            <IMG height=9 src="{{ asset('assets/img/backend/menu_icon.gif')}}" width=9>
-                        </TD>
-                        <TD>
-                            <A class=menuChild href="{{ path('gmo') }}" target=main>非商业调查问卷设置</A>
-                        </TD>
-                    </TR>
-                </TABLE>
-            </TD>
-        </TR>
-    </TABLE>
-</BODY>
+<body>
+<ul class="nav">
+    <li>
+        <div class="channel"><a href="javascript:void(0)">公告管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_addCallboard') }}" target="main">添加公告</a></li>
+            <li><a href="{{ path('_admin_infoCallboard') }}" target="main">编辑公告</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">兑换信息管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_exchange_list') }}" target="main">兑换信息导出</a></li>
+            <li><a href="{{ path('_admin_exchangeIn') }}" target="main">兑换信息导入</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">会员管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_recruit_report_daily') }}" target="main">注册渠道日报</a></li>
+            <li><a href="{{ path('admin_recruit_report_monthly') }}" target="main">注册渠道月报</a></li>
+            <li><a href="{{ path('admin_user') }}" target="main">会员查询编辑</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">紧急公告管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_emergencyAnnouncement') }}" target="main">紧急公告内容设定</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">积分管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_addPointManage') }}" target="main">手动增加积分</a></li>
+            <li><a href="{{ path('_admin_addPointSearch') }}" target="main">任务历史查询</a></li>
+            <li><a href="{{ path('_admin_pointHistorySearch') }}" target="main">积分历史查询</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">KpiDailyRR</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_kpiDailyRR') }}" target="main">KpiDailyRR</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">EDM 退订</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_edm_unsubscribe_list') }}" target="main">EDM退订一览</a></li>
+            <li><a href="{{ path('_edm_unsubscribe_add_index') }}" target="main">EDM退订添加</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">任务体验管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('experience_ad_list') }}" target="main">任务体验编辑</a></li>
+            <li><a href="{{ path('_bankend_addExperienceAdvertisement') }}" target="main">任务体验添加</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">vote管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_vote_index') }}" target="main">vote管理</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">Panel Management</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('_admin_panelist_index') }}" target="main">Panel Search</a></li>
+            <li><a href="{{ path('admin_feasibility_area_distribution') }}" target="main">Area Distribution</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">外接问卷项目管理</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_surveypartner_list') }}" target="main">问卷项目一览</a></li>
+            <li><a href="{{ path('admin_surveypartner_daily_report') }}" target="main">项目参与情况</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">SOP统计报表</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_report_sop_daily_report') }}" target="main">每日汇总</a></li>
+            <li><a href="{{ path('admin_report_sop_daily_report_2') }}" target="main">每日汇总2</a></li>
+            <li><a href="{{ path('admin_report_sop_detail_report') }}" target="main">问卷详情</a></li>
+            <li><a href="{{ path('admin_report_sop_monthly_report') }}" target="main">每月汇总</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">Fulcrum统计报表</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_report_fulcrum_daily_report') }}" target="main">每日汇总</a></li>
+            <li><a href="{{ path('admin_report_fulcrum_daily_report_2') }}" target="main">每日汇总2</a></li>
+            <li><a href="{{ path('admin_report_fulcrum_detail_report') }}" target="main">问卷详情</a></li>
+            <li><a href="{{ path('admin_report_fulcrum_monthly_report') }}" target="main">每月汇总</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">Cint统计报表</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_report_cint_daily_report') }}" target="main">每日汇总</a></li>
+            <li><a href="{{ path('admin_report_cint_daily_report_2') }}" target="main">每日汇总2</a></li>
+            <li><a href="{{ path('admin_report_cint_detail_report') }}" target="main">问卷详情</a></li>
+            <li><a href="{{ path('admin_report_cint_monthly_report') }}" target="main">每月汇总</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">GMO统计报表</a></div>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('admin_gmo_report_surveylist') }}" target="main">问卷一览</a></li>
+            <li><a href="{{ path('admin_gmo_report_monthly_participation') }}" target="main">每月汇总</a></li>
+        </ul>
+    </li>
+    <li>
+        <div class="channel"><a href="javascript:void(0)">GMO问卷管理</a></div>
+        <!-- <ul class="list-unstyled" style="display: none;">
+            <li><a href="{{ path('gmo') }}" target="main">非商业调查问卷设置</a></li>
+        </ul> -->
+    </li>
+</ul>
+<script src="{{ asset('assets/js/common/lib/jquery-1.12.4.min.js') }}"></script>
+<script>
+$(document).ready(function(){
+    var channels = $('.channel'),
+        subList = $('.list-unstyled');
+    
+    channels.on('click', function(){
+        var index = channels.index(this),
+            curEle = subList.eq(index);
+        curEle.is(':hidden')?curEle.show():curEle.hide();        
+    })
+});
+</script>
+</body>
 
-</HTML>
+</html>
