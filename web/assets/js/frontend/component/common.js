@@ -44,11 +44,11 @@ $(function(){
     });
     var resizeFooter =function(){
         if($(window).height() > $("body").height()){
-            $(".footer").css({"position":"fixed", "bottom":"0", "left": "0", "right": "0"});
+            $("#footer").css({"position":"fixed", "bottom":"0", "left": "0", "right": "0"});
             $(".navLayerBg").add($(".navLayer")).css("position","fixed");
         }
         else{
-            $(".footer").css("position","static");
+            $("#footer").css("position","static");
             $(".navLayerBg").add($(".navLayer")).css("position","absolute");
         }   
     };
