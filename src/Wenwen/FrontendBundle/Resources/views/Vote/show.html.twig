@@ -19,9 +19,9 @@
                     <div class="relate row">
                         <div class="hidden-xs col-sm-3 top5">
                             {% if vote_image_path %}
-                            <img class="pull-right img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
+                            <img class="center-block img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                             {% else %}
-                            <img class="pull-right img-responsive" src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">
+                            <img class="center-block img-responsive" src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">
                             {% endif %}
                         </div>
                         <div class="relateText col-xs-12 col-sm-9">
