@@ -6,55 +6,51 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-            <div class="main-con"> 
-                <div class="qnWrap">
-                    <div class="qnCon qnEnd">
-                        <div class="qnEndTxt">
-                            <div class="txt">
-                                {% if answerStatus == 'complete' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
-                                    <p>恭喜完成该调查问卷，您已获得{{rewardedPoint}}积分。</p>
-                                {% elseif answerStatus == 'screenout' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
-                                    <p>很遗憾，您不符合该调查问卷的要求。</p>
-                                    <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
-                                    <p>去看看别的问卷。</p>
-                                {% elseif answerStatus == 'quotafull' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
-                                    <p>很遗憾，您慢了一步，该调查问卷名额已满。</p>
-                                    <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
-                                    <p>去看看别的问卷。</p>
-                                {% elseif answerStatus == 'participated' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
-                                    <p>您已经参与过该调查问卷。</p>
-                                    <p>去看看别的问卷。</p>
-                                {% elseif answerStatus == 'error' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
-                                    <p>您已经在别处参与过该调查问卷。</p>
-                                    <p>去看看别的问卷。</p>
-                                {% elseif answerStatus == 'notallowed' %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
-                                    <p>很抱歉，您不符合该调查问卷的要求。</p>
-                                    <p>去看看别的问卷。</p>
-                                {% else %}
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
-                                    <p>非常抱歉，问卷出现了一些小问题，此时无法确认您的回答是否有效。</p>
-                                    <p>请联系我们的客服，告知编号（{{key}}）和您的账号信息，</p>
-                                    <p>我们的客服会尽最快的速度答复您。</p>
-                                {% endif %}
-                            </div>
-                                {% if ticketCreated %}
-                                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-                                {% endif %}
-                        </div>
-                        <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+<div class="mainWrap">
+    <div class="container main-con"> 
+        <div class="qnWrap">
+            <div class="qnCon qnEnd">
+                <div class="qnEndTxt">
+                    <div class="txt">
+                        {% if answerStatus == 'complete' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
+                            <p>恭喜完成该调查问卷，您已获得{{rewardedPoint}}积分。</p>
+                        {% elseif answerStatus == 'screenout' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
+                            <p>很遗憾，您不符合该调查问卷的要求。</p>
+                            <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
+                            <p>去看看别的问卷。</p>
+                        {% elseif answerStatus == 'quotafull' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
+                            <p>很遗憾，您慢了一步，该调查问卷名额已满。</p>
+                            <p>感谢您的参与，您获得了{{rewardedPoint}}积分。</p>
+                            <p>去看看别的问卷。</p>
+                        {% elseif answerStatus == 'participated' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
+                            <p>您已经参与过该调查问卷。</p>
+                            <p>去看看别的问卷。</p>
+                        {% elseif answerStatus == 'error' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
+                            <p>您已经在别处参与过该调查问卷。</p>
+                            <p>去看看别的问卷。</p>
+                        {% elseif answerStatus == 'notallowed' %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/sadface.png') }}">
+                            <p>很抱歉，您不符合该调查问卷的要求。</p>
+                            <p>去看看别的问卷。</p>
+                        {% else %}
+                            <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
+                            <p>非常抱歉，问卷出现了一些小问题，此时无法确认您的回答是否有效。</p>
+                            <p>请联系我们的客服，告知编号（{{key}}）和您的账号信息，</p>
+                            <p>我们的客服会尽最快的速度答复您。</p>
+                        {% endif %}
                     </div>
-                   {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+                        {% if ticketCreated %}
+                            <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+                        {% endif %}
                 </div>
+                <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
             </div>
+           {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
         </div>
     </div>
 </div>

@@ -6,27 +6,23 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                <div class="main-con"> 
-                    <div class="qnWrap">
-                        <div class="qnCon qnEnd">
-                            <div class="qnEndTxt">
-                                <div class="txt">
-                                    <form action="{{ path('_ssi_partner_redirect') }}" method="post" id="ssi_redirect_form">
-                                    <p>请先回答一份简单的问卷，您将会获得<b>10</b>个积分，之后您将会收到大量高积分问卷调查。</p>
-                                    <input type="submit" value="确定" class="confirmBtn" />
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+<div class="mainWrap">
+    <div class="container main-con"> 
+        <div class="qnWrap">
+            <div class="qnCon qnEnd">
+                <div class="qnEndTxt">
+                    <div class="txt">
+                        <form action="{{ path('_ssi_partner_redirect') }}" method="post" id="ssi_redirect_form">
+                        <p>请先回答一份简单的问卷，您将会获得<b>10</b>个积分，之后您将会收到大量高积分问卷调查。</p>
+                        <input type="submit" value="确定" class="confirmBtn" />
+                        </form>
                     </div>
                 </div>
             </div>
+            {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block footer %}

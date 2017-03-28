@@ -1,4 +1,4 @@
-<div class="survey-item col-xs-5 col-sm-6 col-md-8">
+<div class="survey-item col-xs-5 col-sm-6 col-md-7 col-lg-8">
     <div class="title">
         {% if research.is_answered == 1 %}
             <span class="text-muted">{% if research.title|length > 35 %}
@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
+<div class="survey-info col-xs-7 col-sm-6 col-md-5 col-lg-4 text-right">
     <div class="rewardPoint pull-left"><i>{{ research.extra_info.point.complete }}</i>积分</div>
     <div class="survey-btn">
         {% if research.is_answered == 1 %}

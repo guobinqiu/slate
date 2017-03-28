@@ -1,3 +1,3 @@
-<nav id="top-header" {% if app.session.has('uid') %} class="navbar-default" {% else %}  class="navbar-default unlogin" {% endif %} role="navigation">
+<nav id="top-header" {% if app.session.has('uid') %} class="navbar-default navbar-static-top" {% else %}  class="navbar-default navbar-static-top unlogin" {% endif %} role="navigation">
     {% include "WenwenFrontendBundle:Components:_headerNav.html.twig" %}
 </nav>

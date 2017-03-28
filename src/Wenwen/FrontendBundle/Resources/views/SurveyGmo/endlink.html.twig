@@ -6,27 +6,23 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-            <div class="main-con">
-                <div class="qnWrap">
-                    <div class="qnCon qnEnd">
-                        <div class="qnEndTxt">
-                            <div class="txt">
-                                    <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
-                                    <h2>亲爱的用户！您好！</h2>
-                                    <p>
-                                        感谢您参加本次的问卷调查，积分已自动存入您的账户。
-                                        请去<a class="backBtn" href="{{ path('_user_adtaste') }}">任务历史</a>查看获得的积分数。
-                                    </p>
-                            </div>
-                            <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
-                        </div>
+<div class="mainWrap">
+    <div class="container main-con">
+        <div class="qnWrap">
+            <div class="qnCon qnEnd">
+                <div class="qnEndTxt">
+                    <div class="txt">
+                            <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
+                            <h2>亲爱的用户！您好！</h2>
+                            <p>
+                                感谢您参加本次的问卷调查，积分已自动存入您的账户。
+                                请去<a class="backBtn" href="{{ path('_user_adtaste') }}">任务历史</a>查看获得的积分数。
+                            </p>
                     </div>
-                    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+                    <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                 </div>
             </div>
+            {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
         </div>
     </div>
 </div>

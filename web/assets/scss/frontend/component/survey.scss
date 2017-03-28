@@ -25,7 +25,7 @@ $count-bg: #f5f5f5;
 		}
 	}
 	.panel-body{ 
-		padding-bottom: 28px;
+		padding: 20px;
 		ul{
 			hr{
 				margin-top: 15px;
@@ -41,21 +41,16 @@ $count-bg: #f5f5f5;
 	}
 }
 #surveyList{
-	& > li{
-		.row{
-			padding: 0 44px 0 25px;
-		}
-		.rewardPoint{
-			float: right;
-			white-space: nowrap;
-			margin-top: 3px;
-			i {
-			    font-size: 22px;
-			    color: #f55e00;
-			    margin-right: 4px;
-			    vertical-align: -2px;
-			    font-weight: bold;
-			}
+	.rewardPoint{
+		float: right;
+		white-space: nowrap;
+		margin-top: 3px;
+		i {
+		    font-size: 22px;
+		    color: #f55e00;
+		    margin-right: 4px;
+		    vertical-align: -2px;
+		    font-weight: bold;
 		}
 	}
 }
@@ -133,46 +128,34 @@ $count-bg: #f5f5f5;
 }
 @media only screen and (min-width: 992px) { 
 	#surveyList{
-		&>li{
-			.rewardPoint{
-				float: left;
-				text-align: right;
-				width: 90px;
-			}
-		}
-	}
-}
-@media only screen and (min-width: 768px){
-	#surveyList{
-		&>li{
-			.row{
-				padding: 0 17px;	
-			}
+		.rewardPoint{
+			float: left;
+			text-align: right;
+			width: 90px;
 		}
 	}
 }
 @media only screen and (max-width: 767px) { 
 	#surveyList{
-		&>li{
-			.row{
-				padding: 0 17px;	
-			}
-			.rewardPoint{
-				width: 75px;
-				text-align: right;
-				float: left;
-			}
+		.rewardPoint{
+			width: 75px;
+			text-align: right;
+			float: left;
 		}
 	}
 	.survey-info{
 		white-space: nowrap;
 	}
-	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+	.survey-item .title,
+	.survey-item .proCon .proRow,
+	.vote .vote-txt .title{
 		white-space: nowrap;
 	    overflow: hidden;
 	    text-overflow: ellipsis;
 	}
-	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+	.survey-btn a, 
+	.survey-btn .disabled, 
+	.vote .vote-btn{
 		width: 88px!important;
 	}
 	.mainWrap{
@@ -182,17 +165,18 @@ $count-bg: #f5f5f5;
 			padding-right: 0;
 		}
 	}
-	.survey-item .title,.survey-item .proCon .proRow,.vote .vote-txt .title{
+	.survey-item .title,
+	.survey-item .proCon .proRow,
+	.vote .vote-txt .title{
 		white-space: nowrap;
 	    overflow: hidden;
 	    text-overflow: ellipsis;
 	}
 }
 @media only screen and (max-width: 360px) { 
-	.survey-btn a, .survey-btn .disabled, .vote .vote-btn{
+	.survey-btn a, 
+	.survey-btn .disabled, 
+	.vote .vote-btn{
 		width: 70px!important;
-	}
-	#surveyList>li .row{
-		padding: 0 6px;
-	}
+	} 
 }

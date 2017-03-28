@@ -16,7 +16,7 @@
         <div class="col-sm-9 col-xs-12">
             <div class="vote vote-sub voteDet panel panel-default">
                 <div class="panel-body">
-                    <div class="relate row">
+                    <div class="row relate">
                         <div class="hidden-xs col-sm-3 top5">
                             {% if vote_image_path %}
                             <img class="center-block img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
@@ -32,28 +32,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="options">
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <dl class="col-xs-12 col-sm-12 col-md-9">
-                                    {% for choice in choices %}
-                                        <div class="row top10">
-                                            <dt class="col-xs-10 col-sm-12 col-md-6" title="{{choice.name}}">{{choice.name}}</dt>
-                                            <dd class="option1 col-xs-12 col-sm-12 col-md-6">
-                                                <span class="result">{{choice.answer_count}}票</span>
-                                                <span class="progress"><p></p><input type="hidden" value="{{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%"></span>
-                                            </dd>
-                                        </div>
-                                    {% endfor %}
-                                <wb:share-button class="weiboshare" appkey="{{appkey}}" addition="simple" type="button" ralateUid="1752291082" default_text="{{vote.title}}"></wb:share-button>
-                            </dl>
+                    <div class="row options">
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-md-offset-3">
+                            {% for choice in choices %}
+                                <dl class="row top10">
+                                    <dt class="col-xs-10 col-sm-12 col-md-6" title="{{choice.name}}">{{choice.name}}</dt>
+                                    <dd class="option1 col-xs-12 col-sm-12 col-md-6">
+                                        <span class="result">{{choice.answer_count}}票</span>
+                                        <span class="progress"><p></p><input type="hidden" value="{{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%"></span>
+                                    </dd>
+                                </dl>
+                            {% endfor %}
+                            <wb:share-button class="weiboshare" appkey="{{appkey}}" addition="simple" type="button" ralateUid="1752291082" default_text="{{vote.title}}"></wb:share-button>
                         </div>
                     </div>
-                    <div class="row">
-                        <ul class="pager">
-                            <li class="next"><a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a></li>
-                        </ul>
-                    </div>
+                    <ul class="pager">
+                        <li class="next"><a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a></li>
+                    </ul>
                 </div>
             </div>
         </div>

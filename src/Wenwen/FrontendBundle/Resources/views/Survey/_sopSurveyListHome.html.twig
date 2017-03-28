@@ -1,16 +1,14 @@
 <div class="survey panel panel-default" id="surveyHome">
 	<div class="panel-body">
 		{% if html_survey_list|length > 0 %}
-		<ul id="surveyList">
+		<div id="surveyList"> 
 			{% for html_survey in html_survey_list %}
-				<li>
-					<div class="row">
-						{{ html_survey | raw }}
-					</div>
-				</li>
+				<div class="row">
+					{{ html_survey | raw }}
+				</div>
 				<hr>
 			{% endfor %}
-		</ul>
+		</div>
 		{% else %}
 		<div class="noSurvey">
 			<img src="{{ asset('assets/img/frontend/questionnaire/noSurvey.jpg') }}">

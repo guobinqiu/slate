@@ -17,7 +17,7 @@
 		}
 	}
 	.panel-body{
-		padding-bottom: 28px;
+		padding: 20px;
 		ul{
 			hr{
 				&:last-child{
@@ -41,7 +41,8 @@
 			line-height: 21px;
 		}
 		.relate{
-			span,div{
+			span,
+			div{
 				color: #9296a1;
 				font-size: 13px;
 				line-height: 21px;
@@ -90,7 +91,6 @@
 	.vote-info{
 		position: relative;
 	}
-	
 	.countdown{
 		color: #b08400;
 		font-size: 16px;
@@ -111,8 +111,7 @@
 		width: 100px;
 		float: left;
 		position: absolute;
-		right: 0;
-		margin: 15px 5px 0 0;
+		right: 20px;
 		white-space: nowrap;
 		i{
 			font-size: 14px;
@@ -136,13 +135,6 @@
 		}
 	}
 	.vote{
-		.panel-body{
-			li{
-				.row{
-					padding: 0 17px;
-				}
-			}
-		}
 		.votePoint{
 			width: 75px;
 			text-align: right;
@@ -151,15 +143,13 @@
 	} 
 	
 }
-@media only screen and (max-width: 800px) { 
+@media only screen and (max-width: 992px) { 
 	.vote-new .tips{
+		top: 13px;
 		left: 0;
 	}
 }
 @media only screen and (min-width: 768px) { 
-	.vote .panel-body li .row{
-		padding: 0 17px;
-	}
 	.vote-info{
 		float: left;
 	}
@@ -174,17 +164,16 @@
 		.voteBW{
 			display: inline-block;
 		}
-	} 
-	.vote .vote-txt .title{
-		white-space: nowrap;
-	    overflow: hidden;
-	    text-overflow: ellipsis;
+		.vote-txt{ 
+			.title{
+				white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			}
+		}
 	}
 }
 @media only screen and (min-width: 992px) {
-	.vote .panel-body li .row{
-		padding: 0 45px 0 30px;
-	}
 	.vote{
 		.votePoint{
 			width: 90px;
@@ -194,11 +183,14 @@
 		    margin-top: 4px;
 		}
 	} 
-	.vote-info,.votecd{
+	.vote-info,
+	.votecd{
 		white-space: nowrap;
 		margin-top: 25px;
 	}
-	.vote-new .tips{
-		margin-top: -17px;
+	.vote-new{ 
+		.tips{
+			margin-top: -17px;
+		}
 	}
 }
