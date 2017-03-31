@@ -10,25 +10,25 @@
     <div class="row">
         <div class="col-xs-12 col-sm-10 col-sm-offset-1">
 			<div class="main-con-exchange form panel">
-				<div class="panel-heading"><h2>手机充值</h2><br><br></div>
+				<div class="panel-heading"><h2>手机充值</h2><hr></div>
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 									<div class="main-con-exchangeInfo">
 										<form action="{{ path('_exchange_mobileInfo') }}" method="post" name="mobileInfo" id="form1">
 										<ul>
-											<li class="curVal">
+											<li class="curMobileVal">
 												<label for="curMobile">当前手机号码：</label>
 												<span id="curMobile" class="cur">{{ existMobile }}</span>
 												<a href="javascript:void(0)" id="modify">修改</a>
 											</li>
-											<li class="modifyInput">
+											<li class="modifyMobileInput">
 												<label for="mobile">手机号码：</label>
 												<input type="text" id="mobile" name="mobile" value="{{ mobile }}">
 												<span id="mobile_succeed"></span>
 												<span id="mobile_error"></span>
 											</li>
-											<li class="modifyInput">
+											<li class="modifyMobileInput">
 												<label for="mobileRepeat">再次输入号码：</label>
 												<input type="text" id="mobileRepeat" name="mobileRepeat">
 												<span id="mobileRepeat_succeed"></span>
@@ -45,7 +45,8 @@
 											<div class="text">本次充值所需积分：<strong id="need">2050</strong><div class="hiddenDesktop visiblePhone hiddenTablet"></div>兑换后剩余积分：<strong id="rest">3028</strong></div>
 										</div>
 										<div class="backError">{{code}}</div>
-										<div class="btn center-block"><span id="mobile_save">提交</span><br><br><br><br></div>
+										<div class="btn center-block" id="mobile_save">提交</div>
+										<br><br><br>
 										<input type="hidden" name="existMobile" id="existMobile"/>
 							      		<input type="hidden" name="rechange" id="changes"/>
 							      		<input type="hidden" name="curPoints" id="curPoints" value="{{ points }}"/>
