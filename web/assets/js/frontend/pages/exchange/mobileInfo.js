@@ -85,17 +85,17 @@ $(function(){
         executeValidate(isValidate);
         return true;
     }
-    var curVal = $('.curVal'),
-        modifyInput = $('.modifyInput'),
+    var curVal = $('.curMobileVal'),
+        modifyInput = $('.modifyMobileInput'),
         modifyBtn = $('#modify');
-    var isModify = false;
+    var isMobileModify = false;
 
     modifyBtn.on('click', function(){
         $("#existMobile").val('1');
         curVal.hide();
         modifyInput.show();
-        isModify = true;
-        validateBalance(isModify);
+        isMobileModify = true;
+        validateBalance(isMobileModify);
     });
 
     var curMobile = $('#curMobile');
@@ -106,15 +106,15 @@ $(function(){
     }else{
         curVal.hide();
         modifyInput.show();
-        isModify = true;
+        isMobileModify = true;
     }
-    validateBalance(isModify);
+    validateBalance(isMobileModify);
     $(exchangeOptions.option).on('click', function(){
         var i = $(exchangeOptions.option).index(this);
         $(exchangeOptions.option).removeClass('active').eq(i).addClass('active');
         $(exchangeOptions.option).removeAttr('id').eq(i).attr("id","money");
         $(exchangeOptions.option).removeAttr('name').eq(i).attr("name","money");
         validateMoney();
-        validateBalance(isModify);
+        validateBalance(isMobileModify);
     });
 });
