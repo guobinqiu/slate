@@ -7,31 +7,30 @@
 
 {% block body %}
 <div class="container main-con">
-	<div class="panel">
-		<div class="main-con-exchange form">
-			<div class="panel-heading">
-				<h2>支付宝现金兑换</h2><hr>
-			</div>
-			<div class="main-con-exchangeInfo panel-body">
-				<p class="alipay-tips well"><em>●</em>您是第一次兑换积分，我们需要记录并保存您的身份证号码。<br><em>●</em>请您务必认真填写,该号码将在您兑换成功后自动绑定。</p>
-				<div class="text-center">
-					<form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
-					<ul>
-						<li>
-							<label for="idCard">您的身份证号：</label>
-							<input type="text" id="idCard" name="idCard">
-							<span id="idCard_succeed"></span>
-							<span id="idCard_error"></span>
-						</li>
-					</ul>
-					<div class="backError idCardError">{% if code is defined %}{{code}}{% endif %}</div>
-					<div class="btn spec"><span id="alipayConfirm_save">下一步</span></div>
-					<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
-					<br><br>
-		    		</form>
-		    	</div>
+	<div class="panel main-con-exchange form">
+		<div class="panel-heading">
+			<h2>支付宝现金兑换</h2><hr>
+		</div>
+		<div class="main-con-exchangeInfo panel-body">
+			<p class="center-block alipay-tips well"><em>●</em>您是第一次兑
+			换积分，我们需要记录并保存您的身份证号码。<br><em>●</em>请您务必认真填写,该号码将在您兑换成功后自动绑定。</p>
+			<div class="text-center">
+				<form action="{{ path('_exchange_identityCardComfirm',{'type': type}) }}" method="post" id="form1">
+				<ul>
+					<li>
+						<label for="idCard">您的身份证号：</label>
+						<input type="text" id="idCard" name="idCard">
+						<span id="idCard_succeed"></span>
+						<span id="idCard_error"></span>
+					</li>
+				</ul>
+				<div class="backError idCardError">{% if code is defined %}{{code}}{% endif %}</div>
+				<div class="btn spec"><span id="alipayConfirm_save">下一步</span></div>
+				<input type="hidden" value="{{ tokenKey }}" name="tokenKey" />
+				<br><br>
+	    		</form>
 	    	</div>
-	    </div>
+    	</div>
 	</div>
 </div>
 {% endblock %}
