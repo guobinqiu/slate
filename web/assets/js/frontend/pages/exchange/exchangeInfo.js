@@ -86,7 +86,7 @@ $(function(){
         }else if(exchangeType == 'mobile'){
             exchangeForm = new ValidateMobile({
                 mobileInput: '#mobile',
-                isSendCode: true,
+                isSendCode: false,
                 isRepeatInput: true,
                 isFocusPrompt: true
             });
