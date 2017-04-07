@@ -3,9 +3,8 @@
 @import "../../layout/global";
 .main-personal-message{
 	padding: 10px 40px;
+	background-color: #fff;
 	span{
-		height: 45px;
-		line-height: 45px;
 		@include dib();
 	}
 	.btn{
@@ -88,6 +87,17 @@
 	    	padding: 0;
 	    	a{
 	    		width: 50%;
+	    	}
+	    }
+	    li{
+	    	a{
+	    		margin-left: 0;
+	    	}
+	    	span{
+	    		width: auto;
+	    	}
+	    	strong{
+	    		margin-left: 0;
 	    	}
 	    }
 	}

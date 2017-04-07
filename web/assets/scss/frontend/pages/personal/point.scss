@@ -3,6 +3,8 @@
 @import "../../layout/global";
 .main-personal-points{
 	padding: 30px 40px;
+	background-color: #fff;
+	@include minHeight(600px);
 	table{
 		th,td{
 			white-space: nowrap;
