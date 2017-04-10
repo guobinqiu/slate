@@ -11,13 +11,12 @@ $(function(){
         channel = '';
         $('#survey').show();
     }     
-    var resizeFooter =function(){
-        if($(window).height() > $("body").height()){
-            $(".footer").css({"position":"fixed", "bottom":"0"});
-        }
-        else{
-            $(".footer").css("position","static");
-        }   
+    if($(window).height() > $("body").height()){
+        $("#footer").css({"position":"fixed", "bottom":"0", "left": "0", "right": "0"});
+        $(".navLayerBg").add($(".navLayer")).css("position","fixed");
     }
-    resizeFooter(); 
+    else{
+        $("#footer").css("position","static");
+        $(".navLayerBg").add($(".navLayer")).css("position","absolute");
+    } 
 });
