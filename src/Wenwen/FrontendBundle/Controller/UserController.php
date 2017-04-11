@@ -11,11 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Jili\ApiBundle\Entity\IsReadCallboard;
 use Symfony\Component\Validator\Constraints as Assert;
-use Wenwen\AppBundle\WenwenAppBundle;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
-use Wenwen\FrontendBundle\WenwenFrontendBundle;
 
 /**
  * @Route("/user")
