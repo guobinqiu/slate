@@ -326,11 +326,10 @@ $color: #0078b6;
 				display: inline-block;
 			}
 		}
-		.btn{
-			padding-left: 0;
-			span{
+		span{
+			&.btn{
+				line-height: 22px;
 				width: 75px;
-				text-align: center;
 				@include btn();
 				@include dib();
 			}

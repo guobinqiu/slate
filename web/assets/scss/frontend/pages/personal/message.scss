@@ -7,33 +7,36 @@
 	span{
 		@include dib();
 	}
-	.btn{
+	.tabNav{
 		width: 100%;
+		height: 48px;
 		position: relative;
 		z-index: 1;
 		border-bottom: 2px solid #e6e6e6;
-		a{
-			height: 45px;
+	}
+	a{
+		&.btn{
 			float: left;
-			line-height: 45px;
+			line-height: 32px;
 			@include dib();
 			width: 110px;
 			text-align: center;
 			font-size: 16px;
 			font-weight: bold;
-			&.active, &:hover{
-				color: $orange-color;
-			}
 		}
-		.border{
-			position: absolute;
-			z-index: 1000;
-			bottom: -2px;
-			// right: 50%;
-			height: 2px;
-			width: 110px;
-			background: $orange-color;
+		&.active, &:hover{
+			color: $orange-color;
+			box-shadow: none;
 		}
+	}
+	.border{
+		position: absolute;
+		z-index: 1000;
+		bottom: -2px;
+		// right: 50%;
+		height: 2px;
+		width: 110px;
+		background: $orange-color;
 	}
 	ul{
 		margin-top: 20px;
@@ -41,6 +44,7 @@
 	li{
 		line-height: 50px;
 		color: #555;
+		border-bottom: 1px solid #f6f6f6;
 		a{
 			margin-left: 40px;
 			color: #666;
@@ -56,7 +60,7 @@
 		}
 		&.title{
 			font-weight: bold;
-			background: #fbfbfb;
+			background: #f3f3f3;
 			line-height: 45px;
 			border: none;
 		}
