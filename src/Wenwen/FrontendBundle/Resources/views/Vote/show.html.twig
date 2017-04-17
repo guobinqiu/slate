@@ -48,15 +48,13 @@
                                         </li>
                                     {% endfor %}
                                     </ul>
-                                    <div class="btn">
-                                        {% if app.session.get('uid') %}
-                                            {% if user_answer_count==0 %}
-                                            <input type="submit" value="投  票" class="submit" />
-                                            {% endif %}
-                                        {% else %}
-                                            <div class="loginTips"><a href="{{ path('_user_login') }}">请登录后</a>参加投票。</div>
+                                    {% if app.session.get('uid') %}
+                                        {% if user_answer_count==0 %}
+                                        <input type="submit" value="投  票" class="btn submit" />
                                         {% endif %}
-                                    </div>
+                                    {% else %}
+                                        <div class="loginTips"><a href="{{ path('_user_login') }}">请登录后</a>参加投票。</div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

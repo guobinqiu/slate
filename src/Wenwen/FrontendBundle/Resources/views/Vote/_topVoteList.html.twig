@@ -4,7 +4,7 @@
 		{% if vote_list|length > 0  %}
 			{% for item in vote_list %}
 				<div {% if item.timelimit is defined %} class="vote-new row" {% else %} class="row" {% endif %}>
-					<div class="vote-img hidden-xs hidden-sm col-md-2">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}" height="90" width="90"></a>{% else %}<img src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</div>
+					<div class="vote-img hidden-xs hidden-sm pull-left">{% if (item.sqPath) %}<a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}"><img src="{{ asset(item.sqPath)}}" alt="{{item.title}}" height="90" width="90"></a>{% else %}<img src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">{% endif %}</div>
 					<div class="vote-txt col-xs-5 col-md-5 col-lg-6">
 						<div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}<span></span></a></div>
 						{# <p class="visibleDesktop hiddenPhone hiddenTablet">{% autoescape false %}{{ item.description }}{% endautoescape %}</p> #}
@@ -13,7 +13,7 @@
 							<div>截止日期：{{ item.endTime|date("Y-m-d") }}</div>
 						</div>
 					</div>
-					<div class="vote-info col-xs-7 col-md-5 col-lg-4 text-right">
+					<div class="vote-info col-xs-7 col-md-5 col-lg-4 pull-right text-right">
 						{% if item.timelimit is defined %}
 							<div class="votePoint"><i>10</i>积分</div>
 							<div class="votecd pull-right">
