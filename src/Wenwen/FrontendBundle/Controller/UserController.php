@@ -50,6 +50,11 @@ class UserController extends BaseController
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
                 }
 
+                if ($user->locked()) {
+                    $form->addError(new FormError('您的账户已被冻结'));
+                    return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
+                }
+
                 $rememberMeCookie = null;
                 if ($formData['remember_me'] == '1') {
                     $token = md5(uniqid(rand(), true));

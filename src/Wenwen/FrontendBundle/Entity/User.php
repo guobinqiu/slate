@@ -1252,4 +1252,8 @@ class User
         }
         return $this;
     }
+
+    public function locked() {
+        return $this->getDeleteFlag() > 0;
+    }
 }
