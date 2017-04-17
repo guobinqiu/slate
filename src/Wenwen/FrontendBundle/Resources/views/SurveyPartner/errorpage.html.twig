@@ -7,19 +7,21 @@
 
 {% block body %}
 <div class="mainWrap">
-    <div class="container main-con"> 
-        <div class="qnWrap">
-            <div class="qnCon qnEnd">
-                <div class="qnEndTxt">
-                    <div class="txt">
-                            <p>非常抱歉，问卷出现了一些小问题，此时无法确认您的回答是否有效。</p>
-                            <p>请联系我们的客服，告知问卷编号（{{surveyId}}），编号（{{key}}）和您的账号信息，</p>
-                            <p>我们的客服会尽最快的速度答复您。</p>
+    <div class="container"> 
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 qnWrap">
+                <div class="qnCon qnEnd">
+                    <div class="qnEndTxt">
+                        <div class="txt">
+                                <p>非常抱歉，问卷出现了一些小问题，此时无法确认您的回答是否有效。</p>
+                                <p>请联系我们的客服，告知问卷编号（{{surveyId}}），编号（{{key}}）和您的账号信息，</p>
+                                <p>我们的客服会尽最快的速度答复您。</p>
+                        </div>
                     </div>
+                    <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
                 </div>
-                <a class="backBtn" href="{{ path('_homepage') }}">返回首页</a>
+               {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
             </div>
-           {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
         </div>
     </div>
 </div>

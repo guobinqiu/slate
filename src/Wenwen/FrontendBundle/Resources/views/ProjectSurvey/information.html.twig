@@ -7,36 +7,38 @@
 
 {% block body %}
 <div class="mainWrap">
-    <div class="container main-con">
-        <div class="qnWrap">
-            <div class="qnCon">
-                <div class="qnTxt">
-                    <h2></h2>
-                    <div class="subtit">
-                        <strong>问卷名称：<span id="no">{{ research.title }}</span><br></strong>
-                        <strong id="points">积分数：<span class="point" id="point">{{ research.extra_info.point.complete }}分</span><br></strong>
-                        <strong>是否实时加积分：<span class="point">{{ notifiable ? '是' : '否' }}</span><br></strong>
-                        <strong id="loi">时长：<span class="loi" id="loi">约 {{ research.loi }} 分钟</span><br></strong>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 qnWrap">
+                <div class="qnCon">
+                    <div class="qnTxt">
+                        <h2></h2>
+                        <div class="subtit">
+                            <strong>问卷名称：<span id="no">{{ research.title }}</span><br></strong>
+                            <strong id="points">积分数：<span class="point" id="point">{{ research.extra_info.point.complete }}分</span><br></strong>
+                            <strong>是否实时加积分：<span class="point">{{ notifiable ? '是' : '否' }}</span><br></strong>
+                            <strong id="loi">时长：<span class="loi" id="loi">约 {{ research.loi }} 分钟</span><br></strong>
+                        </div>
+                        {% set note = '※ 在回答问卷过程中，请不要中断，避免失去获得积分的机会。' %}
+                        {% if research.extra_info.content is defined and research.extra_info.content != '' %}
+                            {% set note = "#{note}<br>※ #{research.extra_info.content}" %}
+                        {% endif %}
+                        <div class="prompt" id="note">{{ note|raw }}</div>
+                        <div class="notice">
+                            <strong>注意事项：</strong>
+                            <p>回答中请不要点击浏览器的返回按钮。<br>
+                                推荐浏览器6.0版本以上的Internet Explorer。<br>
+                                根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+                                保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
+                        </div>
+                        <div class="qnBtn">
+                            <a id="survey-link" href="{{ path('_project_survey_forward', {'research': research}) }}">开始回答问卷</a>
+                        </div>
+                        <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
                     </div>
-                    {% set note = '※ 在回答问卷过程中，请不要中断，避免失去获得积分的机会。' %}
-                    {% if research.extra_info.content is defined and research.extra_info.content != '' %}
-                        {% set note = "#{note}<br>※ #{research.extra_info.content}" %}
-                    {% endif %}
-                    <div class="prompt" id="note">{{ note|raw }}</div>
-                    <div class="notice">
-                        <strong>注意事项：</strong>
-                        <p>回答中请不要点击浏览器的返回按钮。<br>
-                            推荐浏览器6.0版本以上的Internet Explorer。<br>
-                            根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
-                            保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
-                    </div>
-                    <div class="qnBtn">
-                        <a id="survey-link" href="{{ path('_project_survey_forward', {'research': research}) }}">开始回答问卷</a>
-                    </div>
-                    <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
                 </div>
+                {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
             </div>
-            {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
         </div>
     </div>
 </div>
