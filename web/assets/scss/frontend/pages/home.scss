@@ -41,7 +41,8 @@ $slider-height: 305px;
 			width: 9px;
 			height: 9px;
 			background: url(../../../img/frontend/home/sliderbtn.png) no-repeat;
-			&:hover, &.active{
+			&:hover, 
+			&.active{
 				background: url(../../../img/frontend/home/sliderbtnhover.png) no-repeat;
 			}
 		}
@@ -226,7 +227,11 @@ $slider-height: 305px;
 	    cursor: pointer;
 	}
 }
-#mask, #newguideWrap, #newguideWrap .newguide1, #newguideWrap .newguide2, #newguideWrap .newguide3{
+#mask, 
+#newguideWrap, 
+#newguideWrap .newguide1, 
+#newguideWrap .newguide2, 
+#newguideWrap .newguide3{
 	display: none;
 }
 .vote-new{
@@ -240,11 +245,6 @@ $slider-height: 305px;
 	}
 	.countdown{
 		padding-left: 20px;
-	}
-}
-@media only screen and (max-width: 360px)  {
-	#surveyList>li .row{
-		padding: 0 17px;
 	}
 }
 @media only screen and (max-width: 767px)  {
@@ -263,9 +263,4 @@ $slider-height: 305px;
 		    margin-right: 3px;
    		}
    	}
-}
-@media only screen and (min-width: 992px) {
-	.vote .panel-body li .row{
-		padding: 0 21px 0 30px;
-	}
 }

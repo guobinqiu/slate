@@ -6,39 +6,36 @@
 {% endblock %}
 
 {% block body %}
+<div class="mainWrap">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                <div class="main-con">
-                    <div class="qnWrap">
-                        <div class="qnCon">
-                            <div class="qnTxt">
-                                <h2 id="title"></h2>
-                                <div class="subtit">
-                                    <strong >S市场调查项目 <br></strong>
-                                    <strong id="points">每份问卷积分数：<span class="point">{{ ssi_config.point }}</span></strong>
-                                </div>
-                                <div class="prompt" id="note">
-                                * 这是一个由多份问卷组成的调查项目。<br>
-                                * 您可以选择连续回答，或者仅参与其中部分问卷。<br>
-                                * 每完成（并通过审核）一份问卷即可获得{{ ssi_config.point }}积分。<br>
-                                * 积分将在本次调查结束后统一发放。</div>
-                                <div class="notice">
-                                    <strong>注意事项：</strong>
-                                    <p>回答中请不要点击浏览器的返回按钮。<br>
-                                        推荐浏览器6.0版本以上的Internet Explorer。<br>
-                                        根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
-                                        保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
-                                </div>
-                                <div class="qnBtn">
-                                  <a id="survey-link" href="{{ ssi_survey.startUrl }}">开始回答问卷</a>
-                                </div>
-                                <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
-                            </div>
+            <div class="col-xs-12 col-md-10 col-md-offset-1 qnWrap">
+                <div class="qnCon">
+                    <div class="qnTxt">
+                        <h2 id="title"></h2>
+                        <div class="subtit">
+                            <strong >S市场调查项目 <br></strong>
+                            <strong id="points">每份问卷积分数：<span class="point">{{ ssi_config.point }}</span></strong>
                         </div>
-                        {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+                        <div class="prompt" id="note">
+                        * 这是一个由多份问卷组成的调查项目。<br>
+                        * 您可以选择连续回答，或者仅参与其中部分问卷。<br>
+                        * 每完成（并通过审核）一份问卷即可获得{{ ssi_config.point }}积分。<br>
+                        * 积分将在本次调查结束后统一发放。</div>
+                        <div class="notice">
+                            <strong>注意事项：</strong>
+                            <p>回答中请不要点击浏览器的返回按钮。<br>
+                                推荐浏览器6.0版本以上的Internet Explorer。<br>
+                                根据用户会员协议，请不要向第三者泄露，复制，销售，公开问卷的内容。<br>
+                                保护用户的个人隐私信息是我们最大的任务之一，本问卷取得的信息将只用于无法特定到个人用户的数据统计。</p>
+                        </div>
+                        <div class="qnBtn">
+                          <a id="survey-link" href="{{ ssi_survey.startUrl }}">开始回答问卷</a>
+                        </div>
+                        <div class="tips">请确认内容之后点击&lt;开始回答问卷&gt;<br /> （之后无法返回现在的页面）</div>
                     </div>
                 </div>
+                {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
             </div>
         </div>
     </div>

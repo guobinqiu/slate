@@ -4,6 +4,7 @@
 .main-personal-account{
 	padding: 20px 45px 50px;
 	color: #666;
+	background-color: #fff;
 	.successMess{
 		width: 150px;
 	    margin-left: 133px;
@@ -124,26 +125,22 @@
 	        	}
 			}
 		}
-		.btn{
-			padding: 20px 0 0 143px;
-			input{
-				margin-right: 10px;
+		input{
+			&.btn{
+				margin: 20px 10px 0 143px;
 				width: 74px;
-				text-align: center;
-				height: 36px;
-				line-height: 36px;
 				@include btn();
 				@include dib();
 				vertical-align: middle;
 				-webkit-appearance: none;
-				&.backStep{
-					background: #c7c7c7;
-					border: 1px solid #c7c7c7;
-					cursor: pointer;
-					&:hover{
-						background: #a7a7a7;
-						border: 1px solid #a7a7a7;
-					}
+			}
+			&.backStep{
+				background: #c7c7c7;
+				border: 1px solid #c7c7c7;
+				cursor: pointer;
+				&:hover{
+					background: #a7a7a7;
+					border: 1px solid #a7a7a7;
 				}
 			}
 		}
@@ -190,12 +187,6 @@
 	    padding: 12px 30px 50px;
 	    .con{
 	    	padding: 15px 0;
-	    	// li{
-	    	// 	margin-top: 0;
-	    	// }
-	    	.btn{
-	    		padding: 20px 0 0 83px;
-	    	}
 	    	&.withdraw{
 	    		ul.reason{
 	    			li{

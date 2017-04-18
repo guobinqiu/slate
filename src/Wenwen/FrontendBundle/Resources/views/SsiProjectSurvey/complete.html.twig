@@ -6,27 +6,25 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container">
+<div class="mainWrap">
+    <div class="container"> 
       <div class="row">
-          <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-              <div class="main-con">   
-                <div class="qnWrap">
-                    <div class="qnCon qnEnd">
-                        <div class="qnEndTxt">
-                            <div class="txt">
-                              <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
-                              <h2>亲爱的用户！</h2>
-                              <p>感谢您参加本次的问卷调查。<br>
-                              积分会在调查结束后的第2-3天自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
-                            </div>
-                        </div>
+        <div class="col-xs-12 col-md-10 col-md-offset-1 qnWrap">
+            <div class="qnCon qnEnd">
+                <div class="qnEndTxt">
+                    <div class="txt">
+                      <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
+                      <h2>亲爱的用户！</h2>
+                      <p>感谢您参加本次的问卷调查。<br>
+                      积分会在调查结束后的第2-3天自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
                     </div>
-                    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
                 </div>
-              </div>
-          </div>
-      </div>
-  </div>
+            </div>
+            {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
+        </div>
+      </div>  
+    </div>
+</div>
 
 {% endblock %}
 

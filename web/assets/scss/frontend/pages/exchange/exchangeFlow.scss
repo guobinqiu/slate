@@ -180,6 +180,7 @@
 		}
 	}
 	.alipay-tips{
+		width: 94%;
 		margin-bottom: 40px;
 		line-height: 20px;
 		background: #f6f6f6;
@@ -201,6 +202,8 @@
 	}
 }
 .main-con-finished{
+	padding: 10px 30px;
+	background-color: #fff;
 	.con{
 		padding: 40px 25px 100px;
 		.checkIcon{
@@ -211,7 +214,8 @@
 			line-height: 40px;
 		}
 		.prompt{
-			margin-top: 20px;
+			width: 90%;
+			margin-top: 30px;
 			line-height: 24px;
 			em{
 				margin-right: 5px;
@@ -227,10 +231,7 @@
 	.tips{
 		margin-top: 50px;
 		padding: 50px;
-		background: #fafafa;
-		p{
-			text-align: center;
-			color: #a6a6a6;
-		}
+		text-align: center;
+		color: #a6a6a6;
 	}
 }

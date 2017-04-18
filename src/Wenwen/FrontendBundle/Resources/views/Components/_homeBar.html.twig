@@ -1,7 +1,7 @@
 <div class="homeBr">
     <div class="container">
         <div class="row vertical-align">
-            <div class="col-md-3 hidden-xs faceWapper vertical-align">
+            <div class="col-sm-3 hidden-xs faceWapper vertical-align">
                 {% if user.iconPath %}
                     <img class="img-circle" src="{{ asset(user.iconPath) }}" alt="头像" width="52" height="52">
                 {% else %}
@@ -17,7 +17,7 @@
                     积分：<strong>{{ user.points }}</strong>
                 </div>
             </div>
-            <div class="col-md-6 col-xs-12">
+            <div class="col-sm-5 col-xs-12">
                 <div class="visible-xs-inline">
                     <div class="infoText" style="font-size: 16px;">
                         <strong>{{ user.points }}</strong>积分
@@ -45,11 +45,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-offset-3 hidden-xs">
-                <div class="right" style="width: 200px">
-                    <a href="{{ path('_user_adtaste',{'type':0}) }}" class="btn btn-default">任务历史</a>
-                    <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="btn btn-default">兑换历史</a>
-                </div>
+            <div class="col-sm-4 text-right hidden-xs">
+                <a href="{{ path('_user_adtaste',{'type':0}) }}" class="btn btn-default">任务历史</a>
+                <a href="{{ path('_user_exchange',{'type':0, 'exchangeType':1}) }}" class="btn btn-default">兑换历史</a>
             </div>
         </div>
     </div>

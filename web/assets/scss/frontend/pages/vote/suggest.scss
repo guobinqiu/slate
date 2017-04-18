@@ -2,7 +2,7 @@
 
 @import "../../layout/global";
 .main-con-suggest{
-	padding: 20px 60px 50px;
+	padding: 20px 100px 50px;
 	border: $block-border;
 	background: $block-bg-color;
 	h1{
@@ -55,13 +55,17 @@
 			}
 		}
 		.btn{
-			padding-left: 0;
-			span{
-				width: 110px;
-				line-height: 36px;
-				font-size: 14px;
-				font-weight: bold;
-			}
+			margin-top: 10px;
+			width: 110px;
+			text-align: center;
+			line-height: 24px;
+			font-size: 14px;
+			font-weight: bold;
+			@include btn();
+			@include dib();
+			vertical-align: middle;
+			outline: none;
+			-webkit-appearance: none;
 		}
 	}
 	.tips{

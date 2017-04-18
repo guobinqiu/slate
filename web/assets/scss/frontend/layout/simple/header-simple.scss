@@ -10,7 +10,7 @@ $header-height: 92px;
 	@include box-shadow(0px 1px 5px #d8d8d8);
 	.logo{
 		a{
-			padding: 15px 20px 15px;
+			padding: 15px 20px 15px 0;
 			vertical-align: middle;
 			@include dib();
 		}

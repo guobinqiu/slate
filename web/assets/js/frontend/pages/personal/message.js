@@ -2,8 +2,8 @@
 引用jquery.js, routing.js, common.js
 -------------------*/
 $(function(){
-   	var navLinks = $('.main-personal-message .btn a');
-    var navSlider = $('.main-personal-message .btn .border');
+   	var navLinks = $('.main-personal-message a.btn');
+    var navSlider = $('.main-personal-message .border');
 	var curIndex = navLinks.parent().find('.active').index();
 	var flag = 0;
 	if(navLinks.css('width')=="110px"){ flag = 1;}

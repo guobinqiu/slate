@@ -57,23 +57,16 @@
  				font-size: 14px;
  			}
  		}
- 		.btn{
-			.submit{
-				width: 140px;
-				text-align: center;
-				height: 40px;
-				line-height: 36px;
-				font-size: 14px;
-				font-weight: bold;
-				@include btn();
-				@include dib();
-				vertical-align: middle;
-				outline: none;
-				-webkit-appearance: none;
-			}
-			.loginTips{
-				line-height: 35px;
-			}
+ 		.submit{
+			width: 140px;
+			@include btn();
+			@include dib();
+			vertical-align: middle;
+			outline: none;
+			-webkit-appearance: none;
+		}
+		.loginTips{
+			line-height: 35px;
 			a{
 				&.result{
 					float: right;
@@ -81,7 +74,7 @@
 				}
 				color: $main-title-color;
 			}
- 		}
+		}
  		b, span.result{
  			float: right;
  			color: #9da1a8;
@@ -103,7 +96,6 @@
  		}
  	}
 }
-
 @media only screen and (max-width: 991px){
 	.voteDet .panel-body {
 	    padding: 26px 28px;

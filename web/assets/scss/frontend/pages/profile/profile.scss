@@ -53,6 +53,7 @@ $color: #0078b6;
 }
 .main-personal-profile{
 	padding: 20px 47px 50px;
+	background-color: #fff;
 	.con{
 		padding: 17px 10px 45px;
 		font-size: 13px;
@@ -325,11 +326,10 @@ $color: #0078b6;
 				display: inline-block;
 			}
 		}
-		.btn{
-			padding-left: 0;
-			span{
+		span{
+			&.btn{
+				line-height: 22px;
 				width: 75px;
-				text-align: center;
 				@include btn();
 				@include dib();
 			}
