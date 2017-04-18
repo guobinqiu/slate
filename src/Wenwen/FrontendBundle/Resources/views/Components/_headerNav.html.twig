@@ -36,7 +36,6 @@
         {% endif %}
         </p>
         <i class="fa fa-user-o" aria-hidden="true"></i>
-        
     </div>
     <div class="collapse navbar-collapse navbar-right" id="navbar-ex1-collapse">
         <ul class="nav navbar-nav">
@@ -61,12 +60,12 @@
             {# </a> #}
             {# {% endif %} #}
         {% if app.session.has('uid') %}
-            <li class="nav-item hidden-sm hidden-md hidden-lg"><i class="fa fa-user hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="nav-link active"':'class="nav-link"' }}>个人中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+            <li class="nav-item hidden-sm hidden-md hidden-lg"><i class="fa fa-user" aria-hidden="true"></i><a href="{{ path('_profile_edit') }}" title="个人中心" {{ router_current == '_profile_edit' ? 'class="nav-link active"':'class="nav-link"' }}>个人中心</a><i class="fa fa-chevron-right pull-right" aria-hidden="true"></i></li>
             <hr class="hidden-sm hidden-md hidden-lg">
-            <li class="nav-item hidden-sm hidden-md hidden-lg"><i class="fa fa-sign-out hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('_user_logout') }}">退出</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
+            <li class="nav-item hidden-sm hidden-md hidden-lg"><i class="fa fa-sign-out" aria-hidden="true"></i><a href="{{ path('_user_logout') }}">退出</a><i class="fa fa-chevron-right pull-right" aria-hidden="true"></i></li>
             <li class="dropdown nav-item hidden-xs">
                 <i class="fa fa-user-o" aria-hidden="true">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></i>个人中心 <span class="caret hidden-xs"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></i>个人中心 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ path('_profile_edit') }}">个人资料</a></li>
                   <li><a href="{{ path('_user_message',{'sid': 1}) }}">我的消息</a></li>
