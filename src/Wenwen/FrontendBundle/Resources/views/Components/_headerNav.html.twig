@@ -46,7 +46,7 @@
             <li class="nav-item"><i class="fa fa-list hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答" {{ router_current == 'jili_frontend_vote_index' ? 'class="nav-link active"':'class="nav-link"' }}>快速问答</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
             <hr class="hidden-sm hidden-md hidden-lg">
         {% if app.session.has('uid') %}
-            <li class="nav-item"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active hidden-xs hidden-sm"':'class="hidden-xs hidden-sm"' }}>任务体验</a></li>
+            <li class="nav-item hidden-xs hidden-sm"><a href="{{ path('_advertiserment_list') }}" title="任务体验" {{ router_current == '_advertiserment_list' ? 'class="nav-link active"':'class="nav-link"' }}>任务体验</a></li>
         {% endif %}
             <li class="nav-item exchangeIt"><i class="fa fa-gift hidden-sm hidden-md hidden-lg" aria-hidden="true"></i><a href="{{ path('_exchange_index') }}" title="兑换中心" {{ router_current == '_exchange_index' ? 'class="nav-link active"':'class="nav-link"' }}>兑换中心</a><i class="fa fa-chevron-right pull-right hidden-sm hidden-md hidden-lg" aria-hidden="true"></i></li>
             <hr class="hidden-sm hidden-md hidden-lg">
