@@ -86,7 +86,7 @@ class PointService
     }
 
     public function addPointsForInviter(User $user, $points, $categoryType, $taskType, $taskName, $order = null, $happenTime = null, $needCreatePrizeTicket = false, $prizeType = PrizeItem::TYPE_SMALL) {
-        if ($user->getInviteId() != null) {
+        if ($user->getInviteId() != null && ($user->getEmail() == null || ($user->getEmail() != null && $user->getIsEmailConfirmed() == 1))) {
             $inviter = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getInviteId());
             if ($inviter != null) {
                 $this->logger->info(__METHOD__ . '给邀请人加积分，邀请人ID：' . $user->getInviteId() . '，当前用户ID：' . $user->getId());

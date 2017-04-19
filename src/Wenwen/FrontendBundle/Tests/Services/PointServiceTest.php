@@ -41,7 +41,7 @@ class PointServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+//        $this->em->close();
     }
 
     public function testAddPoints()
@@ -70,7 +70,14 @@ class PointServiceTest extends WebTestCase
 
         $user2 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user2');
         $pointService->addPointsForInviter($user2, 100, 0, 0, 'test add points for inviter');
-
         $this->assertEquals(200, $user1->getPoints());
+
+        $user3 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user3');
+        $pointService->addPointsForInviter($user3, 100, 0, 0, 'test add points for inviter');
+        $this->assertEquals(200, $user1->getPoints());
+
+        $user4 = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByNick('user4');
+        $pointService->addPointsForInviter($user4, 100, 0, 0, 'test add points for inviter');
+        $this->assertEquals(300, $user1->getPoints());
     }
 }
