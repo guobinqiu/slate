@@ -41,7 +41,7 @@ class PointServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-//        $this->em->close();
+        $this->em->close();
     }
 
     public function testAddPoints()
