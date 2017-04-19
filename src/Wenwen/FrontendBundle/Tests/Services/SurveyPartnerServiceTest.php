@@ -2484,7 +2484,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $user->setPoints($currentPoint);
         $user->setRewardMultiple(1);
         $user->setInviteId($inviter->getId());
-
+        $user->setIsEmailConfirmed(1);
         $this->em->persist($user);
         $this->em->flush();
 
