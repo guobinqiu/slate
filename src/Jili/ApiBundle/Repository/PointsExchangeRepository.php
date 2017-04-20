@@ -100,7 +100,7 @@ class PointsExchangeRepository extends EntityRepository
         if($end)
             $end_time = $end.' 23:59:59';
         $query = $this->createQueryBuilder('p');
-        $query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.realName,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pt.type');
+        $query = $query->select('p.id,p.userId,u.email,p.targetAccount,p.targetPoint,p.realName,p.type as exType,p.exchangeItemNumber,p.exchangeDate,p.finishDate,p.status,pt.type,u.pointsCost as points_cost,u.pointsExpense as points_expense');
         $query = $query->innerJoin('JiliApiBundle:PointsExchangeType', 'pt', 'WITH', 'p.type = pt.id');
         $query = $query->innerJoin('WenwenFrontendBundle:User', 'u', 'WITH', 'p.userId = u.id');
         $query = $query->Where('1 = 1');
