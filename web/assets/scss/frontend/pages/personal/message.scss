@@ -4,6 +4,7 @@
 .main-personal-message{
 	padding: 10px 40px;
 	background-color: #fff;
+	@include minHeight(600px);
 	span{
 		@include dib();
 	}
