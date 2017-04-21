@@ -153,6 +153,9 @@ body{
 			margin: 20px auto;
 			line-height: 22px;
 			color: $weak-color;
+			a{
+				color: $weak-color;	
+			}
 		}
     }
 }
