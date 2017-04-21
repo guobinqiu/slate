@@ -72,7 +72,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -119,7 +119,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -166,7 +166,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -213,7 +213,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -260,7 +260,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -307,7 +307,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -354,7 +354,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -400,7 +400,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('2010-01-01'); // 6 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -446,7 +446,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1910-01-01'); // 106 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -492,7 +492,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -536,7 +536,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -582,7 +582,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -610,7 +610,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('ds-Product-china@d8aspring.com');
@@ -732,7 +732,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -808,7 +808,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $now = new \DateTime(); // current time
         $registerCompleteDate = $now->sub(new \DateInterval('P04D')); // 用户注册于4天前
@@ -868,7 +868,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -926,7 +926,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1019,7 +1019,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1088,7 +1088,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1163,7 +1163,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1470,7 +1470,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('rpa-sys-china@d8aspring.com');
@@ -1551,7 +1551,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('rpa-sys-china@d8aspring.com');
@@ -1621,7 +1621,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1692,7 +1692,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1764,7 +1764,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1842,7 +1842,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1919,7 +1919,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1980,7 +1980,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -2030,7 +2030,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $rtn = $this->surveyPartnerService->redirectToSurvey($user, $surveyPartner->getId(), $locationInfo);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure because this project is not open.');
     }
-    
+
     public function testRedirectToSurvey_failure_with_forward_history()
     {
         $purger = new ORMPurger();
@@ -2041,7 +2041,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -2554,7 +2554,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                         ));
         $this->assertEquals($key, $surveyPartnerParticipationHistory->getUKey(), 'Participation key should be updated.');
         $this->assertEquals($currentPoint + $completePoint, $user->getPoints(), 'Point should be rewarded.');
-        $this->assertEquals($currentPoint + $completePoint * 0.1, $inviter->getPoints(), 'Point should be rewarded.');
+        $this->assertEquals($currentPoint + $completePoint * 0.1 + User::POINT_INVITE_SIGNUP, $inviter->getPoints(), 'Point should be rewarded.');
         $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBy(
                     array(
                         'comment' => $key,
@@ -2701,7 +2701,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($completePoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $completePoint);        
+        $this->assertEquals($completePoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $completePoint);
     }
 
     public function testReward_screenout()
@@ -2773,7 +2773,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($screenoutPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $screenoutPoint);        
+        $this->assertEquals($screenoutPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $screenoutPoint);
     }
 
     public function testReward_quotafull()
@@ -2845,7 +2845,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($quotafullPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $quotafullPoint);        
+        $this->assertEquals($quotafullPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $quotafullPoint);
     }
 
     public function testReward_other()
