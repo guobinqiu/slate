@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Model\TaskType;
+use Wenwen\FrontendBundle\Model\CategoryType;
 
 class PointService
 {
@@ -89,9 +90,18 @@ class PointService
         if ($user->getInviteId() != null && ($user->getEmail() == null || ($user->getEmail() != null && $user->getIsEmailConfirmed() == 1))) {
             $inviter = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getInviteId());
             if ($inviter != null) {
-                $this->logger->info(__METHOD__ . '给邀请人加积分，邀请人ID：' . $user->getInviteId() . '，当前用户ID：' . $user->getId());
+                $this->logger->info(__METHOD__ . ' Reward inviter user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
                 $this->addPoints($inviter, $points, $categoryType, $taskType, $taskName, $order, $happenTime, $needCreatePrizeTicket, $prizeType);
+                // 该用户第一次完成(Complete)商业问卷（cost类型）时，给邀请者一次性增加奖励积分
+                if($user->getCompleteN() == 1){
+                    $this->logger->info(__METHOD__ . ' First complete bonus for inviter user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
+                    $this->addPoints($inviter, User::POINT_INVITE_SIGNUP, CategoryType::EVENT_INVITE_SIGNUP, TaskType::RENTENTION, '完成好友邀请', null, $happenTime, false, null);
+                }
+            } else {
+                $this->logger->debug(__METHOD__ . ' Inviter not found. user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
             }
+        } else {
+            $this->logger->debug(__METHOD__ . ' No inviter. user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
         }
     }
 }

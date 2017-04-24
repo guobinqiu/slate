@@ -289,7 +289,7 @@ class User
     /**
      * @var integer
      * 参考用的，这个用户大概获得了多少expense类型的积分
-     * 
+     *
      * @ORM\Column(name="points_expense", type="integer", options={"default": 0})
      */
     private $pointsExpense;

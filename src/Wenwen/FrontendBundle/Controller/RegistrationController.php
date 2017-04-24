@@ -145,6 +145,8 @@ class RegistrationController extends BaseController
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
+        // 暂时以comment的方式留着，将来可能考虑要给完成注册时的积分
+        /*
         $pointService = $this->get('app.point_service');
 
         // 给当前用户加积分
@@ -159,19 +161,7 @@ class RegistrationController extends BaseController
             true,
             PrizeItem::TYPE_SMALL
         );
-
-        // 同时给邀请人加积分
-        $pointService->addPointsForInviter(
-            $user,
-            User::POINT_INVITE_SIGNUP,
-            CategoryType::EVENT_INVITE_SIGNUP,
-            TaskType::RENTENTION,
-            '完成好友邀请',
-            null,
-            new \DateTime(),
-            true,
-            PrizeItem::TYPE_SMALL
-        );
+        */
 
         $this->pushBasicProfile($user);// 推送用户基本属性
 
