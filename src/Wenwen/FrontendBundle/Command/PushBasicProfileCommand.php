@@ -29,12 +29,6 @@ class PushBasicProfileCommand extends ContainerAwareCommand
         $user_id = $input->getOption('user_id');
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $success = $surveyService->pushBasicProfile($user);
-        if ($success) {
-            $points = $parameterService->getParameter('sop')['point']['profile'];
-            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q001 属性问卷');//birthday
-            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q002 属性问卷');//gender
-            $pointService->addPoints($user, $points, CategoryType::SOP_EXPENSE, TaskType::RENTENTION, 'q004 属性问卷');//region
-        }
         $output->writeln($success);
     }
 }
