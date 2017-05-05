@@ -18,3 +18,6 @@ requires 'Text::CSV_XS';
 requires 'Text::Xslate';
 requires 'Time::Piece::Plus';
 requires 'YAML';
+requires 'LWP::UserAgent';
+requires 'LWP::Protocol::https';
+requires 'JSON::XS';

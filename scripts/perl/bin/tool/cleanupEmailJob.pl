@@ -5,21 +5,21 @@ use Wenwen::Model;
 use Wenwen::Task::CleanupEmailJobTask;
 use Getopt::Long;
 
-my $first_day_of_this_month = get_first_day_of_this_month();
+my %opt = (
+    first_day_of_this_month => get_first_day_of_this_month(),
+);
 
 GetOptions(
-    'before=s' => \$first_day_of_this_month,
+    'before=s' => \$opt{first_day_of_this_month},
 );
 
 die "Usage: $0 [--before=yyyy-mm-dd]"
-    unless $first_day_of_this_month =~ /\d{4}-\d{2}-\d{2}/;
-
-#print $first_day_of_this_month;
+    unless $opt{first_day_of_this_month} =~ /\d{4}-\d{2}-\d{2}/;
 
 my $handle = Wenwen::Model->create_handle;
 
 my $task = Wenwen::Task::CleanupEmailJobTask->new(handle => $handle);
-$task->delete_finished_before_date($first_day_of_this_month);
+$task->delete_finished_before_date($opt{first_day_of_this_month});
 
 sub get_first_day_of_this_month {
     my $t = DateTime->today;

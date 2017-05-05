@@ -25,3 +25,7 @@ sub create_handle {
         }
     );
 }
+
+sub get_slack_url {
+    c->param('slack_url');
+}
