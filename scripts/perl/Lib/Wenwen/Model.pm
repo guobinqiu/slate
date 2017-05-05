@@ -23,5 +23,5 @@ sub create_handle {
             schema_class => 'Wenwen::Model::Schema',
             %ExtraOptions,
         }
-    )
+    );
 }

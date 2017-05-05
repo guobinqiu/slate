@@ -19,7 +19,7 @@ die "Usage: $0 [--before=yyyy-mm-dd]"
 my $handle = Wenwen::Model->create_handle;
 
 my $task = Wenwen::Task::CleanupEmailJobTask->new(handle => $handle);
-$task->delete_finished_by_date($first_day_of_this_month);
+$task->delete_finished_before_date($first_day_of_this_month);
 
 sub get_first_day_of_this_month {
     my $t = DateTime->today;

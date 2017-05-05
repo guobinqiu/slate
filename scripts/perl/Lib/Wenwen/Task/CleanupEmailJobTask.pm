@@ -5,7 +5,7 @@ use Moo;
 
 has handle => (is => 'ro',);
 
-sub delete_finished_by_date {
+sub delete_finished_before_date {
 
     my ($self, $first_day_of_this_month) = @_;
 
