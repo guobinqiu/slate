@@ -1,13 +1,13 @@
 use common::sense;
 
-+{  is_test  => 1,
++{
+    is_test => 0,
     database => {
         dsn  => 'dbi:mysql:dbname=jili_db',
         user => 'root',
-        pass => '',
+        pass => 'Guobin83',
     },
     email => {
-        from  => 'test.91wenwen@net',
+        from  => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
     },
 };
-

@@ -22,28 +22,45 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  CPAN-Meta-2.150005
-    pathname: D/DA/DAGOLDEN/CPAN-Meta-2.150005.tar.gz
+  CPAN-Meta-2.150010
+    pathname: D/DA/DAGOLDEN/CPAN-Meta-2.150010.tar.gz
     provides:
-      CPAN::Meta 2.150005
-      CPAN::Meta::Converter 2.150005
-      CPAN::Meta::Feature 2.150005
-      CPAN::Meta::History 2.150005
-      CPAN::Meta::Merge 2.150005
-      CPAN::Meta::Prereqs 2.150005
-      CPAN::Meta::Spec 2.150005
-      CPAN::Meta::Validator 2.150005
+      CPAN::Meta 2.150010
+      CPAN::Meta::Converter 2.150010
+      CPAN::Meta::Feature 2.150010
+      CPAN::Meta::History 2.150010
+      CPAN::Meta::Merge 2.150010
+      CPAN::Meta::Prereqs 2.150010
+      CPAN::Meta::Spec 2.150010
+      CPAN::Meta::Validator 2.150010
+      Parse::CPAN::Meta 2.150010
     requirements:
       CPAN::Meta::Requirements 2.121
-      CPAN::Meta::YAML 0.008
+      CPAN::Meta::YAML 0.011
       Carp 0
+      Encode 0
+      Exporter 0
       ExtUtils::MakeMaker 6.17
-      JSON::PP 2.27200
-      Parse::CPAN::Meta 1.4414
+      File::Spec 0.80
+      JSON::PP 2.27300
       Scalar::Util 0
-      perl 5.008
+      perl 5.008001
       strict 0
       version 0.88
+      warnings 0
+  CPAN-Meta-YAML-0.018
+    pathname: D/DA/DAGOLDEN/CPAN-Meta-YAML-0.018.tar.gz
+    provides:
+      CPAN::Meta::YAML 0.018
+    requirements:
+      B 0
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.17
+      Fcntl 0
+      Scalar::Util 0
+      perl 5.008001
+      strict 0
       warnings 0
   Capture-Tiny-0.36
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.36.tar.gz
@@ -1116,6 +1133,30 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  ExtUtils-ParseXS-3.30
+    pathname: S/SM/SMUELLER/ExtUtils-ParseXS-3.30.tar.gz
+    provides:
+      ExtUtils::ParseXS 3.30
+      ExtUtils::ParseXS::Constants 3.30
+      ExtUtils::ParseXS::CountLines 3.30
+      ExtUtils::ParseXS::Eval 3.30
+      ExtUtils::ParseXS::Utilities 3.30
+      ExtUtils::Typemaps 3.30
+      ExtUtils::Typemaps::Cmd 3.30
+      ExtUtils::Typemaps::InputMap 3.30
+      ExtUtils::Typemaps::OutputMap 3.30
+      ExtUtils::Typemaps::Type 3.30
+    requirements:
+      Carp 0
+      Cwd 0
+      DynaLoader 0
+      Exporter 5.57
+      ExtUtils::CBuilder 0
+      ExtUtils::MakeMaker 6.46
+      File::Basename 0
+      File::Spec 0
+      Symbol 0
+      Test::More 0.47
   File-Copy-Recursive-0.38
     pathname: D/DM/DMUEY/File-Copy-Recursive-0.38.tar.gz
     provides:
@@ -1136,6 +1177,15 @@ DISTRIBUTIONS
       Fcntl 0
       POSIX 0
       perl 5.004
+  JSON-PP-2.27400
+    pathname: M/MA/MAKAMAKA/JSON-PP-2.27400.tar.gz
+    provides:
+      JSON::PP 2.27400
+      JSON::PP::Boolean 2.27400
+      JSON::PP::IncrParser 2.27400
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
   List-MoreUtils-0.413
     pathname: R/RE/REHSACK/List-MoreUtils-0.413.tar.gz
     provides:
@@ -1530,6 +1580,17 @@ DISTRIBUTIONS
       Test::Requires 0
       Tie::IxHash 0
       perl 5.008001
+  Scalar-List-Utils-1.47
+    pathname: P/PE/PEVANS/Scalar-List-Utils-1.47.tar.gz
+    provides:
+      List::Util 1.47
+      List::Util::XS 1.47
+      Scalar::Util 1.47
+      Sub::Util 1.47
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
+      perl 5.006
   Scope-Guard-0.21
     pathname: C/CH/CHOCOLATE/Scope-Guard-0.21.tar.gz
     provides:
@@ -1757,6 +1818,60 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
+  Test-Harness-3.39
+    pathname: L/LE/LEONT/Test-Harness-3.39.tar.gz
+    provides:
+      App::Prove 3.39
+      App::Prove::State 3.39
+      App::Prove::State::Result 3.39
+      App::Prove::State::Result::Test 3.39
+      Harness::Hook undef
+      TAP::Base 3.39
+      TAP::Formatter::Base 3.39
+      TAP::Formatter::Color 3.39
+      TAP::Formatter::Console 3.39
+      TAP::Formatter::Console::ParallelSession 3.39
+      TAP::Formatter::Console::Session 3.39
+      TAP::Formatter::File 3.39
+      TAP::Formatter::File::Session 3.39
+      TAP::Formatter::Session 3.39
+      TAP::Harness 3.39
+      TAP::Harness::Env 3.39
+      TAP::Object 3.39
+      TAP::Parser 3.39
+      TAP::Parser::Aggregator 3.39
+      TAP::Parser::Grammar 3.39
+      TAP::Parser::Iterator 3.39
+      TAP::Parser::Iterator::Array 3.39
+      TAP::Parser::Iterator::Process 3.39
+      TAP::Parser::Iterator::Stream 3.39
+      TAP::Parser::IteratorFactory 3.39
+      TAP::Parser::Multiplexer 3.39
+      TAP::Parser::Result 3.39
+      TAP::Parser::Result::Bailout 3.39
+      TAP::Parser::Result::Comment 3.39
+      TAP::Parser::Result::Plan 3.39
+      TAP::Parser::Result::Pragma 3.39
+      TAP::Parser::Result::Test 3.39
+      TAP::Parser::Result::Unknown 3.39
+      TAP::Parser::Result::Version 3.39
+      TAP::Parser::Result::YAML 3.39
+      TAP::Parser::ResultFactory 3.39
+      TAP::Parser::Scheduler 3.39
+      TAP::Parser::Scheduler::Job 3.39
+      TAP::Parser::Scheduler::Spinner 3.39
+      TAP::Parser::Source 3.39
+      TAP::Parser::SourceHandler 3.39
+      TAP::Parser::SourceHandler::Executable 3.39
+      TAP::Parser::SourceHandler::File 3.39
+      TAP::Parser::SourceHandler::Handle 3.39
+      TAP::Parser::SourceHandler::Perl 3.39
+      TAP::Parser::SourceHandler::RawTAP 3.39
+      TAP::Parser::YAMLish::Reader 3.39
+      TAP::Parser::YAMLish::Writer 3.39
+      Test::Harness 3.39
+    requirements:
+      ExtUtils::MakeMaker 0
   Test-Name-FromLine-0.13
     pathname: S/SA/SATOH/Test-Name-FromLine-0.13.tar.gz
     provides:
