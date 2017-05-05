@@ -8,6 +8,6 @@ use common::sense;
         pass => 'YOUR_PASSWORD',
     },
     email => {
-        from  => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
+        from  => 'YOUR_EMAIL_ADDR',
     },
 };
