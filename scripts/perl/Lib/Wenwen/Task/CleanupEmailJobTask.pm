@@ -30,11 +30,19 @@ sub delete_finished_before_date {
         my $sth = $dbh->prepare(qq{delete from jms_jobs where state='finished' and date(createdAt) < ?});
         $sth->execute($first_day_of_this_month);
 
-        $sth = $dbh->prepare(qq{select * from jms_jobs where state='failed' and maxRetries=3});
+        $sth = $dbh->prepare(qq{select id,state,queue,createdAt,command,args from jms_jobs where state='failed' and maxRetries=3});
         $sth->execute();
-        if ($sth->rows > 0) {
-            $self->send_to_slack(encode_json({text => encode_json($sth->fetchall_arrayref())}));
-        };
+        for my $row (@{$sth->fetchall_arrayref()}) {
+            my $r = {
+                id => $$row[0],
+                state => $$row[1],
+                queue => $$row[2],
+                createAt => $$row[3],
+                command => $$row[4],
+                args => $$row[5],
+            };
+            $self->send_to_slack(encode_json({text => encode_json($r)}));
+        }
     };
 
     if ($@) {
