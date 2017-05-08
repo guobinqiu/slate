@@ -32,17 +32,25 @@ sub delete_finished_before_date {
 
         $sth = $dbh->prepare(qq{select id,state,queue,createdAt,command,args from jms_jobs where state='failed' and maxRetries=3});
         $sth->execute();
+
+        my @a;
+        my $i = 0;
         for my $row (@{$sth->fetchall_arrayref()}) {
-            my $r = {
+            push @a, {
                 id => $$row[0],
                 state => $$row[1],
                 queue => $$row[2],
                 createAt => $$row[3],
                 command => $$row[4],
-                args => $$row[5],
             };
-            $self->send_to_slack(encode_json({text => encode_json($r)}));
+            $i++;
         }
+
+        my %h;
+        $h{'total'} = $i;
+        $h{'rows'} = \@a;
+#        print encode_json({text => encode_json(\%h)});
+        $self->send_to_slack(encode_json({text => encode_json(\%h)}));
     };
 
     if ($@) {
