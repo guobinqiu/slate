@@ -10,4 +10,5 @@ use common::sense;
         email => {
         from  => 'SHOULD_BE_LOAD_FROM_LOCAL_GIT',
     },
+    slack_url => 'https://hooks.slack.com/services/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',
 };

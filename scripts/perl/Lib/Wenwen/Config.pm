@@ -11,12 +11,14 @@ BEGIN {
     }
 }
 
-common + { load(Wenwen::Util::path_to('config/deployment.pl')), };
+common +{};
 
 sub is_deployment {
     get_environment_name() eq 'deployment';
 }
 sub get_environment_name { $ENV{WENWEN_ENV} }
+
+config 'deployment'          => +{ load(Wenwen::Util::path_to('config/deployment.pl')), };
 
 config 'development'         => +{ load(Wenwen::Util::path_to('config/development.pl')), };
 
