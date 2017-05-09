@@ -47,7 +47,7 @@ sub delete_finished_before_date {
         }
 
         my %h;
-        $h{'class'} = 'Wenwen::Task::CleanupEmailJobTask';
+        $h{'class'} = __PACKAGE__;
         $h{'total'} = $i;
         $h{'rows'} = \@a;
 #        print encode_json({text => encode_json(\%h)});
