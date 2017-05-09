@@ -20,6 +20,21 @@ has ua => (
     },
 );
 
+use constant REGISTER_CENTER => {
+    'sop:checkout_survey_list' => 'Wenwen\\FrontendBundle\\Command\\CheckoutSurveyListCommand',
+    'point:expire' => 'Wenwen\\FrontendBundle\\Command\\ExpirePointCommand',
+    'mail:fulcrum_delivery_notification' => 'Wenwen\\FrontendBundle\\Command\\FulcrumDeliveryNotificationMailCommand',
+    'gmo:member_list_csv' => 'Wenwen\\FrontendBundle\\Command\\FulcrumDeliveryNotificationMailCommand',
+    'sop:push_basic_profile' => 'Wenwen\\FrontendBundle\\Command\\PushBasicProfileCommand',
+    'user:reset_password' => 'Wenwen\\FrontendBundle\\Command\\ResetPasswordCommand',
+    'mail:reset_password' => 'Wenwen\\FrontendBundle\\Command\\ResetPasswordMailCommand',
+    'mail:signup_confirmation' => 'Wenwen\\FrontendBundle\\Command\\SignupConfirmationMailCommand',
+    'mail:signup_success' => 'Wenwen\\FrontendBundle\\Command\\SignupSuccessMailCommand',
+    'mail:sop_delivery_notification' => 'Wenwen\\FrontendBundle\\Command\\SopDeliveryNotificationMailCommand',
+    'mail:ssi_delivery_notification_batch' => 'Wenwen\\FrontendBundle\\Command\\SsiDeliveryNotificationBatchMailCommand',
+    'mail:ssi_delivery_notification' => 'Wenwen\\FrontendBundle\\Command\\SsiDeliveryNotificationMailCommand',
+};
+
 sub delete_finished_before_date {
 
     my ($self, $first_day_of_this_month) = @_;
@@ -42,6 +57,7 @@ sub delete_finished_before_date {
                 queue => $$row[2],
                 createAt => $$row[3],
                 command => $$row[4],
+                class => $self->commandToClass($$row[4]),
             };
             $i++;
         }
@@ -55,15 +71,23 @@ sub delete_finished_before_date {
 
     if ($@) {
         $self->send_to_slack(encode_json({text => $@}));
+        $self->send_to_slack(encode_json({text => 'please check the reason of this failure and re-run this job'}));
     }
 
     $dbh->disconnect;
 }
 
 sub send_to_slack {
-    my ($self, $data) = @_;
-    my $response = $self->ua->post(Wenwen::Model::get_slack_url, {payload => $data});
+    my ($self, $message) = @_;
+    my $response = $self->ua->post(Wenwen::Model::get_slack_url, {payload => $message});
     print $response->status_line unless $response->is_success;
+}
+
+
+sub commandToClass {
+    my ($self, $command) = @_;
+    my $class = REGISTER_CENTER->{$command};
+    return defined($class) ? $class : 'Unregister';
 }
 
 1;
