@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Entity\SurveyGmoNonBusiness;
 use Wenwen\FrontendBundle\Form\SurveyGmoNonBusinessType;
 
@@ -77,4 +78,41 @@ class AdminSurveyGmoReportController extends Controller
         return $this->render('WenwenFrontendBundle:admin:SurveyGmoReport/monthlyParticipationReport.html.twig', array('result' => $result));
     }
 
+    /**
+     * surveyPointAction.
+     *
+     * @Route("/surveypoint", name="admin_gmo_report_survey_point")
+     * @Method({"GET","POST"})
+     */
+    public function surveyPointAction(Request $request)
+    {
+        $builder = $this->createFormBuilder();
+        $builder->add('date_start', 'date', array(
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+        ));
+        $builder->add('date_end', 'date', array(
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+        ));
+        $form = $builder->getForm();
+        $result = null;
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $sql = "select sum(point) points, survey_id from survey_gmo_grant_point_history where date(created_at) >= :date_start and date(created_at) <= :date_end group by survey_id";
+                $em = $this->getDoctrine()->getManager();
+                $stmt = $em->getConnection()->prepare($sql);
+                $formData = $form->getData();
+                $stmt->bindValue('date_start', $formData['date_start']->format('Y-m-d'));
+                $stmt->bindValue('date_end', $formData['date_end']->format('Y-m-d'));
+                $stmt->execute();
+                $result = $stmt->fetchAll();
+            }
+        }
+        return $this->render('WenwenFrontendBundle:admin:SurveyGmoReport/surveyPointReport.html.twig', array(
+            'result' => $result,
+            'form' => $form->createView(),
+        ));
+    }
 }

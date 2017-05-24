@@ -1,0 +1,38 @@
+{% extends 'WenwenFrontendBundle:admin:adminReportBase.html.twig' %}
+{% block title %}对账{% endblock %}
+{% block body %}
+    <div>
+        <form action="{{ path('admin_gmo_report_survey_point') }}" method="post">
+            {{ form_widget(form.date_start) }}
+            {{ form_widget(form.date_end) }}
+            {{ form_row(form._token) }}
+            <input type="submit" value="查询" />
+        </form>
+    </div>
+    {% set total_point = 0 %}
+    <div class='table-responsive'>
+        <table class="table table-striped table-condensed">
+            <caption>账单</caption>
+            <thead>
+                <tr class="active text-nowrap">
+                    <th>#</th>
+                    <th>Point</th>
+                    <th>Survey ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in result %}
+                    <tr class="text-nowrap">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ data.points }}</td>
+                        <td>{{ data.survey_id }}</td>
+                    </tr>
+                    {% set total_point = total_point + data.points %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        Total Point: {{ total_point }}
+    </div>
+{% endblock %}
