@@ -154,7 +154,17 @@ body{
 			line-height: 22px;
 			color: $weak-color;
 			a{
-				color: $weak-color;	
+				color: $weak-color;
+				&.icp{
+					margin-left: 10px;
+					margin-right: 10px;
+				}
+			}
+			img{
+				&.gwab_img{
+					margin-top: 3px;
+					margin-right: 2px;
+				}
 			}
 		}
     }

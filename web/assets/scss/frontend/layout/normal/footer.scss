@@ -12,12 +12,20 @@
 	border-bottom: 1px solid #525252;
 	a {
 		color: rgba(255,255,255,0.70);
+		&.icp{
+			margin-left: 10px;
+			margin-right: 10px;
+		}
 	}
 	p {
 		margin: 0;
 	}
 	img {
 		max-width: 100%;
+		&.gwab_img{
+			margin-top: 3px;
+			margin-right: 2px;
+		}
 	}
 	h3 {
 		color: #fff;
