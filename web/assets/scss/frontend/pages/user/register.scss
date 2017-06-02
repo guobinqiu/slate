@@ -228,7 +228,7 @@
 		text-align: left;
 		&.subscribe{
 			text-align: left;
-			padding: 3px 0 0 14px;
+			padding: 3px 0 0 5%;
 			font-size: 12px;
 			position: relative;
 			label{
@@ -258,7 +258,6 @@
 			}
 			.error{
 				width: auto;
-				padding-top: 10px;
 			}
 		}
 		label{
@@ -286,35 +285,9 @@
 			*height: 30px;
 			*line-height: 30px;
 		}
-		.regSex{
-			input[type="radio"]{
-				margin: 0 5px 0 0;
-			}
-			label{
-				color: #a0a0a0;
-				margin-right: 20px;
-				&.error{
-					margin-right: 0;
-				}
-			}
-		}
-		.regProvince,.regCity{
-			width: 29%;
-		    text-align: left;
-		    overflow: hidden;
-		    display: inline-block;
-		    height: 45px;
-	        line-height: 45px;
-			select{
-				width: 100%;
-				height: 22px;
-				border: none;
-				font-size: 14px;
-				font-family: "Microsoft YaHei";
-			    box-shadow: none;
-	      		option{
-	      			color: #333;
-	      		}
+		span{
+			&.required{
+				display: none;
 			}
 		}
 		.proPrompt{
@@ -342,15 +315,15 @@
 				}
 			}
 		}
-		.birthLab{
-			width: 75px;
+		.birthLab, .sexLab, .addrLab{
+			width: 78px;
 			display: inline-block;
 			color: #a0a0a0;
 			font-size: 14px;
 			font-family: "Microsoft YaHei";
 			padding-left: 5%;
 		}
-		.birthSel{
+		.birthSel, .addrSel{
 			height: 45px;
 			line-height: 45px;
 			display: inline-block;
@@ -364,14 +337,28 @@
 			    font-family: "Microsoft YaHei";
 			}
 		}
-		.addrLab{
-			width: 75px;
+		.regSex{
+			padding-left: 4px;
+			height: 45px;
+			line-height: 45px;
 			display: inline-block;
-			color: #a0a0a0;
-			font-size: 14px;
-			font-family: "Microsoft YaHei";
-			vertical-align: 17px;
-			padding-left: 5%;
+			input[type="radio"]{
+				margin: 0 5px 0 0;
+			}
+			label{
+				color: #333;
+				font-size: 14px;
+				margin-right: 20px;
+				&.error{
+					margin-right: 0;
+					font-size: 12px;
+				}
+			}
+		}
+		.addrSel{
+			select{
+				width: auto;
+			}
 		}
 	}
 	.login-btn{
@@ -399,13 +386,11 @@
 }
 #vcode{
 	font-size: 12px;
-	margin-bottom: 5px;
 	text-align: left;
 	.captcha_reload{
 	    background: url(../../../../img/frontend/user/change.png) no-repeat 0px 0;
 	    padding-left: 20px;
 	    height: 14px;
-	    vertical-align: -16px;
 	    margin-left: 5px;
 	}
 	input{
@@ -442,12 +427,15 @@
 		form{
 			width: 100%;
 		}
-		input[type="text"], input[type="email"], input[type="password"], .regSex{
-			height: 30px!important; 
-			line-height: 30px!important; 
+		input[type="text"], input[type="email"], input[type="password"]{
+			height: 32px!important; 
+			line-height: 32px!important; 
 		}
 		.login-btn{
 			margin-top: 10px;
+		}
+		.errorReg{
+		    top: 3px;
 		}
 	}
 	.register{
@@ -457,18 +445,25 @@
 			}
 		}
 		li{
-			.birthSel,.regProvince,.regCity{
-				height: 30px!important; 
-				line-height: 30px!important; 
+			.birthSel, .addrSel, .regSex{
+				height: 32px!important; 
+				line-height: 32px!important; 
 			}
 			.addrLab{
 				vertical-align: middle;
+			}
+			label{
+				&.error{
+					height: 26px;
+					line-height: 24px;
+				    top: 3px;
+				}
 			}
 		}
 	}
 	#vcode{
 		input{
-			vertical-align: -15px;
+			height: 40px!important;
 		}
 	}  
 } 

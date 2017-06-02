@@ -69,6 +69,7 @@
 											<div class="proPrompt">
 												<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
 											</div>
+											<div class="sexLab"><label>性别：</label></div>
 											<div class="regSex">{{ form_widget(userForm.userProfile.sex) }}</div>
 											<div class="error errorReg">{{ form_errors(userForm.userProfile.sex) }}</div>
 										</li>
@@ -80,7 +81,7 @@
 										<li class="liner">
 											{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
 											<div class="addrLab"><label class="required" aria-required="true">居住地：</label></div>
-											{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}
+											<div class="addrSel">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
 										</li>
 										<li class="subscribe">
 											{{ form_label(userForm.subscribe) }}
