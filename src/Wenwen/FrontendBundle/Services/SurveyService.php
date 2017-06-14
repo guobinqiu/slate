@@ -540,15 +540,6 @@ class SurveyService
                 $sop = null;
             }
 
-            //异步更新sop本地备案信息
-            $args = array(
-                '--user_id=' . $user_id,
-            );
-            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
-            $job->setMaxRetries(3);
-            $this->em->persist($job);
-            $this->em->flush();
-
         }  catch(\Exception $e) {
             $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
