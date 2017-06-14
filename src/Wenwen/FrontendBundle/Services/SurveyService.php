@@ -27,6 +27,8 @@ class SurveyService
     private $redis;
     private $surveyParnterService;
     private $surveySopService;
+    private $surveyFulcrumService;
+    private $surveyCintService;
     private $surveyGmoService;
 
     // 这个service会访问外部的服务器
@@ -42,6 +44,8 @@ class SurveyService
                                 Client $redis,
                                 SurveyPartnerService $surveyParnterService,
                                 SurveySopService $surveySopService,
+                                SurveyFulcrumService $surveyFulcrumService,
+                                SurveyCintService $surveyCintService,
                                 SurveyGmoService $surveyGmoService
     ) {
         $this->logger = $logger;
@@ -52,6 +56,8 @@ class SurveyService
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
         $this->surveySopService = $surveySopService;
+        $this->surveyFulcrumService = $surveyFulcrumService;
+        $this->surveyCintService = $surveyCintService;
         $this->surveyGmoService = $surveyGmoService;
     }
 
@@ -125,10 +131,10 @@ class SurveyService
      */
     public function getDummySurveyListJson() {
         //构造一个仿真数据
-        $dummy_res = '{ 
+        $dummy_res = '{
             "meta" : {
                 "code": 200,
-                "message": "" 
+                "message": ""
             },
              "data": {
                  "profiling": [
@@ -173,7 +179,7 @@ class SurveyService
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -194,7 +200,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -215,7 +221,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -236,7 +242,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -257,7 +263,7 @@ class SurveyService
                  ],
                  "fulcrum_research":[
                    {
-                     "survey_id": "4",
+                     "survey_id": "3",
                      "quota_id": "10",
                      "cpi": "0.00",
                      "ir": "80",
@@ -528,7 +534,7 @@ class SurveyService
         $sop = null;
         try {
             $result = $this->getSopSurveyListJson($user_id);
-            $this->logger->info('sop survey list=' . $result);
+            $this->logger->debug(__METHOD__ . 'sop survey list=' . $result);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
                 $sop = null;
@@ -544,13 +550,45 @@ class SurveyService
             $this->em->flush();
 
         }  catch(\Exception $e) {
-            $this->logger->error('sop_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
 
         $answerableSurveyCount = 0;
 
         if ($sop != null) {
+
+            // Record survey and participation infos
+            // Any failed at record infos will be skip to avoid fatal error to user.
+            foreach ($sop['data']['research'] as $survey) {
+                try {
+                    $this->surveySopService->createOrUpdateSurvey($survey);
+                    $this->surveySopService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record SOP Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            foreach ($sop['data']['fulcrum_research'] as $survey) {
+                try {
+                    $this->surveyFulcrumService->createOrUpdateSurvey($survey);
+                    $this->surveyFulcrumService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record Fulcrum Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            foreach ($sop['data']['cint_research'] as $survey) {
+                try {
+                    $this->surveyCintService->createOrUpdateSurvey($survey);
+                    $this->surveyCintService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record Cint Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            // Start to render html for user
+
             if ($user->getRegisterCompleteDate() != null &&
                 time() - $user->getRegisterCompleteDate()->getTimestamp() > 3 * 24 * 60 * 60
             ) {
@@ -780,7 +818,7 @@ class SurveyService
         $patten = "/(sign(.?)up|register|registeration)/i";
         return preg_match($patten, $url);
     }
-    
+
     /**
      * 替换属性问卷中的SOP地址为PROXY地址
      *
