@@ -16,6 +16,8 @@
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.survey_partner_service" />
             <argument type="service" id="app.survey_sop_service" />
+            <argument type="service" id="app.survey_fulcrum_service" />
+            <argument type="service" id="app.survey_cint_service" />
             <argument type="service" id="app.survey_gmo_service" />
         </service>
 
