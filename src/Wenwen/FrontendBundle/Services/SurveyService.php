@@ -125,10 +125,10 @@ class SurveyService
      */
     public function getDummySurveyListJson() {
         //构造一个仿真数据
-        $dummy_res = '{
+        $dummy_res = '{ 
             "meta" : {
                 "code": 200,
-                "message": ""
+                "message": "" 
             },
              "data": {
                  "profiling": [
@@ -173,7 +173,7 @@ class SurveyService
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": {
+                    "extra_info": { 
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -194,7 +194,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": {
+                    "extra_info": { 
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -215,7 +215,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": {
+                    "extra_info": { 
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -236,7 +236,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": {
+                    "extra_info": { 
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -534,20 +534,14 @@ class SurveyService
                 $sop = null;
             }
 
-            foreach ($sop['data']['research'] as $survey) {
-                $this->surveySopService->createOrUpdateSurvey($survey);
-                $this->surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-            }
-
-            foreach ($sop['data']['fulcrum_research'] as $survey) {
-                $this->surveyFulcrumService->createOrUpdateSurvey($survey);
-                $this->surveyFulcrumService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-            }
-
-            foreach ($sop['data']['cint_research'] as $survey) {
-                $this->surveyCintService->createOrUpdateSurvey($survey);
-                $this->surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
-            }
+            //异步更新sop本地备案信息
+            $args = array(
+                '--user_id=' . $user_id,
+            );
+            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
+            $job->setMaxRetries(3);
+            $this->em->persist($job);
+            $this->em->flush();
 
         }  catch(\Exception $e) {
             $this->logger->error('sop_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
@@ -786,7 +780,7 @@ class SurveyService
         $patten = "/(sign(.?)up|register|registeration)/i";
         return preg_match($patten, $url);
     }
-
+    
     /**
      * 替换属性问卷中的SOP地址为PROXY地址
      *
