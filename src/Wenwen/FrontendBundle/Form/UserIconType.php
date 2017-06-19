@@ -4,7 +4,6 @@ namespace Wenwen\FrontendBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserIconType extends AbstractType
@@ -18,7 +17,6 @@ class UserIconType extends AbstractType
         $builder->add('h', 'hidden', array('mapped' => false));
     }
 
-    //对应表单属性: user_icon[field]
     public function getName()
     {
         return 'front_user_icon';

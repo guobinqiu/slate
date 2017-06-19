@@ -11,13 +11,7 @@ class UserProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//        $builder->add('birthday', 'text', array(
-//            'label' => '生日：',
-//            'read_only' => 'true',
-//            'constraints' => new NotBlank(array('message' => '请选择您的生日')),
-//        ));
         $builder->add('birthday', 'birthday', array(
-            'label' => '生日：',
             'constraints' => new NotBlank(array('message' => '请选择您的生日')),
             'widget' => 'choice',
             'input' => 'string',
@@ -25,35 +19,26 @@ class UserProfileType extends AbstractType
             'format' => 'yyyy/MM/dd',
             'empty_value' => array('year' => '年', 'month' => '月', 'day' => '日'),
         ));
-
         $builder->add('sex', 'choice', array(
-            'label' => '性别：',
-            'expanded' => true, //If set to true, radio buttons or checkboxes will be rendered (depending on the multiple value). If false, a select element will be rendered.
+            'expanded' => true,
             'multiple' => false,
             'choices' => array(
                 '1' => '男',
                 '2' => '女'
-            )
+            ),
         ));
-
-        $builder->add('fingerprint', 'hidden', array('mapped' => false));
-
         $builder->add('personalDes', 'textarea', array(
-            'label' => '个性签名：',
             'attr' => array(
                 'rows' => '6',
                 'cols' => '50'
             ),
             'required' => false,
         ));
-
-        $builder->add('favMusic', 'text', array('label' => '喜欢的音乐：', 'required' => false,));
-        $builder->add('monthlyWish', 'text', array('label' => '本月心愿：', 'required' => false,));
+        $builder->add('favMusic', 'text', array('required' => false));
+        $builder->add('monthlyWish', 'text', array('required' => false));
         $builder->add('province', 'text');
         $builder->add('city', 'text');
-
         $builder->add('income', 'choice', array(
-            'label' => '月收入：',
             'empty_value' => '请选择收入',
             'choices' => array(
                 '100' => '1000元以下',
@@ -79,7 +64,6 @@ class UserProfileType extends AbstractType
             ),
             'required' => false,
         ));
-
         $builder->add('profession', 'choice', array(
             'label' => '职业：',
             'empty_value' => '请选择职业',
@@ -100,7 +84,6 @@ class UserProfileType extends AbstractType
             ),
             'required' => false,
         ));
-
         $builder->add('industry_code', 'choice', array(
             'label' => '行业：',
             'empty_value' => '请选择行业',
@@ -139,7 +122,6 @@ class UserProfileType extends AbstractType
             ),
             'required' => false,
         ));
-
         $builder->add('work_section_code', 'choice', array(
             'label' => '部门：',
             'empty_value' => '请选择部门',
@@ -163,7 +145,6 @@ class UserProfileType extends AbstractType
                 '99' => '其他',
             )
         ));
-
         $builder->add('education', 'choice', array(
             'label' => '教育程度：',
             'empty_value' => '请选择',
@@ -173,9 +154,9 @@ class UserProfileType extends AbstractType
                 '3' => "大专毕业",
                 '4' => "大学本科毕业",
                 '5' => "研究生，博士毕业",
-            )
+            ),
+            'required' => false,
         ));
-
         $builder->add('hobby', 'choice', array(
             'label' => '兴趣爱好：',
             'expanded' => true,
@@ -193,8 +174,10 @@ class UserProfileType extends AbstractType
                 '10'=>'动漫',
                 '11'=>'时尚',
                 '12'=>'艺术',
-            )
+            ),
+            'required' => false,
         ));
+        $builder->add('fingerprint', 'hidden', array('mapped' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

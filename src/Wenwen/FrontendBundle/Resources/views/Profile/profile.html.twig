@@ -79,7 +79,7 @@
                         <form action="{{ path('_profile_edit') }}" method="post" id="profileForm" name="profileForm" >
                             <ul class="con">
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.nick) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.nick, '昵称') }}<span class="required text-danger">*</span></div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.nick) }}
                                         <div class="text-left">{{ form_errors(userForm.nick) }}</div>
@@ -87,7 +87,7 @@
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.tel) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.tel, '手机号码') }}<span class="required text-danger">*</span></div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.tel) }}
                                         <div class="text-left">{{ form_errors(userForm.tel) }}</div>
@@ -95,7 +95,7 @@
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.sex) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.sex, '性别') }}<span class="required text-danger">*</span></div>
                                     <div class="col-xs-12 col-sm-9">
                                         <span>{{ form_widget(userForm.userProfile.sex) }}</span>
                                         <div class="text-left">{{ form_errors(userForm.userProfile.sex) }}</div>
@@ -103,7 +103,7 @@
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.birthday) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.birthday, '生日') }}<span class="required text-danger">*</span></div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.birthday, {'attr': {'class':'laydate-icon' }}) }}
                                         <div class="text-left">{{ form_errors(userForm.userProfile.birthday) }}</div>
@@ -112,19 +112,19 @@
 
                                 <li class="row">
                                     {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-                                    <div class="col-xs-12 col-sm-3 text-right"><label>居住地：</label></div>
+                                    <div class="col-xs-12 col-sm-3 text-right"><label>居住地</label><span class="required text-danger">*</span></div>
                                     <div class="col-xs-12 col-sm-9">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.income) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.income, '月收入') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.income) }}
                                     </div>
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.profession) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.profession, '职业') }}</div>
                                     <div class="pronCon col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.profession) }}
                                         {{ form_widget(userForm.userProfile.industry_code) }}
@@ -133,28 +133,28 @@
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.education) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.education, '教育程度') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.education) }}
                                     </div>
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.hobby) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.hobby, '兴趣爱好') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.hobby) }}
                                     </div>    
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.personalDes) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.personalDes, '个性签名') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.personalDes) }}
                                     {{ form_errors(userForm.userProfile.personalDes) }}
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.favMusic) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.favMusic, '喜欢的音乐') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.favMusic) }}
                                         <div class="text-left">{{ form_errors(userForm.userProfile.favMusic) }}</div>
@@ -162,7 +162,7 @@
                                 </li>
 
                                 <li class="row">
-                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.monthlyWish) }}</div>
+                                    <div class="col-xs-12 col-sm-3 text-right">{{ form_label(userForm.userProfile.monthlyWish, '本月心愿') }}</div>
                                     <div class="col-xs-12 col-sm-9">
                                         {{ form_widget(userForm.userProfile.monthlyWish) }}
                                         <div class="text-left">{{ form_errors(userForm.userProfile.monthlyWish) }}</div>
