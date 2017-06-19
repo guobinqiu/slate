@@ -211,12 +211,12 @@ class User
     private $lastGetPointsAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist"})
      */
     private $userProfile;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserTrack", mappedBy="user", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="UserTrack", mappedBy="user", cascade={"persist"})
      */
     private $userTrack;
 

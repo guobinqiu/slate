@@ -22,7 +22,7 @@ class PrizeTicket
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="PrizeTicket")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="prizeTickets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

@@ -11,10 +11,9 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nick', 'text', array('label' => '昵称：'));
+        $builder->add('nick', 'text');
 
         $builder->add('tel', 'text', array(
-            'label' => '手机号码：',
             'constraints' => array(
                 new Assert\NotBlank(array('message' => '请输入您的手机号码'))
             )
@@ -32,7 +31,6 @@ class UserType extends AbstractType
         ));
     }
 
-    //对应表单属性: user[field]
     public function getName()
     {
         return 'front_user';
