@@ -22,15 +22,15 @@ has ua => (
 
 sub delete_finished_before_date {
 
-    my ($self, $first_day_of_this_month) = @_;
+    my ($self, $delete_before) = @_;
 
     my $dbh = $self->handle->dbh;
 
     eval {
-        my $sth = $dbh->prepare(qq{delete from jms_jobs where state='finished' and date(createdAt) < ?});
-        $sth->execute($first_day_of_this_month);
+        my $sth = $dbh->prepare(qq{delete from jms_jobs where state='finished' and date(closedAt) < ?});
+        $sth->execute($delete_before);
 
-        $sth = $dbh->prepare(qq{select id,state,queue,createdAt,command,args from jms_jobs where state='failed' and maxRetries=3});
+        $sth = $dbh->prepare(qq{select id,state,queue,closedAt,command,args from jms_jobs where state='failed' and maxRetries=3});
         $sth->execute();
 
         my @a;
@@ -47,16 +47,14 @@ sub delete_finished_before_date {
         }
 
         my %h;
-        $h{'class'} = __PACKAGE__;
         $h{'total'} = $i;
         $h{'rows'} = \@a;
-#        print encode_json({text => encode_json(\%h)});
-        $self->send_to_slack(encode_json({text => encode_json(\%h)}));
+        $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n Found failed jobs. Please solve them.\n" . encode_json(\%h)}));
     };
 
     if ($@) {
+        $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n please check the reason of this failure and re-run this job"}));
         $self->send_to_slack(encode_json({text => $@}));
-        $self->send_to_slack(encode_json({text => 'please check the reason of this failure and re-run this job'}));
     }
 
     $dbh->disconnect;
