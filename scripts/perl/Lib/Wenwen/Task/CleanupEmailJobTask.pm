@@ -27,29 +27,44 @@ sub delete_finished_before_date {
     my $dbh = $self->handle->dbh;
 
     eval {
+        # delete finished jobs.
         my $sth = $dbh->prepare(qq{delete from jms_jobs where state='finished' and date(closedAt) < ?});
         $sth->execute($delete_before);
 
-        $sth = $dbh->prepare(qq{select id,state,queue,closedAt,command,args from jms_jobs where state='failed' and maxRetries=3});
+        # find out failed jobs.
+        $sth = $dbh->prepare(qq{select id,state,queue,createdAt,command,args from jms_jobs where state='failed'});
         $sth->execute();
 
-        my @a;
-        my $i = 0;
+        ## prepare warning message for failed jobs to slack
+        my @attachments;
         for my $row (@{$sth->fetchall_arrayref()}) {
-            push @a, {
-                id => $$row[0],
-                state => $$row[1],
-                queue => $$row[2],
-                createAt => $$row[3],
-                command => $$row[4],
+            my @fields;
+            push @fields, {
+                title => 'id',
+                value => $$row[0],
+                short => 'true',
             };
-            $i++;
-        }
 
-        my %h;
-        $h{'total'} = $i;
-        $h{'rows'} = \@a;
-        $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n Found failed jobs. Please solve them.\n" . encode_json(\%h)}));
+            push @fields, {
+                title => 'createdAt',
+                value => $$row[3],
+                short => 'true',
+            };
+
+            push @attachments, {
+                title  => $$row[4],
+                text   => 'This job failed. Please confirm and solve it.',
+                color  => 'warning',
+                fields => \@fields,
+            };
+        }
+        if(@attachments){
+            my $msg = encode_json({
+                text => __PACKAGE__,
+                attachments => \@attachments,
+                });
+            $self->send_to_slack($msg);
+        }
     };
 
     if ($@) {
