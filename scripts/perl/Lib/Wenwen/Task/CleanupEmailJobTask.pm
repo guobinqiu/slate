@@ -27,14 +27,16 @@ sub delete_finished_before_date {
     my $dbh = $self->handle->dbh;
 
     eval {
+        # delete finished jobs.
         my $sth = $dbh->prepare(qq{delete from jms_jobs where state='finished' and date(closedAt) < ?});
         $sth->execute($delete_before);
 
+        # find out failed jobs.
         $sth = $dbh->prepare(qq{select id,state,queue,createdAt,command,args from jms_jobs where state='failed'});
         $sth->execute();
 
+        ## prepare warning message for failed jobs to slack
         my @attachments;
-        my $i = 0;
         for my $row (@{$sth->fetchall_arrayref()}) {
             my @fields;
             push @fields, {
@@ -55,7 +57,6 @@ sub delete_finished_before_date {
                 color  => 'warning',
                 fields => \@fields,
             };
-            $i++;
         }
         if(@attachments){
             my $msg = encode_json({
