@@ -3,9 +3,9 @@ use common::sense;
 +{
     is_test => 0,
     database => {
-        dsn  => 'dbi:mysql:dbname=jili_db',
+        dsn  => 'dbi:mysql:dbname=jili_dev',
         user => 'root',
-        pass => 'Guobin83',
+        pass => '',
     },
     email => {
         from  => 'YOUR_EMAIL_ADDR',
