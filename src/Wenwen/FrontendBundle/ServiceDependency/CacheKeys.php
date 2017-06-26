@@ -13,6 +13,8 @@ class CacheKeys {
     const LATEST_PRIZE_NEWS_LIST = 'latest_prize_news_list';
     const IP_LOCATION_PRE = 'ip_location_';
     const IP_LOCATION_TIMEOUT = 1800; // 保存时间秒 半小时
+    const REGISTER_FINGER_PRINT_PRE = 'reg_fp_';
+    const REGISTER_FINGER_PRINT_TIMEOUT = 600; // Store for 10 mins
 
     const ADMIN_RECRUIT_REPORT_MONTHLY = 'admin_recruit_report_monthly';
     const ADMIN_RECRUIT_REPORT_MONTHLY_TIMEOUT = 28800; // 8 hours
