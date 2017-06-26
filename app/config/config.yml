@@ -182,12 +182,14 @@ monolog:
 gregwar_captcha:
     width: 150
     height: 40 
-    length: 4
+    length: 6
     as_url: true
     reload: true 
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
-    charset: 0123456789
+    charset: abcdefhjkmnprstuvwxyz23456789
+    max_behind_lines: 5
+    max_front_lines: 5
 
 snc_redis:
     clients:
