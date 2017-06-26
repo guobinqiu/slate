@@ -187,7 +187,9 @@ gregwar_captcha:
     reload: true 
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
-    charset: abcdefhjkmnprstuvwxyz1234567890
+    charset: abcdefhjkmnprstuvwxyz23456789
+    max_behind_lines: 5
+    max_front_lines: 5
 
 snc_redis:
     clients:
