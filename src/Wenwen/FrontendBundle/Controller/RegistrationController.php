@@ -57,7 +57,8 @@ class RegistrationController extends BaseController
                 $redis = $this->get('snc_redis.default');;
                 if($redis->exists(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint)){
                     $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . ']');
-                    // if same fingerprint already exists Stop registration
+                    // if same fingerprint already exists Stop registration and restart expiring time.
+                    $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
                     return $this->render('WenwenFrontendBundle:User:register.html.twig', array(
                         'userForm' => $form->createView(),
                         'provinces' => $provinces,
