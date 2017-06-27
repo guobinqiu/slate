@@ -14,6 +14,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/user")
@@ -51,6 +52,19 @@ class RegistrationController extends BaseController
             $form->bind($request);
 
             if ($form->isValid()) {
+
+                $fingerprint = $form->get('fingerprint')->getData();
+                $redis = $this->get('snc_redis.default');;
+                if($redis->exists(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint)){
+                    $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . ']');
+                    // if same fingerprint already exists Stop registration and restart expiring time.
+                    $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
+                    return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
+                }
+
+                // if same fingerprint not exists => registration
+                $redis->set(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, 1);
+                $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
                 $em = $this->getDoctrine()->getManager();
 
                 $user->setConfirmationToken(md5(uniqid(rand(), true)));
@@ -58,7 +72,6 @@ class RegistrationController extends BaseController
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
-                $fingerprint = $form->get('fingerprint')->getData();
                 if (!$request->cookies->has('uid')) {
                     //再加一道防护
                     //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
