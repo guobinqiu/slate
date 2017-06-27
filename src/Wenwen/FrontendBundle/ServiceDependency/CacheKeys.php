@@ -14,7 +14,7 @@ class CacheKeys {
     const IP_LOCATION_PRE = 'ip_location_';
     const IP_LOCATION_TIMEOUT = 1800; // 保存时间秒 半小时
     const REGISTER_FINGER_PRINT_PRE = 'reg_fp_';
-    const REGISTER_FINGER_PRINT_TIMEOUT = 600; // Store for 10 mins
+    const REGISTER_FINGER_PRINT_TIMEOUT = 300; // One fingerprint only allow one registration in 5 mins
 
     const ADMIN_RECRUIT_REPORT_MONTHLY = 'admin_recruit_report_monthly';
     const ADMIN_RECRUIT_REPORT_MONTHLY_TIMEOUT = 28800; // 8 hours

@@ -59,12 +59,7 @@ class RegistrationController extends BaseController
                     $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . ']');
                     // if same fingerprint already exists Stop registration and restart expiring time.
                     $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
-                    return $this->render('WenwenFrontendBundle:User:register.html.twig', array(
-                        'userForm' => $form->createView(),
-                        'provinces' => $provinces,
-                        'cities' => $cities,
-                        'userProfile' => $userProfile
-                    ));
+                    return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
                 // if same fingerprint not exists => registration
