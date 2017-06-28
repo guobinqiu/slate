@@ -153,36 +153,38 @@ class UserService
     }
 
     /**
-     * Check whether a fingerprint already used at registration
+     * Get how many times a fingerprint has been used at registration within punishing time period
      * @param $fingerprint
-     * @param $maxExpireTime default 2592000 seconds (30 days)
-     * @param $maxCount default 2592000
-     * @return boolean
+     * @return int
      */
-    public function isRegisteredFingerPrint($fingerprint, $maxExpireTime = 2592000, $maxCount = 2592000){
+    public function getRegisteredFingerPrintCount($fingerprint){
         $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
-        $penaltyExpireTime = CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT;
         if($this->redis->exists($key)){
-            // if same fingerprint already exists Stop registration and plus expiring time.
+            // Get current count
             $count = $this->redis->get($key);
+            // Calculate new expire time
+            $newExpireSeconds = $this->redis->ttl($key) + CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT;
 
-            $ttl = $this->redis->ttl($key);
-            $expireSeconds = $ttl + $penaltyExpireTime;
-            if($expireSeconds > $maxExpireTime){
-                $expireSeconds = $maxExpireTime;
+            // *Note* ttl will be reset to -1 when the value of key is updated
+            // Update count
+            if($count < CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT){
+                $this->redis->set($key, ++$count);
             }
-            if($count < $maxCount){
-                $count++;
+
+            // Update expire time
+            if($newExpireSeconds > CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT){
+                $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT);
+            } else {
+                $this->redis->expire($key, $newExpireSeconds);
             }
-            $this->redis->del($key);
-            $this->redis->set($key, $count);
-            $this->redis->expire($key, $expireSeconds);
-            return true;
+
+            // return the count number before update
+            return $count;
         } else {
-            // if same fingerprint not exists => registration
+            // Record this fingerprint and set expire time
             $this->redis->set($key, 1);
-            $this->redis->expire($key, $penaltyExpireTime);
-            return false;
+            $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
+            return 1;
         }
     }
 }
