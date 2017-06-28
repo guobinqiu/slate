@@ -179,6 +179,12 @@ monolog:
             path: %kernel.logs_dir%/%kernel.environment%.fake_answer.log
             channels: [fake_answer]
 
+        bot_registration:
+            level: info
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.bot_registration.log
+            channels: [bot_registration]
+
 gregwar_captcha:
     width: 150
     height: 40

@@ -151,4 +151,38 @@ class UserService
 
         return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
+
+    /**
+     * Check whether a fingerprint already used at registration
+     * @param $fingerprint
+     * @param $maxExpireTime default 2592000 seconds (30 days)
+     * @param $maxCount default 2592000
+     * @return boolean
+     */
+    public function isRegisteredFingerPrint($fingerprint, $maxExpireTime = 2592000, $maxCount = 2592000){
+        $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
+        $penaltyExpireTime = CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT;
+        if($this->redis->exists($key)){
+            // if same fingerprint already exists Stop registration and plus expiring time.
+            $count = $this->redis->get($key);
+
+            $ttl = $this->redis->ttl($key);
+            $expireSeconds = $ttl + $penaltyExpireTime;
+            if($expireSeconds > $maxExpireTime){
+                $expireSeconds = $maxExpireTime;
+            }
+            if($count < $maxCount){
+                $count++;
+            }
+            $this->redis->del($key);
+            $this->redis->set($key, $count);
+            $this->redis->expire($key, $expireSeconds);
+            return true;
+        } else {
+            // if same fingerprint not exists => registration
+            $this->redis->set($key, 1);
+            $this->redis->expire($key, $penaltyExpireTime);
+            return false;
+        }
+    }
 }

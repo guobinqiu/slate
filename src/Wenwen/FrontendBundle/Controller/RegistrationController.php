@@ -54,17 +54,14 @@ class RegistrationController extends BaseController
             if ($form->isValid()) {
 
                 $fingerprint = $form->get('fingerprint')->getData();
-                $redis = $this->get('snc_redis.default');;
-                if($redis->exists(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint)){
-                    $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . '] email=[' . $user->getEmail() . '] clientIP=' . $request->getClientIp() . ']');
-                    // if same fingerprint already exists Stop registration and restart expiring time.
-                    $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
+                if($userService->isRegisteredFingerPrint($fingerprint)){
+                    // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
+                    // Return a fake result to bot when blocked by fingerprint
+                    $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
+                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! fingerprint=' .  $fingerprint . ' email=' . $user->getEmail() . ' request=' . $request);
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
-                // if same fingerprint not exists => registration
-                $redis->set(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, 1);
-                $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
                 $em = $this->getDoctrine()->getManager();
 
                 $user->setConfirmationToken(md5(uniqid(rand(), true)));

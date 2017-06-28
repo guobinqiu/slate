@@ -7,11 +7,13 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserServiceTest extends WebTestCase
 {
     private $container;
     private $em;
+    private $userService;
 
     /**
      * {@inheritDoc}
@@ -33,6 +35,8 @@ class UserServiceTest extends WebTestCase
 
         $this->container = $container;
         $this->em = $em;
+
+        $this->userService = $container->get('app.user_service');
     }
 
     /**
@@ -54,5 +58,34 @@ class UserServiceTest extends WebTestCase
 
         $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
         $this->assertEquals('user1', $user->getNick());
+    }
+
+    public function testIsRegisteredFingerPrint(){
+        $fingerprint = 1234567890;
+        $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
+        $redis = $this->container->get('snc_redis.default');
+        $redis->del($key);
+
+        // first time return false
+        $this->assertTrue(!$this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(1, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT >= $redis->ttl($key));
+
+        // second time return true
+        $this->assertTrue($this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(2, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT * 2 >= $redis->ttl($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT < $redis->ttl($key));
+
+        // exceeded maximum return true
+        $redis->del($key);
+        $redis->set($key, 86400 * 30);
+        $redis->expire($key, 86400 * 30);
+        $this->assertTrue($this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(86400 * 30, $redis->get($key));
+        $this->assertTrue(86400 * 30 <= $redis->ttl($key));
+
+        // after test clean up
+        $redis->del($key);
     }
 }
