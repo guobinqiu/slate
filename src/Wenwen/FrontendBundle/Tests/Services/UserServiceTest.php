@@ -61,29 +61,30 @@ class UserServiceTest extends WebTestCase
     }
 
     public function testIsRegisteredFingerPrint(){
-        $fingerprint = 1234567890;
+        $fingerprint = 1234567890; // any fingerprint
         $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
         $redis = $this->container->get('snc_redis.default');
+
         $redis->del($key);
 
         // first time return false
-        $this->assertTrue(!$this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(0, $this->userService->isRegisteredFingerPrint($fingerprint));
         $this->assertEquals(1, $redis->get($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT >= $redis->ttl($key));
 
         // second time return true
-        $this->assertTrue($this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(1, $this->userService->isRegisteredFingerPrint($fingerprint));
         $this->assertEquals(2, $redis->get($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT * 2 >= $redis->ttl($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT < $redis->ttl($key));
 
         // exceeded maximum return true
         $redis->del($key);
-        $redis->set($key, 86400 * 30);
-        $redis->expire($key, 86400 * 30);
-        $this->assertTrue($this->userService->isRegisteredFingerPrint($fingerprint));
-        $this->assertEquals(86400 * 30, $redis->get($key));
-        $this->assertTrue(86400 * 30 <= $redis->ttl($key));
+        $redis->set($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT);
+        $redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT);
+        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT <= $redis->ttl($key));
 
         // after test clean up
         $redis->del($key);
