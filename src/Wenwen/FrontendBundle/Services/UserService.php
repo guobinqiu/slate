@@ -159,7 +159,11 @@ class UserService
      * @param $maxCount default 2592000
      * @return boolean
      */
-    public function isRegisteredFingerPrint($fingerprint, $maxExpireTime = 2592000, $maxCount = 2592000){
+    public function isRegisteredFingerPrint(
+        $fingerprint,
+        $maxExpireTime = CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT,
+        $maxCount = CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT
+        ){
         $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
         $penaltyExpireTime = CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT;
         if($this->redis->exists($key)){
