@@ -26,8 +26,6 @@ class RegistrationController extends BaseController
      */
     public function regAction(Request $request)
     {
-        $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
-$loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! request=' . $request);
         $session = $request->getSession();
         if ($session->has('uid')) {
             return $this->redirect($this->generateUrl('_homepage'));

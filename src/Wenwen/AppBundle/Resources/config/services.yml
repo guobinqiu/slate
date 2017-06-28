@@ -24,7 +24,7 @@ services:
         tags:
             - { name: monolog.logger, channel: fake_answer }
     monolog.logger.bot_registration:
-        class: Wenwen\AppBundle\Services\Logger\FakeAnswerLogger
+        class: Wenwen\AppBundle\Services\Logger\BotRegistrationLogger
         arguments: ["@logger"]
         tags:
             - { name: monolog.logger, channel: bot_registration }
