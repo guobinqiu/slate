@@ -55,7 +55,9 @@ class RegistrationController extends BaseController
 
                 $fingerprint = $form->get('fingerprint')->getData();
                 if($userService->isRegisteredFingerPrint($fingerprint)){
-                    $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . '] email=[' . $user->getEmail() . '] clientIP=' . $request->getClientIp() . ']');
+                    // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
+                    // Return a fake result to bot when blocked by fingerprint
+                    $this->get('logger')->warn(__METHOD__ . ' Too fast registration!  clientIP=' . $request->getClientIp() . ' HTTP_X_FORWARDED_FOR=' .  $request->headers->get('HTTP_X_FORWARDED_FOR') . ' user_agent=' . $request->headers->get('User-Agent') . 'fingerprint=' .  $fingerprint . ' email=' . $user->getEmail() . '');
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
