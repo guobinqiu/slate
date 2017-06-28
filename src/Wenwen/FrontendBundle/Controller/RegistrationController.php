@@ -54,17 +54,11 @@ class RegistrationController extends BaseController
             if ($form->isValid()) {
 
                 $fingerprint = $form->get('fingerprint')->getData();
-                $redis = $this->get('snc_redis.default');;
-                if($redis->exists(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint)){
+                if($userService->isRegisteredFingerPrint($fingerprint)){
                     $this->get('logger')->warn(__METHOD__ . ' duplicated fingerprint=[' .  $fingerprint . '] email=[' . $user->getEmail() . '] clientIP=' . $request->getClientIp() . ']');
-                    // if same fingerprint already exists Stop registration and restart expiring time.
-                    $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
-                // if same fingerprint not exists => registration
-                $redis->set(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, 1);
-                $redis->expire(CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
                 $em = $this->getDoctrine()->getManager();
 
                 $user->setConfirmationToken(md5(uniqid(rand(), true)));
