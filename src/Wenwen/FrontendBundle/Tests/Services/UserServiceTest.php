@@ -67,22 +67,22 @@ class UserServiceTest extends WebTestCase
 
         $redis->del($key);
 
-        // first time return false
-        $this->assertEquals(0, $this->userService->isRegisteredFingerPrint($fingerprint));
+        // first time return count 1
+        $this->assertEquals(1, $this->userService->getRegisteredFingerPrintCount($fingerprint));
         $this->assertEquals(1, $redis->get($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT >= $redis->ttl($key));
 
-        // second time return true
-        $this->assertEquals(1, $this->userService->isRegisteredFingerPrint($fingerprint));
+        // second time return count 2
+        $this->assertEquals(2, $this->userService->getRegisteredFingerPrintCount($fingerprint));
         $this->assertEquals(2, $redis->get($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT * 2 >= $redis->ttl($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT < $redis->ttl($key));
 
-        // exceeded maximum return true
+        // exceeded maximum return count maximum
         $redis->del($key);
         $redis->set($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT);
         $redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT);
-        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $this->userService->isRegisteredFingerPrint($fingerprint));
+        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $this->userService->getRegisteredFingerPrintCount($fingerprint));
         $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $redis->get($key));
         $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT <= $redis->ttl($key));
 
