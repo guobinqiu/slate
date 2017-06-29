@@ -8,7 +8,7 @@ return [
         'UserInputID' => 'captchaCode',
         'ImageWidth' => 140,
         'ImageHeight' => 50,
-        'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 6),
+        'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 4),
         'SoundEnabled' => false,
         'Locale' => 'cmn-CN',
     ],
