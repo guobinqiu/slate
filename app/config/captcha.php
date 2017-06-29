@@ -9,7 +9,6 @@ return [
         'ImageWidth' => 140,
         'ImageHeight' => 50,
         'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 6),
-        'ImageStyle' => ImageStyle::AncientMosaic,
         'SoundEnabled' => false,
         'Locale' => 'cmn-CN',
     ],
