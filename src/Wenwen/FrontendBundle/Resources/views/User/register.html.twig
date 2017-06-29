@@ -63,6 +63,7 @@
 										</li>
 										<li id="vcode" class="liner">
 											{{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
+											<div class="error errorReg">{{ form_errors(userForm.captchaCode) }}</div>
 										</li>
 										<li class="liner">
 											<div class="proPrompt">
