@@ -64,6 +64,9 @@
 										<li id="vcode" class="liner">
 											{{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
 											<div class="error errorReg">{{ form_errors(userForm.captchaCode) }}</div>
+											<script>
+												document.querySelector(".BDC_ReloadIcon").style = "margin:10px 0 !important;width:25px;height:25px";
+											</script>
 										</li>
 										<li class="liner">
 											<div class="proPrompt">

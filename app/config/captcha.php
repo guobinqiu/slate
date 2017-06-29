@@ -6,7 +6,7 @@ return [
     // Captcha configuration for signup page
     'SignupCaptcha' => [
         'UserInputID' => 'captchaCode',
-        'ImageWidth' => 140,
+        'ImageWidth' => 150,
         'ImageHeight' => 50,
         'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 4),
         'SoundEnabled' => false,
