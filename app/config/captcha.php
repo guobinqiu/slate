@@ -11,6 +11,7 @@ return [
         'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 4),
         'SoundEnabled' => false,
         'Locale' => 'cmn-CN',
+        'CodeStyle' => CodeStyle::Alpha,
     ],
 
 ];
