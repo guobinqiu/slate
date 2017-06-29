@@ -61,9 +61,12 @@
 											{{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
 											<div class="error errorReg">{{ form_errors(userForm.pwd) }}</div>
 										</li>
-										<li id="vcode" class="liner">
-											{{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
+										<li id="vcode_pre" class="liner">
+											<div style="line-height:45px;font-size:14px;padding-left:5%;">获取验证码</div>
 											<div class="error errorReg">{{ form_errors(userForm.captchaCode) }}</div>
+										</li>
+										<li id="vcode" class="liner" style="display:none">
+											{{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
 										</li>
 										<li class="liner">
 											<div class="proPrompt">
@@ -133,5 +136,11 @@
 		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
 		$('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);
 	</script>
-{% endblock %}
 
+	<script>
+		$("#vcode_pre").click('on', function(){
+			$('#vcode').show();
+			$(this).hide();
+		});
+	</script>
+{% endblock %}
