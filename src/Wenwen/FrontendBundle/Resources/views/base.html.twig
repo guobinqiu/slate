@@ -29,12 +29,8 @@
     </head>
     <body>
         {% block header %}{% endblock %}
-        <!-- <div class="mainWrap"> -->
-            {% block body %}{% endblock %}
-        <!-- </div> -->
-        <div id="footer" class="top30">
-            {% block footer %}{% endblock %}
-        </div>
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
         {% block global_js %}
             <!-- global js -->
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
