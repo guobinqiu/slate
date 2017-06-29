@@ -64,11 +64,8 @@ _logout:
 jili_api:
     resource: "@JiliApiBundle/Resources/config/routing.yml"
 
-
-#---------------------------------- vendors -------------------------------------
-gregwar_captcha_routing:
-    resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
-    prefix: /_gcb
+captcha_routing:
+   resource: "@CaptchaBundle/Resources/config/routing.yml"
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

@@ -139,7 +139,7 @@ $(function(){
                     minlength: 5,
                     maxlength: 100
                 },
-                'signup[captcha]':{
+                'signup[captchaCode]':{
                     required: true
                 },
                 'signup[subscribe]':{
@@ -189,7 +189,7 @@ $(function(){
                     maxlength: "长度在5-100位字符之间"
 
                 },
-                'signup[captcha]':{
+                'signup[captchaCode]':{
                     required: "请输入验证码"
                 },
                 'signup[userProfile][sex]':{
