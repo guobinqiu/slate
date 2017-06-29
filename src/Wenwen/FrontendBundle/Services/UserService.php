@@ -151,4 +151,40 @@ class UserService
 
         return $this->serializer->deserialize($val, 'array<'.$className.'>', 'json');
     }
+
+    /**
+     * Get how many times a fingerprint has been used at registration within punishing time period
+     * @param $fingerprint
+     * @return int
+     */
+    public function getRegisteredFingerPrintCount($fingerprint){
+        $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
+        if($this->redis->exists($key)){
+            // Get current count
+            $count = $this->redis->get($key);
+            // Calculate new expire time
+            $newExpireSeconds = $this->redis->ttl($key) + CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT;
+
+            // *Note* ttl will be reset to -1 when the value of key is updated
+            // Update count
+            if($count < CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT){
+                $this->redis->set($key, ++$count);
+            }
+
+            // Update expire time
+            if($newExpireSeconds > CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT){
+                $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT);
+            } else {
+                $this->redis->expire($key, $newExpireSeconds);
+            }
+
+            // return the count number before update
+            return $count;
+        } else {
+            // Record this fingerprint and set expire time
+            $this->redis->set($key, 1);
+            $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
+            return 1;
+        }
+    }
 }
