@@ -83,9 +83,6 @@ class UserProfile
      * @var integer
      *
      * @ORM\Column(name="city", type="integer", nullable=true)
-     * @Assert\NotBlank(
-     *      message="请选择您目前的居住地"
-     * )
      */
     private $city;
 
