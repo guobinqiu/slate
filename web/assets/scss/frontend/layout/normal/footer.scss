@@ -1,47 +1,36 @@
 @charset "UTF-8";
 
 @import "../global";
-
+$footer-color: rgba(255,255,255,.7);
+$img-url-icons_common: url(../../../../img/frontend/common/icons_common.png);
 .footer {
-	background: #3c3d41;
+	position: relative;
+	padding-bottom: 30px;
 	height: auto;
 	height: 180px\0;
-	padding-bottom: 30px;
-	position: relative;
-	width: 100%;
-	border-bottom: 1px solid #525252;
-	a {
-		color: rgba(255,255,255,0.70);
-		&.icp{
-			margin-left: 10px;
-			margin-right: 10px;
-		}
-	}
-	p {
-		margin: 0;
+	background: #3c3d41;
+	a,
+	.copyright {
+		color: $footer-color;
 	}
 	img {
 		max-width: 100%;
-		&.gwab_img{
-			margin-top: 3px;
-			margin-right: 2px;
-		}
 	}
 	h3 {
+		padding: 40px 0 10px;
 		color: #fff;
 		font-size: 18px;
 		font-weight: 600;
 		line-height: 27px;
-		padding: 40px 0 10px;
 		text-transform: uppercase;
 	}
 	ul {
-		font-size: 13px;
-		list-style-type: none;
+		margin-top: 15px;
 		margin-left: 0;
 		padding-left: 0;
-		margin-top: 15px;
 		color: #7F8C8D;
+		font-size: 13px;
+		list-style-type: none;
 		li{
 			a {
 				padding: 0 0 5px 0;
@@ -50,41 +39,52 @@
 		} 
 	}
 }
-.footer-bottom p{
-	padding-top: 17px;
-	line-height: 22px;
-	color: rgba(255,255,255,0.70);
+.footer-nav{
+	padding-bottom: 30px;
+	border-bottom: 1px solid #525252;
+}
+.copyright{
+  	line-height: 22px;
+	a {
+		&.icp{
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+	img {
+		margin-top: 3px;
+		margin-right: 2px;
+	}
 }
 .goTop{
-	width: 60px;
-    height: 56px;
-    line-height: 56px;
-    background: #f5f6f8;
-    cursor: pointer;
-    font-size: 0;
     display: block;
-    overflow: hidden;
-    background: url(../../../../img/frontend/common/icons_common.png?v000011) no-repeat 0 -59px;
     position: absolute;
     bottom: 213px;
     right: -86px;
+	width: 60px;
+    height: 56px;
+    line-height: 56px;
+    cursor: pointer;
+    font-size: 0;
+    overflow: hidden;
+    background: #f5f6f8 $img-url-icons_common no-repeat 0 -59px;
 	&:hover{
+	    padding-top: 10px;
 		height: 56px;
+	    line-height: 17px;
 		text-align: center;
+	    color: #fff;
 	    font-size: 14px;
 	    background: #b8bbbf;
-	    line-height: 17px;
-	    padding-top: 10px;
-	    color: #fff;
 	}
 }
 .QRcode{
 	margin-top: 18px;
 	span{
+		display: inline-block;
 		width: 100px;
 		text-align: center;
-		display: inline-block;
-		color: rgba(255,255,255,0.70);
+		color: $footer-color;
 		&.wb{
 			margin-right: 30px;
 		}

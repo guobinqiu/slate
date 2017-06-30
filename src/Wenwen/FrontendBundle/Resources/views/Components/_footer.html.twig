@@ -1,5 +1,5 @@
-<footer>
-    <div class="footer hidden-sm hidden-xs">
+<div id="footer" class="footer top30">
+    <div class="footer-nav hidden-sm hidden-xs">
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
@@ -35,20 +35,20 @@
                 </div>
                 <div class="col-md-4">
                     <ul>
-                        <li>
-                            <a class="goTop">返回<br>顶部</a>
-                                <div class="QRcode right">
-                                    <span class="wb"><img src="{{ asset('assets/img/frontend/common/weiboQRcode.jpg') }}" alt="weibo">官方微博</span>
-                                    <span class="wx"><img src="{{ asset('assets/img/frontend/common/weixinQRcode.jpg') }}" alt="weixin">官方微信</span>
-                                </div>
+                        <li class="QRcode right">
+                            <span class="wb"><img src="{{ asset('assets/img/frontend/common/weiboQRcode.jpg') }}" alt="weibo">官方微博</span>
+                            <span class="wx"><img src="{{ asset('assets/img/frontend/common/weixinQRcode.jpg') }}" alt="weixin">官方微信</span>
                         </li>
                     </ul>
+                    <a class="goTop">返回<br>顶部</a>
                 </div>
             </div>
             <!--/.row--> 
         </div>
         <!--/.container--> 
     </div>
-    <!--/.footer-->
+    <!--/.footer-nav-->
     {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %} 
-</footer>
+    <input type="hidden" value="{{app.environment}}" id="env">
+</div>
+<!--/.footer-->
