@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\JobQueueBundle\JMSJobQueueBundle(),
         	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+        	new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Jili\ApiBundle\JiliApiBundle(),
             new Jili\BackendBundle\JiliBackendBundle(),
@@ -31,7 +32,6 @@ class AppKernel extends Kernel
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

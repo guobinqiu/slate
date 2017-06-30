@@ -185,6 +185,18 @@ monolog:
             path: %kernel.logs_dir%/%kernel.environment%.bot_registration.log
             channels: [bot_registration]
 
+gregwar_captcha:
+    width: 150
+    height: 40
+    length: 4
+    as_url: true
+    reload: true
+    invalid_message: %reg_wr_captcha%
+    background_color: [255,255,255]
+    charset: 123456789
+    max_behind_lines: 5
+    max_front_lines: 5
+
 snc_redis:
     clients:
         default:

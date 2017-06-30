@@ -34,8 +34,7 @@
         "jms/serializer-bundle": "1.0.0",
         "jms/serializer": "1.0.0",
         "spomky-labs/base64url": "1.0.2",
-        "leafo/scssphp": "0.4",
-        "captcha-com/symfony-captcha-bundle": "4.*"
+        "leafo/scssphp": "0.4"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",
@@ -50,14 +49,10 @@
         "phake/phake": "^2.2"
     },
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:voyagechinagroup/ssi_api.git"
-        },
-        {
-            "type": "composer",
-            "url": "http://packages.captcha.com"
-        }
+    {
+      "type": "vcs",
+      "url": "git@github.com:voyagechinagroup/ssi_api.git"
+    }
     ],
     "scripts": {
         "post-install-cmd": [
@@ -74,8 +69,7 @@
         ]
     },
     "config": {
-        "bin-dir": "bin",
-        "secure-http": false
+        "bin-dir": "bin"
     },
     "minimum-stability": "alpha",
     "extra": {
