@@ -139,7 +139,7 @@ $(function(){
                     minlength: 5,
                     maxlength: 100
                 },
-                'signup[captcha]':{
+                'signup[captchaCode]':{
                     required: true
                 },
                 'signup[subscribe]':{
@@ -164,11 +164,11 @@ $(function(){
                     required: true
                 },
                 'signup[userProfile][birthday][month]':{
-                    required: true    
+                    required: true
                 },
                 'signup[userProfile][birthday][day]':{
                     required: true
-                }  
+                }
             },
             messages: {
                 'signup[nick]':{
@@ -189,7 +189,7 @@ $(function(){
                     maxlength: "长度在5-100位字符之间"
 
                 },
-                'signup[captcha]':{
+                'signup[captchaCode]':{
                     required: "请输入验证码"
                 },
                 'signup[userProfile][sex]':{
@@ -208,14 +208,20 @@ $(function(){
                     required: "请选择生日"
                 },
                 'signup[userProfile][birthday][month]':{
-                    required: "请选择生日"    
+                    required: "请选择生日"
                 },
                 'signup[userProfile][birthday][day]':{
                     required: "请选择生日"
-                } 
+                }
             }
         }
     );
+
+    $('[name^="signup"]').on('focus', function(){
+        //console.log($(this).attr('name'));
+        $(this).siblings('label.error').hide();
+        $(this).siblings('div.error').hide();
+    });
 
     //输入个人信息的提示
     $("#signup_userProfile_sex>input").change(function(){
@@ -224,7 +230,7 @@ $(function(){
                 $(".proPrompt").hide().show();
                 clearTimeout(tId);
                 tId=setTimeout(function(){
-                  $(".proPrompt").hide();        
+                  $(".proPrompt").hide();
                 }, 5000);
             }
     });
