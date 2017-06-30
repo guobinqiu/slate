@@ -14,7 +14,7 @@ function is_mobile_agent()
 return [
     // Captcha configuration for signup page
     'SignupCaptcha' => [
-        'UserInputID' => 'captchaCode',
+        'UserInputID' => 'signup_captchaCode',
         'ImageWidth' => is_mobile_agent() ? 100 : 150,
         'ImageHeight' => is_mobile_agent() ? 32 : 45,
         'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 4),
