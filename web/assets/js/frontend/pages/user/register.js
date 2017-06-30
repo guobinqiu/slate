@@ -217,8 +217,6 @@ $(function(){
         }
     );
 
-    $(".BDC_ReloadIcon").attr('style', 'margin: 10px 0 !important');
-
     $('[name^="signup"]').on('focus', function(){
         //console.log($(this).attr('name'));
         $(this).siblings('label.error').hide();
