@@ -217,7 +217,7 @@ $(function(){
         }
     );
 
-    $(".BDC_ReloadIcon").css('margin', '10px 0 !important')
+    $(".BDC_ReloadIcon").attr('style', 'margin: 10px 0 !important')
                         .css('width', '25px')
                         .css('height', '25px');
 
