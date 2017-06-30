@@ -7,7 +7,7 @@ return [
     'SignupCaptcha' => [
         'UserInputID' => 'captchaCode',
         'ImageWidth' => 150,
-        'ImageHeight' => 50,
+        'ImageHeight' => 45,
         'CodeLength' => CaptchaRandomization::GetRandomCodeLength(4, 4),
         'SoundEnabled' => false,
         'Locale' => 'cmn-CN',
