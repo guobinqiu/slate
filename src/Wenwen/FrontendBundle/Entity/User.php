@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
 
 /**
  * User
@@ -1255,5 +1256,21 @@ class User
 
     public function locked() {
         return $this->getDeleteFlag() > 0;
+    }
+
+    /**
+     * @CaptchaAssert\ValidCaptcha(
+     *      message = "验证码无效"
+     * )
+     */
+    private $captchaCode;
+
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
     }
 }
