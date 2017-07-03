@@ -48,4 +48,4 @@ security:
         - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
