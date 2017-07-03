@@ -1,0 +1,16 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/personal.css"
+        "assets/scss/frontend/component/personal.scss"
+        "assets/scss/frontend/component/table.scss"
+        "assets/scss/frontend/component/page.scss"
+        "assets/scss/frontend/component/form.scss"
+		"assets/scss/frontend/pages/personal/message.scss"
+        "assets/scss/frontend/pages/personal/point.scss"
+        "assets/scss/frontend/pages/profile/account.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}

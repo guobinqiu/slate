@@ -14,6 +14,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 /**
  * @Route("/user")
@@ -51,15 +52,24 @@ class RegistrationController extends BaseController
             $form->bind($request);
 
             if ($form->isValid()) {
+
+                $fingerprint = $form->get('fingerprint')->getData();
+                $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
+                if( $regCount > 1){
+                    // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
+                    // Return a fake result to bot when blocked by fingerprint
+                    $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
+                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' .  $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
+                    return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
+                }
+
                 $em = $this->getDoctrine()->getManager();
 
-                $confirmationToken = md5($user->getEmail() . $user->getPwd() . time());
-                $user->setConfirmationToken($confirmationToken);
+                $user->setConfirmationToken(md5(uniqid(rand(), true)));
                 $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
-                $fingerprint = $form->get('fingerprint')->getData();
                 if (!$request->cookies->has('uid')) {
                     //再加一道防护
                     //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
@@ -131,7 +141,6 @@ class RegistrationController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
             'confirmationToken' => $confirmation_token,
-            'isEmailConfirmed' => User::EMAIL_NOT_CONFIRMED,
         ));
 
         if ($user == null) {
@@ -147,6 +156,8 @@ class RegistrationController extends BaseController
         $user->setLastGetPointsAt(new \DateTime());
         $em->flush();
 
+        // 暂时以comment的方式留着，将来可能考虑要给完成注册时的积分
+        /*
         $pointService = $this->get('app.point_service');
 
         // 给当前用户加积分
@@ -161,19 +172,7 @@ class RegistrationController extends BaseController
             true,
             PrizeItem::TYPE_SMALL
         );
-
-        // 同时给邀请人加积分
-        $pointService->addPointsForInviter(
-            $user,
-            User::POINT_INVITE_SIGNUP,
-            CategoryType::EVENT_INVITE_SIGNUP,
-            TaskType::RENTENTION,
-            '您的好友' . $user->getNick(). '完成了注册',
-            null,
-            new \DateTime(),
-            true,
-            PrizeItem::TYPE_SMALL
-        );
+        */
 
         $this->pushBasicProfile($user);// 推送用户基本属性
 

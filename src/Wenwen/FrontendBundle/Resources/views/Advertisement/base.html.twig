@@ -1,0 +1,19 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/experience.css"
+        "assets/scss/frontend/pages/experience/experience.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascript %}
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/experience.js"
+        "assets/js/frontend/pages/experience/experience.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

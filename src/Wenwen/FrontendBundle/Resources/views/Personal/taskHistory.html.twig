@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Personal:base.html.twig' %}
 {% block title %}{{ parent() }}任务历史{% endblock %}
-
-{% block stylesheet %}
-    <link href="{{ asset('css/point.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
     {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
@@ -11,40 +7,36 @@
 
 {% block body %}
     <div class="container">
-        <div class="main-personal clearfix">
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-                    <div class="main-personal-right rp-main-personal-right panel">
-                        <div class="main-personal-points table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="title">任务名称</th>
-                                        <th>奖励积分</th>
-                                        <th>获得时间</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {% if pagination.getTotalItemCount > 0 %}
-                                    {% for task in pagination %}
-                                        <tr>
-                                            <td>{{ task.taskName }}</td>
-                                            <td>{{ task.point }}</td>
-                                            <td>{{ task.date | date('Y-m-d H:i') }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
-                                    <tr>
-                                        <td align="center" colspan="4">没有任务记录</td>
-                                    </tr>
-                                {% endif %}
-                                </tbody>
-                            </table>
-                            <div class="text-center">
-                                {{ knp_pagination_render(pagination) }}
-                            </div>
-                        </div>
+        <div class="row main-personal">
+            {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+            <div class="col-xs-12 col-sm-10 main-personal-right"> 
+                <div class="main-personal-points table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="title">任务名称</th>
+                                <th>奖励积分</th>
+                                <th>获得时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if pagination.getTotalItemCount > 0 %}
+                            {% for task in pagination %}
+                                <tr>
+                                    <td>{{ task.taskName }}</td>
+                                    <td>{{ task.point }}</td>
+                                    <td>{{ task.date | date('Y-m-d H:i') }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td align="center" colspan="4">没有任务记录</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        {{ knp_pagination_render(pagination) }}
                     </div>
                 </div>
             </div>

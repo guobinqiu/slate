@@ -1,29 +1,34 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD>
-<META http-equiv=Content-Type content="text/html; charset=UTF8">
-<LINK href="{{ asset('css/admin.css')}}" type="text/css" rel="stylesheet">
-</HEAD>
-<BODY>
-<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0 class="main">
-  <TR height=28>
-    <TD background="{{ asset('img/admin/title_bg1.jpg')}}">当前位置: </TD></TR>
-  <TR height=1>
-    <TD bgColor=#b1ceef></TD></TR>
-  <TR height=20>
-    <TD background="{{ asset('img/admin/shadow_bg.jpg')}}"/></TD></TR></TABLE>
-<TABLE cellSpacing=0 cellPadding=0 width="90%" align=center border=0>
-  <TR height=100>
-    <TD align=middle width=100><IMG height=100 src="{{ asset('img/admin/admin_p.gif')}}" width=90></TD>
-    <TD width=60>&nbsp;</TD>
-    <TD>
-      <TABLE height=100 cellSpacing=0 cellPadding=0 width="100%" border=0>
-        
-        <TR>
-          <TD>当前时间：{{ "now" | date("Y-m-d H:i:s") }}</TD></TR>
-        <TR>
-          <TD style="FONT-WEIGHT: bold; FONT-SIZE: 16px">admin</TD></TR>
-        <TR>
-          <TD>欢迎进入网站管理中心！</TD></TR></TABLE></TD></TR>
-  <TR>
-    <TD colSpan=3 height=10></TD></TR></TABLE>
-</BODY></HTML>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
+    <style>
+        .curPos{
+            height: 28px;
+            line-height: 28px;
+            background-image: url('/assets/img/backend/title_bg1.jpg');
+            background-repeat: repeat-x;
+            border-bottom: 1px solid #b1ceef;
+        }
+        .welcome{
+            padding-top: 20px;
+            line-height: 35px;
+            background-image: url('/assets/img/backend/shadow_bg.jpg');
+            background-repeat: repeat-x;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row curPos">当前位置:</div>
+    <div class="row welcome">
+        <div class="col-md-2 text-center"><img width="90" height="100" src="{{ asset('assets/img/backend/admin_p.gif')}}"></div>
+        <div class="col-md-10">当前时间：{{ "now" | date("Y-m-d H:i:s") }} <br> <b>admin</b><br>欢迎进入网站管理中心！</div>
+    </div>
+</div>
+</body>
+
+</html>

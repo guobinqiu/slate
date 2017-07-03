@@ -1,0 +1,49 @@
+{% extends 'WenwenFrontendBundle:admin:adminReportBase.html.twig' %}
+{% block title %}SOP每日汇总{% endblock %}
+{% block body %}
+    <div class='table-responsive'>
+        <table class="table table-striped table-condensed">
+            <caption>SOP项目参与情况月报</caption>
+            <thead>
+            <tr class="active text-nowrap">
+                <th>年月</th>
+                <th>project N</th>
+                <th>targeted/project N</th>
+                <th>targeted</th>
+                <th>init</th>
+                <th>forward</th>
+                <th>complete</th>
+                <th>screenout</th>
+                <th>quotafull</th>
+                <th>error</th>
+                <th>c/s/q/e</th>
+                <th>targeted -> forward(%)</th>
+                <th>forward -> csqe(%)</th>
+                <th>targeted -> csqe(%)</th>
+                <th>init -> forward(%)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in result %}
+                <tr class="text-nowrap">
+                    <td>{{ data.created_month }}</td>
+                    <td>{{ data.new_project_cnt }}</td>
+                    <td>{{ data.targeted_per_project }}</td>
+                    <td>{{ data.targeted_count }}</td>
+                    <td>{{ data.init_count }}</td>
+                    <td>{{ data.forward_count }}</td>
+                    <td>{{ data.complete_count }}</td>
+                    <td>{{ data.screenout_count }}</td>
+                    <td>{{ data.quotafull_count }}</td>
+                    <td>{{ data.error_count }}</td>
+                    <td>{{ data.csqe_count }}</td>
+                    <td>{{ data.targeted_to_forward }}</td>
+                    <td>{{ data.forward_to_csqe }}</td>
+                    <td>{{ data.targeted_to_csqe }}</td>
+                    <td>{{ data.init_to_forward }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

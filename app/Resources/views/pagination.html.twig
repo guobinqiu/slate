@@ -23,9 +23,6 @@
     <p>next: {{ next }}</p>
 
     -->
-<html>
- <head></head>
- <body>
   <ul class="pageNav">
 {% if last <= 1 %} {% elseif last > 1 and last <= 5 %}
     {% for i in range(1, last ) %}
@@ -57,5 +54,3 @@
    <li><span>共{{ last }}页</span></li>
 {% endif %}
   </ul>
- </body>
-</html>

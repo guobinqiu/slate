@@ -1,12 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Vote:base.html.twig' %}
 {% block title %}{{ parent() }}快速问答{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，热点问答，投票，有奖出题" />
 <meta name="description" content="快速问答页面提供热门问题一览，供用户查看自己感兴趣的问题，并选择自己想要进行的投票问题，且最新的问答在24小时内可多获得1个积分。" />
 <meta name="title" content="91问问调 - 快速问答" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/vote.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -18,7 +15,6 @@
 	<div class="row">
 		<div class="col-sm-9 col-xs-12">
 			<div class="vote panel panel-default">
-				<div class="panel-heading hidden-xs"><h3>快速问答</h3></div>
 				<div class="panel-body top15">
 		            {% include 'WenwenFrontendBundle:Vote:_voteList.html.twig' %}
 		            <div class="page-wrapper">
@@ -36,12 +32,10 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+{% block extra_js %}
+    <script type="text/javascript">
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip();
+	});
+	</script>
 {% endblock %}

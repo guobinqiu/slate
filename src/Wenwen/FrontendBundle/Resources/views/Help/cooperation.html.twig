@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Help:base.html.twig' %}
 {% block title %}{{ parent() }}业务合作{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/about.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -15,7 +11,7 @@
 		<div class="row">
 			{% include 'WenwenFrontendBundle:Help:_leftSidebar.html.twig' %}
 			<div class="col-xs-9 col-sm-10">
-				<div class="aboutR tabCon panel">
+				<div class="aboutR panel">
 					<h2 class="hidden-xs">业务合作</h2><hr class="hidden-xs">
 					<div class="friendLink clearfix con">
 						<pre class="fontCommon">合作咨询</pre>
@@ -31,7 +27,7 @@
 						            <dd>链接文字：91问问调查网 </dd>
 						            <dd>链接地址：<a href="http://www.91wenwen.net/">http://www.91wenwen.net/</a></dd>
 						            <dd>LOGO尺寸：
-						            <img height="55" width="150" alt="91问问调查网" src="{{ asset('img/about/logo150-55.gif')}}">大小: 150x55<img height="31" width="88" alt="91问问调查网" src="{{ asset('img/about/logo88-31.gif')}}">大小: 81x33</dd>
+						            <img height="55" width="150" alt="91问问调查网" src="{{ asset('assets/img/frontend/about/logo150-55.gif')}}">大小: 150x55<img height="31" width="88" alt="91问问调查网" src="{{ asset('assets/img/frontend/about/logo88-31.gif')}}">大小: 81x33</dd>
 						        </div>
 					        	<dd>2.&nbsp;&nbsp;做好链接后，请发邮件到：<a href="mailto:xiaojing.li@d8aspring.com">xiaojing.li@d8aspring.com</a>&lt;联系时请注明申请友情链接&gt;</dd>
 					            <dd>3.&nbsp;&nbsp;已经开通我站友情链接且内容健康，符合本站友情链接要求的网站，经91问问管理员审核后，可以显示在此友情链接页面。</dd>

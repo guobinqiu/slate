@@ -186,7 +186,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $points_history =$points_stm->fetchAll();
         $this->assertNotEmpty($points_history,'1 point history record');
         $this->assertCount(1, $points_history,'1 point history record');
-        $this->assertEquals(1, $points_history[0]['point_change_num'],'7 points');
+        $this->assertEquals(10, $points_history[0]['point_change_num'],'10 points');
         $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $points_history[0]['reason'],'user0 point_history.reason shoulde be CategoryType::FULCRUM_EXPENSE');
 
 
@@ -195,7 +195,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $points_history =$points_stm->fetchAll();
         $this->assertNotEmpty($points_history,'1 point history record');
         $this->assertCount(1, $points_history,'1 point history record');
-        $this->assertEquals(1, $points_history[0]['point_change_num'],'7 points');
+        $this->assertEquals(10, $points_history[0]['point_change_num'],'10 points');
         $this->assertEquals(CategoryType::FULCRUM_EXPENSE, $points_history[0]['reason'],'user0 point_history.reason shoulde be CategoryType::FULCRUM_EXPENSE');
         // user points
         $user_stm =   $em->getConnection()->prepare('select * from user ');
@@ -204,8 +204,8 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 
         $this->assertNotEmpty($user_updated,'1 test user');
         $this->assertCount(2, $user_updated,'1 test user');
-        $this->assertEquals(12, $user_updated[0]['points'], '1+ 11');
-        $this->assertEquals(24, $user_updated[1]['points'], '0 + 23, 拒绝了也会加1分的');
+        $this->assertEquals(21, $user_updated[0]['points'], '11 + 10');
+        $this->assertEquals(33, $user_updated[1]['points'], '23 + 10, 拒绝了也会加1分的');
     }
 }
 

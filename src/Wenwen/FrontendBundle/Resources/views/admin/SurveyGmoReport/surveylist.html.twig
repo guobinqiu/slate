@@ -1,0 +1,46 @@
+{% extends '::adminBase.html.twig' %}
+
+{% block body -%}
+
+    <h1>GMO商业调查一览</h1>
+
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr class="active">
+            <th>Id</th>
+            <th>ResearchId</th>
+            <th>Title</th>
+            <th>LOI</th>
+            <th>Point</th>
+            <th>PointMin</th>
+            <th>Status</th>
+            <th>enq_per_panel_status</th>
+            <th>lg_nm</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>ClosedAt</th>
+            <th>Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.researchId }}</td>
+                <td>{{ entity.title }}</td>
+                <td>{{ entity.loi }}</td>
+                <td>{{ entity.point }}</td>
+                <td>{{ entity.pointMin }}</td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.enqPerPanelStatus }}</td>
+                <td>{{ entity.lgNm }}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.closedAt %}{{ entity.closedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>details</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

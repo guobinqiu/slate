@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Personal:base.html.twig' %}
 {% block title %}{{ parent() }}基本信息{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/account.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
@@ -11,79 +7,75 @@
 
 {% block body %}
     <div class="container">
-        <div class="main-personal clearfix">
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-                    <div class="main-personal-right rp-main-personal-right panel">
-                        <div class="main-personal-account">
-                            <ul>
-                                <li>
-                                    <label class="tit" for="login_pwd">修改密码</label>
-                                    <div class="con form">
-                                        {% for flash_message in app.session.flashBag.get('success') %}
-                                            <div class="successMess" style="display: block">{{ flash_message }}</div>
-                                        {% endfor %}
-                                        <div class="pwdBackError">{{ form_errors(cpForm) }}</div>
-                                        <form action="{{ path('_profile_changepwd') }}" method="post" novalidate="novalidate">
-                                            <ul>
-                                                <li>
-                                                    {{ form_label(cpForm.password) }}
-                                                    {{ form_widget(cpForm.password) }}
-                                                    <div class="pwdFrontEr">{{ form_errors(cpForm.password) }}</div>
-                                                </li>
-                                                <li>
-                                                    {{ form_label(cpForm.new_password.first) }}
-                                                    {{ form_widget(cpForm.new_password.first) }}
-                                                    <div class="pwdFrontEr">{{ form_errors(cpForm.new_password.first) }}</div>
-                                                </li>
-                                                <li>
-                                                    {{ form_label(cpForm.new_password.second) }}
-                                                    {{ form_widget(cpForm.new_password.second) }}
-                                                    <div class="pwdFrontEr">{{ form_errors(cpForm.new_password.second) }}</div>
-                                                </li>
-                                            </ul>
-                                            {{ form_row(cpForm._token) }}
-                                            <div class="btn"><input id="pwd_error" tabindex="0" type="submit" value="保存" /></div>
-                                        </form>
-                                    </div>
-                                </li>
-                                <hr>
-                                <li>
-                                    <label class="tit" for="withdraw">注销账户&nbsp;&nbsp;&nbsp;<p><i class="fa fa-pencil-square-o" aria-hidden="true"></i>请您完成以下简单的问卷调查后，点击注销按钮完成会员注销手续</p></label>
-                                    <div class="con withdraw">
-                                        <div class="step2 form">
-                                            
-                                            <form action="{{ path('_profile_withdraw') }}" method="post" novalidate="novalidate">
-                                                <ul class="reason">
-                                                    <div class="pwdBackError">{{ form_errors(wdForm) }}</div>
-                                                    <li>
-                                                        {{ form_label(wdForm.email) }}
-                                                        {{ form_widget(wdForm.email) }}
-                                                        <div class="pwdFrontEr">{{ form_errors(wdForm.email) }}</div>
-                                                    </li>
-                                                    <li>
-                                                        {{ form_label(wdForm.password) }}
-                                                        {{ form_widget(wdForm.password) }}
-                                                        <div class="pwdFrontEr">{{ form_errors(wdForm.password) }}</div>
-                                                    </li>
-                                                    <li>
-                                                        {{ form_label(wdForm.reason) }}
-                                                        {{ form_widget(wdForm.reason) }}
-                                                        <div class="pwdFrontEr">{{ form_errors(wdForm.reason) }}</div>
-                                                    </li>
-                                                </ul>
-                                                {{ form_row(wdForm._token) }}
-                                                <div class="btn"><input type="submit" value="保存" /></div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="row main-personal">
+            {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+            <div class="col-xs-12 col-sm-10 main-personal-right">
+                <div class="main-personal-account">
+                    <ul>
+                        <li>
+                            <label class="tit" for="login_pwd">修改密码</label>
+                            <div class="con form">
+                                {% for flash_message in app.session.flashBag.get('success') %}
+                                    <div class="successMess" style="display: block">{{ flash_message }}</div>
+                                {% endfor %}
+                                <div class="pwdBackError">{{ form_errors(cpForm) }}</div>
+                                <form action="{{ path('_profile_changepwd') }}" method="post" novalidate="novalidate">
+                                    <ul>
+                                        <li>
+                                            {{ form_label(cpForm.password) }}
+                                            {{ form_widget(cpForm.password) }}
+                                            <div class="pwdFrontEr">{{ form_errors(cpForm.password) }}</div>
+                                        </li>
+                                        <li>
+                                            {{ form_label(cpForm.new_password.first) }}
+                                            {{ form_widget(cpForm.new_password.first) }}
+                                            <div class="pwdFrontEr">{{ form_errors(cpForm.new_password.first) }}</div>
+                                        </li>
+                                        <li>
+                                            {{ form_label(cpForm.new_password.second) }}
+                                            {{ form_widget(cpForm.new_password.second) }}
+                                            <div class="pwdFrontEr">{{ form_errors(cpForm.new_password.second) }}</div>
+                                        </li>
+                                    </ul>
+                                    {{ form_row(cpForm._token) }}
+                                    <input id="pwd_error" tabindex="0" type="submit" value="保存"  class="btn"/>
+                                </form>
+                            </div>
+                        </li>
+                        <hr>
+                        <li>
+                            <label class="tit" for="withdraw">注销账户&nbsp;&nbsp;&nbsp;<p><i class="fa fa-pencil-square-o" aria-hidden="true"></i>请您完成以下简单的问卷调查后，点击注销按钮完成会员注销手续</p></label>
+                            <div class="con withdraw">
+                                <div class="step2 form">
+                                    
+                                    <form action="{{ path('_profile_withdraw') }}" method="post" novalidate="novalidate">
+                                        <ul class="reason">
+                                            <div class="pwdBackError">{{ form_errors(wdForm) }}</div>
+                                            <li>
+                                                {{ form_label(wdForm.email) }}
+                                                {{ form_widget(wdForm.email) }}
+                                                <div class="pwdFrontEr">{{ form_errors(wdForm.email) }}</div>
+                                            </li>
+                                            <li>
+                                                {{ form_label(wdForm.password) }}
+                                                {{ form_widget(wdForm.password) }}
+                                                <div class="pwdFrontEr">{{ form_errors(wdForm.password) }}</div>
+                                            </li>
+                                            <li>
+                                                {{ form_label(wdForm.reason) }}
+                                                {{ form_widget(wdForm.reason) }}
+                                                <div class="pwdFrontEr">{{ form_errors(wdForm.reason) }}</div>
+                                            </li>
+                                        </ul>
+                                        {{ form_row(wdForm._token) }}
+                                        <input type="submit" value="保存" class="btn" />
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 {% endblock %}

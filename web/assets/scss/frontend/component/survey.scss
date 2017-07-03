@@ -1,0 +1,182 @@
+@charset "UTF-8";
+
+@import "../layout/global";
+$h-font-color: #000;
+$h-font-size: 18px;
+$h-small-font-size: 14px;
+$survey-border-color: #f6f6f6;
+$count-font-color: #b08400;
+$count-font-size: 20px;
+$count-border: 1px solid #dedddc;
+$count-bg: #f5f5f5;
+.survey{
+	.panel-heading{
+		padding: 18px 28px;
+		background: none;
+		h3{
+			color: #828D9B;
+		}
+		.more{
+			color: #7F8390;
+			margin-top: 5px;
+			i{
+				margin-left: 5px;
+			}
+		}
+	}
+	.panel-body{ 
+		padding: 20px;
+		ul{
+			hr{
+				margin-top: 15px;
+				margin-bottom: 15px;
+				&:last-child{
+					display: none;
+				}
+			}
+		}
+	}
+	.survey-info{
+		margin-top: 8px;
+	}
+}
+#surveyList{
+	.rewardPoint{
+		float: right;
+		white-space: nowrap;
+		margin-top: 3px;
+		i {
+		    font-size: 22px;
+		    color: #f55e00;
+		    margin-right: 4px;
+		    vertical-align: -2px;
+		    font-weight: bold;
+		}
+	}
+}
+.survey-item{
+	.title{
+		font-size: 16px;
+		line-height: 28px;
+		font-weight: bold;
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+		a{
+			color: #475a70;
+			
+		}
+	}
+	.proCon{
+		.proRow{
+			color: #9296a1;
+			i{
+				color: #475a70;
+			}
+			.proIn{
+				color: #4caf50;
+				font-size: 16px;
+				& + .tooltip > .tooltip-inner{
+				    max-width: 170px;
+				    width: 170px; 
+				    text-align: left;
+				    padding: 5px 10px;
+				}
+			}
+		}
+	}
+	li{
+		color: #9296a1;
+		span.difficulty{
+			color: #ffac13;
+		    font-size: 17px;
+		    margin-right: 4px;
+		    white-space: nowrap;
+		    i{
+		    	margin-right: 3px;
+		    }
+		}
+	}
+}
+.survey-btn{
+	cursor: default;
+	text-align: right;
+	a{
+		color: #fff;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		font-size: 14px;
+		float: right;
+		@include btn();			
+		@include dib();
+	}
+	.disabled{
+		color: #fff;
+		background: #a7a7a7;
+		border: 1px solid #a7a7a7;
+		border-radius: 3px;
+		width: 120px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+		font-size: 14px;
+		float: right;
+		@include dib();
+	}
+}
+@media only screen and (min-width: 992px) { 
+	#surveyList{
+		.rewardPoint{
+			float: left;
+			text-align: right;
+			width: 90px;
+		}
+	}
+}
+@media only screen and (max-width: 767px) { 
+	#surveyList{
+		.rewardPoint{
+			width: 75px;
+			text-align: right;
+			float: left;
+		}
+	}
+	.survey-info{
+		white-space: nowrap;
+	}
+	.survey-item .title,
+	.survey-item .proCon .proRow,
+	.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+	.survey-btn a, 
+	.survey-btn .disabled, 
+	.vote .vote-btn{
+		width: 88px!important;
+	}
+	.mainWrap{
+		overflow: hidden;
+		.container{
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	.survey-item .title,
+	.survey-item .proCon .proRow,
+	.vote .vote-txt .title{
+		white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+}
+@media only screen and (max-width: 360px) { 
+	.survey-btn a, 
+	.survey-btn .disabled, 
+	.vote .vote-btn{
+		width: 70px!important;
+	} 
+}

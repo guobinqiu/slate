@@ -18,6 +18,15 @@ class BaseController extends Controller
         return $response;
     }
 
+    protected function redirectWithCookies($url, array $cookies, $status = 302)
+    {
+        $response = new RedirectResponse($url, $status);
+        foreach($cookies as $cookie) {
+            $response->headers->setCookie($cookie);
+        }
+        return $response;
+    }
+
     protected function clearCookies(Request $request, Response $response)
     {
         $cookieNames = $request->cookies->keys();
@@ -36,11 +45,10 @@ class BaseController extends Controller
 
     protected function getCurrentUser()
     {
-        $user = null;
         if ($this->isUserLoggedIn()) {
-            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($this->getCurrentUserId());
+            return $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->find($this->getCurrentUserId());
         }
-        return $user;
+        return null;
     }
 
     /**

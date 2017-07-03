@@ -54,15 +54,26 @@ twig:
 # Assetic Configuration
 assetic:
     debug:          %kernel.debug%
-    use_controller: false
-    bundles:        [ ]
+    use_controller: %kernel.debug%
+    bundles:        [ AffiliateAppBundle, JiliApiBundle, JiliBackendBundle,WenwenFrontendBundle ]
     #java: /usr/bin/java
+    #node: /usr/local/bin/node
     filters:
+        uglifyjs2:
+            bin: "%kernel.root_dir%/Resources/node_modules/uglify-js/bin/uglifyjs"
+        uglifycss:
+            bin: "%kernel.root_dir%/Resources/node_modules/uglifycss/uglifycss"
+        coffee:
+            bin: "%kernel.root_dir%/Resources/node_modules/coffee-script/bin/coffee"
+            apply_to: "\.coffee$"
+        scssphp: ~
         cssrewrite: ~
         #closure:
         #    jar: %kernel.root_dir%/Resources/java/compiler.jar
         #yui_css:
         #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
 
 # Doctrine Configuration
 doctrine:
@@ -168,15 +179,23 @@ monolog:
             path: %kernel.logs_dir%/%kernel.environment%.fake_answer.log
             channels: [fake_answer]
 
+        bot_registration:
+            level: info
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.bot_registration.log
+            channels: [bot_registration]
+
 gregwar_captcha:
     width: 150
-    height: 40 
+    height: 40
     length: 4
     as_url: true
-    reload: true 
+    reload: true
     invalid_message: %reg_wr_captcha%
     background_color: [255,255,255]
-    charset: 0123456789
+    charset: 123456789
+    max_behind_lines: 5
+    max_front_lines: 5
 
 snc_redis:
     clients:
@@ -190,4 +209,4 @@ snc_redis:
             dsn: redis://localhost/1
     session:
         client: session
-        ttl: 0
+        ttl: 1200

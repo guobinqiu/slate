@@ -110,10 +110,12 @@ class AdminSurveyPartnerController extends BaseController #implements IpAuthenti
         $this->get('logger')->debug(__METHOD__ . ' START');
         $surveyPartner = new SurveyPartner();
         $surveyPartner->setReentry(false);
-        $surveyPartner->setCompletePoint(300);
-        $surveyPartner->setScreenoutPoint(1);
-        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setCompletePoint(100);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(10);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(48);
         $surveyPartner->setMinAge(0);
         $surveyPartner->setMaxAge(150);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);

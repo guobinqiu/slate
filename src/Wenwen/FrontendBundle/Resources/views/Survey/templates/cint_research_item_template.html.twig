@@ -1,4 +1,4 @@
-<div class="survey-item col-xs-5 col-sm-6 col-md-8">
+<div class="survey-item col-xs-5 col-sm-6 col-md-7 col-lg-8">
     <div class="title">
         {% if cint_research.is_answered == 1 %}
             <span class="text-muted">{{ cint_research.title }}</span>
@@ -7,16 +7,19 @@
        {% endif %}
     </div>
     <div class="proCon clearfix">
-        <div class="proRow">约{{ cint_research.loi }}分钟</div>
+        <div class="proRow">
+            <span class="label label-primary">商业调查</span>
+            <span class="label label-info">约{{ cint_research.loi }}分钟</span>
+        </div>
     </div>
 </div>
-<div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
+<div class="survey-info col-xs-7 col-sm-6 col-md-5 col-lg-4 text-right">
     <div class="rewardPoint pull-left"><i>{{ cint_research.extra_info.point.complete }}</i>积分</div>
     <div class="survey-btn">
         {% if cint_research.is_answered == 1 %}
-            <span class="disabled">回答完毕</span>
+            <span class="disabled">已参与</span>
         {% else %}
-            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_blank">可回答</a>
+            <a href="{{ path('_cint_project_survey_information', {'cint_research': cint_research}) }}" class="open-link" target="_blank">可参与</a>
         {% endif %}
     </div>
 </div>

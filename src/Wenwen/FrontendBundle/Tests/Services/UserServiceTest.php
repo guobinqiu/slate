@@ -7,11 +7,13 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserServiceTest extends WebTestCase
 {
     private $container;
     private $em;
+    private $userService;
 
     /**
      * {@inheritDoc}
@@ -33,6 +35,8 @@ class UserServiceTest extends WebTestCase
 
         $this->container = $container;
         $this->em = $em;
+
+        $this->userService = $container->get('app.user_service');
     }
 
     /**
@@ -54,5 +58,35 @@ class UserServiceTest extends WebTestCase
 
         $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
         $this->assertEquals('user1', $user->getNick());
+    }
+
+    public function testIsRegisteredFingerPrint(){
+        $fingerprint = 1234567890; // any fingerprint
+        $key = CacheKeys::REGISTER_FINGER_PRINT_PRE . $fingerprint;
+        $redis = $this->container->get('snc_redis.default');
+
+        $redis->del($key);
+
+        // first time return count 1
+        $this->assertEquals(1, $this->userService->getRegisteredFingerPrintCount($fingerprint));
+        $this->assertEquals(1, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT >= $redis->ttl($key));
+
+        // second time return count 2
+        $this->assertEquals(2, $this->userService->getRegisteredFingerPrintCount($fingerprint));
+        $this->assertEquals(2, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT * 2 >= $redis->ttl($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT < $redis->ttl($key));
+
+        // exceeded maximum return count maximum
+        $redis->del($key);
+        $redis->set($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT);
+        $redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT);
+        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $this->userService->getRegisteredFingerPrintCount($fingerprint));
+        $this->assertEquals(CacheKeys::REGISTER_FINGER_PRINT_MAX_COUNT, $redis->get($key));
+        $this->assertTrue(CacheKeys::REGISTER_FINGER_PRINT_MAX_TIMEOUT <= $redis->ttl($key));
+
+        // after test clean up
+        $redis->del($key);
     }
 }

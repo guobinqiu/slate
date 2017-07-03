@@ -31,7 +31,21 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function point($history)
     {
-         return  $history['extra_info']['point'];
+        // Fulcrum 返回的所有状态的积分都是complete时的积分数
+        // 这里根据状态来判断给多少积分
+        $completePoint = $history['extra_info']['point'];
+        $screenoutPoint = 20;
+        $quotafullPoint = 20;
+        $errorPoint = 0;
+        if(SurveyStatus::STATUS_COMPLETE == $this->answerStatus($history)){
+            return  $completePoint;
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $this->answerStatus($history)){
+            return  $screenoutPoint;
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $this->answerStatus($history)){
+            return  $quotafullPoint;
+        } else {
+            return  $errorPoint;
+        }
     }
 
     protected function type($history)
@@ -44,6 +58,15 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function task($history)
     {
         return TaskType::SURVEY;
+    }
+
+    protected function answerStatus($history){
+        $status = strtolower($history['answer_status']);
+        return $status;
+    }
+
+    protected function approvalStatus($history){
+        return strtolower($history['approval_status']);
     }
 
     protected function comment($history)
@@ -67,13 +90,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function skipReward($history)
     {
-        if ($history['answer_status'] != 'COMPLETE') {
-            // 20160718
-            // 状态不为 COMPLETE的不处理
-            // 老实说，这样做很不干净
-            // 状态不为 COMPLETE的不发积分，但是记录得要啊
-            return true;
-        }
         if(self::POINT_TYPE_COST != $history['extra_info']['point_type']){
             return true;
         }
@@ -108,11 +124,14 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         return $this->getContainer()->get('app.survey_fulcrum_service')->createParticipationByAppMid(
             $history['app_mid'],
             $history['survey_id'],
-            $history['answer_status']
+            $this->answerStatus($history)
         );
     }
 
     protected function getPanelType() {
         return 'Fulcrum';
+    }
+
+    protected function preHandle(array $history_list) {
     }
 }

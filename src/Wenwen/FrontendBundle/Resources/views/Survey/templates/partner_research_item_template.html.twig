@@ -1,4 +1,4 @@
-<div class="survey-item col-xs-5 col-sm-6 col-md-8">
+<div class="survey-item col-xs-5 col-sm-6 col-md-7 col-lg-8">
     <div class="title">
         {% if partnerResearch.is_answered == 1 %}
             {% if partnerResearch.title|length > 35 %}
@@ -18,16 +18,23 @@
         {% endif %}
     </div>
     <div class="proCon clearfix">
-        <div class="proRow">约{{ partnerResearch.loi }}分钟</div>
+        <div class="proRow">
+            {% if partnerResearch.type == 'cost' %}
+            <span class="label label-primary">商业调查</span>
+            {% else %}
+            <span class="label label-warning">自主调查</span>
+            {% endif %}
+            <span class="label label-info">约{{ partnerResearch.loi }}分钟</span>
+        </div>
     </div>
 </div>
-<div class="survey-info col-xs-7 col-sm-6 col-md-4 pull-right">
+<div class="survey-info col-xs-7 col-sm-6 col-md-5 col-lg-4 text-right">
     <div class="rewardPoint pull-left"><i>{{ partnerResearch.complete_point }}</i>积分</div>
     <div class="survey-btn">
         {% if partnerResearch.is_answered == 1 %}
-            <span class="disabled">回答完毕</span>
+            <span class="disabled">已参与</span>
         {% else %}
-            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" target="_blank">可回答</a>
+            <a href="{{ path('survey_partner_information', {'surveyPartnerId': partnerResearch.surveyPartnerId}) }}" class="open-link" target="_blank">可参与</a>
         {% endif %}
     </div>
 </div>

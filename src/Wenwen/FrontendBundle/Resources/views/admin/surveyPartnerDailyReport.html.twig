@@ -1,63 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% extends '::adminBase.html.twig' %}
 
-{% block header %}
-    <meta charset="UTF-8">
-    <title>Admin - Partner Lists</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
-{% endblock %}
+{% block title %} {{ parent() }} - Partner Lists {% endblock %}
 
-{% block content %}
-  <div class="container-full">
-    <div class="row">
-      <h3>过去30天的参与情况</h3>
-      <table class='participationDailyReport table'>
-        <thead>
-          <tr>
-            <th>日期</th>
-            <th>init</th>
-            <th>CVR(init -> forward)</th>
-            <th>forward</th>
-            <th>CVR(forward -> csqe)</th>
-            <th>total of c/s/q/e</th>
-            <th>alert</th>
-            <th>complete</th>
-            <th>screenout</th>
-            <th>quotafull</th>
-            <th>error</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for key, value in dailyReports %}
-          <tr>
-            <th>{{key}}</th>
-            <th>{{value.initCount}}</th>
-            <th>{{value.cvrInitToForward}}</th>
-            <th>{{value.forwardCount}}</th>
-            <th>{{value.cvrForwardToCSQE}}</th>
-            <th>{{value.CSQE}}</th>
-            {% if value.alert %}
-            <th style="color:#FF0000">*</th>
-            {% else %}
-            <th></th>
-            {% endif %}
-            <th>{{value.completeCount}}</th>
-            <th>{{value.screenoutCount}}</th>
-            <th>{{value.quotafullCount}}</th>
-            <th>{{value.errorCount}}</th>
-            </tr>
-          {% endfor %}
-        </tbody>
-
-      </table>
-
-      <br>
-    
-    </div>
-  </div>
-
-{% endblock %}
-
+{% block stylesheet %}
 <style type="text/css">
 /*table.surveypartnerList { 
   border-collapse: collapse; 
@@ -72,3 +17,52 @@ table.surveypartnerList th {
     margin-right: 15px;
   }
 </style>
+{% endblock %}
+
+{% block body %}
+  <div class="container-full">
+    <div class="row">
+        <h3>过去30天的参与情况</h3>
+        <table class='participationDailyReport table'>
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>init</th>
+                    <th>CVR(init -> forward)</th>
+                    <th>forward</th>
+                    <th>CVR(forward -> csqe)</th>
+                    <th>total of c/s/q/e</th>
+                    <th>alert</th>
+                    <th>complete</th>
+                    <th>screenout</th>
+                    <th>quotafull</th>
+                    <th>error</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, value in dailyReports %}
+                <tr>
+                    <th>{{key}}</th>
+                    <th>{{value.initCount}}</th>
+                    <th>{{value.cvrInitToForward}}</th>
+                    <th>{{value.forwardCount}}</th>
+                    <th>{{value.cvrForwardToCSQE}}</th>
+                    <th>{{value.CSQE}}</th>
+                    {% if value.alert %}
+                    <th style="color:#FF0000">*</th>
+                    {% else %}
+                    <th></th>
+                    {% endif %}
+                    <th>{{value.completeCount}}</th>
+                    <th>{{value.screenoutCount}}</th>
+                    <th>{{value.quotafullCount}}</th>
+                    <th>{{value.errorCount}}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

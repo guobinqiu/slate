@@ -51,13 +51,35 @@ class SurveyServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+        if($this->em){
+            $this->em->close();
+        }
     }
 
     public function testGetOrderedHtmlServeyList()
     {
         // a fake user_id for input
-        $user_id = '12345';
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $now = new \DateTime(); // current time
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $user_id = $user->getId();
 
         $locationInfo = array();
         $locationInfo['status'] = true;
@@ -72,6 +94,33 @@ class SurveyServiceTest extends WebTestCase
 
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
+
+        // From now on the test result is decided by SurveyService->getDummySurveyListJson()
+
+
+        $surveySops = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findAll();
+
+        $this->assertEquals(5, sizeof($surveySops));
+
+        $surveyFulcrums = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findAll();
+
+        $this->assertEquals(3, sizeof($surveyFulcrums));
+
+        $surveyCints = $this->em->getRepository('WenwenFrontendBundle:SurveyCint')->findAll();
+
+        $this->assertEquals(2, sizeof($surveyCints));
+
+        $surveySopParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findAll();
+
+        $this->assertEquals(5, sizeof($surveySopParticipationHistorys));
+
+        $surveyFulcrumParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findAll();
+
+        $this->assertEquals(3, sizeof($surveyFulcrumParticipationHistorys));
+
+        $surveyCintParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findAll();
+
+        $this->assertEquals(2, sizeof($surveyCintParticipationHistorys));
     }
 
     public function testGetSurveyResearchArray()
@@ -84,7 +133,7 @@ class SurveyServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -114,6 +163,8 @@ class SurveyServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);

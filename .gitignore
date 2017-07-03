@@ -5,6 +5,7 @@ web/images/tb_products_pic/
 web/images/taobao_products_picture/
 web/images/website_logos/*
 web/uploads/
+web/dist/
 app/cache/*
 app/sessions/*
 app/cache_data/*
@@ -43,3 +44,5 @@ app/config/deploy.rb
 .settings/org.eclipse.core.resources.prefs
 .idea/
 app/config/secret_prod.yml
+
+scripts/perl/config/deployment.pl

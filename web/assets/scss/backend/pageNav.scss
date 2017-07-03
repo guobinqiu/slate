@@ -1,0 +1,71 @@
+.pageNav {
+    display: inline;
+    float: right;
+    margin: 10px 0;
+    li {
+        float: left;
+        display: inline;
+        color: #666;
+        height: 25px;
+        line-height: 25px;
+        margin-right: 3px;
+        position:relative;
+    }
+    a {
+        background: none repeat scroll 0 0 #fff;
+        color: #0066cc;
+        display: block;
+        height: 23px;
+        line-height: 23px;
+        min-width: 15px;
+        padding: 0 5px;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        _width:20px;
+        &:hover{
+            color:#ff0000;
+            border-color:#ff5500;
+        }
+    }
+    .currPage{
+         a {
+            background-color: #f1f1f1;
+            color: #ff0000;
+            font-weight: bold;
+        }
+    }
+    input[type="text"] {
+        height: 20px;
+        width: 32px;
+        vertical-align: middle;
+        line-height: 20px;
+        border: 1px solid #999;
+    }
+    input[type="button"] {
+        margin: 0;
+        width: 60px;
+        height: 22px;
+        line-height: 20px;
+        border: 1px solid #999;
+    }
+} 
+.arrowleftOrange,
+.arrowRightOrange{
+	border: 5px solid transparent;
+    cursor: pointer;
+    height: 0;
+    margin-right: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 7px;
+	left:2px;
+    width: 0;
+	border-right-color: #ff6600;
+}
+.arrowRightOrange{
+    left: auto;
+	right:2px;
+    border-right-color: transparent;
+	border-left-color: #ff6600;
+}

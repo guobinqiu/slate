@@ -11,36 +11,47 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         {% block meta %}{% endblock %}
         <meta name="baidu_union_verify" content="464e52f63986636f61f6710be25148b2" />
-        <link href="{{ asset('img/common/favicon.ico') }} " rel="shortcut icon" type="image/x-icon" />
-        <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
-        <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
-        <link rel="apple-touch-icon-precomposed" href="{{ asset('img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
+        <link href="{{ asset('assets/img/common/favicon.ico') }} " rel="shortcut icon" type="image/x-icon" />
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/img/common/apple-touch-icon-precomposed-57x57.png') }}" type="image/png" />
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/img/common/apple-touch-icon-precomposed-72x72.png') }}" type="image/png" sizes="72x72">
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/img/common/apple-touch-icon-precomposed-114x114.png') }}" type="image/png" sizes="114x114" />
         {% block global_css %}
+             <!-- global css -->
              <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" type="text/css">
+            {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/common.css"
+                "assets/scss/common/font-awesome/font-awesome.scss"
+                "assets/scss/frontend/layout/normal/*"
+            %}
+                <link href="{{ asset_url }}" rel="stylesheet" />
+            {% endstylesheets %}
         {% endblock %}
         {% block stylesheet %}{% endblock %}
     </head>
     <body>
         {% block header %}{% endblock %}
-        <div class="mainWrap container-full">
-            {% block body %}{% endblock %}
-        </div>
-        <div class="footer top30">
-            {% block footer %}{% endblock %}
-        </div>
+        {% block body %}{% endblock %}
+        {% block footer %}{% endblock %}
         {% block global_js %}
-            <script type="text/javascript" src="{{ asset('js/lib/jquery-1.12.4.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+            <!-- global js -->
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-            <script type="text/javascript" src="{{ asset('js/component/common.js') }}"></script>
             <!--[if lte IE 9]>
-                <script type="text/javascript" src="{{ asset('js/lib/html5shiv.js')}}"></script>
-                <script type="text/javascript" src="{{ asset('js/lib/respond.min.js')}}"></script>
+                <script type="text/javascript" src="{{ asset('assets/js/common/lib/html5shiv.js')}}"></script>
+                <script type="text/javascript" src="{{ asset('assets/js/common/lib/respond.min.js')}}"></script>
             <![endif]-->
-            <script type="text/javascript" src="{{ asset('js/component/baiduStatistics.js')}}"></script>
+            {% javascripts filter="?uglifyjs2" output="dist/js/frontend/common.js"
+                "assets/js/common/lib/jquery-1.12.4.min.js"
+                "assets/js/common/lib/bootstrap.min.js"
+                "assets/js/common/plugin/jquery.cookie.js"
+                "assets/js/frontend/component/common.js"
+                "assets/js/frontend/component/baiduStatistics.js"
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
         {% block javascript %}
+        {% endblock %}
+        {% block extra_js %}
         {% endblock %}
     </body>
 </html>

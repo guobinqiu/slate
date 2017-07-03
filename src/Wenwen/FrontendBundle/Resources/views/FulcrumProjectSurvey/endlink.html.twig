@@ -1,36 +1,30 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:ProjectSurvey:base.html.twig' %}
 {% block title %}{{ parent() }}回答完成{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/questionnaire.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
 
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-            <div class="main-con">
-                <div class="qnWrap">
-                    <div class="qnCon qnEnd">
-                        <div class="qnEndTxt">
-                            <div class="txt">
-                                <img src="{{ asset('img/questionnaire/normalface.png') }}">
-                                <h2>亲爱的用户！</h2>
-                                {% if point > 0 %}
-                                    <p>感谢您参加本次的问卷调查，恭喜您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
-                                {% else %}
-                                    <p>感谢您参加本次的问卷调查，积分会在调查结束后的次日自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
-                                {% endif %}
-                            </div>
-                            <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('img/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
+<div class="mainWrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 qnWrap">
+                <div class="qnCon qnEnd">
+                    <div class="qnEndTxt">
+                        <div class="txt">
+                            <img src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}">
+                            <h2>亲爱的用户！</h2>
+                            {% if point > 0 %}
+                                <p>感谢您参加本次的问卷调查，恭喜您获得了<b>{{ point }}</b>积分。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                            {% else %}
+                                <p>感谢您参加本次的问卷调查，积分会在调查结束后的次日自动累计。<a class="backBtn" href="{{ path('_homepage') }}">返回首页</a></p>
+                            {% endif %}
                         </div>
+                        <a class="luckyNot" href="{{ path('event_prize') }}"><img src="{{ asset('assets/img/frontend/luckyDraw/luckyNotice.jpg') }}" alt="恭喜您获得了一张抽奖券"></a>
                     </div>
-                    {% include 'WenwenFrontendBundle:Components:_footerSurvey.html.twig' %}
                 </div>
+                {% include 'WenwenFrontendBundle:Components:_footerCopyright.html.twig' %}
             </div>
         </div>
     </div>

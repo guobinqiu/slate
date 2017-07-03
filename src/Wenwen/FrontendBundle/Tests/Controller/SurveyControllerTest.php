@@ -56,30 +56,6 @@ class SurveyControllerTest extends WebTestCase
         $this->assertRegExp('/user\/login$/', $client->getResponse()->getTargetUrl());
     }
 
-    /**
-     * @group dev-merge-ui-survey-list
-     * @group dev-merge-ui-survey-top
-     */
-    public function testIndexPageWithLogin()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $this->login($client);
-
-        $url = $container->get('router')->generate('_survey_index');
-        $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("问卷列表")')->count() > 0);
-
-//        $this->assertCount(1, $crawler->filter('#sop_api_url'));
-//        $this->assertCount(1, $crawler->filter('#sop_point'));
-//        $this->assertCount(1, $crawler->filter('#sop_app_id'));
-//        $this->assertCount(1, $crawler->filter('#sop_app_mid'));
-//        $this->assertCount(1, $crawler->filter('#sop_sig'));
-//        $this->assertCount(1, $crawler->filter('#sop_time'));
-    }
-
     public function testTopPageWithoutLogin()
     {
         $client = static::createClient();
@@ -101,7 +77,8 @@ class SurveyControllerTest extends WebTestCase
 
         $url = $container->get('router')->generate('_survey_top');
         $crawler = $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        // redirect to _homepage
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
 //        $this->assertCount(1, $crawler->filter('#sop_api_url'));
 //        $this->assertCount(1, $crawler->filter('#sop_point'));
 //        $this->assertCount(1, $crawler->filter('#sop_app_id'));

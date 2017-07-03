@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="weibo_user")
+ * @ORM\Table(name="weibo_user", indexes={@ORM\Index(name="open_id_idx", columns={"open_id"})})
  * @ORM\Entity
  */
 class WeiboUser

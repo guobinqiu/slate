@@ -1,12 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Advertisement:base.html.twig' %}
 {% block title %}{{ parent() }}任务体验{% endblock %}
 {% block meta %}
 <meta name="keywords" content="任务体验，做任务赚钱，做任务返现金" />
 <meta name="description" content="任务体验为用户提供了多种赚钱渠道，可以通过任务大厅一和二做任务赢现金，还可以参加商家活动和在商家列表中选择自己喜欢的商家进行购物获得返利。" />
 <meta name="title" content="91问问调查网 - 任务体验" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/experience.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
  
 {% block header %}
@@ -14,21 +11,17 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-        <div class="main-con center-block">
-			<div class="main-con-experience">
-				{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="tabCon offerWow center-block">
-							<iframe src='#' style='width:100%;min-height:600px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
-							<input type="hidden" value="{{  offerwow_com.websiteid }}" id="websiteid">
-							<input type="hidden" value="{{  app.session.get('uid') }}" id="memberid">
-							<div class="maintenance">
-								<img class="img-responsive center-block" src="{{ asset('img/questionnaire/normalface.png') }}" alt=""><br>
-								<div class="con">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
-							</div>
-						</div>
+    <div class="container main-con center-block">
+		<div class="row main-con-experience">
+			{% include 'WenwenFrontendBundle:Advertisement:_hallNavs.html.twig' %} 
+			<div class="col-sm-10 col-sm-offset-1">
+				<div class="tabCon offerWow center-block">
+					<iframe src='#' style='width:100%;min-height:600px;' scrolling='no' frameborder='no' border='0' allowTransparency='true'></iframe>
+					<input type="hidden" value="{{  offerwow_com.websiteid }}" id="websiteid">
+					<input type="hidden" value="{{  app.session.get('uid') }}" id="memberid">
+					<div class="maintenance">
+						<img class="img-responsive center-block" src="{{ asset('assets/img/frontend/questionnaire/normalface.png') }}" alt=""><br>
+						<div class="con">系统正在维护中...<br>非常抱歉给您带来了不便。</div>
 					</div>
 				</div>
 			</div>
@@ -38,10 +31,4 @@
 
 {% block footer %}
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %} 
-{% endblock %}
-
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.cookie.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/slider.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/experience/experience.js')}}"></script>
 {% endblock %}

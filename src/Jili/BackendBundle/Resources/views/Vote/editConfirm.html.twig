@@ -1,93 +1,68 @@
-{% extends '::adminBase.html.twig' %}
+{% extends 'WenwenFrontendBundle:admin:base.html.twig' %} 
 
-{% block title %}
-{{ parent() }} - vote 管理- create/edit
-{% endblock %}
+{% block title %} {{ parent() }} - vote 管理- create/edit {% endblock %} 
 
-{% block stylesheets %}
-{{parent() }}
-{% endblock %}
+{% block body%} {% form_theme form 'form_table_layout.html.twig' %}
+<form action="{{ path('_admin_vote_edit_commit') }}" method="post" id="form1">
+    <!-- hidden fields -->
+    <div style="display: none">
+        {{form_widget(form.id)}} {{ form_widget(form.startTime) }} {{ form_widget(form.endTime) }} {{ form_widget(form.pointValue) }} {{ form_widget(form.title) }} {{ form_widget(form.description) }} {{ form_widget(form.voteImage) }}
+    </div>
+    <table class="inputForm confirm">
+        <tr>
+            <th>{{form_label(form.startTime)}}</th>
+            <td>{{form.startTime.vars.value}}</td>
+        </tr>
+        <tr>
+            <th>{{form_label(form.endTime)}}</th>
+            <td>{{form.endTime.vars.value}}</td>
+        </tr>
+        <tr>
+            <th>{{form_label(form.pointValue)}}</th>
+            <td>{{form.pointValue.vars.value}}</td>
+        </tr>
+        <tr>
+            <th>{{form_label(form.title)}}</th>
+            <td>{{form.title.vars.value}}</td>
+        </tr>
+        <tr>
+            <th>{{form_label(form.description)}}</th>
+            <td>{% autoescape false %}{{form.description.vars.value }}{% endautoescape %}</td>
+        </tr>
+        <tr>
+            <th>{{form_label(form.voteImage)}}</th>
+            <td>{% if tmp_image is defined %}
+                <img src="{{ asset(upload_tmp_image_dir ~ tmp_image) }}" />
+                <input type="hidden" name="tmp_image" id="tmp_image" value="{{ tmp_image }}"> {%endif%}
+            </td>
+        </tr>
+        {% for key, voteChoice in voteChoices %}
+        <tr>
+            <th>Choice_{{key}}</th>
+            <td>{% autoescape false %}{{voteChoice|nl2br}}{% endautoescape %}</td>
+            <input type="hidden" name="answer_number_{{key}}" id="answer_number_{{key}}" value="{{voteChoice}}" />
+        </tr>
+        {% endfor %} {{ form_widget(form._token) }} {{form_errors(form)}}
+    </table>
+    <div class="btns">
+        <input class="btn btn-primary" type="button" value="返回" id="back">
+        <input class="btn btn-primary" type="submit" value="提交" />
+    </div>
+    <div class="tips">
+        {% if code is defined %}
+        <em class="tips-error">{{ code }}</em>
+        {%endif%}
+    </div>
+</form>
+{% endblock %} 
 
-{% block javascripts %}
-{{ parent() }}
+{% block extra_js %}
 <script type="text/javascript">
-$(document).ready(function(){
-    $("#back").click(function (){
+$(document).ready(function() {
+    $("#back").click(function() {
         $('#form1').attr('action', "{{ path('_admin_vote_edit') }}");
         $("form").submit();
     })
 });
 </script>
-
-{% endblock %}
-
-{% block body%}
-
-{% form_theme form 'form_table_layout.html.twig' %}
-<form action="{{ path('_admin_vote_edit_commit') }}" method="post" id="form1">
-
-<!-- hidden fields -->
-<div style="display: none">
-{{form_widget(form.id)}}
-{{ form_widget(form.startTime) }}
-{{ form_widget(form.endTime) }}
-{{ form_widget(form.pointValue) }}
-{{ form_widget(form.title) }}
-{{ form_widget(form.description) }}
-{{ form_widget(form.voteImage) }}
-</div>
-
-    <table align='center'>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.startTime)}}</td>
-            <td>{{form.startTime.vars.value}}</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.endTime)}}</td>
-            <td>{{form.endTime.vars.value}}</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.pointValue)}}</td>
-            <td>{{form.pointValue.vars.value}}</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.title)}}</td>
-            <td>{{form.title.vars.value}}</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.description)}}</td>
-            <td>{% autoescape false %}{{form.description.vars.value }}{% endautoescape %}</td>
-        </tr>
-        <tr>
-            <td>{{form_label(form.voteImage)}}</td>
-            <td>{% if tmp_image is defined %}
-                    <img src="{{ asset(upload_tmp_image_dir ~ tmp_image) }}" />
-                    <input type="hidden" name="tmp_image" id="tmp_image" value="{{ tmp_image }}">
-                    {%endif%}
-            </td>
-        </tr>
-         {% for key, voteChoice in voteChoices %}
-        <tr>
-            <td>Choice_{{key}}</td>
-            <td>{% autoescape false %}{{voteChoice|nl2br}}{% endautoescape %}</td>
-            <input type="hidden" name="answer_number_{{key}}" id="answer_number_{{key}}" value="{{voteChoice}}" />
-        </tr>
-        {% endfor %}
-        {{ form_widget(form._token) }}
-        {{form_errors(form)}}
-        <tr>
-            <td><input type="button" value="back" id="back"></td>
-            <td><input type="submit" value="commit" /></td>
-            <td>&nbsp;</td>
-        </tr>
-    </table>
-    <div class="tips">
-    {% if code is defined %} <font color='red'>{{ code }}</font>
-    {%endif%}
-    </div>
-</form>
 {% endblock %}

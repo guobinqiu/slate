@@ -30,7 +30,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
         $this->comment = '同意Fulcrum问卷调查';
         $this->setLogger('reward-fulcrum-agreement');
-        $this->point = 1;
+        $this->point = 10;
 
         return parent::execute($input, $output);
     }
@@ -48,6 +48,16 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
     protected function task($history)
     {
         return TaskType::RENTENTION;
+    }
+
+    protected function answerStatus($history){
+        // agreement积分，不存在csq
+        return 'other';
+    }
+
+    protected function approvalStatus($history){
+        // agreement积分，不存在csq
+        return 'other';
     }
 
     protected function comment($history)
@@ -97,5 +107,8 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function getPanelType() {
         return 'Fulcrum Agreement';
+    }
+
+    protected function preHandle(array $history_list) {
     }
 }

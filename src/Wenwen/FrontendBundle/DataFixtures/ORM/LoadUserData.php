@@ -34,5 +34,31 @@ class LoadUserData implements FixtureInterface
         $user2->setInviteId($user1->getId());
         $manager->persist($user2);
         $manager->flush();
+
+        $user3 = new User();
+        $user3->setNick('user3');
+        $user3->setEmail('user3@voyagegroup.com.cn');
+        $user3->setPoints(0);
+        $user3->setIconPath('test/test_icon.jpg');
+        $user3->setRewardMultiple(1);
+        $user3->setPwd('11111q');
+        $user3->setIsEmailConfirmed(0);
+        $user3->setRegisterDate(new \DateTime());
+        $user3->setInviteId($user1->getId());
+        $manager->persist($user3);
+        $manager->flush();
+
+        $user4 = new User();
+        $user4->setNick('user4');
+        $user4->setEmail(null);
+        $user4->setPoints(0);
+        $user4->setIconPath('test/test_icon.jpg');
+        $user4->setRewardMultiple(1);
+        $user4->setPwd('11111q');
+        $user4->setIsEmailConfirmed(0);
+        $user4->setRegisterDate(new \DateTime());
+        $user4->setInviteId($user1->getId());
+        $manager->persist($user4);
+        $manager->flush();
     }
 }

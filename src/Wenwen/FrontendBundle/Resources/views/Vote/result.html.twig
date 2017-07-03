@@ -1,13 +1,9 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Vote:base.html.twig' %}
 {% block title %}{{ parent() }}投票结果{% endblock %}
 {% block meta %}
 <meta name="keywords" content="快速问答，投票结果" />
 <meta name="description" content="快速问答结果页面展示了参与用户的观点，还可分享到微博给更多的朋友看到您的观点。" />
 <meta name="title" content="91问问调查网 - 投票结果" />
-{% endblock %}
-{% block stylesheet %}
-<link href="{{ asset('css/voteDetail.css') }} " rel="stylesheet" type="text/css">
-<link href="{{ asset('css/component/crumbs.css') }} " rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block header %}
@@ -20,12 +16,12 @@
         <div class="col-sm-9 col-xs-12">
             <div class="vote vote-sub voteDet panel panel-default">
                 <div class="panel-body">
-                    <div class="relate row">
+                    <div class="row relate">
                         <div class="hidden-xs col-sm-3 top5">
                             {% if vote_image_path %}
-                            <img class="center img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
+                            <img class="center-block img-responsive" src="{{ asset(vote_image_path)}}" alt="{{vote.title}}" width="90">
                             {% else %}
-                            <img class="center img-responsive" src="{{ asset('img/vote/no_image.jpg') }}" height="90" width="90">
+                            <img class="center-block img-responsive" src="{{ asset('assets/img/frontend/vote/no_image.jpg') }}" height="90" width="90">
                             {% endif %}
                         </div>
                         <div class="relateText col-xs-12 col-sm-9">
@@ -36,28 +32,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="options">
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <dl class="col-xs-12 col-sm-12 col-md-9">
-                                    {% for choice in choices %}
-                                        <div class="row top10">
-                                            <dt class="col-xs-10 col-sm-12 col-md-6" title="{{choice.name}}">{{choice.name}}</dt>
-                                            <dd class="option1 col-xs-12 col-sm-12 col-md-6">
-                                                <span class="result">{{choice.answer_count}}票</span>
-                                                <span class="progress"><p></p><input type="hidden" value="{{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%"></span>
-                                            </dd>
-                                        </div>
-                                    {% endfor %}
-                                <wb:share-button class="weiboshare" appkey="{{appkey}}" addition="simple" type="button" ralateUid="1752291082" default_text="{{vote.title}}"></wb:share-button>
-                            </dl>
+                    <div class="row options">
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-md-offset-3">
+                            {% for choice in choices %}
+                                <dl class="row top10">
+                                    <dt class="col-xs-10 col-sm-12 col-md-6" title="{{choice.name}}">{{choice.name}}</dt>
+                                    <dd class="option1 col-xs-12 col-sm-12 col-md-6">
+                                        <span class="result">{{choice.answer_count}}票</span>
+                                        <span class="progress"><p></p><input type="hidden" value="{{ choice.answer_count >0 ? (choice.answer_count/answer_count)*100 : 0}}%"></span>
+                                    </dd>
+                                </dl>
+                            {% endfor %}
+                            <wb:share-button class="weiboshare" appkey="{{appkey}}" addition="simple" type="button" ralateUid="1752291082" default_text="{{vote.title}}"></wb:share-button>
                         </div>
                     </div>
-                    <div class="row">
-                        <ul class="pager">
-                            <li class="next"><a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a></li>
-                        </ul>
-                    </div>
+                    <ul class="pager">
+                        <li class="next"><a href="{{ path('jili_frontend_vote_index') }}">返回快速问答一览>></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -70,8 +61,6 @@
 {% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
 {% endblock %}
 
-{% block javascript %}
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/vote/voteDetail.js')}}"></script>
+{% block extra_js %}
 <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
 {% endblock %}

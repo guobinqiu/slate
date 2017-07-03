@@ -1,12 +1,9 @@
-{% block stylesheets %}
-<link href="{{ asset('css/admin.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/pageNav.css')}}" rel="stylesheet" type="text/css" />
-{% endblock %}
-{% block javascripts %}
-<script src="{{ asset('js/lib/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
-{% endblock %}
+{% extends 'WenwenFrontendBundle:admin:base.html.twig' %} 
 
-<h2 align="center">进行中的快速问答</h2>
+{% block title %} {{ parent() }} - vote 管理- vote list {% endblock %} 
+
+{% block body%}
+<h2 class="text-center">进行中的快速问答</h2>
 <table class="list">
     <tr>
         <th>时间</th>
@@ -19,24 +16,21 @@
     {% set router_current = app.request.attributes.get('_route') %}
     {% for item in vote_list %}
     <tr>
-      <td align="left" >{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
-      <td align="left">{{ item.id}}</td>
+      <td>{{ item.startTime | date("Y/m/d")}} - {{item.endTime | date("m/d")  }}</td>
+      <td>{{ item.id}}</td>
       <td align="left">{{ item.title }}({{ item.answerCount }})</td>
-      <td align="left"> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
-      <td align="center"><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
+      <td> {% if (item.sqPath) %} <img src="{{ asset(item.sqPath)}}" alt="{{item.sqPath}}"/>{% else %}No image{% endif %}</td>
+      <td><a href="{{ path('_admin_vote_edit',{'id':item.id}) }}">编辑</a>
       <a href="{{ path('_admin_vote_delete',{'id':item.id,'ret_action':router_current,'page':page,'csrf_token':csrf_token})}}" onclick="if (confirm('确定要删除吗？')) return true; else return false;">删除</a></td>
    </tr>
     {% endfor %}
     {% endif %}
-    <tr>
-      <td colspan="5" align="right">
-      {% if paging %}
-        <div style="display: inline-block; width: 100%;">
-          {% include '::pagination.html.twig' %}
-        </div>
-      {% else %}
-      <a href="{{ path('_admin_vote_activelist', {'paging': true}) }}">more</a>
-      {% endif %}
-      </td>
-    </tr>
 </table>
+<div class="autoCenter text-right">
+  {% if paging %}
+    {% include '::pagination.html.twig' %}
+  {% else %}
+    <a href="{{ path('_admin_vote_activelist', {'paging': true}) }}">更多</a>
+  {% endif %}
+</div>
+{% endblock %}

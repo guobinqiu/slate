@@ -7,7 +7,15 @@
 {% endblock %}
 
 {% block stylesheet %}
-<link href="{{ asset('css/home.css') }} " rel="stylesheet" type="text/css">
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/home.css"
+    	"assets/scss/frontend/component/survey.scss"
+    	"assets/scss/frontend/component/timeline.scss"
+    	"assets/scss/frontend/pages/vote/vote.scss"
+        "assets/scss/frontend/pages/home.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block header %}
@@ -16,8 +24,6 @@
 {% endblock %}
 
 {% block body %}
-
-
 
 {# 新手引导开始 #}
 <div id="mask" class="hidden-xs hidden-sm"></div>
@@ -44,15 +50,13 @@
 </div>
 {# 新手引导结束 #}
 
-<div class="container clearfix">
+<div class="container">
 	<div class="row">
-		<div class="main-con-left col-xs-12 col-sm-9">
-			{{ render(controller('WenwenFrontendBundle:Survey:top' ) ) }}
-			<div class="vote panel panel-default">
-				<div class="panel-body">{{ render(controller('JiliFrontendBundle:Vote:top' ) ) }}</div>
-			</div>
+		<div class="col-xs-12 col-sm-9 main-con-left">
+			{% include 'WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig' with { 'html_survey_list': html_survey_list } %}
+			{{ render(controller('JiliFrontendBundle:Vote:top')) }}
 		</div>
-		<div class="main-con-right col-xs-6 col-sm-3 hidden-xs">
+		<div class="hidden-xs col-sm-3 main-con-right">
 			{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 		</div>
 	</div>
@@ -65,8 +69,24 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/plugin/jquery.cookie.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/textScroll.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/component/countdown.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/pages/home.js')}}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/home.js"
+        "assets/js/frontend/component/countdown.js"
+        "assets/js/frontend/component/textScroll.js"
+        "assets/js/frontend/pages/home.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+		$(document).ready(function(){
+			setInterval(requestSurveyList, 14 * 60 * 1000); //soptoken15分钟过期，我14分钟刷新一次
+
+			function requestSurveyList() {
+				$.get("{{ path('_surveylist') }}", function(data){
+					//console.log(data);
+					$('#surveylist').html(data);
+				});
+			}
+		});
+	</script>
 {% endblock %}

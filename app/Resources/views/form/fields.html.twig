@@ -6,7 +6,7 @@
 {% else %}
 {% spaceless %}
     {{ form_widget(form) }}
-    <div>
+    {#<div>#}
         <img id="{{ image_id }}" src="{{ captcha_code }}" alt="" title="captcha" width="{{ captcha_width }}" height="{{ captcha_height }}" class="verificationImg"/>
         {% if reload %}
         <script type="text/javascript">
@@ -17,33 +17,33 @@
         </script>
         <a class="captcha_reload" href="javascript:reload_{{ image_id }}();">{{ 'Renew'|trans({}, 'gregwar_captcha') }}</a>
         {% endif %}
-    </div>
+    {#</div>#}
 {% endspaceless %}
 {% endif %}
 {% endblock %}
 
-{% block form_errors %}
-    {% spaceless %}
-        {% if errors|length > 0 %}
-            {% if compound %}
-                <div class="alert alert-danger fade in">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <ul>
-                        {% for error in errors %}
-                            <li>{{ error.message }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% else %}
-                <div class="text-danger">{{ errors[0].message }}</div>
-            {% endif %}
-        {% endif %}
-    {% endspaceless %}
-{% endblock %}
+{#{% block form_errors %}#}
+    {#{% spaceless %}#}
+        {#{% if errors|length > 0 %}#}
+            {#{% if compound %}#}
+                {#<div class="alert alert-danger fade in">#}
+                    {#<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>#}
+                    {#<ul>#}
+                        {#{% for error in errors %}#}
+                            {#<li>{{ error.message }}</li>#}
+                        {#{% endfor %}#}
+                    {#</ul>#}
+                {#</div>#}
+            {#{% else %}#}
+                {#<div class="text-danger">{{ errors[0].message }}</div>#}
+            {#{% endif %}#}
+        {#{% endif %}#}
+    {#{% endspaceless %}#}
+{#{% endblock %}#}
 
-{% block form_label %}
-    {{ parent() }}
-    {% if required %}
-        <span class="required text-danger" title="This field is required">*</span>
-    {% endif %}
-{% endblock %}
+{#{% block form_label %}#}
+    {#{{ parent() }}#}
+    {#{% if required %}#}
+        {#<span class="required text-danger" title="This field is required">*</span>#}
+    {#{% endif %}#}
+{#{% endblock %}#}

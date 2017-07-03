@@ -8,13 +8,19 @@ use Jili\ApiBundle\Utility\PasswordEncoder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**
  * User
  *
  * @ORM\Table(name="user",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
- *     indexes={@ORM\Index(name="user_invite_id", columns={"invite_id"})}
+ *     indexes={
+ *         @ORM\Index(name="confirmation_token_idx", columns={"confirmation_token"}),
+ *         @ORM\Index(name="reset_password_token_idx", columns={"reset_password_token"}),
+ *         @ORM\Index(name="remember_me_token_idx", columns={"remember_me_token"}),
+ *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
+ *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="邮箱地址已存在")
@@ -29,8 +35,10 @@ class User
     const DEFAULT_REWARD_MULTIPE = 1;
 
     const POINT_EMPTY = 0;
-    const POINT_SIGNUP = 300;
+    const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
+
+    const REMEMBER_ME_TOKEN = 'ww_passport';
 
     /**
      * @var integer
@@ -109,7 +117,7 @@ class User
     private $rewardMultiple;
 
     /**
-     * @var datetime $registerDate
+     * @var \Datetime $registerDate
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
@@ -121,14 +129,14 @@ class User
     private $updatedAt;
 
     /**
-     * @var datetime $registerCompleteDate
+     * @var \Datetime $registerCompleteDate
      *
      * @ORM\Column(name="register_complete_date", type="datetime", nullable=true)
      */
     private $registerCompleteDate;
 
     /**
-     *@var datetime $lastLoginDate
+     * @var \Datetime $lastLoginDate
      *
      * @ORM\Column(name="last_login_date", type="datetime", nullable=true)
      */
@@ -156,7 +164,7 @@ class User
     private $deleteFlag;
 
     /**
-     * @var datetime $deleteDate
+     * @var \Datetime $deleteDate
      *
      * @ORM\Column(name="delete_date", type="datetime", nullable=true)
      */
@@ -196,19 +204,19 @@ class User
     private $passwordChoice;
 
     /**
-     * @var datetime $lastGetPointsAt
+     * @var \Datetime $lastGetPointsAt
      *
      * @ORM\Column(name="last_get_points_at", type="datetime", nullable=true, options={"comment": "最后一次获得(+)积分的时间"})
      */
     private $lastGetPointsAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"persist"})
      */
     private $userProfile;
 
     /**
-     * @ORM\OneToOne(targetEntity="UserTrack", mappedBy="user", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="UserTrack", mappedBy="user", cascade={"persist"})
      */
     private $userTrack;
 
@@ -244,7 +252,6 @@ class User
      *
      * @ORM\Column(name="reset_password_token", type="string", nullable=true)
      */
-
     private $resetPasswordToken;
 
     /**
@@ -253,11 +260,63 @@ class User
     private $resetPasswordTokenExpiredAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="remember_me_token", type="string", nullable=true)
+     */
+    private $rememberMeToken;
+
+    /**
+     * @ORM\Column(name="remember_me_token_expired_at", type="datetime", nullable=true)
+     */
+    private $rememberMeTokenExpiredAt;
+
+    /**
      * 邀请人的用户id
      *
      * @ORM\Column(name="invite_id", type="integer", nullable=true)
      */
     private $inviteId;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户大概获得了多少cost类型的积分
+     *
+     * @ORM\Column(name="points_cost", type="integer", options={"default": 0})
+     */
+    private $pointsCost;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户大概获得了多少expense类型的积分
+     *
+     * @ORM\Column(name="points_expense", type="integer", options={"default": 0})
+     */
+    private $pointsExpense;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的complete
+     *
+     * @ORM\Column(name="complete_n", type="integer", options={"default": 0})
+     */
+    private $completeN;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的screenout
+     *
+     * @ORM\Column(name="screenout_n", type="integer", options={"default": 0})
+     */
+    private $screenoutN;
+
+    /**
+     * @var integer
+     * 参考用的，这个用户有过多少个商业调查的quotafull
+     *
+     * @ORM\Column(name="quotafull_n", type="integer", options={"default": 0})
+     */
+    private $quotafullN;
 
     public function __construct()
     {
@@ -267,6 +326,11 @@ class User
         $this->rewardMultiple = self::DEFAULT_REWARD_MULTIPE;
         $this->prizeTickets = new ArrayCollection();
         $this->userSignInDetails = new ArrayCollection();
+        $this->pointsCost = self::POINT_EMPTY;
+        $this->pointsExpense = self::POINT_EMPTY;
+        $this->completeN = 0;
+        $this->screenoutN = 0;
+        $this->quotafullN = 0;
     }
 
     /**
@@ -877,6 +941,52 @@ class User
         return $this->resetPasswordTokenExpiredAt;
     }
 
+    /**
+     * Set rememberMeToken
+     *
+     * @param string $rememberMeToken
+     * @return User
+     */
+    public function setRememberMeToken($rememberMeToken)
+    {
+        $this->rememberMeToken = $rememberMeToken;
+
+        return $this;
+    }
+
+    /**
+     * Get rememberMeToken
+     *
+     * @return string
+     */
+    public function getRememberMeToken()
+    {
+        return $this->rememberMeToken;
+    }
+
+    /**
+     * Set rememberMeTokenExpiredAt
+     *
+     * @param \DateTime $rememberMeTokenExpiredAt
+     * @return User
+     */
+    public function setRememberMeTokenExpiredAt($rememberMeTokenExpiredAt)
+    {
+        $this->rememberMeTokenExpiredAt = $rememberMeTokenExpiredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get $rememberMeTokenExpiredAt
+     *
+     * @return \DateTime
+     */
+    public function getRememberMeTokenExpiredAt()
+    {
+        return $this->rememberMeTokenExpiredAt;
+    }
+
     public function setInviteId($inviteId)
     {
         $this->inviteId = $inviteId;
@@ -968,5 +1078,182 @@ class User
     public function isResetPasswordTokenExpired()
     {
         return new \DateTime() > $this->resetPasswordTokenExpiredAt;
+    }
+
+    /**
+     * 记住我token是否已过期
+     */
+    public function isRememberMeTokenExpired()
+    {
+        return new \DateTime() > $this->rememberMeTokenExpiredAt;
+    }
+
+    /**
+     * Set pointsCost
+     *
+     * @param integer $pointsCost
+     * @return User
+     */
+    public function setPointsCost($pointsCost)
+    {
+        $this->pointsCost = $pointsCost;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsCost
+     *
+     * @return integer
+     */
+    public function getPointsCost()
+    {
+        return $this->pointsCost;
+    }
+
+    /**
+     * Set pointsExpense
+     *
+     * @param integer $pointsExpense
+     * @return User
+     */
+    public function setPointsExpense($pointsExpense)
+    {
+        $this->pointsExpense = $pointsExpense;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsExpense
+     *
+     * @return integer
+     */
+    public function getPointsExpense()
+    {
+        return $this->pointsExpense;
+    }
+
+    /**
+     * Set completeN
+     *
+     * @param integer $completeN
+     * @return User
+     */
+    public function setCompleteN($completeN)
+    {
+        $this->completeN = $completeN;
+
+        return $this;
+    }
+
+    /**
+     * add completeN
+     *
+     * @param integer $completeN
+     * @return User
+     */
+    public function addCompleteN()
+    {
+        $this->completeN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get completeN
+     *
+     * @return integer
+     */
+    public function getCompleteN()
+    {
+        return $this->completeN;
+    }
+
+    /**
+     * Set screenoutN
+     *
+     * @param integer $screenoutN
+     * @return User
+     */
+    public function setScreenoutN($screenoutN)
+    {
+        $this->screenoutN = $screenoutN;
+
+        return $this;
+    }
+
+    /**
+     * add screenoutN
+     *
+     * @param integer $screenoutN
+     * @return User
+     */
+    public function addScreenoutN()
+    {
+        $this->screenoutN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get screenoutN
+     *
+     * @return integer
+     */
+    public function getScreenoutN()
+    {
+        return $this->screenoutN;
+    }
+
+    /**
+     * Set quotafullN
+     *
+     * @param integer $quotafullN
+     * @return User
+     */
+    public function setQuotafullN($quotafullN)
+    {
+        $this->quotafullN = $quotafullN;
+
+        return $this;
+    }
+
+    /**
+     * add quotafullN
+     *
+     * @param integer $quotafullN
+     * @return User
+     */
+    public function addQuotafullN()
+    {
+        $this->quotafullN += 1;
+
+        return $this;
+    }
+
+    /**
+     * Get quotafullN
+     *
+     * @return integer
+     */
+    public function getQuotafullN()
+    {
+        return $this->quotafullN;
+    }
+
+    public function updateCSQ($answerStatus){
+        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
+            $this->addCompleteN();
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $answerStatus) {
+            $this->addScreenoutN();
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $answerStatus) {
+            $this->addQuotafullN();
+        }
+        return $this;
+    }
+
+    public function locked() {
+        return $this->getDeleteFlag() > 0;
     }
 }

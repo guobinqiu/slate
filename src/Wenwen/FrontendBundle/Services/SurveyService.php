@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use JMS\JobQueueBundle\Entity\Job;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
@@ -10,6 +11,7 @@ use SOPx\Auth\V1_1\Util;
 use Symfony\Component\Templating\EngineInterface;
 use VendorIntegration\SSI\PC1\ProjectSurvey;
 use VendorIntegration\SSI\PC1\Model\Query\SsiProjectRespondentQuery;
+use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\ServiceDependency\HttpClient;
 
 /**
@@ -25,6 +27,8 @@ class SurveyService
     private $redis;
     private $surveyParnterService;
     private $surveySopService;
+    private $surveyFulcrumService;
+    private $surveyCintService;
     private $surveyGmoService;
 
     // 这个service会访问外部的服务器
@@ -40,6 +44,8 @@ class SurveyService
                                 Client $redis,
                                 SurveyPartnerService $surveyParnterService,
                                 SurveySopService $surveySopService,
+                                SurveyFulcrumService $surveyFulcrumService,
+                                SurveyCintService $surveyCintService,
                                 SurveyGmoService $surveyGmoService
     ) {
         $this->logger = $logger;
@@ -50,6 +56,8 @@ class SurveyService
         $this->redis = $redis;
         $this->surveyParnterService = $surveyParnterService;
         $this->surveySopService = $surveySopService;
+        $this->surveyFulcrumService = $surveyFulcrumService;
+        $this->surveyCintService = $surveyCintService;
         $this->surveyGmoService = $surveyGmoService;
     }
 
@@ -123,10 +131,10 @@ class SurveyService
      */
     public function getDummySurveyListJson() {
         //构造一个仿真数据
-        $dummy_res = '{ 
+        $dummy_res = '{
             "meta" : {
                 "code": 200,
-                "message": "" 
+                "message": ""
             },
              "data": {
                  "profiling": [
@@ -171,7 +179,7 @@ class SurveyService
                     "is_fixed_loi": "1",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -192,7 +200,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "1",
                     "date": "2015-01-02",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "2",
                              "quotafull": "1",
@@ -213,7 +221,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -234,7 +242,7 @@ class SurveyService
                     "is_fixed_loi": "0",
                     "is_notifiable": "0",
                     "date": "2015-01-03",
-                    "extra_info": { 
+                    "extra_info": {
                         "point": {
                              "screenout": "30",
                              "quotafull": "30",
@@ -255,7 +263,7 @@ class SurveyService
                  ],
                  "fulcrum_research":[
                    {
-                     "survey_id": "4",
+                     "survey_id": "3",
                      "quota_id": "10",
                      "cpi": "0.00",
                      "ir": "80",
@@ -357,7 +365,7 @@ class SurveyService
         // 生成sop_api_url
         $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
 
-        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 3, 'connect_timeout' => 3));
+        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 2, 'connect_timeout' => 2));
         $response = $request->send();
         if ($response->getStatusCode() != 200) {
             $this->logger->error('url=' . $sop_api_url . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
@@ -483,6 +491,7 @@ class SurveyService
                 $partnerResearch['url'] = $surveyPartner->getUrl();
                 $partnerResearch['complete_point'] = $surveyPartner->getCompletePoint();
                 $partnerResearch['is_answered'] = 0;
+                $partnerResearch['type'] = $surveyPartner->getType();
                 $partnerResearchs[] = $partnerResearch;
             }
         } catch (\Exception $e){
@@ -502,32 +511,86 @@ class SurveyService
      * @return array
      */
     public function getOrderedHtmlSurveyList($user_id, $locationInfo, $limit = 0) {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+        if ($user == null) {
+            $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+            return [];
+        }
+
+        $cityName = 'XXXX';
+        $provinceName = 'XXXX';
+        $clientIp = 'XXX.XXX.XXX.XXX';
+
+        try {
+            $cityName = $locationInfo['city'];
+            $provinceName = $locationInfo['province'];
+            $clientIp = $locationInfo['clientIp'];
+        }  catch(\Exception $e) {
+        }
+
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
         $sop = null;
         try {
             $result = $this->getSopSurveyListJson($user_id);
+            $this->logger->debug(__METHOD__ . 'sop survey list=' . $result);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
-                $this->logger->error('sopJson=' . $result);
                 $sop = null;
             }
+
         }  catch(\Exception $e) {
-            $this->logger->error($e);
+            $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
 
         $answerableSurveyCount = 0;
 
         if ($sop != null) {
-            //SOP Profiling
-            foreach ($sop['data']['profiling'] as $profiling) {
-                //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
-                // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
-                array_unshift($html_survey_list, $html);
+
+            // Record survey and participation infos
+            // Any failed at record infos will be skip to avoid fatal error to user.
+            foreach ($sop['data']['research'] as $survey) {
+                try {
+                    $this->surveySopService->createOrUpdateSurvey($survey);
+                    $this->surveySopService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record SOP Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            foreach ($sop['data']['fulcrum_research'] as $survey) {
+                try {
+                    $this->surveyFulcrumService->createOrUpdateSurvey($survey);
+                    $this->surveyFulcrumService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record Fulcrum Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            foreach ($sop['data']['cint_research'] as $survey) {
+                try {
+                    $this->surveyCintService->createOrUpdateSurvey($survey);
+                    $this->surveyCintService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                }  catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . 'Record Cint Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                }
+            }
+
+            // Start to render html for user
+
+            if ($user->getRegisterCompleteDate() != null &&
+                time() - $user->getRegisterCompleteDate()->getTimestamp() > 3 * 24 * 60 * 60
+            ) {
+                //SOP Profiling
+                foreach ($sop['data']['profiling'] as $profiling) {
+                    //$profiling['url'] = $this->toProxyAddress($profiling['url']);
+                    $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
+                    // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
+                    array_unshift($html_survey_list, $html);
+                }
             }
 
             foreach ($sop['data']['user_agreement'] as $user_agreement) {
@@ -559,40 +622,39 @@ class SurveyService
                 array_unshift($html_survey_list, $html);
             }
         } catch(\Exception $e) {
-            $this->logger->error($e);
+            $this->logger->error('ssi_survey_list_failed  user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //Survey partner survey
         try {
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            if(is_null($user)){
-                $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
-            } else {
-                $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
-                if (count($partnerResearchs) > 0) {
-                    $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                    foreach ($partnerResearchs as $partnerResearch) {
-                        // 该用户有可回答的商业问卷
-                        $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
-                            array('partnerResearch' => $partnerResearch));
-                        if ($partnerResearch['is_answered'] == 0) {
-                            array_unshift($html_survey_list, $html);
-                        } else {
-                            array_push($html_survey_list, $html);
-                        }
+            $partnerResearchs = $this->getSurveyResearchArray($user, $locationInfo);
+            if (count($partnerResearchs) > 0) {
+                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+                foreach ($partnerResearchs as $partnerResearch) {
+                    // 该用户有可回答的商业问卷
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/partner_research_item_template.html.twig',
+                        array('partnerResearch' => $partnerResearch));
+                    if ($partnerResearch['is_answered'] == 0) {
+                        array_unshift($html_survey_list, $html);
+                    } else {
+                        array_push($html_survey_list, $html);
                     }
                 }
-                $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
-                $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
             }
+            $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
+            $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
         } catch(\Exception $e) {
-            $this->logger->error($e);
+            $this->logger->error('surveypartner_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //GMO research survey
         try {
             $researches = $this->surveyGmoService->getSurveyList($user_id);
             foreach ($researches as $research) {
+                //同步更新gmo本地备案信息
+                $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
+                $this->surveyGmoService->createParticipationByUserId($user_id, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+
                 $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
                 if ($research['point_min'] < $research['point']) {
                     $research['point_range'] = $research['point_min'] . '-' . $research['point'];
@@ -609,7 +671,7 @@ class SurveyService
                 }
             }
         } catch(\Exception $e) {
-            $this->logger->error($e);
+            $this->logger->error('gmo_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         if ($sop != null) {
@@ -747,7 +809,7 @@ class SurveyService
         $patten = "/(sign(.?)up|register|registeration)/i";
         return preg_match($patten, $url);
     }
-    
+
     /**
      * 替换属性问卷中的SOP地址为PROXY地址
      *

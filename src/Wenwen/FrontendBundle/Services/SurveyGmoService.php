@@ -48,7 +48,7 @@ class SurveyGmoService
         $crypt = $this->encrypt_blowfish($encryptId, $encryptKey);
         $data = array('panelType' => $panelCode, 'crypt' => $crypt);
         $url = $this->parameterService->getParameter('gmo_surveylistUrl') . '?' . http_build_query($data);
-        $request = $this->httpClient->get($url, null, array('timeout' => 10, 'connect_timeout' => 10));
+        $request = $this->httpClient->get($url, null, array('timeout' => 2, 'connect_timeout' => 2));
         $response = $request->send();
         return $response->getBody();
 
@@ -152,6 +152,9 @@ class SurveyGmoService
             $conn->beginTransaction();
             try {
                 $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                // 记录csq
+                    $user->updateCSQ($answerStatus);
+
                 $this->pointService->addPoints(
                     $user,
                     $points,

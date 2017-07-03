@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Wenwen\FrontendBundle\Entity\UserEdmUnsubscribe;
 
 /**
- * @Route("/edm/unsubscribe")
+ * @Route("/admin/edm/unsubscribe")
  */
 class EdmUnsubscribeController extends Controller #implements  IpAuthenticatedController
 {

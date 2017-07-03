@@ -44,6 +44,241 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->em->close();
     }
 
+    public function testIsValidSurveyPartnerForUser_registerAtEqualFrom(){
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(24);
+        $surveyPartner->setRegisteredAtTo(72);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setProvince('江西，贵州');
+        $surveyPartner->setCity('上海，合肥');
+        $surveyPartner->setCreatedAt(new \DateTime());
+
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate((new \DateTime())->add(new \DateInterval('P01D')));
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+
+        $this->assertEquals('success', $rtn['result'] );
+    }
+
+    public function testIsValidSurveyPartnerForUser_registerAtUnderFrom(){
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(24);
+        $surveyPartner->setRegisteredAtTo(72);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setProvince('江西，贵州');
+        $surveyPartner->setCity('上海，合肥');
+        $surveyPartner->setCreatedAt(new \DateTime());
+
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+
+        $this->assertEquals('Only allow registered over '.$surveyPartner->getRegisteredAtFrom() . ' hours', $rtn['result'] );
+    }
+
+    public function testIsValidSurveyPartnerForUser_registerAtEqualTo(){
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(24);
+        $surveyPartner->setRegisteredAtTo(72);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setProvince('江西，贵州');
+        $surveyPartner->setCity('上海，合肥');
+        $surveyPartner->setCreatedAt(new \DateTime());
+
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate((new \DateTime())->add(new \DateInterval('P03D')));
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+
+        $this->assertEquals('success', $rtn['result'] );
+    }
+
+    public function testIsValidSurveyPartnerForUser_registerAtOverTo(){
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(24);
+        $surveyPartner->setRegisteredAtTo(72);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setProvince('江西，贵州');
+        $surveyPartner->setCity('上海，合肥');
+        $surveyPartner->setCreatedAt(new \DateTime());
+
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate((new \DateTime())->add(new \DateInterval('P04D'))); // 4天96小时前注册的
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+
+        $this->assertEquals('Only allow registered under '.$surveyPartner->getRegisteredAtTo() . ' hours', $rtn['result'] );
+    }
+
+    public function testIsValidSurveyPartnerForUser_registerAfterOneDay(){
+
+        $surveyPartner = new SurveyPartner();
+        $surveyPartner->setType(SurveyPartner::TYPE_COST);
+        $surveyPartner->setPartnerName('triples');
+        $surveyPartner->setSurveyId('1001');
+        $surveyPartner->setUrl('http://www.d8aspring.com/?uid=__UID__');
+        $surveyPartner->setTitle('测试用问卷标题1');
+        $surveyPartner->setReentry(false);
+        $surveyPartner->setLoi(10);
+        $surveyPartner->setIr(50);
+        $surveyPartner->setCompletePoint(298);
+        $surveyPartner->setScreenoutPoint(10);
+        $surveyPartner->setQuotafullPoint(2);
+        $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
+        $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(24);
+        $surveyPartner->setRegisteredAtTo(2400000);
+        $surveyPartner->setMinAge(10);
+        $surveyPartner->setMaxAge(100);
+        $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
+        $surveyPartner->setProvince('江西，贵州');
+        $surveyPartner->setCity('上海，合肥');
+        $surveyPartner->setCreatedAt(new \DateTime());
+
+
+        $userProfile = new UserProfile();
+        $userProfile->setBirthday('1980-01-01'); // 36 岁
+        $userProfile->setSex(1); // 男性
+
+        $user = new User();
+        $user->setEmail('test@test.com');
+        $user->setRegisterCompleteDate((new \DateTime())->add(new \DateInterval('P01D')));
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setUserProfile($userProfile);
+
+        $locationInfo = array();
+        $locationInfo['status'] = true;
+        $locationInfo['province'] = '广东省';
+        $locationInfo['city'] = '合肥市';
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
+
+        $this->assertEquals('success', $rtn['result'] );
+    }
+
     public function testIsValidSurveyPartnerForUser_genderBoth(){
 
         $surveyPartner = new SurveyPartner();
@@ -60,6 +295,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -70,7 +307,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -105,6 +342,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_FEMALE);
@@ -115,7 +354,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -149,6 +388,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_MALE);
@@ -159,7 +400,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('2010-01-01'); // 6 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -193,6 +434,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_MALE);
@@ -203,7 +446,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1910-01-01'); // 106 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -237,6 +480,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_MALE);
@@ -247,7 +492,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -281,6 +526,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_MALE);
@@ -289,7 +536,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -323,6 +570,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setProvince('江西，贵州');
@@ -333,7 +582,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -361,7 +610,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('ds-Product-china@d8aspring.com');
@@ -385,6 +634,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(90);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -405,6 +656,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_FEMALE);
@@ -425,6 +678,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -445,6 +700,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -475,7 +732,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -499,6 +756,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -519,6 +778,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -547,7 +808,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $now = new \DateTime(); // current time
         $registerCompleteDate = $now->sub(new \DateInterval('P04D')); // 用户注册于4天前
@@ -574,6 +835,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -605,7 +868,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -630,6 +893,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -661,7 +926,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -691,6 +956,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -722,6 +989,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -750,7 +1019,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -779,6 +1048,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -817,7 +1088,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -846,6 +1117,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -890,7 +1163,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -930,6 +1203,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner1->setQuotafullPoint($quotafullPoint1);
         $surveyPartner1->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner1->setNewUserOnly(true);
+        $surveyPartner1->setRegisteredAtFrom(0);
+        $surveyPartner1->setRegisteredAtTo(72);
         $surveyPartner1->setMinAge(10);
         $surveyPartner1->setMaxAge(100);
         $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
@@ -983,6 +1258,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner2->setQuotafullPoint($quotafullPoint2);
         $surveyPartner2->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner2->setNewUserOnly(true);
+        $surveyPartner2->setRegisteredAtFrom(0);
+        $surveyPartner2->setRegisteredAtTo(72);
         $surveyPartner2->setMinAge(10);
         $surveyPartner2->setMaxAge(100);
         $surveyPartner2->setGender(SurveyPartner::GENDER_BOTH);
@@ -1029,6 +1306,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner3->setQuotafullPoint(2);
         $surveyPartner3->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner3->setNewUserOnly(true);
+        $surveyPartner3->setRegisteredAtFrom(0);
+        $surveyPartner3->setRegisteredAtTo(72);
         $surveyPartner3->setMinAge(10);
         $surveyPartner3->setMaxAge(100);
         $surveyPartner3->setGender(SurveyPartner::GENDER_BOTH);
@@ -1075,6 +1354,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner4->setQuotafullPoint(2);
         $surveyPartner4->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner4->setNewUserOnly(true);
+        $surveyPartner4->setRegisteredAtFrom(0);
+        $surveyPartner4->setRegisteredAtTo(72);
         $surveyPartner4->setMinAge(10);
         $surveyPartner4->setMaxAge(100);
         $surveyPartner4->setGender(SurveyPartner::GENDER_BOTH);
@@ -1109,6 +1390,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner5->setQuotafullPoint(2);
         $surveyPartner5->setStatus(SurveyPartner::STATUS_CLOSE);
         $surveyPartner5->setNewUserOnly(true);
+        $surveyPartner5->setRegisteredAtFrom(0);
+        $surveyPartner5->setRegisteredAtTo(72);
         $surveyPartner5->setMinAge(10);
         $surveyPartner5->setMaxAge(100);
         $surveyPartner5->setGender(SurveyPartner::GENDER_BOTH);
@@ -1143,6 +1426,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner6->setQuotafullPoint(2);
         $surveyPartner6->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner6->setNewUserOnly(true);
+        $surveyPartner6->setRegisteredAtFrom(0);
+        $surveyPartner6->setRegisteredAtTo(72);
         $surveyPartner6->setMinAge(10);
         $surveyPartner6->setMaxAge(100);
         $surveyPartner6->setGender(SurveyPartner::GENDER_BOTH);
@@ -1185,7 +1470,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('rpa-sys-china@d8aspring.com');
@@ -1225,6 +1510,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner1->setQuotafullPoint($quotafullPoint1);
         $surveyPartner1->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner1->setNewUserOnly(true);
+        $surveyPartner1->setRegisteredAtFrom(0);
+        $surveyPartner1->setRegisteredAtTo(72);
         $surveyPartner1->setMinAge(10);
         $surveyPartner1->setMaxAge(100);
         $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
@@ -1264,7 +1551,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('rpa-sys-china@d8aspring.com');
@@ -1304,6 +1591,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner1->setQuotafullPoint($quotafullPoint1);
         $surveyPartner1->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner1->setNewUserOnly(true);
+        $surveyPartner1->setRegisteredAtFrom(0);
+        $surveyPartner1->setRegisteredAtTo(72);
         $surveyPartner1->setMinAge(60);
         $surveyPartner1->setMaxAge(100);
         $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
@@ -1332,7 +1621,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1372,6 +1661,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner1->setQuotafullPoint($quotafullPoint1);
         $surveyPartner1->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner1->setNewUserOnly(true);
+        $surveyPartner1->setRegisteredAtFrom(0);
+        $surveyPartner1->setRegisteredAtTo(72);
         $surveyPartner1->setMinAge(60);
         $surveyPartner1->setMaxAge(100);
         $surveyPartner1->setGender(SurveyPartner::GENDER_BOTH);
@@ -1401,7 +1692,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1440,6 +1731,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1471,7 +1764,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1510,6 +1803,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1547,7 +1842,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1578,6 +1873,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1622,7 +1919,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1653,6 +1950,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1681,7 +1980,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1712,6 +2011,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1729,7 +2030,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $rtn = $this->surveyPartnerService->redirectToSurvey($user, $surveyPartner->getId(), $locationInfo);
         $this->assertEquals('failure', $rtn['status'], 'Should be failure because this project is not open.');
     }
-    
+
     public function testRedirectToSurvey_failure_with_forward_history()
     {
         $purger = new ORMPurger();
@@ -1740,7 +2041,7 @@ class SurveyPartnerServiceTest extends WebTestCase
 
         $userProfile = new UserProfile();
         $userProfile->setBirthday('1980-01-01'); // 36 岁
-        $userProfile->setSex(1); // 男性 
+        $userProfile->setSex(1); // 男性
 
         $user = new User();
         $user->setEmail('test@test.com');
@@ -1771,6 +2072,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1825,7 +2128,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyId = '1005';
         $partnerName = 'triples';
         $answerStatus = 'complete';
-        $key = 'XKDGR';
+        $key = 'surveyPartner商业问卷';
         $title = '测试用问卷标题5';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
         $loi = 10;
@@ -1851,6 +2154,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge($minAge);
         $surveyPartner->setMaxAge($maxAge);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -1935,6 +2240,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge($minAge);
         $surveyPartner->setMaxAge($maxAge);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2023,6 +2330,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge($minAge);
         $surveyPartner->setMaxAge($maxAge);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2085,6 +2394,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2136,6 +2447,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge($minAge);
         $surveyPartner->setMaxAge($maxAge);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2171,7 +2484,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $user->setPoints($currentPoint);
         $user->setRewardMultiple(1);
         $user->setInviteId($inviter->getId());
-
+        $user->setIsEmailConfirmed(1);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -2179,7 +2492,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $partnerName = 'triples';
         $answerStatus = SurveyStatus::STATUS_COMPLETE;
         $surveyId ='1003';
-        $key = 'XHDFDF';
+        $key = 'surveyPartner商业问卷';
         $title = '测试用问卷标题2';
         $content = '测试用问卷说明2';
         $url = 'http://www.d8aspring.com/?uid=__UID__';
@@ -2205,6 +2518,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2239,7 +2554,7 @@ class SurveyPartnerServiceTest extends WebTestCase
                         ));
         $this->assertEquals($key, $surveyPartnerParticipationHistory->getUKey(), 'Participation key should be updated.');
         $this->assertEquals($currentPoint + $completePoint, $user->getPoints(), 'Point should be rewarded.');
-        $this->assertEquals($currentPoint + $completePoint * 0.1, $inviter->getPoints(), 'Point should be rewarded.');
+        $this->assertEquals($currentPoint + $completePoint * 0.1 + User::POINT_INVITE_SIGNUP, $inviter->getPoints(), 'Point should be rewarded.');
         $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBy(
                     array(
                         'comment' => $key,
@@ -2296,6 +2611,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2371,6 +2688,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2382,7 +2701,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($completePoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $completePoint);        
+        $this->assertEquals($completePoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $completePoint);
     }
 
     public function testReward_screenout()
@@ -2441,6 +2760,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2452,7 +2773,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($screenoutPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $screenoutPoint);        
+        $this->assertEquals($screenoutPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $screenoutPoint);
     }
 
     public function testReward_quotafull()
@@ -2511,6 +2832,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2522,7 +2845,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
         $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
-        $this->assertEquals($quotafullPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $quotafullPoint);        
+        $this->assertEquals($quotafullPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $quotafullPoint);
     }
 
     public function testReward_other()
@@ -2581,6 +2904,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint($quotafullPoint);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2692,6 +3017,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2739,6 +3066,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2796,6 +3125,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_INIT);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2853,6 +3184,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2919,6 +3252,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -2993,6 +3328,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -3068,6 +3405,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -3145,6 +3484,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);
@@ -3235,6 +3576,8 @@ class SurveyPartnerServiceTest extends WebTestCase
         $surveyPartner->setQuotafullPoint(2);
         $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
         $surveyPartner->setNewUserOnly(true);
+        $surveyPartner->setRegisteredAtFrom(0);
+        $surveyPartner->setRegisteredAtTo(72);
         $surveyPartner->setMinAge(10);
         $surveyPartner->setMaxAge(100);
         $surveyPartner->setGender(SurveyPartner::GENDER_BOTH);

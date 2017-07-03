@@ -40,17 +40,22 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $errorMessages = array();
         $error = 0;
 
+        $this->preHandle($history_list);
+
         //start inserting
         foreach ($history_list as $history) {
+            $this->logger->debug(__METHOD__ . ' json of history:' . json_encode($history));
+            
             $survey_id = null;
             if (isset($history['survey_id'])) {
                 $survey_id = $history['survey_id'];
             }
 
             if ($this->skipReward($history)) {
-                $info = 'Skip reward';
+                $info = 'Skip reward. app_mid: ' . $history['app_mid'];
                 array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
+                $this->logger->debug(__METHOD__ . ' ' . $info);
                 continue;
             }
 
@@ -58,6 +63,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $info = 'Skip reward, already existed: app_mid: ' . $history['app_mid'];
                 array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
+                $this->logger->debug(__METHOD__ . ' ' . $info);
                 continue;
             }
 
@@ -69,6 +75,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $info = 'Skip reward, No SopRespondent for: ' . $history['app_mid'];
                 array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
+                $this->logger->debug(__METHOD__ . ' ' . $info);
                 continue;
             }
 
@@ -81,6 +88,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $info = 'Skip reward, No User. Skip user_id: ' . $respondent->getUserId();
                 array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $success += 1;
+                $this->logger->debug(__METHOD__ . ' ' . $info);
                 continue;
             }
 
@@ -90,6 +98,12 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             try {
                 // insert participation history
                 $participationHistory = $this->createParticipationHistory($history);
+                
+                if(TaskType::SURVEY == $this->task($history)){
+                    // 更新用户参与商业调查的csq计数
+                    $user->updateCSQ($this->answerStatus($history));
+                    $this->logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
+                }
 
                 $pointService = $this->getContainer()->get('app.point_service');
 
@@ -197,7 +211,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         // no data
         if (count($body) <= 2) {
-            return null;
+            return [];
         }
 
         // csv => hash in array;
@@ -263,6 +277,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     abstract protected function createParticipationHistory($history);
 
     abstract protected function getPanelType();
+
+    abstract protected function preHandle(array $history_list);
 
     protected function notice($content, $subject)
     {

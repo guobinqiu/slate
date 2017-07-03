@@ -77,6 +77,10 @@ class SurveyPartnerService
             $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
                 array(
                     'status' => SurveyPartner::STATUS_OPEN,
+                    )
+                ,array('type' => 'DESC',
+                    'ir' => 'ASC',
+                    'loi' => 'DESC'
                     ));
             // 循环检查每个项目，不符合参与条件或者已经参与过的话就继续处理下一个项目
             $this->logger->info(__METHOD__ . ' START of processing surveyPartners userId=' . $user->getId());
@@ -252,19 +256,30 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         $rtn = array();
-        if($surveyPartner->getNewUserOnly()){
-            // 这个项目只允许新用户参加
-            $now = new \DateTime();
-            // 注册三天以上的用户不显示这个类型的问卷
-            if($user->getRegisterCompleteDate() <= $now->sub(new \DateInterval('P03D'))){
-                $rtn['result'] = 'OnlyForNewUser';
-                return $rtn;
-            }
-        }
 
         if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
             $rtn['result'] = 'success';
+            return $rtn;
+        }
+
+        $now = new \DateTime();
+        $diff = $now->diff($user->getRegisterCompleteDate());
+
+        $diffHours = $diff->h;
+        $diffHours = $diffHours + ($diff->days*24);
+
+        $this->logger->debug(__METHOD__ . ' diffHours=' . $diffHours );
+
+        if($diffHours > $surveyPartner->getRegisteredAtTo()){
+            // 注册时间超过允许参与范围的
+            $rtn['result'] = 'Only allow registered under '.$surveyPartner->getRegisteredAtTo() . ' hours';
+            return $rtn;
+        }
+
+        if($diffHours < $surveyPartner->getRegisteredAtFrom()){
+            // 注册时间低于允许参与范围的
+            $rtn['result'] = 'Only allow registered over '.$surveyPartner->getRegisteredAtFrom() . ' hours';
             return $rtn;
         }
 
@@ -667,8 +682,10 @@ class SurveyPartnerService
             return $rtn;
         }
 
-        // 如果返回状态是complete的话，检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，如果低于这个时间，视为非法的结果，处理为screenout
-        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus']){
+        // 如果返回状态是complete，且问卷类型是cost的话，
+        // 检查参与的开始时间(forward状态的记录时间)到现在所经过的时间是否小于预估LOI的1/4，
+        // 如果低于这个时间，视为非法的结果，处理为screenout
+        if(SurveyStatus::STATUS_COMPLETE == $rtn['answerStatus'] && SurveyPartner::TYPE_COST == $surveyPartner->getType()){
             $now = new \DateTime();
 
             $diffSeconds = strtotime($now->format('Y-m-d H:i:s')) - strtotime($forwardParticipationHistory->getCreatedAt()->format('Y-m-d H:i:s'));
@@ -915,6 +932,8 @@ class SurveyPartnerService
         } else {
             // cost 类型的问卷
             if($answerStatus == SurveyStatus::STATUS_COMPLETE){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
 
                 // 给用户加积分
                 $this->pointService->addPoints(
@@ -938,7 +957,7 @@ class SurveyPartnerService
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_BIG,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 
@@ -948,6 +967,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_SCREENOUT){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -956,11 +978,12 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_SMALL,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 
@@ -970,6 +993,9 @@ class SurveyPartnerService
                     $result['ticketCreated'] = true;
                 }
             } elseif($answerStatus == SurveyStatus::STATUS_QUOTAFULL){
+                // 记录csq
+                $user->updateCSQ($answerStatus);
+
                 // 给用户加积分
                 $this->pointService->addPoints(
                         $user,
@@ -978,11 +1004,12 @@ class SurveyPartnerService
                         TaskType::RENTENTION,
                         $this->generateSurveyTitleWithSurveyId($surveyPartner)
                         );
+
                 // 发奖券
                 $prizeTicket = $this->prizeTicketService->createPrizeTicket(
                     $user,
                     PrizeItem::TYPE_SMALL,
-                    $key,
+                    'surveyPartner商业问卷',
                     $surveyPartner->getSurveyId()
                     );
 

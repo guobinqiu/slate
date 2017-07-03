@@ -158,7 +158,7 @@ class SsiPartnerControllerTest extends WebTestCase
         $this->assertEquals(10, $ssi_respondent->getStatusFlag());
 
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
-        $this->assertEquals(SsiPartnerControllerTestFixture::$USER->getPoints() + 1, $user->getPoints());
+        $this->assertEquals(SsiPartnerControllerTestFixture::$USER->getPoints() + 10, $user->getPoints());
     }
 
     /**

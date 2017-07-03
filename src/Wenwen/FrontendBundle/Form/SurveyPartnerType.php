@@ -73,6 +73,35 @@ class SurveyPartnerType extends AbstractType
                 'label' =>'newUserOnly',
                 'required' => false,
                 ))
+            ->add('registeredAtFrom', 'choice', array(
+                'label' => '允许注册几天以后的用户参与',
+                'choices'  => array(
+                    '0' => '0 hour',
+                    '4' => '4 hours',
+                    '8' => '8 hours',
+                    '12' => '12 hours',
+                    '24' => '1 day (24 hours)',
+                    '48' => '2 days (48 hours)',
+                    '72' => '3 days (72 hours)',
+                    '96' => '4 days (96 hours)',
+                    '120' => '5 days (120 hours)',
+                    ),
+                ))
+            ->add('registeredAtTo', 'choice', array(
+                'label' => '允许注册几天以内的用户参与',
+                'choices'  => array(
+                    '0' => '0 hour',
+                    '4' => '4 hours',
+                    '8' => '8 hours',
+                    '12' => '12 hours',
+                    '24' => '1 day (24 hours)',
+                    '48' => '2 days (48 hours)',
+                    '72' => '3 days (72 hours)',
+                    '96' => '4 days (96 hours)',
+                    '120' => '5 days (120 hours)',
+                    '2400000' => 'all (270 years)',
+                    ),
+                ))
             ->add('minAge', 'text', array(
                 'label' => 'minAge',
                 'attr' => array('size' => '5'),

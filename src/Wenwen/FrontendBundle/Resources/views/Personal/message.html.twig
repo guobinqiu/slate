@@ -1,9 +1,5 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% extends 'WenwenFrontendBundle:Personal:base.html.twig' %}
 {% block title %}{{ parent() }}我的消息{% endblock %}
-
-{% block stylesheet %}
-<link href="{{ asset('css/message.css') }} " rel="stylesheet" type="text/css">
-{% endblock %}
  
 {% block header %}
 {% include 'WenwenFrontendBundle:Components:_header.html.twig' %} 
@@ -11,97 +7,93 @@
 
 {% block body %}
     <div class="container">
-        <div class="main-personal clearfix">
-            <div class="row">
-                <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                    {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
-                    <div class="main-personal-right rp-main-personal-right panel">
-            			<div class="main-personal-message">
-            				<div class="btn tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="active"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="active"{% endif %}>系统</a><div class="border"></div></div>
-            				<div class="tabCon">
-            					{% if sid == 1 %}
-            					<div class="con">
-            						<ul>
-            							{% if showMs %}
-            							<li class="title"><span>时间</span><strong>标题</strong></li>
-            							{% for item in pagination %}
-            							<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
-            							{% endfor %}
-            	        				{% else %}
-            	          				<li>暂无消息</li>
-            	      					{% endif %}  
-            						</ul>
-            						<div class="page-wrapper">
-            							{{ knp_pagination_render(pagination) }}
-            						</div>
-            					</div>
-            					{% elseif sid == 2 %} 
-            					<div class="con sys">
-            						<ul>
-            							{% if sendCb %}
-            							<li class="title"><span>时间</span><strong>标题</strong></li>
-            							{% for item in pagination %}
-            							<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
-            							{% endfor %}
-            	        				{% else %}
-            	          				<li>暂无消息</li>
-            	      					{% endif %} 
-            						</ul>
-            						<div class="page-wrapper">
-            							{{ knp_pagination_render(pagination) }}
-            						</div>
-            					</div>
-            					{% endif %}
-            				</div>
-            				<div id="countMessage"></div>
+        <div class="row main-personal">
+            {% include 'WenwenFrontendBundle:Personal:_leftSideBar.html.twig' %}
+            <div class="col-xs-12 col-sm-10 main-personal-right">
+    			<div class="main-personal-message">
+    				<div class="tabNav"><a href="{{ path('_user_message',{'sid': 1}) }}" {% if sid == 1 %} class="btn active"{% else %} class="btn"{% endif %}>私信</a><a href="{{ path('_user_message',{'sid': 2}) }}" {% if sid == 2 %} class="btn active"{% else %} class="btn"{% endif %}>系统</a><div class="border"></div></div>
+    				<div class="tabCon">
+    					{% if sid == 1 %}
+    					<div class="con">
+    						<ul>
+    							{% if showMs %}
+    							<li class="title"><span>时间</span><strong>标题</strong></li>
+    							{% for item in pagination %}
+    							<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+    							{% endfor %}
+    	        				{% else %}
+    	          				<li>暂无消息</li>
+    	      					{% endif %}  
+    						</ul>
+    						<div class="page-wrapper">
+    							{{ knp_pagination_render(pagination) }}
+    						</div>
+    					</div>
+    					{% elseif sid == 2 %} 
+    					<div class="con sys">
+    						<ul>
+    							{% if sendCb %}
+    							<li class="title"><span>时间</span><strong>标题</strong></li>
+    							{% for item in pagination %}
+    							<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+    							{% endfor %}
+    	        				{% else %}
+    	          				<li>暂无消息</li>
+    	      					{% endif %} 
+    						</ul>
+    						<div class="page-wrapper">
+    							{{ knp_pagination_render(pagination) }}
+    						</div>
+    					</div>
+    					{% endif %}
+    				</div>
+    				<div id="countMessage"></div>
 
-            				{# <ul class="nav nav-tabs">
-            				    <li class="active"><a data-toggle="tab" href="#menu1">私信</a></li>
-            				    <li><a data-toggle="tab" href="#menu2">系统</a></li>
-        				    </ul>
-        				    <div class="tab-content">
-        				        <div id="menu1" class="tab-pane fade in active">
-        				        	{% if sid == 1 %}
-			        					<div class="con">
-			        						<ul>
-			        							{% if showMs %}
-				        							<li class="title"><span>时间</span><strong>标题</strong></li>
-					        							{% for item in pagination %}
-					        							<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
-					        							{% endfor %}
-					        	        				{% else %}
-				        	          				<li>暂无消息</li>
-			        	      					{% endif %}  
-			        						</ul>
-			        						<div class="page-wrapper">
-			        							{{ knp_pagination_render(pagination) }}
-			        						</div>
-			        					</div>
-		        					{% endif %}
-        				        </div>
-        				        <div id="menu2" class="tab-pane fade in active">
-    				        		{% if sid == 2 %}
-			        					<div class="con sys">
-			        						<ul>
-			        							{% if sendCb %}
-			        							<li class="title"><span>时间</span><strong>标题</strong></li>
+    				{# <ul class="nav nav-tabs">
+    				    <li class="active"><a data-toggle="tab" href="#menu1">私信</a></li>
+    				    <li><a data-toggle="tab" href="#menu2">系统</a></li>
+				    </ul>
+				    <div class="tab-content">
+				        <div id="menu1" class="tab-pane fade in active">
+				        	{% if sid == 1 %}
+	        					<div class="con">
+	        						<ul>
+	        							{% if showMs %}
+		        							<li class="title"><span>时间</span><strong>标题</strong></li>
 			        							{% for item in pagination %}
-			        							<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+			        							<li {% if item.readFlag == 1 %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
 			        							{% endfor %}
 			        	        				{% else %}
-			        	          				<li>暂无消息</li>
-			        	      					{% endif %} 
-			        						</ul>
-			        						<div class="page-wrapper">
-			        							{{ knp_pagination_render(pagination) }}
-			        						</div>
-			        					</div>
-		        					{% endif %}
-        				        </div>
-        				    </div> #}
-            			</div>
-            		</div>
-                </div>
+		        	          				<li>暂无消息</li>
+	        	      					{% endif %}  
+	        						</ul>
+	        						<div class="page-wrapper">
+	        							{{ knp_pagination_render(pagination) }}
+	        						</div>
+	        					</div>
+        					{% endif %}
+				        </div>
+				        <div id="menu2" class="tab-pane fade in active">
+			        		{% if sid == 2 %}
+	        					<div class="con sys">
+	        						<ul>
+	        							{% if sendCb %}
+	        							<li class="title"><span>时间</span><strong>标题</strong></li>
+	        							{% for item in pagination %}
+	        							<li {% if item.isRead %} class="isRead{{ item.id }}" {% else %} class="isRead{{ item.id }} new"{% endif %}><span>{{ item.createtime.date | date("Y-m-d H:i")}}</span><a href="javascript:void(0)">{{ item.title }}</a><p id="showContent{{ item.id }}"></p></li>
+	        							{% endfor %}
+	        	        				{% else %}
+	        	          				<li>暂无消息</li>
+	        	      					{% endif %} 
+	        						</ul>
+	        						<div class="page-wrapper">
+	        							{{ knp_pagination_render(pagination) }}
+	        						</div>
+	        					</div>
+        					{% endif %}
+				        </div>
+				    </div> #}
+    			</div>
             </div>
         </div>
     </div>
@@ -112,5 +104,10 @@
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="{{ asset('js/pages/personal/message.js')}}"></script>
+    <!-- pages js -->
+    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/message.js"
+        "assets/js/frontend/pages/personal/message.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
