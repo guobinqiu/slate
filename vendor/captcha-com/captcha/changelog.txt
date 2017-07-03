@@ -1,0 +1,6 @@
+-------------------------------------------------------------------------------
+BotDetect PHP CAPTCHA Library release notes
+-------------------------------------------------------------------------------
+
+BotDetect PHP change log is available at the following url:
+https://captcha.com/captcha-roadmap-and-release-notes.html#php-release-notes

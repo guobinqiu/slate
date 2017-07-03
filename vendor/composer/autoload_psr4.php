@@ -21,5 +21,6 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
     'Doctrine\\Bundle\\FixturesBundle\\' => array($vendorDir . '/doctrine/doctrine-fixtures-bundle'),
+    'Captcha\\Bundle\\CaptchaBundle\\' => array($vendorDir . '/captcha-com/symfony-captcha-bundle'),
     'Base64Url\\' => array($vendorDir . '/spomky-labs/base64url/src'),
 );
