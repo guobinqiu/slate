@@ -19,7 +19,7 @@
 10 1 * * * /bin/sh /data/bash_jili/backup_table.sh 2>/tmp/error.log
 
 #Clean backup of 60 day at Friday 清理60天前的备份文件
-0 10 * * 5 find /data/backup/ -name "jili*.tar.gz" -mtime +60 -type f -exec rm -f {} \;
+0 10 * * 5 find /data/backup/ -name "jili*.tar.gz" -mtime +30 -type f -exec rm -f {} \;
 
 #Innobackupex backup hour per  每小时的数据库热备份
 40 */1 * * * /bin/bash /data/innobackupex/innobackup.sh
@@ -27,26 +27,21 @@
 #Testgroup
 #发送统计报告邮件
 #每日performance report
-0 1 * * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPerformanceReport.pl 2>&1 >> /data/log/report_log/PerformaceReport`date "+\%Y\%m\%d"`.log
+0 1 * * * cd /home/kevin/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPerformanceReport.pl 2>&1 >> /data/log/report_log/PerformaceReport`date "+\%Y\%m\%d"`.log
 
 #每月Participation History report
-0 1 1 * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendParticipationHistory.pl 2>&1 >> /data/log/report_log/sendParticipationHistory`date "+\%Y\%m\%d"`.log
+0 1 1 * * cd /home/kevin/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendParticipationHistory.pl 2>&1 >> /data/log/report_log/sendParticipationHistory`date "+\%Y\%m\%d"`.log
 
 #每月Point report
-0 1 1 * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPointsReport.pl 2>&1 >> /data/log/report_log/PointReport`date "+\%Y\%m\%d"`.log
-
-#Monitor jms_job  监控jms_job邮件是否有退积
-0 */1 * * * cd /home/git/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib monitor_job.pl 2>&1>/dev/null
+0 1 1 * * cd /home/kevin/PointMedia/scripts/perl && /usr/local/anyenv/envs/plenv/shims/carton exec perl -ILib bin/tool/sendPointsReport.pl 2>&1 >> /data/log/report_log/PointReport`date "+\%Y\%m\%d"`.log
 
 #invite check
 0 9 * * * bash /home/kevin/invit_check.sh
 
-#Office(192.168.1.212)
-#backup github 将github上的代码备份到办公室服务器
-0 17 * * * /bin/bash /root/lj/backup_github.sh
+#Office(192.168.1.222)
 
 #backup database from 91wenwendb 将每日数据库备份备份到办公室服务器
-10 4 * * * /bin/bash /root/bash/backup.sh
+10 6 * * * /bin/bash /root/bash/backup.sh
 
 #backup log from 91wenwen 将每日91wenwen日志文件备份到办公室服务器
-10 6 * * * /bin/bash /root/bash/backup_log.sh
+30 6 * * * /bin/bash /root/bash/backup_log.sh
