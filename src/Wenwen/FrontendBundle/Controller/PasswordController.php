@@ -28,10 +28,6 @@ class PasswordController extends BaseController
 
         $builder = $this->createFormBuilder();
         $builder->add('email', 'text');
-        $builder->add('captcha', 'captcha', array(
-            'label' => '验证码',
-            'invalid_message' => '验证码无效',
-        ));
         $form = $builder->getForm();
 
         return $this->render('WenwenFrontendBundle:User:resetPwdEmail.html.twig', array(
