@@ -2,11 +2,14 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wenwen\FrontendBundle\Entity\User;
 
 class AdminUserController extends BaseController #implements IpAuthenticatedController
 {
@@ -162,5 +165,48 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         }
     }
 
+    /**
+     * @Route("/admin/user/send_confirmation_email", name="admin_user_send_confirmation_email", methods={"GET"})
+     */
+    public function sendConfirmationEmailAction(Request $request)
+    {
+        $email = $request->query->get('email');
+        if (!$email) {
+            return new JsonResponse(array(
+                'error' => true,
+                'message' => '缺少email参数',
+            ), 400);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
+        if (empty($user)) {
+            return new JsonResponse(array(
+                'error' => true,
+                'message' => 'email用户不存在',
+            ), 404);
+        }
+        $user->setConfirmationToken(md5(uniqid(rand(), true)));
+        $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
+        $em->flush();
+        $this->send_confirmation_email($user);
+        return new JsonResponse(array(
+            'error' => false,
+            'message' => '邮件已发送',
+        ), 200);
+    }
 
+    private function send_confirmation_email(User $user)
+    {
+        $args = array(
+            '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
+            '--email='.$user->getEmail(),
+            '--name='.$user->getNick(),
+            '--confirmation_token='.$user->getConfirmationToken(),
+        );
+        $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
+        $job->setMaxRetries(3);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($job);
+        $em->flush();
+    }
 }

@@ -33,6 +33,10 @@
         <td>{{ user.tel }}</td>
     </tr>
     <tr>
+        <th>邮箱是否激活</th>
+        <td>{{ user.isEmailConfirmed == 1 ? '已激活' : '未激活<input id="sendConfirmationEmail" type="button" value="发送激活邮件" />' }}</td>
+    </tr>
+    <tr>
         <th>开始注册时间</th>
         <td>{{ user.registerDate is empty ? "": user.registerDate|date("Y-m-d H:i:s") }}</td>
     </tr>
@@ -54,19 +58,19 @@
     </tr>
     <tr>
         <th>性别</th>
-        <td>{{ userProfile.gender }}</td>
+        <td>{{ userProfile.gender|default('') }}</td>
     </tr>
     <tr>
         <th>生日</th>
-        <td>{{ userProfile.birthday }}</td>
+        <td>{{ userProfile.birthday|default('') }}</td>
     </tr>
     <tr>
         <th>省份</th>
-        <td>{{ userProfile.provinceName }}</td>
+        <td>{{ userProfile.provinceName|default('') }}</td>
     </tr>
     <tr>
         <th>城市</th>
-        <td>{{ userProfile.cityName }}</td>
+        <td>{{ userProfile.cityName|default('') }}</td>
     </tr>
     <tr>
         <th>delete flag</th>
@@ -215,14 +219,24 @@
 {% endblock %}
 
 {% block extra_js %}
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#select").click(function (){
-        window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
-    });
-    $("#edit").click(function (){
-        window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
-    })
-  });
-</script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#select").click(function (){
+                window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
+            });
+            $("#edit").click(function (){
+                window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
+            });
+            $('#sendConfirmationEmail').on('click', function(){
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ path('admin_user_send_confirmation_email', {'email': user.email|default('')}) }}",
+                    dataType: 'JSON',
+                    context: this,
+                }).done(function(data){
+                    $(this).val(data.message).attr("disabled", true);
+                });
+            });
+        });
+    </script>
 {% endblock %}
