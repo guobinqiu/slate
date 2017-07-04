@@ -22,7 +22,7 @@ class ComponentController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($id);
 
-        return $this->render('WenwenFrontendBundle:Components:_headerNav.html.twig', array (
+        return $this->render('WenwenFrontendBundle:Components:_header.html.twig', array (
             'user' => $user
         ));
     }
