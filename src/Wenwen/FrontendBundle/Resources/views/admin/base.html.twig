@@ -12,12 +12,12 @@
 {% block javascript %}
     <!-- pages js -->
     {% javascripts filter="?uglifyjs2" output="dist/js/backend/common.js"
-        "bundles/fosjsrouting/js/router.js"
         "assets/js/backend/plugin/load.js"
         "assets/js/backend/page.js"
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script src="{{ asset('assets/js/backend/plugin/My97DatePicker/WdatePicker.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/js/backend/kindeditor/kindeditor.js')}}" type="text/javascript"></script>
