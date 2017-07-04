@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
 @import "../layout/global";
+.navbar{
+	padding-top: 10px;
+}
 .main,#pagepiling,.sections,.section{
 	height: 100%;
 }
@@ -47,9 +50,6 @@
          transform: translateY(0); 
       }
 }
-.unlogin{
-	background-color: transparent;
-}
 .navbar{
 	.nav{
 		.dropdown{
@@ -60,7 +60,7 @@
 				background: rgba(0, 0, 0, .3);
 				@include border-radius(3px);
 				padding: 8px 10px;
-				margin-top: 15px;
+				margin-top: 5px;
 				cursor: pointer;
 				position: absolute;
 				right: 0;
@@ -87,6 +87,7 @@
 		}
 	}
 	.btn{
+		margin-top: 5px;
 		color: #fff;
 		background: #333;
 		background: rgba(0, 0, 0, .3);
@@ -628,11 +629,19 @@
 }
 
 @media only screen and (max-width: 667px) { 
-	// landing page
-	.logo{
-		height: 35px;
-		margin-top: 4px;
+	.navbar{
+		.nav{
+			.dropdown{
+				i{
+					margin-top: 0;
+				}
+			}
+		}
+		.btn{
+			margin-top: 0;
+		}
 	}
+	// landing page
 	#section0{
 		background: url(../../../../img/frontend/landingpage/1_bg_phone.jpg) no-repeat!important;
 		background-size: cover;

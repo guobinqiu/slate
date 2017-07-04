@@ -1,15 +1,9 @@
-<nav id="top-header" class="header navbar-default" role="navigation">
-    <div class="container header-nav-con">
-        <div class="logo pull-left">
-            <a href="{{ path('_homepage') }}" title="91问问调查网logo">
-                <!--[if !IE]><!-->
-                    <img class="logo" src="{{ asset('assets/img/frontend/common/logo.svg') }}" alt="91问问调查网logo">
-                <!--<![endif]-->
-                <!--[if IE]>
-                    <img src="{{ asset('assets/img/frontend/common/logo.png') }}" alt="91问问"></a>
-                <![endif]-->
-            </a>
-            {% if theme is defined  %}<span>{{ theme }}</span>{% else %}<span>用户<b>注册</b></span>{% endif %}</div>
-        <p class="nav pull-right hidden-xs hidden-sm"><span>已有91问问账号？</span><a href="{{ path('_user_login') }}">马上登录</a></p>
+<nav id="top-header" class="navbar-default " role="navigation">
+  <div class="container">
+    <div class="navbar-header pull-left">
+      {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
+      {% if theme is defined %}<span class="nav-title">{{ theme }}</span>{% else %}<span class="nav-title">用户<b>注册</b></span>{% endif %}
     </div>
+    <p class="nav pull-right hidden-xs hidden-sm"><span>已有91问问账号？</span><a href="{{ path('_user_login') }}">马上登录</a></p>
+  </div>
 </nav>

@@ -1,52 +1,57 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+  Simple page header (eg, forgetting password page, etc.)
+ ============================================================================ */
+
 @import "../global";
-$header-height: 92px;
-.header{
-	background: #fff;
-	height: $header-height;
-	margin-bottom: 20px;
-	border-bottom: 3px solid #fa8611;
-	@include box-shadow(0px 1px 5px #d8d8d8);
-	.logo{
-		a{
-			padding: 15px 20px 15px 0;
-			vertical-align: middle;
-			@include dib();
-		}
-		span{
-			padding: 0 20px;
-			line-height: 35px;
-			font-size: 22px;
-			color: #595654;
-			border-left: 1px solid #ddd;
-			vertical-align: middle;
-			@include dib();
-			b{
-				color: #f26f21;
-				font-weight: normal;
-			}
-		} 
-	}
-	p{
-		color: #a0a0a0;
-		font-size: 14px;
-		height: 92px;
-		line-height: 92px;
-		a{
-			color: $button-blue;
-			font-weight: bold;
-		}
-	}
+$header-logo-height: 46px;
+$mobile-header-logo-height: 35px;
+.navbar-default {
+  margin-bottom: 20px;
+  padding: 15px 0;
+  background: #fff;
+  border-bottom: 3px solid #fa8611;
+  @include box-shadow(0px 1px 5px #d8d8d8);
+  p {
+    line-height: $header-logo-height;
+    color: #a0a0a0;
+    font-size: 14px;
+    a {
+      color: $button-blue;
+      font-weight: bold;
+    }
+  }
+}
+.navbar-header{
+  width: 50%;
+	.nav-title {
+    margin-left: 20px;
+    padding-left: 20px;
+    line-height: $header-logo-height;
+    font-size: 22px;
+    color: #595654;
+    border-left: 1px solid #ddd;
+    vertical-align: middle;
+    b {
+      color: #f26f21;
+      font-weight: normal;
+    }
+  }
 }
 
-@media only screen and (max-width: 767px)  {
-    .header{
-    	height: 65px;
-        a{
-            .logo{
-                height: 32px;
-            }
-        }
+
+/* Mobile simple page header
+ ============================================================================ */
+
+@media only screen and (max-width: 767px) {
+  .navbar-default {
+    padding: 10px 0;
+  }
+  .navbar-header {
+    .nav-title {
+      line-height: $mobile-header-logo-height;
+      font-size: 20px;
     }
+  }
 }
