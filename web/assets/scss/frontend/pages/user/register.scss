@@ -2,6 +2,9 @@
 
 @import "../../layout/global";
 @import "login";
+.navbar{
+	padding-top: 10px;
+}
 .main-register{
 	position: relative;
 	z-index: 1;
@@ -408,14 +411,16 @@
 	}
 }
 
-@media only screen and (max-width: 667px) { 
+@media only screen and (max-width: 767px) { 
+	.navbar-header{
+		a {
+			.logo{
+				margin-top: 0;
+			}
+		} 
+	}
 	.sectionCon{
 		margin-top: 30px;
-	}
-	.unlogin{
-	    .btn{
-	        top: 10px;
-	    }
 	}
 	.footer{
 		display: none;

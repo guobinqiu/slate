@@ -15,23 +15,12 @@
 {% block body %}
 	<div class="pp-section">
 		<nav class="navbar navbar-fixed-top">
-	        <div class="container">
-	        	<div class="row">
-	        		<div class="col-xs-12">
-			        	<div class="navbar-header pull-left">
-							<a class="navbar-brand" href="{{ path('_homepage') }}" title="91问问调查网">
-								<![if !IE]>
-									<img class="logo" src="{{ asset('assets/img/frontend/common/logo.svg') }}" alt="91问问">
-								<![endif]>
-								<!--[if IE]> 
-								    <img src="{{ asset('assets/img/frontend/common/logo.png') }}" alt="91问问"></a>
-								<![endif]-->
-			        		</a>
-			        	</div>
-			        	<a href="{{ path('_user_login') }}" class="btn pull-right top17" type="button">登录</a>
-	        		</div>
-		        </div>
-			</div>
+		  <div class="container">
+        <div class="navbar-header pull-left">
+          {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
+        </div>
+        <a href="{{ path('_user_login') }}" class="btn pull-right" type="button">登录</a>
+		  </div>
 		</nav>
 		<div class="section" id="section0">
 			<div class="sectionCon">
