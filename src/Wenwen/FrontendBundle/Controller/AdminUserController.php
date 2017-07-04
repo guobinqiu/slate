@@ -14,7 +14,7 @@ use Wenwen\FrontendBundle\Entity\User;
 class AdminUserController extends BaseController #implements IpAuthenticatedController
 {
     /**
-     * @Route("/admin/user", name="admin_user")
+     * @Route("/admin/user", name="admin_user", options={"expose"=true})
      */
     public function memberAction()
     {
@@ -114,7 +114,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
     }
 
     /**
-     * @Route("/admin/memberEdit", name="_admin_member_edit")
+     * @Route("/admin/memberEdit", name="_admin_member_edit", options={"expose"=true})
      */
     public function memberEditAction()
     {
@@ -166,7 +166,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
     }
 
     /**
-     * @Route("/admin/user/send_confirmation_email", name="admin_user_send_confirmation_email", methods={"GET"})
+     * @Route("/admin/user/send_confirmation_email", name="admin_user_send_confirmation_email", methods={"GET"}, options={"expose"=true})
      */
     public function sendConfirmationEmailAction(Request $request)
     {

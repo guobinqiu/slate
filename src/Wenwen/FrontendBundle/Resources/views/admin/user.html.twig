@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <th>email</th>
-        <td>{{ user.email }}</td>
+        <td id="user_email">{{ user.email }}</td>
     </tr>
     <tr>
         <th>nick</th>
@@ -34,7 +34,7 @@
     </tr>
     <tr>
         <th>邮箱是否激活</th>
-        <td>{{ user.isEmailConfirmed == 1 ? '已激活' : '未激活<input id="sendConfirmationEmail" type="button" value="发送激活邮件" />' }}</td>
+        <td>{{ user.isEmailConfirmed == 1 ? '已激活' : '未激活 <input id="sendConfirmationEmail" type="button" value="发送激活邮件" class="btn btn-primary" />' }}</td>
     </tr>
     <tr>
         <th>开始注册时间</th>
@@ -219,24 +219,5 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#select").click(function (){
-                window.location.href="{{ path('admin_user') }}?user_id="+$('#user_id').val()+"&email="+$('#email').val()+"&nick="+$('#nick').val();
-            });
-            $("#edit").click(function (){
-                window.location.href="{{ path('_admin_member_edit') }}?user_id="+$('#id').val();
-            });
-            $('#sendConfirmationEmail').on('click', function(){
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ path('admin_user_send_confirmation_email', {'email': user.email|default('')}) }}",
-                    dataType: 'JSON',
-                    context: this,
-                }).done(function(data){
-                    $(this).val(data.message).attr("disabled", true);
-                });
-            });
-        });
-    </script>
+<script type="text/javascript" src="{{ asset('assets/js/backend/user.js')}}"></script>
 {% endblock %}
