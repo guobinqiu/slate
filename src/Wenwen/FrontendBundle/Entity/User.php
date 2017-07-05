@@ -1260,7 +1260,8 @@ class User
 
     /**
      * @CaptchaAssert\ValidCaptcha(
-     *      message = "验证码无效"
+     *      message = "验证码无效",
+     *      groups={"registration"}
      * )
      */
     private $captchaCode;
