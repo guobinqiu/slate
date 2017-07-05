@@ -10,7 +10,8 @@ $img-url-icons_common: url(../../../../img/frontend/common/icons_common.png);
 	height: auto;
 	height: 180px\0;
 	background: #3c3d41;
-	a {
+	a,
+	.copyright {
 		color: $footer-color;
 	}
 	img {
@@ -46,7 +47,6 @@ $img-url-icons_common: url(../../../../img/frontend/common/icons_common.png);
 .copyright{
 	margin-top: 20px;
   	line-height: 22px;
-  	color: $footer-color;
 	a {
 		&.icp{
 			margin-left: 10px;
