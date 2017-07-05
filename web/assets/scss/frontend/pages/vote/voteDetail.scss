@@ -15,6 +15,9 @@
 	}
 }
 .vote-sub{
+	.relate{
+		padding-top: 5px;
+	}
  	.relateText{
  		color: #9da1a8;
  		line-height: 20px;
@@ -53,6 +56,7 @@
  			}
  		}
  		dl{
+ 			margin-top: 10px;
  			dt{
  				font-size: 14px;
  			}
