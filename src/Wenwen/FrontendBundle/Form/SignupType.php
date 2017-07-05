@@ -62,6 +62,7 @@ class SignupType extends AbstractType
             'csrf_protection' => true,
             'intention' => 'register', //名字随便取，即使同一个用户也让这个表单的token和其它表单的token不一致，这样更加安全
             'cascade_validation' => true,//同时验证嵌套的表单
+            'validation_groups' => array('registration'),
         ));
     }
 
