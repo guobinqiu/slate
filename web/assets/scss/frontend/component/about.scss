@@ -4,6 +4,22 @@
 #top-header{
 	margin-bottom: 0;
 }
+.breadWrap{
+    color: #333;
+    font-size: 14px;
+    line-height: 51px;
+    width: 100%;
+    height: 51px;
+    background: url(../../../img/frontend/common/way-bg-line.png) repeat-x;
+}
+.breadcrumb{
+    margin: initial;
+    padding: initial;
+    background: none;
+}
+.fontCommon{
+    font-family: -apple-system,"PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif!important;
+}
 .main-about-con{
 	.aboutL{
 		@include box-shadow(1px 1px 3px rgba(0,0,0,0.1));
