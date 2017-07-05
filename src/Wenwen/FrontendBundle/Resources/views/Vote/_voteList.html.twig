@@ -10,8 +10,8 @@
             </div>
             <div class="vote-txt col-xs-8 col-md-7">
                 <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
-                <div class="con top10">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
-                <div class="relate corWeak relateVlist top5">
+                <div class="con">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
+                <div class="relate relateVlist">
                     <div>参与人气：<span>{{ item.answerCount }}</span></div>
                     <div>截止日期：{{ item.endTime|date("Y-m-d") }}</div>
                 </div>
@@ -26,15 +26,15 @@
                 {% endif %}
                 {% if app.session.has('uid')%}
                     {% if(item.endTime|date("Ymd") >= "now"|date('Ymd')) and item.answerable %}
-                    <a class="vote-btn btn top5" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
+                    <a class="vote-btn btn" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                     {% else %}
-                    <a class="vote-btn voteDisabled btn top5" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
+                    <a class="vote-btn voteDisabled btn" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
                     {% endif %}
                 {% else %}
                     {% if (item.endTime|date("Ymd") >= "now"|date('Ymd')) %}
-                    <a class="vote-btn btn top15" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
+                    <a class="vote-btn btn" type="button" href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">去投票</a>
                     {% else %}
-                    <a class="vote-btn voteDisabled btn btn-md top5" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
+                    <a class="vote-btn voteDisabled btn btn-md" type="button" href="{{ path('jili_frontend_vote_result',{'id':item.id}) }}">去看看</a>
                     {% endif %}
                 {% endif %}
             </div>

@@ -2,6 +2,7 @@
 
 @import "../../layout/global";
 .vote{
+	padding-top: 15px;
 	.panel-heading{
 		padding: 18px 28px;
 		background: none;
@@ -40,10 +41,12 @@
 			}
 		}
 		.con{
+			margin-top: 10px;
 			font-size: 13px;
 			line-height: 21px;
 		}
 		.relate{
+			margin-top: 5px;
 			span,
 			div{
 				color: #9296a1;
@@ -66,6 +69,7 @@
 		}
 	}
 	.vote-btn{
+		margin-top: 5px;
 		color: #fff;
 		width: 120px;
 		height: 36px;
