@@ -50,13 +50,13 @@
 </div>
 {# 新手引导结束 #}
 
-<div class="container">
+<div class="container top20">
 	<div class="row">
-		<div class="col-xs-12 col-sm-9 main-con-left">
+		<div class="col-xs-12 col-sm-9">
 			{% include 'WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig' with { 'html_survey_list': html_survey_list } %}
 			{{ render(controller('JiliFrontendBundle:Vote:top')) }}
 		</div>
-		<div class="hidden-xs col-sm-3 main-con-right">
+		<div class="hidden-xs col-sm-3">
 			{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
 		</div>
 	</div>

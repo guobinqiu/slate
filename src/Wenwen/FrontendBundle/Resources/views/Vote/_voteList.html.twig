@@ -11,7 +11,7 @@
             <div class="vote-txt col-xs-8 col-md-7">
                 <div class="title"><a href="{{ path('jili_frontend_vote_show',{'id':item.id}) }}">{{ item.title }}</a></div>
                 <div class="con top10">{% autoescape false %}{{ item.description }}{% endautoescape %}</div>
-                <div class="relate corWeak relateVlist top5">
+                <div class="relate relateVlist top5">
                     <div>参与人气：<span>{{ item.answerCount }}</span></div>
                     <div>截止日期：{{ item.endTime|date("Y-m-d") }}</div>
                 </div>
