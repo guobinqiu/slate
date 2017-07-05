@@ -77,6 +77,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
                 if(!empty($city)){
                     $cityName = $em->getRepository('WenwenFrontendBundle:CityList')->findOneById($city);
                     if(!empty($cityName)){
+                        $this->get('logger')->debug(__METHOD__ . ' cityName=' . $cityName->getCityName());
                         $profile['cityName'] = $cityName->getCityName();
                     } else {
                         $profile['cityName'] = '未知';
