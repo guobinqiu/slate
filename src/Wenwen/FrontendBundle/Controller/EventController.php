@@ -20,7 +20,7 @@ class EventController extends BaseController //implements UserAuthenticationCont
     const SALT = '羞答答的玫瑰静悄悄地开';
 
     /**
-     * @Route("/", name="event", methods={"GET"})
+     * @Route("/index", name="event", methods={"GET"})
      */
     public function indexAction()
     {
