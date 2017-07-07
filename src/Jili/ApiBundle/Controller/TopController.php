@@ -10,6 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Jili\ApiBundle\Utility\FileUtil;
 
+/**
+ * @Route("/top")
+ */
 class TopController extends Controller
 {
     /**

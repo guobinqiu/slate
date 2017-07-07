@@ -24,7 +24,7 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
- * @UniqueEntity(fields="email", message="邮箱地址已存在")
+ * @UniqueEntity(fields={"email"}, message="邮箱地址已存在", groups={"registration"})
  * @ORM\HasLifecycleCallbacks
  */
 class User
