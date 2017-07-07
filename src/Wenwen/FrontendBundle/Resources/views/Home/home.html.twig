@@ -57,7 +57,7 @@
 			{{ render(controller('JiliFrontendBundle:Vote:top')) }}
 		</div>
 		<div class="hidden-xs col-sm-3">
-			{% include 'WenwenFrontendBundle:Home:_voteRight.html.twig' %}
+			{% include 'WenwenFrontendBundle:Home:_right_sidebar.html.twig' with {'latestNews': latestNews} %}
 		</div>
 	</div>
 </div>

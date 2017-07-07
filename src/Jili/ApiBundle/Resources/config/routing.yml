@@ -24,7 +24,3 @@ api-offer99:
     type:     annotation
     prefix:   /
 
-top:
-    resource: "@JiliApiBundle/Controller/TopController.php"
-    type:     annotation
-    prefix:   /
