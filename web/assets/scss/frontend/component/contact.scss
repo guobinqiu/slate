@@ -5,6 +5,7 @@
  ============================================================================ */
 
 @import "../layout/global";
+$contact-bg-img: "../../../img/frontend/landingpage/contactIcon.png";
 .contact {
   a {
     position: fixed;
@@ -30,7 +31,7 @@
       width: 18px;
       height: 21px;
       vertical-align: -6px;
-      background: url(../../../img/frontend/landingpage/contactIcon.png) no-repeat -1px 0;
+      background: url($contact-bg-img) no-repeat -1px 0;
     }
     b {
       display: inline-block;
@@ -38,7 +39,7 @@
       width: 8px;
       height: 13px;
       vertical-align: -1px;
-      background: url(../../../img/frontend/landingpage/contactIcon.png) no-repeat -27px -4px;
+      background: url($contact-bg-img) no-repeat -27px -4px;
     }
   }
 }

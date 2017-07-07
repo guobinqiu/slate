@@ -46,13 +46,6 @@
                 {{ form_widget(userForm.email, {'attr': {'placeholder': '输入邮箱'}}) }}
                 <div class="errorReg">{{ form_errors(userForm.email) }}</div>
               </li>
-              {#
-              <li class="liner">#} {#{{ form_widget(userForm.pwd.first, {'attr': {'placeholder': '输入密码'}}) }}#} {#
-                <div class="errorReg">{{ form_errors(userForm.pwd.first) }}</div>#} {#
-              </li>#} {#
-              <li class="liner">#} {#{{ form_widget(userForm.pwd.second, {'attr': {'placeholder': '重复密码'}}) }}#} {#
-                <div class="errorReg">{{ form_errors(userForm.pwd.second) }}</div>#} {#
-              </li>#}
               <li class="liner">
                 {{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
                 <div class="errorReg">{{ form_errors(userForm.pwd) }}</div>

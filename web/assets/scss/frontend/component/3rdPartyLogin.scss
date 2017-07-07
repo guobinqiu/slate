@@ -5,6 +5,9 @@
  ============================================================================ */
 
 @import "../layout/global";
+$weixin-bg-img: "../../../img/frontend/user/weixinIco.png";
+$qq-bg-img: "../../../img/frontend/user/QQIco.png";
+$weibo-bg-img: "../../../img/frontend/user/weiboIco.png";
 .login-btn-others {
   margin-top: 50px;
   text-align: center;
@@ -27,17 +30,17 @@
       &.fa-weixin {
         *width: 58px;
         *height: 58px;
-        *background: transparent url(../../../img/frontend/user/weixinIco.png) no-repeat;
+        *background: transparent url($weixin-bg-img) no-repeat;
       }
       &.fa-qq {
         *width: 58px;
         *height: 58px;
-        *background: transparent url(../../../img/frontend/user/QQIco.png) no-repeat;
+        *background: transparent url($qq-bg-img) no-repeat;
       }
       &.fa-weibo {
         *width: 58px;
         *height: 58px;
-        *background: transparent url(../../../img/frontend/user/weiboIco.png) no-repeat;
+        *background: transparent url($weibo-bg-img) no-repeat;
       }
     }
     &.weixin-login {
