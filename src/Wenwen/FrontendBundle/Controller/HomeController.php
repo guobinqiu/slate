@@ -40,8 +40,14 @@ class HomeController extends BaseController
 
         //$this->checkoutSurveyList($userId);
 
+        $latestNews = $this->get('app.latest_news_service')->getLatestNews();
+        $em = $this->getDoctrine()->getManager();
+        $callboard = $em->getRepository('JiliApiBundle:Callboard')->getCallboardLimit(4);
+
         return $this->render('WenwenFrontendBundle:Home:home.html.twig', array(
             'html_survey_list' => $htmlSurveyList,
+            'latestNews' => $latestNews,
+            'callboard' => $callboard,
         ));
     }
 

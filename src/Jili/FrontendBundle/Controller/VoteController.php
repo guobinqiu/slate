@@ -63,6 +63,7 @@ class VoteController extends Controller
         $arr['page_size'] = $page_size;
         $arr['total'] = $total_count;
         $arr['vote_list'] = $vote_list;
+        $arr['latestNews'] = $this->get('app.latest_news_service')->getLatestNews();
 
         return $this->render('WenwenFrontendBundle:Vote:index.html.twig', $arr);
     }
