@@ -1,126 +1,130 @@
-{% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}注册{% endblock %}
+{% extends 'WenwenFrontendBundle::base.html.twig' %} 
+
+{% block title %}
+  {{ parent() }}注册
+{% endblock %} 
+
+{% block meta %}
+  <meta name="keywords" content="调查,调研,问卷,赚钱,在线样本服务,消费者调查" />
+  <meta name="description" content="每个人都是社会的决策者！欢迎来到91问问调查网。现在注册会员，在线参加全球市场调查，轻轻松松赢取现金,并用您的意见改变世界。另有任务体验让您乐赚不停，购物返利让你省得多，赚得也更多！" />
+  <meta name="title" content="注册" />
+{% endblock %} 
 
 {% block stylesheet %}
-    <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/register.css"
-    	"assets/scss/frontend/component/form.scss"
-        "assets/scss/frontend/pages/user/register.scss"
-        "assets/scss/frontend/component/lpBg.scss"
-    %}
-        <link href="{{ asset_url }}" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock %}
+  <!-- pages css -->
+  {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/register.css" 
+    "assets/scss/frontend/component/3rdPartyLogin.scss"
+    "assets/scss/frontend/component/contact.scss"
+    "assets/scss/frontend/component/lpBg.scss" 
+    "assets/scss/frontend/pages/user/register.scss" 
+  %}
+    <link href="{{ asset_url }}" rel="stylesheet" /> 
+  {% endstylesheets %} 
+{% endblock %} 
 
 {% block body %}
-	<div class="pp-section">
-		<nav class="navbar navbar-fixed-top">
-		  <div class="container">
-        <div class="navbar-header pull-left">
-          {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
+<div class="pp-section" id="section0">
+  <nav>
+    <div class="container navbar navbar-fixed-top">
+      <div class="navbar-header pull-left">
+        {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
+      </div>
+      <a href="{{ path('_user_login') }}" class="btn pull-right" type="button">登录</a>
+    </div>
+  </nav>
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 register">
+          <form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
+            <ul>
+              <li class="liner">
+                {{ form_widget(userForm.nick, {'attr': {'placeholder': '输入昵称'}}) }}
+                <div class="errorReg">{{ form_errors(userForm.nick) }}</div>
+              </li>
+              <li class="liner">
+                {{ form_widget(userForm.email, {'attr': {'placeholder': '输入邮箱'}}) }}
+                <div class="errorReg">{{ form_errors(userForm.email) }}</div>
+              </li>
+              {#
+              <li class="liner">#} {#{{ form_widget(userForm.pwd.first, {'attr': {'placeholder': '输入密码'}}) }}#} {#
+                <div class="errorReg">{{ form_errors(userForm.pwd.first) }}</div>#} {#
+              </li>#} {#
+              <li class="liner">#} {#{{ form_widget(userForm.pwd.second, {'attr': {'placeholder': '重复密码'}}) }}#} {#
+                <div class="errorReg">{{ form_errors(userForm.pwd.second) }}</div>#} {#
+              </li>#}
+              <li class="liner">
+                {{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
+                <div class="errorReg">{{ form_errors(userForm.pwd) }}</div>
+              </li>
+              <li id="vcode" class="liner">
+                {{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
+                <div class="errorReg">{{ form_errors(userForm.captchaCode) }}</div>
+              </li>
+              <li class="liner">
+                <div class="proPrompt">
+                  <span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                </div>
+                <div class="sexLab">{{ form_label(userForm.userProfile.sex, '性别') }}</div>
+                <div class="regSex">{{ form_widget(userForm.userProfile.sex) }}</div>
+                <div class="errorReg">{{ form_errors(userForm.userProfile.sex) }}</div>
+              </li>
+              <li class="liner" style="position: relative;">
+                <div class="birthLab">{{ form_label(userForm.userProfile.birthday, '生日') }}</div>
+                <div class="birthSel">{{ form_widget(userForm.userProfile.birthday) }}</div>
+                <div class="errorReg">{{ form_errors(userForm.userProfile.birthday) }}</div>
+              </li>
+              <li class="liner">
+                {#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
+                <div class="addrLab">
+                  <label class="required" aria-required="true">居住地</label>
+                </div>
+                <div class="addrSel">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
+              </li>
+              <li class="subscribe">
+                {{ form_label(userForm.subscribe) }} {{ form_widget(userForm.subscribe) }}
+                <div class="errorReg">{{ form_errors(userForm.subscribe) }}</div>
+              </li>
+              <li class="subscribe">
+                <label for="signup_termAccepted" class="required">我已阅读并接收<a href="{{ path('help_regulations') }}" target="_blank">《会员协议》</a></label>
+                {{ form_widget(userForm.termAccepted) }}
+                <div class="errorReg">{{ form_errors(userForm.termAccepted) }}</div>
+              </li>
+            </ul>
+            {{ form_row(userForm.fingerprint) }} {{ form_row(userForm._token) }}
+            <input class="login-btn" type="submit" value="注册" />
+          </form>
+          <div class="login-btn-others">
+            <p class="othersItem row">
+              <span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
+              <span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
+              <span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
+            </p>
+          </div>
         </div>
-        <a href="{{ path('_user_login') }}" class="btn pull-right" type="button">登录</a>
-		  </div>
-		</nav>
-		<div class="section" id="section0">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="LRWrap row">
-						<div class="LRInner col-xs-12 col-sm-8 col-sm-offset-2">
-							<div class="login register">
-								<form action="{{ path('_user_reg') }}" name="signup_form" id="signup_form" method="post">
-									<ul>
-										<li class="liner">
-											{{ form_widget(userForm.nick, {'attr': {'placeholder': '输入昵称'}}) }}
-											<div class="error errorReg">{{ form_errors(userForm.nick) }}</div>
-										</li>
-										<li class="liner"> 	  	
-											{{ form_widget(userForm.email, {'attr': {'placeholder': '输入邮箱'}}) }}
-											<div class="error errorReg">{{ form_errors(userForm.email) }}</div>
-										</li>
-										{#<li class="liner">#}
-											{#{{ form_widget(userForm.pwd.first, {'attr': {'placeholder': '输入密码'}}) }}#}
-											{#<div class="error errorReg">{{ form_errors(userForm.pwd.first) }}</div>#}
-										{#</li>#}
-										{#<li class="liner">#}
-											{#{{ form_widget(userForm.pwd.second, {'attr': {'placeholder': '重复密码'}}) }}#}
-											{#<div class="error errorReg">{{ form_errors(userForm.pwd.second) }}</div>#}
-										{#</li>#}
-										<li class="liner">
-											{{ form_widget(userForm.pwd, {'attr': {'placeholder': '输入密码'}}) }}
-											<div class="error errorReg">{{ form_errors(userForm.pwd) }}</div>
-										</li>
-										<li id="vcode" class="liner">
-											{{ form_widget(userForm.captchaCode, {'attr': {'placeholder': '输入验证码'}}) }}
-											<div class="error errorReg">{{ form_errors(userForm.captchaCode) }}</div>
-										</li>
-										<li class="liner">
-											<div class="proPrompt">
-												<span>我们将根据您填写的个人信息发放高积分问卷，并且会对信息严格保密，请认真填写。<i class="fa fa-caret-down" aria-hidden="true"></i></span>
-											</div>
-											<div class="sexLab">{{ form_label(userForm.userProfile.sex, '性别') }}</div>
-											<div class="regSex">{{ form_widget(userForm.userProfile.sex) }}</div>
-											<div class="error errorReg">{{ form_errors(userForm.userProfile.sex) }}</div>
-										</li>
-										<li class="liner" style="position: relative;">
-											<div class="birthLab">{{ form_label(userForm.userProfile.birthday, '生日') }}</div>
-											<div class="birthSel">{{ form_widget(userForm.userProfile.birthday) }}</div>
-											<div class="error errorReg">{{ form_errors(userForm.userProfile.birthday) }}</div>
-										</li>
-										<li class="liner">
-											{#由于版本的ChoiceType Field还没有choice_attr属性暂时用原生的写法，等升级后再改#}
-											<div class="addrLab"><label class="required" aria-required="true">居住地</label></div>
-											<div class="addrSel">{% include 'WenwenFrontendBundle:User:_province_city_cascade.html.twig' %}</div>
-										</li>
-										<li class="subscribe">
-											{{ form_label(userForm.subscribe) }}
-											{{ form_widget(userForm.subscribe) }}
-											<div class="error errorReg">{{ form_errors(userForm.subscribe) }}</div>
-										</li>
-										<li class="subscribe">
-											<label for="signup_termAccepted" class="required">我已阅读并接收<a href="{{ path('help_regulations') }}" target="_blank">《会员协议》</a></label>
-											{{ form_widget(userForm.termAccepted) }}
-											<div class="error errorReg errorSub">{{ form_errors(userForm.termAccepted) }}</div>
-										</li>
-									</ul>
-									{{ form_row(userForm.fingerprint) }}
-									{{ form_row(userForm._token) }}
-									<input class="login-btn" type="submit" value="注册" />
-								</form>
-							</div>
-				            <div class="login-btn-others">
-				                <p class="othersItem row">
-									<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
-									<span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
-									<span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
-								</p>
-				            </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="contact">
-		<a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
-	</div>
-{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="contact">
+  <a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
+</div>
+{% endblock %} 
 
 {% block javascript %}
-    <!-- pages js -->
-    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/register.js"
-        "assets/js/common/plugin/jquery.html5-placeholder-shim.js"
-        "assets/js/common/plugin/client.min.js"
-        "assets/js/frontend/plugin/jquery.validate.min.js"
-        "assets/js/frontend/pages/user/register.js"
-        "assets/js/frontend/pages/user/province_city_cascade.js"
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    <script type="text/javascript">
-		var client = new ClientJS(); // Create A New Client Object
-		var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
-		$('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);
-	</script>
+  <!-- pages js -->
+  {% javascripts filter="?uglifyjs2" output="dist/js/frontend/register.js" 
+    "assets/js/common/plugin/jquery.html5-placeholder-shim.js" 
+    "assets/js/common/plugin/client.min.js" 
+    "assets/js/frontend/plugin/jquery.validate.min.js" 
+    "assets/js/frontend/pages/user/register.js" 
+    "assets/js/frontend/pages/user/province_city_cascade.js" 
+  %}
+    <script src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+  <script type="text/javascript">
+    var client = new ClientJS(); // Create A New Client Object
+    var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+    $('#{{ userForm.fingerprint.vars.id }}').val(fingerprint);
+  </script>
 {% endblock %}
-
