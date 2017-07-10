@@ -58,6 +58,7 @@ class HomeController extends BaseController
             'latestNews' => $latestNews,
             'callboard' => $callboard,
             'vote_list' => $vote_list,
+            'user' => $this->getCurrentUser(),
         ));
     }
 
