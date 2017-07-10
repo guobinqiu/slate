@@ -156,6 +156,7 @@ class VoteController extends Controller
         $arr['user_answer_count'] = $user_answer_count;
         $arr['vote_image_path'] = $vote_image_path;
         $arr['voteChoices'] = $voteChoices;
+        $arr['latestNews'] = $this->get('app.latest_news_service')->getLatestNews();
 
         $csrfProvider = new DefaultCsrfProvider('SECRET');
         $csrf_token = $csrfProvider->generateCsrfToken('vote');
@@ -314,6 +315,7 @@ class VoteController extends Controller
         $arr['choices'] = $choices;
         $arr['answer_count'] = $answer_count;
         $arr['appkey'] = $this->container->getParameter('weibo_appkey');
+        $arr['latestNews'] = $this->get('app.latest_news_service')->getLatestNews();
 
         return $this->render('WenwenFrontendBundle:Vote:result.html.twig', $arr);
     }
