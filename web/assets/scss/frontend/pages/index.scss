@@ -236,11 +236,13 @@ $before-bg-img: "../../../img/frontend/common/bg-dot-pattern.png";
       }
     }
   }
+  .process,
+  .pcImg {
+    display: table-cell;
+    float: none;
+  }
   .process {
-    padding-top: 5%;
-    padding-top: 0\9;
-    padding-bottom: 5%;
-    padding-bottom: 0\9;
+    vertical-align: middle;
     img {
       margin-right: 7px;
     }
@@ -248,15 +250,10 @@ $before-bg-img: "../../../img/frontend/common/bg-dot-pattern.png";
   .pcImg {
     padding-bottom: 8%;
     padding-bottom: 0\9;
+    vertical-align: bottom;
     img {
       max-height: 400px;
     }
-  }
-  .process,
-  .pcImg {
-    display: table-cell;
-    vertical-align: bottom;
-    float: none;
   }
 }
 
