@@ -98,15 +98,6 @@ $title-h2-span: 2px solid #d4d4d4;
   -ms-border-radius: $radius;
   -o-border-radius: $radius;
 }
-@mixin animation($transform, $transitionTime, $cubic-bezier){
-    -webkit-transform: translateY($transform);
-	-ms-transform: translateY($transform);
-	transform: translateY($transform);
--webkit-transition: all $transitionTime cubic-bezier($cubic-bezier);
-   -moz-transition: all $transitionTime cubic-bezier($cubic-bezier);
-     -o-transition: all $transitionTime cubic-bezier($cubic-bezier);
-        transition: all $transitionTime cubic-bezier($cubic-bezier);
-}
 @mixin transition($pro, $time){
     transition: $pro $time;
     -moz-transition: $pro $time; 
@@ -176,7 +167,7 @@ $title-h2-span: 2px solid #d4d4d4;
 }
 
 //Animations and keyframes
-@mixin keyframe($animation_name){
+@mixin keyframes($animation_name){
     @-webkit-keyframes $animation_name{
         @content;
     }
@@ -193,7 +184,7 @@ $title-h2-span: 2px solid #d4d4d4;
         @content;
     }
 }
-@mixin animation2($delay, $duration, $animation){
+@mixin animation($delay, $duration, $animation){
     -webkit-animation-delay: $delay;
     -webkit-animation-duration: $duration;
     -webkit-animation-name: $animation;
