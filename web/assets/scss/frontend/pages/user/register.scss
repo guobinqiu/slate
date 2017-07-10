@@ -12,6 +12,21 @@ input:-webkit-autofill {
 }
 
 
+/* Defined animation
+ ============================================================================ */
+
+@include keyframes( fadeInUp) {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* Navbar
  ============================================================================ */
 
@@ -53,21 +68,6 @@ input:-webkit-autofill {
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
-}
-
-
-/* Defined animation
- ============================================================================ */
-
-@include keyframes( fadeInUp) {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 
@@ -166,7 +166,7 @@ input:-webkit-autofill {
   z-index: 1999;
   color: #757982;
   opacity: 0;
-  opacity: 1\9; /* For IE9 */
+  opacity: 1\9;
   @include animation(.5s, 1s, fadeInUp);
   form {
     margin: 0 auto;

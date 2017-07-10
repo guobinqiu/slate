@@ -13,6 +13,42 @@ $landingpage-bg5-img: "../../../img/frontend/landingpage/5.jpg";
 $landingpage-bg-img-mobile: "../../../img/frontend/landingpage/1_bg_phone.jpg";
 $arrow-img: "../../../img/frontend/landingpage/arrow.png";
 $before-bg-img: "../../../img/frontend/common/bg-dot-pattern.png";
+
+/* Defined animation
+ ============================================================================ */
+
+@include keyframes( fadeInUp) {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@include keyframes( xguide_down) {
+  0%,
+  100% {
+    transform: scale(0.0);
+    -moz-transform: scale(0.0);
+    -o-transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+    -ms-transform: scale(0.0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    opacity: .5;
+  }
+}
+
+
 /* Section
  ============================================================================ */
 
@@ -516,40 +552,5 @@ $before-bg-img: "../../../img/frontend/common/bg-dot-pattern.png";
     .btns {
       margin-top: 57px;
     }
-  }
-}
-
-
-/* Defined animation
- ============================================================================ */
-
-@include keyframes( fadeInUp) {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@include keyframes( xguide_down) {
-  0%,
-  100% {
-    transform: scale(0.0);
-    -moz-transform: scale(0.0);
-    -o-transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-    -ms-transform: scale(0.0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.0);
-    -moz-transform: scale(1.0);
-    -o-transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-    -ms-transform: scale(1.0);
-    opacity: .5;
   }
 }
