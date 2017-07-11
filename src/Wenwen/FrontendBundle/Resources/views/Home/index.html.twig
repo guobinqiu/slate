@@ -1,184 +1,188 @@
 {% extends 'WenwenFrontendBundle::base.html.twig' %}
-{% block title %}{{ parent() }}专业问卷调研网站{% endblock %}
+
+{% block title %} 
+  {{ parent() }}专业问卷调研网站 
+{% endblock %} 
+
 {% block meta %}
-<meta name="keywords" content="调查,调研,问卷,赚钱,在线样本服务,消费者调查" />
-<meta name="description" content="欢迎访问91问问调查网，隶属于一家专业的全球在线调研服务公司，提供在线调查、市场调查、问卷调查、市场调研，在线样本服务等服务。如有任何需求请访问www.d8aspring.com与我们取得联系。" />
-{% endblock %}
+  <meta name="keywords" content="调查,调研,问卷,赚钱,在线样本服务,消费者调查" />
+  <meta name="description" content="欢迎访问91问问调查网，隶属于一家专业的全球在线调研服务公司，提供在线调查、市场调查、问卷调查、市场调研，在线样本服务等服务。如有任何需求请访问www.d8aspring.com与我们取得联系。" /> 
+{% endblock %} 
 
 {% block stylesheet %}
-    <!-- pages css -->
-    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/index.css"
-        "assets/scss/frontend/component/pagepiling.scss"
-        "assets/scss/frontend/pages/user/login.scss"
-        "assets/scss/frontend/component/lpBg.scss"
-    %}
-        <link href="{{ asset_url }}" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock %}
+  <!-- pages css -->
+  {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/index.css" 
+    "assets/scss/frontend/component/3rdPartyLogin.scss" 
+    "assets/scss/frontend/component/contact.scss" 
+    "assets/scss/frontend/component/lpBg.scss" 
+    "assets/scss/frontend/component/pagepiling.scss" 
+    "assets/scss/frontend/pages/index.scss" 
+  %}
+    <link href="{{ asset_url }}" rel="stylesheet" /> 
+  {% endstylesheets %} 
+{% endblock %} 
 
 {% block body %}
-	<div id="pagepiling" class="sta" style="display:none">
-		<div class="navbar navbar-fixed-top">
-		  <div class="container">
-		    <div class="navbar-header pull-left">
-		      {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
-		    </div>
-		    <div class="nav pull-right">
-		      <div class="dropdown">
-		        <div class="btn-group pull-right">
-		          <i class="fa fa-bars dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
-		          <ul class="dropdown-menu" role="menu">
-		            <li><a href="{{ path('_homepage') }}" title="问卷调查">问卷调查</a></li>
-		            <li class="divider"></li>
-		            <li><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
-		            <li class="divider"></li>
-		            <li><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
-		            <li class="divider"></li>
-		            <li><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
-		            <li class="divider"></li>
-		            <li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
-		          </ul>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div class="section" id="section0">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
-							<h2>
-								<img class="img-responsive center-block hidden-xs hidden-sm" src="{{ asset('assets/img/frontend/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
-								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
-							</h2>
-							<div class="btns center-block">
-								<a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录">登录</a>
-							</div>
-	                        <div class="login-btn-others">
-	                        	<p class="othersLine">快捷登录</p>
-	                            <p class="othersItem row">
-	            					<span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
-	            					<span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
-	            					<span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
-	            				</p>
-	                        </div>
-						</div>
-					</div>
-				</div>
-				
-	            
-			</div>
-		</div>
-		<div class="section hidden-xs" id="section1">
-			
-			<div class="sectionCon">
-				<div class="container">
-					<div class="introTit row">
-						<div class="col-sm-12">
-							<h2>
-								<img class="img-responsive center-block hidden-sm" src="{{ asset('assets/img/frontend/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
-								<img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
-							</h2>
-							<p class="sec1Intro">隶属于亚洲调查样本库，拥有150多万会员</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="refNum">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-4 num text-center"><b id="userNum" class="count">8</b><em class="chinese">年</em><div class="tit">在线调研</div></div>
-						<div class="col-sm-4 num text-center"><b id="pointNum" class="count">41500</b><em>+</em><div class="tit">累计发放任务</div></div>
-						<div class="col-sm-4 num text-center"><b id="surveyNum" class="count">5000000</b><em>+</em><div class="tit">累计发放奖励</div></div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		<div class="section hidden-xs" id="section2">
-				<div class="container-fluid">
-					<div class="processWp row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<div class="row">
-								<div class="process col-sm-4 col-sm-offset-2">
-									<img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/process.png') }}" alt="怎样赚积分">
-								</div>
-								<div class="pcImg col-sm-4">
-									<img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/pc.png') }}" alt="pc">
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-		</div>
-		<div class="section hidden-xs" id="section3">
-					<div class="container-fluid">
-						<div class="voices row">
-							<div class="col-sm-10 col-sm-offset-1">
-								<div class="row animated fadeInUp">
-									<div class="col-sm-12">
-										<h2>
-											<img class="hidden-sm center-block" src="{{ asset('assets/img/frontend/landingpage/text03.png') }}" alt="看看他们都说了什么">
-											<img class="hidden-md hidden-lg center-block" src="{{ asset('assets/img/frontend/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
-										</h2>
-									</div>
-								</div>
-								<div class="row animated fadeInUp">
-
-									<div class="col-sm-12 text-center">
-										<img class="item item1 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item1.png') }}" alt="会员心声">
-									
-										<img class="item item2 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item2.png') }}" alt="会员心声">
-									</div>
-									
-								</div>
-								<div class="row animated fadeInUp">
-									<div class="col-sm-12 hidden-sm text-center">
-										<img class="item item3 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item3.png') }}" alt="会员心声">
-									
-										<img class="item item4 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item4.png') }}" alt="会员心声">
-									</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-		</div>
-		<div class="section hidden-xs" id="section4">
-			<div class="sectionCon">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2><img src="{{ asset('assets/img/frontend/landingpage/text04.png') }}" alt="您还在等什么"></h2>
-							<p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
-							<div class="row">
-								<div class="col-sm-8 col-sm-offset-2">
-									<div class="btns center-block"><a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br><a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="contact">
-		<a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
-	</div>
-	<div class="arrow hidden-xs">
-    	<a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
-		<a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
+<div id="pagepiling" style="display:none">
+  <div class="navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header pull-left">
+        {% include "WenwenFrontendBundle:Components:_headerLogo.html.twig" %}
+      </div>
+      <div class="nav pull-right">
+        <div class="dropdown">
+          <i class="fa fa-bars dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="{{ path('_homepage') }}" title="问卷调查">问卷调查</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('jili_frontend_vote_index') }}" title="快速问答">快速问答</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('_exchange_index') }}" title="兑换中心">兑换中心</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('event') }}" title="活动中心">活动中心</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('help_help') }}" title="帮助中心">帮助中心</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-{% endblock %}
+  </div>
+  <div class="section" id="section0">
+    <div class="sectionCon">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-10 col-xs-offset-1">
+            <h2>
+              <img class="img-responsive center-block hidden-xs hidden-sm" src="{{ asset('assets/img/frontend/landingpage/slogan.png') }}" alt="每个人都是社会的决策者！">
+              <img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/slogan_m.png') }}" alt="每个人都是社会的决策者！">
+            </h2>
+            <div class="btns center-block">
+              <a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br>
+              <a href="{{ path('_user_login') }}" title="登录">登录</a>
+            </div>
+            <div class="login-btn-others">
+              <p class="othersLine">快捷登录</p>
+              <p class="othersItem row">
+                <span class="col-md-4 hidden-xs hidden-sm"><a class="weixin-login" href="{{ path('weixin_login') }}" title="使用微信账号登录"><i class="fa fa-weixin" aria-hidden="true"></i></a></span>
+                <span class="col-md-4"><a class="qq-login" href="{{ path('qq_login') }}" title="使用QQ账号登录"><i class="fa fa-qq" aria-hidden="true"></i></a></span>
+                <span class="col-md-4"><a class="weibo-login" href="{{ path('weibo_login') }}" title="使用新浪微博账号登录"><i class="fa fa-weibo" aria-hidden="true"></i></a></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section hidden-xs" id="section1">
+    <div class="sectionCon">
+      <div class="container">
+        <div class="introTit row">
+          <div class="col-sm-12">
+            <h2>
+              <img class="img-responsive center-block hidden-sm" src="{{ asset('assets/img/frontend/landingpage/text01.png') }}" alt="我们是国内最活跃的调查社区之一">
+              <img class="img-responsive center-block hidden-md hidden-lg" src="{{ asset('assets/img/frontend/landingpage/text01_m.png') }}" alt="我们是国内最活跃的调查社区之一">
+            </h2>
+            <p class="sec1Intro">隶属于亚洲调查样本库，拥有150多万会员</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="refNum">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4 num text-center"><b id="userNum" class="count">8</b><em class="chinese">年</em>
+            <div class="tit">在线调研</div>
+          </div>
+          <div class="col-sm-4 num text-center"><b id="pointNum" class="count">41500</b><em>+</em>
+            <div class="tit">累计发放任务</div>
+          </div>
+          <div class="col-sm-4 num text-center"><b id="surveyNum" class="count">5000000</b><em>+</em>
+            <div class="tit">累计发放奖励</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section hidden-xs" id="section2">
+    <div class="container-fluid">
+      <div class="processWp row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="row">
+            <div class="process col-sm-4 col-sm-offset-2">
+              <img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/process.png') }}" alt="怎样赚积分">
+            </div>
+            <div class="pcImg col-sm-4">
+              <img class="img-responsive center-block" src="{{ asset('assets/img/frontend/landingpage/pc.png') }}" alt="pc">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section hidden-xs" id="section3">
+    <div class="container-fluid">
+      <div class="voices row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="row animated fadeInUp">
+            <div class="col-sm-12">
+              <h2>
+                <img class="hidden-sm center-block" src="{{ asset('assets/img/frontend/landingpage/text03.png') }}" alt="看看他们都说了什么">
+                <img class="hidden-md hidden-lg center-block" src="{{ asset('assets/img/frontend/landingpage/text03_m.png') }}" alt="看看他们都说了什么">
+              </h2>
+            </div>
+          </div>
+          <div class="row animated fadeInUp">
+            <div class="col-sm-12 text-center">
+              <img class="item item1 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item1.png') }}" alt="会员心声">
+              <img class="item item2 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item2.png') }}" alt="会员心声">
+            </div>
+          </div>
+          <div class="row animated fadeInUp">
+            <div class="col-sm-12 hidden-sm text-center">
+              <img class="item item3 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item3.png') }}" alt="会员心声">
+              <img class="item item4 img-responsive" src="{{ asset('assets/img/frontend/landingpage/sec3Item4.png') }}" alt="会员心声">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section hidden-xs" id="section4">
+    <div class="sectionCon">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2><img src="{{ asset('assets/img/frontend/landingpage/text04.png') }}" alt="您还在等什么"></h2>
+            <p class="briefIntro">一分钟注册，您就可以回答问卷，做任务，开始赚钱咯~</p>
+            <div class="row">
+              <div class="col-sm-8 col-sm-offset-2">
+                <div class="btns center-block">
+                  <a href="{{ path('_user_reg') }}" title="注册" class="active">注册</a><br>
+                  <a href="{{ path('_user_login') }}" title="登录" class="gray">登录</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="contact">
+  <a href="{{ path('help_cooperation') }}"><em></em>业务合作<b></b></a>
+</div>
+<div class="arrow hidden-xs">
+  <a class="arrow-down trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
+  <a class="arrow-down arrow-1 trans" href="javascript:void(0)" onclick="return false;" hidefocus=""></a>
+</div>
+{% endblock %} 
 
 {% block javascript %}
-    <!-- pages js -->
-    {% javascripts filter="?uglifyjs2" output="dist/js/frontend/index.js"
-        "assets/js/frontend/plugin/jquery.pagepiling.min.js"
-        "assets/js/frontend/pages/landing.js"
-    %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+  <!-- pages js -->
+  {% javascripts filter="?uglifyjs2" output="dist/js/frontend/index.js" 
+    "assets/js/frontend/plugin/jquery.pagepiling.min.js" 
+    "assets/js/frontend/pages/landing.js" 
+  %}
+    <script src="{{ asset_url }}"></script>
+  {% endjavascripts %} 
 {% endblock %}

@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+  Contact us
+ ============================================================================ */
+
+@import "../layout/global";
+$contact-bg-img: "../../../img/frontend/landingpage/contactIcon.png";
+.contact {
+  a {
+    position: fixed;
+    z-index: 6;
+    bottom: 0;
+    right: 0;
+    padding: 14px 12px;
+    color: #fff;
+    font-size: 16px;
+    background: #272629;
+    background-color: rgba(39, 38, 41, 0.65);
+    text-shadow: 0 0 4px #424242;
+    -moz-text-shadow: 0 0 4px #424242;
+    -webkit-text-shadow: 0 0 4px #424242;
+    border-top-left-radius: 13px;
+    -webkit-top-left-border-radius: 13px;
+    -moz-top-left-border-radius: 13px;
+    -ms-top-left-border-radius: 13px;
+    -o-top-left-border-radius: 13px;
+    em {
+      display: inline-block;
+      margin-right: 10px;
+      width: 18px;
+      height: 21px;
+      vertical-align: -6px;
+      background: url($contact-bg-img) no-repeat -1px 0;
+    }
+    b {
+      display: inline-block;
+      margin-left: 20px;
+      width: 8px;
+      height: 13px;
+      vertical-align: -1px;
+      background: url($contact-bg-img) no-repeat -27px -4px;
+    }
+  }
+}
