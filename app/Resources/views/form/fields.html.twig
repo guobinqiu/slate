@@ -9,7 +9,7 @@
         {{ captcha_html | raw }}
 
         <script type="text/javascript">
-            document.querySelector(".BDC_CaptchaImageDiv a[title~='CAPTCHA']").remove();
+            document.getElementById("SignupCaptcha_CaptchaImageDiv").getElementsByTagName("a").item(0).style.visibility='hidden';
         </script>
     {% endspaceless %}
 {% endblock %}
