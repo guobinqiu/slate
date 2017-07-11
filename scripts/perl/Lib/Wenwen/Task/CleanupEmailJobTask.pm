@@ -82,7 +82,7 @@ sub delete_finished_before_date {
 sub send_to_slack {
     my ($self, $message) = @_;
     my $response = $self->ua->post(Wenwen::Model::get_slack_url, {payload => $message});
-    print $response->status_line unless $response->is_success;
+    die $response->status_line unless $response->is_success;
 }
 
 1;
