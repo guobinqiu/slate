@@ -59,16 +59,20 @@ sub delete_finished_before_date {
             };
         }
         if(@attachments){
-            my $msg = encode_json({
-                text => __PACKAGE__,
-                attachments => \@attachments,
-                });
-            $self->send_to_slack($msg);
+            my $attachment_size = @attachments;
+            if ($attachment_size <= 20) { # Number of attachments must <= 100
+                $self->send_to_slack(encode_json({
+                    text => __PACKAGE__,
+                    attachments => \@attachments,
+                }));
+            } else {
+                $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n Too many failures that we won't display here."}));
+            }
         }
     };
 
     if ($@) {
-        $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n please check the reason of this failure and re-run this job"}));
+        $self->send_to_slack(encode_json({text => __PACKAGE__ . "\n Please check the reason of this failure and re-run this job."}));
         $self->send_to_slack(encode_json({text => $@}));
     }
 
