@@ -183,6 +183,15 @@ class MailCommandTest extends WebTestCase {
         $command = $application->find('mail:sop_delivery_notification_batch');
         $commandTester = new CommandTester($command);
 
+        // test a totally incorrect data
+        $respondents = "fdsafadsfdasfsafadfa";
+        $exitCode = $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
+        $this->assertEquals('The format of the argument passed in is incorrect', $commandTester->getDisplay());
+        $this->assertEquals(1, $exitCode);
+
         // test without correct data structure
         $respondents = [
             [
@@ -212,6 +221,11 @@ class MailCommandTest extends WebTestCase {
                 "ir"             => "50",
                 "cpi"            => "1.50",
                 "title"          => "Example survey title",
+                "extra_info"     => [
+                    "point" => [
+                        "complete" => 100,
+                    ]
+                ]
             ]
         ];
         $exitCode = $commandTester->execute(array(
@@ -231,6 +245,11 @@ class MailCommandTest extends WebTestCase {
                 "ir"             => "50",
                 "cpi"            => "1.50",
                 "title"          => "Example survey title",
+                "extra_info"     => [
+                    "point" => [
+                        "complete" => 100,
+                    ]
+                ]
             ]
         ];
         $exitCode = $commandTester->execute(array(
@@ -250,6 +269,11 @@ class MailCommandTest extends WebTestCase {
                 "ir"             => "50",
                 "cpi"            => "1.50",
                 "title"          => "Example survey title",
+                "extra_info"     => [
+                    "point" => [
+                        "complete" => 100,
+                    ]
+                ]
             ]
         ];
         $exitCode = $commandTester->execute(array(

@@ -30,8 +30,19 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
         $logger = $this->getContainer()->get('monolog.logger.email_delivery');
         $parameterService = $this->getContainer()->get('app.parameter_service');
         $mailer = MailerFactory::createWebpowerMailer($parameterService);
-        $respondents = json_decode($input->getOption('respondents'), true);
+
         $exitCode = 0;
+
+        // check external passed in argument
+        $respondents = json_decode($input->getOption('respondents'), true);
+        if (!is_array($respondents)) {
+            $message = "The format of the argument passed in is incorrect";
+            $logger->error($message);
+            $output->write($message);
+            $exitCode = 1;
+            return $exitCode;
+        }
+
         for ($i = 0; $i < count($respondents); $i++) {
             try {
                 $respondent = $respondents[$i];
@@ -60,16 +71,16 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
                     } else {
                         $message = 'User whose email is ' . $recipient['email'] . " does not want to receive email";
                         $logger->info($message);
-                        $output->writeln($message);
+                        $output->write($message);
                     }
                 } else {
                     $message = 'User whose id is ' . $recipient['id'] . " does not have an email";
                     $logger->info($message);
-                    $output->writeln($message);
+                    $output->write($message);
                 }
             } catch(\Exception $e) {
                 $logger->error($e->getMessage());
-                $output->writeln($e->getMessage());
+                $output->write($e->getMessage());
                 $exitCode = 1;
             }
         }
