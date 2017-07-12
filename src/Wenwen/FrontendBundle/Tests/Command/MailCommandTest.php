@@ -177,9 +177,92 @@ class MailCommandTest extends WebTestCase {
     }
 
     public function testSopDeliveryNotificationBatchMailCommand() {
+        $application = new Application(static::$kernel);
+        $application->add(new SopDeliveryNotificationBatchMailCommand());
+
+        $command = $application->find('mail:sop_delivery_notification_batch');
+        $commandTester = new CommandTester($command);
+
+        // test without correct data structure
         $respondents = [
             [
-                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_GUOBIN->getId(),
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_WITH_EMAIL_AND_SUBSCRIBED->getId(),
+                "survey_id"      => "123",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title",
+            ]
+        ];
+        $exitCode = $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
+        $this->assertContains('Notice', $commandTester->getDisplay());
+        $this->assertEquals(1, $exitCode);
+
+        // test with the not existing app_mid
+        $respondents = [
+            [
+                "app_mid"        => 11111111,
+                "survey_id"      => "123",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title",
+            ]
+        ];
+        $exitCode = $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
+        $this->assertContains('No user found', $commandTester->getDisplay());
+        $this->assertEquals(1, $exitCode);
+
+        // test without email
+        $respondents = [
+            [
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_WITHOUT_EMAIL->getId(),
+                "survey_id"      => "123",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title",
+            ]
+        ];
+        $exitCode = $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
+        $this->assertContains('does not have an email', $commandTester->getDisplay());
+        $this->assertEquals(0, $exitCode);
+
+        // test unsubscribed
+        $respondents = [
+            [
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_UNSUBSCRIBED->getId(),
+                "survey_id"      => "123",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title",
+            ]
+        ];
+        $exitCode = $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
+        $this->assertContains('does not want to receive email', $commandTester->getDisplay());
+        $this->assertEquals(0, $exitCode);
+
+        // test with email and subscribe
+        $respondents = [
+            [
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_WITH_EMAIL_AND_SUBSCRIBED->getId(),
                 "survey_id"      => "123",
                 "quota_id"       => "1234",
                 "loi"            => "10",
@@ -192,30 +275,11 @@ class MailCommandTest extends WebTestCase {
                     ]
                 ]
             ],
-            [
-                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_GUOBIN->getId(),
-                "survey_id"      => "456",
-                "quota_id"       => "1234",
-                "loi"            => "10",
-                "ir"             => "50",
-                "cpi"            => "1.50",
-                "title"          => "Example survey title2",
-                "extra_info"     => [
-                    "point" => [
-                        "complete" => 100,
-                    ]
-                ]
-            ]
         ];
-
-        $application = new Application(static::$kernel);
-        $application->add(new SopDeliveryNotificationBatchMailCommand());
-
-        $command = $application->find('mail:sop_delivery_notification_batch');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $exitCode = $commandTester->execute(array(
             'command' => $command->getName(),
             '--respondents' => json_encode($respondents),
         ));
+        $this->assertEquals(0, $exitCode);
     }
 }

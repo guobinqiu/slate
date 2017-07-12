@@ -45,7 +45,7 @@ class SopApiControllerTest extends WebTestCase
         $loader->addFixture($fixture);
         $executor->execute($loader->getFixtures());
 */
-        //$this->sopRespondent = LoadUserSopData::$SOP_RESPONDENT;
+        //$this->sopRespondent = LoadUserSopData::$SOP_RESPONDENTS;
     }
 
     /**
