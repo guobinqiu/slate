@@ -2,12 +2,17 @@
 
 namespace Wenwen\FrontendBundle\Tests\Command;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Jili\ApiBundle\DataFixtures\ORM\LoadUserSopData;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Wenwen\FrontendBundle\Command\FulcrumDeliveryNotificationMailCommand;
 use Wenwen\FrontendBundle\Command\SignupConfirmationMailCommand;
 use Wenwen\FrontendBundle\Command\SignupSuccessMailCommand;
+use Wenwen\FrontendBundle\Command\SopDeliveryNotificationBatchMailCommand;
 use Wenwen\FrontendBundle\Command\SopDeliveryNotificationMailCommand;
 use Wenwen\FrontendBundle\Command\SsiDeliveryNotificationMailCommand;
 
@@ -19,22 +24,29 @@ class MailCommandTest extends WebTestCase {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
         $this->container = static::$kernel->getContainer();
+        $em = $this->container->get('doctrine')->getManager();
+
+        $loader = new Loader();
+        $loader->addFixture(new LoadUserSopData());
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($em, $purger);
+        $executor->execute($loader->getFixtures());
     }
 
-//    public function testSignupConfirmationMailCommand() {
-//        $application = new Application(static::$kernel);
-//        $application->add(new SignupConfirmationMailCommand());
-//
-//        $command = $application->find('mail:signup_confirmation');
-//        $commandTester = new CommandTester($command);
-//        $commandTester->execute(array(
-//            'command' => $command->getName(),
-//            '--subject' => 'signup confirmation',
-//            '--email' => 'qracle@126.com',
-//            '--name' => 'Guobin',
-//            '--register_key' => '1234567890',
-//        ));
-//    }
+    public function testSignupConfirmationMailCommand() {
+        $application = new Application(static::$kernel);
+        $application->add(new SignupConfirmationMailCommand());
+
+        $command = $application->find('mail:signup_confirmation');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--subject' => 'signup confirmation',
+            '--email' => 'qracle@126.com',
+            '--name' => 'Guobin',
+            '--confirmation_token' => '1234567890',
+        ));
+    }
 
     public function testSignupSuccessMailCommand() {
         $application = new Application(static::$kernel);
@@ -65,7 +77,6 @@ class MailCommandTest extends WebTestCase {
             '--survey_length' => 10,
             '--subject' => 'sop delivery notification',
             '--survey_id' => 1,
-            '--survey_difficulty' => '困难',
             //'--channel' => 'channel2',//sendcloud
         ));
 
@@ -163,5 +174,48 @@ class MailCommandTest extends WebTestCase {
             'mercurylovesea@163.com',
             'cs@91wenwen.net',
         );
+    }
+
+    public function testSopDeliveryNotificationBatchMailCommand() {
+        $respondents = [
+            [
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_GUOBIN->getId(),
+                "survey_id"      => "123",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title",
+                "extra_info"     => [
+                    "point" => [
+                        "complete" => 100,
+                    ]
+                ]
+            ],
+            [
+                "app_mid"        => LoadUserSopData::$SOP_RESPONDENT_GUOBIN->getId(),
+                "survey_id"      => "456",
+                "quota_id"       => "1234",
+                "loi"            => "10",
+                "ir"             => "50",
+                "cpi"            => "1.50",
+                "title"          => "Example survey title2",
+                "extra_info"     => [
+                    "point" => [
+                        "complete" => 100,
+                    ]
+                ]
+            ]
+        ];
+
+        $application = new Application(static::$kernel);
+        $application->add(new SopDeliveryNotificationBatchMailCommand());
+
+        $command = $application->find('mail:sop_delivery_notification_batch');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command' => $command->getName(),
+            '--respondents' => json_encode($respondents),
+        ));
     }
 }

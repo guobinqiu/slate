@@ -17,26 +17,38 @@ class SopDeliveryNotification implements DeliveryNotification
         $this->surveySopService = $surveySopService;
     }
 
+//    public function send(array $respondents) {
+//        //$unsubscribed_app_mids = array();
+//        $this->surveySopService->createSurvey($respondents[0]);
+//        for ($i = 0; $i < count($respondents); $i++) {
+//            $respondent = $respondents[$i];
+//            $this->surveySopService->createParticipationByAppMid($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
+//            $recipient = $this->getRecipient($respondent['app_mid']);
+//            if ($recipient['email']) {
+//                if ($this->isSubscribed($recipient['email'])) {
+//                    $respondent['recipient'] = $recipient;
+//                    //$channel = $this->getChannel($i);
+//                    $this->runJob($respondent);
+//                }
+//            }
+//            //else {
+//                // 没有 email 并不代表这个app_mid不存在，不用返回信息给SOP那边
+//                //$unsubscribed_app_mids[] = $respondent['app_mid'];
+//            //}
+//        }
+//        //return $unsubscribed_app_mids;
+//    }
+
     public function send(array $respondents) {
-        //$unsubscribed_app_mids = array();
         $this->surveySopService->createSurvey($respondents[0]);
         for ($i = 0; $i < count($respondents); $i++) {
             $respondent = $respondents[$i];
             $this->surveySopService->createParticipationByAppMid($respondent['app_mid'], $respondent['survey_id'], SurveyStatus::STATUS_TARGETED);
-            $recipient = $this->getRecipient($respondent['app_mid']);
-            if ($recipient['email']) {
-                if ($this->isSubscribed($recipient['email'])) {
-                    $respondent['recipient'] = $recipient;
-                    //$channel = $this->getChannel($i);
-                    $this->runJob($respondent);
-                }
-            }
-            //else {
-                // 没有 email 并不代表这个app_mid不存在，不用返回信息给SOP那边
-                //$unsubscribed_app_mids[] = $respondent['app_mid'];
-            //}
         }
-        //return $unsubscribed_app_mids;
+        $job = new Job('mail:sop_delivery_notification_batch', array('--respondents=' . json_encode($respondents)), true, '91wenwen');
+        $this->em->persist($job);
+        $this->em->flush($job);
+        $this->em->clear();
     }
 
     private function runJob($respondent, $channel = null) {

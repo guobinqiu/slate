@@ -16,6 +16,7 @@ class LoadUserSopData extends AbstractFixture implements ContainerAwareInterface
 {
     public static $USERS;
     public static $SOP_RESPONDENT;
+    public static $SOP_RESPONDENT_GUOBIN;
 
     public function __construct()
     {
@@ -71,12 +72,24 @@ class LoadUserSopData extends AbstractFixture implements ContainerAwareInterface
         $manager->flush();
         self::$SOP_RESPONDENT[] = $sop_respondent;
 
+        //respondent: guobin
+        $user = new User();
+        $user->setNick('guobin');
+        $user->setEmail('qracle@126.com');
+        $user->setPoints(100);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $user->setRegisterDate(new \DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
         //inactive
         $sop_respondent = new SopRespondent();
-        $sop_respondent->setUserId($user->getId()+1);
+        $sop_respondent->setUserId($user->getId());
         $sop_respondent->setStatusFlag($sop_respondent::STATUS_INACTIVE);
         $manager->persist($sop_respondent);
         $manager->flush();
         self::$SOP_RESPONDENT[] = $sop_respondent;
+        self::$SOP_RESPONDENT_GUOBIN = $sop_respondent;
     }
 }
