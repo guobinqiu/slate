@@ -189,7 +189,7 @@ class MailCommandTest extends WebTestCase {
             'command' => $command->getName(),
             '--respondents' => json_encode($respondents),
         ));
-        $this->assertEquals('The format of the argument passed in is incorrect', $commandTester->getDisplay());
+        $this->assertContains('Invalid option value. respondents='. json_encode($respondents), $commandTester->getDisplay());
         $this->assertEquals(1, $exitCode);
 
         // test without correct data structure
@@ -256,7 +256,7 @@ class MailCommandTest extends WebTestCase {
             'command' => $command->getName(),
             '--respondents' => json_encode($respondents),
         ));
-        $this->assertContains('does not have an email', $commandTester->getDisplay());
+        $this->assertContains('User registered without email', $commandTester->getDisplay());
         $this->assertEquals(0, $exitCode);
 
         // test unsubscribed
@@ -280,7 +280,7 @@ class MailCommandTest extends WebTestCase {
             'command' => $command->getName(),
             '--respondents' => json_encode($respondents),
         ));
-        $this->assertContains('does not want to receive email', $commandTester->getDisplay());
+        $this->assertContains('Email unsbuscribed', $commandTester->getDisplay());
         $this->assertEquals(0, $exitCode);
 
         // test with email and subscribe
