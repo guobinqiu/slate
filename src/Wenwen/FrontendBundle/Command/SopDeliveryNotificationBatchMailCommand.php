@@ -36,12 +36,18 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
         // check external passed in argument
         $respondents = json_decode($input->getOption('respondents'), true);
         if (!is_array($respondents)) {
-            $message = "The format of the argument passed in is incorrect";
+            $message = __METHOD__ . " Invalid option value. respondents=" . $input->getOption('respondents');
             $logger->error($message);
             $output->write($message);
             $exitCode = 1;
             return $exitCode;
         }
+
+        $logger->info(__METHOD__ . ' START SEND Email. Total count:' . count($respondents));
+
+        $countSent = 0;
+        $countNoEmail = 0;
+        $countUnsubscribe = 0;
 
         for ($i = 0; $i < count($respondents); $i++) {
             try {
@@ -68,22 +74,27 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
                             'survey_length' => $loi,
                         ));
                         $mailer->send($toAddress, $subject, $html);
+                        $countSent++;
+                        $logger->info(__METHOD__ . ' Email sent. ' . json_encode($recipient));
                     } else {
-                        $message = 'User whose email is ' . $recipient['email'] . " does not want to receive email";
+                        $countUnsubscribe++;
+                        $message = __METHOD__ . ' Email unsbuscribed. ' . json_encode($recipient);
                         $logger->info($message);
                         $output->write($message);
                     }
                 } else {
-                    $message = 'User whose id is ' . $recipient['id'] . " does not have an email";
+                    $countNoEmail++;
+                    $message = __METHOD__ . ' User registered without email ' . json_encode($recipient);
                     $logger->info($message);
                     $output->write($message);
                 }
             } catch(\Exception $e) {
-                $logger->error($e->getMessage());
+                $logger->error(__METHOD__ . ' ' . $e->getMessage());
                 $output->write($e->getMessage());
                 $exitCode = 1;
             }
         }
+        $logger->info(__METHOD__ . ' END   SEND Email. Total sent=' . $countSent . ' Count of no email=' . $countNoEmail . ' Count of unsubscribe=' . $countUnsubscribe);
         return $exitCode;
     }
 
