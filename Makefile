@@ -19,8 +19,15 @@ WEB_ROOT_DIR=/data/web/personal/${SUBDOMAIN}/www_91jili_com
 test:
 	$(PHPUNIT) -c ./app/phpunit.xml --testsuite all -d memory_limit=-1 --debug --verbose
 
-test-data: cc-all
-	yes | $(PHP) app/console doctrine:fixtures:load --fixtures=./src/Jili/FrontendBundle/DataFixtures/ORM/DummyData/
+test-data: setup-databases
+	mysql -uroot jili_dev < sql/static_data/provinceList.sql
+	mysql -uroot jili_dev < sql/static_data/cityList.sql
+	mysql -uroot jili_dev < sql/static_data/points_exchange_type.sql
+	mysql -uroot jili_dev < sql/static_data/prize_items.sql
+	mysql -uroot jili_dev < sql/dev_data/user.sql
+	mysql -uroot jili_dev < sql/dev_data/ssi_project.sql
+	mysql -uroot jili_dev < sql/dev_data/ssi_respondent.sql
+	mysql -uroot jili_dev < sql/dev_data/ssi_project_respondent.sql
 
 test-branch: cc-all
 	git diff --name-only ${BRANCH}... --diff-filter=AM src/ | grep "Test.php" | xargs -n 1 $(PHPUNIT) -c ./app/ -d memory_limit=-1
@@ -32,7 +39,7 @@ deploy-js-routing: assets-rebuild
 	./app/console	fos:js-routing:dump
 	./app/console	assetic:dump --env=test
 
-setup: show-setting setup-submodules create-dir fix-perms setup-databases deploy-js-routing cc-all setup-web-root
+setup: show-setting setup-submodules create-dir fix-perms test-data deploy-js-routing cc-all setup-web-root
 
 setup-perl:
 	cd ${SRC_DIR}/scripts/perl/ && $(MAKE) setup
