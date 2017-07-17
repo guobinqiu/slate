@@ -198,3 +198,26 @@ snc_redis:
     session:
         client: session
         ttl: 1200
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: ['*']
+        allow_headers: ['X-Custom-Auth']
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE']
+        max_age: 3600
+        hosts: []
+        origin_regex: false
+
+fos_rest:
+    body_listener: true
+    format_listener:
+        rules:
+#            - { path: '^/', host: 'api.%domain%', priorities: ['json'], fallback_format: json, prefer_extension: false }
+            - { path: '^/api/v1', priorities: ['json'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: true }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true

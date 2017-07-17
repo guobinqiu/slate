@@ -18,4 +18,10 @@ class CityListRepository extends EntityRepository
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
+    public function getCitiesByProvinceId($provinceId) {
+        return $this->createQueryBuilder('c')
+            ->select('c.cityName, c.cityId')
+            ->where('c.provinceId = ?1')
+            ->setParameter(1, $provinceId)->getQuery()->getResult();
+    }
 }

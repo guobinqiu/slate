@@ -35,7 +35,9 @@
         "jms/serializer": "1.0.0",
         "spomky-labs/base64url": "1.0.2",
         "leafo/scssphp": "0.4",
-        "captcha-com/symfony-captcha-bundle": "4.*"
+        "captcha-com/symfony-captcha-bundle": "4.*",
+        "friendsofsymfony/rest-bundle": "1.5.*",
+        "nelmio/cors-bundle": "1.4.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",

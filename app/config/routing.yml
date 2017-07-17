@@ -78,3 +78,8 @@ JMSJobQueueBundle:
 affiliate_app:
     resource: "@AffiliateAppBundle/Resources/config/routing.yml"
     prefix:   /affiliate
+
+api_v1:
+    resource: "@WenwenFrontendBundle/Controller/API/V1"
+    type: annotation
+    prefix: /api/v1

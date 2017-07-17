@@ -18,6 +18,9 @@ security:
                     gmo:
                         password: $2y$12$oM9/GNfWGH5ODrEZZ32AvenhPFYe1y5fpTTlRKz9TE5jaX/ajnc8W
                         roles: 'ROLE_GMO'
+                    api:
+                        password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
+                        roles: 'ROLE_API'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -48,4 +51,5 @@ security:
         - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/api/v1, roles: ROLE_API, requires_channel: https }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

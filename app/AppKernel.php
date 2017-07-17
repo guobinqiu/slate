@@ -32,6 +32,8 @@ class AppKernel extends Kernel
             new Snc\RedisBundle\SncRedisBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Captcha\Bundle\CaptchaBundle\CaptchaBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test', 'staging'))) {

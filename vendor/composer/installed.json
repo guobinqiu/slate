@@ -5013,5 +5013,195 @@
             "captcha bundle",
             "symfony captcha"
         ]
+    },
+    {
+        "name": "willdurand/negotiation",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/willdurand/Negotiation.git",
+            "reference": "2a59f2376557303e3fa91465ab691abb82945edf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/2a59f2376557303e3fa91465ab691abb82945edf",
+            "reference": "2a59f2376557303e3fa91465ab691abb82945edf",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-10-01 07:42:40",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Negotiation\\": "src/Negotiation"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "William Durand",
+                "email": "william.durand1@gmail.com"
+            }
+        ],
+        "description": "Content Negotiation tools for PHP provided as a standalone library.",
+        "homepage": "http://williamdurand.fr/Negotiation/",
+        "keywords": [
+            "accept",
+            "content",
+            "format",
+            "header",
+            "negotiation"
+        ]
+    },
+    {
+        "name": "friendsofsymfony/rest-bundle",
+        "version": "1.5.3",
+        "version_normalized": "1.5.3.0",
+        "target-dir": "FOS/RestBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
+            "reference": "fdd21c4c0cb6222ae37efc9362c6a96bd1432412"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/fdd21c4c0cb6222ae37efc9362c6a96bd1432412",
+            "reference": "fdd21c4c0cb6222ae37efc9362c6a96bd1432412",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/inflector": "~1.0",
+            "php": ">=5.3.9",
+            "psr/log": "~1.0",
+            "symfony/framework-bundle": "~2.2",
+            "willdurand/jsonp-callback-validator": "~1.0",
+            "willdurand/negotiation": "~1.2"
+        },
+        "conflict": {
+            "jms/serializer": "<0.12",
+            "jms/serializer-bundle": "<0.11"
+        },
+        "require-dev": {
+            "jms/serializer-bundle": "~0.12",
+            "sensio/framework-extra-bundle": "~2.2",
+            "symfony/form": "~2.2",
+            "symfony/security": "~2.2",
+            "symfony/serializer": "~2.2",
+            "symfony/validator": "~2.2",
+            "symfony/yaml": "~2.2"
+        },
+        "suggest": {
+            "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires ~0.12",
+            "sensio/framework-extra-bundle": "Add support for route annotations and the view response listener",
+            "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.2",
+            "symfony/validator": "Add support for validation capabilities in the ParamFetcher, requires ~2.2"
+        },
+        "time": "2015-02-16 15:26:12",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "FOS\\RestBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Lukas Kahwe Smith",
+                "email": "smith@pooteeweet.org"
+            },
+            {
+                "name": "FriendsOfSymfony Community",
+                "homepage": "https://github.com/friendsofsymfony/FOSRestBundle/contributors"
+            },
+            {
+                "name": "Konstantin Kudryashov",
+                "email": "ever.zet@gmail.com"
+            }
+        ],
+        "description": "This Bundle provides various tools to rapidly develop RESTful API's with Symfony2",
+        "homepage": "http://friendsofsymfony.github.com",
+        "keywords": [
+            "rest"
+        ]
+    },
+    {
+        "name": "nelmio/cors-bundle",
+        "version": "1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nelmio/NelmioCorsBundle.git",
+            "reference": "fa14a81737c605bf4766054cdcb72a16a433d537"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/fa14a81737c605bf4766054cdcb72a16a433d537",
+            "reference": "fa14a81737c605bf4766054cdcb72a16a433d537",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/framework-bundle": "^2.2 || ^3.0"
+        },
+        "require-dev": {
+            "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+            "mockery/mockery": "0.9.*"
+        },
+        "time": "2015-12-09 17:26:34",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Nelmio\\CorsBundle\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nelmio",
+                "homepage": "http://nelm.io"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://github.com/nelmio/NelmioCorsBundle/contributors"
+            }
+        ],
+        "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Symfony2 application",
+        "keywords": [
+            "api",
+            "cors",
+            "crossdomain"
+        ]
     }
 ]

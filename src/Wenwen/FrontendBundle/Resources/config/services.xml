@@ -183,5 +183,7 @@
             <argument type="service" id="knp_paginator" />
         </service>
 
+        <service id="app.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
+        </service>
     </services>
 </container>
