@@ -1,10 +1,10 @@
-{% set link = url('_signup_confirm_register', {'confirmation_token': confirmation_token}) %}
+<!-- {% set link = url('_signup_confirm_register', {'confirmation_token': confirmation_token}) %} -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>邮件激活</title>
 </head>
 <body style="padding: 0; margin: 0;">
   <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" bgcolor="#f0f1f4" style="margin:0 auto; padding-bottom: 60px;">
@@ -46,6 +46,7 @@
                                         <tr>
                                           <td style="text-align: left; font-size:13px; color: #474238;">
                                             <p style="color: #4f5c54; line-height: 22px;">请您点击下面的按钮完成最后的邮件验证，激活您的账户，领取积分。<br /> <span style="color: #999; font-weight: normal;">如果无法点击以下按钮，请将以下URL复制到浏览器的地址栏，并确认。</span><br /> <span style="color: #138144;">{{ link }}</span></p>
+                                            <p style="color: #e62200;">特别提醒：链接<strong>24小时</strong>有效，请在有效时间内激活您的账号。</p>
                                             <p style="color: #4f5c54;">感谢您的支持，立刻来参加我们的有奖市场调查活动，支付宝积分，现金大奖等你拿！</p>
                                           </td>
                                         </tr>
