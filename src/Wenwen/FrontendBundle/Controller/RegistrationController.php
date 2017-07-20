@@ -159,7 +159,7 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $this->pushBasicProfile($user);// 推送用户基本属性
+            $this->pushBasicProfile($user->getId());// 推送用户基本属性
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
 

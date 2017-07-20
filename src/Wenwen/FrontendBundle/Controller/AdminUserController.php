@@ -30,8 +30,6 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         $arr['user_id'] = $userId;
         $arr['email'] = $email;
         $arr['nick'] = $nick;
-
-
         $user = null;
         if($userId){
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
@@ -88,7 +86,6 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
             }
 
             $currentPage = $request->query->get('page', 1);
-
             $adminUserService = $this->get('app.admin_user_service');
             $taskHistories = $adminUserService->findUserTaskHistories($user->getId(), $currentPage, 50);
             if($taskHistories){
@@ -133,7 +130,6 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
             $tel = $request->get('tel');
             $delete_flag = $request->get('delete_flag');
             $datetime = new \DateTime();
-
             $errorMessage = $this->memberCheck($member->getEmail(),$nick, $tel, $delete_flag);
             if(!$errorMessage){
                 $member->setNick($nick);//验证是否存在 ，是否排除已删除的用户
