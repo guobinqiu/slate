@@ -65,17 +65,11 @@ class RegistrationController extends BaseController
 
                 $em = $this->getDoctrine()->getManager();
 
-                $user->setConfirmationToken(md5(uniqid(rand(), true)));
-                $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
                 $user->setCreatedRemoteAddr($request->getClientIp());
                 $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
 
                 if (!$request->cookies->has('uid')) {
-                    //再加一道防护
                     //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-                    //说实话没啥用
-                    //服务端写浏览器是安全的，浏览器传给服务端，懂点技术的人都可以修改这个fingerprint
-                    //先试试看吧
                     $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
                     if ($userTrack == null) {
                         $user->setInviteId($session->get('inviteId'));
@@ -104,7 +98,10 @@ class RegistrationController extends BaseController
                     $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
-                $this->send_confirmation_email($user);
+                $token = md5(uniqid(rand(), true));
+
+                $authService = $this->get('app.auth_service');
+                $authService->sendConfirmationEmail($user->getId(), $user->getEmail(), $token);
 
                 return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
             }
@@ -132,53 +129,43 @@ class RegistrationController extends BaseController
      */
     public function confirmRegisterAction(Request $request)
     {
-        $confirmation_token = $request->query->get('confirmation_token');
+        $confirmationToken = $request->query->get('confirmation_token');
+        $authService = $this->get('app.auth_service');
+        $rtn = $authService->confirmEmail($confirmationToken);
 
-        if (!isset($confirmation_token)) {
-            throw new \Exception('无效链接');
+        if ($rtn['status'] == 'success') {
+            if($this->pushBasicProfile($rtn['userId'])) {
+                // 推送用户基本属性
+                $request->getSession()->set('uid', $rtn['userId']);
+                return $this->redirect($this->generateUrl('_user_regSuccess'));
+            }
+        } else {
+            // Todo 过渡用的，上线24小时后可以删除整个else的内容
+            if (!isset($confirmationToken)) {
+                return $this->redirect($this->generateUrl('_user_regFailure'));
+            }
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
+                'confirmationToken' => $confirmationToken,
+            ));
+            if ($user == null) {
+                return $this->redirect($this->generateUrl('_user_regFailure'));
+            }
+            if ($user->isConfirmationTokenExpired()) {
+                return $this->redirect($this->generateUrl('_user_regFailure'));
+            }
+            $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
+            $user->setRegisterCompleteDate(new \DateTime());
+            $user->setLastGetPointsAt(new \DateTime());
+            $em->flush();
+
+            $this->pushBasicProfile($user->getId());// 推送用户基本属性
+            $request->getSession()->set('uid', $user->getId());
+            return $this->redirect($this->generateUrl('_user_regSuccess'));
+
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
-            'confirmationToken' => $confirmation_token,
-        ));
-
-        if ($user == null) {
-            throw new \Exception('无效链接');
-        }
-
-        if ($user->isConfirmationTokenExpired()) {
-            throw new \Exception('验证码已过期');
-        }
-
-        $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
-        $user->setRegisterCompleteDate(new \DateTime());
-        $user->setLastGetPointsAt(new \DateTime());
-        $em->flush();
-
-        // 暂时以comment的方式留着，将来可能考虑要给完成注册时的积分
-        /*
-        $pointService = $this->get('app.point_service');
-
-        // 给当前用户加积分
-        $pointService->addPoints(
-            $user,
-            User::POINT_SIGNUP,
-            CategoryType::SIGNUP,
-            TaskType::RENTENTION,
-            '完成注册',
-            null,
-            new \DateTime(),
-            true,
-            PrizeItem::TYPE_SMALL
-        );
-        */
-
-        $this->pushBasicProfile($user);// 推送用户基本属性
-
-        $request->getSession()->set('uid', $user->getId());
-
-        return $this->redirect($this->generateUrl('_user_regSuccess'));
+        return $this->redirect($this->generateUrl('_user_regFailure'));
     }
 
     /**
@@ -187,6 +174,14 @@ class RegistrationController extends BaseController
     public function regSuccessAction()
     {
         return $this->render('WenwenFrontendBundle:User:regSuccess.html.twig');
+    }
+
+    /**
+     * @Route("/regFailure", name="_user_regFailure")
+     */
+    public function regFailureAction()
+    {
+        return $this->render('WenwenFrontendBundle:User:regFailure.html.twig');
     }
 
     /**
@@ -202,31 +197,25 @@ class RegistrationController extends BaseController
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
-    private function send_confirmation_email(User $user)
+    private function pushBasicProfile($userId)
     {
-        $args = array(
-            '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
-            '--email='.$user->getEmail(),
-            '--name='.$user->getNick(),
-            '--confirmation_token='.$user->getConfirmationToken(),
-        );
-        $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
-        $job->setMaxRetries(3);
         $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
-    }
 
-    private function pushBasicProfile(User $user)
-    {
+        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+        if ($user == null) {
+            return false;
+        }
+
         $args = array(
-            '--user_id=' . $user->getId(),
+            '--user_id=' . $userId,
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
         $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
+
         $em->persist($job);
         $em->flush();
+
+        return true;
     }
 
     private function getSopProfilingSurveyInfo($user_id) {
