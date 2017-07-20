@@ -1,0 +1,66 @@
+{% extends 'WenwenFrontendBundle::base.html.twig' %}
+{% block title %}{{ parent() }}注册完成{% endblock %}
+
+{% block stylesheet %}
+    <!-- pages css -->
+    {% stylesheets filter="cssrewrite, scssphp, ?uglifycss" output="dist/css/frontend/regSuccess.css"
+        "assets/scss/frontend/pages/user/regSuccess.scss"
+    %}
+        <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block header %}
+{% include 'WenwenFrontendBundle:Components:_header.html.twig' %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12">
+			<div class="panel">
+				<div class="panel-body">
+					<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+						<div class="main-register-active">
+							<div class="con finish">
+								<div class="text">
+									<br><br>
+									{% for flashMessage in app.session.flashbag.get('notice') %}
+										<i class="fa fa-times-circle-o" aria-hidden="true"></i>
+									    <h2 class="title">{{ flashMessage }}</h2>
+									{% else %}
+										<i class="fa fa-times-circle-o" aria-hidden="true"></i>
+									    <h2 class="title">抱歉，无效的验证链接，请重新注册</h2>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'WenwenFrontendBundle:Components:_footer.html.twig' %}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+		//baidu统计
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?878d6a1fecf76315390d7c5db8779bef";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+		setTimeout(refer, 3000);
+		function refer(){
+			location = "{{ path("_homepage") }}"; //#设定跳转的链接地址
+		}
+    </script>
+{% endblock %}
