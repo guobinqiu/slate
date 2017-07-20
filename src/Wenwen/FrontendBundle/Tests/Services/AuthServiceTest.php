@@ -54,6 +54,9 @@ class AuthServiceTest extends WebTestCase
         return $this->application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
     }
 
+    /**
+     * Invalid params test
+     */
     public function testSendConfirmationEmail_failure_invalidparams() {
 
         $rtn = $this->authService->sendConfirmationEmail(null, 's', 'xx');
@@ -72,6 +75,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals('failure', $rtn['status']);
     }
 
+    /**
+     * Too frequent request for email confirmation
+     */
     public function testSendConfirmationEmail_failure_update() {
         $token = md5(uniqid(rand(), true));
 
@@ -103,6 +109,10 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals($original_token, $authEmail->getToken());
     }
 
+
+    /**
+     * Success for request to confirm email again after 60 seconds.
+     */
     public function testSendConfirmationEmail_success_update() {
         $token = md5(uniqid(rand(), true));
 
@@ -143,6 +153,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertTrue($authEmail->getExpiredAt() > $originalExpiredAt);
     }
 
+    /**
+     * Success to request send a confirmation email
+     */
     public function testSendConfirmationEmail_success_create() {
         $token = md5(uniqid(rand(), true));
 
@@ -167,6 +180,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertTrue($diffInSeconds <= 3600 * 24);
     }
 
+    /**
+     * System error
+     */
     public function testSendConfirmationEmail_error() {
         // 删掉所有表
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
@@ -183,6 +199,9 @@ class AuthServiceTest extends WebTestCase
         $this->runConsole("doctrine:schema:create");
     }
 
+    /**
+     * Invalid params
+     */
     public function testConfirmEmail_failure_invalidparams() {
 
         $rtn = $this->authService->confirmEmail(null);
@@ -191,6 +210,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals('Invalid params.', $rtn['errMsg']);
     }
 
+    /**
+     * Not exist token
+     */
     public function testConfirmEmail_failure_notexist() {
         $token = 'xxx';
 
@@ -200,6 +222,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals('token not exist.', $rtn['errMsg']);
     }
 
+    /**
+     * Token expired
+     */
     public function testConfirmEmail_failure_expired() {
         $token = 'xxx';
         $email = 'failure_expired@test.com';
@@ -221,6 +246,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals('failure', $rtn['status']);
     }
 
+    /**
+     * Confirmation success
+     */
     public function testConfirmEmail_success() {
         $token = 'xxx';
         $email = 'success@test.com';
@@ -253,6 +281,9 @@ class AuthServiceTest extends WebTestCase
         $this->assertNull($authEmail);
     }
 
+    /**
+     * System error
+     */
     public function testConfirmEmail_error() {
         // 删掉所有表
         $this->runConsole("doctrine:schema:drop", array("--force" => true));
