@@ -150,6 +150,7 @@ class AuthServiceTest extends WebTestCase
             ));
 
         $this->assertNotEquals($original_token, $authEmail->getToken());
+        $this->assertEquals($token, $authEmail->getToken());
         $this->assertTrue($authEmail->getExpiredAt() > $originalExpiredAt);
     }
 
