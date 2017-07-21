@@ -25,7 +25,7 @@ class HomeController extends BaseController
             $rtn = $authService->findRememberMeToken($cookies->get(AuthService::REMEMBER_ME_TOKEN));
 
             if($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS){
-                $request->getSession()->set('uid', $user->getId());
+                $request->getSession()->set('uid', $rtn[AuthService::KEY_USERID]);
             }
         }
 
