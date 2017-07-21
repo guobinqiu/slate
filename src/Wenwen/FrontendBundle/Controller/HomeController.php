@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Entity\User;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Entity\SurveyListJob;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 class HomeController extends BaseController
 {
@@ -20,8 +21,10 @@ class HomeController extends BaseController
     {
         $cookies = $request->cookies;
         if ($cookies->has(User::REMEMBER_ME_TOKEN)) {
-            $user = $this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findOneBy(array('rememberMeToken' => $cookies->get(User::REMEMBER_ME_TOKEN)));
-            if ($user != null && !$user->isRememberMeTokenExpired()) {
+            $authService = $this->get('app.auth_service');
+            $rtn = $authService->findRememberMeToken($cookies->get(AuthService::REMEMBER_ME_TOKEN));
+
+            if($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS){
                 $request->getSession()->set('uid', $user->getId());
             }
         }

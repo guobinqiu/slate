@@ -8,6 +8,9 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\AuthEmail;
+use Wenwen\FrontendBundle\Entity\AuthRememberMe;
+use Wenwen\FrontendBundle\Services\AuthService;
+
 
 
 class AuthServiceTest extends WebTestCase
@@ -36,6 +39,8 @@ class AuthServiceTest extends WebTestCase
         $this->authService = $this->container->get('app.auth_service');
         $this->application = new \Symfony\Bundle\FrameworkBundle\Console\Application(static::$kernel);
         $this->application->setAutoExit(false);
+
+        // print 'memory_get_usage=' . memory_get_usage() . ' memory_get_peak_usage=' . memory_get_peak_usage() . PHP_EOL;
     }
 
     /**
@@ -43,7 +48,12 @@ class AuthServiceTest extends WebTestCase
      */
     protected function tearDown() {
         parent::tearDown();
-        //$this->em->close();
+
+        // Do remember to clean up everything initialed at setUp
+        $this->em = null;
+        $this->container = null;
+        $this->authService = null;
+        $this->application = null;
     }
 
     protected function runConsole($command, Array $options = array())
@@ -61,18 +71,18 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->sendConfirmationEmail(null, 's', 'xx');
 
-        $this->assertEquals('Invalid params.', $rtn['errMsg']);
-        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
 
         $rtn = $this->authService->sendConfirmationEmail('xxx', null, 's');
 
-        $this->assertEquals('Invalid params.', $rtn['errMsg']);
-        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
 
         $rtn = $this->authService->sendConfirmationEmail('xxx', 's', null);
 
-        $this->assertEquals('Invalid params.', $rtn['errMsg']);
-        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
     }
 
     /**
@@ -99,8 +109,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->sendConfirmationEmail($user->getId(), $email, $token);
 
-        $this->assertEquals('Too many request for email confirmation', $rtn['errMsg']);
-        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_MALICIOUS_REQUEST, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
 
         $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthEmail')->findOneBy(array(
                 'email' => $email,
@@ -142,8 +152,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->sendConfirmationEmail($user->getId(), $email, $token);
 
-        $this->assertEquals('', $rtn['errMsg']);
-        $this->assertEquals('success', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_TOKEN_UPDATED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
 
         $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthEmail')->findOneBy(array(
                 'email' => $email,
@@ -169,8 +179,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->sendConfirmationEmail($user->getId(), $email, $token);
 
-        $this->assertEquals('', $rtn['errMsg']);
-        $this->assertEquals('success', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_TOKEN_CREATED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
 
         $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthEmail')->findOneBy(array(
                 'email' => $email,
@@ -194,7 +204,7 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->sendConfirmationEmail($userId, $email, $token);
 
-        $this->assertEquals('error', $rtn['status']);
+        $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
         // 测试结束，恢复所有表
         // 建立所有表
         $this->runConsole("doctrine:schema:create");
@@ -207,8 +217,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->confirmEmail(null);
 
-        $this->assertEquals('failure', $rtn['status']);
-        $this->assertEquals('Invalid params.', $rtn['errMsg']);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn['status']);
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
     }
 
     /**
@@ -219,8 +229,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->confirmEmail($token);
 
-        $this->assertEquals('failure', $rtn['status']);
-        $this->assertEquals('token not exist.', $rtn['errMsg']);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+        $this->assertEquals(AuthService::MSG_TOKEN_NOTFOUND, $rtn[AuthService::KEY_MESSAGE]);
     }
 
     /**
@@ -243,8 +253,8 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->confirmEmail($token);
 
-        $this->assertEquals('token expired.', $rtn['errMsg']);
-        $this->assertEquals('failure', $rtn['status']);
+        $this->assertEquals(AuthService::MSG_TOKEN_EXPIRED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
     }
 
     /**
@@ -268,8 +278,8 @@ class AuthServiceTest extends WebTestCase
         $rtn = $this->authService->confirmEmail($token);
 
 
-        $this->assertEquals('success', $rtn['status']);
-        $this->assertEquals($user->getId(), $rtn['userId']);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+        $this->assertEquals($user->getId(), $rtn[AuthService::KEY_USERID]);
 
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
 
@@ -294,10 +304,183 @@ class AuthServiceTest extends WebTestCase
 
         $rtn = $this->authService->confirmEmail($token);
 
-        $this->assertEquals('error', $rtn['status']);
+        $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
 
         // 测试结束，恢复所有表
         // 建立所有表
         $this->runConsole("doctrine:schema:create");
     }
+
+    /**
+     * Invalid params test
+     */
+    public function testGenerateRememberMeToken_failure_invalidparams() {
+
+        $rtn = $this->authService->generateRememberMeToken(null);
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * Invalid userId
+     */
+    public function testGenerateRememberMeToken_failure_usernotexist() {
+
+        $rtn = $this->authService->generateRememberMeToken('not_exist_user_id');
+
+        $this->assertEquals(AuthService::MSG_INVALID_USER, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * Success on creating a token
+     */
+    public function testGenerateRememberMeToken_success_generate() {
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $rtn = $this->authService->generateRememberMeToken($user->getId());
+
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+        $authRememberMe = $this->em->getRepository('WenwenFrontendBundle:AuthRememberMe')->findOneByUser($user);
+
+        $this->assertNotNull($authRememberMe);
+        $this->assertEquals($rtn[AuthService::KEY_TOKEN], $authRememberMe->getToken());
+        $this->assertEquals($rtn[AuthService::KEY_EXPIREDAT], $authRememberMe->getExpiredAt());
+    }
+
+    /**
+     * Success on updating a token
+     */
+    public function testGenerateRememberMeToken_success_update() {
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $originalToken = md5(uniqid(rand(), true));
+        $originalExpiredAt = new \DateTime('+ 30 days');
+        $authRememberMe = new AuthRememberMe();
+        $authRememberMe->setUser($user);
+        $authRememberMe->setToken($originalToken);
+        $authRememberMe->setExpiredAt($originalExpiredAt);
+        $this->em->persist($authRememberMe);
+        $this->em->flush();
+
+        $rtn = $this->authService->generateRememberMeToken($user->getId());
+
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+        $authRememberMe = $this->em->getRepository('WenwenFrontendBundle:AuthRememberMe')->findOneByUser($user);
+
+        $this->assertNotNull($authRememberMe);
+        $this->assertNotEquals($originalToken, $rtn[AuthService::KEY_TOKEN]);
+        $this->assertEquals($rtn[AuthService::KEY_TOKEN], $authRememberMe->getToken());
+        $this->assertEquals($rtn[AuthService::KEY_EXPIREDAT], $authRememberMe->getExpiredAt());
+    }
+
+    /**
+     * System error
+     */
+    public function testGenerateRememberMeToken_error() {
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+
+        $rtn = $this->authService->generateRememberMeToken(1);
+
+        $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
+    /**
+     * Invalid params test
+     */
+    public function testFindRememberMeToken_failure_invalidparams() {
+
+        $rtn = $this->authService->findRememberMeToken(null);
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * Token not found
+     */
+    public function testFindRememberMeToken_failure_tokennotfound() {
+
+        $rtn = $this->authService->findRememberMeToken('not_exist_token');
+
+        $this->assertEquals(AuthService::MSG_TOKEN_NOTFOUND, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * Token expired
+     */
+    public function testFindRememberMeToken_failure_tokenexpired() {
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $originalToken = md5(uniqid(rand(), true));
+        $originalExpiredAt = new \DateTime('- 1 seconds');
+        $authRememberMe = new AuthRememberMe();
+        $authRememberMe->setUser($user);
+        $authRememberMe->setToken($originalToken);
+        $authRememberMe->setExpiredAt($originalExpiredAt);
+        $this->em->persist($authRememberMe);
+        $this->em->flush();
+
+        $rtn = $this->authService->findRememberMeToken($originalToken);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_EXPIRED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * Token found
+     */
+    public function testFindRememberMeToken_success_tokenfound() {
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $originalToken = md5(uniqid(rand(), true));
+        $originalExpiredAt = new \DateTime('+ 1 seconds');
+        $authRememberMe = new AuthRememberMe();
+        $authRememberMe->setUser($user);
+        $authRememberMe->setToken($originalToken);
+        $authRememberMe->setExpiredAt($originalExpiredAt);
+        $this->em->persist($authRememberMe);
+        $this->em->flush();
+
+        $rtn = $this->authService->findRememberMeToken($originalToken);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_FOUND, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+    }
+
+    /**
+     * error
+     */
+    public function testFindRememberMeToken_error() {
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+
+        $rtn = $this->authService->findRememberMeToken(1);
+
+        $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
 }
