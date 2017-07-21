@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 /**
  * @Route("/user")
@@ -55,15 +56,6 @@ class UserController extends BaseController
                     return $this->render('WenwenFrontendBundle:User:login.html.twig', array('form' => $form->createView()));
                 }
 
-                $rememberMeCookie = null;
-                if ($formData['remember_me'] == '1') {
-                    $token = md5(uniqid(rand(), true));
-                    $expire = new \DateTime('+ 30 days');
-                    $user->setRememberMeToken($token);
-                    $user->setRememberMeTokenExpiredAt($expire);
-                    $rememberMeCookie = new Cookie(User::REMEMBER_ME_TOKEN, $token, $expire);
-                }
-
                 $user->setLastLoginIp($request->getClientIp());
                 $user->setLastLoginDate(new \DateTime());
 
@@ -98,10 +90,19 @@ class UserController extends BaseController
 
                 $session->set('uid', $user->getId());
 
-                $cookies = array(new Cookie('uid', $user->getId(), time() + 10 * 365 * 24 * 60 * 60));
-                if ($rememberMeCookie != null) {
-                    $cookies[] = $rememberMeCookie;
+                $cookies = array();
+
+                if ($formData['remember_me'] == '1') {
+                    $authService = $this->get('app.auth_service');
+
+                    $rtn = $authService->generateRememberMeToken($user->getId());
+
+                    if($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS){
+                        $rememberMeCookie = new Cookie(AuthService::REMEMBER_ME_TOKEN, $rtn[AuthService::KEY_TOKEN], $rtn[AuthService::KEY_EXPIREDAT]);
+                        $cookies[] = $rememberMeCookie;
+                    }
                 }
+
                 return $this->redirectWithCookies($this->generateUrl('_homepage'), $cookies);
             }
         }

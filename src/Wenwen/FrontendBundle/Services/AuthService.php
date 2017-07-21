@@ -7,12 +7,35 @@ use Psr\Log\LoggerInterface;
 use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\AuthEmail;
+use Wenwen\FrontendBundle\Entity\AuthRememberMe;
 
 /**
  * Authentication Related Service
  */
 class AuthService
 {
+    const KEY_STATUS  = 'status';
+    const KEY_MESSAGE = 'message';
+    const KEY_USERID  = 'userId';
+    const KEY_EMAIL   = 'email';
+    const KEY_TOKEN   = 'token';
+    const KEY_EXPIREDAT = 'expiredAt';
+
+    const STATUS_SUCCESS = 'success';
+    const STATUS_FAILURE = 'failure';
+    const STATUS_ERROR   = 'error';
+
+    const MSG_INVALID_PARAMS = 'Invalid params.';
+    const MSG_INVALID_USER = 'Invalid user.';
+    const MSG_TOKEN_CREATED = 'Token created.';
+    const MSG_TOKEN_UPDATED = 'Token updated.';
+    const MSG_TOKEN_NOTFOUND = 'Token not found.';
+    const MSG_TOKEN_FOUND = 'Token found.';
+    const MSG_TOKEN_EXPIRED = 'Token expired.';
+    const MSG_MALICIOUS_REQUEST = 'Malicious request for email confirmation';
+
+    const REMEMBER_ME_TOKEN = 'ww_passport';
+
     private $logger;
 
     private $em;
@@ -24,6 +47,103 @@ class AuthService
         $this->em = $em;
     }
 
+
+    public function generateRememberMeToken($userId){
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+        $rtn[self::KEY_USERID] = $userId;
+
+        if(is_null($userId) ){
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+
+        try {
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            if(is_null($user)){
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_USER;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            $token = md5(uniqid(rand(), true));
+            $expiredAt = new \DateTime('+ 30 days');
+            $authRememberMe = $this->em->getRepository('WenwenFrontendBundle:AuthRememberMe')->findOneByUser($user);
+            if(is_null($authRememberMe)){
+                $authRememberMe = new AuthRememberMe();
+                $authRememberMe->setUser($user);
+                $authRememberMe->setToken($token);
+                $authRememberMe->setExpiredAt($expiredAt);
+                $this->em->persist($authRememberMe);
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_CREATED;
+                $rtn[self::KEY_TOKEN] = $authRememberMe->getToken();
+                $rtn[self::KEY_EXPIREDAT] = $authRememberMe->getExpiredAt();
+                $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
+            } else {
+                $authRememberMe->setUser($user);
+                $authRememberMe->setToken($token);
+                $authRememberMe->setExpiredAt($expiredAt);
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_UPDATED;
+                $rtn[self::KEY_TOKEN] = $authRememberMe->getToken();
+                $rtn[self::KEY_EXPIREDAT] = $authRememberMe->getExpiredAt();
+                $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
+            }
+            $this->em->flush();
+        } catch (\Exception $e) {
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
+        return $rtn;
+    }
+
+    public function findRememberMeToken($token){
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+        $rtn[self::KEY_TOKEN] = $token;
+
+        if(is_null($token) ){
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+
+        try {
+            $authRememberMe = $this->em->getRepository('WenwenFrontendBundle:AuthRememberMe')->findOneByToken($token);
+            if(is_null($authRememberMe)) {
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_NOTFOUND;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            } else {
+                $rtn[self::KEY_USERID] = $authRememberMe->getUser()->getId();
+                if($authRememberMe->isTokenExpired()){
+                    $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                    $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_EXPIRED;
+                    $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                    return $rtn;
+                }
+            }
+        } catch (\Exception $e) {
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+        $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+        $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_FOUND;
+        $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
+        return $rtn;
+    }
+
     /**
      * Send a confirmation email to see whether this email address should belong to a user
      * @param $userId
@@ -32,26 +152,25 @@ class AuthService
      * @return array
      */
     public function sendConfirmationEmail($userId, $email, $token) {
-
         $rtn = array();
-        $rtn['status'] = 'success';
-        $rtn['errMsg'] = '';
+        $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+        $rtn[self::KEY_USERID] = $userId;
+        $rtn[self::KEY_EMAIL] = $email;
+        $rtn[self::KEY_TOKEN] = $token;
 
         if(is_null($userId) || is_null($email) || is_null($token) ){
-            $rtn['status'] = 'failure';
-            $rtn['errMsg'] = 'Invalid params.';
-            $this->logger->warn(__METHOD__ . ' Invalid params userId=' . $userId . ' email=' . $email . ' token=' . $token);
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
             return $rtn;
         }
-
-        $this->logger->debug(__METHOD__ . ' START userId=' . $userId . ' email=' . $email);
 
         try {
             $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
             if(is_null($user)){
-                $rtn['status'] = 'failure';
-                $rtn['errMsg'] = 'Invalid user.';
-                $this->logger->warn(__METHOD__ . ' userId=' . $userId . ' email=' . $email . ' errMsg=' . $rtn['errMsg']);
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_USER;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
                 return $rtn;
             }
 
@@ -60,29 +179,29 @@ class AuthService
             ));
 
             if($authEmail){
-                $this->logger->debug(__METHOD__ . ' Already exist userId=' . $userId . ' email=' . $email);
                 $diffInSeconds = (new \DateTime())->getTimestamp() - $authEmail->getUpdatedAt()->getTimestamp();
 
                 if ( $diffInSeconds < 60 ){
-                    $rtn['status'] = 'failure';
-                    $rtn['errMsg'] = 'Too many request for email confirmation';
-                    $this->logger->warn(__METHOD__ . ' userId=' . $userId . ' email=' . $email . ' errMsg=' . $rtn['errMsg']);
+                    $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                    $rtn[self::KEY_MESSAGE] = self::MSG_MALICIOUS_REQUEST;
+                    $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
                     return $rtn;
                 }
-
-                $this->logger->debug(__METHOD__ . ' Re-send confirm email for exist userId=' . $userId . ' email=' . $email);
 
                 $authEmail->setToken($token);
                 $authEmail->setExpiredAt(new \DateTime(AuthEmail::EXPIRE_DURATION));
                 $authEmail->setUpdatedAt(new \DateTime());
-
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_UPDATED;
+                $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
             } else {
                 $authEmail = new AuthEmail();
                 $authEmail->setUser($user);
                 $authEmail->setEmail($email);
                 $authEmail->setToken($token);
-
                 $this->em->persist($authEmail);
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_CREATED;
             }
 
             $args = array(
@@ -96,12 +215,12 @@ class AuthService
             $this->em->persist($job);
             $this->em->flush();
         } catch (\Exception $e) {
-            $rtn['status'] = 'error';
-            $rtn['errMsg'] = $e->getMessage();
-            $this->logger->error(__METHOD__ . ' ' . $rtn['errMsg']);
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
             return $rtn;
         }
-        $this->logger->info(__METHOD__ . ' Queued an signup_confirmation email for userId=' . $userId . ' email=' . $email . ' token=' . $token);
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
         return $rtn;
     }
 
@@ -111,40 +230,37 @@ class AuthService
      * @return array
      */
     public function confirmEmail($token){
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+        $rtn[self::KEY_TOKEN] = $token;
 
         if(is_null($token) ){
-            $rtn['status'] = 'failure';
-            $rtn['errMsg'] = 'Invalid params.';
-            $this->logger->warn(__METHOD__ . ' token=' . $token . $rtn['errMsg']);
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
             return $rtn;
         }
 
-        $this->logger->debug(__METHOD__ . ' START token=' . $token);
-
-        $rtn = array();
-        $rtn['status'] = 'success';
-        $rtn['errMsg'] = '';
-        $rtn['user'] = '';
         try{
             $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthEmail')->findOneBy(array(
                 'token' => $token,
             ));
 
             if ($authEmail == null) {
-                $rtn['status'] = 'failure';
-                $rtn['errMsg'] = 'token not exist.';
-                $this->logger->warn(__METHOD__ . ' token=' . $token . $rtn['errMsg']);
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_NOTFOUND;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
                 return $rtn;
             }
 
             if ($authEmail->isTokenExpired()) {
-                $rtn['status'] = 'failure';
-                $rtn['errMsg'] = 'token expired.';
-                $this->logger->warn(__METHOD__ . ' token=' . $token . $rtn['errMsg']);
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_EXPIRED;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
                 return $rtn;
             }
 
-            $userId = $authEmail->getUser()->getId();
+            $rtn[self::KEY_USERID] = $authEmail->getUser()->getId();
 
             // -------------
             // Should refactor here -> split below to other service
@@ -159,17 +275,16 @@ class AuthService
 
             // -------------
 
-            $rtn['userId'] = $userId;
+            $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_FOUND;
 
         } catch (\Exception $e){
-            $rtn['status'] = 'error';
-            $rtn['errMsg'] = $e->getMessage();
-            $this->logger->error(__METHOD__ . ' ' . $rtn['errMsg']);
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
             return $rtn;
         }
-        $this->logger->info(__METHOD__ . ' Confirmed an email token for userId=' . $userId . ' email=' . $authEmail->getEmail());
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
         return $rtn;
     }
-
 
 }
