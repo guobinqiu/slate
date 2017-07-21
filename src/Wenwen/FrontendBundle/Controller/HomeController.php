@@ -20,7 +20,7 @@ class HomeController extends BaseController
     public function indexAction(Request $request)
     {
         $cookies = $request->cookies;
-        if ($cookies->has(User::REMEMBER_ME_TOKEN)) {
+        if ($cookies->has(AuthService::REMEMBER_ME_TOKEN)) {
             $authService = $this->get('app.auth_service');
             $rtn = $authService->findRememberMeToken($cookies->get(AuthService::REMEMBER_ME_TOKEN));
 
