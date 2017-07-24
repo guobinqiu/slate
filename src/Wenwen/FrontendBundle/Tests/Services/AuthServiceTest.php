@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\AuthEmail;
 use Wenwen\FrontendBundle\Entity\AuthRememberMe;
+use Wenwen\FrontendBundle\Entity\AuthPasswordReset;
 use Wenwen\FrontendBundle\Services\AuthService;
+use Jili\ApiBundle\Utility\PasswordEncoder;
 
 
 
@@ -483,4 +485,365 @@ class AuthServiceTest extends WebTestCase
         $this->runConsole("doctrine:schema:create");
     }
 
+    /**
+     * Invalid params
+     */
+    public function testSendPasswordResetEmail_failure_invalidparams() {
+
+        $rtn = $this->authService->sendPasswordResetEmail(null);
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Invalid email
+     */
+    public function testSendPasswordResetEmail_failure_invalidemail() {
+
+        $rtn = $this->authService->sendPasswordResetEmail('xxx@ddd.com');
+
+        $this->assertEquals(AuthService::MSG_INVALID_EMAIL, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Too frequent request for password reset
+     */
+    public function testSendPasswordResetEmail_failure_update() {
+        $token = md5(uniqid(rand(), true));
+
+        $email = 'failure_update@test.com';
+        $original_token = 'xxx';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($original_token);
+        $authPasswordReset->setUpdatedAt(new \DateTime('-59 Seconds'));
+
+        $this->em->persist($authPasswordReset);
+        $this->em->flush();
+
+
+        $rtn = $this->authService->sendPasswordResetEmail($email);
+
+        $this->assertEquals(AuthService::MSG_MALICIOUS_REQUEST, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+        $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByEmail($email);
+
+        $this->assertEquals($original_token, $authPasswordReset->getToken());
+    }
+
+
+    /**
+     * Success for request to confirm email again after 60 seconds.
+     */
+    public function testSendPasswordResetEmail_success_update() {
+        $token = md5(uniqid(rand(), true));
+
+        $email = 'success_update@test.com';
+        $original_token = 'xxx';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($original_token);
+        $authPasswordReset->setExpiredAt(new \DateTime('+23 hours'));
+        $authPasswordReset->setUpdatedAt(new \DateTime('-60 Seconds'));
+
+        $this->em->persist($authPasswordReset);
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $originalExpiredAt = $authPasswordReset->getExpiredAt();
+        $originalUpdatedAt = $authPasswordReset->getUpdatedAt();
+
+        $rtn = $this->authService->sendPasswordResetEmail($email);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_UPDATED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+        $authEmail = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByEmail($email);
+
+        $this->assertNotEquals($original_token, $authPasswordReset->getToken());
+        $this->assertTrue($authPasswordReset->getExpiredAt() > $originalExpiredAt);
+    }
+
+    /**
+     * Success to request send a confirmation email
+     */
+    public function testSendPasswordResetEmail_success_create() {
+        $token = md5(uniqid(rand(), true));
+
+        $email = 'success_create@test.com';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+        $this->em->flush();
+
+
+        $rtn = $this->authService->sendPasswordResetEmail($email);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_CREATED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+        $authPasswordReset = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByEmail($email);
+
+        $diffInSeconds = $authPasswordReset->getExpiredAt()->getTimestamp() - (new \DateTime())->getTimestamp();
+        $this->assertTrue($diffInSeconds > 3600 * 24 - 10);
+        $this->assertTrue($diffInSeconds <= 3600 * 24);
+    }
+
+    /**
+     * System error
+     */
+    public function testSendPasswordResetEmail_error() {
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+        try{
+            $email = 'error@test.com';
+
+
+            $rtn = $this->authService->sendPasswordResetEmail($email);
+
+            $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
+        } catch (\Exception $e){
+            print $e->getMessage();
+        }
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
+    /**
+     * Invalid param
+     */
+    public function testConfirmPasswordReset_failure_invalidparam() {
+
+        $rtn = $this->authService->confirmPasswordReset(null);
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Token not exist
+     */
+    public function testConfirmPasswordReset_failure_tokennotexist() {
+
+        $rtn = $this->authService->confirmPasswordReset('xxx');
+
+        $this->assertEquals(AuthService::MSG_TOKEN_NOTFOUND, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Token expired
+     */
+    public function testConfirmPasswordReset_failure_tokenexpired() {
+
+        $token = 'xxx';
+        $email = 'failure_expired@test.com';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($token);
+        $authPasswordReset->setExpiredAt(new \DateTime('-1 seconds'));
+        $this->em->persist($authPasswordReset);
+        $this->em->flush();
+
+        $rtn = $this->authService->confirmPasswordReset($token);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_EXPIRED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * System error
+     */
+    public function testConfirmPasswordReset_error() {
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+        try{
+            $token = 'xxx';
+            $email = 'error@test.com';
+
+
+            $rtn = $this->authService->confirmPasswordReset($token);
+
+            $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
+        } catch (\Exception $e){
+            print $e->getMessage();
+
+        }
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
+    /**
+     * Token confirmed
+     */
+    public function testConfirmPasswordReset_success() {
+
+        $token = 'xxx';
+        $email = 'failure_expired@test.com';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($token);
+        $this->em->persist($authPasswordReset);
+        $this->em->flush();
+
+        $rtn = $this->authService->confirmPasswordReset($token);
+
+        $this->assertEquals(AuthService::MSG_TOKEN_FOUND, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Invalid param
+     */
+    public function testResetPassword_failure_invalidparam() {
+
+        $rtn = $this->authService->resetPassword(null, 'xxx');
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+        $rtn = $this->authService->resetPassword('xxx', null);
+
+        $this->assertEquals(AuthService::MSG_INVALID_PARAMS, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Token not exist
+     */
+    public function testResetPassword_failure_tokennotexist() {
+
+        $rtn = $this->authService->resetPassword('xxx', 'password');
+
+        $this->assertEquals(AuthService::MSG_TOKEN_NOTFOUND, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * Token expired
+     */
+    public function testResetPassword_failure_tokenexpired() {
+
+        $token = 'xxx';
+        $email = 'failure_expired@test.com';
+
+        $user = new User();
+        $user->setEmail($email);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($token);
+        $authPasswordReset->setExpiredAt(new \DateTime('-1 seconds'));
+        $this->em->persist($authPasswordReset);
+        $this->em->flush();
+
+        $rtn = $this->authService->resetPassword($token, 'password');
+
+        $this->assertEquals(AuthService::MSG_TOKEN_EXPIRED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_FAILURE, $rtn[AuthService::KEY_STATUS]);
+
+    }
+
+    /**
+     * System error
+     */
+    public function testResetPassword_error() {
+        // 删掉所有表
+        $this->runConsole("doctrine:schema:drop", array("--force" => true));
+        try{
+            $token = 'xxx';
+            $email = 'error@test.com';
+
+
+            $rtn = $this->authService->resetPassword($token, 'password');
+
+            $this->assertEquals(AuthService::STATUS_ERROR, $rtn[AuthService::KEY_STATUS]);
+        } catch (\Exception $e){
+            print $e->getMessage();
+        }
+
+        // 测试结束，恢复所有表
+        // 建立所有表
+        $this->runConsole("doctrine:schema:create");
+    }
+
+    /**
+     * Token confirmed
+     */
+    public function testResetPassword_success() {
+
+        $token = 'xxx';
+        $email = 'success_resetPassword@test.com';
+        $originalPassword = 'originalEncryptedPassword';
+        $newPassword = 'newEncryptedPassword';
+
+        $user = new User();
+        $user->setEmail($email);
+        $user->setPwd($originalPassword);
+        $this->em->persist($user);
+
+        $authPasswordReset = new AuthPasswordReset();
+        $authPasswordReset->setUser($user);
+        $authPasswordReset->setEmail($email);
+        $authPasswordReset->setToken($token);
+        $this->em->persist($authPasswordReset);
+        $this->em->flush();
+
+        $rtn = $this->authService->resetPassword($token, $newPassword);
+
+        $this->assertEquals(AuthService::MSG_PASSWORD_RESETED, $rtn[AuthService::KEY_MESSAGE]);
+        $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
+
+        $authPasswordReset = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByToken($token);
+
+        $this->assertNull($authPasswordReset);
+
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
+        $this->assertEquals(PasswordEncoder::encode('blowfish', $newPassword, '★★★★★アジア事業戦略室★★★★★'), $user->getPwd());
+
+    }
 }

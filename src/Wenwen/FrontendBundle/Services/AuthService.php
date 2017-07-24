@@ -8,6 +8,7 @@ use JMS\JobQueueBundle\Entity\Job;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\AuthEmail;
 use Wenwen\FrontendBundle\Entity\AuthRememberMe;
+use Wenwen\FrontendBundle\Entity\AuthPasswordReset;
 
 /**
  * Authentication Related Service
@@ -27,12 +28,14 @@ class AuthService
 
     const MSG_INVALID_PARAMS = 'Invalid params.';
     const MSG_INVALID_USER = 'Invalid user.';
+    const MSG_INVALID_EMAIL = 'Invalid email.';
     const MSG_TOKEN_CREATED = 'Token created.';
     const MSG_TOKEN_UPDATED = 'Token updated.';
     const MSG_TOKEN_NOTFOUND = 'Token not found.';
     const MSG_TOKEN_FOUND = 'Token found.';
     const MSG_TOKEN_EXPIRED = 'Token expired.';
     const MSG_MALICIOUS_REQUEST = 'Malicious request for email confirmation';
+    const MSG_PASSWORD_RESETED= 'Password reseted.';
 
     const REMEMBER_ME_TOKEN = 'ww_passport';
 
@@ -276,6 +279,186 @@ class AuthService
             // -------------
 
             $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_FOUND;
+
+        } catch (\Exception $e){
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
+        return $rtn;
+    }
+
+    /**
+     * Send a password reset email
+     * @param $email
+     * @return array
+     */
+    public function sendPasswordResetEmail($email) {
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+        $rtn[self::KEY_EMAIL] = $email;
+
+        if(is_null($email)){
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+
+        try {
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneByEmail($email);
+            if(is_null($user)){
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_EMAIL;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            $token = md5(uniqid(rand(), true));
+
+            $authPasswordReset = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByEmail($email);
+
+            if($authPasswordReset){
+                $diffInSeconds = (new \DateTime())->getTimestamp() - $authPasswordReset->getUpdatedAt()->getTimestamp();
+
+                if ( $diffInSeconds < 60 ){
+                    $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                    $rtn[self::KEY_MESSAGE] = self::MSG_MALICIOUS_REQUEST;
+                    $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                    return $rtn;
+                }
+
+                $authPasswordReset->setToken($token);
+                $authPasswordReset->setExpiredAt(new \DateTime(AuthPasswordReset::EXPIRE_DURATION));
+                $authPasswordReset->setUpdatedAt(new \DateTime());
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_UPDATED;
+                $this->logger->debug(__METHOD__ . ' ' . json_encode($rtn));
+            } else {
+                $authPasswordReset = new AuthPasswordReset();
+                $authPasswordReset->setUser($user);
+                $authPasswordReset->setEmail($email);
+                $authPasswordReset->setToken($token);
+                $this->em->persist($authPasswordReset);
+                $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_CREATED;
+            }
+
+            $args = array(
+                '--subject=[91问问调查网] 帐号密码重置',
+                '--email='.$email,
+                '--name='.$user->getNick(),
+                '--reset_password_token='.$authPasswordReset->getToken(),
+            );
+            $job = new Job('mail:reset_password', $args, true, '91wenwen_reset', Job::PRIORITY_HIGH);
+            $job->setMaxRetries(3);
+            $this->em->persist($job);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
+        return $rtn;
+    }
+
+    /**
+     * password reset token validation
+     * @param $token
+     * @return array
+     */
+    public function confirmPasswordReset($token){
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+        $rtn[self::KEY_TOKEN] = $token;
+
+        if(is_null($token) ){
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+
+        try{
+            $authPasswordReset = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByToken($token);
+
+            if ($authPasswordReset == null) {
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_NOTFOUND;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            if ($authPasswordReset->isTokenExpired()) {
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_EXPIRED;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            $rtn[self::KEY_USERID] = $authPasswordReset->getUser()->getId();
+            $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+            $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_FOUND;
+
+        } catch (\Exception $e){
+            $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
+            $rtn[self::KEY_MESSAGE] = $e->getMessage();
+            $this->logger->error(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+        $this->logger->info(__METHOD__ . ' ' . json_encode($rtn));
+        return $rtn;
+    }
+
+    /**
+     * password reset
+     * @param $token
+     * @param $password
+     * @return array
+     */
+    public function resetPassword($token, $password){
+        $rtn = array();
+        $rtn[self::KEY_STATUS] = self::STATUS_SUCCESS;
+        $rtn[self::KEY_TOKEN] = $token;
+
+        if(is_null($token) || is_null($password)){
+            $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+            $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+            return $rtn;
+        }
+
+        try{
+            $authPasswordReset = $this->em->getRepository('WenwenFrontendBundle:AuthPasswordReset')->findOneByToken($token);
+
+            if ($authPasswordReset == null) {
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_NOTFOUND;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            if ($authPasswordReset->isTokenExpired()) {
+                $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
+                $rtn[self::KEY_MESSAGE] = self::MSG_TOKEN_EXPIRED;
+                $this->logger->warn(__METHOD__ . ' ' . json_encode($rtn));
+                return $rtn;
+            }
+
+            $user = $authPasswordReset->getUser();
+
+            $rtn[self::KEY_USERID] = $user->getId();
+
+            $user->setPwd($password);
+
+            $this->em->remove($authPasswordReset);
+            $this->em->flush();
+
+            $rtn[self::KEY_MESSAGE] = self::MSG_PASSWORD_RESETED;
 
         } catch (\Exception $e){
             $rtn[self::KEY_STATUS] = self::STATUS_ERROR;
