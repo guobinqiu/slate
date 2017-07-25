@@ -47,7 +47,7 @@ class PasswordController extends BaseController
         $email = $formData['email'];
 
         $authService = $this->get('app.auth_service');
-        $rtn = $authService->sendPasswordResetEmail($user->getEmail());
+        $rtn = $authService->sendPasswordResetEmail($email);
 
         if(AuthService::STATUS_SUCCESS == $rtn[AuthService::KEY_STATUS]){
             return new JsonResponse(array(
