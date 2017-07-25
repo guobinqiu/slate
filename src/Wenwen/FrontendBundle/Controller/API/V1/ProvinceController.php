@@ -2,12 +2,12 @@
 
 namespace Wenwen\FrontendBundle\Controller\API\V1;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Wenwen\FrontendBundle\Controller\API\MyFOSRestController;
 
-class ProvinceController extends FOSRestController
+class ProvinceController extends MyFOSRestController
 {
     /**
      * @Rest\Get("/provinces")

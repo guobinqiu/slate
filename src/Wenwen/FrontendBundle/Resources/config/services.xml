@@ -84,6 +84,13 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
+        <service id="app.listener.token_listener" class="Wenwen\FrontendBundle\EventListener\TokenListener">
+            <argument type="service" id="logger" />
+            <argument type="service" id="app.parameter_service" />
+            <argument type="service" id="snc_redis.default" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+
         <service id="app.offerwow_request_service" class="Wenwen\FrontendBundle\Services\OfferwowRequestService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
