@@ -812,7 +812,7 @@ class AuthServiceTest extends WebTestCase
     }
 
     /**
-     * Token confirmed
+     * Password reset success
      */
     public function testResetPassword_success() {
 
