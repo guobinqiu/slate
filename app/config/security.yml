@@ -1,26 +1,26 @@
 # To get started with security, check out the documentation:
-# https://symfony.com/doc/current/book/security.html
+# http://symfony.com/doc/current/book/security.html
 security:
     encoders:
         Symfony\Component\Security\Core\User\User:
             algorithm: bcrypt
             cost: 12
 
-    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
             memory:
                 users:
                     admin:
-                        # https://php.net/manual/en/function.password-hash.php
+                        # http://php.net/manual/en/function.password-hash.php
                         password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
                         roles: 'ROLE_ADMIN'
                     gmo:
                         password: $2y$12$oM9/GNfWGH5ODrEZZ32AvenhPFYe1y5fpTTlRKz9TE5jaX/ajnc8W
                         roles: 'ROLE_GMO'
-                    api:
-                        password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
-                        roles: 'ROLE_API'
+#                    api:
+#                        password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
+#                        roles: 'ROLE_API'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -33,11 +33,11 @@ security:
 
             # activate different ways to authenticate
 
-            https_basic: ~
-            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+            http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
-            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
         - { path: ^/survey_gmo/csv$, roles: ROLE_GMO, requires_channel: https }
@@ -51,5 +51,5 @@ security:
         - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-#        - { path: ^/v1, roles: ROLE_API, requires_channel: https } #disable http basic authorization
+#        - { path: ^/v1/, roles: ROLE_API, requires_channel: https }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
