@@ -1,18 +1,18 @@
 # To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
+# https://symfony.com/doc/current/book/security.html
 security:
     encoders:
         Symfony\Component\Security\Core\User\User:
             algorithm: bcrypt
             cost: 12
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    # https://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
             memory:
                 users:
                     admin:
-                        # http://php.net/manual/en/function.password-hash.php
+                        # https://php.net/manual/en/function.password-hash.php
                         password: $2y$12$ErRiw1WvWzA8mQxi1U1wpukpqZVWkGAfaL2M2mOepW9dECjvqh5ZW
                         roles: 'ROLE_ADMIN'
                     gmo:
@@ -33,23 +33,23 @@ security:
 
             # activate different ways to authenticate
 
-            http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+            https_basic: ~
+            # https://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # https://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-        - { path: ^/survey_gmo/csv$, roles: ROLE_GMO, requires_channel: http }
-        - { path: ^/survey_gmo, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: http }
-        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: http }
-        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/sop, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/cint_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-        - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: http }
-#        - { path: ^/api/v1, roles: ROLE_API, requires_channel: http }
+        - { path: ^/survey_gmo/csv$, roles: ROLE_GMO, requires_channel: https }
+        - { path: ^/survey_gmo, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/jobs, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/user, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/sop, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/cint_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/fulcrum_project_survey, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/fulcrum, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: /ssi_pc1_protocol/request_api, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#        - { path: ^/v1, roles: ROLE_API, requires_channel: https } #disable http basic authorization
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
