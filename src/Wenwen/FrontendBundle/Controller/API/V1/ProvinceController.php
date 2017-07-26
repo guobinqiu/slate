@@ -2,12 +2,13 @@
 
 namespace Wenwen\FrontendBundle\Controller\API\V1;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Wenwen\FrontendBundle\Controller\API\MyFOSRestController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Wenwen\FrontendBundle\Controller\API\RestAuthenticatedController;
 
-class ProvinceController extends MyFOSRestController
+class ProvinceController extends RestAuthenticatedController
 {
     /**
      * @Rest\Get("/provinces")
@@ -15,7 +16,6 @@ class ProvinceController extends MyFOSRestController
     public function indexAction() {
         $provinces = $this->get('app.user_service')->getProvinceList();
 
-        $data = [];
         if (!empty($provinces)) {
             $data['status'] = 'success';
             $data['data'] = $provinces;

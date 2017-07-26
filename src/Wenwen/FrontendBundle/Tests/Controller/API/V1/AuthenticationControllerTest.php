@@ -1,10 +1,11 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Wenwen\FrontendBundle\EventListener\TokenListener;
+use Wenwen\FrontendBundle\EventListener\AuthenticationListener;
 
-class ProvinceControllerTest extends WebTestCase
+class AuthenticationControllerTest extends WebTestCase
 {
     private $container;
     private $client;
@@ -42,7 +43,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -51,9 +52,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -70,7 +71,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[1] = '/api/v1/provinces';
         $data[2] = $timestamp;
         $data[3] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -79,9 +80,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -97,7 +98,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[1] = '/api/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -106,8 +107,8 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -127,9 +128,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -146,7 +147,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -155,9 +156,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -171,9 +172,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -183,7 +184,7 @@ class ProvinceControllerTest extends WebTestCase
 
     public function testGetProvinceWithTimestampInbound()
     {
-        $timestamp = time() + TokenListener::DURATION;
+        $timestamp = time() + 200;
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
@@ -191,7 +192,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -200,9 +201,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -212,7 +213,7 @@ class ProvinceControllerTest extends WebTestCase
     }
 
     public function testGetProvinceWithTimestampOutbound() {
-        $timestamp = time() + TokenListener::DURATION + 10;
+        $timestamp = time() + 400;
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
@@ -220,7 +221,7 @@ class ProvinceControllerTest extends WebTestCase
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
-        $message = implode('+', $data);
+        $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
@@ -229,9 +230,9 @@ class ProvinceControllerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . TokenListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . TokenListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . TokenListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -240,7 +241,7 @@ class ProvinceControllerTest extends WebTestCase
     }
 
     private function sign($message) {
-        $digest = hash_hmac(TokenListener::ALGO, strtolower($message), $this->appSecret);
-        return TokenListener::urlsafe_b64encode($this->appId . ':' . $digest);
+        $digest = hash_hmac('sha256', strtolower($message), $this->appSecret);
+        return AuthenticationListener::urlsafe_b64encode($this->appId . ':' . $digest);
     }
 }

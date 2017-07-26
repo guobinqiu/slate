@@ -84,7 +84,7 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="app.listener.token_listener" class="Wenwen\FrontendBundle\EventListener\TokenListener">
+        <service id="app.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\AuthenticationListener">
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
