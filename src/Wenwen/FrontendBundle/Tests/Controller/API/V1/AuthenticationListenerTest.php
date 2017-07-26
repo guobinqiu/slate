@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\EventListener\AuthenticationListener;
 
-class AuthenticationControllerTest extends WebTestCase
+class AuthenticationListenerTest extends WebTestCase
 {
     private $container;
     private $client;
@@ -16,10 +16,13 @@ class AuthenticationControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.net'));
 
-        $apps = $this->container->get('app.parameter_service')->getParameter('api')['apps'];
+        $this->container = self::$kernel->getContainer();
+        $parameterService = $this->container->get('app.parameter_service');
+        $host = $parameterService->getParameter('api_host');
+        $this->client = static::createClient(array(), array('HTTP_HOST' => $host));
+
+        $apps = $parameterService->getParameter('api_apps');
         $app = $apps[0];
         $this->appId = $app['app_id'];
         $this->appSecret = $app['app_secret'];
@@ -238,6 +241,23 @@ class AuthenticationControllerTest extends WebTestCase
         );
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
+    }
+
+    public function testPrepareDataForPostman() {
+        $timestamp = time();
+        $nonce = md5(uniqid(rand(), true));
+
+        $data[0] = 'GET';
+        $data[1] = '/v1/provinces';
+        $data[2] = $this->appId;
+        $data[3] = $timestamp;
+        $data[4] = $nonce;
+        $message = implode("\n", $data);
+        $signature = $this->sign($message);
+
+        echo PHP_EOL . 'timestamp=' . $timestamp;
+        echo PHP_EOL . 'nonce=' . $nonce;
+        echo PHP_EOL . 'signature=' . $signature;
     }
 
     private function sign($message) {

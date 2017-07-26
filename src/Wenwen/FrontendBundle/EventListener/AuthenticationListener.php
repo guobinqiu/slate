@@ -86,7 +86,7 @@ class AuthenticationListener
     }
 
     private function getAppCredentials($appId) {
-        $apps = $this->parameterService->getParameter('api')['apps'];
+        $apps = $this->parameterService->getParameter('api_apps');
         foreach ($apps as $app) {
             if ($app['app_id'] === $appId) {
                 $this->logger->debug(__METHOD__ . '     app_id: ' . $app['app_id']);
