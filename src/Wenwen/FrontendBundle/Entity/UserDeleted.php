@@ -156,31 +156,6 @@ class UserDeleted
      */
     private $lastGetPointsAt;
 
-    /**
-     * 注册激活token
-     *
-     * @ORM\Column(name="confirmation_token", type="string", nullable=true)
-     */
-    private $confirmationToken;
-
-    /**
-     * @ORM\Column(name="confirmation_token_expired_at", type="datetime", nullable=true)
-     */
-    private $confirmationTokenExpiredAt;
-
-    /**
-     * 重置密码token
-     *
-     * @ORM\Column(name="reset_password_token", type="string", nullable=true)
-     */
-
-    private $resetPasswordToken;
-
-    /**
-     * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
-     */
-    private $resetPasswordTokenExpiredAt;
-
 
     /**
      * @ORM\Column(name="invite_id", type="integer", nullable=true)
@@ -190,7 +165,7 @@ class UserDeleted
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -213,7 +188,7 @@ class UserDeleted
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -236,7 +211,7 @@ class UserDeleted
     /**
      * Get pwd
      *
-     * @return string 
+     * @return string
      */
     public function getPwd()
     {
@@ -259,7 +234,7 @@ class UserDeleted
     /**
      * Get isEmailConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsEmailConfirmed()
     {
@@ -282,7 +257,7 @@ class UserDeleted
     /**
      * Get nick
      *
-     * @return string 
+     * @return string
      */
     public function getNick()
     {
@@ -305,7 +280,7 @@ class UserDeleted
     /**
      * Get tel
      *
-     * @return string 
+     * @return string
      */
     public function getTel()
     {
@@ -328,7 +303,7 @@ class UserDeleted
     /**
      * Get isTelConfirmed
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsTelConfirmed()
     {
@@ -351,7 +326,7 @@ class UserDeleted
     /**
      * Get rewardMultiple
      *
-     * @return float 
+     * @return float
      */
     public function getRewardMultiple()
     {
@@ -374,7 +349,7 @@ class UserDeleted
     /**
      * Get registerDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterDate()
     {
@@ -397,7 +372,7 @@ class UserDeleted
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -420,7 +395,7 @@ class UserDeleted
     /**
      * Get registerCompleteDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRegisterCompleteDate()
     {
@@ -443,7 +418,7 @@ class UserDeleted
     /**
      * Get lastLoginDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLoginDate()
     {
@@ -466,7 +441,7 @@ class UserDeleted
     /**
      * Get lastLoginIp
      *
-     * @return string 
+     * @return string
      */
     public function getLastLoginIp()
     {
@@ -489,7 +464,7 @@ class UserDeleted
     /**
      * Get points
      *
-     * @return integer 
+     * @return integer
      */
     public function getPoints()
     {
@@ -512,7 +487,7 @@ class UserDeleted
     /**
      * Get deleteFlag
      *
-     * @return integer 
+     * @return integer
      */
     public function getDeleteFlag()
     {
@@ -535,7 +510,7 @@ class UserDeleted
     /**
      * Get deleteDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDeleteDate()
     {
@@ -558,7 +533,7 @@ class UserDeleted
     /**
      * Get iconPath
      *
-     * @return string 
+     * @return string
      */
     public function getIconPath()
     {
@@ -581,7 +556,7 @@ class UserDeleted
     /**
      * Get createdRemoteAddr
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedRemoteAddr()
     {
@@ -604,7 +579,7 @@ class UserDeleted
     /**
      * Get createdUserAgent
      *
-     * @return string 
+     * @return string
      */
     public function getCreatedUserAgent()
     {
@@ -627,7 +602,7 @@ class UserDeleted
     /**
      * Get passwordChoice
      *
-     * @return integer 
+     * @return integer
      */
     public function getPasswordChoice()
     {
@@ -650,103 +625,11 @@ class UserDeleted
     /**
      * Get lastGetPointsAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastGetPointsAt()
     {
         return $this->lastGetPointsAt;
-    }
-
-    /**
-     * Set confirmationToken
-     *
-     * @param string $confirmationToken
-     * @return UserDeleted
-     */
-    public function setConfirmationToken($confirmationToken)
-    {
-        $this->confirmationToken = $confirmationToken;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmationToken
-     *
-     * @return string 
-     */
-    public function getConfirmationToken()
-    {
-        return $this->confirmationToken;
-    }
-
-    /**
-     * Set confirmationTokenExpiredAt
-     *
-     * @param \DateTime $confirmationTokenExpiredAt
-     * @return UserDeleted
-     */
-    public function setConfirmationTokenExpiredAt($confirmationTokenExpiredAt)
-    {
-        $this->confirmationTokenExpiredAt = $confirmationTokenExpiredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmationTokenExpiredAt
-     *
-     * @return \DateTime 
-     */
-    public function getConfirmationTokenExpiredAt()
-    {
-        return $this->confirmationTokenExpiredAt;
-    }
-
-    /**
-     * Set resetPasswordToken
-     *
-     * @param string $resetPasswordToken
-     * @return UserDeleted
-     */
-    public function setResetPasswordToken($resetPasswordToken)
-    {
-        $this->resetPasswordToken = $resetPasswordToken;
-
-        return $this;
-    }
-
-    /**
-     * Set resetPasswordTokenExpiredAt
-     *
-     * @param \DateTime $resetPasswordTokenExpiredAt
-     * @return UserDeleted
-     */
-    public function setResetPasswordTokenExpiredAt($resetPasswordTokenExpiredAt)
-    {
-        $this->resetPasswordTokenExpiredAt = $resetPasswordTokenExpiredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get resetPasswordTokenExpiredAt
-     *
-     * @return \DateTime 
-     */
-    public function getResetPasswordTokenExpiredAt()
-    {
-        return $this->resetPasswordTokenExpiredAt;
-    }
-
-    /**
-     * Get resetPasswordToken
-     *
-     * @return string
-     */
-    public function getResetPasswordToken()
-    {
-        return $this->resetPasswordToken;
     }
 
     public function setInviteId($inviteId)
