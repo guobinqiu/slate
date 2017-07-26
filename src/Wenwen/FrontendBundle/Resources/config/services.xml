@@ -91,6 +91,10 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
+        <service id="app.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\CorsListener">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+        </service>
+
         <service id="app.offerwow_request_service" class="Wenwen\FrontendBundle\Services\OfferwowRequestService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
