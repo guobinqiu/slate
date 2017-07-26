@@ -243,23 +243,6 @@ class AuthenticationListenerTest extends WebTestCase
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 
-    public function testPrepareDataForPostman() {
-        $timestamp = time();
-        $nonce = md5(uniqid(rand(), true));
-
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $this->appId;
-        $data[3] = $timestamp;
-        $data[4] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
-
-        echo PHP_EOL . 'timestamp=' . $timestamp;
-        echo PHP_EOL . 'nonce=' . $nonce;
-        echo PHP_EOL . 'signature=' . $signature;
-    }
-
     private function sign($message) {
         $digest = hash_hmac('sha256', strtolower($message), $this->appSecret);
         return AuthenticationListener::urlsafe_b64encode($this->appId . ':' . $digest);

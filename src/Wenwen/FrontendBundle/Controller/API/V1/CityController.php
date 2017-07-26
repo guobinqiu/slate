@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller\API\V1;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,11 +18,11 @@ class CityController extends RestAuthenticatedController
         if (!empty($cities)) {
             $data['status'] = 'success';
             $data['data'] = $cities;
+            return $this->view($data, 200);
         } else {
             $data['status'] = 'error';
             $data['message'] = 'no data';
+            return $this->view($data, 400);
         }
-
-        return $this->view($data, 200);
     }
 }

@@ -80,6 +80,6 @@ affiliate_app:
     prefix:   /affiliate
 
 api_v1:
-    resource: "@WenwenFrontendBundle/Controller/API/V1"
+    resource: "@WenwenFrontendBundle/Controller/API/V1/"
     type: annotation
     prefix: /v1
