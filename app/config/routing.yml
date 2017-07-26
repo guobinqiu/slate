@@ -82,4 +82,4 @@ affiliate_app:
 api_v1:
     resource: "@WenwenFrontendBundle/Controller/API/V1"
     type: annotation
-    prefix: /api/v1
+    prefix: /v1

@@ -17,7 +17,7 @@ class AuthenticationControllerTest extends WebTestCase
         static::$kernel = static::createKernel();
         static::$kernel->boot();
         $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient();
+        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.net'));
 
         $apps = $this->container->get('app.parameter_service')->getParameter('api')['apps'];
         $app = $apps[0];
@@ -39,7 +39,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
@@ -48,7 +48,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -68,7 +68,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $timestamp;
         $data[3] = $nonce;
         $message = implode("\n", $data);
@@ -76,7 +76,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -95,7 +95,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $nonce;
         $message = implode("\n", $data);
@@ -103,7 +103,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -124,7 +124,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -143,7 +143,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
@@ -152,7 +152,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -168,7 +168,7 @@ class AuthenticationControllerTest extends WebTestCase
         // send a same request immediately
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -188,7 +188,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
@@ -197,7 +197,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(
@@ -217,7 +217,7 @@ class AuthenticationControllerTest extends WebTestCase
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'GET';
-        $data[1] = '/api/v1/provinces';
+        $data[1] = '/v1/provinces';
         $data[2] = $this->appId;
         $data[3] = $timestamp;
         $data[4] = $nonce;
@@ -226,7 +226,7 @@ class AuthenticationControllerTest extends WebTestCase
 
         $crawler = $this->client->request(
             'GET',
-            '/api/v1/provinces',
+            '/v1/provinces',
             array(),//parameters
             array(),//files
             array(

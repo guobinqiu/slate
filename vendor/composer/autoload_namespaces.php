@@ -27,6 +27,7 @@ return array(
     'PDepend\\' => array($vendorDir . '/pdepend/pdepend/src/main/php', $vendorDir . '/phpmd/phpmd/vendor/pdepend/pdepend/src/main/php'),
     'Oro\\ORM' => array($vendorDir . '/oro/doctrine-extensions/src'),
     'Oro\\DBAL' => array($vendorDir . '/oro/doctrine-extensions/src'),
+    'Nelmio\\CorsBundle' => array($vendorDir . '/nelmio/cors-bundle'),
     'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
     'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),
     'JsonpCallbackValidator' => array($vendorDir . '/willdurand/jsonp-callback-validator/src'),
