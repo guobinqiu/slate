@@ -9,8 +9,6 @@ class UserControllerTest extends WebTestCase
 {
     private $container;
     private $client;
-    private $appId;
-    private $appSecret;
 
     public function setUp()
     {
@@ -18,22 +16,13 @@ class UserControllerTest extends WebTestCase
         static::$kernel->boot();
 
         $this->container = self::$kernel->getContainer();
-        $parameterService = $this->container->get('app.parameter_service');
-        $host = $parameterService->getParameter('api_host');
-        $this->client = static::createClient(array(), array('HTTP_HOST' => $host));
-
-        $apps = $parameterService->getParameter('api_apps');
-        $app = $apps[0];
-        $this->appId = $app['app_id'];
-        $this->appSecret = $app['app_secret'];
+        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.com'));
     }
 
     protected function tearDown()
     {
         $this->container = null;
         $this->client = null;
-        $this->appId = null;
-        $this->appSecret = null;
     }
 
     public function testSmsTokenSuccess()
@@ -43,9 +32,8 @@ class UserControllerTest extends WebTestCase
 
         $data[0] = 'POST';
         $data[1] = '/v1/users/sms-token';
-        $data[2] = $this->appId;
-        $data[3] = $timestamp;
-        $data[4] = $nonce;
+        $data[2] = $timestamp;
+        $data[3] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -67,15 +55,14 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    public function testPrepareDataForPostman() {
+    public function testPostman() {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
         $data[0] = 'POST';
         $data[1] = '/v1/users/sms-token';
-        $data[2] = $this->appId;
-        $data[3] = $timestamp;
-        $data[4] = $nonce;
+        $data[2] = $timestamp;
+        $data[3] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -85,7 +72,10 @@ class UserControllerTest extends WebTestCase
     }
 
     private function sign($message) {
-        $digest = hash_hmac('sha256', strtolower($message), $this->appSecret);
-        return AuthenticationListener::urlsafe_b64encode($this->appId . ':' . $digest);
+        $appId = '19430461965976b27b6199c';
+        $appSecret = '4da24648b8f1924148216cc8b49518e1';
+        $digest = hash_hmac('sha256', strtolower($message), $appSecret);
+        $signature = AuthenticationListener::urlsafe_b64encode($appId . ':' . $digest);
+        return $signature;
     }
 }

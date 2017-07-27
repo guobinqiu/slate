@@ -15,14 +15,9 @@ class ProvinceController extends RestAuthenticatedController
     public function indexAction() {
         $provinces = $this->get('app.user_service')->getProvinceList();
 
-        if (!empty($provinces)) {
-            $data['status'] = 'success';
-            $data['data'] = $provinces;
-            return $this->view($data, 200);
-        } else {
-            $data['status'] = 'error';
-            $data['message'] = 'no data';
-            return $this->view($data, 400);
-        }
+        return $this->view([
+            'status' => 'success',
+            'data' => $provinces,
+        ], 200);
     }
 }

@@ -15,14 +15,9 @@ class CityController extends RestAuthenticatedController
     public function indexAction($province_id) {
         $cities = $this->getDoctrine()->getRepository('WenwenFrontendBundle:CityList')->getCitiesByProvinceId($province_id);
 
-        if (!empty($cities)) {
-            $data['status'] = 'success';
-            $data['data'] = $cities;
-            return $this->view($data, 200);
-        } else {
-            $data['status'] = 'error';
-            $data['message'] = 'no data';
-            return $this->view($data, 400);
-        }
+        return $this->view([
+            'status' => 'success',
+            'data' => $cities,
+        ], 200);
     }
 }

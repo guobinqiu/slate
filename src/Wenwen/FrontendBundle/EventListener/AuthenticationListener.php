@@ -105,9 +105,8 @@ class AuthenticationListener
          */
         $data[0] = $request->getMethod();
         $data[1] = $request->getRequestUri();
-        $data[2] = $appId;
-        $data[3] = $request->headers->get(self::HTTP_HEADER_TIMESTAMP, '');
-        $data[4] = $request->headers->get(self::HTTP_HEADER_NONCE, '');
+        $data[2] = $request->headers->get(self::HTTP_HEADER_TIMESTAMP, '');
+        $data[3] = $request->headers->get(self::HTTP_HEADER_NONCE, '');
 
         $message = strtolower(implode("\n", $data));
         $this->logger->debug(__METHOD__ . ' message: ' . $message);
