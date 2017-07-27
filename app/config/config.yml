@@ -199,7 +199,6 @@ snc_redis:
         client: session
         ttl: 1200
 
-# 妈蛋好像不起作用
 #nelmio_cors:
 #    defaults:
 #        allow_credentials: false
@@ -215,15 +214,3 @@ snc_redis:
 #            allow_origin: ['*']
 #            allow_headers: ['X-Authorization', 'X-Timestamp', 'X-Nonce', 'X-Login-Token']
 #            allow_methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH']
-
-fos_rest:
-    body_listener: true
-    format_listener:
-        rules:
-            - { path: '^/v1/', host: %api_host%, priorities: ['json'], fallback_format: json, prefer_extension: false }
-            - { path: '^/', priorities: ['html', '*/*'], fallback_format: ~, prefer_extension: true }
-    param_fetcher_listener: true
-    view:
-        view_response_listener: 'force'
-        formats:
-            json: true

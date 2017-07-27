@@ -2,7 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller\API\V1;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,12 +31,12 @@ class UserController extends RestAuthenticatedController
                 'mobile_token' => $token,
                 'expires_at' => time() + $token_live_seconds,
             ];
+            return $this->view($data, 201);
         } else {
             $data['status'] = 'error';
             $data['message'] = '发送短信失败';
+            return $this->view($data, 400);
         }
-
-        return $this->view($data, 201);
     }
 
     private function generateToken($length = 6) {
