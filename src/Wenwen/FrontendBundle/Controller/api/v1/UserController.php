@@ -24,19 +24,21 @@ class UserController extends RestAuthenticatedController
         $redis->expire($mobile_number, $token_live_seconds);
 
         $smsService = $this->get('app.sms_service');
-        if ($smsService->sendSms($token)) {
-            $data['status'] = 'success';
-            $data['data'] = [
+        if (!$smsService->sendSms($token)) {
+            return $this->view([
+                'status' => 'success',
+                'message' => 'Failed to send sms',
+            ], 400);
+        }
+
+        return $this->view([
+            'status' => 'success',
+            'data' => [
                 'mobile_number' => $mobile_number,
                 'mobile_token' => $token,
                 'expires_at' => time() + $token_live_seconds,
-            ];
-            return $this->view($data, 201);
-        } else {
-            $data['status'] = 'error';
-            $data['message'] = '发送短信失败';
-            return $this->view($data, 400);
-        }
+            ]
+        ], 201);
     }
 
     private function generateToken($length = 6) {
