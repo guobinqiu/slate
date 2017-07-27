@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 /**
  * @Route("/user")
@@ -44,36 +45,21 @@ class PasswordController extends BaseController
     {
         $formData = $request->query->get('form');
         $email = $formData['email'];
-//        $input_captcha = $formData['captcha'];
-//        $session_captcha = $request->getSession()->get('gcb_captcha')['phrase'];
-//        if ($input_captcha != $session_captcha) {
-//            return new JsonResponse(array(
-//                'error' => true,
-//                'message' => '验证码有误',
-//            ), 404);
-//        }
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
+        $authService = $this->get('app.auth_service');
+        $rtn = $authService->sendPasswordResetEmail($email);
 
-        if ($user == null) {
+        if(AuthService::STATUS_SUCCESS == $rtn[AuthService::KEY_STATUS]){
+            return new JsonResponse(array(
+                'error' => false,
+                'message' => '邮件已发送',
+            ), 200);
+        } else {
             return new JsonResponse(array(
                 'error' => true,
                 'message' => '邮件不存在',
             ), 404);
         }
-
-        $user->setResetPasswordToken(md5(uniqid(rand(), true)));
-        $user->setResetPasswordTokenExpiredAt(new \DateTime('+ 24 hour'));
-
-        $em->flush();
-
-        $this->send_reset_password_email($user);
-
-        return new JsonResponse(array(
-            'error' => false,
-            'message' => '邮件已发送',
-        ), 200);
     }
 
     /**
@@ -82,19 +68,15 @@ class PasswordController extends BaseController
     public function resetPassAction(Request $request)
     {
         $resetPasswordToken = $request->query->get('reset_password_token');
-        if ($resetPasswordToken == null) {
-            throw new \Exception('无效链接');
-        }
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('resetPasswordToken' => $resetPasswordToken));
+        $authService = $this->get('app.auth_service');
+        $rtn = $authService->confirmPasswordReset($resetPasswordToken);
 
-        if ($user == null) {
-            throw new \Exception('无效链接');
-        }
-
-        if ($user->isResetPasswordTokenExpired()) {
-            throw new \Exception('验证码已过期');
+        if(AuthService::STATUS_FAILURE == $rtn[AuthService::KEY_STATUS]){
+            return new JsonResponse(array(
+                'error' => true,
+                'message' => 'Invalid request',
+            ), 400);
         }
 
         $form = $this->createFormBuilder()
@@ -114,12 +96,10 @@ class PasswordController extends BaseController
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
-                $user->setPwd($form->get('password')->getData());
-                $user->setResetPasswordToken(null);
-                $user->setResetPasswordTokenExpiredAt(null);
-                $em->flush();
-
-                return $this->redirect($this->generateUrl('_reset_success'));
+                $rtn = $authService->resetPassword($resetPasswordToken, $form->get('password')->getData());
+                if(AuthService::STATUS_SUCCESS == $rtn[AuthService::KEY_STATUS]){
+                    return $this->redirect($this->generateUrl('_reset_success'));
+                }
             }
         }
 
@@ -137,18 +117,4 @@ class PasswordController extends BaseController
         return $this->render('WenwenFrontendBundle:User:resetSuccess.html.twig');
     }
 
-    private function send_reset_password_email(User $user)
-    {
-        $args = array(
-            '--subject=91问问-帐号密码重置',
-            '--email='.$user->getEmail(),
-            '--name='.$user->getNick(),
-            '--reset_password_token='.$user->getResetPasswordToken(),
-        );
-        $job = new Job('mail:reset_password', $args, true, '91wenwen_reset', Job::PRIORITY_HIGH);
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
-    }
 }

@@ -30,8 +30,6 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         $arr['user_id'] = $userId;
         $arr['email'] = $email;
         $arr['nick'] = $nick;
-        
-        
         $user = null;
         if($userId){
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
@@ -86,9 +84,8 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
 
                 $arr['userProfile'] = $profile;
             }
-            
-            $currentPage = $request->query->get('page', 1);
 
+            $currentPage = $request->query->get('page', 1);
             $adminUserService = $this->get('app.admin_user_service');
             $taskHistories = $adminUserService->findUserTaskHistories($user->getId(), $currentPage, 50);
             if($taskHistories){
@@ -133,7 +130,6 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
             $tel = $request->get('tel');
             $delete_flag = $request->get('delete_flag');
             $datetime = new \DateTime();
-            
             $errorMessage = $this->memberCheck($member->getEmail(),$nick, $tel, $delete_flag);
             if(!$errorMessage){
                 $member->setNick($nick);//验证是否存在 ，是否排除已删除的用户
@@ -185,28 +181,14 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
                 'message' => 'email用户不存在',
             ), 404);
         }
-        $user->setConfirmationToken(md5(uniqid(rand(), true)));
-        $user->setConfirmationTokenExpiredAt(new \DateTime('+ 24 hour'));
-        $em->flush();
-        $this->send_confirmation_email($user);
+
+        $token = md5(uniqid(rand(), true));
+        $authService = $this->get('app.auth_service');
+        $rtn = $authService->sendConfirmationEmail($user->getId(), $user->getEmail(), $token);
+
         return new JsonResponse(array(
             'error' => false,
             'message' => '邮件已发送',
         ), 200);
-    }
-
-    private function send_confirmation_email(User $user)
-    {
-        $args = array(
-            '--subject=[91问问调查网] 请点击链接完成注册，开始有奖问卷调查',
-            '--email='.$user->getEmail(),
-            '--name='.$user->getNick(),
-            '--confirmation_token='.$user->getConfirmationToken(),
-        );
-        $job = new Job('mail:signup_confirmation', $args, true, '91wenwen_signup', Job::PRIORITY_HIGH);
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
     }
 }

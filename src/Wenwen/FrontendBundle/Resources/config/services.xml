@@ -196,5 +196,10 @@
 
         <service id="app.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
         </service>
+
+        <service id="app.auth_service" class="Wenwen\FrontendBundle\Services\AuthService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
     </services>
 </container>

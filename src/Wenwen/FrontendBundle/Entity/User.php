@@ -17,9 +17,6 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  * @ORM\Table(name="user",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
  *     indexes={
- *         @ORM\Index(name="confirmation_token_idx", columns={"confirmation_token"}),
- *         @ORM\Index(name="reset_password_token_idx", columns={"reset_password_token"}),
- *         @ORM\Index(name="remember_me_token_idx", columns={"remember_me_token"}),
  *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
  *     }
  * )
@@ -38,8 +35,6 @@ class User
     const POINT_EMPTY = 0;
     const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
-
-    const REMEMBER_ME_TOKEN = 'ww_passport';
 
     /**
      * @var integer
@@ -235,42 +230,6 @@ class User
      * @ORM\OneToOne(targetEntity="UserSignInSummary", mappedBy="user")
      */
     private $userSignInSummary;
-
-    /**
-     * 注册激活token
-     *
-     * @ORM\Column(name="confirmation_token", type="string", nullable=true)
-     */
-    private $confirmationToken;
-
-    /**
-     * @ORM\Column(name="confirmation_token_expired_at", type="datetime", nullable=true)
-     */
-    private $confirmationTokenExpiredAt;
-
-    /**
-     * 重置密码token
-     *
-     * @ORM\Column(name="reset_password_token", type="string", nullable=true)
-     */
-    private $resetPasswordToken;
-
-    /**
-     * @ORM\Column(name="reset_password_token_expired_at", type="datetime", nullable=true)
-     */
-    private $resetPasswordTokenExpiredAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="remember_me_token", type="string", nullable=true)
-     */
-    private $rememberMeToken;
-
-    /**
-     * @ORM\Column(name="remember_me_token_expired_at", type="datetime", nullable=true)
-     */
-    private $rememberMeTokenExpiredAt;
 
     /**
      * 邀请人的用户id
@@ -850,144 +809,6 @@ class User
         return $this->icon;
     }
 
-    /**
-     * Set confirmationToken
-     *
-     * @param string $confirmationToken
-     * @return User
-     */
-    public function setConfirmationToken($confirmationToken)
-    {
-        $this->confirmationToken = $confirmationToken;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmationToken
-     *
-     * @return string
-     */
-    public function getConfirmationToken()
-    {
-        return $this->confirmationToken;
-    }
-
-    /**
-     * Set confirmationTokenExpiredAt
-     *
-     * @param \DateTime $confirmationTokenExpiredAt
-     * @return User
-     */
-    public function setConfirmationTokenExpiredAt($confirmationTokenExpiredAt)
-    {
-        $this->confirmationTokenExpiredAt = $confirmationTokenExpiredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmationTokenExpiredAt
-     *
-     * @return \DateTime
-     */
-    public function getConfirmationTokenExpiredAt()
-    {
-        return $this->confirmationTokenExpiredAt;
-    }
-
-    /**
-     * Set resetPasswordToken
-     *
-     * @param string $resetPasswordToken
-     * @return User
-     */
-    public function setResetPasswordToken($resetPasswordToken)
-    {
-        $this->resetPasswordToken = $resetPasswordToken;
-
-        return $this;
-    }
-
-    /**
-     * Get resetPasswordToken
-     *
-     * @return string
-     */
-    public function getResetPasswordToken()
-    {
-        return $this->resetPasswordToken;
-    }
-
-    /**
-     * Set resetPasswordTokenExpiredAt
-     *
-     * @param \DateTime $resetPasswordTokenExpiredAt
-     * @return User
-     */
-    public function setResetPasswordTokenExpiredAt($resetPasswordTokenExpiredAt)
-    {
-        $this->resetPasswordTokenExpiredAt = $resetPasswordTokenExpiredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get resetPasswordTokenExpiredAt
-     *
-     * @return \DateTime
-     */
-    public function getResetPasswordTokenExpiredAt()
-    {
-        return $this->resetPasswordTokenExpiredAt;
-    }
-
-    /**
-     * Set rememberMeToken
-     *
-     * @param string $rememberMeToken
-     * @return User
-     */
-    public function setRememberMeToken($rememberMeToken)
-    {
-        $this->rememberMeToken = $rememberMeToken;
-
-        return $this;
-    }
-
-    /**
-     * Get rememberMeToken
-     *
-     * @return string
-     */
-    public function getRememberMeToken()
-    {
-        return $this->rememberMeToken;
-    }
-
-    /**
-     * Set rememberMeTokenExpiredAt
-     *
-     * @param \DateTime $rememberMeTokenExpiredAt
-     * @return User
-     */
-    public function setRememberMeTokenExpiredAt($rememberMeTokenExpiredAt)
-    {
-        $this->rememberMeTokenExpiredAt = $rememberMeTokenExpiredAt;
-
-        return $this;
-    }
-
-    /**
-     * Get $rememberMeTokenExpiredAt
-     *
-     * @return \DateTime
-     */
-    public function getRememberMeTokenExpiredAt()
-    {
-        return $this->rememberMeTokenExpiredAt;
-    }
-
     public function setInviteId($inviteId)
     {
         $this->inviteId = $inviteId;
@@ -1063,30 +884,6 @@ class User
     public function emailIsConfirmed()
     {
         return  $this->getIsEmailConfirmed() == self::EMAIL_CONFIRMED;
-    }
-
-    /**
-     * 注册token是否已过期
-     */
-    public function isConfirmationTokenExpired()
-    {
-        return new \DateTime() > $this->confirmationTokenExpiredAt;
-    }
-
-    /**
-     * 重置密码token是否已过期
-     */
-    public function isResetPasswordTokenExpired()
-    {
-        return new \DateTime() > $this->resetPasswordTokenExpiredAt;
-    }
-
-    /**
-     * 记住我token是否已过期
-     */
-    public function isRememberMeTokenExpired()
-    {
-        return new \DateTime() > $this->rememberMeTokenExpiredAt;
     }
 
     /**
