@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\EventListener;
+namespace Wenwen\FrontendBundle\EventListener\API;
 
 use Predis\Client;
 use Psr\Log\LoggerInterface;
@@ -8,14 +8,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Wenwen\FrontendBundle\Controller\API\AuthenticatedController;
+use Wenwen\FrontendBundle\Model\API\ApiUtils;
 use Wenwen\FrontendBundle\Services\ParameterService;
 
 class AuthenticationListener
 {
-    const HTTP_HEADER_AUTHORIZATION = 'X-Authorization';
-    const HTTP_HEADER_TIMESTAMP = 'X-Timestamp';
-    const HTTP_HEADER_NONCE = 'X-Nonce';
-
     private $logger;
     private $parameterService;
     private $redis;
@@ -44,17 +41,14 @@ class AuthenticationListener
             $request = $event->getRequest();
             if (!$this->authenticate($request)) {
                 $event->setController(function() {
-                    return new JsonResponse(array(
-                        'status' => 'error',
-                        'message' => 'You are not authorized to access this api'
-                    ), 401);
+                    return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), 401);
                 });
             }
         }
     }
 
     private function authenticate(Request $request) {
-        $clientSignature = $request->headers->get(self::HTTP_HEADER_AUTHORIZATION);
+        $clientSignature = $request->headers->get(ApiUtils::HTTP_HEADER_AUTHORIZATION);
         if (!$clientSignature) {
             return false;
         }
@@ -82,7 +76,7 @@ class AuthenticationListener
     }
 
     private function getAppId($signature) {
-        return explode(':', self::urlsafe_b64decode($signature))[0];
+        return explode(':', ApiUtils::urlsafe_b64decode($signature))[0];
     }
 
     private function getAppCredentials($appId) {
@@ -105,57 +99,38 @@ class AuthenticationListener
          */
         $data[0] = $request->getMethod();
         $data[1] = $request->getRequestUri();
-        $data[2] = $request->headers->get(self::HTTP_HEADER_TIMESTAMP, '');
-        $data[3] = $request->headers->get(self::HTTP_HEADER_NONCE, '');
+        $data[2] = $request->headers->get(ApiUtils::HTTP_HEADER_TIMESTAMP, '');
+        $data[3] = $request->headers->get(ApiUtils::HTTP_HEADER_NONCE, '');
 
         $message = strtolower(implode("\n", $data));
         $this->logger->debug(__METHOD__ . ' message: ' . $message);
 
-        $algo = 'sha256'; // algo: md5, sha1, ...
-        $digest = hash_hmac($algo, $message, $appSecret);
-        $signature = self::urlsafe_b64encode($appId . ':' . $digest);
+
+        $digest = hash_hmac(ApiUtils::HMAC_ALGO, $message, $appSecret);
+        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
 
         return $signature;
     }
 
     private function checkReplayAttack(Request $request) {
-        $timestamp = $request->headers->get(self::HTTP_HEADER_TIMESTAMP);
-        $nonce = $request->headers->get(self::HTTP_HEADER_NONCE);
+        $timestamp = $request->headers->get(ApiUtils::HTTP_HEADER_TIMESTAMP);
+        $nonce = $request->headers->get(ApiUtils::HTTP_HEADER_NONCE);
 
         if (!$timestamp || !$nonce) {
             return false;
         }
 
-        $duration = 300;
-
-        // 允许误差5分钟
-        if (abs((int)$timestamp - time()) > $duration) {
+        if (abs((int)$timestamp - time()) > ApiUtils::LIVE_TIME) {
             return false;
         }
 
-        // 5分钟内相同的请求只能被使用一次
         if ($this->redis->exists($nonce)) {
             return false;
         } else {
             $this->redis->set($nonce, $nonce);
-            $this->redis->expire($nonce, $duration);
+            $this->redis->expire($nonce, ApiUtils::LIVE_TIME);
         }
 
         return true;
-    }
-
-    public static function urlsafe_b64encode($string) {
-        $data = base64_encode($string);
-        $data = str_replace(array('+','/','='),array('-','_',''),$data);
-        return $data;
-    }
-
-    public static function urlsafe_b64decode($string) {
-        $data = str_replace(array('-','_'),array('+','/'),$string);
-        $mod4 = strlen($data) % 4;
-        if ($mod4) {
-            $data .= substr('====', $mod4);
-        }
-        return base64_decode($data);
     }
 }

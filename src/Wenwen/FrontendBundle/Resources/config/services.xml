@@ -84,14 +84,14 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="app.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\AuthenticationListener">
+        <service id="app.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\API\AuthenticationListener">
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="app.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\CorsListener">
+        <service id="app.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\API\CorsListener">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
 

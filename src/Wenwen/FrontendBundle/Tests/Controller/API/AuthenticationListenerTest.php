@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Tests\Controller\API;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Wenwen\FrontendBundle\EventListener\AuthenticationListener;
+use Wenwen\FrontendBundle\Model\API\ApiUtils;
 
 class AuthenticationListenerTest extends WebTestCase
 {
@@ -43,9 +43,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -71,9 +71,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -98,9 +98,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -114,9 +114,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -142,9 +142,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -170,9 +170,9 @@ class AuthenticationListenerTest extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . AuthenticationListener::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -184,7 +184,7 @@ class AuthenticationListenerTest extends WebTestCase
         $appId = '19430461965976b27b6199c';
         $appSecret = '4da24648b8f1924148216cc8b49518e1';
         $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = AuthenticationListener::urlsafe_b64encode($appId . ':' . $digest);
+        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
         return $signature;
     }
 }
