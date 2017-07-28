@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Wenwen\FrontendBundle\Controller\API\AuthenticatedController;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\Status;
 use Wenwen\FrontendBundle\Services\ParameterService;
 
 class AuthenticationListener
@@ -41,7 +42,7 @@ class AuthenticationListener
             $request = $event->getRequest();
             if (!$this->authenticate($request)) {
                 $event->setController(function() {
-                    return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), 401);
+                    return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), Status::HTTP_UNAUTHORIZED);
                 });
             }
         }
@@ -120,7 +121,7 @@ class AuthenticationListener
             return false;
         }
 
-        if (abs((int)$timestamp - time()) > ApiUtils::LIVE_TIME) {
+        if (abs((int)$timestamp - time()) > ApiUtils::REPLAY_ATTACK_LIVE_SECONDS) {
             return false;
         }
 
@@ -128,7 +129,7 @@ class AuthenticationListener
             return false;
         } else {
             $this->redis->set($nonce, $nonce);
-            $this->redis->expire($nonce, ApiUtils::LIVE_TIME);
+            $this->redis->expire($nonce, ApiUtils::REPLAY_ATTACK_LIVE_SECONDS);
         }
 
         return true;

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Controller\API\RestAuthenticatedController;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\Status;
 
 class CityController extends RestAuthenticatedController
 {
@@ -15,6 +16,6 @@ class CityController extends RestAuthenticatedController
      */
     public function indexAction($province_id) {
         $cities = $this->getDoctrine()->getRepository('WenwenFrontendBundle:CityList')->getCitiesByProvinceId($province_id);
-        return $this->view(ApiUtils::formatSuccess($cities), 200);
+        return $this->view(ApiUtils::formatSuccess($cities), Status::HTTP_OK);
     }
 }

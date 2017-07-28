@@ -2,6 +2,8 @@
 
 namespace Wenwen\FrontendBundle\Model\API;
 
+use JMS\Serializer\SerializerBuilder;
+
 class ApiUtils
 {
     const HTTP_HEADER_AUTHORIZATION = 'X-Authorization';
@@ -10,7 +12,8 @@ class ApiUtils
     const HTTP_HEADER_LOGIN_TOKEN = 'X-login-token';
 
     const HMAC_ALGO = 'sha256'; // Can be one of md5, sha1, ...
-    const LIVE_TIME = 300; // 5min
+    const REPLAY_ATTACK_LIVE_SECONDS = 300;
+    const MOBILE_TOKEN_LIVE_SECONDS = 600;
 
     public static function formatSuccess($data) {
         return [
@@ -31,31 +34,9 @@ class ApiUtils
         return $response;
     }
 
-    public static function array_to_object($arr) {
-        if (gettype($arr) != 'array') {
-            return;
-        }
-        foreach ($arr as $k => $v) {
-            if (gettype($v) == 'array' || getType($v) == 'object') {
-                $arr[$k] = (object)self::array_to_object($v);
-            }
-        }
-
-        return (object)$arr;
-    }
-
-    public static function object_to_array($obj) {
-        $obj = (array)$obj;
-        foreach ($obj as $k => $v) {
-            if (gettype($v) == 'resource') {
-                return;
-            }
-            if (gettype($v) == 'object' || gettype($v) == 'array') {
-                $obj[$k] = (array)self::object_to_array($v);
-            }
-        }
-
-        return $obj;
+    public static function objectToArray($obj) {
+        $serializer = SerializerBuilder::create()->build();
+        return json_decode($serializer->serialize($obj, 'json'), true);
     }
 
     public static function urlsafe_b64encode($string) {

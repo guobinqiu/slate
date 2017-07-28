@@ -66,6 +66,7 @@ class UserControllerTest extends WebTestCase
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
+        echo PHP_EOL . 'Copy & paste to Postman:';
         echo PHP_EOL . 'timestamp=' . $timestamp;
         echo PHP_EOL . 'nonce=' . $nonce;
         echo PHP_EOL . 'signature=' . $signature;

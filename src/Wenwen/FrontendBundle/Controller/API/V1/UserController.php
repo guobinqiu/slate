@@ -10,6 +10,7 @@ use Wenwen\FrontendBundle\Controller\API\RestAuthenticatedController;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Form\API\V1\LoginType;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\Status;
 
 class UserController extends RestAuthenticatedController
 {
@@ -26,20 +27,20 @@ class UserController extends RestAuthenticatedController
         $redis = $this->get('snc_redis.default');
         $redis->set($mobile_number, $token);
 
-        $token_live_seconds = 600;
-        $redis->expire($mobile_number, $token_live_seconds);
+
+        $redis->expire($mobile_number, ApiUtils::MOBILE_TOKEN_LIVE_SECONDS);
 
         $smsService = $this->get('app.sms_service');
         if (!$smsService->sendSms($token)) {
-            return $this->view(ApiUtils::formatError('发送短信失败'), 400);
+            return $this->view(ApiUtils::formatError('发送短信失败'), Status::HTTP_NOT_FOUND);
         }
 
         $data = [
             'mobile_number' => $mobile_number,
             'mobile_token' => $token,
-            'expires_at' => time() + $token_live_seconds,
+            'expires_at' => time() + ApiUtils::MOBILE_TOKEN_LIVE_SECONDS,
         ];
-        return $this->view(ApiUtils::formatSuccess($data), 201);
+        return $this->view(ApiUtils::formatSuccess($data), Status::HTTP_CREATED);
     }
 
     private function generateToken($length = 6) {
@@ -47,7 +48,6 @@ class UserController extends RestAuthenticatedController
         $rand = substr($randStr, 0, $length);
         return $rand;
     }
-
 
     /**
      * Sign up via sms.
@@ -76,15 +76,15 @@ class UserController extends RestAuthenticatedController
         $form->bind($request);
 
         if (!$form->isValid()) {
-            return $this->view(ApiUtils::formatError($form->getErrors()), 400);
+            return $this->view(ApiUtils::formatError($form->getErrors()), Status::HTTP_NOT_FOUND);
         }
 
-        $user = ApiUtils::object_to_array(new User());
+        $user = ApiUtils::objectToArray(new User());
         $user['token'] = 'dsfasf2sf342fda';
         $data = [
             'user' => $user,
         ];
-        return $this->view(ApiUtils::formatSuccess($data), 200);
+        return $this->view(ApiUtils::formatSuccess($data), Status::HTTP_OK);
     }
 
     /**
@@ -95,5 +95,4 @@ class UserController extends RestAuthenticatedController
     public function logoutAction() {
 
     }
-
 }
