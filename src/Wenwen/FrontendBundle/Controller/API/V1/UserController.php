@@ -11,6 +11,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Form\API\V1\LoginType;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 use Wenwen\FrontendBundle\Model\API\Status;
+use Wenwen\FrontendBundle\Annotation\API\Login;
 
 class UserController extends RestAuthenticatedController
 {
@@ -55,7 +56,6 @@ class UserController extends RestAuthenticatedController
      * @Rest\Post("/users/sms")
      */
     public function smsSignupAction() {
-
     }
 
     /**
@@ -70,6 +70,8 @@ class UserController extends RestAuthenticatedController
      * Login
      *
      * @Rest\Post("/users/login")
+     *
+     * @Login
      */
     public function loginAction(Request $request) {
         $form = $this->createForm(new LoginType());
@@ -93,6 +95,5 @@ class UserController extends RestAuthenticatedController
      * @Rest\Post("/users/logout")
      */
     public function logoutAction() {
-
     }
 }

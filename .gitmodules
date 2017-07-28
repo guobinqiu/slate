@@ -1,0 +1,6 @@
+[submodule "src/JMS/AopBundle"]
+	path = src/JMS/AopBundle
+	url = https://github.com/schmittjoh/JMSAopBundle.git
+[submodule "src/vendor/cg-library"]
+	path = src/vendor/cg-library
+	url = https://github.com/schmittjoh/cg-library.git

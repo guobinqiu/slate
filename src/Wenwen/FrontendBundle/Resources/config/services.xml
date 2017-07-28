@@ -84,17 +84,6 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="app.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\API\AuthenticationListener">
-            <argument type="service" id="logger" />
-            <argument type="service" id="app.parameter_service" />
-            <argument type="service" id="snc_redis.default" />
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
-        </service>
-
-        <service id="app.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\API\CorsListener">
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
-        </service>
-
         <service id="app.offerwow_request_service" class="Wenwen\FrontendBundle\Services\OfferwowRequestService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
@@ -194,12 +183,33 @@
             <argument type="service" id="knp_paginator" />
         </service>
 
-        <service id="app.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
-        </service>
-
         <service id="app.auth_service" class="Wenwen\FrontendBundle\Services\AuthService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="api.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\API\AuthenticationListener">
+        <argument type="service" id="logger" />
+        <argument type="service" id="app.parameter_service" />
+        <argument type="service" id="snc_redis.default" />
+        <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+
+        <service id="api.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\API\CorsListener">
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+        </service>
+
+        <service id="api.login_pointcut" class="Wenwen\FrontendBundle\AOP\API\LoginPointcut">
+            <argument type="service" id="logger" />
+            <argument type="service" id="annotation_reader" />
+            <tag name="jms_aop.pointcut" interceptor="api.login_interceptor" />
+        </service>
+
+        <service id="api.login_interceptor" class="Wenwen\FrontendBundle\AOP\API\LoginInterceptor">
+            <argument type="service" id="logger" />
+        </service>
+
+        <service id="api.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
         </service>
     </services>
 </container>
