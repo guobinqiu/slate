@@ -30,10 +30,10 @@ class ProvinceControllerTest extends WebTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -54,24 +54,8 @@ class ProvinceControllerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    public function testPostman() {
-        $timestamp = time();
-        $nonce = md5(uniqid(rand(), true));
-
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
-
-        echo PHP_EOL . 'Copy & paste to Postman:';
-        echo PHP_EOL . 'timestamp=' . $timestamp;
-        echo PHP_EOL . 'nonce=' . $nonce;
-        echo PHP_EOL . 'signature=' . $signature;
-    }
-
-    private function sign($message) {
+    private function sign($message)
+    {
         $appId = '19430461965976b27b6199c';
         $appSecret = '4da24648b8f1924148216cc8b49518e1';
         $digest = hash_hmac('sha256', strtolower($message), $appSecret);

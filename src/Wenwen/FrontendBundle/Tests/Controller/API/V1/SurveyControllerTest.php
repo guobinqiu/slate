@@ -5,7 +5,7 @@ namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 
-class UserControllerTest extends WebTestCase
+class SurveyControllerTest extends WebTestCase
 {
     private $container;
     private $client;
@@ -25,21 +25,21 @@ class UserControllerTest extends WebTestCase
         $this->client = null;
     }
 
-    public function testSmsTokenSuccess()
+    public function testShowSurveys()
     {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $data[] = 'POST';
-        $data[] = '/v1/users/sms-token';
+        $data[] = 'GET';
+        $data[] = '/v1/surveys';
         $data[] = $timestamp;
         $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
         $crawler = $this->client->request(
-            'POST',
-            '/v1/users/sms-token',
+            'GET',
+            '/v1/surveys',
             array(),//parameters
             array(),//files
             array(
@@ -47,11 +47,10 @@ class UserControllerTest extends WebTestCase
                 'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
                 'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            ),//server
-            '{ "mobile_number": "13916122915" }'
+            )//server
         );
 
-        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 

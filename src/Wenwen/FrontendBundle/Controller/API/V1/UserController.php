@@ -11,7 +11,6 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Form\API\V1\LoginType;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 use Wenwen\FrontendBundle\Model\API\Status;
-use Wenwen\FrontendBundle\Annotation\API\Login;
 
 class UserController extends RestAuthenticatedController
 {
@@ -22,16 +21,13 @@ class UserController extends RestAuthenticatedController
      */
     public function smsTokenAction(Request $request) {
         $mobile_number = $request->request->get('mobile_number');
-
         $token = $this->generateToken(4);
 
         $redis = $this->get('snc_redis.default');
         $redis->set($mobile_number, $token);
-
-
         $redis->expire($mobile_number, ApiUtils::MOBILE_TOKEN_LIVE_SECONDS);
 
-        $smsService = $this->get('app.sms_service');
+        $smsService = $this->get('api.sms_service');
         if (!$smsService->sendSms($token)) {
             return $this->view(ApiUtils::formatError('发送短信失败'), Status::HTTP_NOT_FOUND);
         }
@@ -70,8 +66,6 @@ class UserController extends RestAuthenticatedController
      * Login
      *
      * @Rest\Post("/users/login")
-     *
-     * @Login
      */
     public function loginAction(Request $request) {
         $form = $this->createForm(new LoginType());
