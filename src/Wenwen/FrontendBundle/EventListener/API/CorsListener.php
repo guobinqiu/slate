@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\EventListener\API;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 
 class CorsListener

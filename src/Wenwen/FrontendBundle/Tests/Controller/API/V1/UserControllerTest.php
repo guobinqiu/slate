@@ -2,29 +2,11 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends ApiTestCase
 {
-    private $container;
-    private $client;
-
-    public function setUp()
-    {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.com'));
-    }
-
-    protected function tearDown()
-    {
-        $this->container = null;
-        $this->client = null;
-    }
-
     public function testSmsTokenSuccess()
     {
         $timestamp = time();
@@ -55,12 +37,40 @@ class UserControllerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    private function sign($message)
+    public function testLogin()
     {
-        $appId = '19430461965976b27b6199c';
-        $appSecret = '4da24648b8f1924148216cc8b49518e1';
-        $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
-        return $signature;
+        $timestamp = time();
+        $nonce = md5(uniqid(rand(), true));
+
+        $data[] = 'POST';
+        $data[] = '/v1/users/login';
+        $data[] = $timestamp;
+        $data[] = $nonce;
+        $message = implode("\n", $data);
+        $signature = $this->sign($message);
+
+        $content = '{
+            "login": {
+                "username": "13916122915",
+                "password": "111111"
+            }
+        }';
+
+        $crawler = $this->client->request(
+            'POST',
+            '/v1/users/login',
+            array(),//parameters
+            array(),//files
+            array(
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'CONTENT_TYPE' => 'application/json',
+            ),//server
+            $content
+        );
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 }

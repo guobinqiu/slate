@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 use Wenwen\FrontendBundle\Model\API\Status;
 
-class LoginInterceptor implements MethodInterceptorInterface
+class LoginTokenInterceptor implements MethodInterceptorInterface
 {
     private $logger;
 
@@ -20,7 +20,7 @@ class LoginInterceptor implements MethodInterceptorInterface
 
     public function intercept(MethodInvocation $invocation)
     {
-        $this->logger->debug('Validate user login token now...');
+        $this->logger->debug('Validating user login token now...');
 
         /*
          * Here I need to read token data from a http request

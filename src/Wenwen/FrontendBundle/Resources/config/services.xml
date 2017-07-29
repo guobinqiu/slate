@@ -192,6 +192,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
+            <argument type="service" id="annotation_reader" />
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
@@ -199,15 +200,15 @@
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
 
-        <service id="api.login_pointcut" class="Wenwen\FrontendBundle\AOP\API\LoginPointcut">
-            <argument type="service" id="logger" />
-            <argument type="service" id="annotation_reader" />
-            <tag name="jms_aop.pointcut" interceptor="api.login_interceptor" />
-        </service>
+        <!--<service id="api.login_token_pointcut" class="Wenwen\FrontendBundle\AOP\API\LoginTokenPointcut">-->
+            <!--<argument type="service" id="logger" />-->
+            <!--<argument type="service" id="annotation_reader" />-->
+            <!--<tag name="jms_aop.pointcut" interceptor="api.login_token_interceptor" />-->
+        <!--</service>-->
 
-        <service id="api.login_interceptor" class="Wenwen\FrontendBundle\AOP\API\LoginInterceptor">
-            <argument type="service" id="logger" />
-        </service>
+        <!--<service id="api.login_token_interceptor" class="Wenwen\FrontendBundle\AOP\API\LoginTokenInterceptor">-->
+            <!--<argument type="service" id="logger" />-->
+        <!--</service>-->
 
         <service id="api.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
         </service>

@@ -9,11 +9,12 @@ class ApiUtils
     const HTTP_HEADER_AUTHORIZATION = 'X-Authorization';
     const HTTP_HEADER_TIMESTAMP = 'X-Timestamp';
     const HTTP_HEADER_NONCE = 'X-Nonce';
-    const HTTP_HEADER_LOGIN_TOKEN = 'X-login-token';
+    const HTTP_HEADER_LOGIN_TOKEN = 'X-Login-Token';
 
-    const HMAC_ALGO = 'sha256'; // Can be one of md5, sha1, ...
-    const REPLAY_ATTACK_LIVE_SECONDS = 300;
-    const MOBILE_TOKEN_LIVE_SECONDS = 600;
+    const ALGO = 'sha256'; // Can be one of md5, sha1, ...
+    const REPLAY_ATTACK_LIVE_SECONDS = 300; //5min
+    const MOBILE_TOKEN_LIVE_SECONDS = 600; //10min
+    const LOGIN_TOKEN_LIVE_SECONDS = 1800; //30min
 
     public static function formatSuccess($data) {
         return [

@@ -2,30 +2,12 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
-class SurveyControllerTest extends WebTestCase
+class SurveyControllerTest extends ApiTestCase
 {
-    private $container;
-    private $client;
-
-    public function setUp()
-    {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.com'));
-    }
-
-    protected function tearDown()
-    {
-        $this->container = null;
-        $this->client = null;
-    }
-
-    public function testShowSurveys()
+    public function testShowSurveyListSuccess()
     {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
@@ -37,6 +19,11 @@ class SurveyControllerTest extends WebTestCase
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
+        $user = $this->login();
+//        print_r($user);
+
+        $loginToken = $user['login_token'];
+
         $crawler = $this->client->request(
             'GET',
             '/v1/surveys',
@@ -46,6 +33,7 @@ class SurveyControllerTest extends WebTestCase
                 'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
                 'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
                 'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_LOGIN_TOKEN => $loginToken,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -54,12 +42,35 @@ class SurveyControllerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    private function sign($message)
+    public function testShowSurveyListError()
     {
-        $appId = '19430461965976b27b6199c';
-        $appSecret = '4da24648b8f1924148216cc8b49518e1';
-        $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
-        return $signature;
+        $timestamp = time();
+        $nonce = md5(uniqid(rand(), true));
+
+        $data[] = 'GET';
+        $data[] = '/v1/surveys';
+        $data[] = $timestamp;
+        $data[] = $nonce;
+        $message = implode("\n", $data);
+        $signature = $this->sign($message);
+
+        $loginToken = 'awronglogintoken';
+
+        $crawler = $this->client->request(
+            'GET',
+            '/v1/surveys',
+            array(),//parameters
+            array(),//files
+            array(
+                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
+                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtils::HTTP_HEADER_LOGIN_TOKEN => $loginToken,
+                'CONTENT_TYPE' => 'application/json',
+            )//server
+        );
+
+        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 }

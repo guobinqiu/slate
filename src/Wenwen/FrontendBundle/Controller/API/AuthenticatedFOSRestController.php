@@ -4,6 +4,6 @@ namespace Wenwen\FrontendBundle\Controller\API;
 
 use FOS\RestBundle\Controller\FOSRestController;
 
-class RestAuthenticatedController extends FOSRestController implements AuthenticatedController
+class AuthenticatedFOSRestController extends FOSRestController implements AuthenticatedController
 {
 }

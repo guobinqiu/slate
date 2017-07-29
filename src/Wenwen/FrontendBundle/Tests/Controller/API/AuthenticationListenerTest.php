@@ -2,29 +2,10 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 
-class AuthenticationListenerTest extends WebTestCase
+class AuthenticationListenerTest extends ApiTestCase
 {
-    private $container;
-    private $client;
-
-    public function setUp()
-    {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.com'));
-    }
-
-    protected function tearDown()
-    {
-        $this->container = null;
-        $this->client = null;
-    }
-
     public function testSignatureSuccess()
     {
         $timestamp = time();
@@ -55,7 +36,8 @@ class AuthenticationListenerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    public function testSignatureError() {
+    public function testSignatureError()
+    {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
@@ -81,7 +63,8 @@ class AuthenticationListenerTest extends WebTestCase
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 
-    public function testGetProvinceReplayAttack() {
+    public function testGetProvinceReplayAttack()
+    {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
@@ -153,7 +136,8 @@ class AuthenticationListenerTest extends WebTestCase
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
-    public function testTimestampOutbound() {
+    public function testTimestampOutbound()
+    {
         $timestamp = time() + 400;
         $nonce = md5(uniqid(rand(), true));
 
@@ -178,13 +162,5 @@ class AuthenticationListenerTest extends WebTestCase
         );
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
-    }
-
-    private function sign($message) {
-        $appId = '19430461965976b27b6199c';
-        $appSecret = '4da24648b8f1924148216cc8b49518e1';
-        $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
-        return $signature;
     }
 }
