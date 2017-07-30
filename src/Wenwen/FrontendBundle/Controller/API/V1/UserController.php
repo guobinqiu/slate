@@ -101,6 +101,6 @@ class UserController extends AuthenticatedFOSRestController
 
     private function generateLoginToken(User $user) {
 //        return hash('sha256', $user->getId() . $user->getPwd() . time());
-        return 'amockedrandomlogintoken';
+        return md5(uniqid(rand(), true));
     }
 }

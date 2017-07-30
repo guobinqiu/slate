@@ -188,6 +188,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <!-- api definition goes here -->
         <service id="api.listener.authentication_listener" class="Wenwen\FrontendBundle\EventListener\API\AuthenticationListener">
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
@@ -200,15 +201,14 @@
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
 
-        <!--<service id="api.login_token_pointcut" class="Wenwen\FrontendBundle\AOP\API\LoginTokenPointcut">-->
-            <!--<argument type="service" id="logger" />-->
-            <!--<argument type="service" id="annotation_reader" />-->
-            <!--<tag name="jms_aop.pointcut" interceptor="api.login_token_interceptor" />-->
-        <!--</service>-->
+        <service id="api.exception_pointcut" class="Wenwen\FrontendBundle\AOP\API\ExceptionPointcut">
+            <argument type="service" id="logger" />
+            <tag name="jms_aop.pointcut" interceptor="api.exception_interceptor" />
+        </service>
 
-        <!--<service id="api.login_token_interceptor" class="Wenwen\FrontendBundle\AOP\API\LoginTokenInterceptor">-->
-            <!--<argument type="service" id="logger" />-->
-        <!--</service>-->
+        <service id="api.exception_interceptor" class="Wenwen\FrontendBundle\AOP\API\ExceptionInterceptor">
+            <argument type="service" id="logger" />
+        </service>
 
         <service id="api.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">
         </service>

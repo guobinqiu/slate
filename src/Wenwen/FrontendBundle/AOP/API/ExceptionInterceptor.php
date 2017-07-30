@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Wenwen\FrontendBundle\Model\API\ApiUtils;
 use Wenwen\FrontendBundle\Model\API\Status;
 
-class LoginTokenInterceptor implements MethodInterceptorInterface
+class ExceptionInterceptor implements MethodInterceptorInterface
 {
     private $logger;
 
@@ -20,24 +20,16 @@ class LoginTokenInterceptor implements MethodInterceptorInterface
 
     public function intercept(MethodInvocation $invocation)
     {
-        $this->logger->debug('Validating user login token now...');
-
-        /*
-         * Here I need to read token data from a http request
-         * Fuck, how to inject a request object in symfony2.2 ?!!!
-         */
-        $loginToken = null;
-
-        if ($this->isValid($loginToken)) {
+        try {
             // make sure to proceed with the invocation otherwise the original
             // method will never be called
             return $invocation->proceed();
+
+        } catch (\Exception $ex) {
+
+            $this->logger->error(__METHOD__ . ' ' . $ex->getMessage());
+
+            return new JsonResponse(ApiUtils::formatError($ex->getMessage()), Status::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), Status::HTTP_UNAUTHORIZED);
-    }
-
-    private function isValid($loginToken) {
-        return true;
     }
 }
