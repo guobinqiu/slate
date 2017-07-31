@@ -3,19 +3,20 @@
 namespace Wenwen\FrontendBundle\EventListener\API;
 
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Util\ClassUtils;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use ReflectionObject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
-use Wenwen\FrontendBundle\Controller\API\AuthenticatedController;
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Annotation\API\NeedLoginToken;
+use Wenwen\FrontendBundle\Controller\API\TokenAuthenticatedController;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\Status;
 
 use Wenwen\FrontendBundle\Services\ParameterService;
 
-class AuthenticationListener
+class AppAccessTokenListener
 {
     private $logger;
     private $parameterService;
@@ -46,30 +47,18 @@ class AuthenticationListener
             return;
         }
 
-        if ($controller[0] instanceof AuthenticatedController) {
+        if ($controller[0] instanceof TokenAuthenticatedController) {
             $request = $event->getRequest();
-
-            // Serving for app level's global token
             if (!$this->authenticate($request)) {
                 $event->setController(function() {
-                    return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), Status::HTTP_UNAUTHORIZED);
+                    return new JsonResponse(ApiUtil::formatError('You are not authorized to access this api'), Status::HTTP_UNAUTHORIZED);
                 });
-            }
-
-            // Serving for user level's login token
-            $method = $this->getInvokedMethod($controller);
-            if ($this->hasLoginTokenAnnotation($method)) {
-                if (!$this->isLoginTokenValid($request)) {
-                    $event->setController(function() {
-                        return new JsonResponse(ApiUtils::formatError('You are not authorized to access this api'), Status::HTTP_UNAUTHORIZED);
-                    });
-                }
             }
         }
     }
 
     private function authenticate(Request $request) {
-        $clientSignature = $request->headers->get(ApiUtils::HTTP_HEADER_AUTHORIZATION);
+        $clientSignature = $request->headers->get(ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN);
         if (!$clientSignature) {
             return false;
         }
@@ -97,7 +86,7 @@ class AuthenticationListener
     }
 
     private function getAppId($signature) {
-        return explode(':', ApiUtils::urlsafe_b64decode($signature))[0];
+        return explode(':', ApiUtil::urlsafe_b64decode($signature))[0];
     }
 
     private function getAppCredentials($appId) {
@@ -118,30 +107,30 @@ class AuthenticationListener
          * Notes the order!!!
          * Client side should concatenate request parameters in the same way
          */
-        $data[0] = $request->getMethod();
-        $data[1] = $request->getRequestUri();
-        $data[2] = $request->headers->get(ApiUtils::HTTP_HEADER_TIMESTAMP, '');
-        $data[3] = $request->headers->get(ApiUtils::HTTP_HEADER_NONCE, '');
+        $data[] = $request->getMethod();
+        $data[] = $request->getRequestUri();
+        $data[] = $request->headers->get(ApiUtil::HTTP_HEADER_TIMESTAMP, '');
+        $data[] = $request->headers->get(ApiUtil::HTTP_HEADER_NONCE, '');
 
         $message = strtolower(implode("\n", $data));
         $this->logger->debug(__METHOD__ . ' message: ' . $message);
 
 
-        $digest = hash_hmac(ApiUtils::ALGO, $message, $appSecret);
-        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
+        $digest = hash_hmac(ApiUtil::ALGO, $message, $appSecret);
+        $signature = ApiUtil::urlsafe_b64encode($appId . ':' . $digest);
 
         return $signature;
     }
 
     private function checkReplayAttack(Request $request) {
-        $timestamp = $request->headers->get(ApiUtils::HTTP_HEADER_TIMESTAMP);
-        $nonce = $request->headers->get(ApiUtils::HTTP_HEADER_NONCE);
+        $timestamp = $request->headers->get(ApiUtil::HTTP_HEADER_TIMESTAMP);
+        $nonce = $request->headers->get(ApiUtil::HTTP_HEADER_NONCE);
 
         if (!$timestamp || !$nonce) {
             return false;
         }
 
-        if (abs((int)$timestamp - time()) > ApiUtils::REPLAY_ATTACK_LIVE_SECONDS) {
+        if (abs((int)$timestamp - time()) > ApiUtil::REPLAY_ATTACK_LIVE_SECONDS) {
             return false;
         }
 
@@ -149,34 +138,8 @@ class AuthenticationListener
             return false;
         } else {
             $this->redis->set($nonce, $nonce);
-            $this->redis->expire($nonce, ApiUtils::REPLAY_ATTACK_LIVE_SECONDS);
+            $this->redis->expire($nonce, ApiUtil::REPLAY_ATTACK_LIVE_SECONDS);
         }
-
-        return true;
-    }
-
-    private function getInvokedMethod($controller) {
-        $reflectionController = new ReflectionObject($controller[0]);
-        $reflectionMethod = $reflectionController->getMethod($controller[1]);
-        return $reflectionMethod;
-    }
-
-    private function hasLoginTokenAnnotation(\ReflectionMethod $method) {
-        $annotation = $this->annotationReader->getMethodAnnotation($method, 'Wenwen\FrontendBundle\Annotation\API\NeedLoginToken');
-        return isset($annotation);
-    }
-
-    private function isLoginTokenValid(Request $request) {
-        $loginToken = $request->headers->get(ApiUtils::HTTP_HEADER_LOGIN_TOKEN);
-        if (!$loginToken) {
-            return false;
-        }
-
-        if (!$this->redis->exists($loginToken)) {
-            return false;
-        }
-
-        $this->redis->expire($loginToken, ApiUtils::LOGIN_TOKEN_LIVE_SECONDS);
 
         return true;
     }

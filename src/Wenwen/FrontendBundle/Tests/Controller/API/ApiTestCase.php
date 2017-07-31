@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Tests\Controller\API;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
 class ApiTestCase extends WebTestCase
 {
@@ -32,7 +32,7 @@ class ApiTestCase extends WebTestCase
         $appId = '19430461965976b27b6199c';
         $appSecret = '4da24648b8f1924148216cc8b49518e1';
         $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = ApiUtils::urlsafe_b64encode($appId . ':' . $digest);
+        $signature = ApiUtil::urlsafe_b64encode($appId . ':' . $digest);
         return $signature;
     }
 
@@ -61,9 +61,9 @@ class ApiTestCase extends WebTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             ),//server
             $content
@@ -71,6 +71,6 @@ class ApiTestCase extends WebTestCase
 
         $content = $this->client->getResponse()->getContent();
 
-        return json_decode($content, true)['data']['user'];
+        return json_decode($content, true)['data'];
     }
 }

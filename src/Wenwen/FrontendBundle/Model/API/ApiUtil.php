@@ -4,17 +4,17 @@ namespace Wenwen\FrontendBundle\Model\API;
 
 use JMS\Serializer\SerializerBuilder;
 
-class ApiUtils
+class ApiUtil
 {
-    const HTTP_HEADER_AUTHORIZATION = 'X-Authorization';
+    const HTTP_HEADER_APP_ACCESS_TOKEN = 'X-App-Access-Token';
     const HTTP_HEADER_TIMESTAMP = 'X-Timestamp';
     const HTTP_HEADER_NONCE = 'X-Nonce';
-    const HTTP_HEADER_LOGIN_TOKEN = 'X-Login-Token';
+    const HTTP_HEADER_USER_ACCESS_TOKEN = 'X-User-Access-Token';
 
     const ALGO = 'sha256'; // Can be one of md5, sha1, ...
     const REPLAY_ATTACK_LIVE_SECONDS = 300; //5min
     const MOBILE_TOKEN_LIVE_SECONDS = 600; //10min
-    const LOGIN_TOKEN_LIVE_SECONDS = 1800; //30min
+    const USER_ACCESS_TOKEN_LIVE_SECONDS = 1800; //30min
 
     public static function formatSuccess($data) {
         return [

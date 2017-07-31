@@ -2,6 +2,6 @@
 
 namespace Wenwen\FrontendBundle\Controller\API;
 
-interface AuthenticatedController
+interface TokenAuthenticatedController
 {
 }

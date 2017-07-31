@@ -6,7 +6,7 @@ use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\Status;
 
 class ExceptionInterceptor implements MethodInterceptorInterface
@@ -29,7 +29,7 @@ class ExceptionInterceptor implements MethodInterceptorInterface
 
             $this->logger->error(__METHOD__ . ' ' . $ex->getMessage());
 
-            return new JsonResponse(ApiUtils::formatError($ex->getMessage()), Status::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse(ApiUtil::formatError($ex->getMessage()), Status::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

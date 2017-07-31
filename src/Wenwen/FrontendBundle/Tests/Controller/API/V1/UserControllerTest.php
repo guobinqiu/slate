@@ -2,7 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
 class UserControllerTest extends ApiTestCase
@@ -25,9 +25,9 @@ class UserControllerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             ),//server
             '{ "mobile_number": "13916122915" }'
@@ -62,9 +62,9 @@ class UserControllerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             ),//server
             $content

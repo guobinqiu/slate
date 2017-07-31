@@ -3,16 +3,16 @@
 namespace Wenwen\FrontendBundle\EventListener\API;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
 class CorsListener
 {
     public function onKernelResponse(FilterResponseEvent $event) {
 
-        $allowHeaders[] = ApiUtils::HTTP_HEADER_AUTHORIZATION;
-        $allowHeaders[] = ApiUtils::HTTP_HEADER_TIMESTAMP;
-        $allowHeaders[] = ApiUtils::HTTP_HEADER_NONCE;
-        $allowHeaders[] = ApiUtils::HTTP_HEADER_LOGIN_TOKEN;
+        $allowHeaders[] = ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN;
+        $allowHeaders[] = ApiUtil::HTTP_HEADER_TIMESTAMP;
+        $allowHeaders[] = ApiUtil::HTTP_HEADER_NONCE;
+        $allowHeaders[] = ApiUtil::HTTP_HEADER_USER_ACCESS_TOKEN;
 
         $response = $event->getResponse();
         $response->headers->set('Access-Control-Allow-Origin', '*');

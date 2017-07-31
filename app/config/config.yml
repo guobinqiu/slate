@@ -212,7 +212,7 @@ snc_redis:
 #    paths:
 #        '^/v1/':
 #            allow_origin: ['*']
-#            allow_headers: ['X-Authorization', 'X-Timestamp', 'X-Nonce', 'X-Login-Token']
+#            allow_headers: ['X-App-Access-Token', 'X-Timestamp', 'X-Nonce', 'X-User-Access-Token']
 #            allow_methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH']
 
 jms_aop:

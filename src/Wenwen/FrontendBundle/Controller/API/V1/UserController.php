@@ -6,13 +6,13 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wenwen\FrontendBundle\Controller\API\AuthenticatedFOSRestController;
+use Wenwen\FrontendBundle\Controller\API\TokenAuthenticatedFOSRestController;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Form\API\V1\LoginType;
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\Status;
 
-class UserController extends AuthenticatedFOSRestController
+class UserController extends TokenAuthenticatedFOSRestController
 {
     /**
      * Send sms token.
@@ -25,19 +25,19 @@ class UserController extends AuthenticatedFOSRestController
 
         $redis = $this->get('snc_redis.default');
         $redis->set($mobileNumber, $mobileToken);
-        $redis->expire($mobileNumber, ApiUtils::MOBILE_TOKEN_LIVE_SECONDS);
+        $redis->expire($mobileNumber, ApiUtil::MOBILE_TOKEN_LIVE_SECONDS);
 
         $smsService = $this->get('api.sms_service');
         if (!$smsService->sendSms($mobileToken)) {
-            return $this->view(ApiUtils::formatError('发送短信失败'), Status::HTTP_NOT_FOUND);
+            return $this->view(ApiUtil::formatError('Failed to send sms'), Status::HTTP_NOT_FOUND);
         }
 
         $data = [
             'mobile_number' => $mobileNumber,
             'mobile_token' => $mobileToken,
-            'expires_at' => time() + ApiUtils::MOBILE_TOKEN_LIVE_SECONDS,
+            'expires_at' => time() + ApiUtil::MOBILE_TOKEN_LIVE_SECONDS,
         ];
-        return $this->view(ApiUtils::formatSuccess($data), Status::HTTP_CREATED);
+        return $this->view(ApiUtil::formatSuccess($data), Status::HTTP_CREATED);
     }
 
     /**
@@ -66,23 +66,21 @@ class UserController extends AuthenticatedFOSRestController
         $form->bind($request);
 
         if (!$form->isValid()) {
-            return $this->view(ApiUtils::formatError($form->getErrors()), Status::HTTP_NOT_FOUND);
+            return $this->view(ApiUtil::formatError($form->getErrors()), Status::HTTP_NOT_FOUND);
         }
 
         $user = new User();
-        $loginToken = $this->generateLoginToken($user);
+        $userAccessToken = $this->generateUserAccessToken($user);
 
         $redis = $this->get('snc_redis.default');
-        $redis->set($loginToken, $user->getId());
-        $redis->expire($loginToken, ApiUtils::LOGIN_TOKEN_LIVE_SECONDS);
-
-        $arr = ApiUtils::objectToArray($user);
-        $arr['login_token'] = $loginToken;
+        $redis->set($userAccessToken, $user->getId());
+        $redis->expire($userAccessToken, ApiUtil::USER_ACCESS_TOKEN_LIVE_SECONDS);
 
         $data = [
-            'user' => $arr,
+            'user' => $user,
+            'user_access_token' => $userAccessToken,
         ];
-        return $this->view(ApiUtils::formatSuccess($data), Status::HTTP_OK);
+        return $this->view(ApiUtil::formatSuccess($data), Status::HTTP_OK);
     }
 
     /**
@@ -99,7 +97,7 @@ class UserController extends AuthenticatedFOSRestController
         return $rand;
     }
 
-    private function generateLoginToken(User $user) {
+    private function generateUserAccessToken(User $user) {
 //        return hash('sha256', $user->getId() . $user->getPwd() . time());
         return md5(uniqid(rand(), true));
     }

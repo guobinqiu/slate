@@ -2,19 +2,19 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API;
 
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
-class AuthenticationListenerTest extends ApiTestCase
+class AppAccessTokenListenerTest extends ApiTestCase
 {
     public function testSignatureSuccess()
     {
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -24,9 +24,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -41,9 +41,9 @@ class AuthenticationListenerTest extends ApiTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -53,9 +53,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -68,10 +68,10 @@ class AuthenticationListenerTest extends ApiTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -81,9 +81,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -97,9 +97,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -112,10 +112,10 @@ class AuthenticationListenerTest extends ApiTestCase
         $timestamp = time() + 200;
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -125,9 +125,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -141,10 +141,10 @@ class AuthenticationListenerTest extends ApiTestCase
         $timestamp = time() + 400;
         $nonce = md5(uniqid(rand(), true));
 
-        $data[0] = 'GET';
-        $data[1] = '/v1/provinces';
-        $data[2] = $timestamp;
-        $data[3] = $nonce;
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
@@ -154,9 +154,9 @@ class AuthenticationListenerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );

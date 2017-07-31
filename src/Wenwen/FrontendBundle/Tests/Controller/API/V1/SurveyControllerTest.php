@@ -2,7 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
-use Wenwen\FrontendBundle\Model\API\ApiUtils;
+use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
 class SurveyControllerTest extends ApiTestCase
@@ -19,10 +19,10 @@ class SurveyControllerTest extends ApiTestCase
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
-        $user = $this->login();
-//        print_r($user);
+        $data = $this->login();
+//        print_r($data['user']);
 
-        $loginToken = $user['login_token'];
+        $userAccessToken = $data['user_access_token'];
 
         $crawler = $this->client->request(
             'GET',
@@ -30,10 +30,10 @@ class SurveyControllerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
-                'HTTP_' . ApiUtils::HTTP_HEADER_LOGIN_TOKEN => $loginToken,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_USER_ACCESS_TOKEN => $userAccessToken,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -54,7 +54,7 @@ class SurveyControllerTest extends ApiTestCase
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
-        $loginToken = 'awronglogintoken';
+        $userAccessToken = 'awronglogintoken';
 
         $crawler = $this->client->request(
             'GET',
@@ -62,10 +62,10 @@ class SurveyControllerTest extends ApiTestCase
             array(),//parameters
             array(),//files
             array(
-                'HTTP_' . ApiUtils::HTTP_HEADER_AUTHORIZATION => $signature,
-                'HTTP_' . ApiUtils::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtils::HTTP_HEADER_NONCE => $nonce,
-                'HTTP_' . ApiUtils::HTTP_HEADER_LOGIN_TOKEN => $loginToken,
+                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
+                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . ApiUtil::HTTP_HEADER_USER_ACCESS_TOKEN => $userAccessToken,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
