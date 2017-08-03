@@ -38,7 +38,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $logger = $this->getLogger();
 
         $date = $input->getArgument('date');
-        $this->getLogger('reward-ssi-point');
+        $this->getLogger();
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
