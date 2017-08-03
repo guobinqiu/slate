@@ -53,7 +53,7 @@ parameters:
     domain: www.91wenwen.net
     cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
     alert_subject: '91问问-定时任务提醒邮件'
-    jili_app.logs_dir: /data/91jili/logs
+    jili_app.logs_dir: %kernel.logs_dir%/%kernel.environment%
 
     offerwow_com.websiteid: 1162
     offerwow_com.key: "91jili2offerwow"

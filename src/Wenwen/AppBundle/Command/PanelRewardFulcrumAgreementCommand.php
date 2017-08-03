@@ -13,9 +13,7 @@ use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
-    const USER_AGREEMENT_ACTIVE = 'ACTIVE';     
-    private $comment = '';
-    private $point   = 0;
+    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
 
     protected function configure()
     {
@@ -25,19 +23,9 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
-        $this->comment = '同意Fulcrum问卷调查';
-        $this->setLogger('reward-fulcrum-agreement');
-        $this->point = 10;
-
-        return parent::execute($input, $output);
-    }
-
     protected function point($history)
     {
-        return $this->point;
+        return 10;
     }
 
     protected function type($history)
@@ -62,7 +50,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function comment($history)
     {
-        return $this->comment;
+        return '同意Fulcrum问卷调查';
     }
 
     protected function url()

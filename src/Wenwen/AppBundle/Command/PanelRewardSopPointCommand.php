@@ -24,14 +24,6 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
                 ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-sop-point: '.date('Y-m-d H:i:s'));
-        $app_name = 'site91wenwen';
-        $this->setLogger($app_name . '-reward-sop-point');
-        return parent::execute($input, $output);
-    }
-
     protected function point($history)
     {
         return $history['extra_info']['point'];
