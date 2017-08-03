@@ -195,7 +195,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         if ($error > 0) {
             $data[] = '----- Error details -----';
-            $data[] = 'id, survey_id, app_mid, points, error';
+            $data[] = 'id, user_id, points, error';
             foreach($errorMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }
@@ -203,7 +203,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         if ($success > 0) {
             $data[] = '----- Success details -----';
-            $data[] = 'id, survey_id, app_mid, points, info';
+            $data[] = 'id, user_id, points, info';
             foreach($successMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }
