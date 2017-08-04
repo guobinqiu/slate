@@ -63,7 +63,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             if (!$ssiRespondent) {
                 $info = "Skip reward, SsiRespondent (Id: $ssiRespondentId) not found";
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s', null, $ssiProjectConfig['point'], $info));
+                array_push($successMessages, sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
+                $logger->info(sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -73,6 +74,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $info = "Skip reward, User (Id: $userId) not found.";
                 $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -89,6 +91,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $info = 'Skip reward, already exist, skip transaction_id : ' . $row['transaction_id'];
                 $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -125,6 +128,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $info = 'Success';
                 $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
 
                 $dbh->commit();
 
@@ -132,13 +136,16 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $info = $e->getMessage();
                 $info .= '(' . (time() - $start) . 's)';
                 array_push($errorMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $logger->error(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $dbh->rollBack();
             }
         } // end while
 
-        $log = $this->getLog($successMessages, $errorMessages);
-        $logger->info($log);
+        $logger->info('total:' . $rows);
+        $logger->info('success:' . count($successMessages));
+        $logger->info('error:' . count($errorMessages));
 
+        $log = $this->getLog($successMessages, $errorMessages);
         $subject = 'Report of SSI reward points';
         $this->sendLogEmail($log, $subject);
 
