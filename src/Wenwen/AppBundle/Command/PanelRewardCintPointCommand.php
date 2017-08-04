@@ -17,15 +17,10 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function configure()
     {
-        $this->setName('panel:reward-cint-point')->setDescription('request SOP API and reward points based on retrived data')->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-cint-point: '.date('Y-m-d H:i:s'));
-        $app_name = 'site91wenwen';
-        $this->setLogger($app_name . '-reward-cint-point');
-        return parent::execute($input, $output);
+        $this->setName('panel:reward-cint-point')
+            ->setDescription('request SOP API and reward points based on retrived data')
+            ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
+            ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
     }
 
     protected function point($history)

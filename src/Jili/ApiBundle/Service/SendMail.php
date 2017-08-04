@@ -40,13 +40,7 @@ class SendMail
         ->setFrom(array($this->getParameter('webpower_from') => '91问问调查网'))
         ->setSender($this->getParameter('webpower_sender'))
         ->setTo($email)
-        ->setBody($content,'text/html');
-        $flag = $this->mailer->send($message);
-        if($flag===1){
-            return true;
-        }else{
-            return false;
-        }
-
+        ->setBody($content, 'text/html');
+        return $this->mailer->send($message);
     }
 }

@@ -22,12 +22,6 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
         ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
         ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
     }
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-fulcrum-point: '.date('Y-m-d H:i:s'));
-        $this->setLogger('reward-fulcrum-point');
-        return parent::execute($input, $output);
-    }
 
     protected function point($history)
     {

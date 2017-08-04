@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use VendorIntegration\SSI\PC1\WebService\StatClient;
+use Wenwen\AppBundle\Entity\SsiRespondent;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\TaskType;
 
@@ -19,8 +20,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 {
     const REPORT_TIME_ZONE = 'EST';
     const REWARD_TIME_ZONE = 'Asia/Shanghai';
-
-    protected $logger;
 
     protected function configure()
     {
@@ -34,10 +33,12 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('start panel:reward-ssi-point: '.date('Y-m-d H:i:s'));
+        $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
+
+        $logger = $this->getLogger();
 
         $date = $input->getArgument('date');
-        $this->setLogger($this->getName());
+        $this->getLogger();
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
@@ -46,26 +47,24 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
 
-        $hasErrors = false;
-
+        // flags
         $successMessages = array();
-        $success = 0;
-
         $errorMessages = array();
-        $error = 0;
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
 
         $rows = 0;
         while ($row = $iterator->nextConversion()) {
+            $start = time();
             $rows += 1;
 
-            $ssiRespondentId = \Wenwen\AppBundle\Entity\SsiRespondent::parseRespondentId($row['sub_id_5']);
+            $ssiRespondentId = SsiRespondent::parseRespondentId($row['sub_id_5']);
             $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
             if (!$ssiRespondent) {
                 $info = "Skip reward, SsiRespondent (Id: $ssiRespondentId) not found";
-                array_push($successMessages, sprintf('%s, %s, %s', null, $ssiProjectConfig['point'], $info));
-                $success += 1;
+                $info .= '(' . (time() - $start) . 's)';
+                array_push($successMessages, sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
+                $logger->info(sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -73,8 +72,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
             if (!$user) {
                 $info = "Skip reward, User (Id: $userId) not found.";
+                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $success += 1;
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -89,8 +89,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             ));
             if (count($records) > 0) {
                 $info = 'Skip reward, already exist, skip transaction_id : ' . $row['transaction_id'];
+                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $success += 1;
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
             }
 
@@ -121,74 +122,56 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                     $history
                 );
 
-                $dbh->commit();
-
-            } catch (\Exception $e) {
-                array_push($errorMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $e->getMessage()));
-                $error += 1;
-                $hasErrors = true;
-                $dbh->rollBack();
-            }
-
-            if (!$hasErrors) {
                 // 给奖池注入积分(5%)
                 $injectPoints = intval($ssiProjectConfig['point'] * 0.05);
                 $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
-                $info = '给奖池注入积分' . $injectPoints;
+                $info = 'Success';
+                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $success += 1;
+                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+
+                $dbh->commit();
+
+            } catch (\Exception $e) {
+                $info = $e->getMessage();
+                $info .= '(' . (time() - $start) . 's)';
+                array_push($errorMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $logger->error(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $dbh->rollBack();
             }
         } // end while
 
-        $content = 'Date: ' . date('Y-m-d H:i:s');
-        $content .= '<br/>Total: ' . $rows;
-        $content .= '<br/>Success: ' . $success;
-        $content .= '<br/>Error:' . $error;
-        if ($error > 0) {
-            $content .= '<br/>----- Error details -----';
-            $content .= '<br/>id, user_id, points, error';
-            foreach($errorMessages as $i => $errorMessage) {
-                $content .= '<br/>' . sprintf('%s, %s', $i + 1, $errorMessage);
-            }
-        }
-        if ($success > 0) {
-            $content .= '<br/>----- Success details -----';
-            $content .= '<br/>id, user_id, points, info';
-            foreach($successMessages as $i => $successMessage) {
-                $content .= '<br/>' . sprintf('%s, %s', $i + 1, $successMessage);
-            }
-        }
-        $subject = 'Report of panel SSI reward points';
-        $this->notice($content, $subject);
+        $logger->info('total:' . $rows);
+        $logger->info('success:' . count($successMessages));
+        $logger->info('error:' . count($errorMessages));
 
-        $this->logger->info('Finish executing');
-        $output->writeln('end panel:reward-ssi-point: '.date('Y-m-d H:i:s'));
+        $log = $this->getLog($successMessages, $errorMessages);
+        $subject = 'Report of SSI reward points';
+        $this->sendLogEmail($log, $subject);
+
+        $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
 
-    protected function notice($content, $subject)
+    protected function sendLogEmail($content, $subject)
     {
-        // slack notice
-        $this->getContainer()->get('alert_to_slack')->sendAlertToSlack($content);
-
-        //emai notice
         $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
         $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
     }
 
-    protected function setLogger($domain)
+    protected function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
-        $log_dir .= '/'.$domain.'/'.date('Ym/');
+        $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');
         $fs = new Filesystem();
         if (true !== $fs->exists($log_dir)) {
             $fs->mkdir($log_dir);
         }
-        $log_path = $log_dir.date('d').'.log';
+        $log_path = $log_dir . '/' . date('d') . '.log';
 
         $stream = new StreamHandler($log_path);
         $logger = new Logger('command');
-        $logger->pushHandler($stream, Logger::INFO);
-        $this->logger = $logger;
+        $logger->pushHandler($stream);
+        return $logger;
     }
 
     public function recordParticipationHistory($ssiRespondent, $row)
@@ -205,5 +188,33 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     }
 
     protected function preHandle(array $history_list) {
+    }
+
+    private function getLog(array $successMessages, array $errorMessages) {
+        $success = count($successMessages);
+        $error = count($errorMessages);
+
+        $data[] = 'Date: ' . date('Y-m-d H:i:s');
+        $data[] = 'Total: ' . ($success + $error);
+        $data[] = 'Success: ' . $success;
+        $data[] = 'Error: ' . $error;
+
+        if ($error > 0) {
+            $data[] = '----- Error details -----';
+            $data[] = 'id, user_id, points, error';
+            foreach($errorMessages as $i => $msg) {
+                $data[] = sprintf('%s, %s', $i + 1, $msg);
+            }
+        }
+
+        if ($success > 0) {
+            $data[] = '----- Success details -----';
+            $data[] = 'id, user_id, points, info';
+            foreach($successMessages as $i => $msg) {
+                $data[] = sprintf('%s, %s', $i + 1, $msg);
+            }
+        }
+
+        return implode("<br>", $data);
     }
 }
