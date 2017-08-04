@@ -144,6 +144,54 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             '2015-02-14 06:00:06',
             '{"point":"300","point_type":"11"}'
         );
+        $rec4 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid,
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"31"}' // not allowed point type
+        );
+        $rec5 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid, // app_mid already rewarded
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"11"}'
+        );
+        $rec6 = array (
+            '800001',
+            '201502',
+            '12',
+            '123', // app_mid not exist
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"11"}'
+        );
         $footer = array (
             'EOF',
             'Total 3 Records'
@@ -154,6 +202,9 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             $rec1,
             $rec2,
             $rec3,
+            $rec4,
+            $rec5,
+            $rec6,
             $footer
         );
 
