@@ -39,17 +39,22 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         foreach ($history_list as $history) {
             $start = time();
 
+            $survey_id = '';
+            if (isset($history['survey_id'])) {
+                $survey_id = $history['survey_id'];
+            }
+
             if ($this->skipReward($history)) {
                 $info = 'Skip reward. app_mid: ' . $history['app_mid'];
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $info = 'Skip reward, already existed: app_mid: ' . $history['app_mid'];
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 continue;
             }
 
@@ -60,7 +65,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$respondent) {
                 $info = 'Skip reward, No SopRespondent for: ' . $history['app_mid'];
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 continue;
             }
 
@@ -72,7 +77,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 // maybe panelist withdrew
                 $info = 'Skip reward, No User. Skip user_id: ' . $respondent->getUserId();
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 continue;
             }
 
@@ -118,24 +123,23 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 }
                 $info = 'Success';
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($successMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($successMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
 
                 $dbh->commit();
 
             } catch (\Exception $e) {
                 $info = $e->getMessage();
                 $info .= '(' . (time() - $start) . 's)';
-                array_push($errorMessages, sprintf('%s, %s, %s, %s', $history['survey_id'], $history['app_mid'], $this->point($history), $info));
+                array_push($errorMessages, sprintf('%s, %s, %s, %s', $survey_id, $history['app_mid'], $this->point($history), $info));
                 $dbh->rollBack();
             }
         } // end for
 
-        $htmlLog = $this->getLog($successMessages, $errorMessages, '<br>');
-        $subject = 'Report of ' . $this->getPanelType() . ' reward points';
-        $this->sendLogEmail($htmlLog, $subject);
+        $log = $this->getLog($successMessages, $errorMessages);
+        $logger->info($log);
 
-        $plainLog = $this->getLog($successMessages, $errorMessages, "\n");
-        $logger->info($plainLog);
+        $subject = 'Report of ' . $this->getPanelType() . ' reward points';
+        $this->sendLogEmail($log, $subject);
 
         $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
@@ -245,13 +249,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     protected function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
-        $log_dir .= '/reward_point/' . get_class($this) . '/' . date('Ym');
+        $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');
 
         $fs = new Filesystem();
         if (!$fs->exists($log_dir)) {
             $fs->mkdir($log_dir);
         }
-        $log_path = $log_dir . '/' . date('d') . '.log';
+        $log_path = $log_dir . '/' . date('d') . '.log.html';
 
         $stream = new StreamHandler($log_path);
         $logger = new Logger('command');
@@ -259,14 +263,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         return $logger;
     }
 
-    private function getLog(array $successMessages, array $errorMessages, $glue) {
+    private function getLog(array $successMessages, array $errorMessages) {
         $success = count($successMessages);
         $error = count($errorMessages);
 
-        $data[] = '   Date: ' . date('Y-m-d H:i:s');
-        $data[] = '  Total: ' . ($success + $error);
+        $data[] = 'Date: ' . date('Y-m-d H:i:s');
+        $data[] = 'Total: ' . ($success + $error);
         $data[] = 'Success: ' . $success;
-        $data[] = '  Error: ' . $error;
+        $data[] = 'Error: ' . $error;
 
         if ($error > 0) {
             $data[] = '----- Error details -----';
@@ -284,6 +288,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
         }
 
-        return implode($glue, $data);
+        return implode("<br>", $data);
     }
 }

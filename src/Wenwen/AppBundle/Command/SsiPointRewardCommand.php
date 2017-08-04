@@ -136,12 +136,11 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             }
         } // end while
 
-        $htmlLog = $this->getLog($successMessages, $errorMessages, '<br>');
-        $subject = 'Report of SSI reward points';
-        $this->sendLogEmail($htmlLog, $subject);
+        $log = $this->getLog($successMessages, $errorMessages);
+        $logger->info($log);
 
-        $plainLog = $this->getLog($successMessages, $errorMessages, "\n");
-        $logger->info($plainLog);
+        $subject = 'Report of SSI reward points';
+        $this->sendLogEmail($log, $subject);
 
         $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
@@ -155,7 +154,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     protected function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
-        $log_dir .= '/reward_point/' . get_class($this) . '/' . date('Ym');
+        $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');
         $fs = new Filesystem();
         if (true !== $fs->exists($log_dir)) {
             $fs->mkdir($log_dir);
@@ -184,14 +183,14 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     protected function preHandle(array $history_list) {
     }
 
-    private function getLog(array $successMessages, array $errorMessages, $glue) {
+    private function getLog(array $successMessages, array $errorMessages) {
         $success = count($successMessages);
         $error = count($errorMessages);
 
-        $data[] = '   Date: ' . date('Y-m-d H:i:s');
-        $data[] = '  Total: ' . ($success + $error);
+        $data[] = 'Date: ' . date('Y-m-d H:i:s');
+        $data[] = 'Total: ' . ($success + $error);
         $data[] = 'Success: ' . $success;
-        $data[] = '  Error: ' . $error;
+        $data[] = 'Error: ' . $error;
 
         if ($error > 0) {
             $data[] = '----- Error details -----';
@@ -209,6 +208,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             }
         }
 
-        return implode($glue, $data);
+        return implode("<br>", $data);
     }
 }
