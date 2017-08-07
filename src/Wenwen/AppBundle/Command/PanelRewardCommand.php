@@ -23,7 +23,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $logger = $this->getLogger();
         $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
 
-
         // request to sop
         $url = $this->url();
         $auth = $this->getContainer()->getParameter('sop')['auth'];
@@ -146,7 +145,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         $log = $this->getLog($successMessages, $errorMessages);
         $subject = 'Report of ' . $this->getPanelType() . ' reward points';
-        $this->sendLogEmail($log, $subject);
+        $numSent = $this->sendLogEmail($log, $subject);
+        $logger->info('Email num sent: ' . $numSent);
 
         $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
 
@@ -252,7 +252,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     protected function sendLogEmail($content, $subject)
     {
         $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
-        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
+        return $this->getContainer()->get('app.internal_mail_service')->sendMails($subject, $alertTo, $content);
     }
 
     protected function getLogger()

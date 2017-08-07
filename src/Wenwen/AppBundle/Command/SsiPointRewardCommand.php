@@ -35,10 +35,10 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     {
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
-        $logger = $this->getLogger();
-
         $date = $input->getArgument('date');
-        $this->getLogger();
+
+        $logger = $this->getLogger();
+        $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
 
         $client = new StatClient($this->getContainer()->getParameter('ssi_project_survey_code')['api_key']);
         $iterator = $this->getContainer()->get('ssi_api.conversion_report_iterator');
@@ -62,7 +62,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
             if (!$ssiRespondent) {
                 $info = "Skip reward, SsiRespondent (Id: $ssiRespondentId) not found";
-                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
                 $logger->info(sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
                 continue;
@@ -72,7 +71,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
             if (!$user) {
                 $info = "Skip reward, User (Id: $userId) not found.";
-                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
@@ -89,7 +87,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             ));
             if (count($records) > 0) {
                 $info = 'Skip reward, already exist, skip transaction_id : ' . $row['transaction_id'];
-                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 continue;
@@ -126,7 +123,6 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $injectPoints = intval($ssiProjectConfig['point'] * 0.05);
                 $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
                 $info = 'Success';
-                $info .= '(' . (time() - $start) . 's)';
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
 
@@ -134,20 +130,20 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
             } catch (\Exception $e) {
                 $info = $e->getMessage();
-                $info .= '(' . (time() - $start) . 's)';
                 array_push($errorMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $logger->error(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
                 $dbh->rollBack();
             }
         } // end while
 
-        $logger->info('total:' . $rows);
-        $logger->info('success:' . count($successMessages));
-        $logger->info('error:' . count($errorMessages));
+        $logger->info(__METHOD__ . ' RESULT total_count=' . $rows . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
 
         $log = $this->getLog($successMessages, $errorMessages);
         $subject = 'Report of SSI reward points';
-        $this->sendLogEmail($log, $subject);
+        $numSent = $this->sendLogEmail($log, $subject);
+        $logger->info('Email num sent: ' . $numSent);
+
+        $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
 
         $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
@@ -155,7 +151,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     protected function sendLogEmail($content, $subject)
     {
         $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');
-        $this->getContainer()->get('send_mail')->sendMails($subject, $alertTo, $content);
+        return $this->getContainer()->get('app.internal_mail_service')->sendMails($subject, $alertTo, $content);
     }
 
     protected function getLogger()
