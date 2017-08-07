@@ -37,8 +37,7 @@ class SendMail
     {
         $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom(array($this->getParameter('webpower_from') => '91问问调查网'))
-        ->setSender($this->getParameter('webpower_sender'))
+        ->setFrom(array($this->getParameter('qqmail_sender') => '91问问调查网'))
         ->setTo($email)
         ->setBody($content, 'text/html');
         return $this->mailer->send($message);
