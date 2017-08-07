@@ -188,5 +188,10 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="app.internal_mail_service" class="Wenwen\FrontendBundle\Services\InternalMailService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="swiftmailer.mailer.qq" />
+            <argument type="service" id="app.parameter_service" />
+        </service>
     </services>
 </container>
