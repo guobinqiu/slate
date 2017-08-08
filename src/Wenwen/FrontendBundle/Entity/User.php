@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Jili\ApiBundle\Utility\PasswordEncoder;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -18,6 +19,7 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
  *     indexes={
  *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
+ *         @ORM\Index(name="uniq_id_idx", columns={"uniq_id"}),
  *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
@@ -35,6 +37,9 @@ class User
     const POINT_EMPTY = 0;
     const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
+
+    const ALGO = 'blowfish';
+    const SALT = '★★★★★アジア事業戦略室★★★★★';
 
     /**
      * @var integer
@@ -278,6 +283,21 @@ class User
      */
     private $quotafullN;
 
+    /**
+     * @CaptchaAssert\ValidCaptcha(
+     *      message = "验证码无效",
+     *      groups={"registration"}
+     * )
+     */
+    private $captchaCode;
+
+    /**
+     * @ORM\Column(name="uniq_id", type="string")
+     *
+     * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
+     */
+    private $uniqId;
+
     public function __construct()
     {
         $this->passwordChoice = self::PWD_WENWEN;
@@ -293,6 +313,7 @@ class User
         $this->quotafullN = 0;
     }
 
+    //--------------------------- getter/setter -----------------------------
     /**
      * Get iconPath
      *
@@ -355,7 +376,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+        $this->pwd = PasswordEncoder::encode(self::ALGO, $pwd, self::SALT);
 
         return $this;
     }
@@ -844,49 +865,6 @@ class User
     }
 
     /**
-     * @ORM\PrePersist
-     */
-    public function onPrePersist()
-    {
-        $this->registerDate = new \DateTime();
-        $this->updatedAt = new \DateTime();
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
-    public function isPwdCorrect($pwd)
-    {
-        if ($this->isPasswordWenwen()) {
-            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
-        }
-        if ($this->isPasswordJili()) {
-            return $this->getPwd() == $this->pw_encode($pwd);
-        }
-        return false;
-    }
-
-    public function isPasswordWenwen()
-    {
-        return $this->getPasswordChoice() == self::PWD_WENWEN;
-    }
-
-    public function isPasswordJili()
-    {
-        return $this->getPasswordChoice() == self::PWD_JILI;
-    }
-
-    public function emailIsConfirmed()
-    {
-        return  $this->getIsEmailConfirmed() == self::EMAIL_CONFIRMED;
-    }
-
-    /**
      * Set pointsCost
      *
      * @param integer $pointsCost
@@ -946,19 +924,6 @@ class User
     }
 
     /**
-     * add completeN
-     *
-     * @param integer $completeN
-     * @return User
-     */
-    public function addCompleteN()
-    {
-        $this->completeN += 1;
-
-        return $this;
-    }
-
-    /**
      * Get completeN
      *
      * @return integer
@@ -977,19 +942,6 @@ class User
     public function setScreenoutN($screenoutN)
     {
         $this->screenoutN = $screenoutN;
-
-        return $this;
-    }
-
-    /**
-     * add screenoutN
-     *
-     * @param integer $screenoutN
-     * @return User
-     */
-    public function addScreenoutN()
-    {
-        $this->screenoutN += 1;
 
         return $this;
     }
@@ -1018,6 +970,80 @@ class User
     }
 
     /**
+     * Get quotafullN
+     *
+     * @return integer
+     */
+    public function getQuotafullN()
+    {
+        return $this->quotafullN;
+    }
+
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
+
+    public function setUniqId($uniqId)
+    {
+        $this->uniqId = $uniqId;
+
+        return $this;
+    }
+
+    public function getUniqId()
+    {
+        return $this->getUniqId();
+    }
+
+    //--------------------------- helper methods -----------------------------
+    public function updateCSQ($answerStatus){
+        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
+            $this->addCompleteN();
+        } elseif(SurveyStatus::STATUS_SCREENOUT == $answerStatus) {
+            $this->addScreenoutN();
+        } elseif(SurveyStatus::STATUS_QUOTAFULL == $answerStatus) {
+            $this->addQuotafullN();
+        }
+        return $this;
+    }
+
+    public function isPwdCorrect($pwd)
+    {
+        if ($this->isPasswordWenwen()) {
+            return $this->getPwd() == PasswordEncoder::encode(self::ALGO, $pwd, self::SALT);
+        }
+        if ($this->isPasswordJili()) {
+            return $this->getPwd() == $this->pw_encode($pwd);
+        }
+        return false;
+    }
+
+    public function isPasswordWenwen()
+    {
+        return $this->getPasswordChoice() == self::PWD_WENWEN;
+    }
+
+    public function isPasswordJili()
+    {
+        return $this->getPasswordChoice() == self::PWD_JILI;
+    }
+
+    public function emailIsConfirmed()
+    {
+        return  $this->getIsEmailConfirmed() == self::EMAIL_CONFIRMED;
+    }
+
+    public function locked() {
+        return $this->getDeleteFlag() > 0;
+    }
+
+    /**
      * add quotafullN
      *
      * @param integer $quotafullN
@@ -1031,44 +1057,47 @@ class User
     }
 
     /**
-     * Get quotafullN
+     * add completeN
      *
-     * @return integer
+     * @param integer $completeN
+     * @return User
      */
-    public function getQuotafullN()
+    public function addCompleteN()
     {
-        return $this->quotafullN;
-    }
+        $this->completeN += 1;
 
-    public function updateCSQ($answerStatus){
-        if(SurveyStatus::STATUS_COMPLETE == $answerStatus){
-            $this->addCompleteN();
-        } elseif(SurveyStatus::STATUS_SCREENOUT == $answerStatus) {
-            $this->addScreenoutN();
-        } elseif(SurveyStatus::STATUS_QUOTAFULL == $answerStatus) {
-            $this->addQuotafullN();
-        }
         return $this;
     }
 
-    public function locked() {
-        return $this->getDeleteFlag() > 0;
+    /**
+     * add screenoutN
+     *
+     * @param integer $screenoutN
+     * @return User
+     */
+    public function addScreenoutN()
+    {
+        $this->screenoutN += 1;
+
+        return $this;
+    }
+
+    //--------------------------- Callbacks -----------------------------
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->registerDate = new \DateTime();
+        $this->updatedAt = new \DateTime();
+        $this->uniqId = Uuid::uuid1()->toString();
     }
 
     /**
-     * @CaptchaAssert\ValidCaptcha(
-     *      message = "验证码无效",
-     *      groups={"registration"}
-     * )
+     * @ORM\PreUpdate
      */
-    private $captchaCode;
-
-    public function getCaptchaCode()
+    public function onPreUpdate()
     {
-        return $this->captchaCode;
-    }
-    public function setCaptchaCode($captchaCode)
-    {
-        $this->captchaCode = $captchaCode;
+        $this->updatedAt = new \DateTime();
     }
 }
