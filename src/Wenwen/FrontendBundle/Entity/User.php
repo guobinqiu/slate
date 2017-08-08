@@ -19,6 +19,7 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
  *     indexes={
  *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
+ *         @ORM\Index(name="uniq_id_idx", columns={"uniq_id"}),
  *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
