@@ -37,6 +37,9 @@ class User
     const POINT_SIGNUP = 0;
     const POINT_INVITE_SIGNUP = 100;
 
+    const ALGO = 'blowfish';
+    const SALT = '★★★★★アジア事業戦略室★★★★★';
+
     /**
      * @var integer
      *
@@ -372,7 +375,7 @@ class User
      */
     public function setPwd($pwd)
     {
-        $this->pwd = PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+        $this->pwd = PasswordEncoder::encode(self::ALGO, $pwd, self::SALT);
 
         return $this;
     }
@@ -1012,7 +1015,7 @@ class User
     public function isPwdCorrect($pwd)
     {
         if ($this->isPasswordWenwen()) {
-            return $this->getPwd() == PasswordEncoder::encode('blowfish', $pwd, '★★★★★アジア事業戦略室★★★★★');
+            return $this->getPwd() == PasswordEncoder::encode(self::ALGO, $pwd, self::SALT);
         }
         if ($this->isPasswordJili()) {
             return $this->getPwd() == $this->pw_encode($pwd);
