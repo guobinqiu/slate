@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'VendorIntegration\\SSI\\' => array($vendorDir . '/voyagechinagroup/ssi_api/src'),
     'Stagehand\\TestRunner\\' => array($vendorDir . '/piece/stagehand-testrunner/src'),
+    'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),

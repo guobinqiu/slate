@@ -35,7 +35,8 @@
         "jms/serializer": "1.0.0",
         "spomky-labs/base64url": "1.0.2",
         "leafo/scssphp": "0.4",
-        "captcha-com/symfony-captcha-bundle": "4.*"
+        "captcha-com/symfony-captcha-bundle": "4.*",
+        "ramsey/uuid": "^3.7"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.1.0",
