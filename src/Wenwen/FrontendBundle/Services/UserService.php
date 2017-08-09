@@ -130,11 +130,9 @@ class UserService
             $this->em->close();
             if ($e->getCode() === '23000') {
                 return $this->createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+            } else {
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $this->em->getConnection()->rollBack();
-            $this->em->close();
-            throw $e;
         }
     }
 

@@ -240,11 +240,9 @@ class RegistrationController extends BaseController
             $em->close();
             if ($e->getCode() === '23000') {
                 return $this->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter);
+            } else {
+                throw $e;
             }
-        } catch (\Exception $e) {
-            $em->getConnection()->rollBack();
-            $em->close();
-            throw $e;
         }
     }
 
