@@ -32,7 +32,7 @@ class SopRespondentRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('sp');
         $query = $query->select('sp');
-        $query = $query->Where('sp.app_mid = :app_mid');
+        $query = $query->Where('sp.appMid = :app_mid');
         $query = $query->andWhere('sp. statusFlag = :statusFlag');
         $query = $query->setParameter('app_mid', $app_mid);
         $query = $query->setParameter('statusFlag', SopRespondent::STATUS_ACTIVE);

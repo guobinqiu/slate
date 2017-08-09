@@ -79,7 +79,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
     /**
      * @group dev-merge-ui-profile_point
      */
-    public function testRetrieveById()
+    public function testRetrieveByAppMid()
     {
         $em = $this->em;
 

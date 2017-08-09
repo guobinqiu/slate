@@ -241,7 +241,7 @@ class SopApiControllerTest extends WebTestCase
             'data' => array (
                 'respondents' => array (
                     array (
-                        'app_mid' => $sopRespondent->getId(),
+                        'app_mid' => $sopRespondent->getAppMid(),
                         'survey_id' => '123',
                         'quota_id' => '1234',
                         'loi' => '10',
