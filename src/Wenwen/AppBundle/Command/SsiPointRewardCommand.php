@@ -59,7 +59,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $rows += 1;
 
             $ssiRespondentId = SsiRespondent::parseRespondentId($row['sub_id_5']);
-            $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
+            $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->find($ssiRespondentId);
             if (!$ssiRespondent) {
                 $info = "Skip reward, SsiRespondent (Id: $ssiRespondentId) not found";
                 array_push($successMessages, sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
@@ -68,7 +68,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             }
 
             $userId = $ssiRespondent->getUserId();
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if (!$user) {
                 $info = "Skip reward, User (Id: $userId) not found.";
                 array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
