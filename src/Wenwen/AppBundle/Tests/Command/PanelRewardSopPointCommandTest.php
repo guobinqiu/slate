@@ -65,7 +65,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getAppMid();
 
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 10001, 'init');
