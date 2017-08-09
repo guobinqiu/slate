@@ -50,12 +50,10 @@ class RegistrationController extends BaseController
 
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
-
             if ($form->isValid()) {
-
                 $fingerprint = $form->get('fingerprint')->getData();
                 $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
-                if( $regCount > 1){
+                if ($regCount > 1) {
                     // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
                     // Return a fake result to bot when blocked by fingerprint
                     $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
@@ -63,43 +61,18 @@ class RegistrationController extends BaseController
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
-                $em = $this->getDoctrine()->getManager();
-
-                $user->setCreatedRemoteAddr($request->getClientIp());
-                $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-
-                if (!$request->cookies->has('uid')) {
-                    //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-                    $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-                    if ($userTrack == null) {
-                        $user->setInviteId($session->get('inviteId'));
-                    }
-                }
-
-                $userTrack = new UserTrack();
-                $userTrack->setLastFingerprint(null);
-                $userTrack->setCurrentFingerprint($fingerprint);
-                $userTrack->setSignInCount(1);
-                $userTrack->setLastSignInAt(null);
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp(null);
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth(null);
-                $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-                $this->get('logger')->debug(__METHOD__ . ' ' .  $this->getRegisterRouteFromSession());
-
-                $userTrack->setUser($user);
-                $user->setUserTrack($userTrack);
-
-                $em->persist($user);
-                $em->flush();
+                $clientIp = $request->getClientIp();
+                $userAgent = $request->headers->get('USER_AGENT');
+                $inviteId = $session->get('inviteId');
+                $allowRewardInviter = $this->allowRewardInviter($request, $fingerprint);
+                $this->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter);
 
                 if ($form->get('subscribe')->getData() != true) {
+                    $em = $this->getDoctrine()->getManager();
                     $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
                 $token = md5(uniqid(rand(), true));
-
                 $authService = $this->get('app.auth_service');
                 $authService->sendConfirmationEmail($user->getId(), $user->getEmail(), $token);
 
@@ -230,5 +203,61 @@ class RegistrationController extends BaseController
         $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
+    }
+
+    private function createUser(User $user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->getConnection()->beginTransaction();
+
+        try {
+            $user->setCreatedRemoteAddr($clientIp);
+            $user->setCreatedUserAgent($userAgent);
+            if ($allowRewardInviter) {
+                $user->setInviteId($inviteId);
+            }
+
+            $userTrack = new UserTrack();
+            $userTrack->setLastFingerprint(null);
+            $userTrack->setCurrentFingerprint($fingerprint);
+            $userTrack->setSignInCount(1);
+            $userTrack->setLastSignInAt(null);
+            $userTrack->setCurrentSignInAt(new \DateTime());
+            $userTrack->setLastSignInIp(null);
+            $userTrack->setCurrentSignInIp($clientIp);
+            $userTrack->setOauth(null);
+            $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
+            $this->get('logger')->debug(__METHOD__ . ' ' . $this->getRegisterRouteFromSession());
+
+            $userTrack->setUser($user);
+            $user->setUserTrack($userTrack);
+
+            $em->persist($user);
+            $em->flush();
+
+        } catch (\PDOException $e) {
+            $em->getConnection()->rollBack();
+            $em->close();
+            if ($e->getCode() === '23000') {
+                return $this->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter);
+            }
+        } catch (\Exception $e) {
+            $em->getConnection()->rollBack();
+            $em->close();
+            throw $e;
+        }
+    }
+
+    private function allowRewardInviter(Request $request, $fingerprint)
+    {
+        if (!$request->cookies->has('uid')) {
+            //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+            $em = $this->getDoctrine()->getManager();
+            $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+            if ($userTrack == null) {
+                return true;
+            }
+        }
+        return false;
     }
 }

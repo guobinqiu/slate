@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
@@ -124,6 +125,12 @@ class UserService
 
             return $user;
 
+        } catch (\PDOException $e) {
+            $this->em->getConnection()->rollBack();
+            $this->em->close();
+            if ($e->getCode() === '23000') {
+                return $this->createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+            }
         } catch (\Exception $e) {
             $this->em->getConnection()->rollBack();
             $this->em->close();
