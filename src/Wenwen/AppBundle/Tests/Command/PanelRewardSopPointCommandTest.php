@@ -248,7 +248,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
 //        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['created_at'], 0, 10));
 //        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['updated_at'], 0, 10));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
         $user_id = $sop_respondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);

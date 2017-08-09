@@ -65,7 +65,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sop_respondent[1]->getAppMid();
 
         $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
         $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'init');
@@ -177,7 +177,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 //        $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
 //        $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
         $user_id = $sop_respondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);

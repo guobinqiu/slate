@@ -75,7 +75,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
         $sop_respondent = $respondents[0];
-        $app_mid = $sop_respondent->getId();
+        $app_mid = $sop_respondent->getAppMid();
 
         // data
         $header = array('app_id', 'app_mid', 'agreement_status', 'answered_at');

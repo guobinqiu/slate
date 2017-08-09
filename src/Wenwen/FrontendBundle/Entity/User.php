@@ -16,10 +16,12 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  * User
  *
  * @ORM\Table(name="user",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="email_idx", columns={"email"}),
+ *         @ORM\UniqueConstraint(name="uniq_id_idx", columns={"uniq_id"}),
+ *     },
  *     indexes={
  *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
- *         @ORM\Index(name="uniq_id_idx", columns={"uniq_id"}),
  *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
@@ -292,6 +294,8 @@ class User
     private $captchaCode;
 
     /**
+     * @var string Replacement of id for the future
+     *
      * @ORM\Column(name="uniq_id", type="string")
      *
      * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use

@@ -7,7 +7,6 @@ use Jili\ApiBundle\Entity\SopRespondent;
 
 class SopRespondentRepository extends EntityRepository
 {
-
     public function retrieveOrInsertByUserId($user_id)
     {
         $em = $this->getEntityManager();
@@ -29,21 +28,19 @@ class SopRespondentRepository extends EntityRepository
         return $sop_respondent;
     }
 
-    public function retrieveById($app_mid)
+    public function retrieveByAppMid($app_mid)
     {
-        $sop_respondent = new SopRespondent();
-
         $query = $this->createQueryBuilder('sp');
         $query = $query->select('sp');
-        $query = $query->Where('sp.id = :id');
+        $query = $query->Where('sp.app_mid = :app_mid');
         $query = $query->andWhere('sp. statusFlag = :statusFlag');
-        $query = $query->setParameter('id', $app_mid);
-        $query = $query->setParameter('statusFlag', $sop_respondent::STATUS_ACTIVE);
+        $query = $query->setParameter('app_mid', $app_mid);
+        $query = $query->setParameter('statusFlag', SopRespondent::STATUS_ACTIVE);
         $query = $query->getQuery();
         return $query->getOneOrNullResult();
     }
 
-    public function retrieve91wenwenRecipientData($id)
+    public function retrieve91wenwenRecipientData($app_mid)
     {
         $sql = <<<EOT
             SELECT
@@ -54,18 +51,12 @@ class SopRespondentRepository extends EntityRepository
             INNER JOIN user u
                 ON u.id = res.user_id
             WHERE
-                res.id = ?
+                res.app_mid = ?
                 AND
                 res.status_flag = ?
 EOT;
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
-
-        $sop = new SopRespondent();
-        $sop = $stmt->execute(array (
-            $id,
-            $sop::STATUS_ACTIVE
-        ));
-        $res = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $res;
+        $stmt->execute(array($app_mid, SopRespondent::STATUS_ACTIVE));
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 }

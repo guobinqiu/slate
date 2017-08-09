@@ -70,7 +70,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_respondent[0]->getId();
+        $app_mid = $this->sop_respondent[0]->getAppMid();
 
         // data
         $header = array (
@@ -154,7 +154,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[0]->getId();
+        $app_mid = $this->sop_respondent[0]->getAppMid();
 
         $header = array (
             "app_id",
@@ -240,7 +240,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
         $user_id = $sop_respondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);

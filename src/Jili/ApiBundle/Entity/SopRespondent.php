@@ -3,18 +3,20 @@
 namespace Jili\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * SopRespondent
  *
  * @ORM\Table(name="sop_respondent",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="user_uniq", columns={"user_id"})
+ *         @ORM\UniqueConstraint(name="user_id_idx", columns={"user_id"}),
+ *         @ORM\UniqueConstraint(name="app_mid_idx", columns={"app_mid"}),
  *     },
  *     indexes={
  *         @ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}),
  *         @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}),
- *         @ORM\Index(name="updated_at_idx", columns={"updated_at"})
+ *         @ORM\Index(name="updated_at_idx", columns={"updated_at"}),
  *     }
  * )
  *
@@ -22,8 +24,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SopRespondent
 {
-    const STATUS_INACTIVE =0;
-    const STATUS_ACTIVE=1;
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
 
     /**
      * @var integer
@@ -61,9 +63,6 @@ class SopRespondent
     private $createdAt;
 
     /**
-     * 即APP_MID
-     * 也即sop_respondent表的id
-     *
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -72,13 +71,22 @@ class SopRespondent
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="app_mid", type="string")
+     *
+     * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
+     */
+    private $appMid;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
         $this->setStatusFlag(1);
+        $this->setAppMid(Uuid::uuid1()->toString());
     }
-
 
     /**
      * Set userId
@@ -203,5 +211,14 @@ class SopRespondent
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setAppMid($appMid) {
+        $this->appMid = $appMid;
+        return $this;
+    }
+
+    public function getAppMid() {
+        return $this->appMid;
     }
 }

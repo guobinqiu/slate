@@ -72,7 +72,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $container->set('sop_api.client', $client);
 
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
-        $app_mid =  $respondents[0]->getId();
+        $app_mid =  $respondents[0]->getAppMid();
 
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 10001, 'init');
