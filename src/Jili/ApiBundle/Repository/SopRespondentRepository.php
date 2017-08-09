@@ -29,6 +29,8 @@ class SopRespondentRepository extends EntityRepository
         } catch (\PDOException $e) {
             if ($e->getCode() === '23000') {
                 return $this->insertByUser($user_id);
+            } else {
+                throw $e;
             }
         }
         return $sop_respondent;
