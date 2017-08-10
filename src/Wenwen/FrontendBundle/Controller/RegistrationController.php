@@ -28,9 +28,6 @@ class RegistrationController extends BaseController
      */
     public function regAction(Request $request)
     {
-        $env = $this->container->get('kernel')->getEnvironment();
-        return new Response($env);
-
         $session = $request->getSession();
         if ($session->has('uid')) {
             return $this->redirect($this->generateUrl('_homepage'));
@@ -243,6 +240,7 @@ class RegistrationController extends BaseController
             $em->persist($user);
             $em->flush();
             $em->getConnection()->commit();
+
         } catch (\Exception $e) {
             $em->getConnection()->rollBack();
             $em->close();
