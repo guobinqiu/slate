@@ -74,7 +74,7 @@ class SopRespondent
     /**
      * @var string
      *
-     * @ORM\Column(name="app_mid", type="string")
+     * @ORM\Column(name="app_mid", type="string", nullable=false)
      *
      * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
      */

@@ -296,7 +296,7 @@ class User
     /**
      * @var string Replacement of id for the future
      *
-     * @ORM\Column(name="uniq_id", type="string")
+     * @ORM\Column(name="uniq_id", type="string", nullable=false)
      *
      * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
      */
