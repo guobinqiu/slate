@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use JMS\JobQueueBundle\Entity\Job;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -216,6 +217,9 @@ class RegistrationController extends BaseController
             if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
+            while ($this->isUniqIdDupliated($user->getUniqId())) {
+                $user->setUniqId(Uuid::uuid1()->toString());
+            }
 
             $userTrack = new UserTrack();
             $userTrack->setLastFingerprint(null);
@@ -235,14 +239,10 @@ class RegistrationController extends BaseController
             $em->persist($user);
             $em->flush();
 
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             $em->getConnection()->rollBack();
             $em->close();
-            if ($e->getCode() === '23000') {
-                return $this->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter);
-            } else {
-                throw $e;
-            }
+            throw $e;
         }
     }
 
@@ -250,12 +250,16 @@ class RegistrationController extends BaseController
     {
         if (!$request->cookies->has('uid')) {
             //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-            $em = $this->getDoctrine()->getManager();
-            $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+            $userTrack = $this->getDoctrine()->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
             if ($userTrack == null) {
                 return true;
             }
         }
         return false;
+    }
+
+    private function isUniqIdDupliated($uniqId)
+    {
+        return count($this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findByUniqId($uniqId)) > 0;
     }
 }

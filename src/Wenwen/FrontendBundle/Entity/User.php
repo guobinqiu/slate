@@ -315,6 +315,7 @@ class User
         $this->completeN = 0;
         $this->screenoutN = 0;
         $this->quotafullN = 0;
+        $this->uniqId = Uuid::uuid1()->toString();
     }
 
     //--------------------------- getter/setter -----------------------------
@@ -1094,7 +1095,6 @@ class User
     {
         $this->registerDate = new \DateTime();
         $this->updatedAt = new \DateTime();
-        $this->uniqId = Uuid::uuid1()->toString();
     }
 
     /**

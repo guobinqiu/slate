@@ -4,6 +4,7 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Entity\SopRespondent;
+use Ramsey\Uuid\Uuid;
 
 class SopRespondentRepository extends EntityRepository
 {
@@ -20,19 +21,14 @@ class SopRespondentRepository extends EntityRepository
     public function insertByUser($user_id)
     {
         $em = $this->getEntityManager();
-        try {
-            $sop_respondent = new SopRespondent();
-            $sop_respondent->setUserId($user_id);
-            $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
-            $em->persist($sop_respondent);
-            $em->flush();
-        } catch (\PDOException $e) {
-            if ($e->getCode() === '23000') {
-                return $this->insertByUser($user_id);
-            } else {
-                throw $e;
-            }
+        $sop_respondent = new SopRespondent();
+        while ($this->isAppMidDupliated($sop_respondent->getAppMid())) {
+            $sop_respondent->setAppMid(Uuid::uuid1()->toString());
         }
+        $sop_respondent->setUserId($user_id);
+        $sop_respondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $em->persist($sop_respondent);
+        $em->flush();
         return $sop_respondent;
     }
 
@@ -66,5 +62,10 @@ EOT;
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute(array($app_mid, SopRespondent::STATUS_ACTIVE));
         return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function isAppMidDupliated($appMid)
+    {
+        return count($this->getEntityManager()->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($appMid)) > 0;
     }
 }

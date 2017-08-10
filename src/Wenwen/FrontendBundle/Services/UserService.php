@@ -113,6 +113,9 @@ class UserService
             if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
+            while ($this->isUniqIdDupliated($user->getUniqId())) {
+                $user->setUniqId(Uuid::uuid1()->toString());
+            }
             $this->em->persist($user);
 
             $userProfile->setUser($user);
@@ -125,15 +128,16 @@ class UserService
 
             return $user;
 
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             $this->em->getConnection()->rollBack();
             $this->em->close();
-            if ($e->getCode() === '23000') {
-                return $this->createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
-            } else {
-                throw $e;
-            }
+            throw $e;
         }
+    }
+
+    private function isUniqIdDupliated($uniqId)
+    {
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($uniqId)) > 0;
     }
 
     public function getProvinceList() {
