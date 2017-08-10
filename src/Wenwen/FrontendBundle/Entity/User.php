@@ -1003,7 +1003,7 @@ class User
 
     public function getUniqId()
     {
-        return $this->getUniqId();
+        return $this->uniqId;
     }
 
     //--------------------------- helper methods -----------------------------

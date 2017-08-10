@@ -113,7 +113,7 @@ class UserService
             if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
-            while ($this->isUniqIdDupliated($user->getUniqId())) {
+            while ($this->duplicated($user->getUniqId())) {
                 $user->setUniqId(Uuid::uuid1()->toString());
             }
             $this->em->persist($user);
@@ -135,9 +135,9 @@ class UserService
         }
     }
 
-    private function isUniqIdDupliated($uniqId)
+    private function duplicated($key)
     {
-        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($uniqId)) > 0;
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 
     public function getProvinceList() {

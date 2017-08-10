@@ -7,6 +7,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
@@ -27,6 +28,9 @@ class RegistrationController extends BaseController
      */
     public function regAction(Request $request)
     {
+        $env = $this->container->get('kernel')->getEnvironment();
+        return new Response($env);
+
         $session = $request->getSession();
         if ($session->has('uid')) {
             return $this->redirect($this->generateUrl('_homepage'));
@@ -53,6 +57,7 @@ class RegistrationController extends BaseController
             $form->bind($request);
             if ($form->isValid()) {
                 $fingerprint = $form->get('fingerprint')->getData();
+
                 $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
                 if ($regCount > 1) {
                     // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
@@ -208,7 +213,7 @@ class RegistrationController extends BaseController
 
     private function createUser(User $user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getEntityManager();
         $em->getConnection()->beginTransaction();
 
         try {
@@ -217,10 +222,9 @@ class RegistrationController extends BaseController
             if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
-            while ($this->isUniqIdDupliated($user->getUniqId())) {
+            while ($this->duplicated($user->getUniqId())) {
                 $user->setUniqId(Uuid::uuid1()->toString());
             }
-
             $userTrack = new UserTrack();
             $userTrack->setLastFingerprint(null);
             $userTrack->setCurrentFingerprint($fingerprint);
@@ -238,7 +242,7 @@ class RegistrationController extends BaseController
 
             $em->persist($user);
             $em->flush();
-
+            $em->getConnection()->commit();
         } catch (\Exception $e) {
             $em->getConnection()->rollBack();
             $em->close();
@@ -246,10 +250,10 @@ class RegistrationController extends BaseController
         }
     }
 
+    // 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
     private function allowRewardInviter(Request $request, $fingerprint)
     {
         if (!$request->cookies->has('uid')) {
-            //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
             $userTrack = $this->getDoctrine()->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
             if ($userTrack == null) {
                 return true;
@@ -258,8 +262,8 @@ class RegistrationController extends BaseController
         return false;
     }
 
-    private function isUniqIdDupliated($uniqId)
+    private function duplicated($key)
     {
-        return count($this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findByUniqId($uniqId)) > 0;
+        return count($this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 }

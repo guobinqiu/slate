@@ -22,7 +22,7 @@ class SopRespondentRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $sop_respondent = new SopRespondent();
-        while ($this->isAppMidDupliated($sop_respondent->getAppMid())) {
+        while ($this->duplicated($sop_respondent->getAppMid())) {
             $sop_respondent->setAppMid(Uuid::uuid1()->toString());
         }
         $sop_respondent->setUserId($user_id);
@@ -64,8 +64,8 @@ EOT;
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function isAppMidDupliated($appMid)
+    public function duplicated($key)
     {
-        return count($this->getEntityManager()->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($appMid)) > 0;
+        return count($this->getEntityManager()->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }
