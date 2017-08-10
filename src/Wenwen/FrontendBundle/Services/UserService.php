@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
@@ -61,7 +61,7 @@ class UserService
      */
     public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
         // 创建用户
-        $user = $this->createUser(
+        $user = $this->createUserBy3rdPartyUser(
             $xxxUser,
             $userProfile,
             $clientIp,
@@ -99,7 +99,7 @@ class UserService
         return $user;
     }
 
-    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
+    private function createUserBy3rdPartyUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
         $this->em->getConnection()->beginTransaction();
         try {
             $user = new User();
@@ -113,8 +113,8 @@ class UserService
             if ($allowRewardInviter) {
                 $user->setInviteId($inviteId);
             }
-            while ($this->duplicated($user->getUniqId())) {
-                $user->setUniqId(Uuid::uuid1()->toString());
+            while ($this->isDuplicated($user->getUniqId())) {
+                $user->setUniqId(User::generateUniqId());
             }
             $this->em->persist($user);
 
@@ -131,13 +131,9 @@ class UserService
         } catch (\Exception $e) {
             $this->em->getConnection()->rollBack();
             $this->em->close();
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
             throw $e;
         }
-    }
-
-    private function duplicated($key)
-    {
-        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 
     public function getProvinceList() {
@@ -195,5 +191,49 @@ class UserService
             $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
             return 1;
         }
+    }
+
+    public function createUser(User $user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter, $recruitRoute)
+    {
+        $this->em->getConnection()->beginTransaction();
+
+        try {
+            $user->setCreatedRemoteAddr($clientIp);
+            $user->setCreatedUserAgent($userAgent);
+            if ($allowRewardInviter) {
+                $user->setInviteId($inviteId);
+            }
+            while ($this->isDuplicated($user->getUniqId())) {
+                $user->setUniqId(User::generateUniqId());
+            }
+            $userTrack = new UserTrack();
+            $userTrack->setLastFingerprint(null);
+            $userTrack->setCurrentFingerprint($fingerprint);
+            $userTrack->setSignInCount(1);
+            $userTrack->setLastSignInAt(null);
+            $userTrack->setCurrentSignInAt(new \DateTime());
+            $userTrack->setLastSignInIp(null);
+            $userTrack->setCurrentSignInIp($clientIp);
+            $userTrack->setOauth(null);
+            $userTrack->setRegisterRoute($recruitRoute);
+
+            $userTrack->setUser($user);
+            $user->setUserTrack($userTrack);
+
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+
+        } catch (\Exception $e) {
+            $this->em->getConnection()->rollBack();
+            $this->em->close();
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function isDuplicated($key)
+    {
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 }

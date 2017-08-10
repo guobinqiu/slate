@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use JMS\JobQueueBundle\Entity\Job;
-use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +67,10 @@ class RegistrationController extends BaseController
                 $userAgent = $request->headers->get('USER_AGENT');
                 $inviteId = $session->get('inviteId');
                 $allowRewardInviter = $this->allowRewardInviter($request, $fingerprint);
-                $this->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter);
+                $recruitRoute = $this->getRegisterRouteFromSession();
+
+                $userService = $this->get('app.user_service');
+                $userService->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter, $recruitRoute);
 
                 if ($form->get('subscribe')->getData() != true) {
                     $em = $this->getDoctrine()->getManager();
@@ -208,46 +210,6 @@ class RegistrationController extends BaseController
         return $sop_profiling_info;
     }
 
-    private function createUser(User $user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->getConnection()->beginTransaction();
-
-        try {
-            $user->setCreatedRemoteAddr($clientIp);
-            $user->setCreatedUserAgent($userAgent);
-            if ($allowRewardInviter) {
-                $user->setInviteId($inviteId);
-            }
-            while ($this->duplicated($user->getUniqId())) {
-                $user->setUniqId(Uuid::uuid1()->toString());
-            }
-            $userTrack = new UserTrack();
-            $userTrack->setLastFingerprint(null);
-            $userTrack->setCurrentFingerprint($fingerprint);
-            $userTrack->setSignInCount(1);
-            $userTrack->setLastSignInAt(null);
-            $userTrack->setCurrentSignInAt(new \DateTime());
-            $userTrack->setLastSignInIp(null);
-            $userTrack->setCurrentSignInIp($clientIp);
-            $userTrack->setOauth(null);
-            $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-            $this->get('logger')->debug(__METHOD__ . ' ' . $this->getRegisterRouteFromSession());
-
-            $userTrack->setUser($user);
-            $user->setUserTrack($userTrack);
-
-            $em->persist($user);
-            $em->flush();
-            $em->getConnection()->commit();
-
-        } catch (\Exception $e) {
-            $em->getConnection()->rollBack();
-            $em->close();
-            throw $e;
-        }
-    }
-
     // 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
     private function allowRewardInviter(Request $request, $fingerprint)
     {
@@ -258,10 +220,5 @@ class RegistrationController extends BaseController
             }
         }
         return false;
-    }
-
-    private function duplicated($key)
-    {
-        return count($this->getDoctrine()->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 }

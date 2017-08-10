@@ -4,7 +4,6 @@ namespace Jili\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Jili\ApiBundle\Entity\SopRespondent;
-use Ramsey\Uuid\Uuid;
 
 class SopRespondentRepository extends EntityRepository
 {
@@ -22,8 +21,8 @@ class SopRespondentRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $sop_respondent = new SopRespondent();
-        while ($this->duplicated($sop_respondent->getAppMid())) {
-            $sop_respondent->setAppMid(Uuid::uuid1()->toString());
+        while ($this->isDuplicated($sop_respondent->getAppMid())) {
+            $sop_respondent->setAppMid(SopRespondent::generateAppMid());
         }
         $sop_respondent->setUserId($user_id);
         $sop_respondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
@@ -64,7 +63,7 @@ EOT;
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function duplicated($key)
+    public function isDuplicated($key)
     {
         return count($this->getEntityManager()->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }

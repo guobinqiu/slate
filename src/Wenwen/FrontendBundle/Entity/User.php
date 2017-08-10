@@ -315,7 +315,12 @@ class User
         $this->completeN = 0;
         $this->screenoutN = 0;
         $this->quotafullN = 0;
-        $this->uniqId = Uuid::uuid1()->toString();
+        $this->uniqId = self::generateUniqId();
+    }
+
+    public static function generateUniqId()
+    {
+        return Uuid::uuid1()->toString();
     }
 
     //--------------------------- getter/setter -----------------------------

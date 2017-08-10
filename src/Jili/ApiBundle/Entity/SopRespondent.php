@@ -85,7 +85,11 @@ class SopRespondent
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
         $this->setStatusFlag(self::STATUS_ACTIVE);
-        $this->setAppMid(Uuid::uuid1()->toString());
+        $this->setAppMid(self::generateAppMid());
+    }
+
+    public static function generateAppMid() {
+        return Uuid::uuid1()->toString();
     }
 
     /**
