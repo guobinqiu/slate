@@ -2,11 +2,13 @@
 
 namespace Wenwen\FrontendBundle\Controller;
 
+use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wenwen\FrontendBundle\Entity\User;
 
 // 不能加在service的公共代码，比方需要对session，cookie，request等对象进行操作的公共方法可以加到这里
 class BaseController extends Controller
@@ -104,4 +106,28 @@ class BaseController extends Controller
         return $recruitRoute;
     }
 
+    // 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+    protected function allowRewardInviter(Request $request, $fingerprint)
+    {
+        if (!$request->cookies->has('uid')) {
+            $userTrack = $this->getDoctrine()->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+            if ($userTrack == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 推送用户基本信息
+    protected function pushBasicProfile(User $user)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($job);
+        $em->flush();
+    }
 }

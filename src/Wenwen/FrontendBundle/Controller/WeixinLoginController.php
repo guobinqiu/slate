@@ -3,13 +3,8 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Cookie;
-use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
-use Wenwen\FrontendBundle\Entity\UserTrack;
-use Wenwen\FrontendBundle\Entity\WeixinUser;
-use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Wenwen\FrontendBundle\Form\LoginType;
@@ -20,6 +15,8 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
  */
 class WeixinLoginController extends BaseController
 {
+    const OAUTH = 'weixin';
+
     /**
      * @Route("/login", name="weixin_login", methods={"GET"})
      */
@@ -61,17 +58,12 @@ class WeixinLoginController extends BaseController
         $openId = $msg->openid;
         $userInfo = $this->getUserInfo($token, $openId);
 
+        $userService = $this->get('app.user_service');
         $em = $this->getDoctrine()->getManager();
         $weixinUser = $em->getRepository('WenwenFrontendBundle:WeixinUser')->findOneBy(array('openId' => $openId));
+
         if ($weixinUser == null) {
-            $weixinUser = new WeixinUser();
-            $weixinUser->setOpenId($openId);
-            $weixinUser->setNickname($userInfo->nickname);
-            $weixinUser->setPhoto($userInfo->headimgurl);
-            $weixinUser->setGender($userInfo->sex);
-            $weixinUser->setUnionId($userInfo->unionid);
-            $em->persist($weixinUser);
-            $em->flush();
+            $userService->createWeixinUser($openId, $userInfo);
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
         } else if ($weixinUser->getUser() == null) {
             return $this->redirect($this->generateUrl('weixin_bind', array('openId' => $openId)));
@@ -82,36 +74,16 @@ class WeixinLoginController extends BaseController
             $user = $weixinUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-            $userTrack = $user->getUserTrack();
-            if ($userTrack) {
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
-                $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('weixin');
-            } else {
-                $userTrack = new UserTrack();
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount(1);
-                $userTrack->setLastSignInAt(null);
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp(null);
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('weixin');
-                $userTrack->setUser($user);
-                $user->setUserTrack($userTrack);
-                $em->persist($userTrack);
-            }
             $em->flush();
 
-            $request->getSession()->set('uid', $user->getId());
+            $clientIp = $request->getClientIp();
+            $recruitRoute = $this->getRegisterRouteFromSession();
+            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, self::OAUTH);
 
+            $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
             $cookie = new Cookie('uid', $user->getId(), $forever);
+
             return $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
         }
     }
@@ -206,38 +178,15 @@ class WeixinLoginController extends BaseController
             if ($userForm->isValid()) {
                 $user = $weixinUser->getUser();
                 if ($user == null) {
-                    $allowRewardInviter = false;
                     $fingerprint = $userForm->get('fingerprint')->getData();
-                    if (!$request->cookies->has('uid')) {
-                        $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-                        if ($userTrack == null) {
-                            $allowRewardInviter = true;
-                        }
-                    }
+                    $clientIp = $request->getClientIp();
+                    $userAgent = $request->headers->get('USER_AGENT');
+                    $inviteId = $request->getSession()->get('inviteId');
+                    $allowRewardInviter = $this->allowRewardInviter($request, $fingerprint);
+                    $recruitRoute = $this->getRegisterRouteFromSession();
 
-                    $user = $userService->autoRegister(
-                        $weixinUser,
-                        $userProfile,
-                        $request->getClientIp(),
-                        $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId'),
-                        $allowRewardInviter
-                    );
-
-                    $userTrack = new UserTrack();
-                    $userTrack->setLastFingerprint(null);
-                    $userTrack->setCurrentFingerprint($fingerprint);
-                    $userTrack->setSignInCount(1);
-                    $userTrack->setLastSignInAt(null);
-                    $userTrack->setCurrentSignInAt(new \DateTime());
-                    $userTrack->setLastSignInIp(null);
-                    $userTrack->setCurrentSignInIp($request->getClientIp());
-                    $userTrack->setOauth('weixin');
-                    $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-                    $userTrack->setUser($user);
-                    $user->setUserTrack($userTrack);
-                    $em->persist($userTrack);
-                    $em->flush();
+                    $user = $userService->createUserByWeixinUser($weixinUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
                     $this->pushBasicProfile($user);// 推送用户基本属性
                 }
@@ -308,17 +257,5 @@ class WeixinLoginController extends BaseController
         }
 
         return $msg;
-    }
-
-    private function pushBasicProfile(User $user)
-    {
-        $args = array(
-            '--user_id=' . $user->getId(),
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
     }
 }

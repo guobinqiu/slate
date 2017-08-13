@@ -302,6 +302,21 @@ class User
      */
     private $uniqId;
 
+    /**
+     * @ORM\OneToOne(targetEntity="QQUser", mappedBy="user", cascade={"persist"})
+     */
+    private $qqUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WeixinUser", mappedBy="user", cascade={"persist"})
+     */
+    private $weixinUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WeiboUser", mappedBy="user", cascade={"persist"})
+     */
+    private $weiboUser;
+
     public function __construct()
     {
         $this->passwordChoice = self::PWD_WENWEN;
@@ -1009,6 +1024,42 @@ class User
     public function getUniqId()
     {
         return $this->uniqId;
+    }
+
+    public function setQQUser(QQUser $qqUser)
+    {
+        $this->qqUser = $qqUser;
+
+        return $this;
+    }
+
+    public function getQQUser()
+    {
+        return $this->qqUser;
+    }
+
+    public function setWeixinUser(WeixinUser $weixinUser)
+    {
+        $this->weixinUser = $weixinUser;
+
+        return $this;
+    }
+
+    public function getWeixinUser()
+    {
+        return $this->weixinUser;
+    }
+
+    public function setWeiboUser(WeiboUser $weiboUser)
+    {
+        $this->weiboUser = $weiboUser;
+
+        return $this;
+    }
+
+    public function getWeiboUser()
+    {
+        return $this->weiboUser;
     }
 
     //--------------------------- helper methods -----------------------------

@@ -46,7 +46,6 @@ class RegistrationController extends BaseController
             $userProfile->setProvince($locationId['provinceId']);
         }
         $user->setUserProfile($userProfile);
-        $userProfile->setUser($user);
         $form = $this->createForm(new SignupType(), $user);
 
         if ($request->getMethod() == 'POST') {
@@ -70,7 +69,8 @@ class RegistrationController extends BaseController
                 $recruitRoute = $this->getRegisterRouteFromSession();
 
                 $userService = $this->get('app.user_service');
-                $userService->createUser($user, $clientIp, $userAgent, $inviteId, $fingerprint, $allowRewardInviter, $recruitRoute);
+                $user = $userService->createUser($user, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+                $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute);
 
                 if ($form->get('subscribe')->getData() != true) {
                     $em = $this->getDoctrine()->getManager();
@@ -110,19 +110,21 @@ class RegistrationController extends BaseController
         $confirmationToken = $request->query->get('confirmation_token');
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
+        $em = $this->getDoctrine()->getManager();
 
         if ($rtn['status'] == 'success') {
-            if($this->pushBasicProfile($rtn['userId'])) {
-                // 推送用户基本属性
-                $request->getSession()->set('uid', $rtn['userId']);
-                return $this->redirect($this->generateUrl('_user_regSuccess'));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
+            if ($user == null) {
+                return $this->redirect($this->generateUrl('_user_regFailure'));
             }
+            $this->pushBasicProfile($user);
+            $request->getSession()->set('uid', $rtn['userId']);
+            return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
             // Todo 过渡用的，上线24小时后可以删除整个else的内容
             if (!isset($confirmationToken)) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
                 'confirmationToken' => $confirmationToken,
             ));
@@ -137,10 +139,9 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $this->pushBasicProfile($user->getId());// 推送用户基本属性
+            $this->pushBasicProfile($user);// 推送用户基本属性
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
-
         }
 
         return $this->redirect($this->generateUrl('_user_regFailure'));
@@ -175,27 +176,6 @@ class RegistrationController extends BaseController
         return $this->redirect($sop_profiling_info['profiling']['url']);
     }
 
-    private function pushBasicProfile($userId)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
-        if ($user == null) {
-            return false;
-        }
-
-        $args = array(
-            '--user_id=' . $userId,
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-
-        $em->persist($job);
-        $em->flush();
-
-        return true;
-    }
-
     private function getSopProfilingSurveyInfo($user_id) {
         $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
         $surveyService = $this->get('app.survey_service');
@@ -208,17 +188,5 @@ class RegistrationController extends BaseController
         $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
         $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
         return $sop_profiling_info;
-    }
-
-    // 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-    private function allowRewardInviter(Request $request, $fingerprint)
-    {
-        if (!$request->cookies->has('uid')) {
-            $userTrack = $this->getDoctrine()->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-            if ($userTrack == null) {
-                return true;
-            }
-        }
-        return false;
     }
 }
