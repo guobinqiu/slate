@@ -170,13 +170,13 @@ class WeiboLoginController extends BaseController
                     $clientIp = $request->getClientIp();
                     $userAgent = $request->headers->get('USER_AGENT');
                     $inviteId = $request->getSession()->get('inviteId');
-                    $allowRewardInviter = $this->allowRewardInviter($request, $fingerprint);
+                    $canRewardInviter = $userService->canRewardInviter($this->isUserLoggedIn(), $fingerprint);
                     $recruitRoute = $this->getRegisterRouteFromSession();
 
-                    $user = $userService->createUserByWeiboUser($weiboUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+                    $user = $userService->createUserByWeiboUser($weiboUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
-                    $this->pushBasicProfile($user);// 推送用户基本属性
+                    $userService->pushBasicProfile($user);
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));

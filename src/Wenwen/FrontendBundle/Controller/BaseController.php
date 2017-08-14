@@ -105,29 +105,4 @@ class BaseController extends Controller
         $this->get('logger')->debug(__METHOD__ . ' registerRoute=' . $recruitRoute);
         return $recruitRoute;
     }
-
-    // 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-    protected function allowRewardInviter(Request $request, $fingerprint)
-    {
-        if (!$request->cookies->has('uid')) {
-            $userTrack = $this->getDoctrine()->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-            if ($userTrack == null) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // 推送用户基本信息
-    protected function pushBasicProfile(User $user)
-    {
-        $args = array(
-            '--user_id=' . $user->getId(),
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
-    }
 }

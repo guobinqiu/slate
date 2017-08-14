@@ -65,11 +65,11 @@ class RegistrationController extends BaseController
                 $clientIp = $request->getClientIp();
                 $userAgent = $request->headers->get('USER_AGENT');
                 $inviteId = $session->get('inviteId');
-                $allowRewardInviter = $this->allowRewardInviter($request, $fingerprint);
+                $canRewardInviter = $userService->canRewardInviter($this->isUserLoggedIn(), $fingerprint);
                 $recruitRoute = $this->getRegisterRouteFromSession();
 
                 $userService = $this->get('app.user_service');
-                $user = $userService->createUser($user, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+                $user = $userService->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                 $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute);
 
                 if ($form->get('subscribe')->getData() != true) {

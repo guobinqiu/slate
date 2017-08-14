@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
@@ -100,11 +101,11 @@ class UserService
         }
     }
 
-    public function createUser(User $user, $clientIp, $userAgent, $inviteId, $allowRewardInviter)
+    public function createUser(User $user, $clientIp, $userAgent, $inviteId, $canRewardInviter)
     {
         $user->setCreatedRemoteAddr($clientIp);
         $user->setCreatedUserAgent($userAgent);
-        if ($allowRewardInviter) {
+        if ($canRewardInviter) {
             $user->setInviteId($inviteId);
         }
         while ($this->isDuplicated($user->getUniqId())) {
@@ -115,7 +116,7 @@ class UserService
         return $user;
     }
 
-    public function createUserByQQUser(QQUser $qqUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter)
+    public function createUserByQQUser(QQUser $qqUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
     {
         $user = new User();
         $user->setNick($qqUser->getNickname());
@@ -130,10 +131,10 @@ class UserService
         $userProfile->setUser($user);
         $user->setUserProfile($userProfile);
 
-        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
     }
 
-    public function createUserByWeixinUser(WeixinUser $weixinUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter)
+    public function createUserByWeixinUser(WeixinUser $weixinUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
     {
         $user = new User();
         $user->setNick($weixinUser->getNickname());
@@ -148,10 +149,10 @@ class UserService
         $userProfile->setUser($user);
         $user->setUserProfile($userProfile);
 
-        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
     }
 
-    public function createUserByWeiboUser(WeiboUser $weiboUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter)
+    public function createUserByWeiboUser(WeiboUser $weiboUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
     {
         $user = new User();
         $user->setNick($weiboUser->getNickname());
@@ -166,7 +167,7 @@ class UserService
         $userProfile->setUser($user);
         $user->setUserProfile($userProfile);
 
-        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $allowRewardInviter);
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
     }
 
     public function createUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $oauth = null)
@@ -246,5 +247,33 @@ class UserService
     public function isDuplicated($key)
     {
         return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
+    }
+
+    /**
+     * 推送用户基本信息
+     */
+    public function pushBasicProfile(User $user)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
+        $this->em->persist($job);
+        $this->em->flush();
+    }
+
+    /**
+     * 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+     */
+    public function canRewardInviter($isUserLoggedIn, $fingerprint)
+    {
+        if (!$isUserLoggedIn) {
+            $userTrack = $this->em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+            if ($userTrack == null) {
+                return true;
+            }
+        }
+        return false;
     }
 }
