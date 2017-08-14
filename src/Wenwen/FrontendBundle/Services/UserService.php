@@ -3,17 +3,15 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Wenwen\FrontendBundle\Model\CategoryType;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\QQUser;
-use Wenwen\FrontendBundle\Model\TaskType;
-use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
+use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
@@ -44,91 +42,6 @@ class UserService
             return new NotFoundHttpException('No user_id matches the app_mid');
         }
         return $arr['id'];
-    }
-
-    /**
-     * 自动注册一个用户.
-     *
-     * @param QQUser|WeixinUser|WeiboUser $xxxUser
-     * @param UserProfile $userProfile
-     * @param string $clientIp
-     * @param string $userAgent
-     * @param int $inviteId
-     * @param bool $allowRewardInviter
-     *
-     * @return User
-     */
-    public function autoRegister($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
-        // 创建用户
-        $user = $this->createUser(
-            $xxxUser,
-            $userProfile,
-            $clientIp,
-            $userAgent,
-            $inviteId,
-            $allowRewardInviter
-        );
-
-        // 给当前用户加积分
-        $this->pointService->addPoints(
-            $user,
-            User::POINT_SIGNUP,
-            CategoryType::SIGNUP,
-            TaskType::RENTENTION,
-            '完成注册',
-            null,
-            new \DateTime(),
-            true,
-            PrizeItem::TYPE_SMALL
-        );
-
-        // 给邀请人加积分
-        $this->pointService->addPointsForInviter(
-            $user,
-            User::POINT_INVITE_SIGNUP,
-            CategoryType::EVENT_INVITE_SIGNUP,
-            TaskType::RENTENTION,
-            '您的好友' . $user->getNick(). '完成了注册',
-            null,
-            new \DateTime(),
-            true,
-            PrizeItem::TYPE_SMALL
-        );
-
-        return $user;
-    }
-
-    private function createUser($xxxUser, $userProfile, $clientIp, $userAgent, $inviteId, $allowRewardInviter) {
-        $this->em->getConnection()->beginTransaction();
-        try {
-            $user = new User();
-            $user->setNick($xxxUser->getNickname());
-            $user->setIconPath($xxxUser->getPhoto());
-            $user->setRegisterCompleteDate(new \DateTime());
-            $user->setLastLoginDate(new \DateTime());
-            $user->setLastLoginIp($clientIp);
-            $user->setCreatedRemoteAddr($clientIp);
-            $user->setCreatedUserAgent($userAgent);
-            if ($allowRewardInviter) {
-                $user->setInviteId($inviteId);
-            }
-            $this->em->persist($user);
-
-            $userProfile->setUser($user);
-            $this->em->persist($userProfile);
-
-            $xxxUser->setUser($user);
-
-            $this->em->flush();
-            $this->em->getConnection()->commit();
-
-            return $user;
-
-        } catch (\Exception $e) {
-            $this->em->getConnection()->rollBack();
-            $this->em->close();
-            throw $e;
-        }
     }
 
     public function getProvinceList() {
@@ -186,5 +99,181 @@ class UserService
             $this->redis->expire($key, CacheKeys::REGISTER_FINGER_PRINT_TIMEOUT);
             return 1;
         }
+    }
+
+    public function createUser(User $user, $clientIp, $userAgent, $inviteId, $canRewardInviter)
+    {
+        $user->setCreatedRemoteAddr($clientIp);
+        $user->setCreatedUserAgent($userAgent);
+        if ($canRewardInviter) {
+            $user->setInviteId($inviteId);
+        }
+        while ($this->isDuplicated($user->getUniqId())) {
+            $user->setUniqId(User::generateUniqId());
+        }
+        $this->em->persist($user);
+        $this->em->flush();
+        return $user;
+    }
+
+    public function createUserByQQUser(QQUser $qqUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
+    {
+        $user = new User();
+        $user->setNick($qqUser->getNickname());
+        $user->setIconPath($qqUser->getPhoto());
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setLastLoginDate(new \DateTime());
+        $user->setLastLoginIp($clientIp);
+
+        $qqUser->setUser($user);
+        $user->setQQUser($qqUser);
+
+        $userProfile->setUser($user);
+        $user->setUserProfile($userProfile);
+
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+    }
+
+    public function createUserByWeixinUser(WeixinUser $weixinUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
+    {
+        $user = new User();
+        $user->setNick($weixinUser->getNickname());
+        $user->setIconPath($weixinUser->getPhoto());
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setLastLoginDate(new \DateTime());
+        $user->setLastLoginIp($clientIp);
+
+        $weixinUser->setUser($user);
+        $user->setWeixinUser($weixinUser);
+
+        $userProfile->setUser($user);
+        $user->setUserProfile($userProfile);
+
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+    }
+
+    public function createUserByWeiboUser(WeiboUser $weiboUser, UserProfile $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter)
+    {
+        $user = new User();
+        $user->setNick($weiboUser->getNickname());
+        $user->setIconPath($weiboUser->getPhoto());
+        $user->setRegisterCompleteDate(new \DateTime());
+        $user->setLastLoginDate(new \DateTime());
+        $user->setLastLoginIp($clientIp);
+
+        $weiboUser->setUser($user);
+        $user->setWeiboUser($weiboUser);
+
+        $userProfile->setUser($user);
+        $user->setUserProfile($userProfile);
+
+        return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+    }
+
+    public function createUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $oauth = null)
+    {
+        $userTrack = new UserTrack();
+        $userTrack->setLastFingerprint(null);
+        $userTrack->setCurrentFingerprint($fingerprint);
+        $userTrack->setSignInCount(1);
+        $userTrack->setLastSignInAt(null);
+        $userTrack->setCurrentSignInAt(new \DateTime());
+        $userTrack->setLastSignInIp(null);
+        $userTrack->setCurrentSignInIp($clientIp);
+        $userTrack->setOauth($oauth);
+        $userTrack->setRegisterRoute($recruitRoute);
+        $userTrack->setUser($user);
+        $this->em->persist($userTrack);
+        $this->em->flush();
+    }
+
+    public function updateUserTrack(UserTrack $userTrack, $clientIp, $fingerprint, $oauth = null)
+    {
+        $userTrack->setLastFingerprint($userTrack->getLastFingerprint());
+        $userTrack->setCurrentFingerprint($fingerprint);
+        $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
+        $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
+        $userTrack->setCurrentSignInAt(new \DateTime());
+        $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
+        $userTrack->setCurrentSignInIp($clientIp);
+        $userTrack->setOauth($oauth);
+        $this->em->flush();
+    }
+
+    public function saveOrUpdateUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $oauth = null)
+    {
+        $userTrack = $user->getUserTrack();
+        if ($userTrack) {
+            $this->updateUserTrack($userTrack, $clientIp, $fingerprint, $oauth);
+        } else {
+            $this->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $oauth);
+        }
+    }
+
+    public function createQQUser($openId, $userInfo)
+    {
+        $qqUser = new QQUser();
+        $qqUser->setOpenId($openId);
+        $qqUser->setNickname($userInfo->nickname);
+        $qqUser->setPhoto($userInfo->figureurl_qq_1);
+        $qqUser->setGender($userInfo->gender == '女' ? 2 : 1);
+        $this->em->persist($qqUser);
+        $this->em->flush();
+    }
+
+    public function createWeixinUser($openId, $userInfo)
+    {
+        $weixinUser = new WeixinUser();
+        $weixinUser->setOpenId($openId);
+        $weixinUser->setNickname($userInfo->nickname);
+        $weixinUser->setPhoto($userInfo->headimgurl);
+        $weixinUser->setGender($userInfo->sex);
+        $weixinUser->setUnionId($userInfo->unionid);
+        $this->em->persist($weixinUser);
+        $this->em->flush();
+    }
+
+    public function createWeiboUser($openId, $userInfo)
+    {
+        $weiboUser = new WeiboUser();
+        $weiboUser->setOpenId($openId);
+        $weiboUser->setNickname($userInfo->screen_name);
+        $weiboUser->setPhoto($userInfo->profile_image_url);
+        $weiboUser->setGender($userInfo->gender == 'f' ? 2 : 1);
+        $this->em->persist($weiboUser);
+        $this->em->flush();
+    }
+
+    public function isDuplicated($key)
+    {
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
+    }
+
+    /**
+     * 推送用户基本信息
+     */
+    public function pushBasicProfile(User $user)
+    {
+        $args = array(
+            '--user_id=' . $user->getId(),
+        );
+        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
+        $job->setMaxRetries(3);
+        $this->em->persist($job);
+        $this->em->flush();
+    }
+
+    /**
+     * 如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
+     */
+    public function canRewardInviter($isUserLoggedIn, $fingerprint)
+    {
+        if (!$isUserLoggedIn) {
+            $userTrack = $this->em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
+            if ($userTrack == null) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -128,7 +128,7 @@ class SurveySopServiceTest extends WebTestCase
         $this->em->persist($sopRespondent);
         $this->em->flush();
 
-        $appMid = $sopRespondent->getId();
+        $appMid = $sopRespondent->getAppMid();
 
         $surveyId = 20131;
 

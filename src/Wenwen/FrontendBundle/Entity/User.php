@@ -16,10 +16,12 @@ use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
  * User
  *
  * @ORM\Table(name="user",
- *     uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})},
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="email_idx", columns={"email"}),
+ *         @ORM\UniqueConstraint(name="uniq_id_idx", columns={"uniq_id"}),
+ *     },
  *     indexes={
  *         @ORM\Index(name="invite_id_idx", columns={"invite_id"}),
- *         @ORM\Index(name="uniq_id_idx", columns={"uniq_id"}),
  *     }
  * )
  * @ORM\Entity(repositoryClass="Wenwen\FrontendBundle\Repository\UserRepository")
@@ -292,11 +294,28 @@ class User
     private $captchaCode;
 
     /**
-     * @ORM\Column(name="uniq_id", type="string")
+     * @var string Replacement of id for the future
+     *
+     * @ORM\Column(name="uniq_id", type="string", nullable=false)
      *
      * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
      */
     private $uniqId;
+
+    /**
+     * @ORM\OneToOne(targetEntity="QQUser", mappedBy="user", cascade={"persist"})
+     */
+    private $qqUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WeixinUser", mappedBy="user", cascade={"persist"})
+     */
+    private $weixinUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity="WeiboUser", mappedBy="user", cascade={"persist"})
+     */
+    private $weiboUser;
 
     public function __construct()
     {
@@ -311,6 +330,12 @@ class User
         $this->completeN = 0;
         $this->screenoutN = 0;
         $this->quotafullN = 0;
+        $this->uniqId = self::generateUniqId();
+    }
+
+    public static function generateUniqId()
+    {
+        return Uuid::uuid1()->toString();
     }
 
     //--------------------------- getter/setter -----------------------------
@@ -998,7 +1023,43 @@ class User
 
     public function getUniqId()
     {
-        return $this->getUniqId();
+        return $this->uniqId;
+    }
+
+    public function setQQUser(QQUser $qqUser)
+    {
+        $this->qqUser = $qqUser;
+
+        return $this;
+    }
+
+    public function getQQUser()
+    {
+        return $this->qqUser;
+    }
+
+    public function setWeixinUser(WeixinUser $weixinUser)
+    {
+        $this->weixinUser = $weixinUser;
+
+        return $this;
+    }
+
+    public function getWeixinUser()
+    {
+        return $this->weixinUser;
+    }
+
+    public function setWeiboUser(WeiboUser $weiboUser)
+    {
+        $this->weiboUser = $weiboUser;
+
+        return $this;
+    }
+
+    public function getWeiboUser()
+    {
+        return $this->weiboUser;
     }
 
     //--------------------------- helper methods -----------------------------
@@ -1090,7 +1151,6 @@ class User
     {
         $this->registerDate = new \DateTime();
         $this->updatedAt = new \DateTime();
-        $this->uniqId = Uuid::uuid1()->toString();
     }
 
     /**

@@ -22,7 +22,7 @@ class WeixinUser
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="weixinUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

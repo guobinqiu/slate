@@ -62,7 +62,7 @@ class SopApiController extends Controller
 
         //check if app_mid exists.
         $em = $this->getDoctrine()->getManager();
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveById($app_mid);
+        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($app_mid);
         if (!$sop_respondent) {
             return $this->render400Response('invalid app_mid');
         }

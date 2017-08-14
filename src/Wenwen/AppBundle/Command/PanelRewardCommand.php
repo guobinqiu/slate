@@ -64,9 +64,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
 
             // get respondent
-            $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(array (
-                'id' => $history['app_mid']
-            ));
+            $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($history['app_mid']);
             if (!$respondent) {
                 $msg = sprintf(' %s, %s', 'Skip reward, app_mid not exist', json_encode($history));
                 $logger->warn(__METHOD__ . $msg);
@@ -75,9 +73,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
 
             // get panelist
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array (
-                'id' => $respondent->getUserId()
-            ));
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($respondent->getUserId());
             if (!$user) {
                 // maybe panelist withdrew
                 $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));

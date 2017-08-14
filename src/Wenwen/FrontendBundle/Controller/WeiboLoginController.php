@@ -3,13 +3,8 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Cookie;
-use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
-use Wenwen\FrontendBundle\Entity\UserTrack;
-use Wenwen\FrontendBundle\Entity\WeiboUser;
-use JMS\JobQueueBundle\Entity\Job;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Wenwen\FrontendBundle\Form\LoginType;
@@ -20,6 +15,8 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
  */
 class WeiboLoginController extends BaseController
 {
+    const OAUTH = 'weibo';
+
     /**
      * @Route("/login", name="weibo_login", methods={"GET"})
      */
@@ -52,16 +49,12 @@ class WeiboLoginController extends BaseController
         $openId = $this->getOpenId($token);
         $userInfo = $this->getUserInfo($token, $openId);
 
+        $userService = $this->get('app.user_service');
         $em = $this->getDoctrine()->getManager();
         $weiboUser = $em->getRepository('WenwenFrontendBundle:WeiboUser')->findOneBy(array('openId' => $openId));
+
         if ($weiboUser == null) {
-            $weiboUser = new WeiboUser();
-            $weiboUser->setOpenId($openId);
-            $weiboUser->setNickname($userInfo->screen_name);
-            $weiboUser->setPhoto($userInfo->profile_image_url);
-            $weiboUser->setGender($userInfo->gender == 'f' ? 2 : 1);
-            $em->persist($weiboUser);
-            $em->flush();
+            $userService->createWeiboUser($openId, $userInfo);
             return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
         } else if ($weiboUser->getUser() == null) {
             return $this->redirect($this->generateUrl('weibo_bind', array('openId' => $openId)));
@@ -69,36 +62,16 @@ class WeiboLoginController extends BaseController
             $user = $weiboUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-            $userTrack = $user->getUserTrack();
-            if ($userTrack) {
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
-                $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('weibo');
-            } else {
-                $userTrack = new UserTrack();
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount(1);
-                $userTrack->setLastSignInAt(null);
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp(null);
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('weibo');
-                $userTrack->setUser($user);
-                $user->setUserTrack($userTrack);
-                $em->persist($userTrack);
-            }
             $em->flush();
 
-            $request->getSession()->set('uid', $user->getId());
+            $clientIp = $request->getClientIp();
+            $recruitRoute = $this->getRegisterRouteFromSession();
+            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, self::OAUTH);
 
+            $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
             $cookie = new Cookie('uid', $user->getId(), $forever);
+
             return $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
         }
     }
@@ -193,40 +166,17 @@ class WeiboLoginController extends BaseController
             if ($userForm->isValid()) {
                 $user = $weiboUser->getUser();
                 if ($user == null) {
-                    $allowRewardInviter = false;
                     $fingerprint = $userForm->get('fingerprint')->getData();
-                    if (!$request->cookies->has('uid')) {
-                        $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-                        if ($userTrack == null) {
-                            $allowRewardInviter = true;
-                        }
-                    }
+                    $clientIp = $request->getClientIp();
+                    $userAgent = $request->headers->get('USER_AGENT');
+                    $inviteId = $request->getSession()->get('inviteId');
+                    $canRewardInviter = $userService->canRewardInviter($this->isUserLoggedIn(), $fingerprint);
+                    $recruitRoute = $this->getRegisterRouteFromSession();
 
-                    $user = $userService->autoRegister(
-                        $weiboUser,
-                        $userProfile,
-                        $request->getClientIp(),
-                        $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId'),
-                        $allowRewardInviter
-                    );
+                    $user = $userService->createUserByWeiboUser($weiboUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
-                    $userTrack = new UserTrack();
-                    $userTrack->setLastFingerprint(null);
-                    $userTrack->setCurrentFingerprint($fingerprint);
-                    $userTrack->setSignInCount(1);
-                    $userTrack->setLastSignInAt(null);
-                    $userTrack->setCurrentSignInAt(new \DateTime());
-                    $userTrack->setLastSignInIp(null);
-                    $userTrack->setCurrentSignInIp($request->getClientIp());
-                    $userTrack->setOauth('weibo');
-                    $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-                    $userTrack->setUser($user);
-                    $user->setUserTrack($userTrack);
-                    $em->persist($userTrack);
-                    $em->flush();
-
-                    $this->pushBasicProfile($user);// 推送用户基本属性
+                    $userService->pushBasicProfile($user);
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -295,17 +245,5 @@ class WeiboLoginController extends BaseController
         $res = $this->get('app.http_client')->get($url)->send();
         $resBody = $res->getBody();
         return json_decode($resBody);
-    }
-
-    private function pushBasicProfile(User $user)
-    {
-        $args = array(
-            '--user_id=' . $user->getId(),
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
     }
 }

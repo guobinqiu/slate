@@ -75,7 +75,7 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
 
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
         $sop_respondent = $respondents[0];
-        $app_mid = $sop_respondent->getId();
+        $app_mid = $sop_respondent->getAppMid();
 
         // data
         $header = array('app_id', 'app_mid', 'agreement_status', 'answered_at');
@@ -121,8 +121,8 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $container->set('sop_api.client', $client);
 
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
-        $app0_mid = $respondents[0]->getId();
-        $app1_mid = $respondents[1]->getId();
+        $app0_mid = $respondents[0]->getAppMid();
+        $app1_mid = $respondents[1]->getAppMid();
 
         $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user0_id = $users[0]->getId();

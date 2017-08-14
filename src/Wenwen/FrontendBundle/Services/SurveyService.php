@@ -74,8 +74,8 @@ class SurveyService
         $this->logger->debug(__METHOD__ . ' - START - ');
         // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
         $sop_respondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
-        $app_mid = $sop_respondent->getId();
-        $this->logger->debug(__METHOD__ . ' - END - sop_respondent_id=' . $app_mid);
+        $app_mid = $sop_respondent->getAppMid();
+        $this->logger->debug(__METHOD__ . ' - END - sop_respondent.app_mid=' . $app_mid);
         return $app_mid;
     }
 
