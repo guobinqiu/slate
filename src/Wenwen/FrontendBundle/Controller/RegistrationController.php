@@ -111,13 +111,14 @@ class RegistrationController extends BaseController
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
         $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('app.user_service');
 
         if ($rtn['status'] == 'success') {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
             if ($user == null) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $this->pushBasicProfile($user);
+            $userService->pushBasicProfile($user);
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
@@ -139,7 +140,7 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $this->pushBasicProfile($user);// 推送用户基本属性
+            $userService->pushBasicProfile($user);
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
