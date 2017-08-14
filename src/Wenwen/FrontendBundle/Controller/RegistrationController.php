@@ -46,6 +46,7 @@ class RegistrationController extends BaseController
             $userProfile->setProvince($locationId['provinceId']);
         }
         $user->setUserProfile($userProfile);
+        $userProfile->setUser($user);
         $form = $this->createForm(new SignupType(), $user);
 
         if ($request->getMethod() == 'POST') {
