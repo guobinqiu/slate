@@ -62,7 +62,7 @@ class SurveyPartnerService
      */
     public function getSurveyPartnerListForUser($user, $locationInfo) {
 
-        if((! $user instanceof User) || (! is_array($locationInfo))) {
+        if((!($user instanceof User)) || (!is_array($locationInfo))) {
             $rtn['result'] = 'failure';
             $rtn['msg'] = self::MSG_INVALID_PARAMS;
             $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
@@ -162,7 +162,7 @@ class SurveyPartnerService
      */
     public function processInformation($user, $surveyPartnerId, $locationInfo){
 
-        if((! $user instanceof User) || (null == $surveyPartnerId) || (! is_array($locationInfo))) {
+        if((!($user instanceof User)) || (null == $surveyPartnerId) || ((!is_array($locationInfo)))) {
             $rtn['result'] = 'failure';
             $rtn['msg'] = self::MSG_INVALID_PARAMS;
             $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
@@ -274,7 +274,7 @@ class SurveyPartnerService
     public function isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo){
         $rtn = array();
 
-        if((! $surveyPartner instanceof SurveyPartner) || (! $user instanceof User) || (! is_array($locationInfo))) {
+        if((!($surveyPartner instanceof SurveyPartner)) || (!($user instanceof User)) || (!is_array($locationInfo))) {
             $rtn['result'] = 'failure';
             $rtn['msg'] = self::MSG_INVALID_PARAMS;
             $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
@@ -393,7 +393,7 @@ class SurveyPartnerService
      */
     public function redirectToSurvey($user, $surveyPartnerId, $locationInfo){
 
-        if((! $user instanceof User) || (null == $surveyPartnerId) || (! is_array($locationInfo))) {
+        if((!($user instanceof User)) || (null == $surveyPartnerId) || (!is_array($locationInfo))) {
             $rtn['result'] = 'failure';
             $rtn['msg'] = self::MSG_INVALID_PARAMS;
             $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
