@@ -10,6 +10,7 @@ use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
+use Wenwen\FrontendBundle\Services\SurveyPartnerService;
 
 class SurveyPartnerServiceTest extends WebTestCase
 {
@@ -41,7 +42,38 @@ class SurveyPartnerServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+        $this->em = null;
+        $this->container = null;
+        $this->surveyPartnerService = null;
+    }
+
+    public function testIsValidSurveyPartnerForUser_invalidParams(){
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser(null, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser(123, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $surveyPartner = new SurveyPartner();
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, 123, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $user = new User();
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->isValidSurveyPartnerForUser($surveyPartner, $user, 123);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
     }
 
     public function testIsValidSurveyPartnerForUser_registerAtEqualFrom(){
@@ -600,6 +632,26 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals('success', $rtn['result'] );
     }
 
+    public function testGetSurveyPartnerListForUser_failure_invalidParams(){
+
+        $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser(null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser(123, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $user = new User();
+        $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser($user, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->getSurveyPartnerListForUser($user, 123);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+    }
+
     public function testGetSurveyPartnerListForUser_forTestUser()
     {
         $purger = new ORMPurger();
@@ -1153,6 +1205,29 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(0, count($rtn), '参与记录状态为forward');
     }
 
+    public function testProcessInformation_failure_invalidParams(){
+        $rtn = $this->surveyPartnerService->processInformation(null, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->processInformation(123, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $user = new User();
+        $rtn = $this->surveyPartnerService->processInformation($user, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->processInformation($user, 123, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->processInformation($user, 123, 123);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+    }
+
     public function testProcessInformation()
     {
         $purger = new ORMPurger();
@@ -1539,6 +1614,29 @@ class SurveyPartnerServiceTest extends WebTestCase
                         'surveyPartner' => $surveyPartner1,
                         ));
         $this->assertEquals(SurveyStatus::STATUS_INIT, $surveyPartnerParticipationHistory->getStatus(), 'Should be init.');
+    }
+
+    public function testRedirectToSurvey_failture_invalidparams(){
+        $rtn = $this->surveyPartnerService->redirectToSurvey(null, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->redirectToSurvey(123, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $user = new User();
+        $rtn = $this->surveyPartnerService->redirectToSurvey($user, null, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->redirectToSurvey($user, 123, null);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
+
+        $rtn = $this->surveyPartnerService->redirectToSurvey($user, 123, 123);
+        $this->assertEquals('failure', $rtn['result'] );
+        $this->assertEquals(SurveyPartnerService::MSG_INVALID_PARAMS, $rtn['msg'] );
     }
 
     public function testRedirectToSurvey_forTestUser()

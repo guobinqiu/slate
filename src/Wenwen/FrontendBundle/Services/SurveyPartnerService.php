@@ -14,7 +14,7 @@ use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Base64Url\Base64Url;
 
 /**
- * 第三方非API对接方式的问卷项目信息管理 
+ * 第三方非API对接方式的问卷项目信息管理
  * 目前暂时只用于同TripleS的对接
  * 主要功能：新建问卷项目/更新问卷项目的内容/开放问卷项目/关闭问卷项目
  */
@@ -39,6 +39,9 @@ class SurveyPartnerService
 
     const SECRET_KEY = "bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3";  // 编码时的混杂HEX key 不要随便改哦
 
+
+    const MSG_INVALID_PARAMS = 'Invalid params.';
+
     public function __construct(LoggerInterface $logger,
                                 EntityManager $em,
                                 ParameterService $parameterService,
@@ -58,11 +61,19 @@ class SurveyPartnerService
      * @return array $surveyPartners
      */
     public function getSurveyPartnerListForUser($user, $locationInfo) {
+
+        if((! $user instanceof User) || (! is_array($locationInfo))) {
+            $rtn['result'] = 'failure';
+            $rtn['msg'] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
+            return $rtn;
+        }
+
         $this->logger->info(__METHOD__ . ' START userId=' . $user->getId());
         $availableSurveyPartners = array();
 
         try{
-            
+
             if(in_array($user->getEmail(), $this->testUserEmails)){
                 // 如果是测试用户，则显示所有处于init状态的项目
                 $surveyPartners = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findBy(
@@ -88,7 +99,7 @@ class SurveyPartnerService
                 $this->logger->debug(__METHOD__ . ' check started. id=' . $surveyPartner->getId());
                 // 核对用户信息是否满足该项目的参与条件
                 $validResult = $this->isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo);
-                
+
                 if($validResult['result'] == 'success'){
                     // 满足参与条件
                     $this->logger->debug(__METHOD__ . ' survey valid for this user.');
@@ -149,7 +160,15 @@ class SurveyPartnerService
      *               errMsg 系统出错时的错误信息
      *         }
      */
-    public function processInformation(User $user, $surveyPartnerId, $locationInfo){
+    public function processInformation($user, $surveyPartnerId, $locationInfo){
+
+        if((! $user instanceof User) || (null == $surveyPartnerId) || (! is_array($locationInfo))) {
+            $rtn['result'] = 'failure';
+            $rtn['msg'] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
+            return $rtn;
+        }
+
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyPartnerId=' . $surveyPartnerId);
         $rtn = array();
         $rtn['status'] = 'failure';
@@ -169,7 +188,7 @@ class SurveyPartnerService
                         'status' => SurveyPartner::STATUS_OPEN
                         ));
             }
-            
+
             if(is_null($surveyPartner)){
                 // open状态的项目不存在，更改返回状态为不可参与
                 $errMsg = 'Survey is not exist(open). surveyPartnerId=' . $surveyPartnerId;
@@ -244,7 +263,7 @@ class SurveyPartnerService
 
     /**
      * 判断该用户是否有资格回答这个问卷
-     * 
+     *
      * @param SurveyPartner $surveyPartner 问卷信息
      * @param User $user 用户信息
      * @param array $locationInfo 地区信息
@@ -252,10 +271,17 @@ class SurveyPartnerService
      *               'result' => 'success' or errmsg
      *               )
      */
-    public function isValidSurveyPartnerForUser(SurveyPartner $surveyPartner, User $user, array $locationInfo){
-        $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
-
+    public function isValidSurveyPartnerForUser($surveyPartner, $user, $locationInfo){
         $rtn = array();
+
+        if((! $surveyPartner instanceof SurveyPartner) || (! $user instanceof User) || (! is_array($locationInfo))) {
+            $rtn['result'] = 'failure';
+            $rtn['msg'] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
+            return $rtn;
+        }
+
+        $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyId=' . $surveyPartner->getSurveyId() );
 
         if(in_array($user->getEmail(), $this->testUserEmails)){
             // 如果是测试用户的话，不做细节检查
@@ -302,7 +328,7 @@ class SurveyPartnerService
                 }
             }
         }
-        
+
         // 2 年龄检查
         $birthday = $user->getUserProfile()->getBirthday();
         if($birthday){
@@ -316,7 +342,7 @@ class SurveyPartnerService
                 return $rtn;
             }
         }
-        
+
 
         // 3 地区检查 最后做,任意匹配就结束
         if(false == $locationInfo['status']){
@@ -354,7 +380,7 @@ class SurveyPartnerService
      *    不存在或者非open状态的话，直接返回错误
      * 2. 检查这个用户是否可以回答这个问卷
      * 3. 根据参与记录的状态判断可否回答这个问卷
-     *    
+     *
      * @param User $user
      * @param string $surveyPartnerId
      * @param array $locationInfo
@@ -365,7 +391,15 @@ class SurveyPartnerService
      *               errMsg
      *         )
      */
-    public function redirectToSurvey(User $user, $surveyPartnerId, $locationInfo){
+    public function redirectToSurvey($user, $surveyPartnerId, $locationInfo){
+
+        if((! $user instanceof User) || (null == $surveyPartnerId) || (! is_array($locationInfo))) {
+            $rtn['result'] = 'failure';
+            $rtn['msg'] = self::MSG_INVALID_PARAMS;
+            $this->logger->warn(__METHOD__ . ' ' . $rtn['msg'] );
+            return $rtn;
+        }
+
         $this->logger->debug(__METHOD__ . ' START userId=' . $user->getId() . ' surveyPartnerId=' . $surveyPartnerId);
 
         $rtn = array();
@@ -790,7 +824,7 @@ class SurveyPartnerService
             // 该项目处于open状态
             $rtn['title'] = $this->generateSurveyTitleWithSurveyId($surveyPartner);
 
-            
+
             // 检查这个用户的参与记录 from surveyPartnerParticipationHistory
             $surveyPartnerParticipationHistorys = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findBy(
                 array('user' => $user,
@@ -839,7 +873,7 @@ class SurveyPartnerService
                         $rtn['errMsg'] = $errMsg;
                     }
                 }
-                
+
                 // 检查都通过了，开始正常处理
 
                 // 先增加一条结束状态的历史记录
@@ -853,7 +887,7 @@ class SurveyPartnerService
                 $surveyPartnerParticipationHistory->setCreatedAt(new \DateTime());
 
                 $this->em->persist($surveyPartnerParticipationHistory);
-                
+
                 // 发积分
                 $result = $this->reward($surveyPartner, $user, $rtn['answerStatus'], $key);
                 $this->em->flush();
