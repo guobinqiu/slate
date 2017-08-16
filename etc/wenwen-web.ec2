@@ -1,0 +1,22 @@
+MAILTO=rpa-sys-china@d8aspring.com
+BASE_DIR=/var/www/html/jili
+
+# Name:      monitor file
+# Function:  Monitor src files changes
+# StartedAt: 2015/01/01
+0 */2 * * * cd /data/script/perl/ && perl ./file_monitor.pl 2>&1 >> /data/log/cron/file_monitor_run.log
+
+# Name:      ExpirePoint
+# Function:  clean up point from users those are in-active
+# StartedAt: 2015/01/01
+0 2 * * * cd $BASE_DIR; /bin/bash scripts/cron/ExpirePoint.sh;
+
+# Name:      RewardPoint
+# Function:  Request 3rd party service API and give incentive to users for Non-realtime surveys.
+# StartedAt: 2016/01/01
+10 7 * * * cd $BASE_DIR; /bin/bash scripts/cron/RewardPoint.sh
+
+# Name:      GMO member list
+# Function:  Gmo, Generate memberList.csv.zip file
+# StartedAt: 2016/10/01
+0 23 * * * cd $BASE_DIR; php app/console gmo:member_list_csv -e prod

@@ -64,7 +64,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
         \Phake::when($iterator)->getConversionReport(2)->thenReturn([
             'success' => true,
             'totalNumRows' => 1001,
-            'data' => [self::getConversionRowSample()],
+            'data' => [self::getConversionRowSample(), self::getConversionRowSampleSsiRespondentNotFound()],
         ]);
         $this->container->set('ssi_api.conversion_report_iterator', $iterator);
 
@@ -113,6 +113,25 @@ class SsiPointRewardCommandTest extends KernelTestCase
             'sub_id_3' => '',
             'sub_id_4' => '',
             'sub_id_5' => 'wwcn-' . SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId(),
+            'payout' => '$1.50',
+            'ip' => '123.456.789.123',
+            'status' => 'approved',
+            'transaction_id' => '102a8857d5db3fb1679cf1c204337b'
+        );
+    }
+
+    private static function getConversionRowSampleSsiRespondentNotFound()
+    {
+        return array (
+            'offer' => '1346 API_USD',
+            'date_time' => '2016-05-12 13:54:53',
+            'source' => '',
+            'sub_id' => '',
+            'sub_id_1' => '',
+            'sub_id_2' => '',
+            'sub_id_3' => '',
+            'sub_id_4' => '',
+            'sub_id_5' => 'wwcn-' . '1234',
             'payout' => '$1.50',
             'ip' => '123.456.789.123',
             'status' => 'approved',
