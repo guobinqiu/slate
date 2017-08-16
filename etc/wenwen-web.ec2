@@ -19,4 +19,4 @@ BASE_DIR=/var/www/html/jili
 # Name:      GMO member list
 # Function:  Gmo, Generate memberList.csv.zip file
 # StartedAt: 2016/10/01
-0 23 * * * cd ${BASE_DIR} && php app/console gmo:member_list_csv -e prod
+0 23 * * * cd $BASE_DIR; php app/console gmo:member_list_csv -e prod
