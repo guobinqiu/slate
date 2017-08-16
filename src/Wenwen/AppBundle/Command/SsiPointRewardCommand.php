@@ -149,9 +149,11 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         if($resultNotification){
             $log = $this->getLog($successMessages, $skipMessages, $errorMessages);
-            $subject = 'Report of SSI reward points';
+            $subject = 'Report of SSI reward points for ' . $date;
             $numSent = $this->sendLogEmail($log, $subject);
-            $logger->info('Email num sent: ' . $numSent);
+            $logger->info(__METHOD__ . ' End   of notification. Email num sent: ' . $numSent . ' title=' . $subject);
+        } else {
+            $logger->info(__METHOD__ . ' End without notification.');
         }
 
         $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
