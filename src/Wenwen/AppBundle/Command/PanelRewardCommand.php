@@ -19,9 +19,11 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
         $date = $input->getArgument('date');
+        $definitive = $input->getOption('definitive');
+        $resultNotification = $input->getOption('resultNotification');
 
         $logger = $this->getLogger();
-        $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
+        $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date . ' definitive=' . $definitive . ' resultNotification=' . $resultNotification);
 
         // request to sop
         $url = $this->url();
@@ -33,13 +35,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $dbh->getConfiguration()->setSQLLogger(null);
 
         $successMessages = array();
+        $skipMessages = array();
         $errorMessages = array();
 
         $this->preHandle($history_list);
 
         $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($history_list));
         $logger->info(__METHOD__ . $msg);
-        array_push($successMessages, date('Y-m-d H:i:s') . $msg);
 
         //start inserting
         foreach ($history_list as $history) {
@@ -52,14 +54,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if ($this->skipReward($history)) {
                 $msg = sprintf(' %s, %s', 'Skip reward, invalid point_type', json_encode($history));
                 $logger->warn(__METHOD__ . $msg);
-                array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
                 $logger->warn(__METHOD__ . $msg);
-                array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
@@ -68,7 +70,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$respondent) {
                 $msg = sprintf(' %s, %s', 'Skip reward, app_mid not exist', json_encode($history));
                 $logger->warn(__METHOD__ . $msg);
-                array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
@@ -78,7 +80,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 // maybe panelist withdrew
                 $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));
                 $logger->warn(__METHOD__ . $msg);
-                array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
@@ -123,9 +125,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
                 }
 
-                $dbh->commit();
+                if($definitive) {
+                    $dbh->commit();
+                    $msg = sprintf(' %s, %s', ' Commit   - Point reward success', json_encode($history));
+                } else {
+                    $dbh->rollBack();
+                    $msg = sprintf(' %s, %s', ' RollBack - Point reward success', json_encode($history));
+                }
 
-                $msg = sprintf(' %s, %s', 'Point reward success', json_encode($history));
                 $logger->info(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
 
@@ -137,12 +144,17 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
         }
 
-        $logger->info(__METHOD__ . ' RESULT total_count=' . count($history_list) . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
+        $logger->info(__METHOD__ . ' RESULT total=' . count($history_list) . ' success=' . count($successMessages) . ' skip=' . count($skipMessages) . ' error=' . count($errorMessages));
 
-        $log = $this->getLog($successMessages, $errorMessages);
-        $subject = 'Report of ' . $this->getPanelType() . ' reward points';
-        $numSent = $this->sendLogEmail($log, $subject);
-        $logger->info('Email num sent: ' . $numSent);
+        if($resultNotification) {
+            $logger->info(__METHOD__ . ' Start to notifiy system team.');
+            $log = $this->getLog($successMessages, $skipMessages, $errorMessages);
+            $subject = 'Report of ' . $this->getPanelType() . ' reward points for ' . $date;
+            $numSent = $this->sendLogEmail($log, $subject);
+            $logger->info(__METHOD__ . ' End   of notification. Email num sent: ' . $numSent . ' title=' . $subject);
+        } else {
+            $logger->info(__METHOD__ . ' End without notification.');
+        }
 
         $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
 
@@ -268,26 +280,36 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         return $logger;
     }
 
-    private function getLog(array $successMessages, array $errorMessages) {
+    private function getLog($successMessages, $skipMessages, $errorMessages) {
+        if(!is_array($successMessages) || !is_array($skipMessages) || !is_array($errorMessages)){
+            return "Invalid parameters";
+        }
         $success = count($successMessages);
+        $skip = count($skipMessages);
         $error = count($errorMessages);
 
-        $data[] = 'Date: ' . date('Y-m-d H:i:s');
+        $data[] = 'ExecuteFinishTime: ' . date('Y-m-d H:i:s');
         $data[] = 'Total: ' . ($success + $error);
         $data[] = 'Success: ' . $success;
+        $data[] = 'Skip: ' . $skip;
         $data[] = 'Error: ' . $error;
 
         if ($error > 0) {
             $data[] = '----- Error details -----';
-            $data[] = 'id, survey_id, app_mid, points, error';
             foreach($errorMessages as $i => $msg) {
+                $data[] = sprintf('%s, %s', $i + 1, $msg);
+            }
+        }
+
+        if ($skip > 0) {
+            $data[] = '----- Skip details -----';
+            foreach($skipMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }
         }
 
         if ($success > 0) {
             $data[] = '----- Success details -----';
-            $data[] = 'id, survey_id, app_mid, points, info';
             foreach($successMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }

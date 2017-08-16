@@ -28,7 +28,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
           ->setDescription('Reward Point for SSI API conversion')
           ->addArgument('date', null, InputOption::VALUE_REQUIRED, 'conversion-date', date('Y-m-d', strtotime('2 days ago')))
           ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
-        ;
+          ->addOption('resultNotification', null, InputOption::VALUE_NONE, 'If set, the task will send a notification to system team');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -36,6 +36,8 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
         $date = $input->getArgument('date');
+        $definitive = $input->getOption('definitive');
+        $resultNotification = $input->getOption('resultNotification');
 
         $logger = $this->getLogger();
         $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
@@ -49,6 +51,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
 
         // flags
         $successMessages = array();
+        $skipMessages = array();
         $errorMessages = array();
 
         $ssiProjectConfig = $this->getContainer()->getParameter('ssi_project_survey');
@@ -61,18 +64,18 @@ class SsiPointRewardCommand extends ContainerAwareCommand
             $ssiRespondentId = SsiRespondent::parseRespondentId($row['sub_id_5']);
             $ssiRespondent = $em->getRepository('WenwenAppBundle:SsiRespondent')->findOneById($ssiRespondentId);
             if (!$ssiRespondent) {
-                $info = "Skip reward, SsiRespondent (Id: $ssiRespondentId) not found";
-                array_push($successMessages, sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
-                $logger->info(sprintf('%s, %s, %s', '', $ssiProjectConfig['point'], $info));
+                $msg = sprintf(' Skip reward, SsiRespondent (Id: %s) not exist. %s', $ssiRespondentId, json_encode($row));
+                $logger->warn(__METHOD__ . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
             $userId = $ssiRespondent->getUserId();
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
             if (!$user) {
-                $info = "Skip reward, User (Id: $userId) not found.";
-                array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $msg = sprintf(' Skip reward, User (Id: %s) not found.  %s', $userId, json_encode($row));
+                $logger->warn(__METHOD__ . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
@@ -86,9 +89,9 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 'transactionId' => $row['transaction_id']
             ));
             if (count($records) > 0) {
-                $info = 'Skip reward, already exist, skip transaction_id : ' . $row['transaction_id'];
-                array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $msg = sprintf(' Skip reward, already exist, skip transaction_id : %s.  %s', $row['transaction_id'], json_encode($row));
+                $logger->warn(__METHOD__ . $msg);
+                array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
@@ -122,26 +125,34 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 // 给奖池注入积分(5%)
                 $injectPoints = intval($ssiProjectConfig['point'] * 0.05);
                 $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
-                $info = 'Success';
-                array_push($successMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $logger->info(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
 
-                $dbh->commit();
+                if($definitive) {
+                    $dbh->commit();
+                    $msg = sprintf(' Commit   - rewarded point=%s user_id=%s %s', $ssiProjectConfig['point'], $userId, json_encode($row));
+                } else {
+                    $dbh->rollBack();
+                    $msg = sprintf(' RollBack - rewarded point=%s user_id=%s %s', $ssiProjectConfig['point'], $userId, json_encode($row));
+                }
+
+                array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                $logger->info(__METHOD__ . $msg);
 
             } catch (\Exception $e) {
-                $info = $e->getMessage();
-                array_push($errorMessages, sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
-                $logger->error(sprintf('%s, %s, %s', $userId, $ssiProjectConfig['point'], $info));
+                $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
+                $logger->error(__METHOD__ . $msg);
+                array_push($errorMessages, date('Y-m-d H:i:s') . $msg);
                 $dbh->rollBack();
             }
         } // end while
 
-        $logger->info(__METHOD__ . ' RESULT total_count=' . $rows . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
+        $logger->info(__METHOD__ . ' RESULT total=' . $rows . ' success=' . count($successMessages) . ' skip=' . count($skipMessages) . ' error=' . count($errorMessages));
 
-        $log = $this->getLog($successMessages, $errorMessages);
-        $subject = 'Report of SSI reward points';
-        $numSent = $this->sendLogEmail($log, $subject);
-        $logger->info('Email num sent: ' . $numSent);
+        if($resultNotification){
+            $log = $this->getLog($successMessages, $skipMessages, $errorMessages);
+            $subject = 'Report of SSI reward points';
+            $numSent = $this->sendLogEmail($log, $subject);
+            $logger->info('Email num sent: ' . $numSent);
+        }
 
         $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
 
@@ -186,26 +197,36 @@ class SsiPointRewardCommand extends ContainerAwareCommand
     protected function preHandle(array $history_list) {
     }
 
-    private function getLog(array $successMessages, array $errorMessages) {
+    private function getLog($successMessages, $skipMessages, $errorMessages) {
+        if(!is_array($successMessages) || !is_array($skipMessages) || !is_array($errorMessages)){
+            return "Invalid parameters";
+        }
         $success = count($successMessages);
+        $skip = count($skipMessages);
         $error = count($errorMessages);
 
-        $data[] = 'Date: ' . date('Y-m-d H:i:s');
+        $data[] = 'ExecuteFinishTime: ' . date('Y-m-d H:i:s');
         $data[] = 'Total: ' . ($success + $error);
         $data[] = 'Success: ' . $success;
+        $data[] = 'Skip: ' . $skip;
         $data[] = 'Error: ' . $error;
 
         if ($error > 0) {
             $data[] = '----- Error details -----';
-            $data[] = 'id, user_id, points, error';
             foreach($errorMessages as $i => $msg) {
+                $data[] = sprintf('%s, %s', $i + 1, $msg);
+            }
+        }
+
+        if ($skip > 0) {
+            $data[] = '----- Skip details -----';
+            foreach($skipMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }
         }
 
         if ($success > 0) {
             $data[] = '----- Success details -----';
-            $data[] = 'id, user_id, points, info';
             foreach($successMessages as $i => $msg) {
                 $data[] = sprintf('%s, %s', $i + 1, $msg);
             }
