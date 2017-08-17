@@ -16,6 +16,6 @@ reward-ssi-point
 )
 
 for ACTION in ${ACTIONS[@]}; do
-    ${PROJECT_DIR}/app/console panel:${ACTION} --env prod --definitive --resultNotification ${DATE} > $LOG_FILE 2>&1
+    ${PROJECT_DIR}/app/console panel:${ACTION} --env prod --definitive --resultNotification ${DATE} >> $LOG_FILE 2>&1
 done
 
