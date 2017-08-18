@@ -63,13 +63,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     continue;
                 }
 
-                if ($this->skipRewardAlreadyExisted($history)) {
-                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
-                    $logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
                 // get respondent
                 $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($history['app_mid']);
                 if (!$respondent) {
@@ -84,6 +77,13 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 if (!$user) {
                     // maybe panelist withdrew
                     $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));
+                    $logger->warn(__METHOD__ . $msg);
+                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                    continue;
+                }
+
+                if ($this->skipRewardAlreadyExisted($history)) {
+                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
                     $logger->warn(__METHOD__ . $msg);
                     array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                     continue;
