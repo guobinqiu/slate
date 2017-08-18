@@ -76,6 +76,10 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $records = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findBy(array (
             'appMemberId' => $history['app_mid']
         ));
+
+        // avoid memory leak
+        $em->clear();
+
         if (count($records) > 0) {
             return true;
         }

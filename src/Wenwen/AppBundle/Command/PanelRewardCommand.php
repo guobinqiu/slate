@@ -25,6 +25,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             $logger = $this->getLogger();
             $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date . ' definitive=' . $definitive . ' resultNotification=' . $resultNotification);
+            $logger->debug(__METHOD__ . ' START memory_get_usage()=' . memory_get_usage() . ' memory_get_peak_usage()=' . memory_get_peak_usage());
 
             // request to sop
             $url = $this->url();
@@ -146,6 +147,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
 
             $logger->info(__METHOD__ . ' RESULT total=' . count($history_list) . ' success=' . count($successMessages) . ' skip=' . count($skipMessages) . ' error=' . count($errorMessages));
+            $logger->debug(__METHOD__ . ' RESULT memory_get_usage()=' . memory_get_usage() . ' memory_get_peak_usage()=' . memory_get_peak_usage());
+
 
             if($resultNotification) {
                 $logger->info(__METHOD__ . ' Start to notifiy system team.');
