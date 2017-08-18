@@ -37,6 +37,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $dbh = $em->getConnection();
             $dbh->getConfiguration()->setSQLLogger(null);
 
+            $pointService = $this->getContainer()->get('app.point_service');
+
             $successMessages = array();
             $skipMessages = array();
             $errorMessages = array();
@@ -100,7 +102,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                         $logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
                     }
 
-                    $pointService = $this->getContainer()->get('app.point_service');
+
 
                     // 给当前用户加积分
                     $pointService->addPoints(
