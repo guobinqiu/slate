@@ -295,7 +295,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $error = count($errorMessages);
 
         $data[] = 'ExecuteFinishTime: ' . date('Y-m-d H:i:s');
-        $data[] = 'Total: ' . ($success + $error);
+        $data[] = 'Total: ' . ($success + $skip + $error);
         $data[] = 'Success: ' . $success;
         $data[] = 'Skip: ' . $skip;
         $data[] = 'Error: ' . $error;
