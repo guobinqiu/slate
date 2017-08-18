@@ -77,9 +77,6 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
             'appMemberId' => $history['app_mid']
         ));
 
-        // avoid memory leak
-        $em->clear();
-
         if (count($records) > 0) {
             return true;
         }

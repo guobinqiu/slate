@@ -105,9 +105,6 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
             'hash' => $history['hash']
         ));
 
-        // avoid memory leak
-        $em->clear();
-
         if (count($records) > 0) {
             return true;
         }
