@@ -159,7 +159,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
 
         $survey_id = 10000;
         $token = $this->container->get('app.survey_cint_service')->getSurveyToken($survey_id, $users[0]->getId());
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId(), 27);
         $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
             'survey_id' => $survey_id,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,
@@ -220,6 +220,12 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->set('uid', $user_id);
         $session->save();
 
+        $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
+        $sopRespondent->setUserId($users[0]->getId());
+        $sopRespondent->setAppId(27);
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
         {
             //cint agreement end page with invalid sig
             $invalid_params = array (
@@ -239,8 +245,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
                 'agreement_status' => 'AGREED',
                 'time' => time()
             );
-            $sopConfig = $this->container->getParameter('sop');
-            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopConfig['auth']['app_secret']);
+            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
             $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
             $crawler = $this->client->request('GET', $url);

@@ -82,7 +82,7 @@ class ProjectSurveyCintController extends BaseController
             $em->getConnection()->commit();
         } catch (\Exception $e) {
 
-            $this->get('logger')->crit("Exception: " . $e->getMessage());
+            $this->get('logger')->error(__METHOD__ . ' ' . $e->getMessage());
 
             $em->getConnection()->rollback();
             throw $e;

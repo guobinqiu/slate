@@ -231,12 +231,14 @@ class SopApiControllerTest extends WebTestCase
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($user->getId());
         $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $sopRespondent->setAppId(27);
         $em->persist($sopRespondent);
         $em->flush();
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
         $params = array (
+            'app_id' => $sopRespondent->getAppId(),
             'time' => time(),
             'data' => array (
                 'respondents' => array (
@@ -266,8 +268,7 @@ class SopApiControllerTest extends WebTestCase
         );
 
         $requestBody = json_encode($params);
-        $sopConfig = $this->container->getParameter('sop');
-        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
         $client = static::createClient(array(),array('HTTPS' => true));
         $crawler = $client->request('POST', $url, array (
@@ -361,6 +362,7 @@ class SopApiControllerTest extends WebTestCase
     public function testDeliveryNotificationFor91wenwenAction403()
     {
         $params = array (
+            'app_id' => 27,
             'time' => '123456',
             'data' => array (
                 'respondents' => array (
@@ -390,8 +392,7 @@ class SopApiControllerTest extends WebTestCase
         );
 
         $requestBody = json_encode($params);
-        $sopConfig = $this->container->getParameter('sop');
-        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
@@ -421,14 +422,14 @@ class SopApiControllerTest extends WebTestCase
     public function testDeliveryNotificationFor91wenwenAction400()
     {
         $params = array (
+            'app_id' => 27,
             'time' => time(),
             'data' => array (
                 )
         );
 
         $requestBody = json_encode($params);
-        $sopConfig = $this->container->getParameter('sop');
-        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, $sopConfig['auth']['app_secret']);
+        $sig = \SOPx\Auth\V1_1\Util::createSignature($requestBody, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 

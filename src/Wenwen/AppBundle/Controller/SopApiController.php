@@ -233,7 +233,9 @@ class SopApiController extends Controller
 
         // Verify signature
         $appId = $request_data['app_id'];
-        $appSecret = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
+        $sopCredentials = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
+        $appId = $sopCredentials['app_id'];
+        $appSecret = $sopCredentials['app_secret'];
         $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
         $sig = $request->headers->get('X-Sop-Sig');
 

@@ -158,7 +158,7 @@ class FulcrumProjectSurveyControllerTest extends WebTestCase
 
         $survey_id = 10000;
         $token = $this->container->get('app.survey_fulcrum_service')->getSurveyToken($survey_id, $users[0]->getId());
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId(), 27);
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_endlink', array (
             'survey_id' => $survey_id,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,

@@ -90,7 +90,7 @@ class SurveyServiceTest extends WebTestCase
 
         // call function for testing
         $this->surveyService->setDummy(true);
-        $html_survey_list = $this->surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
+        $html_survey_list = $this->surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo, '27', '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
