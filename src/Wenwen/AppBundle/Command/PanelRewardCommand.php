@@ -54,6 +54,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $memoryLast = $memoryCurrent;
                 $memoryCurrent = memory_get_usage();
 
+                // do clear entityManager in huge loop when execute batch, otherwise memory will running out
                 $em->clear();
 
                 $memoryAfterEmClear = memory_get_usage();
@@ -141,9 +142,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     }
 
                     if($definitive) {
-                        //$em->persist();
                         $dbh->commit();
-
                         $msg = sprintf(' %s, %s', ' Commit   - Point reward success', json_encode($history));
                     } else {
                         $dbh->rollBack();
