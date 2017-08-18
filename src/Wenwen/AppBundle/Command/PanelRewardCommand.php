@@ -25,8 +25,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         // request to sop
         $url = $this->url();
-        $auth = $this->getContainer()->getParameter('sop')['auth'];
-        $history_list = $this->requestSOP($url, $date, $date, $auth['app_id'], $auth['app_secret']);
+        $historyList = [];
+        $sopCredentialsList = $this->getContainer()->get('app.survey_service')->getAllSopCredentials();
+        foreach($sopCredentialsList as $sopCredentials) {
+            $appId = $sopCredentials['app_id'];
+            $appSecret = $sopCredentials['app_secret'];
+            $eachAppHistoryList = $this->requestSOP($url, $date, $date, $appId, $appSecret);
+            $historyList = array_merge($historyList, $eachAppHistoryList);
+        }
 
         $em = $this->getContainer()->get('doctrine')->getManager();
         $dbh = $em->getConnection();
@@ -35,14 +41,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $successMessages = array();
         $errorMessages = array();
 
-        $this->preHandle($history_list);
+        $this->preHandle($historyList);
 
-        $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($history_list));
+        $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($historyList));
         $logger->info(__METHOD__ . $msg);
         array_push($successMessages, date('Y-m-d H:i:s') . $msg);
 
         //start inserting
-        foreach ($history_list as $history) {
+        foreach ($historyList as $history) {
 
             $survey_id = '';
             if (isset($history['survey_id'])) {
@@ -137,7 +143,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             }
         }
 
-        $logger->info(__METHOD__ . ' RESULT total_count=' . count($history_list) . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
+        $logger->info(__METHOD__ . ' RESULT total_count=' . count($historyList) . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
 
         $log = $this->getLog($successMessages, $errorMessages);
         $subject = 'Report of ' . $this->getPanelType() . ' reward points';
@@ -243,7 +249,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     abstract protected function getPanelType();
 
-    abstract protected function preHandle(array $history_list);
+    abstract protected function preHandle(array $historyList);
 
     protected function sendLogEmail($content, $subject)
     {

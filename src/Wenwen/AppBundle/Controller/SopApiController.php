@@ -57,30 +57,32 @@ class SopApiController extends Controller
             return $this->render400Response($validator->getErrors());
         }
 
-        $app_mid = $params['app_mid'];
+        $appMid = $params['app_mid'];
         $name = $params['name'];
 
         //check if app_mid exists.
         $em = $this->getDoctrine()->getManager();
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($app_mid);
-        if (!$sop_respondent) {
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
+        if (!$sopRespondent) {
             return $this->render400Response('invalid app_mid');
         }
-        $user_id = $sop_respondent->getUserId();
+        $userId = $sopRespondent->getUserId();
 
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+        $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
         if (!$user) {
             return $this->render400Response('panelist not found');
         }
 
-        $sop_config = $this->container->getParameter('sop');
-        $point_value = $sop_config['point']['profile'];
+        $sopConfig = $this->container->getParameter('sop');
+        $pointValue = $sopConfig['point']['profile'];
 
         $sig = $params['sig'];
         unset($params['sig']);
 
         // Verify signature
-        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
+        $appId = $params['app_id'];
+        $appSecret = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
+        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
 
         $result = $auth->verifySignature($sig, $params);
 
@@ -96,22 +98,22 @@ class SopApiController extends Controller
 
         try {
             // insert sop_profile_point
-            $sop_profile_point = new SopProfilePoint();
-            $sop_profile_point->setUserId($user_id);
-            $sop_profile_point->setName($name);
-            $sop_profile_point->setHash($params['hash']);
-            $sop_profile_point->setPointValue($point_value);
-            $em->persist($sop_profile_point);
+            $sopProfilePoint = new SopProfilePoint();
+            $sopProfilePoint->setUserId($userId);
+            $sopProfilePoint->setName($name);
+            $sopProfilePoint->setHash($params['hash']);
+            $sopProfilePoint->setPointValue($pointValue);
+            $em->persist($sopProfilePoint);
             $em->flush();
 
             // add point
             $this->get('app.point_service')->addPoints(
                 $user,
-                $point_value,
+                $pointValue,
                 CategoryType::SOP_EXPENSE,
                 TaskType::RENTENTION,
                 $name . ' 属性问卷',
-                $sop_profile_point
+                $sopProfilePoint
             );
 
             $em->getConnection()->commit();
@@ -119,7 +121,7 @@ class SopApiController extends Controller
 
             $em->getConnection()->rollback();
 
-            $this->get('logger')->crit("Exception: ". $e->getMessage());
+            $this->get('logger')->error(__METHOD__ . $e->getMessage());
 
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
@@ -230,8 +232,9 @@ class SopApiController extends Controller
         }
 
         // Verify signature
-        $sop_config = $this->container->getParameter('sop');
-        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
+        $appId = $request_data['app_id'];
+        $appSecret = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
+        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
         $sig = $request->headers->get('X-Sop-Sig');
 
         $result = $auth->verifySignature($sig, $request_body);

@@ -124,6 +124,7 @@ class SurveySopServiceTest extends WebTestCase
 
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($userId);
+        $sopRespondent->setAppId(27);
 
         $this->em->persist($sopRespondent);
         $this->em->flush();
@@ -163,5 +164,41 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals( $pointBefore + 300, $userAfter->getPoints(), 'Points should +300.');
         $this->assertEquals( $completeNBefore + 1, $userAfter->getCompleteN(), 'CompleteN should +1');
 
+    }
+
+    public function testGetSopCredentialsByOwnerType()
+    {
+        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType('dataspring');
+        $this->assertEquals(27, $sopCredentials['app_id']);
+        $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
+
+        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType('intage');
+        $this->assertEquals(92, $sopCredentials['app_id']);
+        $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
+
+        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType('organic');
+        $this->assertEquals(93, $sopCredentials['app_id']);
+        $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
+    }
+
+    public function testGetSopCredentialsByAppId()
+    {
+        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(27);
+        $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
+        $this->assertEquals('dataspring', $sopCredentials['owner_type']);
+
+        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(92);
+        $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
+        $this->assertEquals('intage', $sopCredentials['owner_type']);
+
+        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(93);
+        $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
+        $this->assertEquals('organic', $sopCredentials['owner_type']);
+    }
+
+    public function testGetAllSopCredentials()
+    {
+        $sopCredentialsList = $this->surveySopService->getAllSopCredentials();
+        $this->assertEquals(3, count($sopCredentialsList));
     }
 }

@@ -3,9 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use JMS\JobQueueBundle\Entity\Job;
 use Predis\Client;
-use Wenwen\FrontendBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
 use Symfony\Component\Templating\EngineInterface;
@@ -67,40 +65,38 @@ class SurveyService
 
     /**
      * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
-     * @param $user_id 91wenwen的用户ID
-     * @return $app_mid SOP的APP_MID
+     * @param $userId 91wenwen的用户ID
+     * @return $appMid SOP的APP_MID
      */
-    public function getSopRespondentId($user_id) {
+    public function getSopRespondentId($userId, $appId) {
         $this->logger->debug(__METHOD__ . ' - START - ');
-        // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sop_respondent是否存在
-        $sop_respondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($user_id);
-        $app_mid = $sop_respondent->getAppMid();
-        $this->logger->debug(__METHOD__ . ' - END - sop_respondent.app_mid=' . $app_mid);
-        return $app_mid;
+        // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sopRespondent是否存在
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($userId, $appId);
+        $appMid = $sopRespondent->getAppMid();
+        $this->logger->debug(__METHOD__ . ' - END - sop_respondent.app_mid=' . $appMid);
+        return $appMid;
     }
 
     /**
      * 生成该用户用来访问SOP survey list的url
-     * @param $app_mid
-     * @return $sop_api_url
+     * @param $appMid
+     * @return $sopApiUrl
      * @link https://console.partners.surveyon.com.dev.researchpanelasia.com/docs/v1_1/survey_list#json-api-integration
      */
-    private function buildSopSurveyListUrl($app_mid) {
+    private function buildSopSurveyListUrl($appMid, $appId, $appSecret) {
         $this->logger->debug(__METHOD__ . ' - START - ');
 
-        $sop_config = $this->parameterService->getParameter('sop');
-        $app_id = $sop_config['auth']['app_id'];
-        $host = $sop_config['host'];
-        $app_secret = $sop_config['auth']['app_secret'];
+        $sopConfig = $this->parameterService->getParameter('sop');
+        $host = $sopConfig['host'];
 
         $sop_params = array (
-            'app_id' => $app_id,
-            'app_mid' => $app_mid,
+            'app_id' => $appId,
+            'app_mid' => $appMid,
             'time' => time()
         );
-        $sop_params['sig'] = Util::createSignature($sop_params, $app_secret);
+        $sop_params['sig'] = Util::createSignature($sop_params, $appSecret);
 
-        $sop_api_url = 'https://'.$host.'/api/v1_1/surveys/json?'.http_build_query(array(
+        $sopApiUrl = 'https://'.$host.'/api/v1_1/surveys/json?'.http_build_query(array(
             'app_id' => $sop_params['app_id'],
             'app_mid' => $sop_params['app_mid'],
             'sig' => $sop_params['sig'],
@@ -108,7 +104,7 @@ class SurveyService
         ));
 
         $this->logger->debug(__METHOD__ . ' - END - ');
-        return $sop_api_url;
+        return $sopApiUrl;
     }
 
 //        数据结构
@@ -349,10 +345,10 @@ class SurveyService
     }
 
     /**
-     * @param $user_id
+     * @param $userId
      * @return string json格式字符串
      */
-    public function getSopSurveyListJson($user_id) {
+    public function getSopSurveyListJson($userId, $appId, $appSecret) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
             $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
@@ -360,15 +356,15 @@ class SurveyService
         }
 
         // 取得app_mid
-        $app_mid = $this->getSopRespondentId($user_id);
+        $appMid = $this->getSopRespondentId($userId, $appId);
 
         // 生成sop_api_url
-        $sop_api_url = $this->buildSopSurveyListUrl($app_mid);
+        $sopApiUrl = $this->buildSopSurveyListUrl($appMid, $appId, $appSecret);
 
-        $request = $this->httpClient->get($sop_api_url, null, array('timeout' => 5, 'connect_timeout' => 5));
+        $request = $this->httpClient->get($sopApiUrl, null, array('timeout' => 5, 'connect_timeout' => 5));
         $response = $request->send();
         if ($response->getStatusCode() != 200) {
-            $this->logger->error('url=' . $sop_api_url . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
+            $this->logger->error('url=' . $sopApiUrl . 'statusCode='. $response->getStatusCode() . ' body=' . $response->getBody());
             return '';
         }
         $this->logger->debug(__METHOD__ . ' - END - Real mode - ');
@@ -432,10 +428,10 @@ class SurveyService
 
     /**
      * 返回该用户的可回答问卷数据
-     * @param string $user_id 用户id
+     * @param string $userId 用户id
      * @return array $ssi_res
      */
-    private function getSsiSurveyList($user_id) {
+    private function getSsiSurveyList($userId) {
         $this->logger->debug(__METHOD__ . ' - START - ');
         if($this->dummy){
             return $this->getDummySsiSurveyList();
@@ -445,7 +441,7 @@ class SurveyService
         $ssi_res['ssi_surveys'] = [];
         $ssi_res['ssi_project_config'] = $this->parameterService->getParameter('ssi_project_survey');
         // SSI respondent
-        $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($user_id);
+        $ssi_respondent = $this->em->getRepository('WenwenAppBundle:SsiRespondent')->findOneByUserId($userId);
 
         if ($ssi_respondent) {
             // ssi_respondent信息不存在 根据用户的回答情况来决定用户是否需要回答prescreen
@@ -505,15 +501,15 @@ class SurveyService
     }
 
     /**
-     * @param $user_id 用户id
+     * @param $userId 用户id
      * @param $limit 返回的数据个数 0:全部返回
      * @param int $limit 0全部，>0截取到指定长度
      * @return array
      */
-    public function getOrderedHtmlSurveyList($user_id, $locationInfo, $limit = 0) {
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+    public function getOrderedHtmlSurveyList($userId, $locationInfo, $appId, $appSecret, $limit = 0) {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         if ($user == null) {
-            $this->logger->debug(__METHOD__ . ' user not found: id = ' . $user_id);
+            $this->logger->debug(__METHOD__ . ' user not found: id = ' . $userId);
             return [];
         }
 
@@ -533,7 +529,7 @@ class SurveyService
 
         $sop = null;
         try {
-            $result = $this->getSopSurveyListJson($user_id);
+            $result = $this->getSopSurveyListJson($userId, $appId, $appSecret);
             $this->logger->debug(__METHOD__ . 'sop survey list=' . $result);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
@@ -541,7 +537,7 @@ class SurveyService
             }
 
         }  catch(\Exception $e) {
-            $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
 
@@ -554,27 +550,27 @@ class SurveyService
             foreach ($sop['data']['research'] as $survey) {
                 try {
                     $this->surveySopService->createOrUpdateSurvey($survey);
-                    $this->surveySopService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                    $this->surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
                 }  catch(\Exception $e) {
-                    $this->logger->error(__METHOD__ . 'Record SOP Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                    $this->logger->error(__METHOD__ . 'Record SOP Survey info failed. user_id=' . $userId . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
                 }
             }
 
             foreach ($sop['data']['fulcrum_research'] as $survey) {
                 try {
                     $this->surveyFulcrumService->createOrUpdateSurvey($survey);
-                    $this->surveyFulcrumService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                    $this->surveyFulcrumService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
                 }  catch(\Exception $e) {
-                    $this->logger->error(__METHOD__ . 'Record Fulcrum Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                    $this->logger->error(__METHOD__ . 'Record Fulcrum Survey info failed. user_id=' . $userId . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
                 }
             }
 
             foreach ($sop['data']['cint_research'] as $survey) {
                 try {
                     $this->surveyCintService->createOrUpdateSurvey($survey);
-                    $this->surveyCintService->createParticipationByUserId($user_id, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
+                    $this->surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
                 }  catch(\Exception $e) {
-                    $this->logger->error(__METHOD__ . 'Record Cint Survey info failed. user_id=' . $user_id . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
+                    $this->logger->error(__METHOD__ . 'Record Cint Survey info failed. user_id=' . $userId . ' survey_id=' . $survey['survey_id'] . '  errMsg: ' . $e->getMessage());
                 }
             }
 
@@ -586,7 +582,7 @@ class SurveyService
                 //SOP Profiling
                 foreach ($sop['data']['profiling'] as $profiling) {
                     //$profiling['url'] = $this->toProxyAddress($profiling['url']);
-                    $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $user_id);
+                    $profiling = $this->surveySopService->addProfilingUrlToken($profiling, $userId);
                     // answerableSurveyCount : 没有可回答的商业问卷时，属性问卷里增加提示显示，告诉用户完成属性问卷会增加带来商业问卷的机会
                     $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/sop_profiling_item_template.html.twig', array('profiling' => $profiling, 'answerableSurveyCount' => $answerableSurveyCount));
                     array_unshift($html_survey_list, $html);
@@ -609,7 +605,7 @@ class SurveyService
 
         //SSI research survey
         try {
-            $ssi_res = $this->getSsiSurveyList($user_id);
+            $ssi_res = $this->getSsiSurveyList($userId);
             if ($ssi_res['needPrescreening']) {
                 // 需要用户去完成 prescreen
                 $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/ssi_agreement_item_template.html.twig', $ssi_res);
@@ -622,7 +618,7 @@ class SurveyService
                 array_unshift($html_survey_list, $html);
             }
         } catch(\Exception $e) {
-            $this->logger->error('ssi_survey_list_failed  user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->error('ssi_survey_list_failed  user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //Survey partner survey
@@ -644,16 +640,16 @@ class SurveyService
             $this->logger->debug(__METHOD__ . ' partnerResearchs count = ' . count($partnerResearchs));
             $this->logger->debug(__METHOD__ . ' html_survey_list count = ' . count($html_survey_list));
         } catch(\Exception $e) {
-            $this->logger->error('surveypartner_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->error('surveypartner_survey_list_failed user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         //GMO research survey
         try {
-            $researches = $this->surveyGmoService->getSurveyList($user_id);
+            $researches = $this->surveyGmoService->getSurveyList($userId);
             foreach ($researches as $research) {
                 //同步更新gmo本地备案信息
                 $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
-                $this->surveyGmoService->createParticipationByUserId($user_id, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+                $this->surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
 
                 $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
                 if ($research['point_min'] < $research['point']) {
@@ -671,7 +667,7 @@ class SurveyService
                 }
             }
         } catch(\Exception $e) {
-            $this->logger->error('gmo_survey_list_failed user_id=' . $user_id . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->error('gmo_survey_list_failed user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         if ($sop != null) {
@@ -721,47 +717,34 @@ class SurveyService
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
     }
 
-    /**
-     * 获取指定用户可回答的属性问卷的信息
-     * 获取失败的时候返回一个空array
-     * @param  string $user_id
-     * @return array $sop_profiling_info
-     *               $sop_profiling_info['profiling']['url']   属性问卷的URL
-     *               $sop_profiling_info['profiling']['name']  属性问卷的问题编号
-     *               $sop_profiling_info['profiling']['title'] 属性问卷的问题标题
-     */
-    public function getSopProfilingSurveyInfo($user_id) {
-        $sop_profiling_info = [];
-
-        // 获取sop的数据
-        $result = $this->getSopSurveyListJson($user_id);
-        $sop = json_decode($result, true);
-
-        // 处理sop的数据
-        if ($sop['meta']['code'] != 200) {
-            $this->logger->error($result);
-        } else {
-            $this->logger->info($result);
-            $sop_profiling_info['profiling'] = $sop['data']['profiling'][0];
-        }
-        $this->logger->debug(__METHOD__ . ' - END - ');
-        return $sop_profiling_info;
-    }
-
-    public function pushBasicProfile(User $user)
+    public function pushBasicProfile($userId, $appId, $appSecret)
     {
         try {
-            $sop_config = $this->parameterService->getParameter('sop');
-            $app_id = $sop_config['auth']['app_id'];
-            $app_secret = $sop_config['auth']['app_secret'];
-            $host = $sop_config['console_host'];
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
+            if (is_null($user)) {
+                throw new \InvalidArgumentException('User can not be found');
+            }
 
-            $app_mid = $this->getSopRespondentId($user->getId());
-            $userProfile = $this->em->getRepository('WenwenFrontendBundle:UserProfile')->findOneBy(array('user' => $user));
+            $userProfile = $user->getUserProfile();
+            if (is_null($userProfile)) {
+                throw new \InvalidArgumentException('UserProfile can not be found');
+            }
+
+            $sopConfig = $this->parameterService->getParameter('sop');
+            if (is_null($sopConfig)) {
+                throw new \InvalidArgumentException('Missing sop configuration options');
+            }
+
+            $host = $sopConfig['console_host'];
+            if (!isset($host)) {
+                throw new \InvalidArgumentException('Missing console_host option');
+            }
+
+            $appMid = $this->getSopRespondentId($userId, $appId);
 
             $data = array(
-                'app_id' => $app_id,
-                'app_mid' => $app_mid,
+                'app_id' => $appId,
+                'app_mid' => $appMid,
                 'time' => time(),
                 'profile' => array(
                     'q001' => $userProfile->getBirthday(),
@@ -773,7 +756,7 @@ class SurveyService
             $postBody = json_encode($data, true);
             //echo $postBody;
 
-            $sig = Util::createSignature($postBody, $app_secret);
+            $sig = Util::createSignature($postBody, $appSecret);
             //echo $sig;
 
             $headers = array(

@@ -55,8 +55,8 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function url()
     {
-        $sop_configure = $this->getContainer()->getParameter('sop');
-        return $sop_configure['api_v1_1_fulcrum_user_agreement_participation_history'];
+        $sopConfig = $this->getContainer()->getParameter('sop');
+        return $sopConfig['api_v1_1_fulcrum_user_agreement_participation_history'];
     }
 
     protected function requiredFields()

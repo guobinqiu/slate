@@ -188,7 +188,9 @@ class WeixinLoginController extends BaseController
                     $user = $userService->createUserByWeixinUser($weixinUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
-                    $userService->pushBasicProfile($user);
+                    $ownerType = $this->getOwnerTypeFromSession($request);
+                    $appId = $this->get('app.survey_sop_service')->getSopCredentialsByOwnerType($ownerType);
+                    $userService->pushBasicProfileJob($user->getId(), $appId);
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));

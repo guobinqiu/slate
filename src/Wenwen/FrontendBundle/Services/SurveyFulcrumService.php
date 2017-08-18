@@ -75,8 +75,7 @@ class SurveyFulcrumService
         }
         $answerStatus = strtolower($answerStatus);
         $points = 0;
-        $userId = $this->userService->toUserId($appMid);
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
+        $user = $this->userService->getUserBySopRespondentAppMid($appMid);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
 //            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
@@ -147,8 +146,8 @@ class SurveyFulcrumService
 
     public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
-        $userId = $this->userService->toUserId($appMid);
-        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
+        $user = $this->userService->getUserBySopRespondentAppMid($appMid);
+        return $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp, $loi);
     }
 
     public function createSurvey(array $surveyData)

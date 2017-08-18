@@ -33,6 +33,7 @@ class HomeController extends BaseController
 
         if (!$session->has('uid')) {
             $this->setRegisterRouteInSession($request);
+            $this->setOwnerTypeToSession($request);
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');
         }
 
@@ -91,7 +92,19 @@ class HomeController extends BaseController
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-        $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo);
+
+        $surveySopService = $this->get('app.survey_sop_service');
+        $userService = $this->get('app.user_service');
+        $sopRespondent = $userService->getSopRespondentByUserId($userId);
+        if (null !== $sopRespondent) {
+            $sopCredentials = $surveySopService->getSopCredentialsByAppId($sopRespondent->getAppId());
+        } else {
+            $ownerType = $this->getOwnerTypeFromSession($request);
+            $sopCredentials = $surveySopService->getSopCredentialsByOwnerType($ownerType);
+        }
+        $appId = $sopCredentials['app_id'];
+        $appSecret = $sopCredentials['app_secret'];
+        $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo, $appId, $appSecret);
         return $htmlSurveyList;
     }
 
@@ -149,35 +162,4 @@ class HomeController extends BaseController
 
         return $start_time;
     }
-
-//    private function checkoutSurveyList($userId)
-//    {
-//        $timeslot = SurveyListJob::getTimeslot(time());
-//        $min = new \DateTime($timeslot['min']);
-//        $max = new \DateTime($timeslot['max']);
-//        $em = $this->getDoctrine()->getManager();
-//        $surveyListJob = $em->getRepository('WenwenFrontendBundle:SurveyListJob')->getSurveyListJob($userId, $min, $max);
-//        if ($surveyListJob == null) {
-//            $surveyListJob = new SurveyListJob($userId);
-//            $em->persist($surveyListJob);
-//            $em->flush();
-//
-//            //gmo
-//            $surveyGmoService = $this->get('app.survey_gmo_service');
-//            $researches = $surveyGmoService->getSurveyList($userId);
-//            foreach ($researches as $research) {
-//                $survey = $surveyGmoService->createOrUpdateSurvey($research);
-//                $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
-//            }
-//
-//            //sop
-//            $args = array(
-//                '--user_id=' . $userId,
-//            );
-//            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
-//            $job->setMaxRetries(3);
-//            $em->persist($job);
-//            $em->flush();
-//        }
-//    }
 }

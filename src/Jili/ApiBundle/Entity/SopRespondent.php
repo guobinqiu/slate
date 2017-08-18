@@ -80,6 +80,13 @@ class SopRespondent
      */
     private $appMid;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="app_id", type="integer", nullable=false)
+     */
+    private $appId;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -224,5 +231,14 @@ class SopRespondent
 
     public function getAppMid() {
         return $this->appMid;
+    }
+
+    public function setAppId($appId) {
+        $this->appId = $appId;
+        return $this;
+    }
+
+    public function getAppId() {
+        return $this->appId;
     }
 }

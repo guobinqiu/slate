@@ -114,12 +114,15 @@ class RegistrationController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $userService = $this->get('app.user_service');
 
+        $ownerType = $this->getOwnerTypeFromSession($request);
+        $appId = $this->get('app.survey_sop_service')->getSopCredentialsByOwnerType($ownerType);
+
         if ($rtn['status'] == 'success') {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
             if ($user == null) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $userService->pushBasicProfile($user);
+            $userService->pushBasicProfileJob($user->getId(), $appId);
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
@@ -141,7 +144,7 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $userService->pushBasicProfile($user);
+            $userService->pushBasicProfileJob($user->getId(), $appId);
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
@@ -163,32 +166,5 @@ class RegistrationController extends BaseController
     public function regFailureAction()
     {
         return $this->render('WenwenFrontendBundle:User:regFailure.html.twig');
-    }
-
-    /**
-     * @Route("/profile_survey", name="_user_profile_survey", methods={"GET"})
-     */
-    public function profileSurvey(Request $request)
-    {
-        $userId = $request->getSession()->get('uid');
-        if ($userId == null) {
-            $this->redirect($this->generateUrl('_homepage'));
-        }
-        $sop_profiling_info = $this->getSopProfilingSurveyInfo($userId);
-        return $this->redirect($sop_profiling_info['profiling']['url']);
-    }
-
-    private function getSopProfilingSurveyInfo($user_id) {
-        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        $surveyService = $this->get('app.survey_service');
-        $env = $this->container->get('kernel')->getEnvironment();
-        if (in_array($env, array('dev','test'))) {
-            // for dummy mode (won't access sop's server at dev or test mode)
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyService->setDummy(true);
-        }
-        $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
-        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
-        return $sop_profiling_info;
     }
 }

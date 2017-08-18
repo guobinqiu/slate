@@ -7,13 +7,13 @@ use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
+use Wenwen\FrontendBundle\Exceptions\NoDataFoundException;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserService
@@ -36,12 +36,21 @@ class UserService
         $this->pointService = $pointService;
     }
 
-    public function toUserId($app_mid) {
-        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
-        if (empty($arr)) {
-            return new NotFoundHttpException('No user_id matches the app_mid');
+    public function getUserBySopRespondentAppMid($appMid) {
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
+        if (null === $sopRespondent) {
+            throw new NoDataFoundException('No sopRespondent is found with appMid: '. $appMid);
         }
-        return $arr['id'];
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($sopRespondent->getUserId());
+        if (null === $user) {
+            throw new NoDataFoundException('No user is found with appMid: ' . $appMid);
+        }
+        return $user;
+    }
+
+    public function getSopRespondentByUserId($userId) {
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
+        return $sopRespondent;
     }
 
     public function getProvinceList() {
@@ -252,10 +261,11 @@ class UserService
     /**
      * 推送用户基本信息
      */
-    public function pushBasicProfile(User $user)
+    public function pushBasicProfileJob($userId, $appId)
     {
         $args = array(
-            '--user_id=' . $user->getId(),
+            '--user_id=' . $userId,
+            '--app_id=' . $appId,
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
         $job->setMaxRetries(3);

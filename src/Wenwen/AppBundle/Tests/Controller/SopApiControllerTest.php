@@ -66,7 +66,7 @@ class SopApiControllerTest extends WebTestCase
 //        $client = static::createClient();
 //        $container = $client->getContainer();
 //        $em = $this->em;
-//        $sop_config = $container->getParameter('sop');
+//        $sopConfig = $container->getParameter('sop');
 //        $sopRespondent = $this->sopRespondent;
 //
 //        $url = $container->get('router')->generate('_sop_profile_point');
@@ -165,7 +165,7 @@ class SopApiControllerTest extends WebTestCase
 //                'name' => 'q001',
 //                'time' => time()
 //            );
-//            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sop_config['auth']['app_secret']);
+//            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopConfig['auth']['app_secret']);
 //
 //            $crawler = $client->request('POST', $url, $params);
 //            $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'API /sop/v1_1/profile_point: duplicated hash');
@@ -181,7 +181,7 @@ class SopApiControllerTest extends WebTestCase
 //                'name' => 'q001',
 //                'time' => time()
 //            );
-//            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sop_config['auth']['app_secret']);
+//            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopConfig['auth']['app_secret']);
 //
 //            $crawler = $client->request('POST', $url, $params);
 //            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'API /sop/v1_1/profile_point: valid parameters and isnert record (91wenwen)');
@@ -462,7 +462,7 @@ class SopApiControllerTest extends WebTestCase
 //        $client = static::createClient();
 //        $container = $client->getContainer();
 //        $em = $this->em;
-//        $sop_config = $container->getParameter('sop');
+//        $sopConfig = $container->getParameter('sop');
 //        $sopRespondent = $this->sopRespondent;
 //
 //        $url = $container->get('router')->generate('fulcrum_delivery_notification_v1_1_91wenwen');
@@ -502,7 +502,7 @@ class SopApiControllerTest extends WebTestCase
 //        //Valid request to Fulcrum 91wenwen
 //        $request_body = json_encode($fulcum_params);
 //
-//        $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sop_config['auth']['app_secret']);
+//        $sig = \SOPx\Auth\V1_1\Util::createSignature($request_body, $sopConfig['auth']['app_secret']);
 //
 //        $crawler = $client->request('POST', $url, array (
 //            'request_body' => $request_body

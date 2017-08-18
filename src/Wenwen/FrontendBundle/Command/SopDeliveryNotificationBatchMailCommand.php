@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Wenwen\FrontendBundle\Exceptions\NoDataFoundException;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 
 class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
@@ -98,11 +98,11 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
         return $exitCode;
     }
 
-    private function getRecipient($app_mid) {
+    private function getRecipient($appMid) {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $recipient = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
+        $recipient = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($appMid);
         if (!$recipient) {
-            throw new NotFoundHttpException("No user found with app_mid: " . $app_mid);
+            throw new NoDataFoundException("No user found with app_mid: " . $appMid);
         }
         return $recipient;
     }

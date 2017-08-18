@@ -64,8 +64,8 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        $sop_configure = $this->getContainer()->getParameter('sop');
-        return $sop_configure['api_v1_1_surveys_research_participation_history'];
+        $sopConfig = $this->getContainer()->getParameter('sop');
+        return $sopConfig['api_v1_1_surveys_research_participation_history'];
     }
 
     protected function requiredFields()
@@ -104,11 +104,11 @@ class PanelRewardSopPointCommand extends PanelRewardCommand
     protected function skipRewardAlreadyExisted($history)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
+        $user = $this->getContainer()->get('app.user_service')->getUserBySopRespondentAppMid($history['app_mid']);
         $participations = $em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
             //'appMid' => $history['app_mid'],
             'surveyId' => $history['survey_id'],
-            'userId' => $userId,
+            'userId' => $user->getId(),
         ));
         //先注释掉，积累一段时间数据后再放开
 //        if (count($participations) < 3) {

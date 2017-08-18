@@ -239,8 +239,8 @@ class ProjectSurveyCintControllerTest extends WebTestCase
                 'agreement_status' => 'AGREED',
                 'time' => time()
             );
-            $sop_config = $this->container->getParameter('sop');
-            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sop_config['auth']['app_secret']);
+            $sopConfig = $this->container->getParameter('sop');
+            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopConfig['auth']['app_secret']);
 
             $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
             $crawler = $this->client->request('GET', $url);

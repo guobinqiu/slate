@@ -29,22 +29,25 @@ class ProjectSurveyCintController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $user_id = $this->getCurrentUserId();
+        $user = $this->getCurrentUser();
         $em = $this->getDoctrine()->getManager();
 
-        $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user_id);
+        $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user->getId());
         if ($history) {
             return $this->render('WenwenFrontendBundle:ProjectSurveyCint:agreementComplete.html.twig');
         }
 
         $params = $request->query->all();
 
-        $sop_config = $this->container->getParameter('sop');
         $cint_config = $this->container->getParameter('cint');
         $status_map = $cint_config['user_agreement'];
 
         // Verify signature
-        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
+        $sopRespondent = $this->get('app.user_service')->getSopRespondentByUserId($user->getId());
+        $sopCredentials = $this->get('app.survey_sop_service')->getSopCredentialsByAppId($sopRespondent->getAppId());
+        $appId = $sopCredentials['app_id'];
+        $appSecret = $sopCredentials['app_secret'];
+        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
         $sig = $params['sig'];
         unset($params['sig']);
 
@@ -55,15 +58,13 @@ class ProjectSurveyCintController extends BaseController
             return new Response('authentication failed', 400);
         }
 
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-
         // start transaction
         $em->getConnection()->beginTransaction();
 
         try {
             // insert history
             $history_model = new CintUserAgreementParticipationHistory();
-            $history_model->setUserId($user_id);
+            $history_model->setUserId($user->getId());
             $history_model->setAgreementStatus($status_map[mb_strtolower($params['agreement_status'])]);
             $em->persist($history_model);
             $em->flush();
