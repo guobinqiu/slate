@@ -113,8 +113,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                         $logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
                     }
 
-
-
                     // 给当前用户加积分
                     $pointService->addPoints(
                         $user,
@@ -151,9 +149,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
                     $logger->info(__METHOD__ . $msg);
                     array_push($successMessages, date('Y-m-d H:i:s') . $msg);
-
-                    $logger->info(__METHOD__ . ' End user.point=' . $user->getPoints());
-
                 } catch (\Exception $e) {
                     $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
                     $logger->error(__METHOD__ . $msg);
