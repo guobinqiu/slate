@@ -233,6 +233,7 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(27);
         $manager->persist($r);
         $manager->flush();
 
@@ -248,6 +249,7 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(27);
         $manager->persist($r);
         $manager->flush();
     }
