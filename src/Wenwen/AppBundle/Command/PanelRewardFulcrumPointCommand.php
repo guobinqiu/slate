@@ -92,14 +92,15 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
 
     protected function skipRewardAlreadyExisted($history)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $user = $this->getContainer()->get('app.user_service')->getUserBySopRespondentAppMid($history['app_mid']);
-        $participations = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
-            //'appMid' => $history['app_mid'],
-            'surveyId' => $history['survey_id'],
-            'userId' => $user->getId(),
-        ));
-        //先注释掉，积累一段时间数据后再放开
+        try {
+            $em = $this->getContainer()->get('doctrine')->getManager();
+            $user = $this->getContainer()->get('app.user_service')->getUserBySopRespondentAppMid($history['app_mid']);
+            $participations = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
+                //'appMid' => $history['app_mid'],
+                'surveyId' => $history['survey_id'],
+                'userId' => $user->getId(),
+            ));
+            //先注释掉，积累一段时间数据后再放开
 //        if (count($participations) < 3) {
 //            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
 //        }
@@ -110,6 +111,10 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
                 }
             }
 //        }
+        } catch (\Exception $e) {
+            $this->getLogger()->error(__METHOD__ . ' ' . $e->getMessage());
+            return true;
+        }
         return false;
     }
 

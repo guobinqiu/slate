@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Tests\Command;
 
 use Phake;
@@ -17,7 +18,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_respondent;
+    private $sopRespondent;
 
     /**
      * {@inheritDoc}
@@ -46,7 +47,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $this->sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -65,7 +66,7 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getAppMid();
+        $app_mid = $this->sopRespondent[1]->getAppMid();
 
         $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
         $this->container->get('app.survey_cint_service')->createParticipationByAppMid($app_mid, 10001, 'init');
@@ -177,8 +178,8 @@ class PanelRewardCintPointCommandTest extends KernelTestCase
 //        $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
 //        $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
-        $user_id = $sop_respondent->getUserId();
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
+        $user_id = $sopRespondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $task[0]->getPoint());
@@ -249,7 +250,7 @@ class PanelRewardCintPointCommandTestFixture implements FixtureInterface
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
-        $r->setAppId(27);
+        $r->setAppId(92);
         $manager->persist($r);
         $manager->flush();
     }

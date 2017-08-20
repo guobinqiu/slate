@@ -1,6 +1,8 @@
 <?php
+
 namespace Wenwen\AppBundle\Tests\Command;
 
+use Jili\ApiBundle\Entity\SopRespondent;
 use Phake;
 use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -9,6 +11,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\AppBundle\Command\PanelRewardSopAdditionalPointCommand;
+use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Model\CategoryType;
 
 class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
@@ -17,7 +20,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_respondent;
+    private $sopRespondent;
 
     /**
      * {@inheritDoc}
@@ -46,7 +49,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $this->sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -70,7 +73,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
 
-        $app_mid = $this->sop_respondent[0]->getAppMid();
+        $app_mid = $this->sopRespondent[0]->getAppMid();
 
         // data
         $header = array (
@@ -154,7 +157,7 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[0]->getAppMid();
+        $app_mid = $this->sopRespondent[0]->getAppMid();
 
         $header = array (
             "app_id",
@@ -240,8 +243,8 @@ class PanelRewardSopAdditionalPointCommandTest extends KernelTestCase
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getCreatedAt()->format('Y-m-d'));
         $this->assertEquals(date('Y-m-d'), $history_list[1]->getUpdatedAt()->format('Y-m-d'));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
-        $user_id = $sop_respondent->getUserId();
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
+        $user_id = $sopRespondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals('100', $task[0]->getPoint());
@@ -271,7 +274,7 @@ class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterfac
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Wenwen\FrontendBundle\Entity\User();
+        $user = new User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(200);
@@ -280,9 +283,10 @@ class PanelRewardSopAdditionalPointCommandTestFixture implements FixtureInterfac
         $manager->persist($user);
         $manager->flush();
 
-        $r = new \Jili\ApiBundle\Entity\SopRespondent();
+        $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(\Jili\ApiBundle\Entity\SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(27);
         $manager->persist($r);
         $manager->flush();
     }
