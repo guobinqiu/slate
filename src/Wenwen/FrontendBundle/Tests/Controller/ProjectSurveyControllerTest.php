@@ -158,7 +158,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         $survey_id = 10000;
         $token = $this->container->get('app.survey_sop_service')->getSurveyToken($survey_id, $users[0]->getId());
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId(), 27, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
         $url = $this->container->get('router')->generate('_project_survey_endlink', array (
             'survey_id' => $survey_id,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,

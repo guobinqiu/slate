@@ -50,10 +50,16 @@ class SopRespondentRepositoryTest extends KernelTestCase
     public function testInsertByUser()
     {
         $em = $this->em;
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1, 27);
 
-        $this->assertEquals(1, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
+        $this->assertEquals(1, $sopRespondent->getUserId());
+        $this->assertEquals(1, $sopRespondent->getStatusFlag());
+        $this->assertEquals(27, $sopRespondent->getAppId());
+
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(2, 92);
+        $this->assertEquals(2, $sopRespondent->getUserId());
+        $this->assertEquals(1, $sopRespondent->getStatusFlag());
+        $this->assertEquals(92, $sopRespondent->getAppId());
     }
 
     /**
@@ -63,17 +69,19 @@ class SopRespondentRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1, 27);
 
         //测试已经存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(1);
-        $this->assertEquals(1, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(1, 27);
+        $this->assertEquals(1, $sopRespondent->getUserId());
+        $this->assertEquals(1, $sopRespondent->getStatusFlag());
+        $this->assertEquals(27, $sopRespondent->getAppId());
 
         //测试不存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(2);
-        $this->assertEquals(2, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(2, 92);
+        $this->assertEquals(2, $sopRespondent->getUserId());
+        $this->assertEquals(1, $sopRespondent->getStatusFlag());
+        $this->assertEquals(92, $sopRespondent->getAppId());
     }
 
     /**
@@ -83,15 +91,15 @@ class SopRespondentRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1, 27);
 
         //测试已经存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sop_respondent->getAppMid());
-        $this->assertNotEmpty($sop_respondent);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sopRespondent->getAppMid());
+        $this->assertNotEmpty($sopRespondent);
 
         //测试不存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
-        $this->assertEmpty($sop_respondent);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
+        $this->assertEmpty($sopRespondent);
     }
 
     /**
@@ -102,8 +110,8 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em = $this->em;
 
         //测试不存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
-        $this->assertEmpty($recipient_data);
+        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
+        $this->assertEmpty($recipientData);
 
         $user = new User();
         $user->setNick('bb');
@@ -115,14 +123,14 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em->persist($user);
         $em->flush();
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($user->getId());
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($user->getId(), 27);
 
         //测试已经存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sop_respondent->getAppMid());
+        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sopRespondent->getAppMid());
 
-        $this->assertNotEmpty($recipient_data);
+        $this->assertNotEmpty($recipientData);
 
-        $this->assertEquals('user@voyagegroup.com.cn', $recipient_data['email']);
-        $this->assertEquals('bb', $recipient_data['name1']);
+        $this->assertEquals('user@voyagegroup.com.cn', $recipientData['email']);
+        $this->assertEquals('bb', $recipientData['name1']);
     }
 }
