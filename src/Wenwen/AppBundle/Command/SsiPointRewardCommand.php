@@ -154,7 +154,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         return $this->getContainer()->get('app.internal_mail_service')->sendMails($subject, $alertTo, $content);
     }
 
-    protected function getLogger()
+    private function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
         $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');

@@ -86,6 +86,10 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 30001, 'init');
         $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 30001, 'forward');
 
+        $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 40001, 'targeted');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 40001, 'init');
+        $this->container->get('app.survey_fulcrum_service')->createParticipationByAppMid($app_mid, 40001, 'forward');
+
         $users = $em->getRepository('WenwenFrontendBundle:User')->findAll();
         $user_id =  $users[0]->getId();
 
@@ -192,7 +196,7 @@ class PanelRewardFulcrumPointCommandTest extends KernelTestCase
         $stmt->execute();
         $history_list = $stmt->fetchAll();
         // 事先没有forward等初始状态的也不补全，只增加最终状态的历史记录
-        $this->assertCount(13, $history_list);
+        $this->assertCount(16, $history_list);
     }
 
 }

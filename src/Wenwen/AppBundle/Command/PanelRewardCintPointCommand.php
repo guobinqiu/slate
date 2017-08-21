@@ -95,20 +95,20 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
                 'surveyId' => $history['survey_id'],
                 'userId' => $user->getId(),
             ));
-            //先注释掉，积累一段时间数据后再放开
-//        if (count($participations) < 3) {
-//            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
-//        }
-//        if (count($participations) == 4) {
-            foreach ($participations as $participation) {
-                if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
-                    return true;
+            if (count($participations) < 3 || count($participations) > 4) {
+                $this->logger->error('Only 3 (targeted, init and forward) or 4 (targeted, init, forward and one of C/S/Q/E) is valid.');
+                return true;
+            }
+            if (count($participations) == 4) {
+                foreach ($participations as $participation) {
+                    if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
+                        return true;
+                    }
                 }
             }
-//        }
             return false;
         } catch (\Exception $e) {
-            $this->getLogger()->error(__METHOD__ . ' ' . $e->getMessage());
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
             return true;
         }
     }

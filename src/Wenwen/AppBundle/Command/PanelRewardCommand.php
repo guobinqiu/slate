@@ -14,14 +14,16 @@ use Wenwen\FrontendBundle\Model\TaskType;
 
 abstract class PanelRewardCommand extends ContainerAwareCommand
 {
+    protected $logger;
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
         $date = $input->getArgument('date');
 
-        $logger = $this->getLogger();
-        $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
+        $this->logger = $this->getLogger();
+        $this->logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date);
 
         // request to sop
         $url = $this->url();
@@ -44,7 +46,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $this->preHandle($historyList);
 
         $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($historyList));
-        $logger->info(__METHOD__ . $msg);
+        $this->logger->info(__METHOD__ . $msg);
         array_push($successMessages, date('Y-m-d H:i:s') . $msg);
 
         //start inserting
@@ -57,14 +59,14 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             if ($this->skipReward($history)) {
                 $msg = sprintf(' %s, %s', 'Skip reward, invalid point_type', json_encode($history));
-                $logger->warn(__METHOD__ . $msg);
+                $this->logger->warn(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
 
             if ($this->skipRewardAlreadyExisted($history)) {
                 $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
-                $logger->warn(__METHOD__ . $msg);
+                $this->logger->warn(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
@@ -73,7 +75,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($history['app_mid']);
             if (!$respondent) {
                 $msg = sprintf(' %s, %s', 'Skip reward, app_mid not exist', json_encode($history));
-                $logger->warn(__METHOD__ . $msg);
+                $this->logger->warn(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
@@ -83,7 +85,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             if (!$user) {
                 // maybe panelist withdrew
                 $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));
-                $logger->warn(__METHOD__ . $msg);
+                $this->logger->warn(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
                 continue;
             }
@@ -98,7 +100,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 if(TaskType::SURVEY == $this->task($history)){
                     // 更新用户参与商业调查的csq计数
                     $user->updateCSQ($this->answerStatus($history));
-                    $logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
+                    $this->logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
                 }
 
                 $pointService = $this->getContainer()->get('app.point_service');
@@ -132,25 +134,25 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                 $dbh->commit();
 
                 $msg = sprintf(' %s, %s', 'Point reward success', json_encode($history));
-                $logger->info(__METHOD__ . $msg);
+                $this->logger->info(__METHOD__ . $msg);
                 array_push($successMessages, date('Y-m-d H:i:s') . $msg);
 
             } catch (\Exception $e) {
                 $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
-                $logger->error(__METHOD__ . $msg);
+                $this->logger->error(__METHOD__ . $msg);
                 array_push($errorMessages, date('Y-m-d H:i:s') . $msg);
                 $dbh->rollBack();
             }
         }
 
-        $logger->info(__METHOD__ . ' RESULT total_count=' . count($historyList) . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
+        $this->logger->info(__METHOD__ . ' RESULT total_count=' . count($historyList) . ' success_count=' . count($successMessages) . ' error_count=' . count($errorMessages));
 
         $log = $this->getLog($successMessages, $errorMessages);
         $subject = 'Report of ' . $this->getPanelType() . ' reward points';
         $numSent = $this->sendLogEmail($log, $subject);
-        $logger->info('Email num sent: ' . $numSent);
+        $this->logger->info('Email num sent: ' . $numSent);
 
-        $logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
+        $this->logger->info(__METHOD__ . ' END   ' . $this->getName() . ' date=' . $date);
 
         $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
@@ -257,7 +259,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         return $this->getContainer()->get('app.internal_mail_service')->sendMails($subject, $alertTo, $content);
     }
 
-    protected function getLogger()
+    private function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
         $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');
