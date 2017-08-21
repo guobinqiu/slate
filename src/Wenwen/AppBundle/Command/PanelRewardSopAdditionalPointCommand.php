@@ -104,6 +104,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         $records = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findBy(array (
             'hash' => $history['hash']
         ));
+
         if (count($records) > 0) {
             return true;
         }

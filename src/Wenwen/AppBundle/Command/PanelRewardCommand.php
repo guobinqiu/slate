@@ -25,6 +25,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             $logger = $this->getLogger();
             $logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date . ' definitive=' . $definitive . ' resultNotification=' . $resultNotification);
+            $memoryStart = memory_get_usage();
 
             // request to sop
             $url = $this->url();
@@ -35,6 +36,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $dbh = $em->getConnection();
             $dbh->getConfiguration()->setSQLLogger(null);
 
+            $pointService = $this->getContainer()->get('app.point_service');
+
             $successMessages = array();
             $skipMessages = array();
             $errorMessages = array();
@@ -44,8 +47,22 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($history_list));
             $logger->info(__METHOD__ . $msg);
 
+            $memoryLast = memory_get_usage();
+            $memoryCurrent = $memoryLast;
+
             //start inserting
             foreach ($history_list as $history) {
+                $memoryLast = $memoryCurrent;
+                $memoryCurrent = memory_get_usage();
+
+                // do clear entityManager in huge loop when execute batch, otherwise memory will running out
+                $em->flush();
+                $em->clear();
+                gc_collect_cycles();
+
+
+                $memoryAfterEmClear = memory_get_usage();
+                $logger->debug(__METHOD__ . ' memory Last=' . $memoryLast . ' Current='. $memoryCurrent . ' clear=' . $memoryAfterEmClear . ' ' . ($memoryCurrent - $memoryLast) . ' ' . ($memoryAfterEmClear - $memoryCurrent));
 
                 $survey_id = '';
                 if (isset($history['survey_id'])) {
@@ -54,13 +71,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
                 if ($this->skipReward($history)) {
                     $msg = sprintf(' %s, %s', 'Skip reward, invalid point_type', json_encode($history));
-                    $logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
-                if ($this->skipRewardAlreadyExisted($history)) {
-                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
                     $logger->warn(__METHOD__ . $msg);
                     array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                     continue;
@@ -85,6 +95,15 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                     continue;
                 }
 
+                $logger->info(__METHOD__ . ' Start user.point=' . $user->getPoints());
+
+                if ($this->skipRewardAlreadyExisted($history)) {
+                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
+                    $logger->warn(__METHOD__ . $msg);
+                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                    continue;
+                }
+
                 // transaction start
                 $dbh->beginTransaction();
 
@@ -97,8 +116,6 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
                         $user->updateCSQ($this->answerStatus($history));
                         $logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
                     }
-
-                    $pointService = $this->getContainer()->get('app.point_service');
 
                     // 给当前用户加积分
                     $pointService->addPoints(
@@ -136,16 +153,19 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
                     $logger->info(__METHOD__ . $msg);
                     array_push($successMessages, date('Y-m-d H:i:s') . $msg);
-
                 } catch (\Exception $e) {
                     $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
                     $logger->error(__METHOD__ . $msg);
                     array_push($errorMessages, date('Y-m-d H:i:s') . $msg);
                     $dbh->rollBack();
                 }
+
             }
 
             $logger->info(__METHOD__ . ' RESULT total=' . count($history_list) . ' success=' . count($successMessages) . ' skip=' . count($skipMessages) . ' error=' . count($errorMessages));
+            $memoryEnd = memory_get_usage();
+            $peakMemory = memory_get_peak_usage();
+            $logger->debug(__METHOD__ . ' RESULT memory=' . $memoryStart . '/' . $memoryEnd . ' peakMemory=' . $peakMemory);
 
             if($resultNotification) {
                 $logger->info(__METHOD__ . ' Start to notifiy system team.');
