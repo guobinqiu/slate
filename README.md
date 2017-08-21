@@ -12,8 +12,8 @@ if USER = seki
 4. git author setting
 
     ```bash
-    $ git config --global user.name "Takafumi Sekiguchi"
-    $ git config --global user.email "takafumi.sekiguchi@d8aspring.com"
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email "emailaddress@d8aspring.com"
     ```
 
 ### Setup

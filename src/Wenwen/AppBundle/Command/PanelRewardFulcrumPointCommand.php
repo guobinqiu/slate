@@ -20,7 +20,8 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
       $this->setName('panel:reward-fulcrum-point')
         ->setDescription('request SOP API and reward points based on retrived data')
         ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
-        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
+        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
+        ->addOption('resultNotification', null, InputOption::VALUE_NONE, 'If set, the task will send a notification to system team');
     }
 
     protected function point($history)
@@ -45,7 +46,7 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
     protected function type($history)
     {
         // https://github.com/researchpanelasia/rpa-dominance/wiki/Fulcrum
-        // 据说只有 cost(11) 
+        // 据说只有 cost(11)
         return CategoryType::FULCRUM_COST;
     }
 

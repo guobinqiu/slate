@@ -20,7 +20,8 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
       $this->setName('panel:reward-fulcrum-agreement')
         ->setDescription('request SOP API and reward agreement points based on retrived data')
         ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
-        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
+        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
+        ->addOption('resultNotification', null, InputOption::VALUE_NONE, 'If set, the task will send a notification to system team');
     }
 
     protected function point($history)
@@ -75,6 +76,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $records = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findBy(array (
             'appMemberId' => $history['app_mid']
         ));
+
         if (count($records) > 0) {
             return true;
         }
