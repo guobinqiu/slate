@@ -19,16 +19,25 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->logger = $this->getLogger();
-        
+
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
         try{
             $date = $input->getArgument('date');
             $definitive = $input->getOption('definitive');
             $resultNotification = $input->getOption('resultNotification');
-            
+
+            $memoryLast = memory_get_usage();
+            $memoryCurrent = $memoryLast;
+
             $this->logger->info(__METHOD__ . ' START ' . $this->getName() . ' date=' . $date . ' definitive=' . $definitive . ' resultNotification=' . $resultNotification);
             $memoryStart = memory_get_usage();
+
+            $pointService = $this->getContainer()->get('app.point_service');
+
+            $successMessages = array();
+            $skipMessages = array();
+            $errorMessages = array();
 
             // request to sop
             $url = $this->url();
@@ -37,137 +46,132 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             foreach($sopCredentialsList as $sopCredentials) {
                 $appId = $sopCredentials['app_id'];
                 $appSecret = $sopCredentials['app_secret'];
-                $eachAppHistoryList = $this->requestSOP($url, $date, $date, $appId, $appSecret);
-                $historyList = array_merge($historyList, $eachAppHistoryList);
-            }
+                $historyList = $this->requestSOP($url, $date, $date, $appId, $appSecret);
 
-            $em = $this->getContainer()->get('doctrine')->getManager();
-            $dbh = $em->getConnection();
-            $dbh->getConfiguration()->setSQLLogger(null);
+                $em = $this->getContainer()->get('doctrine')->getManager();
+                $dbh = $em->getConnection();
+                $dbh->getConfiguration()->setSQLLogger(null);
 
-            $pointService = $this->getContainer()->get('app.point_service');
+                $this->preHandle($historyList);
 
-            $successMessages = array();
-            $skipMessages = array();
-            $errorMessages = array();
+                $msg = sprintf(' %s %s', 'Ready to reward app_id=' . $appId . ' total_count=', count($historyList));
+                $this->logger->info(__METHOD__ . $msg);
 
-            $this->preHandle($historyList);
+                //start inserting
+                foreach ($historyList as $history) {
+                    $memoryLast = $memoryCurrent;
+                    $memoryCurrent = memory_get_usage();
 
-            $msg = sprintf(' %s %s', 'Ready to reward total_count=', count($historyList));
-            $this->logger->info(__METHOD__ . $msg);
+                    // do clear entityManager in huge loop when execute batch, otherwise memory will running out
+                    $em->flush();
+                    $em->clear();
+                    gc_collect_cycles();
 
-            $memoryLast = memory_get_usage();
-            $memoryCurrent = $memoryLast;
+                    $memoryAfterEmClear = memory_get_usage();
+                    $this->logger->debug(__METHOD__ . ' memory Last=' . $memoryLast . ' Current='. $memoryCurrent . ' clear=' . $memoryAfterEmClear . ' ' . ($memoryCurrent - $memoryLast) . ' ' . ($memoryAfterEmClear - $memoryCurrent));
 
-            //start inserting
-            foreach ($historyList as $history) {
-                $memoryLast = $memoryCurrent;
-                $memoryCurrent = memory_get_usage();
-
-                // do clear entityManager in huge loop when execute batch, otherwise memory will running out
-                $em->flush();
-                $em->clear();
-                gc_collect_cycles();
-
-
-                $memoryAfterEmClear = memory_get_usage();
-                $this->logger->debug(__METHOD__ . ' memory Last=' . $memoryLast . ' Current='. $memoryCurrent . ' clear=' . $memoryAfterEmClear . ' ' . ($memoryCurrent - $memoryLast) . ' ' . ($memoryAfterEmClear - $memoryCurrent));
-
-                $survey_id = '';
-                if (isset($history['survey_id'])) {
-                    $survey_id = $history['survey_id'];
-                }
-
-                if ($this->skipReward($history)) {
-                    $msg = sprintf(' %s, %s', 'Skip reward, invalid point_type', json_encode($history));
-                    $this->logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
-                // get respondent
-                $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($history['app_mid']);
-                if (!$respondent) {
-                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid not exist', json_encode($history));
-                    $this->logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
-                // get panelist
-                $user = $em->getRepository('WenwenFrontendBundle:User')->find($respondent->getUserId());
-                if (!$user) {
-                    // maybe panelist withdrew
-                    $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));
-                    $this->logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
-                $this->logger->info(__METHOD__ . ' Start user.point=' . $user->getPoints());
-
-                if ($this->skipRewardAlreadyExisted($history)) {
-                    $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
-                    $this->logger->warn(__METHOD__ . $msg);
-                    array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
-                    continue;
-                }
-
-                // transaction start
-                $dbh->beginTransaction();
-
-                try {
-                    // insert participation history
-                    $participationHistory = $this->createParticipationHistory($history);
-
-                    if(TaskType::SURVEY == $this->task($history)){
-                        // 更新用户参与商业调查的csq计数
-                        $user->updateCSQ($this->answerStatus($history));
-                        $this->logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
+                    $survey_id = '';
+                    if (isset($history['survey_id'])) {
+                        $survey_id = $history['survey_id'];
                     }
 
-                    // 给当前用户加积分
-                    $pointService->addPoints(
-                        $user,
-                        $this->point($history),
-                        $this->type($history),
-                        $this->task($history),
-                        $this->comment($history),
-                        $participationHistory
-                    );
-
-                    // 同时给邀请人加积分(10%)
-                    $pointService->addPointsForInviter(
-                        $user,
-                        $this->point($history) * 0.1,
-                        CategoryType::EVENT_INVITE_SURVEY,
-                        TaskType::RENTENTION,
-                        '您的好友' . $user->getNick() . '回答了一份' . $this->getPanelType() . '商业问卷',
-                        $participationHistory
-                    );
-
-                    // 给奖池注入积分(5%)
-                    if (in_array($this->type($history), CategoryType::$cost_types)) {
-                        $injectPoints = intval($this->point($history) * 0.05);
-                        $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
+                    if ($this->skipReward($history)) {
+                        $msg = sprintf(' %s, %s', 'Skip reward, invalid point_type', json_encode($history));
+                        $this->logger->warn(__METHOD__ . $msg);
+                        array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                        continue;
                     }
 
-                    if($definitive) {
-                        $dbh->commit();
-                        $msg = sprintf(' %s, %s', ' Commit   - Point reward success', json_encode($history));
-                    } else {
+                    // get respondent
+                    $respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($history['app_mid']);
+                    if (!$respondent) {
+                        $msg = sprintf(' %s, %s', 'Skip reward, app_mid not exist', json_encode($history));
+                        $this->logger->warn(__METHOD__ . $msg);
+                        array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                        continue;
+                    }
+
+                    // get panelist
+                    $user = $em->getRepository('WenwenFrontendBundle:User')->find($respondent->getUserId());
+                    if (!$user) {
+                        // maybe panelist withdrew
+                        $msg = sprintf(' %s, %s', 'Skip reward, user not exist', json_encode($history));
+                        $this->logger->warn(__METHOD__ . $msg);
+                        array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                        continue;
+                    }
+
+                    $this->logger->info(__METHOD__ . ' Start user.point=' . $user->getPoints());
+
+                    if ($this->skipRewardAlreadyExisted($history)) {
+                        $msg = sprintf(' %s, %s', 'Skip reward, app_mid already rewarded', json_encode($history));
+                        $this->logger->warn(__METHOD__ . $msg);
+                        array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
+                        continue;
+                    }
+
+                    // transaction start
+                    $dbh->beginTransaction();
+
+                    try {
+                        // insert participation history
+                        $participationHistory = $this->createParticipationHistory($history);
+
+                        if(TaskType::SURVEY == $this->task($history)){
+                            // 更新用户参与商业调查的csq计数
+                            $user->updateCSQ($this->answerStatus($history));
+                            $this->logger->debug(__METHOD__ . ' status=' . $this->answerStatus($history). ' c=' . $user->getCompleteN() . ' s=' . $user->getScreenoutN() . ' q=' . $user->getQuotafullN());
+                        }
+
+                        // 给当前用户加积分
+                        $pointService->addPoints(
+                            $user,
+                            $this->point($history),
+                            $this->type($history),
+                            $this->task($history),
+                            $this->comment($history),
+                            $participationHistory
+                        );
+
+                        // 同时给邀请人加积分(10%)
+                        $pointService->addPointsForInviter(
+                            $user,
+                            $this->point($history) * 0.1,
+                            CategoryType::EVENT_INVITE_SURVEY,
+                            TaskType::RENTENTION,
+                            '您的好友' . $user->getNick() . '回答了一份' . $this->getPanelType() . '商业问卷',
+                            $participationHistory
+                        );
+
+                        // 给奖池注入积分(5%)
+                        if (in_array($this->type($history), CategoryType::$cost_types)) {
+                            $injectPoints = intval($this->point($history) * 0.05);
+                            $this->getContainer()->get('app.prize_service')->addPointBalance($injectPoints);
+                        }
+
+                        if($definitive) {
+                            $dbh->commit();
+                            $msg = sprintf(' %s, %s', ' Commit   - Point reward success', json_encode($history));
+                        } else {
+                            $dbh->rollBack();
+                            $msg = sprintf(' %s, %s', ' RollBack - Point reward success', json_encode($history));
+                        }
+
+                        $this->logger->info(__METHOD__ . $msg);
+                        array_push($successMessages, date('Y-m-d H:i:s') . $msg);
+                    } catch (\Exception $e) {
+                        $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
+                        $this->logger->error(__METHOD__ . $msg);
+                        array_push($errorMessages, date('Y-m-d H:i:s') . $msg);
                         $dbh->rollBack();
-                        $msg = sprintf(' %s, %s', ' RollBack - Point reward success', json_encode($history));
                     }
 
-                    $this->logger->info(__METHOD__ . $msg);
-                    array_push($successMessages, date('Y-m-d H:i:s') . $msg);
-                } catch (\Exception $e) {
-                    $msg = sprintf(' %s, %s', $e->getMessage(), json_encode($history));
-                    $this->logger->error(__METHOD__ . $msg);
-                    array_push($errorMessages, date('Y-m-d H:i:s') . $msg);
-                    $dbh->rollBack();
                 }
+
+                // sleep 30 secs for database to manage index etc.
+                $this->logger->debug(__METHOD__ . ' Start of sleep 30 secs.');
+                sleep(10);
+                $this->logger->debug(__METHOD__ . ' End   of sleep 30 secs.');
 
             }
 

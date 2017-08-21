@@ -56,6 +56,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
+        $this->em->clear();
         $this->em->close();
         Phake::resetStaticInfo();
     }
