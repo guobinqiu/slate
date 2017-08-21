@@ -100,10 +100,12 @@ class HomeController extends BaseController
             $sopCredentials = $surveySopService->getSopCredentialsByAppId($sopRespondent->getAppId());
         } else {
             $ownerType = $this->getOwnerTypeFromSession($request);
+            $this->container->get('logger')->debug(__METHOD__ . ' ownerType=' . $ownerType);
             $sopCredentials = $surveySopService->getSopCredentialsByOwnerType($ownerType);
         }
         $appId = $sopCredentials['app_id'];
         $appSecret = $sopCredentials['app_secret'];
+        $this->container->get('logger')->debug(__METHOD__ . ' appId=' . $appId . ' , appSecret=' . $appSecret);
         $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo, $appId, $appSecret);
         return $htmlSurveyList;
     }
