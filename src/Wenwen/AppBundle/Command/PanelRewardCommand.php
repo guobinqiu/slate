@@ -49,13 +49,17 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
             $memoryLast = memory_get_usage();
             $memoryCurrent = $memoryLast;
+
             //start inserting
             foreach ($history_list as $history) {
                 $memoryLast = $memoryCurrent;
                 $memoryCurrent = memory_get_usage();
 
                 // do clear entityManager in huge loop when execute batch, otherwise memory will running out
+                $em->flush();
                 $em->clear();
+                gc_collect_cycles();
+
 
                 $memoryAfterEmClear = memory_get_usage();
                 $logger->debug(__METHOD__ . ' memory Last=' . $memoryLast . ' Current='. $memoryCurrent . ' clear=' . $memoryAfterEmClear . ' ' . ($memoryCurrent - $memoryLast) . ' ' . ($memoryAfterEmClear - $memoryCurrent));
