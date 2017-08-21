@@ -116,7 +116,7 @@ class BaseController extends Controller
 
     protected function getOwnerTypeFromSession(Request $request)
     {
-        return $request->getSession()->get('owner_type', OwnerType::ORGANIC);
-        //return OwnerType::DATASPRING; //2017年底前就算owner_type是organic的也使用dataspring
+//        return $request->getSession()->get('owner_type', OwnerType::ORGANIC);
+        return OwnerType::DATASPRING; //2017年底前就算owner_type是organic的也使用dataspring
     }
 }

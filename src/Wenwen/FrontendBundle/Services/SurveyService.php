@@ -350,16 +350,19 @@ class SurveyService
      */
     public function getSopSurveyListJson($userId, $appId, $appSecret) {
         $this->logger->debug(__METHOD__ . ' - START - ');
-        if($this->dummy){
-            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
-            return $this->getDummySurveyListJson();
-        }
 
         // 取得app_mid
         $appMid = $this->getSopRespondentId($userId, $appId);
+        $this->logger->debug(__METHOD__ . ' appMid=' . $appMid);
 
         // 生成sop_api_url
         $sopApiUrl = $this->buildSopSurveyListUrl($appMid, $appId, $appSecret);
+        $this->logger->debug(__METHOD__ . ' sopApiUrl=' . $sopApiUrl);
+
+        if ($this->dummy) {
+            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
+            return $this->getDummySurveyListJson();
+        }
 
         $request = $this->httpClient->get($sopApiUrl, null, array('timeout' => 5, 'connect_timeout' => 5));
         $response = $request->send();
