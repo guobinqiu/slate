@@ -11,6 +11,7 @@ use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class SurveyServiceTest extends WebTestCase
@@ -21,6 +22,8 @@ class SurveyServiceTest extends WebTestCase
     private $em;
 
     private $surveyService;
+
+    private $userService;
 
     /**
      * {@inheritDoc}
@@ -33,6 +36,7 @@ class SurveyServiceTest extends WebTestCase
         $container = static::$kernel->getContainer();
 
         $this->surveyService = $container->get('app.survey_service');
+        $this->userService = $container->get('app.user_service');
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
@@ -79,6 +83,7 @@ class SurveyServiceTest extends WebTestCase
         $this->em->flush();
 
         $user_id = $user->getId();
+        $this->userService->createSopRespondent($user_id, OwnerType::DATASPRING);
 
         $locationInfo = array();
         $locationInfo['status'] = true;
@@ -89,7 +94,7 @@ class SurveyServiceTest extends WebTestCase
 
         // call function for testing
         $this->surveyService->setDummy(true);
-        $html_survey_list = $this->surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo, '27', '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
+        $html_survey_list = $this->surveyService->getOrderedHtmlSurveyList($user_id, $locationInfo);
 
         // 只要有返回值就OK 返回值的对错不在这里检查
         $this->assertTrue(is_array($html_survey_list));
