@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
@@ -84,7 +83,7 @@ class SurveySopService
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
             if (null === $survey) {
-                throw new EntityNotFoundException('SurveySop entity was not found. surveyId=' . $surveyId);
+                throw new \Exception('SurveySop entity was not found. surveyId=' . $surveyId);
             }
             try {
                 $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);

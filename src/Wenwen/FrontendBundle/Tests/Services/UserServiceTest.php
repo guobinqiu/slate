@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserServiceTest extends WebTestCase
@@ -92,15 +93,15 @@ class UserServiceTest extends WebTestCase
 
     public function testGetSopCredentialsByOwnerType()
     {
-        $sopCredentials = $this->userService->getSopCredentialsByOwnerType('dataspring');
+        $sopCredentials = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
         $this->assertEquals(27, $sopCredentials['app_id']);
         $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
 
-        $sopCredentials = $this->userService->getSopCredentialsByOwnerType('intage');
+        $sopCredentials = $this->userService->getSopCredentialsByOwnerType(OwnerType::INTAGE);
         $this->assertEquals(92, $sopCredentials['app_id']);
         $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
 
-        $sopCredentials = $this->userService->getSopCredentialsByOwnerType('organic');
+        $sopCredentials = $this->userService->getSopCredentialsByOwnerType(OwnerType::ORGANIC);
         $this->assertEquals(93, $sopCredentials['app_id']);
         $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
     }
@@ -109,15 +110,15 @@ class UserServiceTest extends WebTestCase
     {
         $sopCredentials = $this->userService->getSopCredentialsByAppId(27);
         $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
-        $this->assertEquals('dataspring', $sopCredentials['owner_type']);
+        $this->assertEquals(OwnerType::DATASPRING, $sopCredentials['owner_type']);
 
         $sopCredentials = $this->userService->getSopCredentialsByAppId(92);
         $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
-        $this->assertEquals('intage', $sopCredentials['owner_type']);
+        $this->assertEquals(OwnerType::INTAGE, $sopCredentials['owner_type']);
 
         $sopCredentials = $this->userService->getSopCredentialsByAppId(93);
         $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
-        $this->assertEquals('organic', $sopCredentials['owner_type']);
+        $this->assertEquals(OwnerType::ORGANIC, $sopCredentials['owner_type']);
     }
 
     public function testGetAllSopCredentials()
@@ -128,9 +129,9 @@ class UserServiceTest extends WebTestCase
 
     public function testGetAppIdByOwnerType()
     {
-        $this->assertEquals(27, $this->userService->getAppIdByOwnerType('dataspring'));
-        $this->assertEquals(92, $this->userService->getAppIdByOwnerType('intage'));
-        $this->assertEquals(93, $this->userService->getAppIdByOwnerType('organic'));
+        $this->assertEquals(27, $this->userService->getAppIdByOwnerType(OwnerType::DATASPRING));
+        $this->assertEquals(92, $this->userService->getAppIdByOwnerType(OwnerType::INTAGE));
+        $this->assertEquals(93, $this->userService->getAppIdByOwnerType(OwnerType::ORGANIC));
     }
 
     public function testGetAppSecretByAppId()
@@ -138,5 +139,25 @@ class UserServiceTest extends WebTestCase
         $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $this->userService->getAppSecretByAppId(27));
         $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $this->userService->getAppSecretByAppId(92));
         $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $this->userService->getAppSecretByAppId(93));
+    }
+
+    public function testAll()
+    {
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
+
+        $this->userService->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $sopRespondent = $this->userService->getSopRespondentByUserId($users[0]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[0]->getId());
+
+        $this->userService->createSopRespondent($users[1]->getId(), OwnerType::INTAGE);
+        $sopRespondent = $this->userService->getSopRespondentByUserId($users[1]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[1]->getId());
+
+        $this->userService->createSopRespondent($users[2]->getId(), OwnerType::ORGANIC);
+        $sopRespondent = $this->userService->getSopRespondentByUserId($users[2]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[2]->getId());
     }
 }

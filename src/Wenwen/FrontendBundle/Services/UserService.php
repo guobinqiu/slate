@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
 use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
@@ -42,7 +41,7 @@ class UserService
 
     public function getSopCredentialsByOwnerType($ownerType)
     {
-        if (OwnerType::isValid($ownerType)) {
+        if (!OwnerType::isValid($ownerType)) {
             throw new \InvalidArgumentException('Unsupported owner_type: ' . $ownerType);
         }
         $sopApps = $this->parameterService->getParameter('sop_apps');
@@ -110,11 +109,11 @@ class UserService
     public function getUserBySopRespondentAppMid($appMid) {
         $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
         if (null === $sopRespondent) {
-            throw new EntityNotFoundException('SopRespondent was not found. appMid=' . $appMid);
+            throw new \Exception('SopRespondent was not found. appMid=' . $appMid);
         }
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($sopRespondent->getUserId());
         if (null === $user) {
-            throw new EntityNotFoundException('User was not found. userId=' . $sopRespondent->getUserId());
+            throw new \Exception('User was not found. userId=' . $sopRespondent->getUserId());
         }
         return $user;
     }
@@ -122,7 +121,7 @@ class UserService
     public function getSopRespondentByUserId($userId) {
         $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
         if (null === $sopRespondent) {
-            throw new EntityNotFoundException('SopRespondent was not found. userId=' . $userId);
+            throw new \Exception('SopRespondent was not found. userId=' . $userId);
         }
         return $sopRespondent;
     }

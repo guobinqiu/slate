@@ -50,10 +50,9 @@ class ProjectSurveyCintController extends BaseController
         unset($params['sig']);
 
         $result = $auth->verifySignature($sig, $params);
-
         if (!$result['status']) {
             $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
-            return new Response('authentication failed', 400);
+            throw new \Exception($result['msg']);
         }
 
         // start transaction
@@ -76,12 +75,9 @@ class ProjectSurveyCintController extends BaseController
                 self::COMMENT,
                 $history_model
             );
-
             $em->getConnection()->commit();
         } catch (\Exception $e) {
-
             $this->get('logger')->error(__METHOD__ . ' ' . $e->getMessage());
-
             $em->getConnection()->rollback();
             throw $e;
         }
@@ -145,7 +141,7 @@ class ProjectSurveyCintController extends BaseController
             $answer_status,
             $request->getClientIp()
         );
-        $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
+        return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
             'point' => $point,

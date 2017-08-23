@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveyFulcrumData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class FulcrumProjectSurveyControllerTest extends WebTestCase
@@ -153,8 +154,10 @@ class FulcrumProjectSurveyControllerTest extends WebTestCase
 
         $surveyId = 10000;
         $token = $this->container->get('app.survey_fulcrum_service')->getSurveyToken($surveyId, $users[0]->getId());
-        $sopRespodent = $this->container->get('app.user_service')->getSopRespondentByUserId($users[0]->getId());
-        $appMid = $sopRespodent->getAppMid();
+
+        $sopRespondent = $this->container->get('app.user_service')->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $appMid = $sopRespondent->getAppMid();
+
         $url = $this->container->get('router')->generate('_fulcrum_project_survey_endlink', array (
             'survey_id' => $surveyId,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,

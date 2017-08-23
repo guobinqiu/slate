@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
