@@ -63,28 +63,6 @@ class SopRespondentRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group dev-merge-ui-survey-list
-     */
-    public function testRetrieveOrInsertByUserId()
-    {
-        $em = $this->em;
-
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1, 27);
-
-        //测试已经存在的数据
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(1, 27);
-        $this->assertEquals(1, $sopRespondent->getUserId());
-        $this->assertEquals(1, $sopRespondent->getStatusFlag());
-        $this->assertEquals(27, $sopRespondent->getAppId());
-
-        //测试不存在的数据
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(2, 92);
-        $this->assertEquals(2, $sopRespondent->getUserId());
-        $this->assertEquals(1, $sopRespondent->getStatusFlag());
-        $this->assertEquals(92, $sopRespondent->getAppId());
-    }
-
-    /**
      * @group dev-merge-ui-profile_point
      */
     public function testRetrieveByAppMid()

@@ -4,9 +4,7 @@ namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 /**

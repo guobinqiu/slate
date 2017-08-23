@@ -441,14 +441,14 @@ class SopApiControllerTest extends WebTestCase
             'HTTPS' => true
         ));
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'data.respondents not found');
+        $this->assertEquals(400, $client->getResponse()->getStatusCode(), 'data.respondents was not found');
 
         $res = json_decode($client->getResponse()->getContent(), true);
 
         $this->assertEquals(array (
             'meta' => array (
                 'code' => 400,
-                'message' => 'data.respondents not found!'
+                'message' => 'data.respondents was not found!'
             )
         ), $res);
     }

@@ -16,6 +16,7 @@ use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 /**
  * @Route("/user")
@@ -115,14 +116,15 @@ class RegistrationController extends BaseController
         $userService = $this->get('app.user_service');
 
         $ownerType = $this->getOwnerTypeFromSession($request);
-        $appId = $this->get('app.survey_sop_service')->getSopCredentialsByOwnerType($ownerType);
+        $this->get('logger')->info(__METHOD__ . 'email ownerType=' . $ownerType);
 
-        if ($rtn['status'] == 'success') {
+        if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
             if ($user == null) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $userService->pushBasicProfileJob($user->getId(), $appId);
+            $this->get('app.user_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
@@ -144,11 +146,11 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $userService->pushBasicProfileJob($user->getId(), $appId);
+            $this->get('app.user_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
-
         return $this->redirect($this->generateUrl('_user_regFailure'));
     }
 

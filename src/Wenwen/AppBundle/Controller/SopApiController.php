@@ -70,7 +70,7 @@ class SopApiController extends Controller
 
         $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
         if (!$user) {
-            return $this->render400Response('panelist not found');
+            return $this->render400Response('panelist was not found');
         }
 
         $sopConfig = $this->container->getParameter('sop');
@@ -81,7 +81,7 @@ class SopApiController extends Controller
 
         // Verify signature
         $appId = $params['app_id'];
-        $appSecret = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
+        $appSecret = $this->container->get('app.user_service')->getAppSecretByAppId($appId);
         $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
 
         $result = $auth->verifySignature($sig, $params);
@@ -233,9 +233,7 @@ class SopApiController extends Controller
 
         // Verify signature
         $appId = $request_data['app_id'];
-        $sopCredentials = $this->container->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
-        $appId = $sopCredentials['app_id'];
-        $appSecret = $sopCredentials['app_secret'];
+        $appSecret = $this->container->get('app.user_service')->getAppSecretByAppId($appId);
         $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
         $sig = $request->headers->get('X-Sop-Sig');
 
@@ -249,7 +247,7 @@ class SopApiController extends Controller
         }
 
         if (!isset($request_data['data']) || !isset($request_data['data']['respondents'])) {
-            return $this->render400Response('data.respondents not found!');
+            return $this->render400Response('data.respondents was not found!');
         }
 
         $this->get('monolog.logger.sop_notification')->info('Start notification');

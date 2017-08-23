@@ -7,16 +7,6 @@ use Jili\ApiBundle\Entity\SopRespondent;
 
 class SopRespondentRepository extends EntityRepository
 {
-    public function retrieveOrInsertByUserId($userId, $appId)
-    {
-        $em = $this->getEntityManager();
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByUserId($userId);
-        if (!$sopRespondent) {
-            $sopRespondent = $this->insertByUser($userId, $appId);
-        }
-        return $sopRespondent;
-    }
-
     public function insertByUser($userId, $appId)
     {
         $em = $this->getEntityManager();

@@ -109,7 +109,7 @@ class BaseController extends Controller
     {
         $this->get('logger')->debug(__METHOD__ . ' uri=' . $request->getUri());
         $ownerType = $request->get('owner_type');
-        if (in_array($ownerType, OwnerType::$all)) {
+        if (OwnerType::isValid($ownerType)) {
             $request->getSession()->set('owner_type', $ownerType);
         }
     }

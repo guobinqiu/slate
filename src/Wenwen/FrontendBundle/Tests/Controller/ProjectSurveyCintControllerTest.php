@@ -12,7 +12,6 @@ use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Model\TaskType;
 
 class ProjectSurveyCintControllerTest extends WebTestCase
 {
@@ -75,23 +74,22 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
+        $surveyId = 10000;
         $cint_research = array();
         $cint_research['title'] = 'dummy title';
         $cint_research['difficulty'] = 'normal';
         $cint_research['loi'] = 10;
         $cint_research['extra_info']['point']['complete'] = 400;
         $cint_research['url'] = 'dummy_url';
-        $cint_research['survey_id'] = $survey_id;
+        $cint_research['survey_id'] = $surveyId;
 
         $url = $this->container->get('router')->generate('_cint_project_survey_information', array('cint_research' => $cint_research, 'difficulty' => '普通'));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            //'appMid' => $appMid,
+            'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_INIT,
             'userId' => $users[0]->getId(),
         ));
@@ -112,26 +110,24 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
+        $surveyId = 10000;
         $url = 'dummy_url';
         $cint_research = array();
-        $cint_research['survey_id'] = $survey_id;
+        $cint_research['survey_id'] = $surveyId;
         $cint_research['url'] = $url;
 
         $cint_research = $this->container->get('app.survey_cint_service')->addSurveyUrlToken($cint_research, $users[0]->getId());
         $this->assertNotEquals($url, $cint_research['url']);
 
-        $token = $this->container->get('app.survey_cint_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.survey_cint_service')->getSurveyToken($surveyId, $users[0]->getId());
         $this->assertEquals($url . '&sop_custom_token=' . $token, $cint_research['url']);
 
         $url = $this->container->get('router')->generate('_cint_project_survey_forward', array('cint_research' => $cint_research));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $users[0]->getId(),
         ));
@@ -157,58 +153,22 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
-        $token = $this->container->get('app.survey_cint_service')->getSurveyToken($survey_id, $users[0]->getId());
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId(), 27);
+        $surveyId = 10000;
+        $token = $this->container->get('app.survey_cint_service')->getSurveyToken($surveyId, $users[0]->getId());
+        $sopRespodent = $this->container->get('app.user_service')->getSopRespondentByUserId($users[0]->getId());
+        $appMid = $sopRespodent->getAppMid();
         $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (
-            'survey_id' => $survey_id,
+            'survey_id' => $surveyId,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,
-            'app_mid' => $app_mid,
+            'app_mid' => $appMid,
             'tid' => $token,
         ));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-//        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
-//        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
-//            //'appMid' => $app_mid,
-//            'surveyId' => $survey_id,
-//            'status' => SurveyStatus::STATUS_COMPLETE,
-//            'userId' => $users[0]->getId(),
-//        ));
-//        $this->assertNotNull($participation);
-//
-//        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
-//            //'appMid' => $app_mid,
-//            'surveyId' => $survey_id,
-//            'userId' => $users[0]->getId(),
-//        ));
-//        $this->assertCount(3, $statusHistories);
-
-        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($survey_id);
+        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($surveyId);
         $this->assertNotNull($prizeTicket);
         $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
-
-//        $taskHistory = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
-//        $this->assertEquals(400, $taskHistory->getPoint());
-//        $this->assertEquals(TaskType::SURVEY, $taskHistory->getTaskType());
-//        $this->assertEquals(CategoryType::CINT_COST, $taskHistory->getCategoryType());
-//
-//        $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($users[0]->getId() % 10))->findOneByUserId($users[0]->getId());
-//        $this->assertEquals(400, $point->getPointChangeNum());
-//        $this->assertEquals(CategoryType::CINT_COST, $point->getReason());
-//
-//        $this->em->detach($users[0]);
-//        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($users[0]->getId());
-//        $this->assertEquals(500, $user->getPoints());
-//
-//        $crawler = $this->client->request('GET', $url);
-//        $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
-//            //'appMid' => $app_mid,
-//            'surveyId' => $survey_id,
-//            'userId' => $users[0]->getId(),
-//        ));
-//        $this->assertCount(3, $statusHistories);
     }
 
     public function testAgreementCompleteAction()

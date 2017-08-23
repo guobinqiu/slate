@@ -30,6 +30,6 @@ class SurveyStatus
     );
 
     public static function isValid($status) {
-        return in_array(strtolower($status), self::$allStatuses);
+        return in_array($status, self::$allStatuses);
     }
 }

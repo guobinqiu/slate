@@ -97,12 +97,12 @@ class PanelRewardFulcrumPointCommand extends PanelRewardCommand
             $em = $this->getContainer()->get('doctrine')->getManager();
             $user = $this->getContainer()->get('app.user_service')->getUserBySopRespondentAppMid($history['app_mid']);
             $participations = $em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findBy(array(
-                //'appMid' => $history['app_mid'],
                 'surveyId' => $history['survey_id'],
                 'userId' => $user->getId(),
             ));
             if (count($participations) < 3 || count($participations) > 4) {
-                $this->logger->error('Only 3 (targeted, init and forward) or 4 (targeted, init, forward and one of C/S/Q/E) is valid.');
+                $msg = ' Only 3 (targeted, init and forward) or 4 (targeted, init, forward and one of C/S/Q/E) is valid. But now is %d (app_mid = %s).';
+                $this->logger->error(__METHOD__ . sprintf($msg, count($participations), $history['app_mid']));
                 return true;
             }
             if (count($participations) == 4) {

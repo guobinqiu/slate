@@ -3,12 +3,8 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Jili\ApiBundle\Entity\Vote;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wenwen\FrontendBundle\Entity\User;
-use JMS\JobQueueBundle\Entity\Job;
-use Wenwen\FrontendBundle\Entity\SurveyListJob;
 use Wenwen\FrontendBundle\Services\AuthService;
 
 class HomeController extends BaseController
@@ -45,7 +41,10 @@ class HomeController extends BaseController
             return $this->redirect($url);
         }
 
-        $htmlSurveyList = $this->getHtmlSurveyList($request, $userId);
+        // 根据Ip获取该用户的地区信息
+        $locationInfo = $this->getLocationInfoByClientIp($request);
+
+        $htmlSurveyList = $this->getHtmlSurveyList($userId, $locationInfo);
 
         //$this->checkoutSurveyList($userId);
 
@@ -72,18 +71,18 @@ class HomeController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $htmlSurveyList = $this->getHtmlSurveyList($request, $this->getCurrentUserId());
+        // 根据Ip获取该用户的地区信息
+        $locationInfo = $this->getLocationInfoByClientIp($request);
+
+        $htmlSurveyList = $this->getHtmlSurveyList($this->getCurrentUserId(), $locationInfo);
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array(
             'html_survey_list' => $htmlSurveyList,
         ));
     }
 
-    private function getHtmlSurveyList(Request $request, $userId)
+    private function getHtmlSurveyList($userId, $locationInfo)
     {
-        // 根据Ip获取该用户的地区信息
-        $locationInfo = $this->getLocationInfoByClientIp($request);
-
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();
@@ -93,20 +92,7 @@ class HomeController extends BaseController
             $surveyService->setDummy(true);
         }
 
-        $surveySopService = $this->get('app.survey_sop_service');
-        $userService = $this->get('app.user_service');
-        $sopRespondent = $userService->getSopRespondentByUserId($userId);
-        if (null !== $sopRespondent) {
-            $sopCredentials = $surveySopService->getSopCredentialsByAppId($sopRespondent->getAppId());
-        } else {
-            $ownerType = $this->getOwnerTypeFromSession($request);
-            $this->container->get('logger')->debug(__METHOD__ . ' ownerType=' . $ownerType);
-            $sopCredentials = $surveySopService->getSopCredentialsByOwnerType($ownerType);
-        }
-        $appId = $sopCredentials['app_id'];
-        $appSecret = $sopCredentials['app_secret'];
-        $this->container->get('logger')->debug(__METHOD__ . ' appId=' . $appId . ' , appSecret=' . $appSecret);
-        $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo, $appId, $appSecret);
+        $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo);
         return $htmlSurveyList;
     }
 

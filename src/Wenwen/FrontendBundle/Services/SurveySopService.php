@@ -3,13 +3,12 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
-use Wenwen\FrontendBundle\Exceptions\NoDataFoundException;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 use Psr\Log\LoggerInterface;
@@ -24,7 +23,6 @@ class SurveySopService
     private $pointService;
     private $redis;
     private $userService;
-    private $parameterService;
 
     public function __construct(LoggerInterface $logger,
                                 LoggerInterface $fakeAnswerLogger,
@@ -32,8 +30,7 @@ class SurveySopService
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
                                 Client $redis,
-                                UserService $userService,
-                                ParameterService $parameterService)
+                                UserService $userService)
     {
         $this->logger = $logger;
         $this->fakeAnswerLogger = $fakeAnswerLogger;
@@ -42,7 +39,6 @@ class SurveySopService
         $this->pointService = $pointService;
         $this->redis = $redis;
         $this->userService = $userService;
-        $this->parameterService = $parameterService;
     }
 
     public function addSurveyUrlToken($survey, $userId)
@@ -75,55 +71,55 @@ class SurveySopService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $answerStatus = strtolower($answerStatus);
         if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
         }
-        $answerStatus = strtolower($answerStatus);
-        $points = 0;
+        $conn = $this->em->getConnection();
+        $conn->beginTransaction();
+
         $user = $this->userService->getUserBySopRespondentAppMid($appMid);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
-            if ($survey != null) {
-                $conn = $this->em->getConnection();
-                $conn->beginTransaction();
-                try {
-                    $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
-                    // 记录csq
-                    $user->updateCSQ($answerStatus);
-
-                    $points = $survey->getPoints($answerStatus);
-                    $this->pointService->addPoints(
-                        $user,
-                        $points,
-                        CategoryType::SOP_COST,
-                        TaskType::SURVEY,
-                        $this->getTaskName($survey, $answerStatus),
-                        $survey
-                    );
-                    
-                    $this->pointService->addPointsForInviter(
-                        $user,
-                        $points * 0.1,
-                        CategoryType::EVENT_INVITE_SURVEY,
-                        TaskType::RENTENTION,
-                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-                        $survey
-                    );
-                    $conn->commit();
-                } catch (\Exception $e) {
-                    $conn->rollBack();
-                    throw $e;
-                }
+            if (null === $survey) {
+                throw new EntityNotFoundException('SurveySop entity was not found. surveyId=' . $surveyId);
             }
-            $this->prizeTicketService->createPrizeTicket(
-                $user,
-                $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
-                'sop商业问卷',
-                $surveyId,
-                $answerStatus
-            );
-            $this->deleteSurveyToken($surveyId, $user->getId());
+            try {
+                $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                $user->updateCSQ($answerStatus);// 记录csq
+                $points = $survey->getPoints($answerStatus);
+                $this->pointService->addPoints(
+                    $user,
+                    $points,
+                    CategoryType::SOP_COST,
+                    TaskType::SURVEY,
+                    $this->getTaskName($survey, $answerStatus),
+                    $survey
+                );
+                $this->pointService->addPointsForInviter(
+                    $user,
+                    $points * 0.1,
+                    CategoryType::EVENT_INVITE_SURVEY,
+                    TaskType::RENTENTION,
+                    '您的好友' . $user->getNick() . '回答了一份商业问卷',
+                    $survey
+                );
+                $this->prizeTicketService->createPrizeTicket(
+                    $user,
+                    $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
+                    'sop商业问卷',
+                    $surveyId,
+                    $answerStatus
+                );
+                $this->deleteSurveyToken($surveyId, $user->getId());
+                $conn->commit();
+            } catch (\Exception $e) {
+                $conn->rollBack();
+                $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+                throw $e;
+            }
         }
         return $points;
     }
@@ -155,14 +151,12 @@ class SurveySopService
             throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
         }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($participation == null) {
             $participation = new SurveySopParticipationHistory();
-//            $participation->setAppMid($appMid);
             $participation->setSurveyId($surveyId);
             $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
@@ -275,7 +269,6 @@ class SurveySopService
     {
         $actualLoiSeconds = null;
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
             'surveyId' => $survey->getSurveyId(),
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $user->getId(),
@@ -302,62 +295,5 @@ class SurveySopService
             $statusText = '完成';
         }
         return "r{$survey->getSurveyId()} {$survey->getTitle()}（状态：{$statusText}）";
-    }
-
-    public function getSopCredentialsByOwnerType($ownerType)
-    {
-        if (!in_array($ownerType, OwnerType::$all)) {
-            throw new \InvalidArgumentException('Unsupported owner_type: ' . $ownerType);
-        }
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        foreach($sopApps as $sopApp) {
-            if (!isset($sopApp['owner_type'])) {
-                throw new \InvalidArgumentException("Missing option 'owner_type'");
-            }
-            if ($sopApp['owner_type'] == $ownerType) {
-                if (!isset($sopApp['app_id'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_id'");
-                }
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
-            }
-        }
-        $this->logger->error('No sop credentials is found with owner_type: ' . $ownerType);
-        throw new NoDataFoundException('No sop credentials is found with owner_type: ' . $ownerType);
-    }
-
-    public function getSopCredentialsByAppId($appId)
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        foreach($sopApps as $sopApp) {
-            if (!isset($sopApp['app_id'])) {
-                throw new \InvalidArgumentException("Missing option 'app_id'");
-            }
-            if ($sopApp['app_id'] == $appId) {
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
-            }
-        }
-        $this->logger->error('No sop credentials is found with appId: ' . $appId);
-        throw new NoDataFoundException('No sop credentials is found with appId: ' . $appId);
-    }
-
-    public function getAllSopCredentials()
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        return $sopApps;
     }
 }

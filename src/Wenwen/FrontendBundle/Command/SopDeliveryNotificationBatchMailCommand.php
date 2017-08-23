@@ -2,12 +2,12 @@
 
 namespace Wenwen\FrontendBundle\Command;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wenwen\FrontendBundle\Exceptions\NoDataFoundException;
 use Wenwen\FrontendBundle\ServiceDependency\Mailer\MailerFactory;
 
 class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
@@ -102,7 +102,7 @@ class SopDeliveryNotificationBatchMailCommand extends ContainerAwareCommand {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $recipient = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($appMid);
         if (!$recipient) {
-            throw new NoDataFoundException("No user found with app_mid: " . $appMid);
+            throw new EntityNotFoundException("SopRespondent entity was not found. app_mid=" . $appMid);
         }
         return $recipient;
     }

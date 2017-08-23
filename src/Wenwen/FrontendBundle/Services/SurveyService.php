@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
 use SOPx\Auth\V1_1\Util;
@@ -28,6 +29,7 @@ class SurveyService
     private $surveyFulcrumService;
     private $surveyCintService;
     private $surveyGmoService;
+    private $userService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -44,7 +46,8 @@ class SurveyService
                                 SurveySopService $surveySopService,
                                 SurveyFulcrumService $surveyFulcrumService,
                                 SurveyCintService $surveyCintService,
-                                SurveyGmoService $surveyGmoService
+                                SurveyGmoService $surveyGmoService,
+                                UserService $userService
     ) {
         $this->logger = $logger;
         $this->em = $em;
@@ -57,24 +60,11 @@ class SurveyService
         $this->surveyFulcrumService = $surveyFulcrumService;
         $this->surveyCintService = $surveyCintService;
         $this->surveyGmoService = $surveyGmoService;
+        $this->userService = $userService;
     }
 
     public function setDummy($dummy){
         $this->dummy = $dummy;
-    }
-
-    /**
-     * 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个
-     * @param $userId 91wenwen的用户ID
-     * @return $appMid SOP的APP_MID
-     */
-    public function getSopRespondentId($userId, $appId) {
-        $this->logger->debug(__METHOD__ . ' - START - ');
-        // 尝试取得user_id对应的 APP_MID，如果没有的话就创建一个 所以在这里不判断$sopRespondent是否存在
-        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId($userId, $appId);
-        $appMid = $sopRespondent->getAppMid();
-        $this->logger->debug(__METHOD__ . ' - END - sop_respondent.app_mid=' . $appMid);
-        return $appMid;
     }
 
     /**
@@ -348,12 +338,14 @@ class SurveyService
      * @param $userId
      * @return string json格式字符串
      */
-    public function getSopSurveyListJson($userId, $appId, $appSecret) {
+    public function getSopSurveyListJson($userId) {
         $this->logger->debug(__METHOD__ . ' - START - ');
 
-        // 取得app_mid
-        $appMid = $this->getSopRespondentId($userId, $appId);
-        $this->logger->debug(__METHOD__ . ' appMid=' . $appMid);
+        $sopRespondent = $this->userService->getSopRespondentByUserId($userId);
+        $appMid = $sopRespondent->getAppMid();
+        $appId = $sopRespondent->getAppId();
+        $appSecret = $this->userService->getAppSecretByAppId($appId);
+        $this->logger->debug(__METHOD__ . ' appMid=' . $appMid . ', appId=' . $appId . ', appSecret=' . $appSecret);
 
         // 生成sop_api_url
         $sopApiUrl = $this->buildSopSurveyListUrl($appMid, $appId, $appSecret);
@@ -475,7 +467,7 @@ class SurveyService
     public function getSurveyResearchArray($user, $locationInfo) {
         $this->logger->info(__METHOD__ . 'START userId=' . $user->getId());
         $partnerResearchs = array();
-        try{
+        try {
             $surveyPartners = $this->surveyParnterService->getSurveyPartnerListForUser($user, $locationInfo);
             foreach($surveyPartners as $surveyPartner){
                 $this->logger->debug(__METHOD__ . ' ' . json_encode($surveyPartner));
@@ -493,7 +485,7 @@ class SurveyService
                 $partnerResearch['type'] = $surveyPartner->getType();
                 $partnerResearchs[] = $partnerResearch;
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $this->logger->error($e->getTraceAsString());
             $this->logger->info(__METHOD__ . 'ERROR userId=' . $user->getId());
@@ -509,30 +501,29 @@ class SurveyService
      * @param int $limit 0全部，>0截取到指定长度
      * @return array
      */
-    public function getOrderedHtmlSurveyList($userId, $locationInfo, $appId, $appSecret, $limit = 0) {
+    public function getOrderedHtmlSurveyList($userId, $locationInfo, $limit = 0) {
         $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         if ($user == null) {
-            $this->logger->debug(__METHOD__ . ' user not found: id = ' . $userId);
+            $this->logger->debug(__METHOD__ . ' User entity was not found. id=' . $userId);
             return [];
         }
 
-        $cityName = 'XXXX';
-        $provinceName = 'XXXX';
-        $clientIp = 'XXX.XXX.XXX.XXX';
-
-        try {
-            $cityName = $locationInfo['city'];
-            $provinceName = $locationInfo['province'];
-            $clientIp = $locationInfo['clientIp'];
-        }  catch(\Exception $e) {
+        if (empty($locationInfo)) {
+            return [];
         }
+        $cityName = $locationInfo['city'];
+        $provinceName = $locationInfo['province'];
+        $clientIp = $locationInfo['clientIp'];
 
         // 这里不做逻辑判断，只通过组合数据来render页面数据，然后返回
         $html_survey_list = [];
 
         $sop = null;
         try {
-            $result = $this->getSopSurveyListJson($userId, $appId, $appSecret);
+            $result = $this->getSopSurveyListJson($userId);
+            if (empty($result)) {
+                return [];
+            }
             $this->logger->debug(__METHOD__ . 'sop survey list=' . $result);
             $sop = json_decode($result, true);
             if ($sop['meta']['code'] != 200) {
@@ -720,30 +711,33 @@ class SurveyService
         return $limit > 0 ? array_slice($html_survey_list, 0, $limit) : $html_survey_list;
     }
 
-    public function pushBasicProfile($userId, $appId, $appSecret)
+    public function pushBasicProfile($userId)
     {
         try {
             $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if (is_null($user)) {
-                throw new \InvalidArgumentException('User can not be found');
+                throw new \InvalidArgumentException('User entity was not found. userId=' . $userId);
             }
 
             $userProfile = $user->getUserProfile();
             if (is_null($userProfile)) {
-                throw new \InvalidArgumentException('UserProfile can not be found');
+                throw new \InvalidArgumentException('UserProfile entity was not found. userId=' . $userId);
             }
 
             $sopConfig = $this->parameterService->getParameter('sop');
             if (is_null($sopConfig)) {
-                throw new \InvalidArgumentException('Missing sop configuration options');
+                throw new \InvalidArgumentException("Missing 'sop' configuration options");
             }
 
             $host = $sopConfig['console_host'];
             if (!isset($host)) {
-                throw new \InvalidArgumentException('Missing console_host option');
+                throw new \InvalidArgumentException("Missing 'console_host' option");
             }
 
-            $appMid = $this->getSopRespondentId($userId, $appId);
+            $sopRespondent = $this->userService->getSopRespondentByUserId($userId);
+            $appMid = $sopRespondent->getAppMid();
+            $appId = $sopRespondent->getAppId();
+            $appSecret = $this->userService->getAppSecretByAppId($appId);
 
             $data = array(
                 'app_id' => $appId,
@@ -757,10 +751,8 @@ class SurveyService
             );
 
             $postBody = json_encode($data, true);
-            //echo $postBody;
 
             $sig = Util::createSignature($postBody, $appSecret);
-            //echo $sig;
 
             $headers = array(
                 'Content-Type' => 'application/json',
@@ -776,12 +768,8 @@ class SurveyService
             $this->logger->error(__METHOD__ . $e->getMessage());
             $this->logger->info(__METHOD__ . ' postBody=' . $postBody);
             $this->logger->info(__METHOD__ . ' sig=' . $sig);
-
-            //throw $e;
             return false;
         }
-
-        //return $response->getBody();
         return true;
     }
 

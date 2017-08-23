@@ -1,12 +1,10 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Security\Acl\Exception\Exception;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
@@ -44,7 +42,7 @@ class ProjectSurveyCintController extends BaseController
 
         // Verify signature
         $sopRespondent = $this->get('app.user_service')->getSopRespondentByUserId($user->getId());
-        $sopCredentials = $this->get('app.survey_sop_service')->getSopCredentialsByAppId($sopRespondent->getAppId());
+        $sopCredentials = $this->get('app.user_service')->getSopCredentialsByAppId($sopRespondent->getAppId());
         $appId = $sopCredentials['app_id'];
         $appSecret = $sopCredentials['app_secret'];
         $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
@@ -147,7 +145,7 @@ class ProjectSurveyCintController extends BaseController
             $answer_status,
             $request->getClientIp()
         );
-        return $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
+        $this->redirect($this->generateUrl('_cint_project_survey_endpage', array(
             'answer_status' => $answer_status,
             'survey_id' => $survey_id,
             'point' => $point,

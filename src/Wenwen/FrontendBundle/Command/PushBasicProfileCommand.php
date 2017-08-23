@@ -15,19 +15,12 @@ class PushBasicProfileCommand extends ContainerAwareCommand
         $this->setName('sop:push_basic_profile');
         $this->setDescription('推送用户基本信息到sop');
         $this->addOption('user_id', null, InputOption::VALUE_REQUIRED);
-        $this->addOption('app_id', null, InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $userId = $input->getOption('user_id');
-        $appId = $input->getOption('app_id');
-
-        $sopCredentials = $this->getContainer()->get('app.survey_sop_service')->getSopCredentialsByAppId($appId);
-        $appId = $sopCredentials['app_id'];
-        $appSecret = $sopCredentials['app_secret'];
-        $result = $this->getContainer()->get('app.survey_service')->pushBasicProfile($userId, $appId, $appSecret);
-
+        $result = $this->getContainer()->get('app.survey_service')->pushBasicProfile($userId);
         $output->writeln($result);
     }
 }

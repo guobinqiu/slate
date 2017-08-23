@@ -6,10 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrum;
 use Wenwen\FrontendBundle\Entity\SurveyFulcrumParticipationHistory;
-use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
-use Wenwen\FrontendBundle\Model\TaskType;
 use Psr\Log\LoggerInterface;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
@@ -70,43 +68,14 @@ class SurveyFulcrumService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $answerStatus = strtolower($answerStatus);
         if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("fulcrum invalid answer status: {$answerStatus}");
         }
-        $answerStatus = strtolower($answerStatus);
-        $points = 0;
         $user = $this->userService->getUserBySopRespondentAppMid($appMid);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
-//            $survey = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrum')->findOneBy(array('surveyId' => $surveyId));
-//            if ($survey != null) {
-//                $conn = $this->em->getConnection();
-//                $conn->beginTransaction();
-//                try {
-//                    $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
-//                    $points = $survey->getPoints($answerStatus);
-//                    $this->pointService->addPoints(
-//                        $user,
-//                        $points,
-//                        CategoryType::FULCRUM_COST,
-//                        TaskType::SURVEY,
-//                        "f{$survey->getSurveyId()} {$survey->getTitle()}",
-//                        $survey
-//                    );
-//                    $this->pointService->addPointsForInviter(
-//                        $user,
-//                        $points * 0.1,
-//                        CategoryType::EVENT_INVITE_SURVEY,
-//                        TaskType::RENTENTION,
-//                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-//                        $survey
-//                    );
-//                    $conn->commit();
-//                } catch (\Exception $e) {
-//                    $conn->rollBack();
-//                    throw $e;
-//                }
-//            }
             $this->prizeTicketService->createPrizeTicket(
                 $user,
                 PrizeItem::TYPE_SMALL,
@@ -125,14 +94,12 @@ class SurveyFulcrumService
             throw new \InvalidArgumentException("fulcrum invalid answer status: {$answerStatus}");
         }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($participation == null) {
             $participation = new SurveyFulcrumParticipationHistory();
-//            $participation->setAppMid($appMid);
             $participation->setSurveyId($surveyId);
             $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
@@ -224,28 +191,5 @@ class SurveyFulcrumService
         if (isset($surveyData['is_notifiable'])) {
             $survey->setIsNotifiable($surveyData['is_notifiable']);
         }
-    }
-
-    private function createParticipationHistory($survey, $user, $answerStatus, $clientIp)
-    {
-        $actualLoiSeconds = null;
-        $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
-            'surveyId' => $survey->getSurveyId(),
-            'status' => SurveyStatus::STATUS_FORWARD,
-            'userId' => $user->getId(),
-        ));
-        if ($participation != null) {
-            $forwardAt = $participation->getUpdatedAt()->getTimestamp();
-            $actualLoiSeconds = time() - $forwardAt;
-            if ($survey->getLoi() > 0) {
-                $loiSeconds = $survey->getLoi() * 60;
-                if ($actualLoiSeconds < $loiSeconds / 4) {
-                    $this->fakeAnswerLogger->info('fulcrum: userId=' . $user->getId() . ',surveyId=' . $survey->getId());
-                    $answerStatus = SurveyStatus::STATUS_SCREENOUT;
-                }
-            }
-        }
-        $this->createParticipationByUserId($user->getId(), $survey->getSurveyId(), $answerStatus, $clientIp, $actualLoiSeconds);
     }
 }

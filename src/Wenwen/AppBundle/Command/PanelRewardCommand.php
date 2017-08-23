@@ -22,7 +22,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
         $output->writeln(date('Y-m-d H:i:s') . ' start ' . $this->getName());
 
-        try{
+        try {
             $date = $input->getArgument('date');
             $definitive = $input->getOption('definitive');
             $resultNotification = $input->getOption('resultNotification');
@@ -42,7 +42,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             // request to sop
             $url = $this->url();
             $historyList = [];
-            $sopCredentialsList = $this->getContainer()->get('app.survey_sop_service')->getAllSopCredentials();
+            $sopCredentialsList = $this->getContainer()->get('app.user_service')->getAllSopCredentials();
             foreach($sopCredentialsList as $sopCredentials) {
                 $appId = $sopCredentials['app_id'];
                 $appSecret = $sopCredentials['app_secret'];
@@ -200,18 +200,18 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
         $output->writeln(date('Y-m-d H:i:s') . ' end ' . $this->getName());
     }
 
-    public function requestSOP($url, $from_date, $to_date, $app_id, $secret)
+    public function requestSOP($url, $from_date, $to_date, $appId, $appSecret)
     {
         // create sig
         $sop_params = array (
-            'app_id' => $app_id,
+            'app_id' => $appId,
             'from_date' => $from_date,
             'to_date' => $to_date,
             'time' => time()
         );
 
         // request
-        $sop_params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($sop_params, $secret);
+        $sop_params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($sop_params, $appSecret);
 
         $response = $this->getContainer()->get('sop_api.client')->get($url . '?' . http_build_query($sop_params));
 
