@@ -396,3 +396,7 @@ parameters:
     gmo_ip_whitelist:
       - 210.172.135.*
       - 127.0.0.1
+
+    api_apps:
+        - { app_id: 19430461965976b27b6199c, app_secret: 4da24648b8f1924148216cc8b49518e1, desc: '91wenwen api v1' }
+        - { app_id: 17422635585976b280d4995, app_secret: 004aa5fb0ef19adaf97e39b97bb917ad, desc: '91wenwen pc website' }

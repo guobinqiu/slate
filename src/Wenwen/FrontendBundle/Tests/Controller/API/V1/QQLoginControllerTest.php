@@ -2,7 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
-use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
+use Test\Utils\ApiTestCase;
 
 class QQLoginControllerTest extends ApiTestCase
 {

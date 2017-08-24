@@ -2,8 +2,8 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
+use Test\Utils\ApiTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
-use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
 class ProvinceControllerTest extends ApiTestCase
 {

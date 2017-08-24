@@ -1,4 +1,5 @@
 <?php
+
 namespace Test\Utils;
 
 class BaseTestListener extends \PHPUnit_Framework_BaseTestListener

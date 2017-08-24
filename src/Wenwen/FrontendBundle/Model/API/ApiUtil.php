@@ -12,7 +12,7 @@ class ApiUtil
     const HTTP_HEADER_USER_ACCESS_TOKEN = 'X-User-Access-Token';
 
     const ALGO = 'sha256'; // Can be one of md5, sha1, ...
-    const REPLAY_ATTACK_LIVE_SECONDS = 300; //5min
+    const REPLAY_ATTACK_LIVE_SECONDS = 600; //10min
     const MOBILE_TOKEN_LIVE_SECONDS = 600; //10min
     const USER_ACCESS_TOKEN_LIVE_SECONDS = 1800; //30min
 
@@ -36,8 +36,7 @@ class ApiUtil
     }
 
     public static function objectToArray($obj) {
-        $serializer = SerializerBuilder::create()->build();
-        return json_decode($serializer->serialize($obj, 'json'), true);
+        return json_decode(self::objectToJSON($obj, 'json'), true);
     }
 
     public static function urlsafe_b64encode($string) {
@@ -55,4 +54,8 @@ class ApiUtil
         return base64_decode($data);
     }
 
+    public static function objectToJSON($obj) {
+        $serializer = SerializerBuilder::create()->build();
+        return $serializer->serialize($obj, 'json');
+    }
 }

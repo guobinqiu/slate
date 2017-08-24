@@ -1,6 +1,6 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Tests\Controller\API;
+namespace Test\Utils;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
@@ -16,7 +16,7 @@ class ApiTestCase extends WebTestCase
         static::$kernel->boot();
 
         $this->container = self::$kernel->getContainer();
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'api.91wenwen.com'));
+        $this->client = static::createClient();
     }
 
     protected function tearDown()

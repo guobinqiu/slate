@@ -17,7 +17,7 @@ class CorsListener
         $response = $event->getResponse();
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Headers', implode(', ', $allowHeaders));
-        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, PATCH');
+        $response->headers->set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
 
         $event->setResponse($response);
     }

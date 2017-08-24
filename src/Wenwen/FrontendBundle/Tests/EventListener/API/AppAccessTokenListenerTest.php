@@ -1,7 +1,8 @@
 <?php
 
-namespace Wenwen\FrontendBundle\Tests\Controller\API;
+namespace Wenwen\FrontendBundle\Tests\EventListener\API;
 
+use Test\Utils\ApiTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
 class AppAccessTokenListenerTest extends ApiTestCase

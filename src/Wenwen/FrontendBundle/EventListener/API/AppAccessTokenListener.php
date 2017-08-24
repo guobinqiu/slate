@@ -115,7 +115,6 @@ class AppAccessTokenListener
         $message = strtolower(implode("\n", $data));
         $this->logger->debug(__METHOD__ . ' message: ' . $message);
 
-
         $digest = hash_hmac(ApiUtil::ALGO, $message, $appSecret);
         $signature = ApiUtil::urlsafe_b64encode($appId . ':' . $digest);
 

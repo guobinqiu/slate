@@ -22,14 +22,4 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
-fos_rest:
-    body_listener: true
-    format_listener:
-        rules:
-            - { path: '^/v1/', host: %api_host%, priorities: ['json'], fallback_format: json, prefer_extension: false }
-            - { path: '^/', priorities: ['html', '*/*'], fallback_format: ~, prefer_extension: true }
-    param_fetcher_listener: true
-    view:
-        view_response_listener: 'force'
-        formats:
-            json: true
+

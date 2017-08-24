@@ -2,8 +2,8 @@
 
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
+use Test\Utils\ApiTestCase;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
-use Wenwen\FrontendBundle\Tests\Controller\API\ApiTestCase;
 
 class UserControllerTest extends ApiTestCase
 {
@@ -42,6 +42,13 @@ class UserControllerTest extends ApiTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
+        $content = '{
+            "login": {
+                "username": "13916122915",
+                "password": "111111"
+            }
+        }';
+
         $data[] = 'POST';
         $data[] = '/v1/users/login';
         $data[] = $timestamp;
@@ -49,12 +56,7 @@ class UserControllerTest extends ApiTestCase
         $message = implode("\n", $data);
         $signature = $this->sign($message);
 
-        $content = '{
-            "login": {
-                "username": "13916122915",
-                "password": "111111"
-            }
-        }';
+
 
         $crawler = $this->client->request(
             'POST',
