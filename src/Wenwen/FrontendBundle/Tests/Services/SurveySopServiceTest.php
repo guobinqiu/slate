@@ -11,6 +11,7 @@ use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Jili\ApiBundle\Entity\SopRespondent;
+use Wenwen\FrontendBundle\Model\OwnerType;
 
 class SurveySopServiceTest extends WebTestCase
 {
@@ -20,6 +21,8 @@ class SurveySopServiceTest extends WebTestCase
     private $em;
 
     private $surveySopService;
+
+    private $userService;
 
     /**
      * {@inheritDoc}
@@ -32,6 +35,7 @@ class SurveySopServiceTest extends WebTestCase
         $container = static::$kernel->getContainer();
 
         $this->surveySopService = $container->get('app.survey_sop_service');
+        $this->userService = $container->get('app.user_service');
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
@@ -49,7 +53,11 @@ class SurveySopServiceTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
+        $this->em->clear();
         $this->em->close();
+        $this->em = null;
+        $this->surveySopService = null;
+        $this->userService = null;
     }
 
     public function testSurveySopService()
@@ -164,5 +172,224 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals( $pointBefore + 300, $userAfter->getPoints(), 'Points should +300.');
         $this->assertEquals( $completeNBefore + 1, $userAfter->getCompleteN(), 'CompleteN should +1');
 
+    }
+
+
+    public function testIsValidQueryString_invalid_params(){
+        $rtn = $this->surveySopService->isValidQueryString('a');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryString_appIdNotExist(){
+        $params = array();
+        $params['sig'] = 'fake sig';
+        $rtn = $this->surveySopService->isValidQueryString($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryString_sigNotExist(){
+        $params = array();
+        $params['app_id'] = 'fake app_id';
+        $rtn = $this->surveySopService->isValidQueryString($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryString_authenticationFailure(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $params = array();
+        $params['sig'] = 'fake sig';
+        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['time'] = time();
+        $rtn = $this->surveySopService->isValidQueryString($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryString_app_id_not_exist(){
+        $params = array();
+        $params['sig'] = 'fake sig';
+        $params['app_id'] = 'fake app_id';
+        $params['time'] = time();
+        $rtn = $this->surveySopService->isValidQueryString($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryString_success(){
+
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+
+        $params = array();
+        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['time'] = time();
+        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopAppDataSpring['app_secret']);
+
+        $rtn = $this->surveySopService->isValidQueryString($params);
+        $this->assertTrue($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_invalid_params(){
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid('a');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_appMidNotExist(){
+        $params = array();
+        $params['sig'] = 'fake sig';
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_sigNotExist(){
+        $params = array();
+        $params['app_mid'] = 'fake app_mid';
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_authenticationFailure(){
+
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId($sopAppDataSpring['app_id']);
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $params = array();
+        $params['app_mid'] = $sopRespondent->getAppMid();
+        $params['sig'] = 'fake sig';
+        $params['time'] = 'fake time';
+
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_respondent_not_exist(){
+
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId($sopAppDataSpring['app_id']);
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $params = array();
+        $params['app_mid'] = 'fake app_mid';
+        $params['sig'] = 'fake sig';
+        $params['time'] = 'fake time';
+
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_app_id_not_exist(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId(10); // fake app_id not exist
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $params = array();
+        $params['app_mid'] = $sopRespondent->getAppMid();
+        $params['sig'] = 'fake sig';
+        $params['time'] = 'fake time';
+
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidQueryStringByAppMid_success(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+
+        $user = new User();
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId($sopAppDataSpring['app_id']); // fake app_id not exist
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $params = array();
+        $params['app_mid'] = $sopRespondent->getAppMid();
+        $params['time'] = time();
+        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopAppDataSpring['app_secret']);
+
+
+        $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
+        $this->assertTrue($rtn);
+    }
+
+    public function testIsValidJSONString_invalid_jsonData(){
+        $rtn = $this->surveySopService->isValidJSONString(null, 'fake sig');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidJSONString_invalid_xSopSig(){
+        $rtn = $this->surveySopService->isValidJSONString('fake json data', null);
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidJSONString_app_id_not_set(){
+        $rtn = $this->surveySopService->isValidJSONString('fake json data', 'fake sig');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidJSONString_app_id_not_exist(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $params = array();
+        $params['app_id'] = 'fake app_id';
+        $params['time'] = time();
+        $params['par1'] = 'par1value';
+        $jsonData = json_encode($params);
+
+        $rtn = $this->surveySopService->isValidJSONString($jsonData, 'fake sig');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidJSONString_authentication_failure(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $params = array();
+        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['time'] = time();
+        $params['par1'] = 'par1value';
+        $jsonData = json_encode($params);
+
+        $rtn = $this->surveySopService->isValidJSONString($jsonData, 'fake sig');
+        $this->assertFalse($rtn);
+    }
+
+    public function testIsValidJSONString_success(){
+        $sopAppDataSpring = $this->userService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $params = array();
+        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['time'] = time();
+        $params['par1'] = 'par1value';
+        $jsonData = json_encode($params);
+
+        $xSopSig = \SOPx\Auth\V1_1\Util::createSignature($jsonData, $sopAppDataSpring['app_secret']);
+
+        $rtn = $this->surveySopService->isValidJSONString($jsonData, $xSopSig);
+        $this->assertTrue($rtn);
     }
 }

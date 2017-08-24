@@ -29,23 +29,14 @@ class SopApiControllerTest extends WebTestCase
     {
         static::$kernel = static::createKernel();
         static::$kernel->boot();
-        //$this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->em = static::$kernel->getContainer()->get('doctrine')->getManager();
         $this->container = static::$kernel->getContainer();
 
         // purge tables
-        /*
         $purger = new ORMPurger($this->em);
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
 
-        // load fixtures
-        $fixture = new LoadUserSopData();
-        $fixture->setContainer($container);
-        $loader = new Loader();
-        $loader->addFixture($fixture);
-        $executor->execute($loader->getFixtures());
-*/
-        //$this->sopRespondent = LoadUserSopData::$SOP_RESPONDENTS;
     }
 
     /**
@@ -54,13 +45,14 @@ class SopApiControllerTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        //$this->em->close();
+        $this->em->clear();
+        $this->em->close();
     }
 
-//
-//    /**
-//     * @group dev-merge-ui-profile_point
-//     */
+
+    /**
+     * @group dev-merge-ui-profile_point
+     */
 //    public function testAddPointAction()
 //    {
 //        $client = static::createClient();
@@ -213,11 +205,6 @@ class SopApiControllerTest extends WebTestCase
      */
     public function testDeliveryNotificationFor91wenwenAction200andNoNotFoundRespondent()
     {
-        $em = static::$kernel->getContainer()->get('doctrine')->getManager();
-        $purger = new ORMPurger($em);
-        $executor = new ORMExecutor($em, $purger);
-        $executor->purge();
-
         $user = new User();
         $user->setNick('bb');
         $user->setEmail('user@voyagegroup.com.cn');
@@ -225,15 +212,15 @@ class SopApiControllerTest extends WebTestCase
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setRegisterCompleteDate(new \DateTime());
-        $em->persist($user);
-        $em->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($user->getId());
         $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
         $sopRespondent->setAppId(27);
-        $em->persist($sopRespondent);
-        $em->flush();
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
 
         $url = $this->container->get('router')->generate('sop_delivery_notification_v1_1_91wenwen');
 
@@ -359,6 +346,7 @@ class SopApiControllerTest extends WebTestCase
     /**
      * @group DeliveryNotificationFor91wenwen
      */
+
     public function testDeliveryNotificationFor91wenwenAction403()
     {
         $params = array (
@@ -404,17 +392,19 @@ class SopApiControllerTest extends WebTestCase
             'HTTPS' => true
         ));
 
-        $this->assertEquals(403, $client->getResponse()->getStatusCode(), 'authentication failed');
+        $this->assertEquals(403, $client->getResponse()->getStatusCode(), ' invalid request');
 
         $res = json_decode($client->getResponse()->getContent(), true);
 
         $this->assertEquals(array (
             'meta' => array (
                 'code' => 403,
-                'message' => 'authentication failed'
+                'message' => ' invalid request'
             )
         ), $res);
     }
+
+
 
     /**
      * @group DeliveryNotificationFor91wenwen

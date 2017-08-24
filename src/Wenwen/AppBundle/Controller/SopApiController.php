@@ -57,18 +57,20 @@ class SopApiController extends Controller
             return $this->render400Response($validator->getErrors());
         }
 
+        // Verfiy request
+        $surveySopService = $this->get('app.survey_sop_service');
+
+        if(! $surveySopService->isValidQueryString($params)){
+            $msg = ' invalid request';
+            $this->container->get('logger')->warn(__METHOD__ . $msg );
+            return $this->render400Response($msg);
+        }
+
+        // Add point to user
         $appMid = $params['app_mid'];
         $name = $params['name'];
 
-        //check if app_mid exists.
-        $em = $this->getDoctrine()->getManager();
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
-        if (!$sopRespondent) {
-            return $this->render400Response('invalid app_mid');
-        }
-        $userId = $sopRespondent->getUserId();
-
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
+        $user = $this->get('app.user_service')->getUserBySopRespondentAppMid($appMid);
         if (!$user) {
             return $this->render400Response('panelist was not found');
         }
@@ -76,24 +78,8 @@ class SopApiController extends Controller
         $sopConfig = $this->container->getParameter('sop');
         $pointValue = $sopConfig['point']['profile'];
 
-        $sig = $params['sig'];
-        unset($params['sig']);
-
-        // Verify signature
-        $appId = $params['app_id'];
-        $appSecret = $this->container->get('app.user_service')->getAppSecretByAppId($appId);
-        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
-
-        $result = $auth->verifySignature($sig, $params);
-
-        if (!$result['status']) {
-            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
-            $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
-            $this->container->get('logger')->error(__METHOD__ . ' request_body='.$this->getRequestBody());
-            return $this->render400Response('authentication failed');
-        }
-
         // start transaction
+        $em = $this->getDoctrine()->getManager();
         $em->getConnection()->beginTransaction();
 
         try {
@@ -137,6 +123,8 @@ class SopApiController extends Controller
 
     /**
      * @Route("sop/v1_1/deliveryNotificationFor91wenwen", name="sop_delivery_notification_v1_1_91wenwen")
+     *
+     * To handle `Research Survey Delivery Notification` of SOP
      */
     public function deliveryNotificationFor91wenwenAction()
     {
@@ -151,6 +139,7 @@ class SopApiController extends Controller
 
     /**
      * @Route("fulcrum/v1_1/deliveryNotificationFor91wenwen", name="fulcrum_delivery_notification_v1_1_91wenwen")
+     * To handle `Research Survey Delivery Notification` of FulcrumOfSOP
      */
     public function deliveryFulcrumDeliveryNotificationFor91wenwenAction()
     {
@@ -217,37 +206,35 @@ class SopApiController extends Controller
         return $requestData;
     }
 
+
     public function doHandleDeliveryNotification(DeliveryNotification $notification)
     {
         $request = $this->get('request');
 
-        $request_body = $this->getRequestBody();
-        $request_data = $request_body ? json_decode($request_body, true) : array ();
+        $jsonBody = $this->getRequestBody();
+        $xSopSig = $request->headers->get('X-Sop-Sig');
+
+        // Verfiy request
+        $surveySopService = $this->get('app.survey_sop_service');
+        if(! $surveySopService->isValidJSONString($jsonBody, $xSopSig)){
+            $msg = ' invalid request';
+            $this->container->get('logger')->warn(__METHOD__ . $msg );
+            return $this->render403Response($msg);
+        }
+
+        $request_data = $jsonBody ? json_decode($jsonBody, true) : array ();
+
+        if (!isset($request_data['data']) || !isset($request_data['data']['respondents'])) {
+            $msg = 'data.respondents was not found!';
+            $this->container->get('logger')->warn(__METHOD__ . $msg );
+            return $this->render400Response($msg);
+        }
 
         // Record notification infos.
         if(isset($request_data['data']) && isset($request_data['data']['respondents'])){
             foreach($request_data['data']['respondents'] as $respondent){
                 $this->get('monolog.logger.sop_notification')->info(json_encode($respondent));
             }
-        }
-
-        // Verify signature
-        $appId = $request_data['app_id'];
-        $appSecret = $this->container->get('app.user_service')->getAppSecretByAppId($appId);
-        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
-        $sig = $request->headers->get('X-Sop-Sig');
-
-        $result = $auth->verifySignature($sig, $request_body);
-
-        if (!$result['status']) {
-            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
-            $this->container->get('logger')->error(__METHOD__ . ' sig='.$sig);
-            $this->container->get('logger')->error(__METHOD__ . ' request_body='.$request_body);
-            return $this->render403Response('authentication failed');
-        }
-
-        if (!isset($request_data['data']) || !isset($request_data['data']['respondents'])) {
-            return $this->render400Response('data.respondents was not found!');
         }
 
         $this->get('monolog.logger.sop_notification')->info('Start notification');
@@ -262,12 +249,6 @@ class SopApiController extends Controller
             )
         );
 
-//        禁掉sop端屏蔽用户功能，因为它造成多次事故（用户收不到问卷）
-//        if (sizeof($unsubscribed_app_mids)) {
-//            $res['data'] = array (
-//                'respondents-not-found' => $unsubscribed_app_mids
-//            );
-//        }
         return $this->renderJsonResponse($res);
     }
 

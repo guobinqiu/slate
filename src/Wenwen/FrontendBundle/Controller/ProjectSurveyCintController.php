@@ -27,6 +27,17 @@ class ProjectSurveyCintController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
+        $params = $request->query->all();
+
+        // Verfiy request
+        // !!! 这里比较不正常，SOP过来的request里没有app_id，只能用app_mid来验证 2017/08/24 by Chai
+        $surveySopService = $this->get('app.survey_sop_service');
+        if(! $surveySopService->isValidQueryStringByAppMid($params)){
+            $msg = ' request auth failure';
+            $this->container->get('logger')->warn(__METHOD__ . $msg );
+            throw new \Exception($msg); // 这里估计直接去了404页面了，有机会再改吧 2017/08/24 by Chai
+        }
+
         $user = $this->getCurrentUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -35,25 +46,8 @@ class ProjectSurveyCintController extends BaseController
             return $this->render('WenwenFrontendBundle:ProjectSurveyCint:agreementComplete.html.twig');
         }
 
-        $params = $request->query->all();
-
         $cint_config = $this->container->getParameter('cint');
         $status_map = $cint_config['user_agreement'];
-
-        // Verify signature
-        $sopRespondent = $this->get('app.user_service')->getSopRespondentByUserId($user->getId());
-        $sopCredentials = $this->get('app.user_service')->getSopCredentialsByAppId($sopRespondent->getAppId());
-        $appId = $sopCredentials['app_id'];
-        $appSecret = $sopCredentials['app_secret'];
-        $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
-        $sig = $params['sig'];
-        unset($params['sig']);
-
-        $result = $auth->verifySignature($sig, $params);
-        if (!$result['status']) {
-            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
-            throw new \Exception($result['msg']);
-        }
 
         // start transaction
         $em->getConnection()->beginTransaction();
@@ -77,7 +71,7 @@ class ProjectSurveyCintController extends BaseController
             );
             $em->getConnection()->commit();
         } catch (\Exception $e) {
-            $this->get('logger')->error(__METHOD__ . ' ' . $e->getMessage());
+            $this->get('logger')->error(__METHOD__ . ' ' . $e->getStackTrace());
             $em->getConnection()->rollback();
             throw $e;
         }

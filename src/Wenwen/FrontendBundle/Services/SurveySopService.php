@@ -264,6 +264,157 @@ class SurveySopService
         return false;
     }
 
+    /**
+     * Verify whether the it is a valid request by all params
+     * https://console.partners.surveyon.com/docs/v1_1/authentication#signing-a-query-string
+     *
+     * @param array $params   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidQueryString($params){
+
+        if ( !is_array($params)) {
+            $this->logger->warning(__METHOD__ . ' invalid params');
+            return false;
+        }
+
+        if ( !isset($params['app_id'])) {
+            $this->logger->warning(__METHOD__ . ' app_id not set in params');
+            return false;
+        }
+
+        if ( !isset($params['sig'])) {
+            $this->logger->warning(__METHOD__ . ' sig not set in params');
+            return false;
+        }
+
+        try {
+            // Get secret_key by param app_id
+            $appId = $params['app_id'];
+            $appSecret = $this->userService->getAppSecretByAppId($appId);
+
+            // Verify param sig is valid or not
+            $sig = $params['sig'];
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            unset($params['sig']);
+            $result = $auth->verifySignature($sig, $params);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' params=' . json_encode($params));
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            return false;
+        }
+    }
+
+    /**
+     * Verify whether the it is a valid request by all params
+     * https://console.partners.surveyon.com/docs/v1_1/authentication#signing-a-json-string
+     *
+     * @param JSON String $requestBody   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidJSONString($jsonData, $xSopSig){
+
+        if ( null == $jsonData) {
+            $this->logger->warning(__METHOD__ . ' invalid jsonData');
+            return false;
+        }
+
+        if ( null == $xSopSig) {
+            $this->logger->warning(__METHOD__ . ' invalid xSopSig');
+            return false;
+        }
+
+        $params = $jsonData ? json_decode($jsonData, true) : array ();
+
+        if ( !isset($params['app_id'])) {
+            $this->logger->warning(__METHOD__ . ' app_id not set in params');
+            return false;
+        }
+        try {
+            // Get secret_key by param app_id
+            $appId = $params['app_id'];
+            $appSecret = $this->userService->getAppSecretByAppId($appId);
+
+            // Verify xSopSig is valid or not
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            $result = $auth->verifySignature($xSopSig, $jsonData);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' jsonData=' . $jsonData);
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            return false;
+        }
+    }
+
+
+    /**
+     * Verify whether the it is a valid request by all params
+     * !!! This is used by ProjectSurveyCintController->agreementCompleteAction only. !!!
+     * !!! Because the call back from SOP does not include app_id as a param in request body !!!
+     * !!! Do not use it at other place !!!
+     *
+     * @param array $params   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidQueryStringByAppMid($params){
+
+        if ( !is_array($params)) {
+            $this->logger->warning(__METHOD__ . ' invalid params');
+            return false;
+        }
+
+        if ( !isset($params['app_mid'])) {
+            $this->logger->warning(__METHOD__ . ' app_mid not set in params');
+            return false;
+        }
+
+        if ( !isset($params['sig'])) {
+            $this->logger->warning(__METHOD__ . ' sig not set in params');
+            return false;
+        }
+
+        try {
+            // Get app_id and secret_key by param app_mid
+            $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($params['app_mid']);
+            if (!$sopRespondent) {
+                $this->logger->warning(__METHOD__ . ' sopRespondent not exist app_mid=' . $params['app_mid']);
+                return false;
+            }
+            $appId = $sopRespondent->getAppId();
+            $appSecret = $this->userService->getAppSecretByAppId($appId);
+
+            $sig = $params['sig'];
+            // remember to remove sig before verify
+            unset($params['sig']);
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            $result = $auth->verifySignature($sig, $params);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' params=' . json_encode($params));
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            return false;
+        }
+    }
+
     private function createParticipationHistory($survey, $user, $answerStatus, $clientIp)
     {
         $actualLoiSeconds = null;
