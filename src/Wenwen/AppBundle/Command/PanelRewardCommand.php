@@ -296,6 +296,8 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
 
     abstract protected function preHandle(array $historyList);
 
+    abstract protected function answerStatus($history);
+
     protected function sendLogEmail($content, $subject)
     {
         $alertTo = $this->getContainer()->getParameter('cron_alertTo_contacts');

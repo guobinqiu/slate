@@ -55,13 +55,15 @@ class RegistrationController extends BaseController
             if ($form->isValid()) {
                 $fingerprint = $form->get('fingerprint')->getData();
 
-                $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
-                if ($regCount > 1) {
-                    // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
-                    // Return a fake result to bot when blocked by fingerprint
-                    $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
-                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' .  $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
-                    return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
+                if ('prod' == $this->container->get('kernel')->getEnvironment()) {
+                    $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
+                    if ($regCount > 1) {
+                        // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
+                        // Return a fake result to bot when blocked by fingerprint
+                        $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
+                        $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' . $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
+                        return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
+                    }
                 }
 
                 $clientIp = $request->getClientIp();
