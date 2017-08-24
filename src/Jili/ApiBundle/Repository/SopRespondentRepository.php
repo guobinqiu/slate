@@ -11,8 +11,13 @@ class SopRespondentRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $sopRespondent = new SopRespondent();
+        $i = 0;
         while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
             $sopRespondent->setAppMid(SopRespondent::generateAppMid());
+            $i++;
+            if ($i > 1000) {
+                break;
+            }
         }
         $sopRespondent->setUserId($userId);
         $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);

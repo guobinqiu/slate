@@ -196,8 +196,13 @@ class UserService
         if ($canRewardInviter) {
             $user->setInviteId($inviteId);
         }
+        $i = 0;
         while ($this->isUniqIdDuplicated($user->getUniqId())) {
             $user->setUniqId(User::generateUniqId());
+            $i++;
+            if ($i > 1000) {
+                break;
+            }
         }
         $this->em->persist($user);
         $this->em->flush();
