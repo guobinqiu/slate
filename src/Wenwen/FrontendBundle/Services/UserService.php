@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Entity\SopRespondent;
 use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
@@ -134,7 +135,20 @@ class UserService
 
     public function createSopRespondent($userId, $ownerType) {
         $appId = $this->getAppIdByOwnerType($ownerType);
-        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($userId, $appId);
+        $sopRespondent = new SopRespondent();
+        $i = 0;
+        while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
+            $sopRespondent->setAppMid(SopRespondent::generateAppMid());
+            $i++;
+            if ($i > 1000) {
+                break;
+            }
+        }
+        $sopRespondent->setUserId($userId);
+        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $sopRespondent->setAppId($appId);
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
         return $sopRespondent;
     }
 
@@ -344,11 +358,6 @@ class UserService
         $this->em->flush();
     }
 
-    public function isUniqIdDuplicated($key)
-    {
-        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
-    }
-
     /**
      * 推送用户基本信息
      */
@@ -375,5 +384,15 @@ class UserService
             }
         }
         return false;
+    }
+
+    private function isUniqIdDuplicated($key)
+    {
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
+    }
+
+    private function isAppMidDuplicated($key)
+    {
+        return count($this->em->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }

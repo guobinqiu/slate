@@ -7,26 +7,6 @@ use Jili\ApiBundle\Entity\SopRespondent;
 
 class SopRespondentRepository extends EntityRepository
 {
-    public function insertByUser($userId, $appId)
-    {
-        $em = $this->getEntityManager();
-        $sopRespondent = new SopRespondent();
-        $i = 0;
-        while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
-            $sopRespondent->setAppMid(SopRespondent::generateAppMid());
-            $i++;
-            if ($i > 1000) {
-                break;
-            }
-        }
-        $sopRespondent->setUserId($userId);
-        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
-        $sopRespondent->setAppId($appId);
-        $em->persist($sopRespondent);
-        $em->flush();
-        return $sopRespondent;
-    }
-
     public function retrieveByAppMid($appMid)
     {
         $query = $this->createQueryBuilder('sp');
@@ -57,10 +37,5 @@ EOT;
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute(array($appMid, SopRespondent::STATUS_ACTIVE));
         return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
-
-    public function isAppMidDuplicated($key)
-    {
-        return count($this->getEntityManager()->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }

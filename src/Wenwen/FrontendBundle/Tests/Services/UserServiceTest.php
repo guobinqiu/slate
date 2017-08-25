@@ -55,7 +55,6 @@ class UserServiceTest extends WebTestCase
 
         $serializer = $this->container->get('jms_serializer');
         $str = $serializer->serialize($user, 'json');
-        echo $str;
 
         $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
         $this->assertEquals('user1', $user->getNick());
