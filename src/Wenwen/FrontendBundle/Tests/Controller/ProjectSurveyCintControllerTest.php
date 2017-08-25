@@ -89,7 +89,6 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findOneBy(array(
-            //'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_INIT,
             'userId' => $users[0]->getId(),
@@ -184,53 +183,36 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $session->save();
 
         $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
-        $sopRespondent->setUserId($users[0]->getId());
+        $sopRespondent->setUserId($user_id);
         $sopRespondent->setAppId(27);
         $this->em->persist($sopRespondent);
         $this->em->flush();
 
-        {
-            //cint agreement end page with invalid sig
-            $invalid_params = array (
-                'agreement_status' => 'AGREED',
-                'time' => time(),
-                'sig' => 'fake'
-            );
+        $params = array (
+            'agreement_status' => 'AGREED',
+            'time' => time(),
+            'app_mid' => $sopRespondent->getAppMid(),
+        );
+        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
 
-            $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $invalid_params);
-            $crawler = $this->client->request('GET', $url);
-            //$this->assertEquals(404, $client->getResponse()->getStatusCode());
-        }
+        $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
+        $crawler = $this->client->request('GET', $url);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        {
-            //cint agreement end page
-            $params = array (
-                'agreement_status' => 'AGREED',
-                'time' => time()
-            );
-            $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, '1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a');
+        // check DB
+        $history = $this->em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user_id);
+        $this->assertNotEmpty($history);
+        $this->assertEquals(10, $history->getAgreementStatus());
 
-            $url = $this->container->get('router')->generate('_cint_project_survey_agreement_complete', $params);
-            $crawler = $this->client->request('GET', $url);
-            $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $task = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+        $this->assertEquals(10, $task->getPoint());
+        $this->assertEquals(ProjectSurveyCintController::COMMENT, $task->getTaskName());
 
-            $this->em->clear();
+        $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
+        $this->assertEquals(10, $point->getPointChangeNum());
+        $this->assertEquals(CategoryType::CINT_EXPENSE, $point->getReason());
 
-            // check DB
-            $history = $this->em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($users[0]->getId());
-            $this->assertNotEmpty($history);
-            $this->assertEquals(10, $history->getAgreementStatus());
-
-            $task = $this->em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-            $this->assertEquals(10, $task->getPoint());
-            $this->assertEquals(ProjectSurveyCintController::COMMENT, $task->getTaskName());
-
-            $point = $this->em->getRepository('JiliApiBundle:PointHistory0' . ($user_id % 10))->findOneByUserId($user_id);
-            $this->assertEquals(10, $point->getPointChangeNum());
-            $this->assertEquals(CategoryType::CINT_EXPENSE, $point->getReason());
-
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
-            $this->assertEquals($point_1 + 10, $user->getPoints());
-        }
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user_id);
+        $this->assertEquals($point_1 + 10, $user->getPoints());
     }
 }

@@ -271,19 +271,18 @@ class SurveySopService
      * @param array $params   all params of request. app_id and sig must exist.
      * @return boolean
      */
-    public function isValidQueryString($params){
-
-        if ( !is_array($params)) {
+    public function isValidQueryString($params) {
+        if (!is_array($params)) {
             $this->logger->warning(__METHOD__ . ' invalid params');
             return false;
         }
 
-        if ( !isset($params['app_id'])) {
+        if (!isset($params['app_id'])) {
             $this->logger->warning(__METHOD__ . ' app_id not set in params');
             return false;
         }
 
-        if ( !isset($params['sig'])) {
+        if (!isset($params['sig'])) {
             $this->logger->warning(__METHOD__ . ' sig not set in params');
             return false;
         }
@@ -307,7 +306,7 @@ class SurveySopService
                 return true;
             }
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
             return false;
         }
     }
@@ -319,21 +318,20 @@ class SurveySopService
      * @param JSON String $requestBody   all params of request. app_id and sig must exist.
      * @return boolean
      */
-    public function isValidJSONString($jsonData, $xSopSig){
-
-        if ( null == $jsonData) {
+    public function isValidJSONString($jsonData, $xSopSig) {
+        if (null === $jsonData) {
             $this->logger->warning(__METHOD__ . ' invalid jsonData');
             return false;
         }
 
-        if ( null == $xSopSig) {
+        if (null === $xSopSig) {
             $this->logger->warning(__METHOD__ . ' invalid xSopSig');
             return false;
         }
 
         $params = $jsonData ? json_decode($jsonData, true) : array ();
 
-        if ( !isset($params['app_id'])) {
+        if (!isset($params['app_id'])) {
             $this->logger->warning(__METHOD__ . ' app_id not set in params');
             return false;
         }
@@ -354,7 +352,7 @@ class SurveySopService
                 return true;
             }
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
             return false;
         }
     }
@@ -369,19 +367,18 @@ class SurveySopService
      * @param array $params   all params of request. app_id and sig must exist.
      * @return boolean
      */
-    public function isValidQueryStringByAppMid($params){
-
-        if ( !is_array($params)) {
+    public function isValidQueryStringByAppMid($params) {
+        if (!is_array($params)) {
             $this->logger->warning(__METHOD__ . ' invalid params');
             return false;
         }
 
-        if ( !isset($params['app_mid'])) {
+        if (!isset($params['app_mid'])) {
             $this->logger->warning(__METHOD__ . ' app_mid not set in params');
             return false;
         }
 
-        if ( !isset($params['sig'])) {
+        if (!isset($params['sig'])) {
             $this->logger->warning(__METHOD__ . ' sig not set in params');
             return false;
         }
@@ -410,7 +407,7 @@ class SurveySopService
                 return true;
             }
         } catch (\Exception $e) {
-            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getTraceAsString());
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
             return false;
         }
     }

@@ -125,7 +125,6 @@ class FulcrumProjectSurveyControllerTest extends WebTestCase
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveyFulcrumParticipationHistory')->findOneBy(array(
-            //'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $users[0]->getId(),
