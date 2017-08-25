@@ -5,6 +5,7 @@ use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Model\OwnerType;
 
 class SopRespondentRepositoryTest extends KernelTestCase
 {
@@ -14,7 +15,6 @@ class SopRespondentRepositoryTest extends KernelTestCase
      */
     private $em;
     private $container;
-    private $user;
 
     /**
      * {@inheritDoc}
@@ -51,7 +51,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
 
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1, 27);
+        $sopRespondent = $this->container->get('app.user_service')->createSopRespondent(1, OwnerType::DATASPRING);
 
         //测试已经存在的数据
         $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sopRespondent->getAppMid());
@@ -83,7 +83,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em->persist($user);
         $em->flush();
 
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($user->getId(), 27);
+        $sopRespondent = $this->container->get('app.user_service')->createSopRespondent($user->getId(), OwnerType::DATASPRING);
 
         //测试已经存在的数据
         $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sopRespondent->getAppMid());
