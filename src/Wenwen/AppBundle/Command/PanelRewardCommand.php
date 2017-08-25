@@ -42,7 +42,7 @@ abstract class PanelRewardCommand extends ContainerAwareCommand
             // request to sop
             $url = $this->url();
             $historyList = [];
-            $sopCredentialsList = $this->getContainer()->get('app.user_service')->getAllSopCredentials();
+            $sopCredentialsList = $this->getContainer()->get('app.survey_sop_service')->getAllSopCredentials();
             foreach($sopCredentialsList as $sopCredentials) {
                 $appId = $sopCredentials['app_id'];
                 $appSecret = $sopCredentials['app_secret'];

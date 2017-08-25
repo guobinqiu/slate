@@ -184,7 +184,7 @@ class QQLoginController extends BaseController
 
                     $ownerType = $this->getOwnerTypeFromSession($request);
                     $this->get('logger')->info(__METHOD__ . 'qq ownerType=' . $ownerType);
-                    $this->get('app.user_service')->createSopRespondent($user->getId(), $ownerType);
+                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
 
                     $userService->pushBasicProfileJob($user->getId());
                 }

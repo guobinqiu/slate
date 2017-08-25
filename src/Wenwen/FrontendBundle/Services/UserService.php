@@ -3,7 +3,6 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\SopRespondent;
 use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
@@ -14,7 +13,6 @@ use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\WeiboUser;
 use Wenwen\FrontendBundle\Entity\WeixinUser;
-use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserService
@@ -40,79 +38,6 @@ class UserService
         $this->parameterService = $parameterService;
     }
 
-    public function getSopCredentialsByOwnerType($ownerType)
-    {
-        if (!OwnerType::isValid($ownerType)) {
-            throw new \InvalidArgumentException('Unsupported owner_type: ' . $ownerType);
-        }
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        foreach($sopApps as $sopApp) {
-            if (!isset($sopApp['owner_type'])) {
-                throw new \InvalidArgumentException("Missing option 'owner_type'");
-            }
-            if ($sopApp['owner_type'] == $ownerType) {
-                if (!isset($sopApp['app_id'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_id'");
-                }
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
-            }
-        }
-        throw new \InvalidArgumentException('SopCredentials was not found. owner_type=' . $ownerType);
-    }
-
-    public function getSopCredentialsByAppId($appId)
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        foreach($sopApps as $sopApp) {
-            if (!isset($sopApp['app_id'])) {
-                throw new \InvalidArgumentException("Missing option 'app_id'");
-            }
-            if ($sopApp['app_id'] == $appId) {
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
-            }
-        }
-        throw new \InvalidArgumentException('SopCredentials was not found. appId=' . $appId);
-    }
-
-    public function getAllSopCredentials()
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        return $sopApps;
-    }
-
-    public function getAppIdByOwnerType($ownerType)
-    {
-        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
-        return $sopCredentials['app_id'];
-    }
-
-    public function getAppSecretByOwnerType($ownerType)
-    {
-        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
-        return $sopCredentials['app_secret'];
-    }
-
-    public function getAppSecretByAppId($appId)
-    {
-        $sopCredentials = $this->getSopCredentialsByAppId($appId);
-        return $sopCredentials['app_secret'];
-    }
-
     public function getUserBySopRespondentAppMid($appMid) {
         $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
         if (null === $sopRespondent) {
@@ -123,33 +48,6 @@ class UserService
             throw new \Exception('User was not found. userId=' . $sopRespondent->getUserId());
         }
         return $user;
-    }
-
-    public function getSopRespondentByUserId($userId) {
-        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
-        if (null === $sopRespondent) {
-            throw new \Exception('SopRespondent was not found. userId=' . $userId);
-        }
-        return $sopRespondent;
-    }
-
-    public function createSopRespondent($userId, $ownerType) {
-        $appId = $this->getAppIdByOwnerType($ownerType);
-        $sopRespondent = new SopRespondent();
-        $i = 0;
-        while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
-            $sopRespondent->setAppMid(SopRespondent::generateAppMid());
-            $i++;
-            if ($i > 1000) {
-                break;
-            }
-        }
-        $sopRespondent->setUserId($userId);
-        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
-        $sopRespondent->setAppId($appId);
-        $this->em->persist($sopRespondent);
-        $this->em->flush();
-        return $sopRespondent;
     }
 
     public function getProvinceList() {
@@ -389,10 +287,5 @@ class UserService
     private function isUniqIdDuplicated($key)
     {
         return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
-    }
-
-    private function isAppMidDuplicated($key)
-    {
-        return count($this->em->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }

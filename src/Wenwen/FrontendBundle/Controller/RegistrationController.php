@@ -125,7 +125,7 @@ class RegistrationController extends BaseController
             if ($user == null) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $this->get('app.user_service')->createSopRespondent($user->getId(), $ownerType);
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
             $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -148,7 +148,7 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $this->get('app.user_service')->createSopRespondent($user->getId(), $ownerType);
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
             $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));

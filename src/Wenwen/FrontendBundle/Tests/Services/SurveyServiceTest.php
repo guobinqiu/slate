@@ -23,7 +23,7 @@ class SurveyServiceTest extends WebTestCase
 
     private $surveyService;
 
-    private $userService;
+    private $surveySopService;
 
     /**
      * {@inheritDoc}
@@ -36,7 +36,7 @@ class SurveyServiceTest extends WebTestCase
         $container = static::$kernel->getContainer();
 
         $this->surveyService = $container->get('app.survey_service');
-        $this->userService = $container->get('app.user_service');
+        $this->surveySopService = $container->get('app.survey_sop_service');
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
@@ -83,7 +83,7 @@ class SurveyServiceTest extends WebTestCase
         $this->em->flush();
 
         $user_id = $user->getId();
-        $this->userService->createSopRespondent($user_id, OwnerType::DATASPRING);
+        $this->surveySopService->createSopRespondent($user_id, OwnerType::DATASPRING);
 
         $locationInfo = array();
         $locationInfo['status'] = true;

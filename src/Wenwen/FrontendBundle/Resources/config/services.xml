@@ -19,7 +19,6 @@
             <argument type="service" id="app.survey_fulcrum_service" />
             <argument type="service" id="app.survey_cint_service" />
             <argument type="service" id="app.survey_gmo_service" />
-            <argument type="service" id="app.user_service" />
         </service>
 
         <service id="app.survey_sop_service" class="Wenwen\FrontendBundle\Services\SurveySopService">
@@ -30,6 +29,7 @@
             <argument type="service" id="app.point_service" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.user_service" />
+            <argument type="service" id="app.parameter_service" />
         </service>
 
         <service id="app.survey_fulcrum_service" class="Wenwen\FrontendBundle\Services\SurveyFulcrumService">

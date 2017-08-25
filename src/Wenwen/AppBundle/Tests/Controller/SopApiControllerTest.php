@@ -35,8 +35,8 @@ class SopApiControllerTest extends WebTestCase
         $executor = new ORMExecutor($this->em, $purger);
         $executor->purge();
 
-        $this->appId = $this->container->get('app.user_service')->getAppIdByOwnerType(OwnerType::DATASPRING);
-        $this->appSecret = $this->container->get('app.user_service')->getAppSecretByOwnerType(OwnerType::DATASPRING);
+        $this->appId = $this->container->get('app.survey_sop_service')->getAppIdByOwnerType(OwnerType::DATASPRING);
+        $this->appSecret = $this->container->get('app.survey_sop_service')->getAppSecretByOwnerType(OwnerType::DATASPRING);
     }
 
     /**

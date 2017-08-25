@@ -51,7 +51,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
     {
         $em = $this->em;
 
-        $sopRespondent = $this->container->get('app.user_service')->createSopRespondent(1, OwnerType::DATASPRING);
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent(1, OwnerType::DATASPRING);
 
         //测试已经存在的数据
         $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sopRespondent->getAppMid());
@@ -83,7 +83,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em->persist($user);
         $em->flush();
 
-        $sopRespondent = $this->container->get('app.user_service')->createSopRespondent($user->getId(), OwnerType::DATASPRING);
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($user->getId(), OwnerType::DATASPRING);
 
         //测试已经存在的数据
         $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sopRespondent->getAppMid());
