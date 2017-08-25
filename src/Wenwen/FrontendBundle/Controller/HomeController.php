@@ -41,12 +41,7 @@ class HomeController extends BaseController
             return $this->redirect($url);
         }
 
-        // 根据Ip获取该用户的地区信息
-        $locationInfo = $this->getLocationInfoByClientIp($request);
-
-        $htmlSurveyList = $this->getHtmlSurveyList($userId, $locationInfo);
-
-        //$this->checkoutSurveyList($userId);
+        $htmlSurveyList = $this->getHtmlSurveyList($request, $userId);
 
         $latestNews = $this->get('app.latest_news_service')->getLatestNews();
         $em = $this->getDoctrine()->getManager();
@@ -71,18 +66,18 @@ class HomeController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        // 根据Ip获取该用户的地区信息
-        $locationInfo = $this->getLocationInfoByClientIp($request);
-
-        $htmlSurveyList = $this->getHtmlSurveyList($this->getCurrentUserId(), $locationInfo);
+        $htmlSurveyList = $this->getHtmlSurveyList($request, $this->getCurrentUserId());
 
         return $this->render('WenwenFrontendBundle:Survey:_sopSurveyListHome.html.twig', array(
             'html_survey_list' => $htmlSurveyList,
         ));
     }
 
-    private function getHtmlSurveyList($userId, $locationInfo)
+    private function getHtmlSurveyList(Request $request, $userId)
     {
+        // 根据Ip获取该用户的地区信息
+        $locationInfo = $this->getLocationInfoByClientIp($request);
+
         // 处理ssi和sop的排序，排序列表里存的是一个个通过模板渲染出来的html片段，每种模板分别对应一类问卷
         $surveyService = $this->get('app.survey_service');
         $env = $this->container->get('kernel')->getEnvironment();
@@ -91,7 +86,6 @@ class HomeController extends BaseController
             // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
             $surveyService->setDummy(true);
         }
-
         $htmlSurveyList = $surveyService->getOrderedHtmlSurveyList($userId, $locationInfo);
         return $htmlSurveyList;
     }
