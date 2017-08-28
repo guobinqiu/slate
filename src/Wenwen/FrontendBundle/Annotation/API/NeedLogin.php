@@ -7,6 +7,6 @@ use Doctrine\Common\Annotations\Annotation;
 /**
  * @Annotation
  */
-class ValidateUserAccessToken
+class NeedLogin
 {
 }

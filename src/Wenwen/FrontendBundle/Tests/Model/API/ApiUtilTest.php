@@ -14,7 +14,7 @@ class ApiUtilTest extends WebTestCase
         $c = [ 'name' => 'dataspring', 'age' => 10 ];
         $a[] = $b;
         $a[] = $c;
-//        print_r($a);
+        //        print_r($a);
 
         echo ApiUtil::objectToJSON($a);
     }

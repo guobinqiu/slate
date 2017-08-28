@@ -68,10 +68,7 @@
         <service id="app.listener.exception_listener" class="Wenwen\FrontendBundle\EventListener\ExceptionListener">
             <argument type="service" id="logger" />
             <argument type="service" id="templating" />
-            <argument type="service" id="kernel" />
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
-            <!--<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />-->
-            <!--<tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />-->
         </service>
 
         <service id="app.listener.console_exception_listener" class="Wenwen\FrontendBundle\EventListener\ConsoleExceptionListener">
@@ -194,7 +191,7 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="annotation_reader" />
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="2" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
         <service id="api.listener.user_access_token_listener" class="Wenwen\FrontendBundle\EventListener\API\UserAccessTokenListener">
@@ -202,20 +199,11 @@
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="annotation_reader" />
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" priority="1" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
         <service id="api.listener.cors_listener" class="Wenwen\FrontendBundle\EventListener\API\CorsListener">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
-        </service>
-
-        <service id="api.exception_pointcut" class="Wenwen\FrontendBundle\AOP\API\ExceptionPointcut">
-            <argument type="service" id="logger" />
-            <tag name="jms_aop.pointcut" interceptor="api.exception_interceptor" />
-        </service>
-
-        <service id="api.exception_interceptor" class="Wenwen\FrontendBundle\AOP\API\ExceptionInterceptor">
-            <argument type="service" id="logger" />
         </service>
 
         <service id="api.sms_service" class="Wenwen\FrontendBundle\Services\SmsService">

@@ -8,14 +8,15 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
-use Wenwen\FrontendBundle\Model\API\Status;
+use Wenwen\FrontendBundle\Model\API\HttpStatus;
 
 class QQLoginController extends FOSRestController
 {
     /**
      * @Rest\Get("/qq/callback")
      */
-    public function callbackAction() {
-        return $this->view(ApiUtil::formatSuccess('qq callback finish'), Status::HTTP_OK);
+    public function callbackAction() 
+    {
+        return $this->view(ApiUtil::formatSuccess('success'), HttpStatus::HTTP_OK);
     }
 }

@@ -7,23 +7,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Controller\API\TokenAuthenticatedFOSRestController;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
-use Wenwen\FrontendBundle\Model\API\Status;
-use Wenwen\FrontendBundle\Annotation\API\ValidateUserAccessToken;
+use Wenwen\FrontendBundle\Model\API\HttpStatus;
+use Wenwen\FrontendBundle\Annotation\API\NeedLogin;
 
 class SurveyController extends TokenAuthenticatedFOSRestController
 {
     /**
      * @Rest\Get("/surveys")
-     *
-     * @ValidateUserAccessToken
+     * @NeedLogin
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request) 
+    {
         $surveys[] = 'survey1';
         $surveys[] = 'survey2';
         $surveys[] = 'survey3';
         $surveys[] = 'survey4';
         $surveys[] = 'survey5';
 
-        return $this->view(ApiUtil::formatSuccess($surveys), Status::HTTP_OK);
+        return $this->view(ApiUtil::formatSuccess($surveys), HttpStatus::HTTP_OK);
     }
 }

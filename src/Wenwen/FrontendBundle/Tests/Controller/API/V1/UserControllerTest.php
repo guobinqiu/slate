@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
 use Test\Utils\ApiTestCase;
-use Wenwen\FrontendBundle\Model\API\ApiUtil;
+use Wenwen\FrontendBundle\EventListener\API\CorsListener;
 
 class UserControllerTest extends ApiTestCase
 {
@@ -12,25 +12,28 @@ class UserControllerTest extends ApiTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
+        $payload = '{"mobile_number":"13916122915"}';
+
         $data[] = 'POST';
         $data[] = '/v1/users/sms-token';
+        $data[] = $payload;
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'POST',
             '/v1/users/sms-token',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            ),//server
-            '{ "mobile_number": "13916122915" }'
+            ), //server
+            $payload
         );
 
         $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
@@ -42,34 +45,28 @@ class UserControllerTest extends ApiTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
-        $content = '{
-            "login": {
-                "username": "13916122915",
-                "password": "111111"
-            }
-        }';
+        $payload = '{"login":{"username":"13916122915","password":"111111"}}';
 
         $data[] = 'POST';
         $data[] = '/v1/users/login';
+        $data[] = $payload;
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
-
-
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'POST',
             '/v1/users/login',
-            array(),//parameters
-            array(),//files
+            array(),
+            array(),
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            ),//server
-            $content
+            ),
+            $payload
         );
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());

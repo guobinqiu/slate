@@ -2,7 +2,7 @@
 
 namespace Wenwen\FrontendBundle\Model\API;
 
-final class Status
+final class HttpStatus
 {
     // Don't add more status code, we only use this many statuses for our restful api
     const HTTP_OK = 200; // Success (GET, PUT, PATCH)

@@ -3,7 +3,7 @@
 namespace Wenwen\FrontendBundle\Tests\EventListener\API;
 
 use Test\Utils\ApiTestCase;
-use Wenwen\FrontendBundle\Model\API\ApiUtil;
+use Wenwen\FrontendBundle\EventListener\API\CorsListener;
 
 class AppAccessTokenListenerTest extends ApiTestCase
 {
@@ -16,18 +16,18 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $data[] = '/v1/provinces';
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -45,18 +45,18 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $data[] = 'GET';
         $data[] = '/v1/provinces';
         $data[] = $timestamp;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -73,18 +73,18 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $data[] = '/v1/provinces';
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -95,12 +95,12 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -110,25 +110,25 @@ class AppAccessTokenListenerTest extends ApiTestCase
 
     public function testTimestampInbound()
     {
-        $timestamp = time() + 200;
+        $timestamp = time() + 300;
         $nonce = md5(uniqid(rand(), true));
 
         $data[] = 'GET';
         $data[] = '/v1/provinces';
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );
@@ -139,25 +139,25 @@ class AppAccessTokenListenerTest extends ApiTestCase
 
     public function testTimestampOutbound()
     {
-        $timestamp = time() + 400;
+        $timestamp = time() - 601;
         $nonce = md5(uniqid(rand(), true));
 
         $data[] = 'GET';
         $data[] = '/v1/provinces';
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(),//parameters
-            array(),//files
+            array(), //parameters
+            array(), //files
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )//server
         );

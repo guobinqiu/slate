@@ -3,6 +3,8 @@
 namespace Test\Utils;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Wenwen\FrontendBundle\EventListener\API\AppAccessTokenListener;
+use Wenwen\FrontendBundle\EventListener\API\CorsListener;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
 class ApiTestCase extends WebTestCase
@@ -27,12 +29,12 @@ class ApiTestCase extends WebTestCase
         $this->client = null;
     }
 
-    protected function sign($message)
+    protected function createSignature($message)
     {
         $appId = '19430461965976b27b6199c';
         $appSecret = '4da24648b8f1924148216cc8b49518e1';
-        $digest = hash_hmac('sha256', strtolower($message), $appSecret);
-        $signature = ApiUtil::urlsafe_b64encode($appId . ':' . $digest);
+        $digest = hash_hmac(AppAccessTokenListener::SIGNATURE_ALGORITHM, $message, $appSecret);
+        $signature = ApiUtil::urlsafe_b64encode($appId . AppAccessTokenListener::SIGNATURE_DELIMITER . $digest);
         return $signature;
     }
 
@@ -41,36 +43,31 @@ class ApiTestCase extends WebTestCase
         $timestamp = time();
         $nonce = md5(uniqid(rand(), true));
 
+        $payload = '{"login":{"username":"13916122915","password":"111111"}}';
+
         $data[] = 'POST';
         $data[] = '/v1/users/login';
+        $data[] = $payload;
         $data[] = $timestamp;
         $data[] = $nonce;
-        $message = implode("\n", $data);
-        $signature = $this->sign($message);
-
-        $content = '{
-            "login": {
-                "username": "13916122915",
-                "password": "111111"
-            }
-        }';
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
 
         $crawler = $this->client->request(
             'POST',
             '/v1/users/login',
-            array(),//parameters
-            array(),//files
+            array(),
+            array(),
             array(
-                'HTTP_' . ApiUtil::HTTP_HEADER_APP_ACCESS_TOKEN => $signature,
-                'HTTP_' . ApiUtil::HTTP_HEADER_TIMESTAMP => $timestamp,
-                'HTTP_' . ApiUtil::HTTP_HEADER_NONCE => $nonce,
+                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
+                'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            ),//server
-            $content
+            ),
+            $payload
         );
 
         $content = $this->client->getResponse()->getContent();
-
         return json_decode($content, true)['data'];
     }
 }
