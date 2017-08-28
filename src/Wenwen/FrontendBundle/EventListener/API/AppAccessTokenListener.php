@@ -85,16 +85,16 @@ class AppAccessTokenListener
             throw new \InvalidArgumentException("Missing 'X_NONCE' in request header");
         }
 
-        $messageToSign = $this->createMessage($request);
-        $this->logger->debug(__METHOD__ . ' messageToSign=' . $messageToSign);
-
         $appId = $this->getAppId($clientSignature);
         $this->logger->debug(__METHOD__ . ' appId=' . $appId);
 
         $appSecret = $this->getAppSecret($appId);
         $this->logger->debug(__METHOD__ . ' appSecret=' . $appSecret);
 
-        $serverSignature = $this->createSignature($messageToSign, $appId, $appSecret);
+        $serverMessage = $this->createServerMessage($request);
+        $this->logger->debug(__METHOD__ . ' serverMessage =' . $serverMessage);
+
+        $serverSignature = $this->createServerSignature($appId, $appSecret, $serverMessage);
         $this->logger->debug(__METHOD__ . ' serverSignature=' . $serverSignature);
         $this->logger->debug(__METHOD__ . ' clientSignature=' . $clientSignature);
 
@@ -105,7 +105,7 @@ class AppAccessTokenListener
         $this->checkReplayAttack($timestamp, $nonce);
     }
 
-    private function getAppId($clientSignature) 
+    private function getAppId($clientSignature)
     {
         $signature = ApiUtil::urlsafe_b64decode($clientSignature);
         $pos = strpos($signature, self::SIGNATURE_DELIMITER);
@@ -138,7 +138,7 @@ class AppAccessTokenListener
     /*
      * base64encode(appId + ":" + sha256(message, appSecret))
      */
-    private function createSignature($messageToSign, $appId, $appSecret) 
+    private function createServerSignature($appId, $appSecret, $messageToSign)
     {
         $digest = hash_hmac(self::SIGNATURE_ALGORITHM, $messageToSign, $appSecret);
         $signature = ApiUtil::urlsafe_b64encode($appId . self::SIGNATURE_DELIMITER . $digest);
@@ -155,7 +155,7 @@ class AppAccessTokenListener
      * 5. nonce (client side uuid)
      * 6. to uppercase
      */
-    private function createMessage(Request $request) 
+    private function createServerMessage(Request $request)
     {
         $data[] = $request->getMethod();
         $data[] = $request->getRequestUri();

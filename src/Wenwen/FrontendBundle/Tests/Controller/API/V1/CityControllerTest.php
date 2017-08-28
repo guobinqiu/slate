@@ -23,14 +23,14 @@ class CityControllerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces/1/cities',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
 
         echo $this->client->getResponse()->getContent();

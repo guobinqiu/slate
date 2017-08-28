@@ -22,17 +22,16 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
 
-        echo $this->client->getResponse()->getContent();
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
@@ -51,14 +50,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
@@ -79,31 +78,33 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
+
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
 
-        // send a same request immediately
+        // send same request immediately
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
+
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
@@ -123,14 +124,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -152,15 +153,16 @@ class AppAccessTokenListenerTest extends ApiTestCase
         $crawler = $this->client->request(
             'GET',
             '/v1/provinces',
-            array(), //parameters
-            array(), //files
+            array(),
+            array(),
             array(
                 'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
-            )//server
+            )
         );
+
         $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
