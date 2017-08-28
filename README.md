@@ -59,6 +59,8 @@ if USER = seki
 |----------------|----------------------------------------|
 | 91jili         | http://$USER.www.91jili.com.dev.91jili.com/app\_dev.php |
 
+## Submit code change
+To automatically correct coding standard violations, developer should run "make php_code_sniffer" before committing code change and sending code review.
 
 ## Tips
 
