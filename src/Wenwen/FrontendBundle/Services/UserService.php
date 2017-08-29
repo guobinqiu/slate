@@ -20,22 +20,16 @@ class UserService
     private $em;
     private $redis;
     private $serializer;
-    private $pointService;
-    private $parameterService;
 
     public function __construct(EntityManager $em,
                                 Client $redis,
                                 Serializer $serializer,
-                                LoggerInterface $logger,
-                                PointService $pointService,
-                                ParameterService $parameterService)
+                                LoggerInterface $logger)
     {
         $this->em = $em;
         $this->redis = $redis;
         $this->serializer = $serializer;
         $this->logger = $logger;
-        $this->pointService = $pointService;
-        $this->parameterService = $parameterService;
     }
 
     public function getUserBySopRespondentAppMid($appMid) {
