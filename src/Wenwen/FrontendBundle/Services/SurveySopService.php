@@ -3,11 +3,13 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Jili\ApiBundle\Entity\SopRespondent;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 use Psr\Log\LoggerInterface;
@@ -22,6 +24,7 @@ class SurveySopService
     private $pointService;
     private $redis;
     private $userService;
+    private $parameterService;
 
     public function __construct(LoggerInterface $logger,
                                 LoggerInterface $fakeAnswerLogger,
@@ -29,7 +32,8 @@ class SurveySopService
                                 PrizeTicketService $prizeTicketService,
                                 PointService $pointService,
                                 Client $redis,
-                                UserService $userService)
+                                UserService $userService,
+                                ParameterService $parameterService)
     {
         $this->logger = $logger;
         $this->fakeAnswerLogger = $fakeAnswerLogger;
@@ -38,6 +42,7 @@ class SurveySopService
         $this->pointService = $pointService;
         $this->redis = $redis;
         $this->userService = $userService;
+        $this->parameterService = $parameterService;
     }
 
     public function addSurveyUrlToken($survey, $userId)
@@ -70,59 +75,55 @@ class SurveySopService
 
     public function processSurveyEndlink($surveyId, $tid, $appMid, $answerStatus, $clientIp)
     {
+        $points = 0;
+        $answerStatus = strtolower($answerStatus);
         if (!SurveyStatus::isValid($answerStatus)) {
             throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
         }
-        $answerStatus = strtolower($answerStatus);
-        $points = 0;
-        $userId = $this->userService->toUserId($appMid);
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
-        if(empty($user)){
-            throw new \InvalidArgumentException("sop invalid appMid: {$appMid}");
-        }
+        $conn = $this->em->getConnection();
+        $conn->beginTransaction();
+
+        $user = $this->userService->getUserBySopRespondentAppMid($appMid);
         $token = $this->getSurveyToken($surveyId, $user->getId());
         if ($token != null && $tid == $token) {
             $survey = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneBy(array('surveyId' => $surveyId));
-            if ($survey != null) {
-                $conn = $this->em->getConnection();
-                $conn->beginTransaction();
-                try {
-                    $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
-                    // 记录csq
-                    $user->updateCSQ($answerStatus);
-
-                    $points = $survey->getPoints($answerStatus);
-                    $this->pointService->addPoints(
-                        $user,
-                        $points,
-                        CategoryType::SOP_COST,
-                        TaskType::SURVEY,
-                        $this->getTaskName($survey, $answerStatus),
-                        $survey
-                    );
-                    
-                    $this->pointService->addPointsForInviter(
-                        $user,
-                        $points * 0.1,
-                        CategoryType::EVENT_INVITE_SURVEY,
-                        TaskType::RENTENTION,
-                        '您的好友' . $user->getNick() . '回答了一份商业问卷',
-                        $survey
-                    );
-                    $conn->commit();
-                } catch (\Exception $e) {
-                    $conn->rollBack();
-                    throw $e;
-                }
+            if (null === $survey) {
+                throw new \Exception('SurveySop entity was not found. surveyId=' . $surveyId);
             }
-            $this->prizeTicketService->createPrizeTicket(
-                $user,
-                $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
-                'sop商业问卷',
-                $surveyId,
-                $answerStatus
-            );
-            $this->deleteSurveyToken($surveyId, $user->getId());
+            try {
+                $answerStatus = $this->createParticipationHistory($survey, $user, $answerStatus, $clientIp);
+                $user->updateCSQ($answerStatus);// 记录csq
+                $points = $survey->getPoints($answerStatus);
+                $this->pointService->addPoints(
+                    $user,
+                    $points,
+                    CategoryType::SOP_COST,
+                    TaskType::SURVEY,
+                    $this->getTaskName($survey, $answerStatus),
+                    $survey
+                );
+                $this->pointService->addPointsForInviter(
+                    $user,
+                    $points * 0.1,
+                    CategoryType::EVENT_INVITE_SURVEY,
+                    TaskType::RENTENTION,
+                    '您的好友' . $user->getNick() . '回答了一份商业问卷',
+                    $survey
+                );
+                $this->prizeTicketService->createPrizeTicket(
+                    $user,
+                    $answerStatus == SurveyStatus::STATUS_COMPLETE ? PrizeItem::TYPE_BIG : PrizeItem::TYPE_SMALL,
+                    'sop商业问卷',
+                    $surveyId,
+                    $answerStatus
+                );
+                $this->deleteSurveyToken($surveyId, $user->getId());
+                $conn->commit();
+            } catch (\Exception $e) {
+                $conn->rollBack();
+                $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+                throw $e;
+            }
         }
         return $points;
     }
@@ -139,8 +140,7 @@ class SurveySopService
 
     public function processProfilingEndlink($appMid, $tid)
     {
-        $userId = $this->userService->toUserId($appMid);
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
+        $user = $this->userService->getUserBySopRespondentAppMid($appMid);
         $key = 'sop_profiling_' . $user->getId();
         $token = $this->redis->get($key);
         if ($token != null && $tid == $token) {
@@ -155,14 +155,12 @@ class SurveySopService
             throw new \InvalidArgumentException("sop invalid answer status: {$answerStatus}");
         }
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
             'surveyId' => $surveyId,
             'status' => $answerStatus,
             'userId' => $userId,
         ));
         if ($participation == null) {
             $participation = new SurveySopParticipationHistory();
-//            $participation->setAppMid($appMid);
             $participation->setSurveyId($surveyId);
             $participation->setStatus($answerStatus);
             $participation->setClientIp($clientIp);
@@ -176,8 +174,8 @@ class SurveySopService
 
     public function createParticipationByAppMid($appMid, $surveyId, $answerStatus, $clientIp = null, $loi = null)
     {
-        $userId = $this->userService->toUserId($appMid);
-        return $this->createParticipationByUserId($userId, $surveyId, $answerStatus, $clientIp, $loi);
+        $user = $this->userService->getUserBySopRespondentAppMid($appMid);
+        return $this->createParticipationByUserId($user->getId(), $surveyId, $answerStatus, $clientIp, $loi);
     }
 
     public function createSurvey(array $surveyData)
@@ -271,11 +269,258 @@ class SurveySopService
         return false;
     }
 
+    /**
+     * Verify whether the it is a valid request by all params
+     * https://console.partners.surveyon.com/docs/v1_1/authentication#signing-a-query-string
+     *
+     * @param array $params   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidQueryString($params) {
+        if (!is_array($params)) {
+            $this->logger->warning(__METHOD__ . ' invalid params');
+            return false;
+        }
+
+        if (!isset($params['app_id'])) {
+            $this->logger->warning(__METHOD__ . ' app_id not set in params');
+            return false;
+        }
+
+        if (!isset($params['sig'])) {
+            $this->logger->warning(__METHOD__ . ' sig not set in params');
+            return false;
+        }
+
+        try {
+            // Get secret_key by param app_id
+            $appId = $params['app_id'];
+            $appSecret = $this->getAppSecretByAppId($appId);
+
+            // Verify param sig is valid or not
+            $sig = $params['sig'];
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            unset($params['sig']);
+            $result = $auth->verifySignature($sig, $params);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' params=' . json_encode($params));
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Verify whether the it is a valid request by all params
+     * https://console.partners.surveyon.com/docs/v1_1/authentication#signing-a-json-string
+     *
+     * @param JSON String $requestBody   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidJSONString($jsonData, $xSopSig) {
+        if (null === $jsonData) {
+            $this->logger->warning(__METHOD__ . ' invalid jsonData');
+            return false;
+        }
+
+        if (null === $xSopSig) {
+            $this->logger->warning(__METHOD__ . ' invalid xSopSig');
+            return false;
+        }
+
+        $params = $jsonData ? json_decode($jsonData, true) : array ();
+
+        if (!isset($params['app_id'])) {
+            $this->logger->warning(__METHOD__ . ' app_id not set in params');
+            return false;
+        }
+        try {
+            // Get secret_key by param app_id
+            $appId = $params['app_id'];
+            $appSecret = $this->getAppSecretByAppId($appId);
+
+            // Verify xSopSig is valid or not
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            $result = $auth->verifySignature($xSopSig, $jsonData);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' jsonData=' . $jsonData);
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    /**
+     * Verify whether the it is a valid request by all params
+     * !!! This is used by ProjectSurveyCintController->agreementCompleteAction only. !!!
+     * !!! Because the call back from SOP does not include app_id as a param in request body !!!
+     * !!! Do not use it at other place !!!
+     *
+     * @param array $params   all params of request. app_id and sig must exist.
+     * @return boolean
+     */
+    public function isValidQueryStringByAppMid($params) {
+        if (!is_array($params)) {
+            $this->logger->warning(__METHOD__ . ' invalid params');
+            return false;
+        }
+
+        if (!isset($params['app_mid'])) {
+            $this->logger->warning(__METHOD__ . ' app_mid not set in params');
+            return false;
+        }
+
+        if (!isset($params['sig'])) {
+            $this->logger->warning(__METHOD__ . ' sig not set in params');
+            return false;
+        }
+
+        try {
+            // Get app_id and secret_key by param app_mid
+            $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($params['app_mid']);
+            if (!$sopRespondent) {
+                $this->logger->warning(__METHOD__ . ' sopRespondent not exist app_mid=' . $params['app_mid']);
+                return false;
+            }
+            $appId = $sopRespondent->getAppId();
+            $appSecret = $this->getAppSecretByAppId($appId);
+
+            $sig = $params['sig'];
+            // remember to remove sig before verify
+            unset($params['sig']);
+            $auth = new \SOPx\Auth\V1_1\Client($appId, $appSecret);
+            $result = $auth->verifySignature($sig, $params);
+
+            if (!$result['status']) {
+                $this->logger->warn(__METHOD__ . ' errMsg=' . $result['msg'] . ' params=' . json_encode($params));
+                return false;
+            } else {
+                $this->logger->debug(__METHOD__ . ' success');
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' errMsg=' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getSopCredentialsByOwnerType($ownerType)
+    {
+        if (!OwnerType::isValid($ownerType)) {
+            throw new \InvalidArgumentException('Unsupported owner_type: ' . $ownerType);
+        }
+        $sopApps = $this->parameterService->getParameter('sop_apps');
+        if (is_null($sopApps)) {
+            throw new \InvalidArgumentException("Missing option 'sop_apps'");
+        }
+        foreach($sopApps as $sopApp) {
+            if (!isset($sopApp['owner_type'])) {
+                throw new \InvalidArgumentException("Missing option 'owner_type'");
+            }
+            if ($sopApp['owner_type'] == $ownerType) {
+                if (!isset($sopApp['app_id'])) {
+                    throw new \InvalidArgumentException("Missing option 'app_id'");
+                }
+                if (!isset($sopApp['app_secret'])) {
+                    throw new \InvalidArgumentException("Missing option 'app_secret'");
+                }
+                return $sopApp;
+            }
+        }
+        throw new \InvalidArgumentException('SopCredentials was not found. owner_type=' . $ownerType);
+    }
+
+    public function getSopCredentialsByAppId($appId)
+    {
+        $sopApps = $this->parameterService->getParameter('sop_apps');
+        if (is_null($sopApps)) {
+            throw new \InvalidArgumentException("Missing option 'sop_apps'");
+        }
+        foreach($sopApps as $sopApp) {
+            if (!isset($sopApp['app_id'])) {
+                throw new \InvalidArgumentException("Missing option 'app_id'");
+            }
+            if ($sopApp['app_id'] == $appId) {
+                if (!isset($sopApp['app_secret'])) {
+                    throw new \InvalidArgumentException("Missing option 'app_secret'");
+                }
+                return $sopApp;
+            }
+        }
+        throw new \InvalidArgumentException('SopCredentials was not found. appId=' . $appId);
+    }
+
+    public function getAllSopCredentials()
+    {
+        $sopApps = $this->parameterService->getParameter('sop_apps');
+        if (is_null($sopApps)) {
+            throw new \InvalidArgumentException("Missing option 'sop_apps'");
+        }
+        return $sopApps;
+    }
+
+    public function getAppIdByOwnerType($ownerType)
+    {
+        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
+        return $sopCredentials['app_id'];
+    }
+
+    public function getAppSecretByOwnerType($ownerType)
+    {
+        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
+        return $sopCredentials['app_secret'];
+    }
+
+    public function getAppSecretByAppId($appId)
+    {
+        $sopCredentials = $this->getSopCredentialsByAppId($appId);
+        return $sopCredentials['app_secret'];
+    }
+
+    public function getSopRespondentByUserId($userId) {
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
+        if (null === $sopRespondent) {
+            throw new \Exception('SopRespondent was not found. userId=' . $userId);
+        }
+        return $sopRespondent;
+    }
+
+    public function createSopRespondent($userId, $ownerType) {
+        $appId = $this->getAppIdByOwnerType($ownerType);
+        $sopRespondent = new SopRespondent();
+        $i = 0;
+        while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
+            $sopRespondent->setAppMid(SopRespondent::generateAppMid());
+            $i++;
+            if ($i > 1000) {
+                break;
+            }
+        }
+        $sopRespondent->setUserId($userId);
+        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $sopRespondent->setAppId($appId);
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+        return $sopRespondent;
+    }
+
     private function createParticipationHistory($survey, $user, $answerStatus, $clientIp)
     {
         $actualLoiSeconds = null;
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-//            'appMid' => $appMid,
             'surveyId' => $survey->getSurveyId(),
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $user->getId(),
@@ -302,5 +547,10 @@ class SurveySopService
             $statusText = '完成';
         }
         return "r{$survey->getSurveyId()} {$survey->getTitle()}（状态：{$statusText}）";
+    }
+
+    private function isAppMidDuplicated($key)
+    {
+        return count($this->em->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }

@@ -56,8 +56,8 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        $sop_configure = $this->getContainer()->getParameter('sop');
-        return $sop_configure['api_v1_1_cint_surveys_research_participation_history'];
+        $sopConfig = $this->getContainer()->getParameter('sop');
+        return $sopConfig['api_v1_1_cint_surveys_research_participation_history'];
     }
 
     protected function requiredFields()
@@ -88,25 +88,30 @@ class PanelRewardCintPointCommand extends PanelRewardCommand
 
     protected function skipRewardAlreadyExisted($history)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
-        $userId = $this->getContainer()->get('app.user_service')->toUserId($history['app_mid']);
-        $participations = $em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
-            //'appMid' => $history['app_mid'],
-            'surveyId' => $history['survey_id'],
-            'userId' => $userId,
-        ));
-        //先注释掉，积累一段时间数据后再放开
-//        if (count($participations) < 3) {
-//            throw new \Exception('菲律宾那边有误操作，没回答过的用户也撒钱，钱多是吗？');
-//        }
-//        if (count($participations) == 4) {
-            foreach ($participations as $participation) {
-                if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
-                    return true;
+        try {
+            $em = $this->getContainer()->get('doctrine')->getManager();
+            $user = $this->getContainer()->get('app.user_service')->getUserBySopRespondentAppMid($history['app_mid']);
+            $participations = $em->getRepository('WenwenFrontendBundle:SurveyCintParticipationHistory')->findBy(array(
+                'surveyId' => $history['survey_id'],
+                'userId' => $user->getId(),
+            ));
+            if (count($participations) < 3 || count($participations) > 4) {
+                $msg = ' Only 3 (targeted, init and forward) or 4 (targeted, init, forward and one of C/S/Q/E) is valid. But now is %d (app_mid = %s).';
+                $this->logger->error(__METHOD__ . sprintf($msg, count($participations), $history['app_mid']));
+                return true;
+            }
+            if (count($participations) == 4) {
+                foreach ($participations as $participation) {
+                    if (in_array($participation->getStatus(), SurveyStatus::$answerStatuses)) {
+                        return true;
+                    }
                 }
             }
-//        }
-        return false;
+            return false;
+        } catch (\Exception $e) {
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
+            return true;
+        }
     }
 
     protected function createParticipationHistory($history)

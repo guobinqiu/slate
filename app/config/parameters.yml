@@ -17,9 +17,6 @@ parameters:
         admin_host: %sop.admin_host%
         console_host: %sop.console_host%
         host: %sop.host%
-        auth:
-            app_id: %sop.auth.app_id%
-            app_secret: %sop.auth.app_secret%
         point:
             profile: 1
         api_v1_1_surveys_research_participation_history: http://%sop.console_host%/api/v1_1/surveys/research/participation_history

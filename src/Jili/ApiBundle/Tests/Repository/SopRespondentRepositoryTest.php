@@ -5,6 +5,7 @@ use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Model\OwnerType;
 
 class SopRespondentRepositoryTest extends KernelTestCase
 {
@@ -14,7 +15,6 @@ class SopRespondentRepositoryTest extends KernelTestCase
      */
     private $em;
     private $container;
-    private $user;
 
     /**
      * {@inheritDoc}
@@ -45,53 +45,21 @@ class SopRespondentRepositoryTest extends KernelTestCase
     }
 
     /**
-     * @group dev-merge-ui-survey-list
-     */
-    public function testInsertByUser()
-    {
-        $em = $this->em;
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
-
-        $this->assertEquals(1, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
-    }
-
-    /**
-     * @group dev-merge-ui-survey-list
-     */
-    public function testRetrieveOrInsertByUserId()
-    {
-        $em = $this->em;
-
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
-
-        //测试已经存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(1);
-        $this->assertEquals(1, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
-
-        //测试不存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveOrInsertByUserId(2);
-        $this->assertEquals(2, $sop_respondent->getUserId());
-        $this->assertEquals(1, $sop_respondent->getStatusFlag());
-    }
-
-    /**
      * @group dev-merge-ui-profile_point
      */
     public function testRetrieveByAppMid()
     {
         $em = $this->em;
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser(1);
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent(1, OwnerType::DATASPRING);
 
         //测试已经存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sop_respondent->getAppMid());
-        $this->assertNotEmpty($sop_respondent);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sopRespondent->getAppMid());
+        $this->assertNotEmpty($sopRespondent);
 
         //测试不存在的数据
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
-        $this->assertEmpty($sop_respondent);
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
+        $this->assertEmpty($sopRespondent);
     }
 
     /**
@@ -102,8 +70,8 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em = $this->em;
 
         //测试不存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
-        $this->assertEmpty($recipient_data);
+        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
+        $this->assertEmpty($recipientData);
 
         $user = new User();
         $user->setNick('bb');
@@ -115,14 +83,14 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $em->persist($user);
         $em->flush();
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->insertByUser($user->getId());
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($user->getId(), OwnerType::DATASPRING);
 
         //测试已经存在的数据
-        $recipient_data = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sop_respondent->getAppMid());
+        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sopRespondent->getAppMid());
 
-        $this->assertNotEmpty($recipient_data);
+        $this->assertNotEmpty($recipientData);
 
-        $this->assertEquals('user@voyagegroup.com.cn', $recipient_data['email']);
-        $this->assertEquals('bb', $recipient_data['name1']);
+        $this->assertEquals('user@voyagegroup.com.cn', $recipientData['email']);
+        $this->assertEquals('bb', $recipientData['name1']);
     }
 }

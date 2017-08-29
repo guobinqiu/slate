@@ -16,6 +16,7 @@ use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 /**
  * @Route("/user")
@@ -59,7 +60,7 @@ class RegistrationController extends BaseController
                     // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
                     // Return a fake result to bot when blocked by fingerprint
                     $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
-                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' .  $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
+                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' . $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
@@ -114,12 +115,16 @@ class RegistrationController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $userService = $this->get('app.user_service');
 
-        if ($rtn['status'] == 'success') {
+        $ownerType = $this->getOwnerTypeFromSession($request);
+        $this->get('logger')->info(__METHOD__ . 'email ownerType=' . $ownerType);
+
+        if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
             $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
             if ($user == null) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $userService->pushBasicProfile($user);
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
@@ -141,11 +146,11 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $userService->pushBasicProfile($user);
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
-
         return $this->redirect($this->generateUrl('_user_regFailure'));
     }
 
@@ -163,32 +168,5 @@ class RegistrationController extends BaseController
     public function regFailureAction()
     {
         return $this->render('WenwenFrontendBundle:User:regFailure.html.twig');
-    }
-
-    /**
-     * @Route("/profile_survey", name="_user_profile_survey", methods={"GET"})
-     */
-    public function profileSurvey(Request $request)
-    {
-        $userId = $request->getSession()->get('uid');
-        if ($userId == null) {
-            $this->redirect($this->generateUrl('_homepage'));
-        }
-        $sop_profiling_info = $this->getSopProfilingSurveyInfo($userId);
-        return $this->redirect($sop_profiling_info['profiling']['url']);
-    }
-
-    private function getSopProfilingSurveyInfo($user_id) {
-        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        $surveyService = $this->get('app.survey_service');
-        $env = $this->container->get('kernel')->getEnvironment();
-        if (in_array($env, array('dev','test'))) {
-            // for dummy mode (won't access sop's server at dev or test mode)
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyService->setDummy(true);
-        }
-        $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
-        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
-        return $sop_profiling_info;
     }
 }

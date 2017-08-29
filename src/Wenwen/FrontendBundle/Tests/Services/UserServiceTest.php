@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
 
 class UserServiceTest extends WebTestCase
@@ -14,6 +15,7 @@ class UserServiceTest extends WebTestCase
     private $container;
     private $em;
     private $userService;
+    private $surveySopService;
 
     /**
      * {@inheritDoc}
@@ -37,6 +39,7 @@ class UserServiceTest extends WebTestCase
         $this->em = $em;
 
         $this->userService = $container->get('app.user_service');
+        $this->surveySopService = $container->get('app.survey_sop_service');
     }
 
     /**
@@ -54,7 +57,6 @@ class UserServiceTest extends WebTestCase
 
         $serializer = $this->container->get('jms_serializer');
         $str = $serializer->serialize($user, 'json');
-        echo $str;
 
         $user = $serializer->deserialize($str, 'Wenwen\FrontendBundle\Entity\User', 'json');
         $this->assertEquals('user1', $user->getNick());
@@ -88,5 +90,25 @@ class UserServiceTest extends WebTestCase
 
         // after test clean up
         $redis->del($key);
+    }
+
+    public function testGetUserBySopRespondentAppMid()
+    {
+        $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
+
+        $this->surveySopService->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[0]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[0]->getId());
+
+        $this->surveySopService->createSopRespondent($users[1]->getId(), OwnerType::INTAGE);
+        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[1]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[1]->getId());
+
+        $this->surveySopService->createSopRespondent($users[2]->getId(), OwnerType::ORGANIC);
+        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[2]->getId());
+        $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
+        $this->assertEquals($user->getId(), $users[2]->getId());
     }
 }

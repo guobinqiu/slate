@@ -74,7 +74,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
                 $userId = $ssiRespondent->getUserId();
                 $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
                 if (!$user) {
-                    $msg = sprintf(' Skip reward, User (Id: %s) not found.  %s', $userId, json_encode($row));
+                    $msg = sprintf(' Skip reward, User entity (id: %s) was not found. %s', $userId, json_encode($row));
                     $logger->warn(__METHOD__ . $msg);
                     array_push($skipMessages, date('Y-m-d H:i:s') . $msg);
                     continue;
@@ -173,7 +173,7 @@ class SsiPointRewardCommand extends ContainerAwareCommand
         return $this->getContainer()->get('app.internal_mail_service')->sendMails($subject, $alertTo, $content);
     }
 
-    protected function getLogger()
+    private function getLogger()
     {
         $log_dir = $this->getContainer()->getParameter('jili_app.logs_dir');
         $log_dir .= '/reward_point/' . (new \ReflectionClass($this))->getShortName() . '/' . date('Ym');

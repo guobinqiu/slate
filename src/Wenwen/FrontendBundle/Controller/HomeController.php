@@ -3,12 +3,8 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Jili\ApiBundle\Entity\Vote;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wenwen\FrontendBundle\Entity\User;
-use JMS\JobQueueBundle\Entity\Job;
-use Wenwen\FrontendBundle\Entity\SurveyListJob;
 use Wenwen\FrontendBundle\Services\AuthService;
 
 class HomeController extends BaseController
@@ -33,6 +29,7 @@ class HomeController extends BaseController
 
         if (!$session->has('uid')) {
             $this->setRegisterRouteInSession($request);
+            $this->setOwnerTypeToSession($request);
             return $this->render('WenwenFrontendBundle:Home:index.html.twig');
         }
 
@@ -45,8 +42,6 @@ class HomeController extends BaseController
         }
 
         $htmlSurveyList = $this->getHtmlSurveyList($request, $userId);
-
-        //$this->checkoutSurveyList($userId);
 
         $latestNews = $this->get('app.latest_news_service')->getLatestNews();
         $em = $this->getDoctrine()->getManager();
@@ -149,35 +144,4 @@ class HomeController extends BaseController
 
         return $start_time;
     }
-
-//    private function checkoutSurveyList($userId)
-//    {
-//        $timeslot = SurveyListJob::getTimeslot(time());
-//        $min = new \DateTime($timeslot['min']);
-//        $max = new \DateTime($timeslot['max']);
-//        $em = $this->getDoctrine()->getManager();
-//        $surveyListJob = $em->getRepository('WenwenFrontendBundle:SurveyListJob')->getSurveyListJob($userId, $min, $max);
-//        if ($surveyListJob == null) {
-//            $surveyListJob = new SurveyListJob($userId);
-//            $em->persist($surveyListJob);
-//            $em->flush();
-//
-//            //gmo
-//            $surveyGmoService = $this->get('app.survey_gmo_service');
-//            $researches = $surveyGmoService->getSurveyList($userId);
-//            foreach ($researches as $research) {
-//                $survey = $surveyGmoService->createOrUpdateSurvey($research);
-//                $surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
-//            }
-//
-//            //sop
-//            $args = array(
-//                '--user_id=' . $userId,
-//            );
-//            $job = new Job('sop:checkout_survey_list', $args, true, '91wenwen_sop');
-//            $job->setMaxRetries(3);
-//            $em->persist($job);
-//            $em->flush();
-//        }
-//    }
 }

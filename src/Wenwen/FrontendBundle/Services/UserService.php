@@ -7,7 +7,6 @@ use JMS\JobQueueBundle\Entity\Job;
 use JMS\Serializer\Serializer;
 use Predis\Client;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wenwen\FrontendBundle\Entity\QQUser;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
@@ -22,26 +21,33 @@ class UserService
     private $redis;
     private $serializer;
     private $pointService;
+    private $parameterService;
 
     public function __construct(EntityManager $em,
                                 Client $redis,
                                 Serializer $serializer,
                                 LoggerInterface $logger,
-                                PointService $pointService
-    ) {
+                                PointService $pointService,
+                                ParameterService $parameterService)
+    {
         $this->em = $em;
         $this->redis = $redis;
         $this->serializer = $serializer;
         $this->logger = $logger;
         $this->pointService = $pointService;
+        $this->parameterService = $parameterService;
     }
 
-    public function toUserId($app_mid) {
-        $arr = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($app_mid);
-        if (empty($arr)) {
-            return new NotFoundHttpException('No user_id matches the app_mid');
+    public function getUserBySopRespondentAppMid($appMid) {
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($appMid);
+        if (null === $sopRespondent) {
+            throw new \Exception('SopRespondent was not found. appMid=' . $appMid);
         }
-        return $arr['id'];
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($sopRespondent->getUserId());
+        if (null === $user) {
+            throw new \Exception('User was not found. userId=' . $sopRespondent->getUserId());
+        }
+        return $user;
     }
 
     public function getProvinceList() {
@@ -108,8 +114,13 @@ class UserService
         if ($canRewardInviter) {
             $user->setInviteId($inviteId);
         }
-        while ($this->isDuplicated($user->getUniqId())) {
+        $i = 0;
+        while ($this->isUniqIdDuplicated($user->getUniqId())) {
             $user->setUniqId(User::generateUniqId());
+            $i++;
+            if ($i > 1000) {
+                break;
+            }
         }
         $this->em->persist($user);
         $this->em->flush();
@@ -185,6 +196,7 @@ class UserService
         $userTrack->setUser($user);
         $this->em->persist($userTrack);
         $this->em->flush();
+        return $userTrack;
     }
 
     public function updateUserTrack(UserTrack $userTrack, $clientIp, $fingerprint, $oauth = null)
@@ -244,18 +256,13 @@ class UserService
         $this->em->flush();
     }
 
-    public function isDuplicated($key)
-    {
-        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
-    }
-
     /**
      * 推送用户基本信息
      */
-    public function pushBasicProfile(User $user)
+    public function pushBasicProfileJob($userId)
     {
         $args = array(
-            '--user_id=' . $user->getId(),
+            '--user_id=' . $userId,
         );
         $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
         $job->setMaxRetries(3);
@@ -275,5 +282,10 @@ class UserService
             }
         }
         return false;
+    }
+
+    private function isUniqIdDuplicated($key)
+    {
+        return count($this->em->getRepository('WenwenFrontendBundle:User')->findByUniqId($key)) > 0;
     }
 }

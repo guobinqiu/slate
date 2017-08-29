@@ -182,7 +182,11 @@ class QQLoginController extends BaseController
                     $user = $userService->createUserByQQUser($qqUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
-                    $userService->pushBasicProfile($user);
+                    $ownerType = $this->getOwnerTypeFromSession($request);
+                    $this->get('logger')->info(__METHOD__ . 'qq ownerType=' . $ownerType);
+                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+
+                    $userService->pushBasicProfileJob($user->getId());
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));

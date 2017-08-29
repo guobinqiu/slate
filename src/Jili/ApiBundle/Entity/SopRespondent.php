@@ -17,6 +17,7 @@ use Ramsey\Uuid\Uuid;
  *         @ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}),
  *         @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}),
  *         @ORM\Index(name="updated_at_idx", columns={"updated_at"}),
+ *         @ORM\Index(name="app_id_idx", columns={"app_id"}),
  *     }
  * )
  *
@@ -79,6 +80,13 @@ class SopRespondent
      * @link https://stackoverflow.com/questions/20342058/which-uuid-version-to-use
      */
     private $appMid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="app_id", type="integer", nullable=false)
+     */
+    private $appId;
 
     public function __construct()
     {
@@ -224,5 +232,14 @@ class SopRespondent
 
     public function getAppMid() {
         return $this->appMid;
+    }
+
+    public function setAppId($appId) {
+        $this->appId = $appId;
+        return $this;
+    }
+
+    public function getAppId() {
+        return $this->appId;
     }
 }

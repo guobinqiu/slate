@@ -18,7 +18,6 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_responednt;
 
     /**
      * {@inheritDoc}
@@ -74,8 +73,8 @@ class PanelRewardFulcrumAgreementCommandTest extends KernelTestCase
         $container->set('sop_api.client', $client);
 
         $respondents = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
-        $sop_respondent = $respondents[0];
-        $app_mid = $sop_respondent->getAppMid();
+        $sopRespondent = $respondents[0];
+        $app_mid = $sopRespondent->getAppMid();
 
         // data
         $header = array('app_id', 'app_mid', 'agreement_status', 'answered_at');
@@ -232,10 +231,11 @@ class PanelRewardFulcrumAgreementCommandTestFixture implements FixtureInterface
         $manager->persist($user);
         $manager->flush();
 
-        $sop_respondent = new SopRespondent();
-        $sop_respondent->setUserId($user->getId());
-        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
-        $manager->persist($sop_respondent);
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setStatusFlag($sopRespondent::STATUS_ACTIVE);
+        $sopRespondent->setAppId(27);
+        $manager->persist($sopRespondent);
         $manager->flush();
 
         //load data for testing .
@@ -250,10 +250,11 @@ class PanelRewardFulcrumAgreementCommandTestFixture implements FixtureInterface
         $manager->flush();
 
         //inactive
-        $sop_respondent = new SopRespondent();
-        $sop_respondent->setUserId($user->getId());
-        $sop_respondent->setStatusFlag($sop_respondent::STATUS_ACTIVE);
-        $manager->persist($sop_respondent);
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setStatusFlag($sopRespondent::STATUS_ACTIVE);
+        $sopRespondent->setAppId(92);
+        $manager->persist($sopRespondent);
         $manager->flush();
     }
 }
