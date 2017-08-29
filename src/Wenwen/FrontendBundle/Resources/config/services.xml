@@ -186,7 +186,7 @@
         </service>
 
         <!-- api definition goes here -->
-        <service id="api.listener.app_access_token_listener" class="Wenwen\FrontendBundle\EventListener\API\AppAccessTokenListener">
+        <service id="api.listener.access_token_listener" class="Wenwen\FrontendBundle\EventListener\API\AccessTokenListener">
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />
@@ -194,7 +194,7 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
 
-        <service id="api.listener.user_access_token_listener" class="Wenwen\FrontendBundle\EventListener\API\UserAccessTokenListener">
+        <service id="api.listener.login_token_listener" class="Wenwen\FrontendBundle\EventListener\API\LoginTokenListener">
             <argument type="service" id="logger" />
             <argument type="service" id="app.parameter_service" />
             <argument type="service" id="snc_redis.default" />

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wenwen\FrontendBundle\Controller\API\TokenAuthenticatedFOSRestController;
 use Wenwen\FrontendBundle\Entity\User;
-use Wenwen\FrontendBundle\EventListener\API\UserAccessTokenListener;
+use Wenwen\FrontendBundle\EventListener\API\LoginTokenListener;
 use Wenwen\FrontendBundle\Form\API\V1\LoginType;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\HttpStatus;
@@ -16,6 +16,7 @@ use Wenwen\FrontendBundle\Model\API\HttpStatus;
 class UserController extends TokenAuthenticatedFOSRestController
 {
     const MOBILE_TOKEN_TTL = 600; //10min
+    const LOGIN_TOKEN_NAME = 'loginToken';
 
     /**
      * Send sms token.
@@ -25,7 +26,7 @@ class UserController extends TokenAuthenticatedFOSRestController
     public function smsTokenAction(Request $request) 
     {
         $mobileNumber = $request->request->get('mobile_number');
-        $mobileToken = $this->generateMobileToken(4);
+        $mobileToken = $this->createMobileToken(4);
 
         $redis = $this->get('snc_redis.default');
         $redis->set($mobileNumber, $mobileToken);
@@ -77,15 +78,10 @@ class UserController extends TokenAuthenticatedFOSRestController
         }
 
         $user = new User();
-        $userAccessToken = $this->generateUserAccessToken($user);
-
-        $redis = $this->get('snc_redis.default');
-        $redis->set($userAccessToken, $user->getId());
-        $redis->expire($userAccessToken, UserAccessTokenListener::USER_ACCESS_TOKEN_TTL);
-
+        $loginToken = $this->createLoginToken($user);
         $data = [
             'user' => $user,
-            'user_access_token' => $userAccessToken,
+            self::LOGIN_TOKEN_NAME => $loginToken,
         ];
         return $this->view(ApiUtil::formatSuccess($data), HttpStatus::HTTP_OK);
     }
@@ -99,16 +95,19 @@ class UserController extends TokenAuthenticatedFOSRestController
     {
     }
 
-    private function generateMobileToken($length = 6) 
+    private function createMobileToken($length = 6)
     {
         $randStr = str_shuffle('1234567890');
         $rand = substr($randStr, 0, $length);
         return $rand;
     }
 
-    private function generateUserAccessToken(User $user) 
+    private function createLoginToken(User $user)
     {
-        //return hash('sha256', $user->getId() . $user->getPwd() . time());
-        return md5(uniqid(rand(), true));
+        $loginToken = md5(uniqid(rand(), true));
+        $redis = $this->get('snc_redis.default');
+        $redis->set($loginToken, $user->getId()); // mapping login token to user id
+        $redis->expire($loginToken, LoginTokenListener::LOGIN_TOKEN_TTL);
+        return $loginToken;
     }
 }

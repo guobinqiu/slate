@@ -3,7 +3,7 @@
 namespace Test\Utils;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Wenwen\FrontendBundle\EventListener\API\AppAccessTokenListener;
+use Wenwen\FrontendBundle\EventListener\API\AccessTokenListener;
 use Wenwen\FrontendBundle\EventListener\API\CorsListener;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
 
@@ -33,8 +33,8 @@ class ApiTestCase extends WebTestCase
     {
         $appId = '19430461965976b27b6199c';
         $appSecret = '4da24648b8f1924148216cc8b49518e1';
-        $digest = hash_hmac(AppAccessTokenListener::SIGNATURE_ALGORITHM, $message, $appSecret);
-        $signature = ApiUtil::urlsafe_b64encode($appId . AppAccessTokenListener::SIGNATURE_DELIMITER . $digest);
+        $digest = hash_hmac(AccessTokenListener::SIGNATURE_ALGORITHM, $message, $appSecret);
+        $signature = ApiUtil::urlsafe_b64encode($appId . AccessTokenListener::SIGNATURE_DELIMITER . $digest);
         return $signature;
     }
 
@@ -59,7 +59,7 @@ class ApiTestCase extends WebTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',

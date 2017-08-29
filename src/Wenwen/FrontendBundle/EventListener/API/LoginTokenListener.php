@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Wenwen\FrontendBundle\Annotation\API\NeedLogin;
 use Wenwen\FrontendBundle\Controller\API\TokenAuthenticatedController;
+use Wenwen\FrontendBundle\Controller\API\V1\UserController;
 use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\HttpStatus;
 use Wenwen\FrontendBundle\Services\ParameterService;
 
-class UserAccessTokenListener
+class LoginTokenListener
 {
-    const USER_ACCESS_TOKEN_TTL = 1800; //30min
+    const LOGIN_TOKEN_TTL = 1800; //30min
 
     private $logger;
     private $parameterService;
@@ -50,7 +51,7 @@ class UserAccessTokenListener
 
         if ($controller[0] instanceof TokenAuthenticatedController) {
             $method = $this->getInvokedMethod($controller);
-            if ($this->hasNeedLogin($method)) {
+            if ($this->hasNeedLoginAnnotation($method)) {
                 $request = $event->getRequest();
                 try {
                     $this->authenticate($request);
@@ -74,7 +75,7 @@ class UserAccessTokenListener
         return $reflectionMethod;
     }
 
-    private function hasNeedLogin(\ReflectionMethod $method)
+    private function hasNeedLoginAnnotation(\ReflectionMethod $method)
     {
         $annotations = $this->annotationReader->getMethodAnnotations($method);
         foreach ($annotations as $annotation) {
@@ -85,19 +86,20 @@ class UserAccessTokenListener
         return false;
     }
 
-    private function authenticate(Request $request) 
+    private function authenticate(Request $request)
     {
-        $userAccessToken = $request->headers->get(CorsListener::X_USER_ACCESS_TOKEN);
-        $this->logger->debug(__METHOD__ . ' userAccessToken=' . $userAccessToken);
+        $loginToken = $request->headers->get(CorsListener::X_LOGIN_TOKEN);
+        $this->logger->debug(__METHOD__ . ' loginToken=' . $loginToken);
 
-        if (!isset($userAccessToken)) {
-            throw new \RuntimeException("Missing 'X_USER_ACCESS_TOKEN' in request header");
+        if (!isset($loginToken)) {
+            throw new \RuntimeException("Missing 'X_LOGIN_TOKEN' in request header");
         }
 
-        if (!$this->redis->exists($userAccessToken)) {
-            throw new \RuntimeException("Invalid 'X_USER_ACCESS_TOKEN' in request header");
+        if (!$this->redis->exists($loginToken)) {
+            throw new \RuntimeException("Invalid 'X_LOGIN_TOKEN' in request header");
         }
 
-        $this->redis->expire($userAccessToken, self::USER_ACCESS_TOKEN_TTL);
+        //延续token登录的时长，只要半小时里有接受到请求就不会登出
+        $this->redis->expire($loginToken, self::LOGIN_TOKEN_TTL);
     }
 }

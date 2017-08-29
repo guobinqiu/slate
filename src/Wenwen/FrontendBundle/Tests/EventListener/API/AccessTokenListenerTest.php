@@ -4,8 +4,9 @@ namespace Wenwen\FrontendBundle\Tests\EventListener\API;
 
 use Test\Utils\ApiTestCase;
 use Wenwen\FrontendBundle\EventListener\API\CorsListener;
+use Wenwen\FrontendBundle\Model\API\HttpStatus;
 
-class AppAccessTokenListenerTest extends ApiTestCase
+class AccessTokenListenerTest extends ApiTestCase
 {
     public function testSignatureSuccess()
     {
@@ -25,14 +26,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
@@ -53,13 +54,13 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 
@@ -81,14 +82,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
 
         // send same request immediately
@@ -98,14 +99,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
 
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 
@@ -127,14 +128,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
 
@@ -156,14 +157,14 @@ class AppAccessTokenListenerTest extends ApiTestCase
             array(),
             array(),
             array(
-                'HTTP_' . CorsListener::X_APP_ACCESS_TOKEN => $signature,
+                'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
 
-        $this->assertEquals(401, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(HttpStatus::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
         $this->assertContains('error', $this->client->getResponse()->getContent());
     }
 }

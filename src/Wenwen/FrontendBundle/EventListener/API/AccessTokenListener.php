@@ -13,7 +13,7 @@ use Wenwen\FrontendBundle\Model\API\ApiUtil;
 use Wenwen\FrontendBundle\Model\API\HttpStatus;
 use Wenwen\FrontendBundle\Services\ParameterService;
 
-class AppAccessTokenListener
+class AccessTokenListener
 {
     const SIGNATURE_ALGORITHM = 'sha256'; // Can be one of md5, sha1, ...
     const REPLAY_ATTACK_TTL = 600; //10min
@@ -70,18 +70,18 @@ class AppAccessTokenListener
 
     private function authenticate(Request $request) 
     {
-        $clientSignature = $request->headers->get(CorsListener::X_APP_ACCESS_TOKEN);
+        $clientSignature = $request->headers->get(CorsListener::X_ACCESS_TOKEN);
         if (!isset($clientSignature)) {
-            throw new \InvalidArgumentException("Missing 'X_APP_ACCESS_TOKEN' in request header");
+            throw new \InvalidArgumentException("Missing 'X_ACCESS_TOKEN' in request header");
         }
 
-        $timestamp = $request->headers->get(CorsListener::X_TIMESTAMP);
-        if (!isset($timestamp)) {
+        $clientTimestamp = $request->headers->get(CorsListener::X_TIMESTAMP);
+        if (!isset($clientTimestamp)) {
             throw new \InvalidArgumentException("Missing 'X_TIMESTAMP' in request header");
         }
 
-        $nonce = $request->headers->get(CorsListener::X_NONCE);
-        if (!isset($nonce)) {
+        $clientNonce = $request->headers->get(CorsListener::X_NONCE);
+        if (!isset($clientNonce)) {
             throw new \InvalidArgumentException("Missing 'X_NONCE' in request header");
         }
 
@@ -102,7 +102,7 @@ class AppAccessTokenListener
             throw new \RuntimeException('Client signature did not match server signature');
         }
 
-        $this->checkReplayAttack($timestamp, $nonce);
+        $this->checkReplayAttack($clientTimestamp, $clientNonce);
     }
 
     private function getAppId($clientSignature)
@@ -112,7 +112,8 @@ class AppAccessTokenListener
         if ($pos === false) {
             throw new \InvalidArgumentException("Missing '" . self::SIGNATURE_DELIMITER . "' delimiter for your signature");
         }
-        return explode(self::SIGNATURE_DELIMITER, $signature)[0];
+        $appId = explode(self::SIGNATURE_DELIMITER, $signature)[0];
+        return trim($appId);
     }
 
     private function getAppSecret($appId) 
@@ -150,7 +151,7 @@ class AppAccessTokenListener
      *
      * 1. method (get,post,put,delete)
      * 2. uri (pathInfo + queryString)
-     * 3. body (posted json data)
+     * 3. payload (post request data)
      * 4. timestamp (client side current POSIX time)
      * 5. nonce (client side uuid)
      * 6. to uppercase
@@ -168,21 +169,23 @@ class AppAccessTokenListener
         return strtoupper(implode("", $data));
     }
 
-    private function checkReplayAttack($timestamp, $nonce) 
+    private function checkReplayAttack($clientTimestamp, $clientNonce)
     {
-        $this->logger->debug(__METHOD__ . ' timestamp=' . $timestamp);
-        $this->logger->debug(__METHOD__ . ' nonce=' . $nonce);
+        $this->logger->debug(__METHOD__ . ' clientTimestamp=' . $clientTimestamp);
+        $this->logger->debug(__METHOD__ . ' clientNonce=' . $clientNonce);
 
-        $serverTime = time();
-        if (abs($timestamp - $serverTime) > self::REPLAY_ATTACK_TTL) {
+        // t
+        $serverTimestamp = time();
+        if (abs($clientTimestamp - $serverTimestamp) > self::REPLAY_ATTACK_TTL) {
             throw new \RuntimeException('Timestamp has expired');
         }
 
-        if ($this->redis->exists($nonce)) {
+        // nonce can only use once
+        if ($this->redis->exists($clientNonce)) {
             throw new \RuntimeException('Nonce has existed');
+        } else {
+            $this->redis->set($clientNonce, $clientNonce);
+            $this->redis->expire($clientNonce, self::REPLAY_ATTACK_TTL);
         }
-
-        $this->redis->set($nonce, $nonce);
-        $this->redis->expire($nonce, self::REPLAY_ATTACK_TTL);
     }
 }
