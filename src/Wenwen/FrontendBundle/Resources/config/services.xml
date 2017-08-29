@@ -105,8 +105,6 @@
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="jms_serializer" />
             <argument type="service" id="logger" />
-            <argument type="service" id="app.point_service" />
-            <argument type="service" id="app.parameter_service" />
         </service>
 
         <service id="app.point_service" class="Wenwen\FrontendBundle\Services\PointService">
