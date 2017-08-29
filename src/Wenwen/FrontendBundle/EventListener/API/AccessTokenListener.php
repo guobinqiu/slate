@@ -72,17 +72,17 @@ class AccessTokenListener
     {
         $clientSignature = $request->headers->get(CorsListener::X_ACCESS_TOKEN);
         if (!isset($clientSignature)) {
-            throw new \InvalidArgumentException("Missing 'X_ACCESS_TOKEN' in request header");
+            throw new \InvalidArgumentException("Missing '" . CorsListener::X_ACCESS_TOKEN ."' in request header");
         }
 
         $clientTimestamp = $request->headers->get(CorsListener::X_TIMESTAMP);
         if (!isset($clientTimestamp)) {
-            throw new \InvalidArgumentException("Missing 'X_TIMESTAMP' in request header");
+            throw new \InvalidArgumentException("Missing '" . CorsListener::X_TIMESTAMP . "' in request header");
         }
 
         $clientNonce = $request->headers->get(CorsListener::X_NONCE);
         if (!isset($clientNonce)) {
-            throw new \InvalidArgumentException("Missing 'X_NONCE' in request header");
+            throw new \InvalidArgumentException("Missing '" . CorsListener::X_NONCE . "' in request header");
         }
 
         $appId = $this->getAppId($clientSignature);
@@ -174,7 +174,7 @@ class AccessTokenListener
         $this->logger->debug(__METHOD__ . ' clientTimestamp=' . $clientTimestamp);
         $this->logger->debug(__METHOD__ . ' clientNonce=' . $clientNonce);
 
-        // t
+        // compare both sides time diff
         $serverTimestamp = time();
         if (abs($clientTimestamp - $serverTimestamp) > self::REPLAY_ATTACK_TTL) {
             throw new \RuntimeException('Timestamp has expired');

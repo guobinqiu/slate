@@ -36,4 +36,21 @@ class ProvinceControllerTest extends ApiTestCase
         $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }
+
+    public function testGetAuthHeaders()
+    {
+        $timestamp = time();
+        $nonce = md5(uniqid(rand(), true));
+
+        $data[] = 'GET';
+        $data[] = '/v1/provinces';
+        $data[] = $timestamp;
+        $data[] = $nonce;
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
+
+        echo PHP_EOL . CorsListener::X_ACCESS_TOKEN . '='. $signature;
+        echo PHP_EOL . CorsListener::X_TIMESTAMP . '='. $timestamp;
+        echo PHP_EOL . CorsListener::X_NONCE . '='. $nonce;
+    }
 }

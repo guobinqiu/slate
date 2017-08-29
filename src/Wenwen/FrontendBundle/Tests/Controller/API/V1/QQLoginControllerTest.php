@@ -9,7 +9,7 @@ class QQLoginControllerTest extends ApiTestCase
 {
     public function testCallbackAction()
     {
-        $crawler = $this->client->request('GET', '/v1/qq/callback');
+        $crawler = $this->client->request('POST', '/v1/qq/login?openid=123&access_token=abc');
         $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
     }

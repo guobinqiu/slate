@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Tests\Controller\API\V1;
 
 use Test\Utils\ApiTestCase;
+use Wenwen\FrontendBundle\Controller\API\V1\UserController;
 use Wenwen\FrontendBundle\EventListener\API\CorsListener;
 use Wenwen\FrontendBundle\Model\API\HttpStatus;
 
@@ -72,5 +73,27 @@ class UserControllerTest extends ApiTestCase
 
         $this->assertEquals(HttpStatus::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertContains('success', $this->client->getResponse()->getContent());
+    }
+
+    public function testGetAuthHeaders()
+    {
+        $timestamp = time();
+        $nonce = md5(uniqid(rand(), true));
+
+        $payload = '{"login":{"username":"13916122915","password":"111111"}}';
+
+        $data[] = 'POST';
+        $data[] = '/v1/users/login';
+        $data[] = $payload;
+        $data[] = $timestamp;
+        $data[] = $nonce;
+        $message = strtoupper(implode("", $data));
+        $signature = $this->createSignature($message);
+        $loginToken = $this->login()[UserController::LOGIN_TOKEN_NAME];
+
+        echo PHP_EOL . CorsListener::X_ACCESS_TOKEN . '='. $signature;
+        echo PHP_EOL . CorsListener::X_TIMESTAMP . '='. $timestamp;
+        echo PHP_EOL . CorsListener::X_NONCE . '='. $nonce;
+        echo PHP_EOL . CorsListener::X_LOGIN_TOKEN . '=' . $loginToken;
     }
 }
