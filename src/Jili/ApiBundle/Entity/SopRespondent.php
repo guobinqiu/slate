@@ -17,6 +17,7 @@ use Ramsey\Uuid\Uuid;
  *         @ORM\Index(name="user_status_idx", columns={"status_flag", "user_id"}),
  *         @ORM\Index(name="sop_status_idx", columns={"status_flag", "id"}),
  *         @ORM\Index(name="updated_at_idx", columns={"updated_at"}),
+ *         @ORM\Index(name="app_id_idx", columns={"app_id"}),
  *     }
  * )
  *
