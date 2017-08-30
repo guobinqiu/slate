@@ -107,5 +107,5 @@ run-job:
 	php ./app/console jms-job-queue:run  --env dev -j 4
 
 php_code_sniffer:
-	git diff --name-only origin/master | grep -v 'vendor' | xargs php vendor/squizlabs/php_codesniffer/scripts/phpcbf
+	git diff --diff-filter=AMR --name-only origin/master | grep -v 'vendor' | xargs php vendor/squizlabs/php_codesniffer/scripts/phpcbf --standard=./ruleset.xml
 
