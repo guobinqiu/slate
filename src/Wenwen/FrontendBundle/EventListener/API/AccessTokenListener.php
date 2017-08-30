@@ -137,7 +137,7 @@ class AccessTokenListener
     }
 
     /*
-     * base64encode(appId + ":" + sha256(message, appSecret))
+     * base64(appId + ":" + sha256(message, appSecret))
      */
     private function createServerSignature($appId, $appSecret, $messageToSign)
     {
@@ -148,13 +148,6 @@ class AccessTokenListener
 
     /*
      * Notes order!!!
-     *
-     * 1. method (get,post,put,delete)
-     * 2. uri (pathInfo + queryString)
-     * 3. payload (post request data)
-     * 4. timestamp (client side current POSIX time)
-     * 5. nonce (client side uuid)
-     * 6. to uppercase
      */
     private function createServerMessage(Request $request)
     {
