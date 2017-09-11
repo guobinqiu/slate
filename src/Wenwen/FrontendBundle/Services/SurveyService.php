@@ -524,6 +524,7 @@ class SurveyService
             }
 
         }  catch(\Exception $e) {
+            $this->logger->error($e->getTraceAsString());
             $this->logger->warn(__METHOD__ . ' Request SOP SurveyList API failed. user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
