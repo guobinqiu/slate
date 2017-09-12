@@ -85,7 +85,7 @@ class SopApiController extends Controller
         try {
             // insert sop_profile_point
             $sopProfilePoint = new SopProfilePoint();
-            $sopProfilePoint->setUserId($userId);
+            $sopProfilePoint->setUserId($user->getId());
             $sopProfilePoint->setName($name);
             $sopProfilePoint->setHash($params['hash']);
             $sopProfilePoint->setPointValue($pointValue);
@@ -107,14 +107,14 @@ class SopApiController extends Controller
 
             $em->getConnection()->rollback();
 
-            $this->get('logger')->error(__METHOD__ . $e->getMessage());
+            $this->get('logger')->error(__METHOD__ . $e->getTraceAsString());
 
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
                 return $this->render400Response('point already added');
             }
 
-            throw $e;
+            return $this->render400Response($e->getMessage());
         }
 
         // OK
