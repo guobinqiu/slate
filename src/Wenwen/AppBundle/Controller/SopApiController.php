@@ -85,7 +85,7 @@ class SopApiController extends Controller
         try {
             // insert sop_profile_point
             $sopProfilePoint = new SopProfilePoint();
-            $sopProfilePoint->setUserId($userId);
+            $sopProfilePoint->setUserId($user->getId());
             $sopProfilePoint->setName($name);
             $sopProfilePoint->setHash($params['hash']);
             $sopProfilePoint->setPointValue($pointValue);
@@ -114,7 +114,7 @@ class SopApiController extends Controller
                 return $this->render400Response('point already added');
             }
 
-            throw $e;
+            return $this->render400Response($e->getMessage());
         }
 
         // OK
