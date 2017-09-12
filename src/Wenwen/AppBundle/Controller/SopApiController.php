@@ -107,7 +107,7 @@ class SopApiController extends Controller
 
             $em->getConnection()->rollback();
 
-            $this->get('logger')->error(__METHOD__ . $e->getMessage());
+            $this->get('logger')->error(__METHOD__ . $e->getTraceAsString());
 
             //duplicated hash
             if (preg_match('/Duplicate entry/', $e->getMessage())) {
