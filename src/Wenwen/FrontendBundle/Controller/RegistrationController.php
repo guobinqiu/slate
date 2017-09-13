@@ -112,19 +112,16 @@ class RegistrationController extends BaseController
         $confirmationToken = $request->query->get('confirmation_token');
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
-        $em = $this->getDoctrine()->getManager();
-        $userService = $this->get('app.user_service');
 
         $ownerType = $this->getOwnerTypeFromSession($request);
-        $this->get('logger')->info(__METHOD__ . 'email ownerType=' . $ownerType);
 
         if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
-            $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
-            if ($user == null) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
-            $userService->pushBasicProfileJob($user->getId());
+            $surveySopService = $this->get('app.survey_sop_service');
+            $surveySopService->createSopRespondent($rtn['userId'], $ownerType);
+
+            $userService = $this->get('app.user_service');
+            $userService->pushBasicProfileJob($rtn['userId']);
+
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
