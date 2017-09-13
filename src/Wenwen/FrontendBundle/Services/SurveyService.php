@@ -112,6 +112,7 @@ class SurveyService
      * @return json $dummy_res 模拟一个SOP survey list返回的数据
      */
     public function getDummySurveyListJson() {
+        $this->logger->debug(__METHOD__ . ' - START - ');
         //构造一个仿真数据
         $dummy_res = '{
             "meta" : {
@@ -327,6 +328,7 @@ class SurveyService
                }
             }';
 
+        $this->logger->debug(__METHOD__ . ' - END - ');
         return $dummy_res;
     }
 
@@ -335,22 +337,20 @@ class SurveyService
      * @return string json格式字符串
      */
     public function getSopSurveyListJson($userId) {
-        $this->logger->debug(__METHOD__ . ' - START - ');
+        $this->logger->debug(__METHOD__ . ' - START - userId=' . $userId);
+
+        if ($this->dummy) {
+            return $this->getDummySurveyListJson();
+        }
 
         $sopRespondent = $this->surveySopService->getSopRespondentByUserId($userId);
         $appMid = $sopRespondent->getAppMid();
         $appId = $sopRespondent->getAppId();
         $appSecret = $this->surveySopService->getAppSecretByAppId($appId);
         $this->logger->debug(__METHOD__ . ' appMid=' . $appMid . ', appId=' . $appId . ', appSecret=' . $appSecret);
-
         // 生成sop_api_url
         $sopApiUrl = $this->buildSopSurveyListUrl($appMid, $appId, $appSecret);
         $this->logger->debug(__METHOD__ . ' sopApiUrl=' . $sopApiUrl);
-
-        if ($this->dummy) {
-            $this->logger->debug(__METHOD__ . ' - END - Dummy mode - ');
-            return $this->getDummySurveyListJson();
-        }
 
         $request = $this->httpClient->get($sopApiUrl, null, array('timeout' => 5, 'connect_timeout' => 5));
         $response = $request->send();
@@ -524,7 +524,8 @@ class SurveyService
             }
 
         }  catch(\Exception $e) {
-            $this->logger->warn(__METHOD__ . 'Request SOP SurveyList API failed. user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->error($e->getTraceAsString());
+            $this->logger->warn(__METHOD__ . ' Request SOP SurveyList API failed. user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
             $sop = null;
         }
 
