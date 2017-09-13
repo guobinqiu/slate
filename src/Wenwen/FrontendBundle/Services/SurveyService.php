@@ -632,30 +632,39 @@ class SurveyService
         }
 
         //GMO research survey
+        $gmoSurveys = null;
         try {
-            $researches = $this->surveyGmoService->getSurveyList($userId);
-            foreach ($researches as $research) {
-                //同步更新gmo本地备案信息
-                $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
-                $this->surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+            $gmoSurveys = $this->surveyGmoService->getSurveyList($userId);
+        } catch(\Exception $e) {
+            $this->logger->warn(__METHOD__ . ' gmo_survey_list_failed user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
+            $this->logger->warn(__METHOD__ . ' ' . $e->getTraceAsString());
+        }
 
-                $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
-                if ($research['point_min'] < $research['point']) {
-                    $research['point_range'] = $research['point_min'] . '-' . $research['point'];
-                } else {
-                    $research['point_range'] = $research['point'];
-                }
-                $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
-                if ($research['is_closed'] == 0) {
-                    if ($research['is_answered'] == 0) {
-                        array_unshift($html_survey_list, $html);
+        if ($gmoSurveys != null) {
+            foreach ($gmoSurveys as $research) {
+                try {
+                    //同步更新gmo本地备案信息
+                    $survey = $this->surveyGmoService->createOrUpdateSurvey($research);
+                    $this->surveyGmoService->createParticipationByUserId($userId, $survey->getId(), SurveyStatus::STATUS_TARGETED);
+
+                    $research['title'] = 'g' . $research['research_id'] . ' ' . $research['title'];
+                    if ($research['point_min'] < $research['point']) {
+                        $research['point_range'] = $research['point_min'] . '-' . $research['point'];
                     } else {
-                        array_push($html_survey_list, $html);
+                        $research['point_range'] = $research['point'];
                     }
+                    $html = $this->templating->render('WenwenFrontendBundle:Survey:templates/gmo_research_item_template.html.twig', array('research' => $research));
+                    if ($research['is_closed'] == 0) {
+                        if ($research['is_answered'] == 0) {
+                            array_unshift($html_survey_list, $html);
+                        } else {
+                            array_push($html_survey_list, $html);
+                        }
+                    }
+                } catch(\Exception $e) {
+                    $this->logger->error(__METHOD__ . ' ' . $e->getTraceAsString());
                 }
             }
-        } catch(\Exception $e) {
-            $this->logger->error('gmo_survey_list_failed user_id=' . $userId . ' city=' . $cityName . ' province=' . $provinceName . ' clientIp=' . $clientIp . ' errMsg: ' . $e->getMessage());
         }
 
         if ($sop != null) {
