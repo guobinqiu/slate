@@ -127,29 +127,6 @@ class RegistrationController extends BaseController
             $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $rtn['userId']);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
-        } else {
-            // Todo 过渡用的，上线24小时后可以删除整个else的内容
-            if (!isset($confirmationToken)) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
-                'confirmationToken' => $confirmationToken,
-            ));
-            if ($user == null) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            if ($user->isConfirmationTokenExpired()) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
-            $user->setRegisterCompleteDate(new \DateTime());
-            $user->setLastGetPointsAt(new \DateTime());
-            $em->flush();
-
-            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
-            $userService->pushBasicProfileJob($user->getId());
-            $request->getSession()->set('uid', $user->getId());
-            return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
         return $this->redirect($this->generateUrl('_user_regFailure'));
     }
