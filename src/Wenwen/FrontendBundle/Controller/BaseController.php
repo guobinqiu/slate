@@ -89,7 +89,6 @@ class BaseController extends Controller
     /**
      * 从session里面获取注册渠道的关键字
      *
-     *
      */
     protected function getRegisterRouteFromSession(){
         $recruitRoute = $this->get('session')->get('recruit_route');
