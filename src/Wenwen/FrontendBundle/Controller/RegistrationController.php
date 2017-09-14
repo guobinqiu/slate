@@ -112,43 +112,17 @@ class RegistrationController extends BaseController
         $confirmationToken = $request->query->get('confirmation_token');
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
-        $em = $this->getDoctrine()->getManager();
-        $userService = $this->get('app.user_service');
 
         $ownerType = $this->getOwnerTypeFromSession($request);
-        $this->get('logger')->info(__METHOD__ . 'email ownerType=' . $ownerType);
 
-        if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
-            $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
-            if ($user == null) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
-            $userService->pushBasicProfileJob($user->getId());
-            $request->getSession()->set('uid', $rtn['userId']);
-            return $this->redirect($this->generateUrl('_user_regSuccess'));
-        } else {
-            // Todo 过渡用的，上线24小时后可以删除整个else的内容
-            if (!isset($confirmationToken)) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
-                'confirmationToken' => $confirmationToken,
-            ));
-            if ($user == null) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            if ($user->isConfirmationTokenExpired()) {
-                return $this->redirect($this->generateUrl('_user_regFailure'));
-            }
-            $user->setIsEmailConfirmed(User::EMAIL_CONFIRMED);
-            $user->setRegisterCompleteDate(new \DateTime());
-            $user->setLastGetPointsAt(new \DateTime());
-            $em->flush();
+        if ($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS) {
+            $surveySopService = $this->get('app.survey_sop_service');
+            $surveySopService->createSopRespondent($rtn[AuthService::KEY_USERID], $ownerType);
 
-            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
-            $userService->pushBasicProfileJob($user->getId());
-            $request->getSession()->set('uid', $user->getId());
+            $userService = $this->get('app.user_service');
+            $userService->pushBasicProfileJob($rtn[AuthService::KEY_USERID]);
+
+            $request->getSession()->set('uid', $rtn[AuthService::KEY_USERID]);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
         return $this->redirect($this->generateUrl('_user_regFailure'));
