@@ -115,14 +115,14 @@ class RegistrationController extends BaseController
 
         $ownerType = $this->getOwnerTypeFromSession($request);
 
-        if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
+        if ($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS) {
             $surveySopService = $this->get('app.survey_sop_service');
-            $surveySopService->createSopRespondent($rtn['userId'], $ownerType);
+            $surveySopService->createSopRespondent($rtn[AuthService::KEY_USERID], $ownerType);
 
             $userService = $this->get('app.user_service');
-            $userService->pushBasicProfileJob($rtn['userId']);
+            $userService->pushBasicProfileJob($rtn[AuthService::KEY_USERID]);
 
-            $request->getSession()->set('uid', $rtn['userId']);
+            $request->getSession()->set('uid', $rtn[AuthService::KEY_USERID]);
             return $this->redirect($this->generateUrl('_user_regSuccess'));
         }
         return $this->redirect($this->generateUrl('_user_regFailure'));
