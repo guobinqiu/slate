@@ -35,7 +35,7 @@ class AdminPartnerService
 
         $rtn = array();
 
-        $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
+        $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->find($affiliatePartnerId);
         if($affiliatePartner == null || sizeof($affiliatePartner) == 0){
             $rtn['status'] = 'failure';
             $rtn['errmsg'] = 'PartnerId not exist. affiliatePartnerId=' . $affiliatePartnerId;

@@ -710,17 +710,17 @@ class SurveyService
         try {
             $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if (is_null($user)) {
-                throw new \InvalidArgumentException('User entity was not found. userId=' . $userId);
+                throw new \RuntimeException('User entity was not found. userId=' . $userId);
             }
 
             $userProfile = $user->getUserProfile();
             if (is_null($userProfile)) {
-                throw new \InvalidArgumentException('UserProfile entity was not found. userId=' . $userId);
+                throw new \RuntimeException('UserProfile entity was not found. userId=' . $userId);
             }
 
             $sopConfig = $this->parameterService->getParameter('sop');
             if (is_null($sopConfig)) {
-                throw new \InvalidArgumentException("Missing 'sop' configuration options");
+                throw new \RuntimeException("Missing 'sop' configuration options");
             }
 
             $host = $sopConfig['console_host'];

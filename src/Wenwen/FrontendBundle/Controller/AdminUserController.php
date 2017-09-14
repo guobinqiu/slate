@@ -32,7 +32,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         $arr['nick'] = $nick;
         $user = null;
         if($userId){
-            $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($userId);
         } elseif($email){
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array('email' => $email));
         } elseif($nick){
@@ -63,7 +63,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
                 }
                 $province = $userProfile->getProvince();
                 if(!empty($province)){
-                    $provinceName = $em->getRepository('WenwenFrontendBundle:ProvinceList')->findOneById($province);
+                    $provinceName = $em->getRepository('WenwenFrontendBundle:ProvinceList')->find($province);
                     $this->get('logger')->debug(__METHOD__ . ' provinceName=' . $provinceName->getProvinceName());
                     if(!empty($provinceName)){
                         $profile['provinceName'] = $provinceName->getProvinceName();
@@ -73,7 +73,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
                 }
                 $city = $userProfile->getCity();
                 if(!empty($city)){
-                    $cityName = $em->getRepository('WenwenFrontendBundle:CityList')->findOneById($city);
+                    $cityName = $em->getRepository('WenwenFrontendBundle:CityList')->find($city);
                     if(!empty($cityName)){
                         $this->get('logger')->debug(__METHOD__ . ' cityName=' . $cityName->getCityName());
                         $profile['cityName'] = $cityName->getCityName();
@@ -120,7 +120,7 @@ class AdminUserController extends BaseController #implements IpAuthenticatedCont
         $request = $this->get('request');
         $user_id = $request->get('user_id');
         $em = $this->getDoctrine()->getManager();
-        $member = $em->getRepository('WenwenFrontendBundle:User')->findOneById($user_id);
+        $member = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
         $arr['member'] = $member;
         $this->get('request')->getSession()->set( 'member_id', $user_id);
 

@@ -2366,7 +2366,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $rtn = $this->surveyPartnerService->processTriplesEndlink($user->getId(), $answerStatus, $surveyId, $partnerName, $key, $clientIp);
         $this->assertEquals('success', $rtn['status'], 'complete的太快了');
 
-        $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $afterUser = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals($currentPoint + $screenoutPoint, $afterUser->getPoints(), 'complete的太快了，只给screenout的积分');
 
         $surveyPartnerParticipationHistory = $this->em->getRepository('WenwenFrontendBundle:SurveyPartnerParticipationHistory')->findOneBy(
@@ -2798,7 +2798,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals($completePoint, $rtn['rewardedPoint'], '处理结果的增加积分数');
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
-        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals($completePoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $completePoint);
     }
 
@@ -2870,7 +2870,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals($screenoutPoint, $rtn['rewardedPoint'], '处理结果的增加积分数');
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
-        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals($screenoutPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $screenoutPoint);
     }
 
@@ -2942,7 +2942,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals($quotafullPoint, $rtn['rewardedPoint'], '处理结果的增加积分数');
         $this->assertEquals(true, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
-        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals($quotafullPoint+$currentPoint, $rtnUser->getPoints(), '积分应增加' . $quotafullPoint);
     }
 
@@ -3014,7 +3014,7 @@ class SurveyPartnerServiceTest extends WebTestCase
         $this->assertEquals(0, $rtn['rewardedPoint'], '处理结果的增加积分数');
         $this->assertEquals(false, $rtn['ticketCreated'], '处理结果的奖券发放状态');
 
-        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $rtnUser = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
         $this->assertEquals($currentPoint, $rtnUser->getPoints(), '积分应增加' . 0);
     }
 

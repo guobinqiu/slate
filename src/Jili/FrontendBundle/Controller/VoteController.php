@@ -117,7 +117,7 @@ class VoteController extends Controller
             throw new \Exception();
         }
 
-        $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+        $vote = $em->getRepository('JiliApiBundle:Vote')->find($vote_id);
 
         # voteが無い/開始前 => 404
         if (!$vote || $vote->getStartTime()->getTimestamp() > $current_timestamp) {
@@ -212,7 +212,7 @@ class VoteController extends Controller
 
         //get vote
         $em = $this->getDoctrine()->getManager();
-        $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+        $vote = $em->getRepository('JiliApiBundle:Vote')->find($vote_id);
 
         //check vote exist
         if (!$vote) {
@@ -287,7 +287,7 @@ class VoteController extends Controller
             throw new \Exception();
         }
 
-        $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+        $vote = $em->getRepository('JiliApiBundle:Vote')->find($vote_id);
 
         # voteが無い/開始前 => 404
         if (!$vote || $vote->getStartTime()->getTimestamp() > $current_timestamp) {

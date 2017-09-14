@@ -43,7 +43,7 @@ class AdminSurveySopService
     public function findSurveySop($surveryId) {
         $this->logger->debug(__METHOD__ . ' START ');
 
-        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->findOneById($surverySopId);
+        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveySop')->find($surverySopId);
 
         $this->logger->debug(__METHOD__ . ' END   ');
         return $surveyPartner;
