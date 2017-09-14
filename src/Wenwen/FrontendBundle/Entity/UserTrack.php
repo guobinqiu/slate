@@ -105,9 +105,16 @@ class UserTrack
     private $registerRoute;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="owner_type", type="string", length=24, nullable=false, options={"default": "dataspring"})
+     */
+    private $ownerType;
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -153,7 +160,7 @@ class UserTrack
     /**
      * Get currentFingerprint
      *
-     * @return string 
+     * @return string
      */
     public function getCurrentFingerprint()
     {
@@ -199,7 +206,7 @@ class UserTrack
     /**
      * Get signInCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getSignInCount()
     {
@@ -222,7 +229,7 @@ class UserTrack
     /**
      * Get currentSignInAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCurrentSignInAt()
     {
@@ -245,7 +252,7 @@ class UserTrack
     /**
      * Get lastSignInAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastSignInAt()
     {
@@ -268,7 +275,7 @@ class UserTrack
     /**
      * Get currentSignInIp
      *
-     * @return string 
+     * @return string
      */
     public function getCurrentSignInIp()
     {
@@ -291,7 +298,7 @@ class UserTrack
     /**
      * Get lastSignInIp
      *
-     * @return string 
+     * @return string
      */
     public function getLastSignInIp()
     {
@@ -324,7 +331,7 @@ class UserTrack
     /**
      * Set registerRoute
      *
-     * @param string $oauth
+     * @param string $registerRoute
      * @return UserTrack
      */
     public function setRegisterRoute($registerRoute)
@@ -342,5 +349,28 @@ class UserTrack
     public function getRegisterRoute()
     {
         return $this->registerRoute;
+    }
+
+    /**
+     * Set ownerType
+     *
+     * @param string $ownerType
+     * @return UserTrack
+     */
+    public function setOwnerType($ownerType)
+    {
+        $this->ownerType = $ownerType;
+
+        return $this;
+    }
+
+    /**
+     * Get ownerType
+     *
+     * @return string
+     */
+    public function getOwnerType()
+    {
+        return $this->ownerType;
     }
 }

@@ -88,7 +88,7 @@ class BaseController extends Controller
 
     /**
      * 从session里面获取注册渠道的关键字
-     * 
+     *
      *
      */
     protected function getRegisterRouteFromSession(){
@@ -114,7 +114,7 @@ class BaseController extends Controller
         }
     }
 
-    protected function getOwnerTypeFromSession(Request $request)
+    protected function getOwnerTypeFromSession()
     {
 //        return $request->getSession()->get('owner_type', OwnerType::ORGANIC);
         return OwnerType::DATASPRING; //2017年底前就算owner_type是organic的也使用dataspring
