@@ -3,6 +3,7 @@
 namespace Wenwen\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Wenwen\FrontendBundle\Model\OwnerType;
 
 /**
  * UserTrack
@@ -110,6 +111,11 @@ class UserTrack
      * @ORM\Column(name="owner_type", type="string", length=24, nullable=false, options={"default": "dataspring"})
      */
     private $ownerType;
+
+    public function __construct()
+    {
+        $this->ownerType = OwnerType::DATASPRING;
+    }
 
     /**
      * Get id
