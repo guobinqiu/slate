@@ -24,40 +24,37 @@ class CheckoutSurveyListCommand extends ContainerAwareCommand
         $surveySopService = $this->getContainer()->get('app.survey_sop_service');
         $surveyFulcrumService = $this->getContainer()->get('app.survey_fulcrum_service');
         $surveyCintService = $this->getContainer()->get('app.survey_cint_service');
+        $logger = $this->getContainer()->get('logger');
 
         $userId = $input->getOption('user_id');
-        //$appMid = $surveyService->getSopRespondentId($userId);
         $result = $surveyService->getSopSurveyListJson($userId);
         //$result = $surveyService->getDummySurveyListJson();//读取测试数据
         $output->writeln('result=' . $result);
 
         if (empty($result)) {
-            //throw new \Exception('empty survey list');
+            $logger->warn(__METHOD__ . ' empty survey list');
             return;
         }
 
         $sop = json_decode($result, true);
 
         if ($sop['meta']['code'] != 200) {
-            //throw new \Exception($sop['meta']['message']);
+            $logger->debug(__METHOD__ . ' ' . $sop['meta']['message']);
             return;
         }
 
         foreach ($sop['data']['research'] as $survey) {
             $surveySopService->createOrUpdateSurvey($survey);
-            //$surveySopService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
             $surveySopService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['fulcrum_research'] as $survey) {
             $surveyFulcrumService->createOrUpdateSurvey($survey);
-            //$surveyFulcrumService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
             $surveyFulcrumService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
 
         foreach ($sop['data']['cint_research'] as $survey) {
             $surveyCintService->createOrUpdateSurvey($survey);
-            //$surveyCintService->createParticipationByAppMid($appMid, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
             $surveyCintService->createParticipationByUserId($userId, $survey['survey_id'], SurveyStatus::STATUS_TARGETED);
         }
     }

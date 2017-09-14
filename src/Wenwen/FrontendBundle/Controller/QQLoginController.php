@@ -3,15 +3,10 @@
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Cookie;
-use Wenwen\FrontendBundle\Entity\QQUser;
-use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
-use JMS\JobQueueBundle\Entity\Job;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\LoginType;
 use Wenwen\FrontendBundle\Form\UserProfileType;
 
@@ -20,6 +15,8 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
  */
 class QQLoginController extends BaseController
 {
+    const OAUTH = 'qq';
+
     /**
      * @Route("/login", name="qq_login", methods={"GET"})
      */
@@ -58,16 +55,12 @@ class QQLoginController extends BaseController
         $openId = $this->getOpenId($token);
         $userInfo = $this->getUserInfo($token, $openId);
 
+        $userService = $this->get('app.user_service');
         $em = $this->getDoctrine()->getManager();
         $qqUser = $em->getRepository('WenwenFrontendBundle:QQUser')->findOneBy(array('openId' => $openId));
+
         if ($qqUser == null) {
-            $qqUser = new QQUser();
-            $qqUser->setOpenId($openId);
-            $qqUser->setNickname($userInfo->nickname);
-            $qqUser->setPhoto($userInfo->figureurl_qq_1);
-            $qqUser->setGender($userInfo->gender == '女' ? 2 : 1);
-            $em->persist($qqUser);
-            $em->flush();
+            $userService->createQQUser($openId, $userInfo);
             return $this->redirect($this->generateUrl('qq_bind', array('openId' => $openId)));
         } else if ($qqUser->getUser() == null) {
             return $this->redirect($this->generateUrl('qq_bind', array('openId' => $openId)));
@@ -75,36 +68,16 @@ class QQLoginController extends BaseController
             $user = $qqUser->getUser();
             $user->setLastLoginDate(new \DateTime());
             $user->setLastLoginIp($request->getClientIp());
-            $userTrack = $user->getUserTrack();
-            if ($userTrack) {
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
-                $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('qq');
-            } else {
-                $userTrack = new UserTrack();
-                //$userTrack->setLastFingerprint(null);
-                //$userTrack->setCurrentFingerprint(null);
-                $userTrack->setSignInCount(1);
-                $userTrack->setLastSignInAt(null);
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp(null);
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth('qq');
-                $userTrack->setUser($user);
-                $user->setUserTrack($userTrack);
-                $em->persist($userTrack);
-            }
             $em->flush();
 
-            $request->getSession()->set('uid', $user->getId());
+            $clientIp = $request->getClientIp();
+            $recruitRoute = $this->getRegisterRouteFromSession();
+            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, self::OAUTH);
 
+            $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
             $cookie = new Cookie('uid', $user->getId(), $forever);
+
             return $this->redirectWithCookie($this->generateUrl('_homepage'), $cookie);
         }
     }
@@ -199,40 +172,21 @@ class QQLoginController extends BaseController
             if ($userForm->isValid()) {
                 $user = $qqUser->getUser();
                 if ($user == null) {
-                    $allowRewardInviter = false;
                     $fingerprint = $userForm->get('fingerprint')->getData();
-                    if (!$request->cookies->has('uid')) {
-                        $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-                        if ($userTrack == null) {
-                            $allowRewardInviter = true;
-                        }
-                    }
+                    $clientIp = $request->getClientIp();
+                    $userAgent = $request->headers->get('USER_AGENT');
+                    $inviteId = $request->getSession()->get('inviteId');
+                    $canRewardInviter = $userService->canRewardInviter($this->isUserLoggedIn(), $fingerprint);
+                    $recruitRoute = $this->getRegisterRouteFromSession();
 
-                    $user = $userService->autoRegister(
-                        $qqUser,
-                        $userProfile,
-                        $request->getClientIp(),
-                        $request->headers->get('USER_AGENT'),
-                        $request->getSession()->get('inviteId'),
-                        $allowRewardInviter
-                    );
+                    $user = $userService->createUserByQQUser($qqUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
 
-                    $userTrack = new UserTrack();
-                    $userTrack->setLastFingerprint(null);
-                    $userTrack->setCurrentFingerprint($fingerprint);
-                    $userTrack->setSignInCount(1);
-                    $userTrack->setLastSignInAt(null);
-                    $userTrack->setCurrentSignInAt(new \DateTime());
-                    $userTrack->setLastSignInIp(null);
-                    $userTrack->setCurrentSignInIp($request->getClientIp());
-                    $userTrack->setOauth('qq');
-                    $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-                    $userTrack->setUser($user);
-                    $user->setUserTrack($userTrack);
-                    $em->persist($userTrack);
-                    $em->flush();
+                    $ownerType = $this->getOwnerTypeFromSession($request);
+                    $this->get('logger')->info(__METHOD__ . 'qq ownerType=' . $ownerType);
+                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
 
-                    $this->pushBasicProfile($user);// 推送用户基本属性
+                    $userService->pushBasicProfileJob($user->getId());
                 }
                 $request->getSession()->set('uid', $user->getId());
                 return $this->redirect($this->generateUrl('_user_regSuccess'));
@@ -316,17 +270,5 @@ class QQLoginController extends BaseController
         $res = $this->get('app.http_client')->get($url)->send();
         $resBody = $res->getBody();
         return json_decode($resBody);
-    }
-
-    private function pushBasicProfile(User $user)
-    {
-        $args = array(
-            '--user_id=' . $user->getId(),
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($job);
-        $em->flush();
     }
 }

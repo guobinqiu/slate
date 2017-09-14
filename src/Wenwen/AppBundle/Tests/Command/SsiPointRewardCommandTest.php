@@ -64,7 +64,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
         \Phake::when($iterator)->getConversionReport(2)->thenReturn([
             'success' => true,
             'totalNumRows' => 1001,
-            'data' => [self::getConversionRowSample()],
+            'data' => [self::getConversionRowSample(), self::getConversionRowSampleSsiRespondentNotFound()],
         ]);
         $this->container->set('ssi_api.conversion_report_iterator', $iterator);
 
@@ -75,7 +75,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $this->assertSame(1000, $user->getPoints());
 
         $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(
-            SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId()
+            SsiPointRewardCommandTestFixture::$ssiRespondent->getId()
         );
         $this->assertCount(3, $rows);
     }
@@ -93,7 +93,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
          'sub_id_2' => '',
          'sub_id_3' => '',
          'sub_id_4' => '',
-         'sub_id_5' => 'wwcn-'.SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId(),
+         'sub_id_5' => 'wwcn-'.SsiPointRewardCommandTestFixture::$ssiRespondent->getId(),
          'payout' => '$1.50',
          'ip' => '123.456.789.123',
          'status' => 'approved',
@@ -112,7 +112,26 @@ class SsiPointRewardCommandTest extends KernelTestCase
             'sub_id_2' => '',
             'sub_id_3' => '',
             'sub_id_4' => '',
-            'sub_id_5' => 'wwcn-' . SsiPointRewardCommandTestFixture::$SSI_RESPONDENT->getId(),
+            'sub_id_5' => 'wwcn-' . SsiPointRewardCommandTestFixture::$ssiRespondent->getId(),
+            'payout' => '$1.50',
+            'ip' => '123.456.789.123',
+            'status' => 'approved',
+            'transaction_id' => '102a8857d5db3fb1679cf1c204337b'
+        );
+    }
+
+    private static function getConversionRowSampleSsiRespondentNotFound()
+    {
+        return array (
+            'offer' => '1346 API_USD',
+            'date_time' => '2016-05-12 13:54:53',
+            'source' => '',
+            'sub_id' => '',
+            'sub_id_1' => '',
+            'sub_id_2' => '',
+            'sub_id_3' => '',
+            'sub_id_4' => '',
+            'sub_id_5' => 'wwcn-' . '1234',
             'payout' => '$1.50',
             'ip' => '123.456.789.123',
             'status' => 'approved',
@@ -125,10 +144,12 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Wenwen\AppBundle\Entity\SsiRespondent;
+use Wenwen\FrontendBundle\Entity\User;
 
 class SsiPointRewardCommandTestFixture implements FixtureInterface, ContainerAwareInterface
 {
-    public static $USER, $SSI_RESPONDENT;
+    public static $USER, $ssiRespondent;
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
@@ -138,7 +159,7 @@ class SsiPointRewardCommandTestFixture implements FixtureInterface, ContainerAwa
 
     public function load(ObjectManager $manager)
     {
-        $user = new \Wenwen\FrontendBundle\Entity\User();
+        $user = new User();
         $user->setNick(__CLASS__);
         $user->setEmail('test@d8aspring.com');
         $user->setPoints(100);
@@ -150,13 +171,13 @@ class SsiPointRewardCommandTestFixture implements FixtureInterface, ContainerAwa
         $manager->persist($user);
         $manager->flush();
 
-        $ssi_respondent = new \Wenwen\AppBundle\Entity\SsiRespondent();
-        $ssi_respondent->setUser($user);
-        $ssi_respondent->setStatusFlag(\Wenwen\AppBundle\Entity\SsiRespondent::STATUS_ACTIVE);
-        $manager->persist($ssi_respondent);
+        $ssiRespondent = new SsiRespondent();
+        $ssiRespondent->setUser($user);
+        $ssiRespondent->setStatusFlag(SsiRespondent::STATUS_ACTIVE);
+        $manager->persist($ssiRespondent);
         $manager->flush();
 
         self::$USER = $user;
-        self::$SSI_RESPONDENT = $ssi_respondent;
+        self::$ssiRespondent = $ssiRespondent;
     }
 }

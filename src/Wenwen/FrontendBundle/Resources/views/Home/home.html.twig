@@ -79,7 +79,7 @@
     {% endjavascripts %}
     <script type="text/javascript">
 		$(document).ready(function(){
-			setInterval(requestSurveyList, 14 * 60 * 1000); //soptoken15分钟过期，我14分钟刷新一次
+			setInterval(requestSurveyList, 9 * 60 * 1000); //sop token 10分钟过期，我9分钟刷新一次
 
 			function requestSurveyList() {
 				$.get("{{ path('_surveylist') }}", function(data){

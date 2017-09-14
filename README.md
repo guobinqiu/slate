@@ -12,8 +12,8 @@ if USER = seki
 4. git author setting
 
     ```bash
-    $ git config --global user.name "Takafumi Sekiguchi"
-    $ git config --global user.email "takafumi.sekiguchi@d8aspring.com"
+    $ git config --global user.name "Your Name"
+    $ git config --global user.email "emailaddress@d8aspring.com"
     ```
 
 ### Setup
@@ -59,6 +59,8 @@ if USER = seki
 |----------------|----------------------------------------|
 | 91jili         | http://$USER.www.91jili.com.dev.91jili.com/app\_dev.php |
 
+## Submit code change
+To automatically correct coding standard violations, developer should run "make php_code_sniffer" before committing code change and sending code review.
 
 ## Tips
 

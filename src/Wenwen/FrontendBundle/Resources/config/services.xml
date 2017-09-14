@@ -29,6 +29,7 @@
             <argument type="service" id="app.point_service" />
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="app.user_service" />
+            <argument type="service" id="app.parameter_service" />
         </service>
 
         <service id="app.survey_fulcrum_service" class="Wenwen\FrontendBundle\Services\SurveyFulcrumService">
@@ -68,7 +69,10 @@
         <service id="app.listener.exception_listener" class="Wenwen\FrontendBundle\EventListener\ExceptionListener">
             <argument type="service" id="logger" />
             <argument type="service" id="templating" />
+            <argument type="service" id="kernel" />
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <!--<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />-->
+            <!--<tag name="kernel.event_listener" event="kernel.view" method="onKernelView" />-->
         </service>
 
         <service id="app.listener.console_exception_listener" class="Wenwen\FrontendBundle\EventListener\ConsoleExceptionListener">
@@ -101,7 +105,6 @@
             <argument type="service" id="snc_redis.default" />
             <argument type="service" id="jms_serializer" />
             <argument type="service" id="logger" />
-            <argument type="service" id="app.point_service" />
         </service>
 
         <service id="app.point_service" class="Wenwen\FrontendBundle\Services\PointService">
@@ -183,6 +186,12 @@
         <service id="app.auth_service" class="Wenwen\FrontendBundle\Services\AuthService">
             <argument type="service" id="logger" />
             <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="app.internal_mail_service" class="Wenwen\FrontendBundle\Services\InternalMailService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="swiftmailer.mailer.qq" />
+            <argument type="service" id="app.parameter_service" />
         </service>
 
         <!-- api definition goes here -->

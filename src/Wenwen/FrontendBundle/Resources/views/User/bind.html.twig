@@ -51,14 +51,14 @@
             								<ul class="unbindForm">
             									<li class="liner">
             										<div class="bindInput">
-            											<div class="regSexL">{{ form_label(userForm.sex) }}</div>
+            											<div class="regSexL">{{ form_label(userForm.sex, '性别') }}</div>
             											<div class="regSexS">{{ form_widget(userForm.sex) }}</div>
             											<div class="error">{{ form_errors(userForm.sex) }}</div>
             										</div>
             									</li>
             									<li class="liner">
             										<div class="bindInput">
-            											<div class="birthLab">{{ form_label(userForm.birthday) }}</div>
+            											<div class="birthLab">{{ form_label(userForm.birthday, '生日') }}</div>
             											<div class="birthSel regSex">{{ form_widget(userForm.birthday) }}</div>
             											<div class="error">{{ form_errors(userForm.birthday) }}</div>
             										</div>

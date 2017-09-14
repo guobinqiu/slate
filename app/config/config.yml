@@ -11,6 +11,8 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: %kernel.debug%
+        http_port: 80
+        https_port: 443
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
@@ -113,13 +115,13 @@ swiftmailer:
             encryption: tls
             sender_address: %webpower_sender%
 
-#        qq:
-#            transport:  smtp
-#            encryption: ~
-#            auth_mode:  login
-#            host:       %qqmail_host%
-#            username:   %qqmail_username%
-#            password:   %qqmail_password%
+        qq:
+            transport:  smtp
+            encryption: ~
+            auth_mode:  login
+            host:       %qqmail_host%
+            username:   %qqmail_username%
+            password:   %qqmail_password%
 
 #https://github.com/KnpLabs/KnpPaginatorBundle
 knp_paginator:

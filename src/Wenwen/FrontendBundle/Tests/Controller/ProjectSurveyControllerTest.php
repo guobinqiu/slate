@@ -10,6 +10,7 @@ use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveySopData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 
@@ -74,23 +75,21 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
+        $surveyId = 10000;
         $research = array();
         $research['title'] = 'dummy title';
         $research['difficulty'] = 'normal';
         $research['loi'] = 10;
         $research['extra_info']['point']['complete'] = 400;
         $research['url'] = 'dummy_url';
-        $research['survey_id'] = $survey_id;
+        $research['survey_id'] = $surveyId;
 
         $url = $this->container->get('router')->generate('_project_survey_information', array('research' => $research, 'difficulty' => '普通'));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_INIT,
             'userId' => $users[0]->getId(),
         ));
@@ -111,26 +110,24 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
+        $surveyId = 10000;
         $url = 'dummy_url';
         $research = array();
-        $research['survey_id'] = $survey_id;
+        $research['survey_id'] = $surveyId;
         $research['url'] = $url;
 
         $research = $this->container->get('app.survey_sop_service')->addSurveyUrlToken($research, $users[0]->getId());
         $this->assertNotEquals($url, $research['url']);
 
-        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($survey_id, $users[0]->getId());
+        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($surveyId, $users[0]->getId());
         $this->assertEquals($url . '&sop_custom_token=' . $token, $research['url']);
 
         $url = $this->container->get('router')->generate('_project_survey_forward', array('research' => $research));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_FORWARD,
             'userId' => $users[0]->getId(),
         ));
@@ -156,35 +153,35 @@ class ProjectSurveyControllerTest extends WebTestCase
         $session->set('uid', $users[0]->getId());
         $session->save();
 
-        $survey_id = 10000;
-        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($survey_id, $users[0]->getId());
-        $app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
+        $surveyId = 10000;
+        $token = $this->container->get('app.survey_sop_service')->getSurveyToken($surveyId, $users[0]->getId());
+
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $appMid = $sopRespondent->getAppMid();
+
         $url = $this->container->get('router')->generate('_project_survey_endlink', array (
-            'survey_id' => $survey_id,
+            'survey_id' => $surveyId,
             'answer_status' => SurveyStatus::STATUS_COMPLETE,
-            'app_mid' => $app_mid,
+            'app_mid' => $appMid,
             'tid' => $token,
         ));
         $crawler = $this->client->request('GET', $url);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
-        //$app_mid = $this->container->get('app.survey_service')->getSopRespondentId($users[0]->getId());
         $participation = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findOneBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'status' => SurveyStatus::STATUS_COMPLETE,
             'userId' => $users[0]->getId(),
         ));
         $this->assertNotNull($participation);
 
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'userId' => $users[0]->getId(),
         ));
         $this->assertCount(3, $statusHistories);
 
-        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($survey_id);
+        $prizeTicket = $this->em->getRepository('WenwenFrontendBundle:PrizeTicket')->findOneBySurveyId($surveyId);
         $this->assertNotNull($prizeTicket);
         $this->assertEquals(PrizeItem::TYPE_BIG, $prizeTicket->getType());
 
@@ -203,8 +200,7 @@ class ProjectSurveyControllerTest extends WebTestCase
 
         $crawler = $this->client->request('GET', $url);
         $statusHistories = $this->em->getRepository('WenwenFrontendBundle:SurveySopParticipationHistory')->findBy(array(
-            //'appMid' => $app_mid,
-            'surveyId' => $survey_id,
+            'surveyId' => $surveyId,
             'userId' => $users[0]->getId(),
         ));
         $this->assertCount(3, $statusHistories);

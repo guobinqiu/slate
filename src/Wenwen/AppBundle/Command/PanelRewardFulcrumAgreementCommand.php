@@ -13,31 +13,20 @@ use Wenwen\FrontendBundle\Model\TaskType;
 
 class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 {
-    const USER_AGREEMENT_ACTIVE = 'ACTIVE';     
-    private $comment = '';
-    private $point   = 0;
+    const USER_AGREEMENT_ACTIVE = 'ACTIVE';
 
     protected function configure()
     {
       $this->setName('panel:reward-fulcrum-agreement')
         ->setDescription('request SOP API and reward agreement points based on retrived data')
         ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
-        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-fulcrum-agreement: '.date('Y-m-d H:i:s'));
-        $this->comment = '同意Fulcrum问卷调查';
-        $this->setLogger('reward-fulcrum-agreement');
-        $this->point = 10;
-
-        return parent::execute($input, $output);
+        ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
+        ->addOption('resultNotification', null, InputOption::VALUE_NONE, 'If set, the task will send a notification to system team');
     }
 
     protected function point($history)
     {
-        return $this->point;
+        return 10;
     }
 
     protected function type($history)
@@ -62,13 +51,13 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
 
     protected function comment($history)
     {
-        return $this->comment;
+        return '同意Fulcrum问卷调查';
     }
 
     protected function url()
     {
-        $sop_configure = $this->getContainer()->getParameter('sop');
-        return $sop_configure['api_v1_1_fulcrum_user_agreement_participation_history'];
+        $sopConfig = $this->getContainer()->getParameter('sop');
+        return $sopConfig['api_v1_1_fulcrum_user_agreement_participation_history'];
     }
 
     protected function requiredFields()
@@ -87,6 +76,7 @@ class PanelRewardFulcrumAgreementCommand extends PanelRewardCommand
         $records = $em->getRepository('WenwenAppBundle:FulcrumUserAgreementParticipationHistory')->findBy(array (
             'appMemberId' => $history['app_mid']
         ));
+
         if (count($records) > 0) {
             return true;
         }

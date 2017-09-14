@@ -1,12 +1,10 @@
 <?php
+
 namespace Wenwen\FrontendBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\Security\Acl\Exception\Exception;
 use Wenwen\AppBundle\Entity\CintUserAgreementParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
@@ -29,33 +27,27 @@ class ProjectSurveyCintController extends BaseController
             return $this->redirect($this->generateUrl('_user_login'));
         }
 
-        $user_id = $this->getCurrentUserId();
+        $params = $request->query->all();
+
+        // Verfiy request
+        // !!! 这里比较不正常，SOP过来的request里没有app_id，只能用app_mid来验证 2017/08/24 by Chai
+        $surveySopService = $this->get('app.survey_sop_service');
+        if(! $surveySopService->isValidQueryStringByAppMid($params)){
+            $msg = ' request auth failure';
+            $this->container->get('logger')->warn(__METHOD__ . $msg );
+            throw new \Exception($msg); // 这里估计直接去了404页面了，有机会再改吧 2017/08/24 by Chai
+        }
+
+        $user = $this->getCurrentUser();
         $em = $this->getDoctrine()->getManager();
 
-        $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user_id);
+        $history = $em->getRepository('WenwenAppBundle:CintUserAgreementParticipationHistory')->findOneByUserId($user->getId());
         if ($history) {
             return $this->render('WenwenFrontendBundle:ProjectSurveyCint:agreementComplete.html.twig');
         }
 
-        $params = $request->query->all();
-
-        $sop_config = $this->container->getParameter('sop');
         $cint_config = $this->container->getParameter('cint');
         $status_map = $cint_config['user_agreement'];
-
-        // Verify signature
-        $auth = new \SOPx\Auth\V1_1\Client($sop_config['auth']['app_id'], $sop_config['auth']['app_secret']);
-        $sig = $params['sig'];
-        unset($params['sig']);
-
-        $result = $auth->verifySignature($sig, $params);
-
-        if (!$result['status']) {
-            $this->container->get('logger')->error(__METHOD__ . ' errMsg='.$result['msg']);
-            return new Response('authentication failed', 400);
-        }
-
-        $user = $em->getRepository('WenwenFrontendBundle:User')->find($user_id);
 
         // start transaction
         $em->getConnection()->beginTransaction();
@@ -63,7 +55,7 @@ class ProjectSurveyCintController extends BaseController
         try {
             // insert history
             $history_model = new CintUserAgreementParticipationHistory();
-            $history_model->setUserId($user_id);
+            $history_model->setUserId($user->getId());
             $history_model->setAgreementStatus($status_map[mb_strtolower($params['agreement_status'])]);
             $em->persist($history_model);
             $em->flush();
@@ -77,12 +69,9 @@ class ProjectSurveyCintController extends BaseController
                 self::COMMENT,
                 $history_model
             );
-
             $em->getConnection()->commit();
         } catch (\Exception $e) {
-
-            $this->get('logger')->crit("Exception: " . $e->getMessage());
-
+            $this->get('logger')->error(__METHOD__ . ' ' . $e->getStackTrace());
             $em->getConnection()->rollback();
             throw $e;
         }

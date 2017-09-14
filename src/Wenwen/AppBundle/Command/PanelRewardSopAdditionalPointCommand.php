@@ -19,17 +19,10 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
     protected function configure()
     {
         $this->setName('panel:reward-sop-additional-point')
-                ->setDescription('request SOP additional incentive API and reward points based on retrived data')
-                ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
-                ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $output->writeln('start panel:reward-sop-additional-point: '.date('Y-m-d H:i:s'));
-        $app_name = 'site91wenwen';
-        $this->setLogger($app_name . '-reward-sop-additional-point');
-        return parent::execute($input, $output);
+            ->setDescription('request SOP additional incentive API and reward points based on retrived data')
+            ->addArgument('date', InputArgument::REQUIRED, 'the day YYYY-mm-dd')
+            ->addOption('definitive', null, InputOption::VALUE_NONE, 'If set, the task will operate on db')
+            ->addOption('resultNotification', null, InputOption::VALUE_NONE, 'If set, the task will send a notification to system team');
     }
 
     protected function point($history)
@@ -73,8 +66,8 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
 
     protected function url()
     {
-        $sop_configure = $this->getContainer()->getParameter('sop');
-        return $sop_configure['api_v1_1_surveys_research_additional_incentive'];
+        $sopConfig = $this->getContainer()->getParameter('sop');
+        return $sopConfig['api_v1_1_surveys_research_additional_incentive'];
     }
 
     protected function requiredFields()
@@ -111,6 +104,7 @@ class PanelRewardSopAdditionalPointCommand extends PanelRewardCommand
         $records = $em->getRepository('WenwenAppBundle:SopResearchSurveyAdditionalIncentiveHistory')->findBy(array (
             'hash' => $history['hash']
         ));
+
         if (count($records) > 0) {
             return true;
         }

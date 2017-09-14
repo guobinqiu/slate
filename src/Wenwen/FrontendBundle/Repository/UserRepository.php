@@ -326,7 +326,7 @@ EOT;
     public function getSearchUserList($values, $type, $pageSize, $currentPage)
     {
         $query = $this->createQueryBuilder('u');
-        $query = $query->select('u.id,u.email,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,sp.id as app_mid');
+        $query = $query->select('u.id,u.email,u.nick,u.tel,u.registerCompleteDate,u.lastLoginDate,u.createdRemoteAddr,sp.appMid as app_mid');
         $query = $this->getSearchUserSqlQuery($query, $values, $type);
 
         if ($currentPage < 1) {
@@ -351,7 +351,7 @@ EOT;
 
         if (isset($values['app_mid']) && $type == 'registered') {
             $query = $query->innerJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');
-            $query = $query->andWhere('sp.id = :app_mid');
+            $query = $query->andWhere('sp.appMid = :app_mid');
             $param['app_mid'] = $values['app_mid'];
         } else {
             $query = $query->leftJoin('JiliApiBundle:SopRespondent', 'sp', 'WITH', 'u.id = sp.userId');

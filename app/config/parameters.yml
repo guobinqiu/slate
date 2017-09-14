@@ -17,9 +17,6 @@ parameters:
         admin_host: %sop.admin_host%
         console_host: %sop.console_host%
         host: %sop.host%
-        auth:
-            app_id: %sop.auth.app_id%
-            app_secret: %sop.auth.app_secret%
         point:
             profile: 1
         api_v1_1_surveys_research_participation_history: http://%sop.console_host%/api/v1_1/surveys/research/participation_history
@@ -51,9 +48,9 @@ parameters:
 
     #From the removed custom_parameters.yml
     domain: www.91wenwen.net
-    cron_alertTo_contacts:  "rpa-sys-china@d8aspring.com"
+    cron_alertTo_contacts: rpa-sys-china@d8aspring.com
     alert_subject: '91问问-定时任务提醒邮件'
-    jili_app.logs_dir: /data/91jili/logs
+    jili_app.logs_dir: %kernel.logs_dir%
 
     offerwow_com.websiteid: 1162
     offerwow_com.key: "91jili2offerwow"

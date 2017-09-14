@@ -11,8 +11,6 @@ parameters:
 
     point_manage.processor.class: Jili\ApiBundle\EventListener\PointManageProcessor
 
-    send_mail.class:  Jili\ApiBundle\Service\SendMail
-
 # 兑换结果处理
     exchange.processor.class:  Jili\ApiBundle\Services\ExchangeProcess
 #AlertToSlack
@@ -54,13 +52,6 @@ services:
     offer99_request.processor:
         class: %offer99_request.processor.class%
         arguments: [ "@logger", "@doctrine.orm.entity_manager", "@app.point_service" ]
-
-    send_mail:
-        class: %send_mail.class%
-        arguments: [ "@logger","@doctrine.orm.entity_manager" ]
-        calls:
-            - [setContainer, ["@service_container"] ]
-            - [setMailer, ["@mailer"] ]
 
     exchange.processor:
         class: %exchange.processor.class%

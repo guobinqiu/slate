@@ -85,8 +85,8 @@ class DeliveryNotificationTest extends WebTestCase
         $request_data = json_decode($request_body, true);
 
         $sopData = $this->em->getRepository('JiliApiBundle:SopRespondent')->findAll();
-        $request_data['data']['respondents'][0]['app_mid'] = $sopData[0]->getId();
-        $request_data['data']['respondents'][1]['app_mid'] = $sopData[1]->getId();
+        $request_data['data']['respondents'][0]['app_mid'] = $sopData[0]->getAppMid();
+        $request_data['data']['respondents'][1]['app_mid'] = $sopData[1]->getAppMid();
 
         $respondents = $request_data['data']['respondents'];
 
@@ -131,6 +131,7 @@ class LoadData implements FixtureInterface
 
         $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
         $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId(27);
         $manager->persist($sopRespondent);
         $manager->flush();
 
@@ -160,6 +161,7 @@ class LoadData implements FixtureInterface
 
         $sopRespondent = new \Jili\ApiBundle\Entity\SopRespondent();
         $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppId(92);
         $manager->persist($sopRespondent);
         $manager->flush();
 

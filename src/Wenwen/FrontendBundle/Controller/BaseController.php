@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wenwen\FrontendBundle\Model\OwnerType;
 
 // 不能加在service的公共代码，比方需要对session，cookie，request等对象进行操作的公共方法可以加到这里
 class BaseController extends Controller
@@ -76,7 +77,7 @@ class BaseController extends Controller
      *
      */
     protected function setRegisterRouteInSession(Request $request){
-        // parameter里如果有recruite，将其记入session
+        // parameter里如果有recruit，将其记入session
         $recruitRoute = $request->get('recruit');
         $this->get('logger')->debug(__METHOD__ . ' recruitRoute=' . $recruitRoute);
         if( ! empty($recruitRoute)){
@@ -104,4 +105,18 @@ class BaseController extends Controller
         return $recruitRoute;
     }
 
+    protected function setOwnerTypeToSession(Request $request)
+    {
+        $this->get('logger')->debug(__METHOD__ . ' uri=' . $request->getUri());
+        $ownerType = $request->get('owner_type');
+        if (OwnerType::isValid($ownerType)) {
+            $request->getSession()->set('owner_type', $ownerType);
+        }
+    }
+
+    protected function getOwnerTypeFromSession(Request $request)
+    {
+//        return $request->getSession()->get('owner_type', OwnerType::ORGANIC);
+        return OwnerType::DATASPRING; //2017年底前就算owner_type是organic的也使用dataspring
+    }
 }

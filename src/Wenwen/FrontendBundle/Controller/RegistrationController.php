@@ -6,6 +6,7 @@ use JMS\JobQueueBundle\Entity\Job;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
@@ -15,6 +16,7 @@ use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Form\SignupType;
 use Wenwen\FrontendBundle\ServiceDependency\CacheKeys;
+use Wenwen\FrontendBundle\Services\AuthService;
 
 /**
  * @Route("/user")
@@ -50,56 +52,34 @@ class RegistrationController extends BaseController
 
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
-
             if ($form->isValid()) {
-
                 $fingerprint = $form->get('fingerprint')->getData();
+
                 $regCount = $userService->getRegisteredFingerPrintCount($fingerprint);
-                if( $regCount > 1){
+                if ($regCount > 1) {
                     // Only allow 1 regsitration for same client(defined by fingerprint) in certain time period.
                     // Return a fake result to bot when blocked by fingerprint
                     $loggerBotRegistration = $this->get('monolog.logger.bot_registration');
-                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' .  $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
+                    $loggerBotRegistration->warn(__METHOD__ . ' Too fast registration! clientip=' . $request->getClientIp() . ' fingerprint=' . $fingerprint . ' count=' . $regCount . ' email=' . $user->getEmail() . ' request=' . $request);
                     return $this->redirect($this->generateUrl('_user_regActive', array('email' => $user->getEmail())));
                 }
 
-                $em = $this->getDoctrine()->getManager();
+                $clientIp = $request->getClientIp();
+                $userAgent = $request->headers->get('USER_AGENT');
+                $inviteId = $session->get('inviteId');
+                $canRewardInviter = $userService->canRewardInviter($this->isUserLoggedIn(), $fingerprint);
+                $recruitRoute = $this->getRegisterRouteFromSession();
 
-                $user->setCreatedRemoteAddr($request->getClientIp());
-                $user->setCreatedUserAgent($request->headers->get('USER_AGENT'));
-
-                if (!$request->cookies->has('uid')) {
-                    //如果用户把cookie删了，就通过fingerprint来判断，fingerprint相同的邀请不给分
-                    $userTrack = $em->getRepository('WenwenFrontendBundle:UserTrack')->findOneBy(array('currentFingerprint' => $fingerprint));
-                    if ($userTrack == null) {
-                        $user->setInviteId($session->get('inviteId'));
-                    }
-                }
-
-                $userTrack = new UserTrack();
-                $userTrack->setLastFingerprint(null);
-                $userTrack->setCurrentFingerprint($fingerprint);
-                $userTrack->setSignInCount(1);
-                $userTrack->setLastSignInAt(null);
-                $userTrack->setCurrentSignInAt(new \DateTime());
-                $userTrack->setLastSignInIp(null);
-                $userTrack->setCurrentSignInIp($request->getClientIp());
-                $userTrack->setOauth(null);
-                $userTrack->setRegisterRoute($this->getRegisterRouteFromSession());
-                $this->get('logger')->debug(__METHOD__ . ' ' .  $this->getRegisterRouteFromSession());
-
-                $userTrack->setUser($user);
-                $user->setUserTrack($userTrack);
-
-                $em->persist($user);
-                $em->flush();
+                $userService = $this->get('app.user_service');
+                $user = $userService->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
+                $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute);
 
                 if ($form->get('subscribe')->getData() != true) {
+                    $em = $this->getDoctrine()->getManager();
                     $em->getRepository('WenwenFrontendBundle:UserEdmUnsubscribe')->insertOne($user->getId());
                 }
 
                 $token = md5(uniqid(rand(), true));
-
                 $authService = $this->get('app.auth_service');
                 $authService->sendConfirmationEmail($user->getId(), $user->getEmail(), $token);
 
@@ -132,19 +112,26 @@ class RegistrationController extends BaseController
         $confirmationToken = $request->query->get('confirmation_token');
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
+        $em = $this->getDoctrine()->getManager();
+        $userService = $this->get('app.user_service');
 
-        if ($rtn['status'] == 'success') {
-            if($this->pushBasicProfile($rtn['userId'])) {
-                // 推送用户基本属性
-                $request->getSession()->set('uid', $rtn['userId']);
-                return $this->redirect($this->generateUrl('_user_regSuccess'));
+        $ownerType = $this->getOwnerTypeFromSession($request);
+        $this->get('logger')->info(__METHOD__ . 'email ownerType=' . $ownerType);
+
+        if ($rtn['status'] == AuthService::STATUS_SUCCESS) {
+            $user = $em->getRepository('WenwenFrontendBundle:User')->find($rtn['userId']);
+            if ($user == null) {
+                return $this->redirect($this->generateUrl('_user_regFailure'));
             }
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
+            $request->getSession()->set('uid', $rtn['userId']);
+            return $this->redirect($this->generateUrl('_user_regSuccess'));
         } else {
             // Todo 过渡用的，上线24小时后可以删除整个else的内容
             if (!isset($confirmationToken)) {
                 return $this->redirect($this->generateUrl('_user_regFailure'));
             }
-            $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('WenwenFrontendBundle:User')->findOneBy(array(
                 'confirmationToken' => $confirmationToken,
             ));
@@ -159,12 +146,11 @@ class RegistrationController extends BaseController
             $user->setLastGetPointsAt(new \DateTime());
             $em->flush();
 
-            $this->pushBasicProfile($user->getId());// 推送用户基本属性
+            $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+            $userService->pushBasicProfileJob($user->getId());
             $request->getSession()->set('uid', $user->getId());
             return $this->redirect($this->generateUrl('_user_regSuccess'));
-
         }
-
         return $this->redirect($this->generateUrl('_user_regFailure'));
     }
 
@@ -182,53 +168,5 @@ class RegistrationController extends BaseController
     public function regFailureAction()
     {
         return $this->render('WenwenFrontendBundle:User:regFailure.html.twig');
-    }
-
-    /**
-     * @Route("/profile_survey", name="_user_profile_survey", methods={"GET"})
-     */
-    public function profileSurvey(Request $request)
-    {
-        $userId = $request->getSession()->get('uid');
-        if ($userId == null) {
-            $this->redirect($this->generateUrl('_homepage'));
-        }
-        $sop_profiling_info = $this->getSopProfilingSurveyInfo($userId);
-        return $this->redirect($sop_profiling_info['profiling']['url']);
-    }
-
-    private function pushBasicProfile($userId)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
-        if ($user == null) {
-            return false;
-        }
-
-        $args = array(
-            '--user_id=' . $userId,
-        );
-        $job = new Job('sop:push_basic_profile', $args, true, '91wenwen_sop');
-        $job->setMaxRetries(3);
-
-        $em->persist($job);
-        $em->flush();
-
-        return true;
-    }
-
-    private function getSopProfilingSurveyInfo($user_id) {
-        $this->container->get('logger')->debug(__METHOD__ . ' - START - ');
-        $surveyService = $this->get('app.survey_service');
-        $env = $this->container->get('kernel')->getEnvironment();
-        if (in_array($env, array('dev','test'))) {
-            // for dummy mode (won't access sop's server at dev or test mode)
-            // test环境时不去访问SOP服务器，在circleCI上运行测试case时，访问SOP服务器会超时，导致测试运行极慢
-            $surveyService->setDummy(true);
-        }
-        $sop_profiling_info = $surveyService->getSopProfilingSurveyInfo($user_id);
-        $this->container->get('logger')->debug(__METHOD__ . ' - END - ');
-        return $sop_profiling_info;
     }
 }

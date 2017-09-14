@@ -36,6 +36,7 @@
         "spomky-labs/base64url": "1.0.2",
         "leafo/scssphp": "0.4",
         "captcha-com/symfony-captcha-bundle": "4.*",
+        "ramsey/uuid": "^3.7"
         "friendsofsymfony/rest-bundle": "1.5.*",
         "nelmio/cors-bundle": "1.4.0"
     },

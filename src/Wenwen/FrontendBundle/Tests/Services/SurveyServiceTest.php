@@ -7,11 +7,11 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
-use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
+use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 
 class SurveyServiceTest extends WebTestCase
@@ -22,6 +22,8 @@ class SurveyServiceTest extends WebTestCase
     private $em;
 
     private $surveyService;
+
+    private $surveySopService;
 
     /**
      * {@inheritDoc}
@@ -34,6 +36,7 @@ class SurveyServiceTest extends WebTestCase
         $container = static::$kernel->getContainer();
 
         $this->surveyService = $container->get('app.survey_service');
+        $this->surveySopService = $container->get('app.survey_sop_service');
 
         $loader = new Loader();
         $loader->addFixture(new LoadUserData());
@@ -80,6 +83,7 @@ class SurveyServiceTest extends WebTestCase
         $this->em->flush();
 
         $user_id = $user->getId();
+        $this->surveySopService->createSopRespondent($user_id, OwnerType::DATASPRING);
 
         $locationInfo = array();
         $locationInfo['status'] = true;

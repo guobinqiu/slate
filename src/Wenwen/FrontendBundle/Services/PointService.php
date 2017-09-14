@@ -98,7 +98,7 @@ class PointService
                     $this->addPoints($inviter, User::POINT_INVITE_SIGNUP, CategoryType::EVENT_INVITE_SIGNUP, TaskType::RENTENTION, '完成好友邀请', null, $happenTime, false, null);
                 }
             } else {
-                $this->logger->debug(__METHOD__ . ' Inviter not found. user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
+                $this->logger->debug(__METHOD__ . ' Inviter was not found. user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());
             }
         } else {
             $this->logger->debug(__METHOD__ . ' No inviter. user_id=' . $user->getInviteId() . ' from invitee user_id=' . $user->getId());

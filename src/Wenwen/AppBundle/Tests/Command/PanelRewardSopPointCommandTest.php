@@ -1,4 +1,5 @@
 <?php
+
 namespace Wenwen\AppBundle\Tests\Command;
 
 use Phake;
@@ -17,7 +18,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $sop_respondent;
+    private $sopRespondent;
 
     /**
      * {@inheritDoc}
@@ -46,7 +47,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
 
         $this->em = $em;
         $this->container = $container;
-        $this->sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
+        $this->sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findAll();
     }
 
     /**
@@ -55,6 +56,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
+        $this->em->clear();
         $this->em->close();
         Phake::resetStaticInfo();
     }
@@ -65,7 +67,7 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
         $container = $this->container;
         $client = Phake::mock('Wenwen\AppBundle\Services\SopHttpfulClient');
         $container->set('sop_api.client', $client);
-        $app_mid = $this->sop_respondent[1]->getId();
+        $app_mid = $this->sopRespondent[1]->getAppMid();
 
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 10001, 'targeted');
         $this->container->get('app.survey_sop_service')->createParticipationByAppMid($app_mid, 10001, 'init');
@@ -144,6 +146,54 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             '2015-02-14 06:00:06',
             '{"point":"300","point_type":"11"}'
         );
+        $rec4 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid,
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"31"}' // not allowed point type
+        );
+        $rec5 = array (
+            '800001',
+            '201502',
+            '12',
+            $app_mid, // app_mid already rewarded
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"11"}'
+        );
+        $rec6 = array (
+            '800001',
+            '201502',
+            '12',
+            '123', // app_mid not exist
+            '30001',
+            '30002',
+            'This is a title3, type cost',
+            '31',
+            '',
+            '1.600',
+            'COMPLETE',
+            'APPROVED',
+            '2015-02-14 06:00:06',
+            '{"point":"300","point_type":"11"}'
+        );
         $footer = array (
             'EOF',
             'Total 3 Records'
@@ -154,6 +204,9 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
             $rec1,
             $rec2,
             $rec3,
+            $rec4,
+            $rec5,
+            $rec6,
             $footer
         );
 
@@ -197,8 +250,8 @@ class PanelRewardSopPointCommandTest extends KernelTestCase
 //        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['created_at'], 0, 10));
 //        $this->assertEquals(date('Y-m-d'), substr($history_list[1]['updated_at'], 0, 10));
 
-        $sop_respondent = $em->getRepository('JiliApiBundle:SopRespondent')->find($app_mid);
-        $user_id = $sop_respondent->getUserId();
+        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->findOneByAppMid($app_mid);
+        $user_id = $sopRespondent->getUserId();
 
         $task = $em->getRepository('JiliApiBundle:TaskHistory0' . ($user_id % 10))->findByUserId($user_id);
         $this->assertEquals(30, $task[0]->getPoint());
@@ -251,6 +304,7 @@ class PanelRewardSopPointCommandTestFixture implements FixtureInterface
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(27);
         $manager->persist($r);
         $manager->flush();
 
@@ -266,6 +320,23 @@ class PanelRewardSopPointCommandTestFixture implements FixtureInterface
         $r = new SopRespondent();
         $r->setUserId($user->getId());
         $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(92);
+        $manager->persist($r);
+        $manager->flush();
+
+        $user = new User();
+        $user->setNick('dd');
+        $user->setEmail('test3@d8aspring.com');
+        $user->setPoints(300);
+        $user->setRewardMultiple(1);
+        $user->setPwd('111111');
+        $manager->persist($user);
+        $manager->flush();
+
+        $r = new SopRespondent();
+        $r->setUserId($user->getId());
+        $r->setStatusFlag(SopRespondent::STATUS_ACTIVE);
+        $r->setAppId(93);
         $manager->persist($r);
         $manager->flush();
     }
