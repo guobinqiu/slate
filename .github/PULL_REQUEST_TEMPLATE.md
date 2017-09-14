@@ -1,12 +1,20 @@
-## Changes
+## Redmine Ticket URL
+ N/A
+
+## Issues
+
+## Causes
+
+## Changes 
 
 * [ ] item 1
+* [ ] item 2
 
-## Background
+## Release flow 
 
-Why did you change?
+What you need to do before/at/after deploying?
 
-## Release flow
+* [ ] Before deploy
+* [ ] Deploy
+* [ ] After deploy
 
-* [ ] step 1
-* [ ] step 2
