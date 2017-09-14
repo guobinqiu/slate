@@ -112,7 +112,7 @@ class CpsOrderFactory
         }
 
 
-        $order = $em->getRepository($order_repository)->findOneById($order_id);
+        $order = $em->getRepository($order_repository)->find($order_id);
 
 #        if($incentive_type === 2 ||  $incentive_type === 1 ) {
 #            $order->setCreateTime(date_create(date('Y-m-d H:i:s')));

@@ -38,7 +38,7 @@ class AffiliateSurveyService
         $connection = $this->em->getConnection();
         $connection->beginTransaction();
         try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find($affiliateProjectId);
             $param = array(
             'affiliateProject' => $affiliateProject,
             'status' => SurveyStatus::STATUS_INIT

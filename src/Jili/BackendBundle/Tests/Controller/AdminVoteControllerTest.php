@@ -194,7 +194,7 @@ class AdminVoteControllerTest extends WebTestCase
             'id' => 1
         ));
 
-        $before_vote = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $before_vote = $em->getRepository('JiliApiBundle:Vote')->find(1);
         $this->assertEquals('【生活】英语九大前缀 你认识哪个？', $before_vote->getTitle());
 
         $this->assertEquals(301, $client->getResponse()->getStatusCode());
@@ -216,7 +216,7 @@ class AdminVoteControllerTest extends WebTestCase
 
         //check vote edit success
         $em->clear();
-        $after_vote = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $after_vote = $em->getRepository('JiliApiBundle:Vote')->find(1);
         $this->assertEquals('【生活】英语九大前缀的认识', $after_vote->getTitle());
     }
 
@@ -237,7 +237,7 @@ class AdminVoteControllerTest extends WebTestCase
 
         $this->assertTrue($session->has('csrf_token'));
 
-        $before = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $before = $em->getRepository('JiliApiBundle:Vote')->find(1);
         $this->assertNotNull($before);
 
         $url = '/admin/vote/delete';
@@ -251,7 +251,7 @@ class AdminVoteControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
-        $after = $em->getRepository('JiliApiBundle:Vote')->findOneById(1);
+        $after = $em->getRepository('JiliApiBundle:Vote')->find(1);
         $this->assertNull($after);
     }
 }

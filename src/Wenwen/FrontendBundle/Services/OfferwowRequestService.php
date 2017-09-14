@@ -101,7 +101,7 @@ class OfferwowRequestService
         }
 
         // d, 检查memberid 是否为存在的user_id，如果不存在的话，返回错误信息[offerwow-03]"uid会员不存在"
-        $user = $this->em->getRepository("WenwenFrontendBundle:User")->findOneById($memberid);
+        $user = $this->em->getRepository("WenwenFrontendBundle:User")->find($memberid);
         if (!$user) {
             $result['status'] = 'failure';
             $result['errno'] = 'offerwow-03';

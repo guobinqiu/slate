@@ -400,7 +400,7 @@ class ExpirePointService
             $userId = $expiringUser['id'];
             
             try{
-                $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+                $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
                 if($user){
                     try{
                         if(false == $this->skipExpiringFlag){

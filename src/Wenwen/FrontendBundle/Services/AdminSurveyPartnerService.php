@@ -45,7 +45,7 @@ class AdminSurveyPartnerService
     public function openSurveyPartner($surveryPartnerId) {
         $this->logger->debug(__METHOD__ . ' START ');
         try{
-            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
+            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->find($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_OPEN);
             $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
@@ -68,7 +68,7 @@ class AdminSurveyPartnerService
         $this->logger->debug(__METHOD__ . ' START ');
 
         try{
-            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
+            $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->find($surveryPartnerId);
             $surveyPartner->setStatus(SurveyPartner::STATUS_CLOSE);
             $surveyPartner->setUpdatedAt(new \DateTime());
             $this->em->persist($surveyPartner);
@@ -115,7 +115,7 @@ class AdminSurveyPartnerService
     public function findSurveyPartner($surveryPartnerId) {
         $this->logger->debug(__METHOD__ . ' START ');
 
-        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveryPartnerId);
+        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->find($surveryPartnerId);
 
         $this->logger->debug(__METHOD__ . ' completePoint=' . $surveyPartner->getCompletePoint());
         $this->logger->debug(__METHOD__ . ' END   ');
