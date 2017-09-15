@@ -417,11 +417,8 @@ class SurveySopService
         }
     }
 
-    public function getSopCredentialsByOwnerType($ownerType)
+    public function getAllSopCredentials()
     {
-        if (!OwnerType::isValid($ownerType)) {
-            throw new \InvalidArgumentException('Unsupported owner_type: ' . $ownerType);
-        }
         $sopApps = $this->parameterService->getParameter('sop_apps');
         if (is_null($sopApps)) {
             throw new \InvalidArgumentException("Missing option 'sop_apps'");
@@ -430,58 +427,36 @@ class SurveySopService
             if (!isset($sopApp['owner_type'])) {
                 throw new \InvalidArgumentException("Missing option 'owner_type'");
             }
-            if ($sopApp['owner_type'] == $ownerType) {
-                if (!isset($sopApp['app_id'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_id'");
-                }
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
-            }
-        }
-        throw new \RuntimeException('SopCredentials was not found. owner_type=' . $ownerType);
-    }
-
-    public function getSopCredentialsByAppId($appId)
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
-        }
-        foreach($sopApps as $sopApp) {
             if (!isset($sopApp['app_id'])) {
                 throw new \InvalidArgumentException("Missing option 'app_id'");
             }
-            if ($sopApp['app_id'] == $appId) {
-                if (!isset($sopApp['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing option 'app_secret'");
-                }
-                return $sopApp;
+            if (!isset($sopApp['app_secret'])) {
+                throw new \InvalidArgumentException("Missing option 'app_secret'");
             }
-        }
-        throw new \RuntimeException('SopCredentials was not found. appId=' . $appId);
-    }
-
-    public function getAllSopCredentials()
-    {
-        $sopApps = $this->parameterService->getParameter('sop_apps');
-        if (is_null($sopApps)) {
-            throw new \InvalidArgumentException("Missing option 'sop_apps'");
         }
         return $sopApps;
     }
 
     public function getAppIdByOwnerType($ownerType)
     {
-        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
-        return $sopCredentials['app_id'];
+        $sopApps = $this->getAllSopCredentials();
+        foreach($sopApps as $sopApp) {
+            if ($sopApp['owner_type'] == $ownerType) {
+                return $sopApp['app_id'];
+            }
+        }
+        throw new \RuntimeException('AppId was not found. ownerType=' . $ownerType);
     }
 
     public function getAppSecretByAppId($appId)
     {
-        $sopCredentials = $this->getSopCredentialsByAppId($appId);
-        return $sopCredentials['app_secret'];
+        $sopApps = $this->getAllSopCredentials();
+        foreach($sopApps as $sopApp) {
+            if ($sopApp['app_id'] == $appId) {
+                return $sopApp['app_secret'];
+            }
+        }
+        throw new \RuntimeException('app_secret was not found. appId=' . $appId);
     }
 
     public function getSopRespondentByUserId($userId) {
