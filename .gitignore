@@ -48,3 +48,4 @@ app/config/deploy.rb
 app/config/secret_prod.yml
 
 scripts/perl/config/deployment.pl
+
