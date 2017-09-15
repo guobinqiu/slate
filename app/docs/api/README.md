@@ -1,10 +1,11 @@
-# How to update the API Doc
+# How to deploy your API Doc
 
 ---
 
-1. Update `index.html.md` file located at `app/docs/api/` directory. See [Markdown Syntax](https://github.com/lord/slate/wiki/Markdown-Syntax)
+1. Install slate web application on your vagrant by running `make api-install` command.
 
-2. Run command `make api-doc` at your project root directory to upload your local changes to our remote server (ip: 192.168.1.212).
+2. Update `index.html.md` file located at `app/docs/api/` directory. Also see [Markdown Syntax](https://github.com/lord/slate/wiki/Markdown-Syntax)
 
-3. Preview from the following url: `http://192.168.1.212:4567`
+3. Run command `make api-deploy` at your project root directory.
 
+4. Preview from the following url: `http://<Your Vagrant IP Address>:4567`
