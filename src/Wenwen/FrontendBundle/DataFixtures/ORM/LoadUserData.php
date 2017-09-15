@@ -5,6 +5,7 @@ namespace Wenwen\FrontendBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 
 class LoadUserData implements FixtureInterface
 {
@@ -19,6 +20,9 @@ class LoadUserData implements FixtureInterface
         $user1->setPwd('11111q');
         $user1->setIsEmailConfirmed(1);
         $user1->setRegisterDate(new \DateTime());
+        $userTrack1 = new UserTrack();
+        $userTrack1->setUser($user1);
+        $user1->setUserTrack($userTrack1);
         $manager->persist($user1);
         $manager->flush();
 
@@ -32,6 +36,9 @@ class LoadUserData implements FixtureInterface
         $user2->setIsEmailConfirmed(1);
         $user2->setRegisterDate(new \DateTime());
         $user2->setInviteId($user1->getId());
+        $userTrack2 = new UserTrack();
+        $userTrack2->setUser($user2);
+        $user2->setUserTrack($userTrack2);
         $manager->persist($user2);
         $manager->flush();
 
@@ -45,6 +52,9 @@ class LoadUserData implements FixtureInterface
         $user3->setIsEmailConfirmed(0);
         $user3->setRegisterDate(new \DateTime());
         $user3->setInviteId($user1->getId());
+        $userTrack3 = new UserTrack();
+        $userTrack3->setUser($user3);
+        $user3->setUserTrack($userTrack3);
         $manager->persist($user3);
         $manager->flush();
 
@@ -58,6 +68,9 @@ class LoadUserData implements FixtureInterface
         $user4->setIsEmailConfirmed(0);
         $user4->setRegisterDate(new \DateTime());
         $user4->setInviteId($user1->getId());
+        $userTrack4 = new UserTrack();
+        $userTrack4->setUser($user4);
+        $user4->setUserTrack($userTrack4);
         $manager->persist($user4);
         $manager->flush();
     }

@@ -498,8 +498,10 @@ class SurveySopService
         return $sopRespondent;
     }
 
-    public function createSopRespondent($userId, $ownerType) {
-        $appId = $this->getAppIdByOwnerType($ownerType);
+    public function createSopRespondent($userId) {
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
+
+        $appId = $this->getAppIdByOwnerType($user->getUserTrack()->getOwnerType());
         $sopRespondent = new SopRespondent();
         $i = 0;
         while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
-use Jili\ApiBundle\DataFixtures\ORM\LoadUserData;
+use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadSurveySopData;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
 use Wenwen\FrontendBundle\Model\CategoryType;
@@ -19,7 +19,7 @@ class ProjectSurveyControllerTest extends WebTestCase
     private $client;
 
     private $container;
-    
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -156,7 +156,7 @@ class ProjectSurveyControllerTest extends WebTestCase
         $surveyId = 10000;
         $token = $this->container->get('app.survey_sop_service')->getSurveyToken($surveyId, $users[0]->getId());
 
-        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($users[0]->getId());
         $appMid = $sopRespondent->getAppMid();
 
         $url = $this->container->get('router')->generate('_project_survey_endlink', array (

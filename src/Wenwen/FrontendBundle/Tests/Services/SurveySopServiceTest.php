@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Jili\ApiBundle\Entity\SopRespondent;
 use Wenwen\FrontendBundle\Model\OwnerType;
@@ -440,5 +441,43 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $this->surveySopService->getAppSecretByAppId(27));
         $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $this->surveySopService->getAppSecretByAppId(92));
         $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $this->surveySopService->getAppSecretByAppId(93));
+    }
+
+    public function testCreateSopRespondent() {
+
+        $dummyOwnerType = OwnerType::INTAGE;
+
+        $user = new User();
+
+        $userTrack = new UserTrack();
+        $userTrack->setUser($user);
+        $userTrack->setOwnerType($dummyOwnerType);
+
+        $user->setUserTrack($userTrack);
+
+        $this->em->persist($user);
+        $this->em->persist($userTrack);
+
+        $this->em->flush();
+
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(
+            array(
+                'userId' => $user->getId(),
+            )
+        );
+
+        $this->assertNull($sopRespondent);
+
+
+        $this->surveySopService->createSopRespondent($user->getId());
+
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(
+            array(
+                'userId' => $user->getId(),
+            )
+        );
+
+        $this->assertNotNull($sopRespondent);
+        $this->assertEquals($user->getId(), $sopRespondent->getUserId(), 'same user id');
     }
 }

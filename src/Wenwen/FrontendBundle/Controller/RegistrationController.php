@@ -118,7 +118,7 @@ class RegistrationController extends BaseController
 
         if ($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS) {
             $surveySopService = $this->get('app.survey_sop_service');
-            $surveySopService->createSopRespondent($rtn[AuthService::KEY_USERID], $ownerType);
+            $surveySopService->createSopRespondent($rtn[AuthService::KEY_USERID]);
 
             $userService = $this->get('app.user_service');
             $userService->pushBasicProfileJob($rtn[AuthService::KEY_USERID]);

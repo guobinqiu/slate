@@ -96,17 +96,17 @@ class UserServiceTest extends WebTestCase
     {
         $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
 
-        $this->surveySopService->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $this->surveySopService->createSopRespondent($users[0]->getId());
         $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[0]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[0]->getId());
 
-        $this->surveySopService->createSopRespondent($users[1]->getId(), OwnerType::INTAGE);
+        $this->surveySopService->createSopRespondent($users[1]->getId());
         $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[1]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[1]->getId());
 
-        $this->surveySopService->createSopRespondent($users[2]->getId(), OwnerType::ORGANIC);
+        $this->surveySopService->createSopRespondent($users[2]->getId());
         $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[2]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[2]->getId());
