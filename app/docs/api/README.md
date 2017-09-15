@@ -1,5 +1,7 @@
 # How to help us to improve the API Doc
 
+===
+
 ### Update `index.html.md` file located at `app/docs/api/` directory. See [Markdown Syntax](https://github.com/lord/slate/wiki/Markdown-Syntax)
 
 ---
