@@ -72,7 +72,8 @@ class RegistrationController extends BaseController
 
                 $userService = $this->get('app.user_service');
                 $user = $userService->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
-                $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute);
+                $ownerType = $this->getOwnerTypeFromSession();
+                $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType);
 
                 if ($form->get('subscribe')->getData() != true) {
                     $em = $this->getDoctrine()->getManager();
@@ -113,7 +114,7 @@ class RegistrationController extends BaseController
         $authService = $this->get('app.auth_service');
         $rtn = $authService->confirmEmail($confirmationToken);
 
-        $ownerType = $this->getOwnerTypeFromSession($request);
+        $ownerType = $this->getOwnerTypeFromSession();
 
         if ($rtn[AuthService::KEY_STATUS] == AuthService::STATUS_SUCCESS) {
             $surveySopService = $this->get('app.survey_sop_service');
