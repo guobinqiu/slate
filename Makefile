@@ -109,5 +109,5 @@ run-job:
 php_code_sniffer:
 	git diff --diff-filter=AMR --name-only origin/master | grep -v 'vendor' | xargs php vendor/squizlabs/php_codesniffer/scripts/phpcbf --standard=./ruleset.xml
 
-slate:
+api-doc:
     scp app/docs/api/index.html.md wenwen@192.168.1.212:/home/wenwen/slate/source/index.html.md
