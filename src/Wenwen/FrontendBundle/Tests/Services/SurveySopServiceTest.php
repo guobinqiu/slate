@@ -447,4 +447,46 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertNotNull($sopRespondent);
         $this->assertEquals($user->getId(), $sopRespondent->getUserId(), 'same user id');
     }
+
+    public function testGetSopRespondentByUserId_Exist(){
+
+        $dummyUserId = 1;
+        $dummyAppMid = 'mid1';
+        $dummyAppId = 22;
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($dummyUserId);
+        $sopRespondent->setAppMid($dummyAppMid);
+        $sopRespondent->setAppId($dummyAppId);
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $sr = $this->surveySopService->getSopRespondentByUserId($dummyUserId);
+        $this->assertNotNull($sr);
+        $this->assertEquals($dummyUserId, $sr->getUserId());
+
+    }
+
+    public function testGetSopRespondentByUserId_NotExist(){
+
+        $dummyOwnerType = OwnerType::INTAGE;
+
+        $user = new User();
+
+        $userTrack = new UserTrack();
+        $userTrack->setUser($user);
+        $userTrack->setOwnerType($dummyOwnerType);
+
+        $user->setUserTrack($userTrack);
+
+        $this->em->persist($user);
+        $this->em->persist($userTrack);
+        $this->em->flush();
+
+        $sr = $this->surveySopService->getSopRespondentByUserId($user->getId());
+        $this->assertNotNull($sr);
+        $this->assertEquals($user->getId(), $sr->getUserId());
+        $this->assertNotNull($sr->getAppMid());
+    }
 }
