@@ -117,16 +117,16 @@ apidoc-server-install:
 	git clone git@github.com:lord/slate.git
 	cd slate; \
 	bundle install
-	cd slate\source; \
-	ln -sf ../../docs/api/index.html.md index.html.md; \
-	ln -sf ../../docs/api/includes includes
+
+## Deploy our apidocs to slate
+apidoc-deploy:
+	rm slate/source/index.html.md
+	rm -rf slate/source/includes
+	ln -sf `pwd`/docs/api/index.html.md slate/source/index.html.md
+	ln -sf `pwd`/docs/api/includes/ slate/source/includes
 
 ## Start slate server at localhost:4567
 apidoc-server-startup:
 	cd slate; \
 	bundle exec middleman server &
-
-## Deploy our apidocs to slate
-apidoc-deploy:
-	cp app/docs/api/index.html.md /srv/work/slate/source/index.html.md
 
