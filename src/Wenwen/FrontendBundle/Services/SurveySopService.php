@@ -440,7 +440,7 @@ class SurveySopService
                 return $sopApp;
             }
         }
-        throw new \InvalidArgumentException('SopCredentials was not found. owner_type=' . $ownerType);
+        throw new \RuntimeException('SopCredentials was not found. owner_type=' . $ownerType);
     }
 
     public function getSopCredentialsByAppId($appId)
@@ -460,7 +460,7 @@ class SurveySopService
                 return $sopApp;
             }
         }
-        throw new \InvalidArgumentException('SopCredentials was not found. appId=' . $appId);
+        throw new \RuntimeException('SopCredentials was not found. appId=' . $appId);
     }
 
     public function getAllSopCredentials()

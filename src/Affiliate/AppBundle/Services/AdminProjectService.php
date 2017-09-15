@@ -49,7 +49,7 @@ class AdminProjectService
             'pagination' => array()
             );
         try{
-            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
+            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->find($affiliatePartnerId);
             $this->logger->debug(__METHOD__ . 'sizeof $affiliatePartner=' . sizeof($affiliatePartner));
             $pagination = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findProjects($affiliatePartner, $this->knp_paginator, $page, $limit);
             $this->logger->debug(__METHOD__ . 'sizeof $pagination=' . sizeof($pagination));
@@ -130,7 +130,7 @@ class AdminProjectService
         $status = 'success';
         $msg = '';
         try{
-            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->findOneById($affiliatePartnerId);
+            $affiliatePartner = $this->em->getRepository('AffiliateAppBundle:AffiliatePartner')->find($affiliatePartnerId);
 
             $affiliateProject = new AffiliateProject();
             $affiliateProject->setAffiliatePartner($affiliatePartner);
@@ -172,7 +172,7 @@ class AdminProjectService
         $connection = $this->em->getConnection();
         $connection->beginTransaction();
         try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find($affiliateProjectId);
             if($affiliateProject == null || sizeof($affiliateProject) == 0){
                 $status = 'failure';
                 $msg = " Project not found   affiliateProjectId=" . $affiliateProjectId;
@@ -208,7 +208,7 @@ class AdminProjectService
         $connection = $this->em->getConnection();
         $connection->beginTransaction();
         try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find($affiliateProjectId);
             if($affiliateProject == null || sizeof($affiliateProject) == 0){
                 $status = 'failure';
                 $msg = " Project not found   affiliateProjectId=" . $affiliateProjectId ;
@@ -254,7 +254,7 @@ class AdminProjectService
 
         $affiliateProject = null;
         try{
-            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->findOneById($affiliateProjectId);
+            $affiliateProject = $this->em->getRepository('AffiliateAppBundle:AffiliateProject')->find($affiliateProjectId);
         } catch(\Exception $e) {
             $rtn['status'] = 'failure';
             $rtn['errmsg'] = 'Failed to find affiliateProject. affiliateProjectId=' . $affiliateProjectId;

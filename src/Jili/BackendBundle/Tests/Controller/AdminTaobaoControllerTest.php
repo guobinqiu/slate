@@ -219,7 +219,7 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $client = static :: createClient();
         $container = $client->getContainer();
 
-        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->find(1);
         $this->assertNotNull($taobaoComponent);
 
         $session = $container->get('session');
@@ -235,7 +235,7 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->find(1);
         $this->assertNull($taobaoComponent);
     }
 
@@ -258,9 +258,9 @@ class AdminTaobaoControllerTest extends WebTestCase {
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(1);
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->find(1);
         $this->assertEquals(2, $taobaoComponent->getSort());
-        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->findOneById(2);
+        $taobaoComponent = $this->em->getRepository('JiliFrontendBundle:TaobaoComponent')->find(2);
         $this->assertEquals(1, $taobaoComponent->getSort());
     }
 
@@ -412,7 +412,7 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
         // prepare a product data 
-       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($product->getId());
         $this->assertEquals($product->getPrice() * 2 , $after->getPrice());
 
     }
@@ -445,7 +445,7 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
         $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         // check the image uploaded
-       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($product->getId());
         $this->assertEmpty($product->getPictureName());
         $this->assertNotEmpty($after->getPictureName());
 
@@ -477,7 +477,7 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
         $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         
-       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($product->getId());
         $this->assertNull($after);
     }
 
@@ -504,7 +504,7 @@ $this->assertEquals($categories[0]->getId(), $expected->getTaobaoCategory()->get
         $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         
-       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->findOneById($product->getId());
+       $after = $em->getRepository('JiliFrontendBundle:TaobaoSelfPromotionProducts')->find($product->getId());
         $this->assertNull($after);
         // image should not exists anymore
        $picture_name =  $product->getPictureName();

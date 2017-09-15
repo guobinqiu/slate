@@ -64,7 +64,7 @@ class AuthService
         }
 
         try {
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if(is_null($user)){
                 $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
                 $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_USER;
@@ -169,7 +169,7 @@ class AuthService
         }
 
         try {
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if(is_null($user)){
                 $rtn[self::KEY_STATUS] = self::STATUS_FAILURE;
                 $rtn[self::KEY_MESSAGE] = self::MSG_INVALID_USER;

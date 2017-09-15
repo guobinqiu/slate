@@ -71,7 +71,7 @@ class SsiPointRewardCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), '--definitive' => true));
 
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById(SsiPointRewardCommandTestFixture::$USER->getId());
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find(SsiPointRewardCommandTestFixture::$USER->getId());
         $this->assertSame(1000, $user->getPoints());
 
         $rows = $this->em->getRepository('WenwenAppBundle:SsiProjectParticipationHistory')->findBySsiRespondentId(

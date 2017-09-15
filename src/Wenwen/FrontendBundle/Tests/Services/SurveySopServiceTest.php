@@ -167,7 +167,7 @@ class SurveySopServiceTest extends WebTestCase
 
         echo 'point=' . $point . PHP_EOL;
 
-        $userAfter = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+        $userAfter = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
 
         $this->assertEquals( $pointBefore + 300, $userAfter->getPoints(), 'Points should +300.');
         $this->assertEquals( $completeNBefore + 1, $userAfter->getCompleteN(), 'CompleteN should +1');

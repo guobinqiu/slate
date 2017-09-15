@@ -283,7 +283,7 @@ class AuthServiceTest extends WebTestCase
         $this->assertEquals(AuthService::STATUS_SUCCESS, $rtn[AuthService::KEY_STATUS]);
         $this->assertEquals($user->getId(), $rtn[AuthService::KEY_USERID]);
 
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($user->getId());
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($user->getId());
 
         $this->assertEquals(User::EMAIL_CONFIRMED, $user->getIsEmailConfirmed());
         $this->assertTrue($user->getRegisterCompleteDate() != null);

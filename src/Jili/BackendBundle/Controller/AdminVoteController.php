@@ -156,7 +156,7 @@ class AdminVoteController extends Controller #implements IpAuthenticatedControll
             $vote_id = $request->query->get('id');
             $em = $this->getDoctrine()->getManager();
             //get vote
-            $vote = $em->getRepository('JiliApiBundle:Vote')->findOneById($vote_id);
+            $vote = $em->getRepository('JiliApiBundle:Vote')->find($vote_id);
 
             //set default value
             $vote->setStartTime($vote->getStartTime()->format('Y-m-d'));
@@ -267,7 +267,7 @@ class AdminVoteController extends Controller #implements IpAuthenticatedControll
 
                 if ($values->getId()) {
                     //edit: get vote entity
-                    $vote_entity = $em->getRepository('JiliApiBundle:Vote')->findOneById($values->getId());
+                    $vote_entity = $em->getRepository('JiliApiBundle:Vote')->find($values->getId());
                     $new_flag = false;
                 } else {
                     //add: create vote entity
