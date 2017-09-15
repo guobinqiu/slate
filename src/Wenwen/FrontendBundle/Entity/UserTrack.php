@@ -114,6 +114,9 @@ class UserTrack
 
     public function __construct()
     {
+        $this->signInCount = 0;
+        $this->currentSignInAt = new \DateTime();
+        $this->currentSignInIp = '000.000.000.000';
         $this->ownerType = OwnerType::DATASPRING;
     }
 
