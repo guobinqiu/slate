@@ -109,16 +109,21 @@ run-job:
 php_code_sniffer:
 	git diff --diff-filter=AMR --name-only origin/master | grep -v 'vendor' | xargs php vendor/squizlabs/php_codesniffer/scripts/phpcbf --standard=./ruleset.xml
 
-api-install:
-	gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-	\curl -sSL https://get.rvm.io | bash -s stable
-	source /home/vagrant/.rvm/scripts/rvm
-	rvm install ruby
-	gem install bundler
-	git clone git@github.com:lord/slate.git /srv/work/slate
-	cd /srv/work/slate && bundle install
+### We use slate(https://github.com/lord/slate) as our api doc server
+
+## Download and install slate
+apidoc-server-install:
+	rm -rf slate
+	git clone git@github.com:lord/slate.git
+	cd slate; \
+	bundle install
+
+## Start slate server at localhost:4567
+apidoc-server-startup:
+	cd slate; \
 	bundle exec middleman server &
 
-api-deploy:
+## Deploy our apidocs to slate
+apidoc-deploy:
 	cp app/docs/api/index.html.md /srv/work/slate/source/index.html.md
 
