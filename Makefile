@@ -117,6 +117,9 @@ apidoc-server-install:
 	git clone git@github.com:lord/slate.git
 	cd slate; \
 	bundle install
+	cd slate\source; \
+	ln -sf ../../docs/api/index.html.md index.html.md; \
+	ln -sf ../../docs/api/includes includes
 
 ## Start slate server at localhost:4567
 apidoc-server-startup:
