@@ -1,4 +1,4 @@
-# How to help us to improve the API Doc
+# How to update the API Doc
 
 ---
 
