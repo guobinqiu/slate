@@ -478,12 +478,6 @@ class SurveySopService
         return $sopCredentials['app_id'];
     }
 
-    public function getAppSecretByOwnerType($ownerType)
-    {
-        $sopCredentials = $this->getSopCredentialsByOwnerType($ownerType);
-        return $sopCredentials['app_secret'];
-    }
-
     public function getAppSecretByAppId($appId)
     {
         $sopCredentials = $this->getSopCredentialsByAppId($appId);
