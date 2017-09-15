@@ -462,7 +462,7 @@ class SurveySopService
     public function getSopRespondentByUserId($userId) {
         $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
         if (null === $sopRespondent) {
-            throw new \Exception('SopRespondent was not found. userId=' . $userId);
+            $sopRespondent = $this->createSopRespondent($userId);
         }
         return $sopRespondent;
     }
