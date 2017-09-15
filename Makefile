@@ -119,7 +119,7 @@ apidoc-server-install:
 	bundle install
 
 ## Deploy our apidocs to slate
-apidoc-deploy:
+apidoc-deploy: apidoc-server-install
 	rm slate/source/index.html.md
 	rm -rf slate/source/includes
 	ln -sf `pwd`/docs/api/index.html.md slate/source/index.html.md
