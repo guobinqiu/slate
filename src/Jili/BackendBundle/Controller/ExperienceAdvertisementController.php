@@ -69,7 +69,7 @@ class ExperienceAdvertisementController extends Controller #implements  IpAuthen
         $code = "";
         $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'GET') {
-            $detail = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById($id);
+            $detail = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->find($id);
             $form =  $this->createForm(new ExperienceAdvertisementType(), $detail);
             return array( 'form'=> $form->createView(),'code'=>$code);
         }
@@ -78,7 +78,7 @@ class ExperienceAdvertisementController extends Controller #implements  IpAuthen
             $form->bind($request);
             if ($form->isValid()) {
                 $formdata = $form->getData();
-                $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById( $formdata['id'] );
+                $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->find( $formdata['id'] );
                 $old_img = $ea->getMissionImgUrl();
                 $ea->setPoint($formdata['point']);
                 $ea->setMissionHall($formdata['missionHall']);
@@ -106,7 +106,7 @@ class ExperienceAdvertisementController extends Controller #implements  IpAuthen
     public function delExperienceAdvertisementAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->findOneById($id);
+        $ea = $em->getRepository('JiliFrontendBundle:ExperienceAdvertisement')->find($id);
         $ea->setDeleteFlag($this->container->getParameter('delete_flag_true'));
         $em->persist($ea);
         $em->flush();

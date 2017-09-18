@@ -175,7 +175,7 @@ class UserService
         return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
     }
 
-    public function createUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $oauth = null)
+    public function createUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth = null)
     {
         $userTrack = new UserTrack();
         $userTrack->setLastFingerprint(null);
@@ -187,6 +187,7 @@ class UserService
         $userTrack->setCurrentSignInIp($clientIp);
         $userTrack->setOauth($oauth);
         $userTrack->setRegisterRoute($recruitRoute);
+        $userTrack->setOwnerType($ownerType);
         $userTrack->setUser($user);
         $this->em->persist($userTrack);
         $this->em->flush();
@@ -206,13 +207,13 @@ class UserService
         $this->em->flush();
     }
 
-    public function saveOrUpdateUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $oauth = null)
+    public function saveOrUpdateUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth = null)
     {
         $userTrack = $user->getUserTrack();
         if ($userTrack) {
             $this->updateUserTrack($userTrack, $clientIp, $fingerprint, $oauth);
         } else {
-            $this->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $oauth);
+            $this->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth);
         }
     }
 

@@ -626,7 +626,7 @@ class SurveyPartnerService
         $this->logger->debug(__METHOD__ . ' userId=' . $userId . ' surveyPartnerId=' . $surveyPartnerId);
 
         // 检查该项目是否存在
-        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->findOneById($surveyPartnerId);
+        $surveyPartner = $this->em->getRepository('WenwenFrontendBundle:SurveyPartner')->find($surveyPartnerId);
         if(empty($surveyPartner)){
             $errMsg = 'Not exist surveyPartnerId. surveyPartnerId=' . $surveyPartnerId;
             $this->logger->warn(__METHOD__ . ' ' . $errMsg);
@@ -636,7 +636,7 @@ class SurveyPartnerService
         }
 
         // 检查用户是否存在
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
         if(empty($user)){
             $errMsg = 'Not exist userId. userId=' . $userId;
             $this->logger->warn(__METHOD__ . ' ' . $errMsg);
@@ -780,7 +780,7 @@ class SurveyPartnerService
 
         try{
             // 先检查这个用户是否存在
-            $user = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+            $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
             if(is_null($user)){
                 // 用户不存在 不做继续处理
                 $errMsg = 'User not exist. userId = ' . $userId;

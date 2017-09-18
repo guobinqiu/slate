@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Entity\User;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Jili\ApiBundle\Entity\SopRespondent;
 use Wenwen\FrontendBundle\Model\OwnerType;
@@ -54,7 +55,6 @@ class SurveySopServiceTest extends WebTestCase
     {
         parent::tearDown();
         $this->em->clear();
-        $this->em->close();
         $this->em = null;
         $this->surveySopService = null;
         $this->userService = null;
@@ -167,7 +167,7 @@ class SurveySopServiceTest extends WebTestCase
 
         echo 'point=' . $point . PHP_EOL;
 
-        $userAfter = $this->em->getRepository('WenwenFrontendBundle:User')->findOneById($userId);
+        $userAfter = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
 
         $this->assertEquals( $pointBefore + 300, $userAfter->getPoints(), 'Points should +300.');
         $this->assertEquals( $completeNBefore + 1, $userAfter->getCompleteN(), 'CompleteN should +1');
@@ -194,10 +194,10 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidQueryString_authenticationFailure(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
         $params = array();
         $params['sig'] = 'fake sig';
-        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['app_id'] = $sopApps[0]['app_id'];
         $params['time'] = time();
         $rtn = $this->surveySopService->isValidQueryString($params);
         $this->assertFalse($rtn);
@@ -214,12 +214,12 @@ class SurveySopServiceTest extends WebTestCase
 
     public function testIsValidQueryString_success(){
 
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
 
         $params = array();
-        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['app_id'] = $sopApps[0]['app_id'];
         $params['time'] = time();
-        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopAppDataSpring['app_secret']);
+        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopApps[0]['app_secret']);
 
         $rtn = $this->surveySopService->isValidQueryString($params);
         $this->assertTrue($rtn);
@@ -246,7 +246,7 @@ class SurveySopServiceTest extends WebTestCase
 
     public function testIsValidQueryStringByAppMid_authenticationFailure(){
 
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
 
         $user = new User();
         $this->em->persist($user);
@@ -254,7 +254,7 @@ class SurveySopServiceTest extends WebTestCase
 
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($user->getId());
-        $sopRespondent->setAppId($sopAppDataSpring['app_id']);
+        $sopRespondent->setAppId($sopApps[0]['app_id']);
 
         $this->em->persist($sopRespondent);
         $this->em->flush();
@@ -270,7 +270,7 @@ class SurveySopServiceTest extends WebTestCase
 
     public function testIsValidQueryStringByAppMid_respondent_not_exist(){
 
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
 
         $user = new User();
         $this->em->persist($user);
@@ -278,7 +278,7 @@ class SurveySopServiceTest extends WebTestCase
 
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($user->getId());
-        $sopRespondent->setAppId($sopAppDataSpring['app_id']);
+        $sopRespondent->setAppId($sopApps[0]['app_id']);
 
         $this->em->persist($sopRespondent);
         $this->em->flush();
@@ -293,7 +293,6 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidQueryStringByAppMid_app_id_not_exist(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
 
         $user = new User();
         $this->em->persist($user);
@@ -316,7 +315,7 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidQueryStringByAppMid_success(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
 
         $user = new User();
         $this->em->persist($user);
@@ -324,7 +323,7 @@ class SurveySopServiceTest extends WebTestCase
 
         $sopRespondent = new SopRespondent();
         $sopRespondent->setUserId($user->getId());
-        $sopRespondent->setAppId($sopAppDataSpring['app_id']); // fake app_id not exist
+        $sopRespondent->setAppId($sopApps[0]['app_id']); // fake app_id not exist
 
         $this->em->persist($sopRespondent);
         $this->em->flush();
@@ -332,7 +331,7 @@ class SurveySopServiceTest extends WebTestCase
         $params = array();
         $params['app_mid'] = $sopRespondent->getAppMid();
         $params['time'] = time();
-        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopAppDataSpring['app_secret']);
+        $params['sig'] = \SOPx\Auth\V1_1\Util::createSignature($params, $sopApps[0]['app_secret']);
 
 
         $rtn = $this->surveySopService->isValidQueryStringByAppMid($params);
@@ -355,7 +354,6 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidJSONString_app_id_not_exist(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
         $params = array();
         $params['app_id'] = 'fake app_id';
         $params['time'] = time();
@@ -367,9 +365,9 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidJSONString_authentication_failure(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
         $params = array();
-        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['app_id'] = $sopApps[0]['app_id'];
         $params['time'] = time();
         $params['par1'] = 'par1value';
         $jsonData = json_encode($params);
@@ -379,47 +377,17 @@ class SurveySopServiceTest extends WebTestCase
     }
 
     public function testIsValidJSONString_success(){
-        $sopAppDataSpring = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
+        $sopApps = $this->surveySopService->getAllSopCredentials();
         $params = array();
-        $params['app_id'] = $sopAppDataSpring['app_id'];
+        $params['app_id'] = $sopApps[0]['app_id'];
         $params['time'] = time();
         $params['par1'] = 'par1value';
         $jsonData = json_encode($params);
 
-        $xSopSig = \SOPx\Auth\V1_1\Util::createSignature($jsonData, $sopAppDataSpring['app_secret']);
+        $xSopSig = \SOPx\Auth\V1_1\Util::createSignature($jsonData, $sopApps[0]['app_secret']);
 
         $rtn = $this->surveySopService->isValidJSONString($jsonData, $xSopSig);
         $this->assertTrue($rtn);
-    }
-
-    public function testGetSopCredentialsByOwnerType()
-    {
-        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::DATASPRING);
-        $this->assertEquals(27, $sopCredentials['app_id']);
-        $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
-
-        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::INTAGE);
-        $this->assertEquals(92, $sopCredentials['app_id']);
-        $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
-
-        $sopCredentials = $this->surveySopService->getSopCredentialsByOwnerType(OwnerType::ORGANIC);
-        $this->assertEquals(93, $sopCredentials['app_id']);
-        $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
-    }
-
-    public function testGetSopCredentialsByAppId()
-    {
-        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(27);
-        $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $sopCredentials['app_secret']);
-        $this->assertEquals(OwnerType::DATASPRING, $sopCredentials['owner_type']);
-
-        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(92);
-        $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $sopCredentials['app_secret']);
-        $this->assertEquals(OwnerType::INTAGE, $sopCredentials['owner_type']);
-
-        $sopCredentials = $this->surveySopService->getSopCredentialsByAppId(93);
-        $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $sopCredentials['app_secret']);
-        $this->assertEquals(OwnerType::ORGANIC, $sopCredentials['owner_type']);
     }
 
     public function testGetAllSopCredentials()
@@ -440,5 +408,85 @@ class SurveySopServiceTest extends WebTestCase
         $this->assertEquals('1436424899-bd6982201fb7ea024d0926aa1b40d541badf9b4a', $this->surveySopService->getAppSecretByAppId(27));
         $this->assertEquals('1502940122-f44c65a0fde9d389b8426f26d0519f474f29e54b', $this->surveySopService->getAppSecretByAppId(92));
         $this->assertEquals('1502940657-dac41e231c82caa4a5f56451dbd8cc7869afd5ba', $this->surveySopService->getAppSecretByAppId(93));
+    }
+
+    public function testCreateSopRespondent() {
+
+        $dummyOwnerType = OwnerType::INTAGE;
+
+        $user = new User();
+
+        $userTrack = new UserTrack();
+        $userTrack->setUser($user);
+        $userTrack->setOwnerType($dummyOwnerType);
+
+        $user->setUserTrack($userTrack);
+
+        $this->em->persist($user);
+        $this->em->persist($userTrack);
+
+        $this->em->flush();
+
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(
+            array(
+                'userId' => $user->getId(),
+            )
+        );
+
+        $this->assertNull($sopRespondent);
+
+
+        $this->surveySopService->createSopRespondent($user->getId());
+
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(
+            array(
+                'userId' => $user->getId(),
+            )
+        );
+
+        $this->assertNotNull($sopRespondent);
+        $this->assertEquals($user->getId(), $sopRespondent->getUserId(), 'same user id');
+    }
+
+    public function testGetSopRespondentByUserId_Exist(){
+
+        $dummyUserId = 1;
+        $dummyAppMid = 'mid1';
+        $dummyAppId = 22;
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($dummyUserId);
+        $sopRespondent->setAppMid($dummyAppMid);
+        $sopRespondent->setAppId($dummyAppId);
+
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
+        $sr = $this->surveySopService->getSopRespondentByUserId($dummyUserId);
+        $this->assertNotNull($sr);
+        $this->assertEquals($dummyUserId, $sr->getUserId());
+
+    }
+
+    public function testGetSopRespondentByUserId_NotExist(){
+
+        $dummyOwnerType = OwnerType::INTAGE;
+
+        $user = new User();
+
+        $userTrack = new UserTrack();
+        $userTrack->setUser($user);
+        $userTrack->setOwnerType($dummyOwnerType);
+
+        $user->setUserTrack($userTrack);
+
+        $this->em->persist($user);
+        $this->em->persist($userTrack);
+        $this->em->flush();
+
+        $sr = $this->surveySopService->getSopRespondentByUserId($user->getId());
+        $this->assertNotNull($sr);
+        $this->assertEquals($user->getId(), $sr->getUserId());
+        $this->assertNotNull($sr->getAppMid());
     }
 }

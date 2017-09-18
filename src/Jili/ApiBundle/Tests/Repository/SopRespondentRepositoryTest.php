@@ -5,7 +5,7 @@ use Jili\Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Wenwen\FrontendBundle\Entity\User;
-use Wenwen\FrontendBundle\Model\OwnerType;
+use Jili\ApiBundle\Entity\SopRespondent;
 
 class SopRespondentRepositoryTest extends KernelTestCase
 {
@@ -41,6 +41,7 @@ class SopRespondentRepositoryTest extends KernelTestCase
     protected function tearDown()
     {
         parent::tearDown();
+        $this->em->clear();
         $this->em->close();
     }
 
@@ -49,16 +50,22 @@ class SopRespondentRepositoryTest extends KernelTestCase
      */
     public function testRetrieveByAppMid()
     {
-        $em = $this->em;
+        $dummyAppMid = 'xdfaadfdfadfasdfasd';
 
-        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent(1, OwnerType::DATASPRING);
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId(1);
+        $sopRespondent->setAppMid($dummyAppMid);
+        $sopRespondent->setAppId(44);
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
+
 
         //测试已经存在的数据
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($sopRespondent->getAppMid());
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid($dummyAppMid);
         $this->assertNotEmpty($sopRespondent);
 
         //测试不存在的数据
-        $sopRespondent = $em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
+        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieveByAppMid(99);
         $this->assertEmpty($sopRespondent);
     }
 
@@ -67,10 +74,9 @@ class SopRespondentRepositoryTest extends KernelTestCase
      */
     public function testRetrieve91wenwenRecipientData()
     {
-        $em = $this->em;
 
         //测试不存在的数据
-        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
+        $recipientData = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData(99);
         $this->assertEmpty($recipientData);
 
         $user = new User();
@@ -80,13 +86,20 @@ class SopRespondentRepositoryTest extends KernelTestCase
         $user->setRewardMultiple(1);
         $user->setPwd('111111');
         $user->setRegisterDate(new \DateTime());
-        $em->persist($user);
-        $em->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
-        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($user->getId(), OwnerType::DATASPRING);
+        $dummyAppMid = 'xdfaadfdfadfasdfasd';
+
+        $sopRespondent = new SopRespondent();
+        $sopRespondent->setUserId($user->getId());
+        $sopRespondent->setAppMid($dummyAppMid);
+        $sopRespondent->setAppId(44);
+        $this->em->persist($sopRespondent);
+        $this->em->flush();
 
         //测试已经存在的数据
-        $recipientData = $em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($sopRespondent->getAppMid());
+        $recipientData = $this->em->getRepository('JiliApiBundle:SopRespondent')->retrieve91wenwenRecipientData($dummyAppMid);
 
         $this->assertNotEmpty($recipientData);
 

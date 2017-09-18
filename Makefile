@@ -109,3 +109,24 @@ run-job:
 php_code_sniffer:
 	git diff --diff-filter=AMR --name-only origin/master | grep -v 'vendor' | xargs php vendor/squizlabs/php_codesniffer/scripts/phpcbf --standard=./ruleset.xml
 
+### We use slate(https://github.com/lord/slate) as our api doc server
+
+## Download and install slate
+apidoc-server-install:
+	rm -rf slate
+	git clone git@github.com:lord/slate.git
+	cd slate; \
+	bundle install
+
+## Deploy our apidocs to slate
+apidoc-deploy: apidoc-server-install
+	rm slate/source/index.html.md
+	rm -rf slate/source/includes
+	ln -sf `pwd`/docs/api/index.html.md slate/source/index.html.md
+	ln -sf `pwd`/docs/api/includes/ slate/source/includes
+
+## Start slate server at localhost:4567
+apidoc-server-startup:
+	cd slate; \
+	bundle exec middleman server &
+

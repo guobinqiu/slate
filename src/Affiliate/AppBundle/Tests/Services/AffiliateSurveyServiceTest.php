@@ -99,7 +99,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
         // 检查url是否被正确的取到
         $this->assertEquals($surveyUrl, $url);
 
-        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneById($urlId);
+        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->find($urlId);
         $status = $result->getStatus();
 
         // 检查状态是否被更改为forward
@@ -273,7 +273,7 @@ class AffiliateSurveyServiceTest extends WebTestCase
             );
         $this->assertEquals($expect, $rtn);
 
-        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->findOneById($urlId);
+        $result = $this->em->getRepository('AffiliateAppBundle:AffiliateUrlHistory')->find($urlId);
         $status = $result->getStatus();
 
         // 检查状态是否被更改为forward

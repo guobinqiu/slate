@@ -13,6 +13,9 @@ app/logs/*
 app/logs_data/*
 app/SymfonyRequirements.php
 
+##
+slate/
+
 dwsync.xml
 .DS_Store
 ._.DS_Store
@@ -22,7 +25,6 @@ src/Jili/*/Resources/config/doctrine/metadata/orm/*.orm.xml
 
 ^config/
 /config/
-makefile
 
 *.swp
 .gitignore
@@ -46,3 +48,4 @@ app/config/deploy.rb
 app/config/secret_prod.yml
 
 scripts/perl/config/deployment.pl
+

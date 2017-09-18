@@ -78,7 +78,8 @@ class WeixinLoginController extends BaseController
 
             $clientIp = $request->getClientIp();
             $recruitRoute = $this->getRegisterRouteFromSession();
-            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, self::OAUTH);
+            $ownerType = $this->getOwnerTypeFromSession();
+            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, $ownerType, self::OAUTH);
 
             $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
@@ -186,11 +187,10 @@ class WeixinLoginController extends BaseController
                     $recruitRoute = $this->getRegisterRouteFromSession();
 
                     $user = $userService->createUserByWeixinUser($weixinUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
-                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, self::OAUTH);
+                    $ownerType = $this->getOwnerTypeFromSession();
+                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, self::OAUTH);
 
-                    $ownerType = $this->getOwnerTypeFromSession($request);
-                    $this->get('logger')->info(__METHOD__ . 'weixin ownerType=' . $ownerType);
-                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId());
 
                     $userService->pushBasicProfileJob($user->getId(), $ownerType);
                 }
