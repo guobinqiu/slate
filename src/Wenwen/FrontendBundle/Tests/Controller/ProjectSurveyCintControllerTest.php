@@ -156,7 +156,7 @@ class ProjectSurveyCintControllerTest extends WebTestCase
         $surveyId = 10000;
         $token = $this->container->get('app.survey_cint_service')->getSurveyToken($surveyId, $users[0]->getId());
 
-        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($users[0]->getId(), OwnerType::DATASPRING);
+        $sopRespondent = $this->container->get('app.survey_sop_service')->createSopRespondent($users[0]->getId());
         $appMid = $sopRespondent->getAppMid();
 
         $url = $this->container->get('router')->generate('_cint_project_survey_endlink', array (

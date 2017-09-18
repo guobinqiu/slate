@@ -177,7 +177,7 @@ class WeiboLoginController extends BaseController
                     $user = $userService->createUserByWeiboUser($weiboUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $ownerType = $this->getOwnerTypeFromSession();
                     $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, self::OAUTH);
-                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId(), $ownerType);
+                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId());
 
                     $userService->pushBasicProfileJob($user->getId(), $ownerType);
                 }

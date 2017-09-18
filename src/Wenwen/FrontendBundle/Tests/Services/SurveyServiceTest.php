@@ -9,6 +9,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Wenwen\FrontendBundle\DataFixtures\ORM\LoadUserData;
 use Wenwen\FrontendBundle\Entity\User;
 use Wenwen\FrontendBundle\Entity\UserProfile;
+use Wenwen\FrontendBundle\Entity\UserTrack;
 use Wenwen\FrontendBundle\Entity\SurveyPartner;
 use Wenwen\FrontendBundle\Entity\SurveyPartnerParticipationHistory;
 use Wenwen\FrontendBundle\Model\OwnerType;
@@ -78,6 +79,12 @@ class SurveyServiceTest extends WebTestCase
         $user->setPoints(100);
         $user->setRewardMultiple(1);
         $user->setUserProfile($userProfile);
+
+        $userTrack = new UserTrack();
+        $userTrack->setUser($user);
+        $user->setUserTrack($userTrack);
+
+        $this->em->persist($userTrack);
 
         $this->em->persist($user);
         $this->em->flush();
