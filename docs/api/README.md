@@ -4,7 +4,7 @@
 
 1. Install slate web application on your vagrant by running `make apidoc-deploy` command.
 
-2. Update `index.html.md` file located at `docs/api/` directory. Also see [Markdown Syntax](https://github.com/lord/slate/wiki/Markdown-Syntax)
+2. Create/Update files under `docs/apid/includes` and update `index.html.md` file located at `docs/api/` directory. Also see [Markdown Syntax](https://github.com/lord/slate/wiki/Markdown-Syntax)
 
 3. Run command `make apidoc-server-startup` at your project root directory.
 
