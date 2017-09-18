@@ -15,7 +15,7 @@ class UserServiceTest extends WebTestCase
     private $container;
     private $em;
     private $userService;
-    private $surveySopService;
+    private $sopRespondentService;
 
     /**
      * {@inheritDoc}
@@ -39,7 +39,7 @@ class UserServiceTest extends WebTestCase
         $this->em = $em;
 
         $this->userService = $container->get('app.user_service');
-        $this->surveySopService = $container->get('app.survey_sop_service');
+        $this->sopRespondentService = $container->get('app.sop_respondent_service');
     }
 
     /**
@@ -96,18 +96,18 @@ class UserServiceTest extends WebTestCase
     {
         $users = $this->em->getRepository('WenwenFrontendBundle:User')->findAll();
 
-        $this->surveySopService->createSopRespondent($users[0]->getId());
-        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[0]->getId());
+        $this->sopRespondentService->createSopRespondent($users[0]->getId());
+        $sopRespondent = $this->sopRespondentService->getSopRespondentByUserId($users[0]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[0]->getId());
 
-        $this->surveySopService->createSopRespondent($users[1]->getId());
-        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[1]->getId());
+        $this->sopRespondentService->createSopRespondent($users[1]->getId());
+        $sopRespondent = $this->sopRespondentService->getSopRespondentByUserId($users[1]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[1]->getId());
 
-        $this->surveySopService->createSopRespondent($users[2]->getId());
-        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($users[2]->getId());
+        $this->sopRespondentService->createSopRespondent($users[2]->getId());
+        $sopRespondent = $this->sopRespondentService->getSopRespondentByUserId($users[2]->getId());
         $user = $this->userService->getUserBySopRespondentAppMid($sopRespondent->getAppMid());
         $this->assertEquals($user->getId(), $users[2]->getId());
     }

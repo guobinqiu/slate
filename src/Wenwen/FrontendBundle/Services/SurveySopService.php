@@ -3,13 +3,11 @@
 namespace Wenwen\FrontendBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Jili\ApiBundle\Entity\SopRespondent;
 use Predis\Client;
 use Wenwen\FrontendBundle\Entity\SurveySop;
 use Wenwen\FrontendBundle\Entity\SurveySopParticipationHistory;
 use Wenwen\FrontendBundle\Model\CategoryType;
 use Wenwen\FrontendBundle\Entity\PrizeItem;
-use Wenwen\FrontendBundle\Model\OwnerType;
 use Wenwen\FrontendBundle\Model\SurveyStatus;
 use Wenwen\FrontendBundle\Model\TaskType;
 use Psr\Log\LoggerInterface;
@@ -459,35 +457,6 @@ class SurveySopService
         throw new \RuntimeException('app_secret was not found. appId=' . $appId);
     }
 
-    public function getSopRespondentByUserId($userId) {
-        $sopRespondent = $this->em->getRepository('JiliApiBundle:SopRespondent')->findOneBy(['userId' => $userId]);
-        if (null === $sopRespondent) {
-            $sopRespondent = $this->createSopRespondent($userId);
-        }
-        return $sopRespondent;
-    }
-
-    public function createSopRespondent($userId) {
-        $user = $this->em->getRepository('WenwenFrontendBundle:User')->find($userId);
-
-        $appId = $this->getAppIdByOwnerType($user->getUserTrack()->getOwnerType());
-        $sopRespondent = new SopRespondent();
-        $i = 0;
-        while ($this->isAppMidDuplicated($sopRespondent->getAppMid())) {
-            $sopRespondent->setAppMid(SopRespondent::generateAppMid());
-            $i++;
-            if ($i > 1000) {
-                break;
-            }
-        }
-        $sopRespondent->setUserId($userId);
-        $sopRespondent->setStatusFlag(SopRespondent::STATUS_ACTIVE);
-        $sopRespondent->setAppId($appId);
-        $this->em->persist($sopRespondent);
-        $this->em->flush();
-        return $sopRespondent;
-    }
-
     private function createParticipationHistory($survey, $user, $answerStatus, $clientIp)
     {
         $actualLoiSeconds = null;
@@ -518,10 +487,5 @@ class SurveySopService
             $statusText = '完成';
         }
         return "r{$survey->getSurveyId()} {$survey->getTitle()}（状态：{$statusText}）";
-    }
-
-    private function isAppMidDuplicated($key)
-    {
-        return count($this->em->getRepository('JiliApiBundle:SopRespondent')->findByAppMid($key)) > 0;
     }
 }

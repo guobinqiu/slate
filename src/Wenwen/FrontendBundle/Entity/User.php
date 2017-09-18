@@ -317,6 +317,17 @@ class User
      */
     private $weiboUser;
 
+    /**
+     * @ORM\OneToOne(targetEntity="UserDevice", mappedBy="user", cascade={"persist"})
+     */
+    private $userDevice;
+
+    /**
+     * @var string
+     * @ORM\Column(name="login_as", type="string", length=10, nullable=true)
+     */
+    private $loginAs;
+
     public function __construct()
     {
         $this->passwordChoice = self::PWD_WENWEN;
@@ -1060,6 +1071,30 @@ class User
     public function getWeiboUser()
     {
         return $this->weiboUser;
+    }
+
+    public function setUserDevice(UserDevice $userDevice)
+    {
+        $this->userDevice = $userDevice;
+
+        return $this;
+    }
+
+    public function getUserDevice()
+    {
+        return $this->userDevice;
+    }
+
+    public function setLoginAs($loginAs)
+    {
+        $this->loginAs = $loginAs;
+
+        return $this;
+    }
+
+    public function getLoginAs()
+    {
+        return $this->loginAs;
     }
 
     //--------------------------- helper methods -----------------------------

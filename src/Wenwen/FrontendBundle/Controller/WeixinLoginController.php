@@ -15,8 +15,6 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
  */
 class WeixinLoginController extends BaseController
 {
-    const OAUTH = 'weixin';
-
     /**
      * @Route("/login", name="weixin_login", methods={"GET"})
      */
@@ -77,9 +75,8 @@ class WeixinLoginController extends BaseController
             $em->flush();
 
             $clientIp = $request->getClientIp();
-            $recruitRoute = $this->getRegisterRouteFromSession();
-            $ownerType = $this->getOwnerTypeFromSession();
-            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, $ownerType, self::OAUTH);
+            $userTrackService = $this->get('app.user_track_service');
+            $userTrackService->updateUserTrack($user, $clientIp);
 
             $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
@@ -188,9 +185,11 @@ class WeixinLoginController extends BaseController
 
                     $user = $userService->createUserByWeixinUser($weixinUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $ownerType = $this->getOwnerTypeFromSession();
-                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, self::OAUTH);
+                    $userTrackService = $this->get('app.user_track_service');
+                    $userTrackService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType);
 
-                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId());
+                    $sopRespondentService = $this->get('app.sop_respondent_service');
+                    $sopRespondentService->createSopRespondent($user->getId());
 
                     $userService->pushBasicProfileJob($user->getId(), $ownerType);
                 }

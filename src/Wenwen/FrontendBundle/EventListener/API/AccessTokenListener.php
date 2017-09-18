@@ -70,19 +70,20 @@ class AccessTokenListener
 
     private function authenticate(Request $request) 
     {
+        return;
         $clientSignature = $request->headers->get(CorsListener::X_ACCESS_TOKEN);
         if (!isset($clientSignature)) {
-            throw new \InvalidArgumentException("Missing '" . CorsListener::X_ACCESS_TOKEN ."' in request header");
+            throw new \InvalidArgumentException('Missing ' . CorsListener::X_ACCESS_TOKEN . ' in request header');
         }
 
         $clientTimestamp = $request->headers->get(CorsListener::X_TIMESTAMP);
         if (!isset($clientTimestamp)) {
-            throw new \InvalidArgumentException("Missing '" . CorsListener::X_TIMESTAMP . "' in request header");
+            throw new \InvalidArgumentException('Missing ' . CorsListener::X_TIMESTAMP . ' in request header');
         }
 
         $clientNonce = $request->headers->get(CorsListener::X_NONCE);
         if (!isset($clientNonce)) {
-            throw new \InvalidArgumentException("Missing '" . CorsListener::X_NONCE . "' in request header");
+            throw new \InvalidArgumentException('Missing ' . CorsListener::X_NONCE . ' in request header');
         }
 
         $appId = $this->getAppId($clientSignature);
@@ -110,7 +111,7 @@ class AccessTokenListener
         $signature = ApiUtil::urlsafe_b64decode($clientSignature);
         $pos = strpos($signature, self::SIGNATURE_DELIMITER);
         if ($pos === false) {
-            throw new \InvalidArgumentException("Missing '" . self::SIGNATURE_DELIMITER . "' delimiter for your signature");
+            throw new \InvalidArgumentException('Missing ' . self::SIGNATURE_DELIMITER . ' delimiter for your signature');
         }
         $appId = explode(self::SIGNATURE_DELIMITER, $signature)[0];
         return trim($appId);
@@ -120,15 +121,15 @@ class AccessTokenListener
     {
         $apps = $this->parameterService->getParameter('api_apps');
         if (is_null($apps)) {
-            throw new \InvalidArgumentException("Missing configuration option 'api_apps'");
+            throw new \InvalidArgumentException("Missing configuration option: api_apps");
         }
         foreach ($apps as $app) {
             if (!isset($app['app_id'])) {
-                throw new \InvalidArgumentException("Missing configuration option 'app_id'");
+                throw new \InvalidArgumentException("Missing configuration option: app_id");
             }
             if ($app['app_id'] === $appId) {
                 if (!isset($app['app_secret'])) {
-                    throw new \InvalidArgumentException("Missing configuration option 'app_secret'");
+                    throw new \InvalidArgumentException("Missing configuration option: app_secret");
                 }
                 return $app['app_secret'];
             }

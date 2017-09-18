@@ -21,7 +21,7 @@ class SurveyControllerTest extends ApiTestCase
         $message = strtoupper(implode("", $data));
         $signature = $this->createSignature($message);
 
-        $loginToken = $this->login()[UserController::LOGIN_TOKEN_NAME];
+        $authToken = $this->login()['auth_token'];
 
         $crawler = $this->client->request(
             'GET',
@@ -32,7 +32,7 @@ class SurveyControllerTest extends ApiTestCase
                 'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
-                'HTTP_' . CorsListener::X_LOGIN_TOKEN => $loginToken,
+                'HTTP_' . CorsListener::X_AUTH_TOKEN => $authToken,
                 'CONTENT_TYPE' => 'application/json',
             )
         );
@@ -64,7 +64,7 @@ class SurveyControllerTest extends ApiTestCase
                 'HTTP_' . CorsListener::X_ACCESS_TOKEN => $signature,
                 'HTTP_' . CorsListener::X_TIMESTAMP => $timestamp,
                 'HTTP_' . CorsListener::X_NONCE => $nonce,
-                'HTTP_' . CorsListener::X_LOGIN_TOKEN => $loginToken,
+                'HTTP_' . CorsListener::X_AUTH_TOKEN => $loginToken,
                 'CONTENT_TYPE' => 'application/json',
             )
         );

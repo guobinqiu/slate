@@ -18,8 +18,6 @@ use Wenwen\FrontendBundle\Services\ParameterService;
 
 class LoginTokenListener
 {
-    const LOGIN_TOKEN_TTL = 1800; //30min
-
     private $logger;
     private $parameterService;
     private $redis;
@@ -88,18 +86,18 @@ class LoginTokenListener
 
     private function authenticate(Request $request)
     {
-        $loginToken = $request->headers->get(CorsListener::X_LOGIN_TOKEN);
-        $this->logger->debug(__METHOD__ . ' loginToken=' . $loginToken);
+        $authToken = $request->headers->get(CorsListener::X_AUTH_TOKEN);
+        $this->logger->debug(__METHOD__ . ' authToken=' . $authToken);
 
-        if (!isset($loginToken)) {
-            throw new \RuntimeException("Missing 'X_LOGIN_TOKEN' in request header");
+        if (!isset($authToken)) {
+            throw new \RuntimeException("Missing X_AUTH_TOKEN in request header");
         }
 
-        if (!$this->redis->exists($loginToken)) {
-            throw new \RuntimeException("Invalid 'X_LOGIN_TOKEN' in request header");
+        if (!$this->redis->exists($authToken)) {
+            throw new \RuntimeException("Invalid X_AUTH_TOKEN in request header");
         }
 
         //延续token登录的时长，只要半小时里有接受到请求就不会登出
-        $this->redis->expire($loginToken, self::LOGIN_TOKEN_TTL);
+        $this->redis->expire($authToken, 1800);
     }
 }

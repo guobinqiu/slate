@@ -226,7 +226,7 @@ nelmio_cors:
     paths:
         '^/v1/':
             allow_origin: ['*']
-            allow_headers: ['X-App-Access-Token', 'X-Timestamp', 'X-Nonce', 'X-User-Access-Token']
+            allow_headers: ['X-Access-Token', 'X-Timestamp', 'X-Nonce', 'X-Auth-Token']
             allow_methods: ['POST', 'GET', 'PUT', 'DELETE']
 
 jms_aop:

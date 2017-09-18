@@ -16,7 +16,6 @@ use Wenwen\FrontendBundle\Model\API\HttpStatus;
 class UserController extends TokenAuthenticatedFOSRestController
 {
     const MOBILE_TOKEN_TTL = 600; //10min
-    const LOGIN_TOKEN_NAME = 'loginToken';
 
     /**
      * Send sms token.
@@ -81,7 +80,7 @@ class UserController extends TokenAuthenticatedFOSRestController
         $loginToken = $this->createLoginToken($user);
         $data = [
             'user' => $user,
-            self::LOGIN_TOKEN_NAME => $loginToken,
+            'auth_token' => $loginToken,
         ];
         return $this->view(ApiUtil::formatSuccess($data), HttpStatus::HTTP_OK);
     }
@@ -106,8 +105,8 @@ class UserController extends TokenAuthenticatedFOSRestController
     {
         $loginToken = md5(uniqid(rand(), true));
         $redis = $this->get('snc_redis.default');
-        $redis->set($loginToken, $user->getId()); // mapping login token to user id
-        $redis->expire($loginToken, LoginTokenListener::LOGIN_TOKEN_TTL);
+        $redis->set($loginToken, $user->getId());
+        $redis->expire($loginToken, 1800);
         return $loginToken;
     }
 }

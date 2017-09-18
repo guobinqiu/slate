@@ -175,48 +175,6 @@ class UserService
         return $this->createUser($user, $clientIp, $userAgent, $inviteId, $canRewardInviter);
     }
 
-    public function createUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth = null)
-    {
-        $userTrack = new UserTrack();
-        $userTrack->setLastFingerprint(null);
-        $userTrack->setCurrentFingerprint($fingerprint);
-        $userTrack->setSignInCount(1);
-        $userTrack->setLastSignInAt(null);
-        $userTrack->setCurrentSignInAt(new \DateTime());
-        $userTrack->setLastSignInIp(null);
-        $userTrack->setCurrentSignInIp($clientIp);
-        $userTrack->setOauth($oauth);
-        $userTrack->setRegisterRoute($recruitRoute);
-        $userTrack->setOwnerType($ownerType);
-        $userTrack->setUser($user);
-        $this->em->persist($userTrack);
-        $this->em->flush();
-        return $userTrack;
-    }
-
-    public function updateUserTrack(UserTrack $userTrack, $clientIp, $fingerprint, $oauth = null)
-    {
-        $userTrack->setLastFingerprint($userTrack->getLastFingerprint());
-        $userTrack->setCurrentFingerprint($fingerprint);
-        $userTrack->setSignInCount($userTrack->getSignInCount() + 1);
-        $userTrack->setLastSignInAt($userTrack->getCurrentSignInAt());
-        $userTrack->setCurrentSignInAt(new \DateTime());
-        $userTrack->setLastSignInIp($userTrack->getCurrentSignInIp());
-        $userTrack->setCurrentSignInIp($clientIp);
-        $userTrack->setOauth($oauth);
-        $this->em->flush();
-    }
-
-    public function saveOrUpdateUserTrack(User $user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth = null)
-    {
-        $userTrack = $user->getUserTrack();
-        if ($userTrack) {
-            $this->updateUserTrack($userTrack, $clientIp, $fingerprint, $oauth);
-        } else {
-            $this->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, $oauth);
-        }
-    }
-
     public function createQQUser($openId, $userInfo)
     {
         $qqUser = new QQUser();

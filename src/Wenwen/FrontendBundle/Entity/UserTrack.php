@@ -78,7 +78,7 @@ class UserTrack
      *
      * @var string
      *
-     * @ORM\Column(name="current_sign_in_ip", type="string", length=15)
+     * @ORM\Column(name="current_sign_in_ip", type="string", length=15, nullable=true)
      */
     private $currentSignInIp;
 
@@ -90,13 +90,6 @@ class UserTrack
      * @ORM\Column(name="last_sign_in_ip", type="string", length=15, nullable=true)
      */
     private $lastSignInIp;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="oauth", type="string", length=10, nullable=true)
-     */
-    private $oauth;
 
     /**
      * @var string
@@ -315,29 +308,6 @@ class UserTrack
     }
 
     /**
-     * Set oauth
-     *
-     * @param string $oauth
-     * @return UserTrack
-     */
-    public function setOauth($oauth)
-    {
-        $this->oauth = $oauth;
-
-        return $this;
-    }
-
-    /**
-     * Get oauth
-     *
-     * @return string
-     */
-    public function getOauth()
-    {
-        return $this->oauth;
-    }
-
-    /**
      * Set registerRoute
      *
      * @param string $registerRoute
@@ -368,6 +338,9 @@ class UserTrack
      */
     public function setOwnerType($ownerType)
     {
+        if (null === $ownerType) {
+            $ownerType = OwnerType::DATASPRING;
+        }
         $this->ownerType = $ownerType;
 
         return $this;

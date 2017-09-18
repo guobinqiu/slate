@@ -89,11 +89,11 @@ class UserControllerTest extends ApiTestCase
         $data[] = $nonce;
         $message = strtoupper(implode("", $data));
         $signature = $this->createSignature($message);
-        $loginToken = $this->login()[UserController::LOGIN_TOKEN_NAME];
+        $authToken = $this->login()['auth_token'];
 
         echo PHP_EOL . CorsListener::X_ACCESS_TOKEN . '='. $signature;
         echo PHP_EOL . CorsListener::X_TIMESTAMP . '='. $timestamp;
         echo PHP_EOL . CorsListener::X_NONCE . '='. $nonce;
-        echo PHP_EOL . CorsListener::X_LOGIN_TOKEN . '=' . $loginToken;
+        echo PHP_EOL . CorsListener::X_AUTH_TOKEN . '=' . $authToken;
     }
 }

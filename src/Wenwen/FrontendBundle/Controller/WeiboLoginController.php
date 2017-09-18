@@ -15,8 +15,6 @@ use Wenwen\FrontendBundle\Form\UserProfileType;
  */
 class WeiboLoginController extends BaseController
 {
-    const OAUTH = 'weibo';
-
     /**
      * @Route("/login", name="weibo_login", methods={"GET"})
      */
@@ -65,9 +63,8 @@ class WeiboLoginController extends BaseController
             $em->flush();
 
             $clientIp = $request->getClientIp();
-            $recruitRoute = $this->getRegisterRouteFromSession();
-            $ownerType = $this->getOwnerTypeFromSession();
-            $userService->saveOrUpdateUserTrack($user, $clientIp, null, $recruitRoute, $ownerType, self::OAUTH);
+            $userTrackService = $this->get('app.user_track_service');
+            $userTrackService->updateUserTrack($user, $clientIp);
 
             $request->getSession()->set('uid', $user->getId());
             $forever = time() + 3600 * 24 * 365 * 10;
@@ -176,8 +173,11 @@ class WeiboLoginController extends BaseController
 
                     $user = $userService->createUserByWeiboUser($weiboUser, $userProfile, $clientIp, $userAgent, $inviteId, $canRewardInviter);
                     $ownerType = $this->getOwnerTypeFromSession();
-                    $userService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType, self::OAUTH);
-                    $this->get('app.survey_sop_service')->createSopRespondent($user->getId());
+                    $userTrackService = $this->get('app.user_track_service');
+                    $userTrackService->createUserTrack($user, $clientIp, $fingerprint, $recruitRoute, $ownerType);
+
+                    $sopRespondentService = $this->get('app.sop_respondent_service');
+                    $sopRespondentService->createSopRespondent($user->getId());
 
                     $userService->pushBasicProfileJob($user->getId(), $ownerType);
                 }

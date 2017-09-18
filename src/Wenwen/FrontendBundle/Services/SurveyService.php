@@ -28,6 +28,7 @@ class SurveyService
     private $surveyFulcrumService;
     private $surveyCintService;
     private $surveyGmoService;
+    private $sopRespondentService;
 
     // 这个service会访问外部的服务器
     // 开发和测试的过程中没有必要访问服务器
@@ -44,7 +45,8 @@ class SurveyService
                                 SurveySopService $surveySopService,
                                 SurveyFulcrumService $surveyFulcrumService,
                                 SurveyCintService $surveyCintService,
-                                SurveyGmoService $surveyGmoService)
+                                SurveyGmoService $surveyGmoService,
+                                SopRespondentService $sopRespondentService)
     {
         $this->logger = $logger;
         $this->em = $em;
@@ -57,6 +59,7 @@ class SurveyService
         $this->surveyFulcrumService = $surveyFulcrumService;
         $this->surveyCintService = $surveyCintService;
         $this->surveyGmoService = $surveyGmoService;
+        $this->sopRespondentService = $sopRespondentService;
     }
 
     public function setDummy($dummy){
@@ -343,7 +346,7 @@ class SurveyService
             return $this->getDummySurveyListJson();
         }
 
-        $sopRespondent = $this->surveySopService->getSopRespondentByUserId($userId);
+        $sopRespondent = $this->sopRespondentService->getSopRespondentByUserId($userId);
         $appMid = $sopRespondent->getAppMid();
         $appId = $sopRespondent->getAppId();
         $appSecret = $this->surveySopService->getAppSecretByAppId($appId);
@@ -737,7 +740,7 @@ class SurveyService
                 throw new \InvalidArgumentException("Missing 'console_host' option");
             }
 
-            $sopRespondent = $this->surveySopService->getSopRespondentByUserId($userId);
+            $sopRespondent = $this->sopRespondentService->getSopRespondentByUserId($userId);
             $appMid = $sopRespondent->getAppMid();
             $appId = $sopRespondent->getAppId();
             $appSecret = $this->surveySopService->getAppSecretByAppId($appId);
